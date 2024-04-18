@@ -28,7 +28,7 @@ void City::print() const{
 
 void Map::print() const{
     for (size_t j = 1; j < adjacency.size(); j++){
-        printf("[", j);
+        printf("[ ");
         for (size_t i = 1; i < adjacency.size(); i++){
             printf("%d ", adjacency[j][i]);
 

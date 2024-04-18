@@ -5,7 +5,7 @@ bool Runner::initMap(string map_name){
 
     if (!map_file.is_open()){
         printf("Unable to open map file!\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     //- Read in number of cities in map
@@ -18,7 +18,7 @@ bool Runner::initMap(string map_name){
     
     if (map_file.fail()){
         printf("First line needs to be number of cities!\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     map_file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -111,10 +111,8 @@ bool Runner::initMap(string map_name){
         }
         else if (idx > num_cities){ //city DNE
             printf("City ID is out of range! (max is%d but gave %d)", num_cities, atoi(name.c_str()));
-            exit(1);
+            exit(EXIT_FAILURE);
         }
-        printf("%d\n\n", idx);
-
         //- Go through each connection pair [ID/NAME] and add to lists
         string connections;
         getline(map_file, connections);

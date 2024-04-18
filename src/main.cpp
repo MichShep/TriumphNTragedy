@@ -3,7 +3,7 @@
 #include "Runner.h"
 
 //Graphics
-const int WINDOW_WIDTH = 512;
+/*const int WINDOW_WIDTH = 512;
 const int WINDOW_HEIGHT = 284;
 SDL_Window* g_main_window;
 SDL_Renderer* g_main_renderer;
@@ -57,13 +57,11 @@ static void ClearScreen(SDL_Renderer* renderer){
     SDL_SetRenderDrawColor(renderer, Colors::BLACK.r, Colors::BLACK.g, Colors::BLACK.b, Colors::BLACK.a);
     SDL_RenderClear(renderer);
 
-}
+}*/
 
 int main(){
     Runner runner;
-    //!!
-
-    runner.initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter.map");
+    //!!    
 
     return EXIT_SUCCESS;
 }
