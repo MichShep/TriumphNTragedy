@@ -1,0 +1,11 @@
+5
+1   London          Allies  Great   3       0       1           N
+2   Glasgow         Allies  Home    2       1       1           N
+3   English_Channel Water   Water   0       0       0           N
+4   Paris           Allies  Minor   2       0       0           N
+5   Amsterdam       Neutral Neutral 1       2       0           N
+London          [3 Coast] [Glasgow Mountain]
+2               [1 Mountain]
+English_Channel [London Coast] [Paris Coast]
+Amsterdam       [Paris Plain]
+Paris           [Amsterdam Plain]

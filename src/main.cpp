@@ -1,10 +1,6 @@
 #include "/opt/homebrew/Cellar/sdl2/2.30.2/include/SDL2/SDL.h"
 
-#include <iostream>
-using std::cout;
-using std::endl;
-using std::cout;
-using std::string;
+#include "Runner.h"
 
 //Graphics
 const int WINDOW_WIDTH = 512;
@@ -43,7 +39,7 @@ static bool Init(){
     return true;
 }
 
-void Shutdown(){
+static void Shutdown(){
     if (g_main_window != nullptr) {
         SDL_DestroyWindow(g_main_window);
         g_main_window = nullptr;
@@ -64,35 +60,10 @@ static void ClearScreen(SDL_Renderer* renderer){
 }
 
 int main(){
-    if (Init() == false){
-        Shutdown();
-    }
+    Runner runner;
+    //!!
 
-    //Draw Loop
-    SDL_Event event;
-    bool running = true;
+    runner.initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter.map");
 
-    while (running){
-        ClearScreen(g_main_renderer);
-
-        //Check and process I/O
-        if (SDL_PollEvent(&event)){
-            switch (event.type){
-                case SDL_KEYDOWN: {
-                    running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
-                    break;
-                }
-                case SDL_QUIT: {
-                    running = false;
-                    break;
-                }
-                default:
-                    break;
-            }
-        }
-        // Update the screen with the content rendered in the background buffer
-        SDL_RenderPresent(g_main_renderer);
-    }
-    Shutdown();
     return EXIT_SUCCESS;
 }
