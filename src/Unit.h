@@ -36,6 +36,39 @@ struct Dice{
     }
 };
 
+struct ActionCard{
+public:
+    string countryA;
+    string countryB;
+
+    Season season;
+
+    //For Priority
+    char letter;
+    int number;
+
+    ActionCard(const string countryA, const string countryB, const Season season, const char letter, const int number):
+    countryA(countryA), countryB(countryB), season(season), letter(letter), number(number){
+
+    }
+};
+
+struct InvestmentCard{
+public:
+    string name;
+
+    Tech tech;
+
+    size_t amount;
+
+    //for science cards
+    size_t year;
+
+    InvestmentCard(const string name, const Tech tech, const int amount, const size_t year): name(name), tech(tech), amount(amount), year(year){
+
+    }
+};
+
 class Unit{
 public:
     size_t id;

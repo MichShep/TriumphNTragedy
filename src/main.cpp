@@ -60,7 +60,11 @@ static void ClearScreen(SDL_Renderer* renderer){
 }*/
 
 int main(){
-    Runner runner;
+    Runner runner(0);
+    runner.test();
+    runner.freeMemory();
+    
+    printf("Memory was deleted\n");
     //!!    
 
     return EXIT_SUCCESS;

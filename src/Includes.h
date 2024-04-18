@@ -21,12 +21,17 @@ using std::printf;
 
 #include <sstream>
 
+#include <queue>
+using std::queue;
+using std::priority_queue;
+
 
 #define END_YEAR 1946;
 
 #define START_YEAR 1936;
 
-enum CityType {ALLIES, AXIS, USSR, NEUTRAL, WATER};
+#define INFI SIZE_MAX;
+enum CityType {WEST, AXIS, USSR, NEUTRAL, NEUTRAL_AT_WAR, WATER};
 
 enum PowerType {GREAT, HOME, MINOR, NONE};
 
@@ -37,6 +42,10 @@ enum BorderType {NA, COAST, STRAIT, MOUNTAIN, FOREST, RIVER, PLAINS, OCEAN}; //N
 enum UnitClass {CLASS_A, CLASS_N, CLASS_G, CLASS_S};
 
 enum UnitType {FORTRESS, AIR, CARRIER, SUB, FLEET, TANK, INFANTRY, CONVOY};
+
+enum Season {SPRING, SUMMER, FALL, WINTER};
+
+enum Tech {AIR_DEFENSE, FIRST_FIRE, INDUSTRIAL_ESPIONAGE, SCIENCE};
 
 const int FIREPOWER_TABLE[8][4] = { // Damage against {A N G S}
     {2, 3, 4, 3}, //Fort
