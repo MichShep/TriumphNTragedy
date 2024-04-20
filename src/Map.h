@@ -44,13 +44,70 @@ public:
         }
     }
 public:
-
+    /**
+     * @brief Construct a new City object
+     * 
+     * @param ID id of the city
+     * @param name Name of the city
+     * @param city_type The starting nationality of the city
+     * @param power_type The power of the city (GREAT, HOME, MINOR, NONE)
+     * @param population The pop value 
+     * @param muster How many troops are added when taken over
+     * @param resource How many resources given
+     * @param resource_type The type of resource (N is none as well)
+     */
     City(const size_t ID=0, const string name="City", const CityType city_type=WATER, const PowerType power_type=NONE, const size_t population=0, const size_t muster=0, const size_t resource=0, const ResourceType resource_type=NORMAL):
     ID(ID), name(name), city_type(city_type), power_type(power_type), population(population), muster(muster), resource(resource), resource_type(resource_type){
         ruler_type=city_type; //set it be ruled by who starts with it
         influence = 0;
 
     }
+
+    /**
+     * @brief If there currently a battle going on (more than one nationality of troops) (Doesn't check neutrality)
+     * 
+     * @return true There is a battle
+     * @return false There is no battle (friendly troops or empty)
+     */
+    bool isConflict(){
+        return ((bool)occupants[0].size() + (bool)occupants[1].size() + (bool)occupants[2].size()) > 1;
+    }
+
+    /**
+     * @brief Returns if the opposing troops are together
+     * 
+     * @param nationality The nationality of the troop entering
+     * @return true There is enemies
+     * @return false No enemies
+     */
+    bool isEnemy(CityType nationality){
+        switch (nationality){
+        case WEST:
+            return occupants[(size_t)USSR].size() || occupants[(size_t)AXIS].size();
+        case AXIS:
+            return occupants[(size_t)USSR].size() || occupants[(size_t)WEST].size();
+        case USSR:
+            return occupants[(size_t)WEST].size() || occupants[(size_t)AXIS].size();
+        default:
+            return false;
+        }
+    }
+
+    /**
+     * @brief Removes a unit form this city
+     * 
+     * @param unit The unit to remove
+     */
+    void removeUnit(Unit* unit);
+
+    /**
+     * @brief Adds a unit to this city
+     * 
+     * @param unit The unit to add
+     */
+    void addUnit(Unit* unit);
+
+    void printOccupants() const;
 
     string getName() const{
         return name;
@@ -59,12 +116,6 @@ public:
     size_t getID() const{
         return ID;
     }
-
-    void removeUnit(Unit* unit);
-
-    void addUnit(Unit* unit);
-
-    void printOccupants() const;
 
     /**
      * @brief Prints out all attributes of the city
@@ -88,6 +139,14 @@ public:
         cities.insert(std::make_pair(city->getName(), city));
         city_masterlist.insert(city_masterlist.begin()+city->getID(), city);
     }
+    
+    City* operator[](const string target){
+        return cities.at(target);
+    }
+
+    City* operator[](const size_t id){
+        return city_masterlist[id];
+    }
 
     void connect(const size_t& idx1, const size_t& idx2, const BorderType border);
 
@@ -96,6 +155,10 @@ public:
     City* getCity(const string name) const;
 
     City* getCity(const size_t id) const;
+
+    bool checkConnection(const string A, const string B){
+        return adjacency[findCity(A)][findCity(B)];
+    }
 
     const size_t getNumCity() const{
         return cities.size();

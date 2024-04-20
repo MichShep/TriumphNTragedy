@@ -87,6 +87,8 @@ public:
 
     bool landing;
 
+    bool convoy;
+
     Unit(const size_t id, CityType nationality, UnitType unit_type): id(id), nationality(nationality), unit_type(unit_type){ //for making cadres
         //AIR, CARRIER, FLEETS, SUBS, FORTRESS, TANKS, INFANTRY, CONVOYS
 
@@ -189,6 +191,10 @@ public:
     movement(movement), rebase(rebase), landing(landing){ //for making custom units
 
     }
+
+    void setMovement(const size_t mov){ //just for testing
+        movement = mov;
+    }   
 
     void print() const;
 };

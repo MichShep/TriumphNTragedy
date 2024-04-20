@@ -7,23 +7,27 @@
  */
 class Runner{
 private:
-    int num_players; /**< Number of player in game (2 || 3 but hopefully can make a 1)*/
+    int num_players; /**< Number of player in game (3 but hopefully can make a 1)*/
 
-    Player players[3]; 
+    Player players[3]; /**Holds each playe object with nationality as index 0: West 1: Axis 2: USSR*/ 
 
     Map map; /**< Map of the game and nations/waters*/
 
-    size_t year; /**<Current year the player is in (goes from 1936 to 1945)*/
+    size_t year; /**< Current year the player is in (goes from 1936 to 1945)*/
 
-    Dice die;
+    Dice die; /**< Dice used to roll decisions, default a D6*/
 
-    queue<ActionCard*> action_deck;
+    queue<ActionCard*> action_deck; /**< Draw deck of the action cards*/
 
-    vector<ActionCard*> action_discard;
+    vector<ActionCard*> action_discard; /**< Draw deck of the action cards*/
 
-    queue<InvestmentCard*> invest_hand;
+    queue<InvestmentCard*> invest_hand; /**< Draw deck of the invest cards*/
 
-    vector<InvestmentCard*> invest_discard;
+    vector<InvestmentCard*> invest_discard; /**< Discard pile of investment cards*/
+
+    Player* start_player; /**Player who will start the turn*/
+
+    Player* active_player; /**< Player whose turn it is currently*/
 
 public:
     /**
@@ -40,9 +44,12 @@ public:
 
         //- Set starting year
         year = START_YEAR;
+        year--;
 
         //- Create Map
-        initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter.map");
+        initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter2.map");
+
+        start_player = &players[1]; //AXIS start
         
         //- Init Players
         players[0] = Player("Michael", WEST);
@@ -61,13 +68,40 @@ public:
     }
 
     size_t test(){
-        Unit* test = new Unit(1, WEST, INFANTRY);
-        map.getCity("London")->addUnit(test);
-        size_t result = canMove(test, "London", "Paris");
+        active_player = &players[0];
 
-        printf("%zu\n", result);
+        //For B
+        Unit* wInfa0 = new Unit(1, WEST, INFANTRY);
+        Unit* wAir0 = new Unit(2, WEST, AIR);
 
-        printf("%zu\n", canMove(test, "London", "Ruhr"));
+        Unit* uInfa0 = new Unit(3, USSR, INFANTRY);
+        Unit* uInfa1 = new Unit(4, USSR, INFANTRY);
+
+        map["B"]->addUnit(wInfa0);
+        map["B"]->addUnit(wAir0);
+        map["B"]->addUnit(uInfa0);
+        map["B"]->addUnit(uInfa1);
+
+        //For A
+        Unit* wTank0 = new Unit(5, WEST, TANK);
+
+        map["A"]->addUnit(wTank0);
+
+        //For J
+        Unit* uInfa2 = new Unit(6, USSR, INFANTRY);
+        Unit* uAir0 = new Unit(7, USSR, AIR);
+        Unit* uAir1 = new Unit(8, USSR, AIR);
+
+        map["J"]->addUnit(uInfa2);
+        map["J"]->addUnit(uAir0);
+        map["J"]->addUnit(uAir1);
+
+        //For I
+        Unit* wTank1 = new Unit(9, WEST, TANK);
+
+        map["I"]->addUnit(wTank1);
+
+        combatRound();
 
         return 0;
     }
@@ -82,7 +116,7 @@ public:
 
     //& Sequence of Play
     //- New Year
-    void newNear();
+    CityType newNear();
 
     //- Production Phase
     void production();
@@ -105,6 +139,14 @@ public:
     //- Winter Season
     void winter();
 
+    void reshuffle();
+
+    void peaceDividends();
+
+    void newYearRes();
+
+    void handCheck(Player* player);
+
     //&Checking on map
 
     /**
@@ -116,10 +158,21 @@ public:
      */
     bool mapPlayer(Player& player);
 
-    //&Unit Actions
+    //&&&Unit Actions
 
-    //- Movement 
-    void landMovement(Unit* unit, const string name);
+    //& Movement 
+    bool move(Unit* unit, const string start, const string end);
+
+    /**
+     * @brief When the unit is leaving a battle it can move to one adjacent friendly city
+     * 
+     * @param unit The unit disengaging
+     * @param start The city with the conflict
+     * @param end The city to disengage to
+     * @return true Is able to move to end
+     * @return false is unable (border limits or out of range or not friendly)
+     */
+    bool disengage(Unit* unit, const string start, const string end);
 
     /**
      * @brief Checks if that unit is able to move into that city
@@ -130,6 +183,40 @@ public:
      */
     size_t canMove(Unit* unit,  const string start, const string name);
 
+    //& Combat
+    /**
+     * @brief Executes the current players combat rounds
+     * 
+     */
+    void combatRound();
+
+    /**
+     * @brief Executes a land battle at the given city for one combat round
+     * 
+     * @param battlefield The city with the battle taken place
+     */
+    void landCombat(City* battlefield);
+
+    /**
+     * @brief Executes a sea battle at the given 'city' until concluded
+     * 
+     * @param battlefield The 'city' with the battle taken place
+     * @return true if the combat round needs to repeat
+     * @return false if the battle fininshed
+     */
+    bool seaCombat(City* battlefield);
+
+    
+    //-check which cities have battles and have the
+
+    /**
+     * @brief Check which cities have a current battle happening
+     * 
+     * @param nationality The nationality of the current player 
+     * @return vector<City*> Vector of all cities the player is batteling for
+     */
+    vector<City*> getBattles(const CityType nationality); 
+
     size_t getNumPlayers() const{
         return num_players;
     }
@@ -139,6 +226,8 @@ public:
     }
 
 private:
+    bool canDisengage(Unit* unit, const string start, const string end);
+
     void printMemo(size_t memo[][5]) const;
 
 };

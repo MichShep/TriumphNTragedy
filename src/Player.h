@@ -10,6 +10,12 @@ private:
     //&Player attributes
     string name;
 
+    size_t victory_points;
+
+    size_t rival_capitals;
+
+    bool atomic;
+
     //&Great Power attributes
     CityType nationality;
 
@@ -119,6 +125,22 @@ public:
 
     void setResource(const size_t res){
         resources = res;
+    }
+
+    size_t getHandSize() const{
+        return action_hand.size() + invest_hand.size();
+    }
+
+    size_t getMaxCard() const{
+        return card_size;
+    }
+
+    size_t getMaxProduction() const{
+
+    }
+
+    size_t getVP() const{
+        return victory_points;
     }
 
     void print() const;

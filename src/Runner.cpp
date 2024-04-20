@@ -201,9 +201,17 @@ bool Runner::mapPlayer(Player& player){
     return check;
 }
 
-void Runner::landMovement(Unit* unit, const string name){
+bool Runner::move(Unit* unit, const string start, const string target){
+    //look for type of movement
+    if (map[start]->isConflict()){ //if the starting city is in conflict then disengage
+        return disengage(unit, start, target);
+    }   
+
     //- Check if the city is within movement range
-        //- If only goes through friendly than strategic movement 
+    size_t move_result = canMove(unit, start, target);
+    if (move_result == SIZE_MAX){ //can't move to target
+        return false;
+    }
 
     //- If in battle than disengage
         //- Check if friendly
@@ -211,8 +219,33 @@ void Runner::landMovement(Unit* unit, const string name){
     //- Check if its neutral and needs to deploy Neutral Forces
 
     //- Check if its enemy and need to declare war
-
+    return false;
 }
+
+bool Runner::disengage(Unit* unit, const string start, const string end){
+    //TODO Add checking how many troops have gone over border
+    if (canDisengage(unit, start, end)){
+        map.getCity(start)->removeUnit(unit);
+        map.getCity(end)->addUnit(unit);
+        return true;
+    }
+        
+    return false;
+}
+
+bool Runner::canDisengage(Unit* unit, const string start, const string end){
+    //- Check if you the two are connected (0 means they aren't)
+    auto city = map.getCity(end);
+    return map.checkConnection(start, end) &&
+
+    //- Check if end is friendly or open sea
+    (unit->nationality == city->ruler_type || (city->city_type == WATER && !city->isEnemy((unit->nationality)))) && 
+
+    //- Cant go into map with friendly units if in combat
+    !city->isConflict()
+    ;     
+}
+
 
 //Dijkstra's algorithm knock-off
 size_t Runner::canMove(Unit* unit, const string start, const string target){
@@ -225,7 +258,7 @@ size_t Runner::canMove(Unit* unit, const string start, const string target){
     queue<size_t> indx_to_go; //max priority queue
 
     //dist movement prev madeWithStrategic visited
-    size_t memo[num_city][5];
+    size_t memo[num_city+1][5];
 
     //- Init each row in memo
     for (auto&v : memo){
@@ -238,7 +271,7 @@ size_t Runner::canMove(Unit* unit, const string start, const string target){
     
     //- Until all cities are visited
     while (num_visited != num_city){
-        printMemo(memo);
+        //printMemo(memo);
         //- Set to visited;
         num_visited++;
         memo[city_indx][4] = 1;
@@ -247,7 +280,7 @@ size_t Runner::canMove(Unit* unit, const string start, const string target){
             continue;
         }
         //- Go thourgh each adjacent node
-        for (size_t connect_id = 1; connect_id < num_city; connect_id++){ 
+        for (size_t connect_id = 1; connect_id <= num_city; connect_id++){ 
             //- If not visited and connected
             if (!memo[connect_id][4] && adjacency[city_indx][connect_id] != NA){ //if the value at [city_indx][connect_id] is not 0 then that means there is a connection
                 //- Add to queue
@@ -272,20 +305,22 @@ size_t Runner::canMove(Unit* unit, const string start, const string target){
         }
 
         //- Update city_indx to any connected edge
-        while (indx_to_go.empty() || memo[indx_to_go.front()][4] == 1)
+        while (!indx_to_go.empty() && memo[indx_to_go.front()][4] == 1)
             indx_to_go.pop();
-        if (indx_to_go.empty())
-            return 0;
+        if (indx_to_go.empty()) //smth's wrong
+            continue;
         city_indx = indx_to_go.front();
         indx_to_go.pop();
     }
+    //printf("Final Memo:\n");
+    //printMemo(memo);
 
-    return memo[city->getID()][0] != INFI;
+    return memo[city->getID()][0];
 }
 
 void Runner::printMemo(size_t memo[][5]) const{
     printf("\tDist\tMove\tPrev\tS\tV\n");
-    for (size_t i = 1; i < map.getNumCity(); i++){
+    for (size_t i = 1; i <= map.getNumCity(); i++){
         printf("%s\t", map.getCity(i)->name.substr(0, 5).c_str());
         if (memo[i][0] == 18446744073709551615UL){
             printf("-1\t");
@@ -318,6 +353,100 @@ void Runner::printMemo(size_t memo[][5]) const{
             printf("%zu\n", memo[i][4]);
         }
     }
-            printf("\n\n");
+    printf("\n\n");
 }
 
+
+
+
+
+//!!! Methods for combat round !!!
+
+
+void Runner::combatRound(){
+    //- Get all battles the player is in
+    vector<City*> battles = getBattles(active_player->getNationality());
+
+    //- Have player choose until all battles are dealt with (taken or passed)
+    while (battles.size()){
+        //- Print out the battles
+        size_t i = 0;
+        for (auto city : battles){ //TODO repalce so each city is highlited on map
+            printf("%zu:%s ", i++, city->name.c_str());
+        }
+        printf("\n");
+
+        printf("Which city to target\n"); //TODO replace with player clicking on city
+        size_t target;
+        cin >> target;
+        printf("Skip (0) or battle (1)\n"); //TODO reaplce with player clicking the option
+        bool choice;
+        cin >> choice;
+        if (choice){ //choose to have a battle
+            if (battles[target]->city_type == WATER){
+                while (seaCombat(battles[target])); //plays out until completion
+            }
+            else{
+                landCombat(battles[target]);
+            }
+
+        }
+        else{ //choose to skip from having a battle
+            for(vector <City* >::iterator it(battles.begin()); it != battles.end(); ++it){
+                if (*it == battles[target]){
+                    it = battles.erase(it);
+                    break;
+                } //if
+            } //foe
+        } //else
+    } //while
+}
+
+void Runner::landCombat(City* battlefield){
+    //- Go through each unit
+    for (size_t i = 0; i < CONVOY; i++){ //convoys don't have CA
+        printf(" attacking now");
+        //-Combat Action
+        printf("Combat Action(1:retreat 0:fire):\n"); //TODO Replace with player clicking
+        bool combatAction;
+        cin >> combatAction;
+        if (combatAction){
+            //- Retreat ->
+        }
+
+        //- Fire
+
+        //-Choose target
+
+        //-Roll #CV dices
+
+            //- Highest of that type loses one CV
+
+        //-Check Ground support
+            //- No support then ANS retreat
+
+            //- End
+
+        //- ANS may ReBase
+    }
+
+    
+}
+
+bool Runner::seaCombat(City* battlefield){
+
+}
+
+vector<City*> Runner::getBattles(const CityType nationality){
+    auto cities = map.getCities();
+
+    vector<City*> battles;
+
+    for (auto city : cities){
+        if (city.second->isEnemy(active_player->getNationality())){
+            battles.push_back(city.second);
+        }
+    }
+
+    return battles;
+}

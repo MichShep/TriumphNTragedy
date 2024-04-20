@@ -5,6 +5,7 @@ using std::cout;
 using std::endl;
 using std::cout;
 using std::string;
+using std::cin;
 
 #include <fstream>
 using std::fstream;
@@ -33,7 +34,7 @@ using std::priority_queue;
 #define INFI SIZE_MAX;
 enum CityType {WEST, AXIS, USSR, NEUTRAL, NEUTRAL_AT_WAR, WATER};
 
-enum PowerType {GREAT, HOME, MINOR, NONE};
+enum PowerType {GREAT, HOME, MINOR, NONE, SEA};
 
 enum ResourceType {NORMAL, TRANS_ATLANTIC};
 
