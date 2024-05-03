@@ -388,6 +388,12 @@ void Runner::combatRound(){
             }
             else{
                 landCombat(battles[target]);
+                for(vector <City* >::iterator it(battles.begin()); it != battles.end(); ++it){ //TODO change to index type
+                if (*it == battles[target]){
+                    it = battles.erase(it);
+                    break;
+                } //if
+            } //foe
             }
 
         }
@@ -404,23 +410,93 @@ void Runner::combatRound(){
 
 void Runner::landCombat(City* battlefield){
     //- Go through each unit
+    CityType attacker = active_player->getNationality(); //Defender goes after attacker (the one who started the battle, i.e. the active_player)
     for (size_t i = 0; i < CONVOY; i++){ //convoys don't have CA
-        printf(" attacking now");
-        //-Combat Action
-        printf("Combat Action(1:retreat 0:fire):\n"); //TODO Replace with player clicking
-        bool combatAction;
-        cin >> combatAction;
-        if (combatAction){
-            //- Retreat ->
+        printf("%zu are now acting!\n", i);
+        //Attacker chooses target if enemies is greater than 1
+        CityType defender;
+        if (battlefield->numEnemies(attacker) > 1){
+            printf("\tChoose who to target\n");
+            int temp;
+            cin >> temp; //TODO replace with clicking on screen
+            defender = (CityType)temp;
+        } 
+        else{
+            defender = battlefield->getEnemy(attacker);
         }
 
-        //- Fire
+        //-Combat Action
+        CityType firer;
+        CityType receiver;
+        int count = 0;
+        while (count++ < 2){
+            if (count == 1){
+                firer = defender;
+                receiver = attacker;
+                printf("\tdefender is shooting\n");
+            }
+            else if (count == 2){
+                firer = attacker;
+                receiver = defender;
+                printf("\tattcker is shooting\n");
+            }
+            else{
+                exit(1);
+            }
+            
+            for (Unit* unit : battlefield->occupants[firer]){
+                if (unit->unit_type != (UnitType)i )
+                    continue;
+                
+                printf("\t%zu: Retreat(0) or Fire(1)?\n", unit->id);
+                bool combat_action;
+                cin >> combat_action; //TODO make palyer click
+                //- Retreat ->
+                if (!combat_action){
+                    //TODO add retreating
+                    continue;
+                }
 
-        //-Choose target
+                //- Fire
 
-        //-Roll #CV dices
+                //-Choose target
+                UnitType target;
+                int temp;
+                printf("\tChoose unit to attack \n"); //FORTRESS, AIR, CARRIER, SUB, FLEET, TANK, INFANTRY, CONVOY
+                cin >> temp; //TODO have player click on type
+                target = (UnitType)temp;
 
-            //- Highest of that type loses one CV
+                //-Roll #CV dices
+                for (size_t k = 0; k < unit->combat_value; k++){
+                    if (die.roll() <= FIREPOWER_TABLE[(size_t)unit->unit_type][(size_t)target]){
+                        printf("\tHit!\n");
+                        //- Highest of that type loses one CV
+                        size_t maxCV;
+                        Unit* victim;
+                        for (Unit* potential_victim : battlefield->occupants[receiver]){
+                            if (potential_victim->unit_type == target && potential_victim->combat_value > maxCV){
+                                maxCV = potential_victim->combat_value;
+                                victim = potential_victim;
+                            }
+                        }
+
+                        victim->combat_value--;
+
+                        //- Remove units with 0 CV
+                        if(victim->combat_value == 0){
+                            battlefield->removeUnit(victim);
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+            
+
+
+
+
 
         //-Check Ground support
             //- No support then ANS retreat
@@ -443,7 +519,7 @@ vector<City*> Runner::getBattles(const CityType nationality){
     vector<City*> battles;
 
     for (auto city : cities){
-        if (city.second->isEnemy(active_player->getNationality())){
+        if (city.second->occupants[nationality].size() > 0 && city.second->isEnemy(active_player->getNationality())){
             battles.push_back(city.second);
         }
     }

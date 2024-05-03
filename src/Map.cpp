@@ -15,6 +15,15 @@ void City::removeUnit(Unit* unit){
 
 void City::addUnit(Unit* unit){
     occupants[(size_t)unit->nationality].push_back(unit);
+
+    //- Check for aggresiveness 
+    if (unit->nationality != ruler_type && city_type != WATER){
+        aggresor = unit->nationality;
+    }
+
+    //- If undefended then take 
+    //TODO Add conquering method
+
 }
 
 void City::print() const{

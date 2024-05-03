@@ -27,12 +27,15 @@ public:
 
     ResourceType resource_type;
 
-    vector<Unit*> occupants[3]; //holds the occupants here
+    vector<Unit*> occupants[3]; /**< Hold the current units and sperates them by their power*/
 
     //For influence
     size_t influence;
 
     CityType influencer;
+
+    //? The Attacker is the Faction provoking Combat in that Player Turn (the Active player). This is not the same as the Aggressor (the Faction trying to wrest control of a Land Area from the Owner).
+    CityType aggresor; 
 
     void freeMemory(){
         if (name != ""){
@@ -90,6 +93,38 @@ public:
             return occupants[(size_t)WEST].size() || occupants[(size_t)AXIS].size();
         default:
             return false;
+        }
+    }
+
+    size_t numEnemies(CityType nationality){
+        switch (nationality){
+        case WEST:
+            return occupants[(size_t)USSR].size()!=0 + occupants[(size_t)AXIS].size()!=0;
+        case AXIS:
+            return occupants[(size_t)USSR].size()!=0 + occupants[(size_t)WEST].size()!=0;
+        case USSR:
+            return occupants[(size_t)WEST].size()!=0 + occupants[(size_t)AXIS].size()!=0;
+        default:
+            return 0;
+        }
+    }
+
+    /**
+     * @brief In the case where there is only one enemy return the one there
+     * 
+     * @param nationality The nationality of the attacker
+     * @return CityType The defender
+     */
+    CityType getEnemy(CityType nationality){
+        switch (nationality){
+        case WEST:
+            return (occupants[USSR].size() ==0 )? AXIS: USSR;
+        case AXIS:
+            return (occupants[WEST].size() ==0 )? USSR: WEST;;
+        case USSR:
+            return (occupants[AXIS].size() ==0 )? WEST: AXIS;;
+        default:
+            return WATER;
         }
     }
 
