@@ -58,3 +58,23 @@ const int FIREPOWER_TABLE[8][4] = { // Damage against {A N G S}
     {1, 1, 3, 0}, //Infantry
     {0, 0, 0, 0}  //Convoy
 };
+
+const int COLOR_TABLE[6][3] = {
+    {16, 28, 238}, //WEST - blue
+    {142, 143, 158}, //AXIS - grey
+    {210, 13, 13}, //USSR - red
+    {251, 160, 6}, //NEUTRAL - orange
+    {233, 99, 6}, //NEUTRAL_AT_WAR - blood-oragen
+    {131, 236, 232}  //WATER - light blue
+};
+
+const int BORDER_COLOR[8][3]{
+    {0,0,0}, //NA
+    {0,198,226}, //Coast
+    {9,132,149}, //Strait
+    {61,63,63}, //Mountain
+    {25,198,27}, //Forest
+    {159, 244, 255}, //River
+    {221, 239, 198}, //Plains
+    {131, 236, 232} //Ocean
+};

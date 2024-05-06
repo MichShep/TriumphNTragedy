@@ -225,6 +225,11 @@ public:
         map.freeMemory();
     }
 
+    //& Runner Getters and Setters
+    const Map& getMap() const{
+        return map;
+    }
+
 private:
     bool canDisengage(Unit* unit, const string start, const string end);
 

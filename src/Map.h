@@ -8,6 +8,14 @@
  */
 struct City{
 public:
+    //For graphics
+    int HEIGHT;
+    int WIDTH;
+    int x;
+    int y;
+
+    int color[3];
+public:
     //#ID Name            Type    Status  Pop     Muster  Resource    ResourceType
     size_t ID;
 
@@ -63,7 +71,14 @@ public:
     ID(ID), name(name), city_type(city_type), power_type(power_type), population(population), muster(muster), resource(resource), resource_type(resource_type){
         ruler_type=city_type; //set it be ruled by who starts with it
         influence = 0;
+        WIDTH = 32;
+        HEIGHT = 32;
 
+    }
+
+    City(const int height, const int width, const int x, const int y, const int r=255, const int g=255, const int b=255, const size_t ID=0, const string name="City"): 
+    HEIGHT(height), WIDTH(width), x(x), y(y), ID(ID), name(name){
+        color[0] = r; color[1] = g; color[2] = b;
     }
 
     /**

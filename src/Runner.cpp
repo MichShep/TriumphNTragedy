@@ -50,7 +50,7 @@ bool Runner::initMap(string map_name){
             case 'A'+'x': //aXis 217
                 city_type = AXIS;
                 break;
-            case 'U'+'s': //uSsr 232
+            case 'U'+'S': //uSsr 232
                 city_type = USSR;
                 break;
             case 'N'+'e': //nEutral 211
@@ -99,10 +99,25 @@ bool Runner::initMap(string map_name){
         }
         City* c = new City{ID, name, city_type, power_type, population, muster, resource, resource_type};
         map.addCity(c);
+
+        int x, y;
+        map_file >> x;
+        map_file >> y;
+
+        c->x = x;
+        c->y = y;
+        
+        c->color[0] = COLOR_TABLE[city_type][0];
+        c->color[1] = COLOR_TABLE[city_type][1];
+        c->color[2] = COLOR_TABLE[city_type][2];
+
     }
 
     //- Read and make connections
     for (size_t curr_city = 0; curr_city < num_cities; curr_city++){
+        if (map_file.eof()){ //not all cities need to have connections
+            break;
+        }
         //- Get City Origin
         string name;
         map_file >> name;

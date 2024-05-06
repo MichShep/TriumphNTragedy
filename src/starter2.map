@@ -1,23 +1,20 @@
 11
-1   A   West    Home    2       1       1           N
-2   B   Axis    Home    2       1       1           N
-3   C   West    Home    2       1       1           N
-4   D   West    Home    2       1       1           N
-5   E   West    Home    2       1       1           N
-6   F   West    Home    2       1       1           N
-7   G   Axis    Home    2       1       1           N
-8   H   Axis    Home    2       1       1           N
-9   I   West    Home    2       1       1           N
-10  J   West    Home    2       1       1           N
-11  K   West    Home    2       1       1           N
-1   [8 Plain] [2 Plain] [4 Plain]
-2   [5 Plain] [3 Plain]
-3   [4 Plain]
-4   [3 Plain]
-5   [6 Plain] [2 Plain]
-6   [11 Plain] [5 Plain]
-7   [8 Plain]
-8   [8 Plain] [1 Plain]
-9   [10 Plain] [3 Plain]
-10  [11 Plain] [9 Plain]
-11  [6 Plain]
+1   A   Axis    Home    2       1       1           N   512 400
+2   B   West    Home    2       1       1           N   512 300
+3   C   West    Home    2       1       1           N   812 300
+4   D   West    Home    2       1       1           N   812 400
+5   E   Axis    Home    2       1       1           N   412 200
+6   F   USSR    Home    2       1       1           N   512 100
+7   G   Neutral    Home    2       1       1           N   212 290
+8   H   Neutral    Home    2       1       1           N   212 400
+9   I   Water    Home    2       1       1           N   812 200
+10  J   Water    Home    2       1       1           N   812 100
+11  K   USSR    Home    2       1       1           N   662 150
+A   [B Plain] [H Mountain] [D Plain]
+B   [E Forest] [C River]
+C   [I Coast] [D River]
+E   [F Plain]
+F   [K Strait]
+G   [H Plain] 
+I   [J Ocean]
+J   [K Coast]
