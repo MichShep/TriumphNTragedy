@@ -38,6 +38,8 @@ CityType Runner::newNear(){
             handCheck(&player);
         }
     }
+
+    return CityType::WATER;
 }
 
 //- Production Phase

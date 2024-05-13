@@ -136,7 +136,7 @@ public:
     }
 
     size_t getMaxProduction() const{
-
+        return std::max(population, std::max(resources, industry));
     }
 
     size_t getVP() const{

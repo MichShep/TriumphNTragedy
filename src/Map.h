@@ -35,7 +35,7 @@ public:
 
     ResourceType resource_type;
 
-    vector<Unit*> occupants[3]; /**< Hold the current units and sperates them by their power*/
+    vector<Unit*> occupants[4]; /**< Hold the current units and sperates them by their power 0:West, 1:Axis 2:USSR: 3:Neutral */
 
     //For influence
     size_t influence;
@@ -101,24 +101,30 @@ public:
     bool isEnemy(CityType nationality){
         switch (nationality){
         case WEST:
-            return occupants[(size_t)USSR].size() || occupants[(size_t)AXIS].size();
+            return occupants[(size_t)USSR].size() || occupants[(size_t)AXIS].size() || occupants[(size_t)NEUTRAL].size();
         case AXIS:
-            return occupants[(size_t)USSR].size() || occupants[(size_t)WEST].size();
+            return occupants[(size_t)USSR].size() || occupants[(size_t)WEST].size() || occupants[(size_t)NEUTRAL].size();
         case USSR:
-            return occupants[(size_t)WEST].size() || occupants[(size_t)AXIS].size();
+            return occupants[(size_t)WEST].size() || occupants[(size_t)AXIS].size() || occupants[(size_t)NEUTRAL].size();
         default:
             return false;
         }
     }
 
+    /**
+     * @brief Gives the number of enemies (not the number of units) in the current city
+     * 
+     * @param nationality The nationality of the unit
+     * @return size_t how many enemeis in the city depending on the unit's nationality
+     */
     size_t numEnemies(CityType nationality){
         switch (nationality){
         case WEST:
-            return occupants[(size_t)USSR].size()!=0 + occupants[(size_t)AXIS].size()!=0;
+            return occupants[(size_t)USSR].size()!=0 + occupants[(size_t)AXIS].size()!=0 + occupants[(size_t)NEUTRAL].size()!=0;
         case AXIS:
-            return occupants[(size_t)USSR].size()!=0 + occupants[(size_t)WEST].size()!=0;
+            return occupants[(size_t)USSR].size()!=0 + occupants[(size_t)WEST].size()!=0 + occupants[(size_t)NEUTRAL].size()!=0;
         case USSR:
-            return occupants[(size_t)WEST].size()!=0 + occupants[(size_t)AXIS].size()!=0;
+            return occupants[(size_t)WEST].size()!=0 + occupants[(size_t)AXIS].size()!=0 + occupants[(size_t)NEUTRAL].size()!=0;
         default:
             return 0;
         }

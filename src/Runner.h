@@ -29,13 +29,15 @@ private:
 
     Player* active_player; /**< Player whose turn it is currently*/
 
+    App& app;
+
 public:
     /**
      * @brief Construct a new Runner object that intializes the map and players
      * 
      * @param default_mode true if should go off of default or read in through the map
      */
-    Runner(bool default_mode = 1){
+    Runner(App& app, bool default_mode = 1):app(app){
         //- Set random seed
         srand(100);
 
@@ -83,27 +85,29 @@ public:
         map["B"]->addUnit(uInfa1);
 
         //For A
-        Unit* wTank0 = new Unit(5, WEST, TANK);
+        Unit* aTank0 = new Unit(5, AXIS, TANK);
 
-        map["A"]->addUnit(wTank0);
+        map["A"]->addUnit(aTank0);
 
         //For J
         Unit* uInfa2 = new Unit(6, USSR, INFANTRY);
         Unit* uAir0 = new Unit(7, USSR, AIR);
         Unit* uAir1 = new Unit(8, USSR, AIR);
 
-        map["J"]->addUnit(uInfa2);
-        map["J"]->addUnit(uAir0);
-        map["J"]->addUnit(uAir1);
+        map["K"]->addUnit(uInfa2);
+        map["K"]->addUnit(uAir0);
+        map["K"]->addUnit(uAir1);
 
         //For I
         Unit* wTank1 = new Unit(9, WEST, TANK);
 
-        map["I"]->addUnit(wTank1);
-
-        combatRound();
-
+        map["C"]->addUnit(wTank1);
         return 0;
+    }
+
+    void test1(){
+        move(map["A"]->occupants[1][0], "A", "H");
+
     }
 
     /**

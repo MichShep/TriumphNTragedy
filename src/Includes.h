@@ -26,6 +26,9 @@ using std::printf;
 using std::queue;
 using std::priority_queue;
 
+#include "/opt/homebrew/Cellar/sdl2/2.30.2/include/SDL2/SDL.h"
+
+#include "/opt/homebrew/Cellar/sdl2_ttf/2.22.0/include/SDL2/SDL_ttf.h"
 
 #define END_YEAR 1946;
 
@@ -77,4 +80,41 @@ const int BORDER_COLOR[8][3]{
     {159, 244, 255}, //River
     {221, 239, 198}, //Plains
     {131, 236, 232} //Ocean
+};
+
+const int UNIT_COLOR[8][3]{ //FORTRESS, AIR, CARRIER, SUB, FLEET, TANK, INFANTRY, CONVOY
+    {170, 118, 63}, //Fortress 
+    {169, 99, 176}, //Air
+    {172, 131, 226}, //Carrier
+    {138, 191, 27}, //Sub
+    {18, 100, 98}, //Fleet
+    {158, 0, 26}, //Tank
+    {3, 122, 9}, //Infantry
+    {254, 255, 141} //Convoy
+};
+
+//Colors
+namespace Colors{
+    const SDL_Color BLACK = {0, 0, 0, 255};
+    const SDL_Color GREEN = {0, 255, 0, 255};
+}
+
+//Graphics
+namespace Graphics{
+    struct Screen{
+        const int WIDTH = 1512;
+        const int HEIGHT = 1964/2;
+
+        const int center_x = WIDTH /2;
+        const int center_y = HEIGHT /2;
+    };
+};
+
+// Application
+struct App{
+    SDL_Window* window;
+    SDL_Renderer* renderer;
+
+    Graphics::Screen screen;
+
 };

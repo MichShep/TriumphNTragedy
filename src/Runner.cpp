@@ -234,7 +234,12 @@ bool Runner::move(Unit* unit, const string start, const string target){
     //- Check if its neutral and needs to deploy Neutral Forces
 
     //- Check if its enemy and need to declare war
-    return false;
+
+    //- After all checks move player in
+
+    map[start]->removeUnit(unit);
+    map[target]->addUnit(unit);
+    return true;
 }
 
 bool Runner::disengage(Unit* unit, const string start, const string end){
@@ -327,8 +332,33 @@ size_t Runner::canMove(Unit* unit, const string start, const string target){
         city_indx = indx_to_go.front();
         indx_to_go.pop();
     }
+
     //printf("Final Memo:\n");
     //printMemo(memo);
+    vector<SDL_Rect*> reachable_cities;
+    for (size_t i = 1; i <= num_city; i++){
+        if (memo[i][0] != 18446744073709551615UL){ //able to move
+            auto city = map.getCity(i);
+            reachable_cities.push_back(new SDL_Rect{city->x, city->y, city->HEIGHT/2, city->WIDTH/2});
+
+        }
+    }
+
+    //! Draw the available cities
+    SDL_SetRenderDrawColor(app.renderer, 255, 255, 0, 255);
+
+    printMemo(memo);
+
+    for (auto city : reachable_cities){
+
+        SDL_RenderFillRect(app.renderer, city);
+
+    }
+
+    SDL_RenderPresent(app.renderer);
+
+    while (true);
+    
 
     return memo[city->getID()][0];
 }
@@ -526,6 +556,7 @@ void Runner::landCombat(City* battlefield){
 
 bool Runner::seaCombat(City* battlefield){
 
+    return false;
 }
 
 vector<City*> Runner::getBattles(const CityType nationality){
