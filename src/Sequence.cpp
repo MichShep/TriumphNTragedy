@@ -1,6 +1,72 @@
 #include "Runner.h"
 
 //& Sequence of Play
+
+bool Runner::run(){
+    bool running = true;
+
+    SDL_Event event;
+
+    test();
+
+    auto& cities = map.getCities();
+
+    while (running){
+        ClearScreen();
+
+        //-Draw the connections
+        DrawConnections();
+
+        //-Draw the cities and troops
+        for (auto city : cities){
+            //printf("%d %d\n", city.second->x, city.second->y);
+            DrawCity(city.second);
+        }
+
+        if (SDL_PollEvent(&event)){
+            switch (event.type) {
+                case SDL_KEYDOWN:{
+                    running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
+
+                    if (event.key.keysym.scancode == SDL_SCANCODE_M){
+                        test1();
+                    }
+                    if (event.key.keysym.scancode == SDL_SCANCODE_N){
+                        year++;
+
+                    }
+                    break;
+                }
+
+                case SDL_QUIT:{
+                    running = false;
+                    break;
+                }
+
+                default: {
+                    break;
+                }
+            }
+        }
+
+        //- Draw the time track
+        DrawTimeTrack();
+
+        //- Draw Player Stats
+
+        SDL_RenderPresent(app.renderer);
+    }
+    
+    
+    freeMemory();
+
+    printf("Memory was deleted\n");
+    //!!    
+
+    ShutdownApplication();
+    return EXIT_SUCCESS;
+}
+
 //- New Year
 CityType Runner::newNear(){
     //- Advance Year
@@ -9,7 +75,7 @@ CityType Runner::newNear(){
     //- Victroy Check 
     for (Player player : players){
         if (player.getVP() >= 25){
-            return player.getNationality();
+            return player.getallegiance();
         }
     }
 
@@ -20,7 +86,7 @@ CityType Runner::newNear(){
     peaceDividends();
 
     //- Turn Order
-    start_player = &players[(start_player->getNationality()+1)%3];
+    start_player = &players[(start_player->getallegiance()+1)%3];
 
     //- New Year Resolution
     if (year >= 1943)

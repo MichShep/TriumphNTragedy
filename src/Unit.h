@@ -73,13 +73,17 @@ class Unit{
 public:
     size_t id;
 
-    CityType nationality;
+    CityType allegiance;
+
+    UnitCountry nationality;
 
     UnitClass class_type;
 
     UnitType unit_type;
 
-    size_t combat_value;
+    uint8_t combat_value;
+
+    uint8_t max_combat_value;
 
     size_t movement;
 
@@ -89,16 +93,50 @@ public:
 
     bool convoy;
 
-    Unit(const size_t id, CityType nationality, UnitType unit_type): id(id), nationality(nationality), unit_type(unit_type){ //for making cadres
-        //AIR, CARRIER, FLEETS, SUBS, FORTRESS, TANKS, INFANTRY, CONVOYS
+    Unit(const size_t id, UnitCountry nationality, UnitType unit_type): id(id), nationality(nationality), unit_type(unit_type){ //for making cadres
 
         combat_value = 1; //1 for all cadres
 
-        switch (unit_type){
+        switch (nationality){ //BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRAL_U
+            case (BRITIAN_U):
+                allegiance = WEST;
+                break;
+
+            case (FRANCE_U):
+                allegiance = WEST;
+                break;
+            
+            case (USA_U):
+                allegiance = WEST;
+                break;
+
+            case (GERMANY_U):
+                allegiance = AXIS;
+                break;
+
+            case (ITALY_U):
+                allegiance = AXIS;
+                break;
+
+            case (USSR_U):
+                allegiance = USSR;
+                break;
+
+            case (NEUTRAL_U):
+                allegiance = NEUTRAL;
+                break;
+            
+            default:
+                break;
+        }
+
+        switch (unit_type){  //AIR, CARRIER, FLEETS, SUBS, FORTRESS, TANKS, INFANTRY, CONVOYS
             case (FORTRESS):{
                 class_type = CLASS_G;
 
                 movement = 0;
+
+                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
 
                 rebase = false;
 
@@ -111,6 +149,8 @@ public:
 
                 movement = 2;
 
+                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
+
                 rebase = true;
 
                 landing = false;
@@ -122,6 +162,8 @@ public:
                 
                 movement = 3;
 
+                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
+
                 rebase = true;
 
                 landing = true;
@@ -131,6 +173,8 @@ public:
                 class_type = CLASS_S;
 
                 movement = 2;
+                
+                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
 
                 rebase = true;
 
@@ -141,6 +185,8 @@ public:
                 class_type = CLASS_N;
                 
                 movement = 3;
+
+                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
 
                 rebase = true;
 
@@ -153,6 +199,8 @@ public:
                 
                 movement = 3;
 
+                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
+
                 rebase = false;
 
                 landing = false;
@@ -163,6 +211,8 @@ public:
                 class_type = CLASS_G;
                 
                 movement = 2;
+
+                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
 
                 rebase = false;
 
@@ -175,6 +225,8 @@ public:
                 
                 movement = 2;
 
+                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
+
                 rebase = false;
 
                 landing = true;
@@ -185,9 +237,10 @@ public:
             default:
                 break;
         }
+
     }
 
-    Unit(const CityType nationality, const UnitClass class_type, const UnitType unit_type, const size_t combat_value, const size_t movement, const  bool rebase, const bool landing): nationality(nationality), class_type(class_type), unit_type(unit_type), combat_value(combat_value),
+    Unit(const CityType allegiance, const UnitClass class_type, const UnitType unit_type, const size_t combat_value, const size_t movement, const  bool rebase, const bool landing): allegiance(allegiance), class_type(class_type), unit_type(unit_type), combat_value(combat_value),
     movement(movement), rebase(rebase), landing(landing){ //for making custom units
 
     }

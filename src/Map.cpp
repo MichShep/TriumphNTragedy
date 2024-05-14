@@ -2,9 +2,9 @@
 
 
 void City::removeUnit(Unit* unit){
-    for(vector <Unit* >::iterator it(occupants[(size_t)unit->nationality].begin()); it != occupants[(size_t)unit->nationality].end(); ++it){
+    for(vector <Unit* >::iterator it(occupants[(size_t)unit->allegiance].begin()); it != occupants[(size_t)unit->allegiance].end(); ++it){
         if (*it == unit){
-            it = occupants[(size_t)unit->nationality].erase(it);
+            it = occupants[(size_t)unit->allegiance].erase(it);
             return;
         }
     }
@@ -14,11 +14,11 @@ void City::removeUnit(Unit* unit){
 }
 
 void City::addUnit(Unit* unit){
-    occupants[(size_t)unit->nationality].push_back(unit);
+    occupants[(size_t)unit->allegiance].push_back(unit);
 
     //- Check for aggresiveness 
-    if (unit->nationality != ruler_type && city_type != WATER){
-        aggresor = unit->nationality;
+    if (unit->allegiance != ruler_type && city_type != WATER){
+        aggresor = unit->allegiance;
     }
 
     //- If undefended then take 

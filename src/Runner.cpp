@@ -195,7 +195,7 @@ bool Runner::mapPlayer(Player& player){
     //- Go through each city
     for (auto& city : temp_map){
         //- If it belongs to the player
-        if (city.second->ruler_type == player.getNationality()){ 
+        if (city.second->ruler_type == player.getallegiance()){ 
             //- Add to temp variables
             temp_resources += city.second->resource;
             temp_population += city.second->population;
@@ -259,7 +259,7 @@ bool Runner::canDisengage(Unit* unit, const string start, const string end){
     return map.checkConnection(start, end) &&
 
     //- Check if end is friendly or open sea
-    (unit->nationality == city->ruler_type || (city->city_type == WATER && !city->isEnemy((unit->nationality)))) && 
+    (unit->allegiance == city->ruler_type || (city->city_type == WATER && !city->isEnemy((unit->allegiance)))) && 
 
     //- Cant go into map with friendly units if in combat
     !city->isConflict()
@@ -355,10 +355,7 @@ size_t Runner::canMove(Unit* unit, const string start, const string target){
 
     }
 
-    SDL_RenderPresent(app.renderer);
-
-    while (true);
-    
+    SDL_RenderPresent(app.renderer);    
 
     return memo[city->getID()][0];
 }
@@ -410,7 +407,7 @@ void Runner::printMemo(size_t memo[][5]) const{
 
 void Runner::combatRound(){
     //- Get all battles the player is in
-    vector<City*> battles = getBattles(active_player->getNationality());
+    vector<City*> battles = getBattles(active_player->getallegiance());
 
     //- Have player choose until all battles are dealt with (taken or passed)
     while (battles.size()){
@@ -455,7 +452,7 @@ void Runner::combatRound(){
 
 void Runner::landCombat(City* battlefield){
     //- Go through each unit
-    CityType attacker = active_player->getNationality(); //Defender goes after attacker (the one who started the battle, i.e. the active_player)
+    CityType attacker = active_player->getallegiance(); //Defender goes after attacker (the one who started the battle, i.e. the active_player)
     for (size_t i = 0; i < CONVOY; i++){ //convoys don't have CA
         printf("%zu are now acting!\n", i);
         //Attacker chooses target if enemies is greater than 1
@@ -559,13 +556,13 @@ bool Runner::seaCombat(City* battlefield){
     return false;
 }
 
-vector<City*> Runner::getBattles(const CityType nationality){
+vector<City*> Runner::getBattles(const CityType allegiance){
     auto cities = map.getCities();
 
     vector<City*> battles;
 
     for (auto city : cities){
-        if (city.second->occupants[nationality].size() > 0 && city.second->isEnemy(active_player->getNationality())){
+        if (city.second->occupants[allegiance].size() > 0 && city.second->isEnemy(active_player->getallegiance())){
             battles.push_back(city.second);
         }
     }

@@ -60,7 +60,7 @@ public:
      * 
      * @param ID id of the city
      * @param name Name of the city
-     * @param city_type The starting nationality of the city
+     * @param city_type The starting allegiance of the city
      * @param power_type The power of the city (GREAT, HOME, MINOR, NONE)
      * @param population The pop value 
      * @param muster How many troops are added when taken over
@@ -82,7 +82,7 @@ public:
     }
 
     /**
-     * @brief If there currently a battle going on (more than one nationality of troops) (Doesn't check neutrality)
+     * @brief If there currently a battle going on (more than one allegiance of troops) (Doesn't check neutrality)
      * 
      * @return true There is a battle
      * @return false There is no battle (friendly troops or empty)
@@ -94,12 +94,12 @@ public:
     /**
      * @brief Returns if the opposing troops are together
      * 
-     * @param nationality The nationality of the troop entering
+     * @param allegiance The allegiance of the troop entering
      * @return true There is enemies
      * @return false No enemies
      */
-    bool isEnemy(CityType nationality){
-        switch (nationality){
+    bool isEnemy(CityType allegiance){
+        switch (allegiance){
         case WEST:
             return occupants[(size_t)USSR].size() || occupants[(size_t)AXIS].size() || occupants[(size_t)NEUTRAL].size();
         case AXIS:
@@ -114,11 +114,11 @@ public:
     /**
      * @brief Gives the number of enemies (not the number of units) in the current city
      * 
-     * @param nationality The nationality of the unit
-     * @return size_t how many enemeis in the city depending on the unit's nationality
+     * @param allegiance The allegiance of the unit
+     * @return size_t how many enemeis in the city depending on the unit's allegiance
      */
-    size_t numEnemies(CityType nationality){
-        switch (nationality){
+    size_t numEnemies(CityType allegiance){
+        switch (allegiance){
         case WEST:
             return occupants[(size_t)USSR].size()!=0 + occupants[(size_t)AXIS].size()!=0 + occupants[(size_t)NEUTRAL].size()!=0;
         case AXIS:
@@ -133,11 +133,11 @@ public:
     /**
      * @brief In the case where there is only one enemy return the one there
      * 
-     * @param nationality The nationality of the attacker
+     * @param allegiance The allegiance of the attacker
      * @return CityType The defender
      */
-    CityType getEnemy(CityType nationality){
-        switch (nationality){
+    CityType getEnemy(CityType allegiance){
+        switch (allegiance){
         case WEST:
             return (occupants[USSR].size() ==0 )? AXIS: USSR;
         case AXIS:

@@ -47,5 +47,5 @@ void Player::ussrInit(){
 }
 
 void Player::print() const{
-    printf("Player %d has %d industry that costs %d, %d population, and %d resources\n", (int)nationality, (int)industry, (int)factory_cost, (int)population, (int)resources);
+    printf("Player %d has %d industry that costs %d, %d population, and %d resources\n", (int)allegiance, (int)industry, (int)factory_cost, (int)population, (int)resources);
 }

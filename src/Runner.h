@@ -9,11 +9,13 @@ class Runner{
 private:
     int num_players; /**< Number of player in game (3 but hopefully can make a 1)*/
 
-    Player players[3]; /**Holds each playe object with nationality as index 0: West 1: Axis 2: USSR*/ 
+    Player players[3]; /**Holds each playe object with allegiance as index 0: West 1: Axis 2: USSR*/ 
 
     Map map; /**< Map of the game and nations/waters*/
 
     size_t year; /**< Current year the player is in (goes from 1936 to 1945)*/
+
+    size_t end_year; /**< Year the game will end (usually 1945)*/
 
     Dice die; /**< Dice used to roll decisions, default a D6*/
 
@@ -29,7 +31,7 @@ private:
 
     Player* active_player; /**< Player whose turn it is currently*/
 
-    App& app;
+    App app;
 
 public:
     /**
@@ -37,8 +39,9 @@ public:
      * 
      * @param default_mode true if should go off of default or read in through the map
      */
-    Runner(App& app, bool default_mode = 1):app(app){
+    Runner(bool default_mode = 1){
         //- Set random seed
+
         srand(100);
 
         //- Init Dice
@@ -46,6 +49,7 @@ public:
 
         //- Set starting year
         year = START_YEAR;
+        end_year = END_YEAR;
         year--;
 
         //- Create Map
@@ -67,17 +71,22 @@ public:
         players[0].print();
         players[1].print();
         players[2].print();
+
+        if (InitApplication() == false){
+            ShutdownApplication();
+            exit(1);
+        }
     }
 
     size_t test(){
         active_player = &players[0];
 
         //For B
-        Unit* wInfa0 = new Unit(1, WEST, INFANTRY);
-        Unit* wAir0 = new Unit(2, WEST, AIR);
+        Unit* wInfa0 = new Unit(1, BRITIAN_U, INFANTRY);
+        Unit* wAir0 = new Unit(2, BRITIAN_U, AIR);
 
-        Unit* uInfa0 = new Unit(3, USSR, INFANTRY);
-        Unit* uInfa1 = new Unit(4, USSR, INFANTRY);
+        Unit* uInfa0 = new Unit(3, USSR_U, INFANTRY);
+        Unit* uInfa1 = new Unit(4, USSR_U, INFANTRY);
 
         map["B"]->addUnit(wInfa0);
         map["B"]->addUnit(wAir0);
@@ -85,23 +94,30 @@ public:
         map["B"]->addUnit(uInfa1);
 
         //For A
-        Unit* aTank0 = new Unit(5, AXIS, TANK);
+        Unit* aTank0 = new Unit(5, GERMANY_U, TANK);
+        Unit* aTank1 = new Unit(11, ITALY_U, TANK);
 
         map["A"]->addUnit(aTank0);
+        map["A"]->addUnit(aTank1);
 
         //For J
-        Unit* uInfa2 = new Unit(6, USSR, INFANTRY);
-        Unit* uAir0 = new Unit(7, USSR, AIR);
-        Unit* uAir1 = new Unit(8, USSR, AIR);
+        Unit* uInfa2 = new Unit(6, USSR_U, INFANTRY);
+        Unit* uAir0 = new Unit(7, USSR_U, AIR);
+        Unit* uAir1 = new Unit(8, USSR_U, AIR);
 
         map["K"]->addUnit(uInfa2);
         map["K"]->addUnit(uAir0);
         map["K"]->addUnit(uAir1);
 
         //For I
-        Unit* wTank1 = new Unit(9, WEST, TANK);
+        Unit* wTank1 = new Unit(9, USA_U, TANK);
 
         map["C"]->addUnit(wTank1);
+
+        //For H 
+        Unit* nFort = new Unit(10, NEUTRAL_U, FORTRESS);
+        map["H"]->addUnit(nFort);
+
         return 0;
     }
 
@@ -119,6 +135,9 @@ public:
     bool initMap(string map_file);
 
     //& Sequence of Play
+    //- round handler
+    bool run();
+
     //- New Year
     CityType newNear();
 
@@ -216,10 +235,10 @@ public:
     /**
      * @brief Check which cities have a current battle happening
      * 
-     * @param nationality The nationality of the current player 
+     * @param allegiance The allegiance of the current player 
      * @return vector<City*> Vector of all cities the player is batteling for
      */
-    vector<City*> getBattles(const CityType nationality); 
+    vector<City*> getBattles(const CityType allegiance); 
 
     size_t getNumPlayers() const{
         return num_players;
@@ -238,5 +257,43 @@ private:
     bool canDisengage(Unit* unit, const string start, const string end);
 
     void printMemo(size_t memo[][5]) const;
+
+private:
+    //!!! Graphics things
+    //- Init Functions
+    bool InitSDL();
+
+    void ClearScreen();
+
+    void ShutdownApplication();
+
+    bool InitApplication();
+
+    //- Game Displaying
+    void (Runner::* draw [8])(Unit*, int, int, float) const = {&Runner::drawFortress, &Runner::drawAir, &Runner::drawCarrier, &Runner::drawSub, &Runner::drawFleet, &Runner::drawTank, &Runner::drawInfantry, &Runner::drawConvoy};
+
+    void DrawCity(City* city);
+
+    void drawFortress(Unit* unit, const int x, const int y, const float scale) const;
+
+    void drawAir(Unit* unit, const int x, const int y, const float scale) const;
+
+    void drawCarrier(Unit* unit, const int x, const int y, const float scale) const;
+
+    void drawSub(Unit* unit, const int x, const int y, const float scale) const;
+
+    void drawFleet(Unit* unit, const int x, const int y, const float scale) const;
+
+    void drawTank(Unit* unit, const int x, const int y, const float scale) const;
+
+    void drawInfantry(Unit* unit, const int x, const int y, const float scale) const;
+
+    void drawConvoy(Unit* unit, const int x, const int y, const float scale) const;
+
+    void DrawConnections();
+
+    void DrawTimeTrack();
+
+    void drawNumber(const int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255) const;
 
 };

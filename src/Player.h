@@ -17,7 +17,7 @@ private:
     bool atomic;
 
     //&Great Power attributes
-    CityType nationality;
+    CityType allegiance;
 
     size_t population;
 
@@ -60,8 +60,8 @@ public:
     Player(){
         name = "Default";
     }
-    Player (const string name, const CityType nationality): name(name), nationality(nationality){
-        switch (nationality){
+    Player (const string name, const CityType allegiance): name(name), allegiance(allegiance){
+        switch (allegiance){
         case (WEST):
             westInit();
             break;
@@ -72,14 +72,14 @@ public:
             ussrInit();
             break;
         default:
-            printf("Unkown nationality %d!\n", (int)nationality);
+            printf("Unkown allegiance %d!\n", (int)allegiance);
             exit(1);
             break;
         }
     }
 
-    Player(const string name, const CityType nationality, const size_t population, const size_t resource, const size_t industry, const size_t card_size, const size_t factory_cost, const bool ussr_treaty, bool axis_treaty, bool allies_treaty, const bool usa_treaty)
-        : name(name), nationality(nationality), population(population), resources(resource), industry(industry), card_size(card_size), factory_cost(factory_cost), ussr_treaty(ussr_treaty), west_treaty(allies_treaty), axis_treaty(axis_treaty), usa_treaty(usa_treaty){
+    Player(const string name, const CityType allegiance, const size_t population, const size_t resource, const size_t industry, const size_t card_size, const size_t factory_cost, const bool ussr_treaty, bool axis_treaty, bool allies_treaty, const bool usa_treaty)
+        : name(name), allegiance(allegiance), population(population), resources(resource), industry(industry), card_size(card_size), factory_cost(factory_cost), ussr_treaty(ussr_treaty), west_treaty(allies_treaty), axis_treaty(axis_treaty), usa_treaty(usa_treaty){
 
     }
 
@@ -107,8 +107,8 @@ public:
      */
     void mapPlayer();
 
-    CityType getNationality() const{
-        return nationality;
+    CityType getallegiance() const{
+        return allegiance;
     }
 
     size_t getPopulation() const{
