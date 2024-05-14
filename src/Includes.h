@@ -42,6 +42,8 @@ enum CityType {WEST, AXIS, USSR, NEUTRAL, NEUTRAL_AT_WAR, WATER};
 
 enum PowerType {GREAT, HOME, MINOR, NONE, SEA};
 
+enum PopulationType {EMPTY, TOWN, CITY, CAPITAL_CITY, SUB_CAPITAL, MAIN_CAPITAL};
+
 enum ResourceType {NORMAL, TRANS_ATLANTIC};
 
 enum BorderType {NA, COAST, STRAIT, MOUNTAIN, FOREST, RIVER, PLAINS, OCEAN}; //NA means not connected

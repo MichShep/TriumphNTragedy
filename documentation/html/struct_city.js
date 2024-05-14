@@ -1,0 +1,28 @@
+var struct_city =
+[
+    [ "City", "struct_city.html#a83e85c74cd0962d1f22b083fe828a59a", null ],
+    [ "addUnit", "struct_city.html#a3994937bd3bc9594597271aec1658ae9", null ],
+    [ "getEnemy", "struct_city.html#abd69946330598fff82449e2bda8f3b61", null ],
+    [ "isConflict", "struct_city.html#ad92576a7777d79bff78d720b0ef46dc5", null ],
+    [ "isEnemy", "struct_city.html#aa9235f7d0d59ee89b966b438c2958080", null ],
+    [ "numEnemies", "struct_city.html#a6fe49e408af85ca3370f95b2be4c9687", null ],
+    [ "print", "struct_city.html#a58e45c2c1f305dfaaaa42a719eb318d8", null ],
+    [ "removeUnit", "struct_city.html#a792bdc0db42861f30ba41515746cf867", null ],
+    [ "aggresor", "struct_city.html#ad4713ac0f9ffe0c830a69321610b46b8", null ],
+    [ "city_type", "struct_city.html#acb1f4a8e5ec4fff621447b0cea2ae46a", null ],
+    [ "country", "struct_city.html#a6ccc73d89bdc523f1d5acdef6e0633ad", null ],
+    [ "HEIGHT", "struct_city.html#a902450ac6f7b561ef6bd5f8efdbea162", null ],
+    [ "ID", "struct_city.html#a1c6a9ff05aeac23e11147c726b980661", null ],
+    [ "influence", "struct_city.html#ad19ae18f9a6826df38a879be50e83ceb", null ],
+    [ "influencer", "struct_city.html#a2a9470d565edf795a16d1d1cec41ae9d", null ],
+    [ "muster", "struct_city.html#ad17d6f4d9a637914000b3f49d322b6db", null ],
+    [ "name", "struct_city.html#a38b5e8b9bd4e263434eae0344913d341", null ],
+    [ "occupants", "struct_city.html#aba46e60eb67a357fa1754c4ebf20f1fc", null ],
+    [ "population", "struct_city.html#a61a59baa83654c8b782f3240c94dacd2", null ],
+    [ "power_type", "struct_city.html#a84b605a2710a013856c6a0af9cbe3a7c", null ],
+    [ "resource", "struct_city.html#a8ec5ff784d9db1fc27d9ce9c171c15ce", null ],
+    [ "ruler_type", "struct_city.html#acc6a46c106ff550757c05195129a577a", null ],
+    [ "WIDTH", "struct_city.html#a36c50ec3c253541d2a433adff796b2e9", null ],
+    [ "x", "struct_city.html#a218327398be6b6cee514df3513eb9ad4", null ],
+    [ "y", "struct_city.html#a0db4f89473b24aa4b2735be106588b6d", null ]
+];

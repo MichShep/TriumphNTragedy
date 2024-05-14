@@ -75,7 +75,7 @@ CityType Runner::newNear(){
     //- Victroy Check 
     for (Player player : players){
         if (player.getVP() >= 25){
-            return player.getallegiance();
+            return player.getAllegiance();
         }
     }
 
@@ -86,7 +86,7 @@ CityType Runner::newNear(){
     peaceDividends();
 
     //- Turn Order
-    start_player = &players[(start_player->getallegiance()+1)%3];
+    start_player = &players[(start_player->getAllegiance()+1)%3];
 
     //- New Year Resolution
     if (year >= 1943)

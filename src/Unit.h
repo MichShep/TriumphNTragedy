@@ -5,14 +5,24 @@
 struct Dice{
     vector<int> stats; /**< Vector to hold how often each side was rolled*/
 
-    int min; /**< Min calue of the die*/
+    int min; /**< Min value of the die*/
 
     int max; /**< Max value of the die*/
 
+    /**
+     * @brief Construct a default dice where the only possible value is 0
+     * 
+     */
     Dice(){
         min = 0; max = 0;
     }
 
+    /**
+     * @brief Construct a new dice with a given min and max value
+     * 
+     * @param min The mininum value the dice can roll
+     * @param max The maximum value the dice can roll
+     */
     Dice(int min, int max): min(min), max(max){
         if (min >= max){
             printf("Min value is greater than the max!");
@@ -21,12 +31,21 @@ struct Dice{
         stats.resize(max); 
     }
 
+    /**
+     * @brief Returns a value between the min and max value (inclusive, inclusive)
+     * 
+     * @return int The value of the die
+     */
     int roll(){
         int result = rand() % (max - min + 1) + min;
         stats[result-1]++;
         return result;
     }
 
+    /**
+     * @brief Prints out the frequency of each possible dice roll
+     * 
+     */
     void print() const{
         printf("Dice:");
         for (int i = min; i <= max; i++){
@@ -71,27 +90,27 @@ public:
 
 class Unit{
 public:
-    size_t id;
+    size_t id; /**< ID of the unit */
 
-    CityType allegiance;
+    CityType allegiance; /**< Which power the unit belongs to (West, Axis, USSR, Neutral)*/
 
-    UnitCountry nationality;
+    UnitCountry nationality; /**< Which country the unit comes from (West:British, USA, France; Axis: Germany, Italy; USSR: USSR)*/
 
-    UnitClass class_type;
+    UnitClass class_type; /**< Which class the unit is in that is mostly just for movement and ReBase*/
 
-    UnitType unit_type;
+    UnitType unit_type; /**< Which type of unit that decied attack and movement (Fortress, Infantry, Air...)*/
 
-    uint8_t combat_value;
+    uint8_t combat_value; /**< Functions as how many forces are in the one unit and how many it fires in battle*/
 
-    uint8_t max_combat_value;
+    uint8_t max_combat_value; /**< Limits the max amount offorces can be in the unit*/
 
-    size_t movement;
+    size_t movement; /**< The max amount of cities it can move in one turn*/
 
-    bool rebase;
+    bool rebase; /**< If this unit can ReBase (move freely to ground force)*/
 
-    bool landing;
+    size_t landing; /**< The year the unit landed from water this turn (therefore it can't attack)*/
 
-    bool convoy;
+    bool convoy; /**< If the ground unit is a convoy its an infantry in the water and can't attack*/
 
     Unit(const size_t id, UnitCountry nationality, UnitType unit_type): id(id), nationality(nationality), unit_type(unit_type){ //for making cadres
 

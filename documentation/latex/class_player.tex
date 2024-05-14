@@ -1,0 +1,81 @@
+\doxysection{Player Class Reference}
+\hypertarget{class_player}{}\label{class_player}\index{Player@{Player}}
+
+
+Represents Great Power and \doxylink{class_player}{Player} Stats.  
+
+
+
+
+{\ttfamily \#include $<$Player.\+h$>$}
+
+
+
+Collaboration diagram for Player\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=163pt]{class_player__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_player_afbd7f9b03fdce9fb1888cd9ec94c3549}\label{class_player_afbd7f9b03fdce9fb1888cd9ec94c3549} 
+{\bfseries Player} (const string name, const City\+Type allegiance)
+\item 
+\Hypertarget{class_player_a9f77aa14c0ef947379995a046ab91e7d}\label{class_player_a9f77aa14c0ef947379995a046ab91e7d} 
+{\bfseries Player} (const string name, const City\+Type allegiance, const size\+\_\+t population, const size\+\_\+t resource, const size\+\_\+t industry, const size\+\_\+t card\+\_\+size, const size\+\_\+t factory\+\_\+cost, const bool ussr\+\_\+treaty, bool axis\+\_\+treaty, bool allies\+\_\+treaty, const bool usa\+\_\+treaty)
+\item 
+\Hypertarget{class_player_ac425db62cfedd0dbce791044ccd134bb}\label{class_player_ac425db62cfedd0dbce791044ccd134bb} 
+void {\bfseries west\+Init} ()
+\begin{DoxyCompactList}\small\item\em Setup West player on default values in rules. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_a3dda1040e1618d64e5756c592624e886}\label{class_player_a3dda1040e1618d64e5756c592624e886} 
+void {\bfseries axis\+Init} ()
+\begin{DoxyCompactList}\small\item\em Setup Axis player on default values in rules. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_ae5f40c12d7d2e9cc2afc768dfd826b12}\label{class_player_ae5f40c12d7d2e9cc2afc768dfd826b12} 
+void {\bfseries ussr\+Init} ()
+\begin{DoxyCompactList}\small\item\em Setup USSR player on default values in rules. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_a09704e14f1afc7025ad7c8ac38cc287d}\label{class_player_a09704e14f1afc7025ad7c8ac38cc287d} 
+void {\bfseries map\+Player} ()
+\begin{DoxyCompactList}\small\item\em Goes through the map and fills in the players stats. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_af5b93a13612c54e9aeb0d8e5d9f37da8}\label{class_player_af5b93a13612c54e9aeb0d8e5d9f37da8} 
+City\+Type {\bfseries getallegiance} () const
+\item 
+\Hypertarget{class_player_af9a51c3a3439852ee2723bb4347731c4}\label{class_player_af9a51c3a3439852ee2723bb4347731c4} 
+size\+\_\+t {\bfseries get\+Population} () const
+\item 
+\Hypertarget{class_player_a5a1c78affbbec12b76ee5db75d75b120}\label{class_player_a5a1c78affbbec12b76ee5db75d75b120} 
+size\+\_\+t {\bfseries get\+Resource} () const
+\item 
+\Hypertarget{class_player_a0b2310696bccfcfe6913fddd0f18b3e2}\label{class_player_a0b2310696bccfcfe6913fddd0f18b3e2} 
+void {\bfseries set\+Population} (const size\+\_\+t pop)
+\item 
+\Hypertarget{class_player_a59acd96552eeba1ce51127bb0ede52f8}\label{class_player_a59acd96552eeba1ce51127bb0ede52f8} 
+void {\bfseries set\+Resource} (const size\+\_\+t res)
+\item 
+\Hypertarget{class_player_a88511a832a4f1162df4d16c5e2765424}\label{class_player_a88511a832a4f1162df4d16c5e2765424} 
+size\+\_\+t {\bfseries get\+Hand\+Size} () const
+\item 
+\Hypertarget{class_player_a7aaf551438a45e9405c06599f1b7e5c3}\label{class_player_a7aaf551438a45e9405c06599f1b7e5c3} 
+size\+\_\+t {\bfseries get\+Max\+Card} () const
+\item 
+\Hypertarget{class_player_ad8856d8f96ceefb70729995bf1370991}\label{class_player_ad8856d8f96ceefb70729995bf1370991} 
+size\+\_\+t {\bfseries get\+Max\+Production} () const
+\item 
+\Hypertarget{class_player_a3bddd1b9847e5c60c15d48aa06f5155a}\label{class_player_a3bddd1b9847e5c60c15d48aa06f5155a} 
+size\+\_\+t {\bfseries get\+VP} () const
+\item 
+\Hypertarget{class_player_ab035509e1a035f702694c50f60e06b8c}\label{class_player_ab035509e1a035f702694c50f60e06b8c} 
+void {\bfseries print} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents Great Power and \doxylink{class_player}{Player} Stats. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Player.\+h\item 
+Player.\+cpp\end{DoxyCompactItemize}

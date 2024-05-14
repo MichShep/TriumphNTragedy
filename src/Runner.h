@@ -240,6 +240,11 @@ public:
      */
     vector<City*> getBattles(const CityType allegiance); 
 
+    /**
+     * @brief Get the number of players
+     * 
+     * @return size_t The number of playes in the game (2 or 3)
+     */
     size_t getNumPlayers() const{
         return num_players;
     }
@@ -261,39 +266,150 @@ private:
 private:
     //!!! Graphics things
     //- Init Functions
+    /**
+     * @brief Initalizes SDL2 and the window
+     * 
+     * @return true Initalized succesfully
+     * @return false Failexcd to initalize
+     */
     bool InitSDL();
 
+    /**
+     * @brief Clears the screen so the screen can 'update'
+     * 
+     */
     void ClearScreen();
 
+    /**
+     * @brief Deletes the windows and frees memory specifically used by SDL
+     * 
+     */
     void ShutdownApplication();
 
+    /**
+     * @brief Initalizes the 'app', the struct that hlds the renderer and the window
+     * 
+     * @return true Initalized succesfully
+     * @return false Failexcd to initalize
+     */
     bool InitApplication();
 
     //- Game Displaying
+    /**
+     * @brief An array that holds the pointers to functions that draw the units, use4s the unit's type as an index
+     * 
+     */
     void (Runner::* draw [8])(Unit*, int, int, float) const = {&Runner::drawFortress, &Runner::drawAir, &Runner::drawCarrier, &Runner::drawSub, &Runner::drawFleet, &Runner::drawTank, &Runner::drawInfantry, &Runner::drawConvoy};
 
+    /**
+     * @brief Draws the city onto the renderer and the units that are in this city
+     * 
+     * @param city 
+     */
     void DrawCity(City* city);
 
+    /**
+     * @brief Draws a fortress of the units nationality located at the given coords
+     * 
+     * @param unit The unit thats a fortress
+     * @param x The x coord of the unit (upper left corner is the origin)
+     * @param y The x coord of the unit (upper left corner is the origin)
+     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
+     */
     void drawFortress(Unit* unit, const int x, const int y, const float scale) const;
 
+    /**
+     * @brief Draws a air unit of the units nationality located at the given coords
+     * 
+     * @param unit The unit thats a air unit
+     * @param x The x coord of the unit (upper left corner is the origin)
+     * @param y The x coord of the unit (upper left corner is the origin)
+     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
+     */
     void drawAir(Unit* unit, const int x, const int y, const float scale) const;
 
+    /**
+     * @brief Draws a carrier of the units nationality located at the given coords
+     * 
+     * @param unit The unit thats a carrier
+     * @param x The x coord of the unit (upper left corner is the origin)
+     * @param y The x coord of the unit (upper left corner is the origin)
+     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
+     */
     void drawCarrier(Unit* unit, const int x, const int y, const float scale) const;
 
+    /**
+     * @brief Draws a submarine unit of the units nationality located at the given coords
+     * 
+     * @param unit The unit thats a sub
+     * @param x The x coord of the unit (upper left corner is the origin)
+     * @param y The x coord of the unit (upper left corner is the origin)
+     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
+     */
     void drawSub(Unit* unit, const int x, const int y, const float scale) const;
 
+    /**
+     * @brief Draws a fleet of the units nationality located at the given coords
+     * 
+     * @param unit The unit thats a fleet
+     * @param x The x coord of the unit (upper left corner is the origin)
+     * @param y The x coord of the unit (upper left corner is the origin)
+     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
+     */
     void drawFleet(Unit* unit, const int x, const int y, const float scale) const;
-
+    /**
+     * @brief Draws a tank of the units nationality located at the given coords
+     * 
+     * @param unit The unit thats a tank
+     * @param x The x coord of the unit (upper left corner is the origin)
+     * @param y The x coord of the unit (upper left corner is the origin)
+     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
+     */
     void drawTank(Unit* unit, const int x, const int y, const float scale) const;
 
+     /**
+     * @brief Draws a infantry of the units nationality located at the given coords
+     * 
+     * @param unit The unit thats a infantry
+     * @param x The x coord of the unit (upper left corner is the origin)
+     * @param y The x coord of the unit (upper left corner is the origin)
+     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
+     */
     void drawInfantry(Unit* unit, const int x, const int y, const float scale) const;
 
+     /**
+     * @brief Draws a conoy of the units nationality located at the given coords
+     * 
+     * @param unit The unit thats a convoy
+     * @param x The x coord of the unit (upper left corner is the origin)
+     * @param y The x coord of the unit (upper left corner is the origin)
+     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
+     */
     void drawConvoy(Unit* unit, const int x, const int y, const float scale) const;
-
+    
+    /**
+     * @brief Draws all the connections between the cities and colors them based on the border 
+     * 
+     */
     void DrawConnections();
 
+    /**
+     * @brief Draws the current year and end year; shows the American flag and the level from 1941 to 1944
+     * 
+     */
     void DrawTimeTrack();
 
+    /**
+     * @brief Takes any length number and draws it as a 7-segment at the x,y as the top left. Origional scale is 7*13 for one digit. Defaul color is black
+     * 
+     * @param num Number to render
+     * @param x X coord of number origin
+     * @param y Y coord of number origin
+     * @param scale Scales draw size of the number
+     * @param r The red value of the color (0, 255)
+     * @param g The green value of the color (0, 255)
+     * @param b The blue value of the color (0, 255) 
+     */
     void drawNumber(const int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255) const;
 
 };

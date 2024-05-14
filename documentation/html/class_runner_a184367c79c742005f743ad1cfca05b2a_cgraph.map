@@ -1,0 +1,11 @@
+<map id="Runner::combatRound" name="Runner::combatRound">
+<area shape="rect" id="Node000001" title="Executes the current players combat rounds." alt="" coords="5,55,158,80"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#ae3c41783620e8a41af4f38417ebf2951" title="Check which cities have a current battle happening." alt="" coords="211,5,342,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,51,207,33,208,38,136,57"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#addda43dfc74c96188a27f35844925760" title="Executes a land battle at the given city for one combat round." alt="" coords="206,55,347,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="158,65,190,65,190,70,158,70"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a279b91e29a994cf5f93a1d39edf89307" title="Executes a sea battle at the given &#39;city&#39; until concluded." alt="" coords="207,104,346,130"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="136,78,208,97,207,102,135,84"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Get reference to hash map of cities to reduce calls." alt="" coords="395,5,501,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="342,16,379,16,379,21,342,21"/>
+</map>

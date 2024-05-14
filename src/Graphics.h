@@ -14,6 +14,7 @@ bool Runner::InitSDL(){
 }
 
 //Graphics Routine
+;
 void Runner::ClearScreen(){
     SDL_SetRenderDrawColor(app.renderer, 216, 216, 216, 255);
     SDL_RenderClear(app.renderer);
@@ -24,6 +25,7 @@ void Runner::DrawCity(City* city){
     //FORTRESS, AIR, CARRIER, SUB, FLEET, TANK, INFANTRY, CONVOY
     SDL_Rect target;
 
+    //- Draw the City
     target.x = city->x;
     target.y = city->y;
     target.h = city->HEIGHT;
@@ -33,7 +35,10 @@ void Runner::DrawCity(City* city){
 
     SDL_RenderFillRect(app.renderer, &target);
 
-    //Draw all the units in there
+    //- Draw the Population type (capital, subcapital, ...)
+    
+
+    //- Draw all the units in there
     float scale = 5;
     int offset = city->HEIGHT;
     for (auto unit :city->occupants[0]){ //west

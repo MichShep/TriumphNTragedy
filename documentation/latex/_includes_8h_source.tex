@@ -1,0 +1,153 @@
+\doxysection{Includes.\+h}
+\hypertarget{_includes_8h_source}{}\label{_includes_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00004\ \textcolor{keyword}{using\ }std::cout;}
+\DoxyCodeLine{00005\ \textcolor{keyword}{using\ }std::endl;}
+\DoxyCodeLine{00006\ \textcolor{keyword}{using\ }std::cout;}
+\DoxyCodeLine{00007\ \textcolor{keyword}{using\ }std::string;}
+\DoxyCodeLine{00008\ \textcolor{keyword}{using\ }std::cin;}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00011\ \textcolor{keyword}{using\ }std::fstream;}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00014\ \textcolor{keyword}{using\ }std::vector;}
+\DoxyCodeLine{00015\ \textcolor{keyword}{using\ }std::find;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <unordered\_map>}\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{using\ }std::unordered\_map;}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <cstdio>}}
+\DoxyCodeLine{00021\ \textcolor{keyword}{using\ }std::printf;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{00026\ \textcolor{keyword}{using\ }std::queue;}
+\DoxyCodeLine{00027\ \textcolor{keyword}{using\ }std::priority\_queue;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00030\ \textcolor{keyword}{using\ }std::pow;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}/opt/homebrew/Cellar/sdl2/2.30.2/include/SDL2/SDL.h"{}}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}/opt/homebrew/Cellar/sdl2\_ttf/2.22.0/include/SDL2/SDL\_ttf.h"{}}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ END\_YEAR\ 1945;}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ START\_YEAR\ 1936;}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ INFI\ SIZE\_MAX;}}
+\DoxyCodeLine{00041\ \textcolor{keyword}{enum}\ CityType\ \{WEST,\ AXIS,\ USSR,\ NEUTRAL,\ NEUTRAL\_AT\_WAR,\ WATER\};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{enum}\ PowerType\ \{GREAT,\ HOME,\ MINOR,\ NONE,\ SEA\};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{enum}\ ResourceType\ \{NORMAL,\ TRANS\_ATLANTIC\};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{enum}\ BorderType\ \{NA,\ COAST,\ STRAIT,\ MOUNTAIN,\ FOREST,\ RIVER,\ PLAINS,\ OCEAN\};\ \textcolor{comment}{//NA\ means\ not\ connected}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{enum}\ UnitClass\ \{CLASS\_A,\ CLASS\_N,\ CLASS\_G,\ CLASS\_S\};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{enum}\ UnitType\ \{FORTRESS,\ AIR,\ CARRIER,\ SUB,\ FLEET,\ TANK,\ INFANTRY,\ CONVOY\};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{enum}\ UnitCountry\ \{BRITIAN\_U,\ FRANCE\_U,\ USA\_U,\ GERMANY\_U,\ ITALY\_U,\ USSR\_U,\ NEUTRAL\_U\};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{enum}\ Season\ \{SPRING,\ SUMMER,\ FALL,\ WINTER\};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{enum}\ Tech\ \{AIR\_DEFENSE,\ FIRST\_FIRE,\ INDUSTRIAL\_ESPIONAGE,\ SCIENCE\};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ FIREPOWER\_TABLE[8][4]\ =\ \{\ \textcolor{comment}{//\ Damage\ against\ \{A\ N\ G\ S\}}}
+\DoxyCodeLine{00060\ \ \ \ \ \{2,\ 3,\ 4,\ 3\},\ \textcolor{comment}{//Fort}}
+\DoxyCodeLine{00061\ \ \ \ \ \{3,\ 1,\ 1,\ 1\},\ \textcolor{comment}{//Air}}
+\DoxyCodeLine{00062\ \ \ \ \ \{2,\ 2,\ 1,\ 2\},\ \textcolor{comment}{//Carrir}}
+\DoxyCodeLine{00063\ \ \ \ \ \{2,\ 2,\ 1,\ 2\},\ \textcolor{comment}{//Sub}}
+\DoxyCodeLine{00064\ \ \ \ \ \{1,\ 3,\ 1,\ 2\},\ \textcolor{comment}{//Fleet}}
+\DoxyCodeLine{00065\ \ \ \ \ \{0,\ 0,\ 2,\ 0\},\ \textcolor{comment}{//Tank}}
+\DoxyCodeLine{00066\ \ \ \ \ \{1,\ 1,\ 3,\ 0\},\ \textcolor{comment}{//Infantry}}
+\DoxyCodeLine{00067\ \ \ \ \ \{0,\ 0,\ 0,\ 0\}\ \ \textcolor{comment}{//Convoy}}
+\DoxyCodeLine{00068\ \};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ MAX\_CV\_TABLE[8][7]\ =\ \{\ \textcolor{comment}{//BRITIAN,\ FRANCE,\ USA,\ GERMANY,\ ITALY,\ USSR,\ neautral}}
+\DoxyCodeLine{00071\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 3\},\ \textcolor{comment}{//Fort}}
+\DoxyCodeLine{00072\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Air}}
+\DoxyCodeLine{00073\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Carrir}}
+\DoxyCodeLine{00074\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Sub}}
+\DoxyCodeLine{00075\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Fleet}}
+\DoxyCodeLine{00076\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Tank}}
+\DoxyCodeLine{00077\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Infantry}}
+\DoxyCodeLine{00078\ \ \ \ \ \{0,\ 0,\ 0,\ 0,\ 0,\ 3,\ 0\}\ \ \textcolor{comment}{//Convoy}}
+\DoxyCodeLine{00079\ \};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{const}\ Uint8\ COLOR\_TABLE[6][3]\ =\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \{16,\ 28,\ 238\},\ \textcolor{comment}{//WEST\ -\/\ blue}}
+\DoxyCodeLine{00083\ \ \ \ \ \{142,\ 143,\ 158\},\ \textcolor{comment}{//AXIS\ -\/\ grey}}
+\DoxyCodeLine{00084\ \ \ \ \ \{210,\ 13,\ 13\},\ \textcolor{comment}{//USSR\ -\/\ red}}
+\DoxyCodeLine{00085\ \ \ \ \ \{251,\ 160,\ 6\},\ \textcolor{comment}{//NEUTRAL\ -\/\ orange}}
+\DoxyCodeLine{00086\ \ \ \ \ \{233,\ 99,\ 6\},\ \textcolor{comment}{//NEUTRAL\_AT\_WAR\ -\/\ blood-\/oragen}}
+\DoxyCodeLine{00087\ \ \ \ \ \{131,\ 236,\ 232\}\ \ \textcolor{comment}{//WATER\ -\/\ light\ blue}}
+\DoxyCodeLine{00088\ \};}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ BORDER\_COLOR[8][3]\{}
+\DoxyCodeLine{00091\ \ \ \ \ \{0,0,0\},\ \textcolor{comment}{//NA}}
+\DoxyCodeLine{00092\ \ \ \ \ \{0,198,226\},\ \textcolor{comment}{//Coast}}
+\DoxyCodeLine{00093\ \ \ \ \ \{9,132,149\},\ \textcolor{comment}{//Strait}}
+\DoxyCodeLine{00094\ \ \ \ \ \{61,63,63\},\ \textcolor{comment}{//Mountain}}
+\DoxyCodeLine{00095\ \ \ \ \ \{25,198,27\},\ \textcolor{comment}{//Forest}}
+\DoxyCodeLine{00096\ \ \ \ \ \{159,\ 244,\ 255\},\ \textcolor{comment}{//River}}
+\DoxyCodeLine{00097\ \ \ \ \ \{221,\ 239,\ 198\},\ \textcolor{comment}{//Plains}}
+\DoxyCodeLine{00098\ \ \ \ \ \{131,\ 236,\ 232\}\ \textcolor{comment}{//Ocean}}
+\DoxyCodeLine{00099\ \};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ UNIT\_COLOR[7][3]\{\ \textcolor{comment}{//BRITIAN,\ FRANCE,\ USA,\ GERMANY,\ ITALY,\ USSR,\ neautral}}
+\DoxyCodeLine{00102\ \ \ \ \ \{11,\ 56,\ 208\},\ \textcolor{comment}{//britian\ }}
+\DoxyCodeLine{00103\ \ \ \ \ \{36,\ 226,\ 208\},\ \textcolor{comment}{//france}}
+\DoxyCodeLine{00104\ \ \ \ \ \{42,\ 171,\ 85\},\ \textcolor{comment}{//usa}}
+\DoxyCodeLine{00105\ \ \ \ \ \{178,\ 191,\ 196\},\ \textcolor{comment}{//germany}}
+\DoxyCodeLine{00106\ \ \ \ \ \{210,\ 200,\ 128\},\ \textcolor{comment}{//italy}}
+\DoxyCodeLine{00107\ \ \ \ \ \{213,\ 19,\ 19\},\ \textcolor{comment}{//ussr\_u}}
+\DoxyCodeLine{00108\ \ \ \ \ \{255,\ 191,\ 58\}\ \textcolor{comment}{//neutral\_u}}
+\DoxyCodeLine{00109\ \};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ SEVEN\_SEGMENT\_DISPLAY[10][7]\ =\ \{\ }
+\DoxyCodeLine{00112\ \ \ \ \ \{\ 1,1,1,1,1,1,0\ \},\ \textcolor{comment}{//\ display\ '0'}}
+\DoxyCodeLine{00113\ \ \ \ \ \{\ 0,1,1,0,0,0,0\ \},\ \textcolor{comment}{//\ display\ '1'}}
+\DoxyCodeLine{00114\ \ \ \ \ \{\ 1,1,0,1,1,0,1\ \},\ \textcolor{comment}{//\ display\ '2'}}
+\DoxyCodeLine{00115\ \ \ \ \ \{\ 1,1,1,1,0,0,1\ \},\ \textcolor{comment}{//\ display\ '3'}}
+\DoxyCodeLine{00116\ \ \ \ \ \{\ 0,1,1,0,0,1,1\ \},\ \textcolor{comment}{//\ display\ '4'}}
+\DoxyCodeLine{00117\ \ \ \ \ \{\ 1,0,1,1,0,1,1\ \},\ \textcolor{comment}{//\ display\ '5'}}
+\DoxyCodeLine{00118\ \ \ \ \ \{\ 1,0,1,1,1,1,1\ \},\ \textcolor{comment}{//\ display\ '6'}}
+\DoxyCodeLine{00119\ \ \ \ \ \{\ 1,1,1,0,0,0,0\ \},\ \textcolor{comment}{//\ display\ '7'}}
+\DoxyCodeLine{00120\ \ \ \ \ \{\ 1,1,1,1,1,1,1\ \},\ \textcolor{comment}{//\ display\ '8'}}
+\DoxyCodeLine{00121\ \ \ \ \ \{\ 1,1,1,0,0,1,1\ \}\ \ \textcolor{comment}{//\ display\ '9'}}
+\DoxyCodeLine{00122\ \};}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{comment}{//Colors}}
+\DoxyCodeLine{00125\ \textcolor{keyword}{namespace\ }Colors\{}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{const}\ SDL\_Color\ BLACK\ =\ \{0,\ 0,\ 0,\ 255\};}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keyword}{const}\ SDL\_Color\ GREEN\ =\ \{0,\ 255,\ 0,\ 255\};}
+\DoxyCodeLine{00128\ \}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{comment}{//Graphics}}
+\DoxyCodeLine{00131\ \textcolor{keyword}{namespace\ }Graphics\{}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_graphics_1_1_screen}{Screen}}\{}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ WIDTH\ =\ 1512;}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ HEIGHT\ =\ 982;}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ center\_x\ =\ WIDTH\ /2;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ center\_y\ =\ HEIGHT\ /2;}
+\DoxyCodeLine{00138\ \ \ \ \ \};}
+\DoxyCodeLine{00139\ \};}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{comment}{//\ Application}}
+\DoxyCodeLine{00142\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_app}{App}}\{}
+\DoxyCodeLine{00143\ \ \ \ \ SDL\_Window*\ window;}
+\DoxyCodeLine{00144\ \ \ \ \ SDL\_Renderer*\ renderer;}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \mbox{\hyperlink{struct_graphics_1_1_screen}{Graphics::Screen}}\ screen;}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \};}
+
+\end{DoxyCode}

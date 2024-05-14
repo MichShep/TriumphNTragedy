@@ -1,0 +1,395 @@
+\doxysection{Runner Class Reference}
+\hypertarget{class_runner}{}\label{class_runner}\index{Runner@{Runner}}
+
+
+The main controller of the game and controls sequence of play.  
+
+
+
+
+{\ttfamily \#include $<$Runner.\+h$>$}
+
+
+
+Collaboration diagram for Runner\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=161pt]{class_runner__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_runner_a0de74fe5b4c57efd12b6f361e134dadb}{Runner}} (bool default\+\_\+mode=1)
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_runner}{Runner} object that intializes the map and players. \end{DoxyCompactList}\item 
+\Hypertarget{class_runner_a6a286746d8d7f651b4417ae6595f16d1}\label{class_runner_a6a286746d8d7f651b4417ae6595f16d1} 
+size\+\_\+t {\bfseries test} ()
+\item 
+\Hypertarget{class_runner_aa1afac7cc7aea78e91e8672e1824e973}\label{class_runner_aa1afac7cc7aea78e91e8672e1824e973} 
+void {\bfseries test1} ()
+\item 
+bool \mbox{\hyperlink{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22}{init\+Map}} (string map\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Creates the game map including nations and cities and connections. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_runner_a5fc406cae4aee55ee32026295464b0e1}{run}} ()
+\item 
+\Hypertarget{class_runner_a35e805b1d38a7c7d6238cbcb0c43902a}\label{class_runner_a35e805b1d38a7c7d6238cbcb0c43902a} 
+City\+Type {\bfseries new\+Near} ()
+\item 
+\Hypertarget{class_runner_a1d0e5459a22a49dbf34b0d75f6383676}\label{class_runner_a1d0e5459a22a49dbf34b0d75f6383676} 
+void {\bfseries production} ()
+\item 
+\Hypertarget{class_runner_a024ca94b6ff3d8213d236d87c0c6abb5}\label{class_runner_a024ca94b6ff3d8213d236d87c0c6abb5} 
+void {\bfseries government} ()
+\item 
+\Hypertarget{class_runner_a30ca7e5e57561f398bd28810ccb01863}\label{class_runner_a30ca7e5e57561f398bd28810ccb01863} 
+void {\bfseries spring} ()
+\item 
+\Hypertarget{class_runner_a6b0a121458d71f3fc894a8e2fe1fae53}\label{class_runner_a6b0a121458d71f3fc894a8e2fe1fae53} 
+void {\bfseries summer} ()
+\item 
+\Hypertarget{class_runner_ab7a6bc0c912c91b38173765275439a70}\label{class_runner_ab7a6bc0c912c91b38173765275439a70} 
+void {\bfseries blockade} ()
+\item 
+\Hypertarget{class_runner_a53d01879c1069eee75648c7c437dda93}\label{class_runner_a53d01879c1069eee75648c7c437dda93} 
+void {\bfseries fall} ()
+\item 
+\Hypertarget{class_runner_a2a76c0657f22cc6366131f066f158e17}\label{class_runner_a2a76c0657f22cc6366131f066f158e17} 
+void {\bfseries winter} ()
+\item 
+\Hypertarget{class_runner_a3411f81477b7ed0db16fe7bfa7c128fc}\label{class_runner_a3411f81477b7ed0db16fe7bfa7c128fc} 
+void {\bfseries reshuffle} ()
+\item 
+\Hypertarget{class_runner_a38409a814f07a34df8461ae4d33b2af1}\label{class_runner_a38409a814f07a34df8461ae4d33b2af1} 
+void {\bfseries peace\+Dividends} ()
+\item 
+\Hypertarget{class_runner_a805a1522e9541c31df3a136d58f99ec2}\label{class_runner_a805a1522e9541c31df3a136d58f99ec2} 
+void {\bfseries new\+Year\+Res} ()
+\item 
+\Hypertarget{class_runner_a22b0ff9811693c494fdadd997970819b}\label{class_runner_a22b0ff9811693c494fdadd997970819b} 
+void {\bfseries hand\+Check} (\mbox{\hyperlink{class_player}{Player}} \texorpdfstring{$\ast$}{*}player)
+\item 
+bool \mbox{\hyperlink{class_runner_a7da49e43690943e7040d405588d0b793}{map\+Player}} (\mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Goes over the players holdings over the map and sums up their pop, res, CV. \end{DoxyCompactList}\item 
+\Hypertarget{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28}\label{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28} 
+bool {\bfseries move} (\mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}unit, const string start, const string end)
+\item 
+bool \mbox{\hyperlink{class_runner_a38a4e7be3c09505c6d0335872615a4cb}{disengage}} (\mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}unit, const string start, const string end)
+\begin{DoxyCompactList}\small\item\em When the unit is leaving a battle it can move to one adjacent friendly city. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{class_runner_a6b86ea8f00eff661c9e5b5b32eb9a160}{can\+Move}} (\mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}unit, const string start, const string name)
+\begin{DoxyCompactList}\small\item\em Checks if that unit is able to move into that city. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a184367c79c742005f743ad1cfca05b2a}{combat\+Round}} ()
+\begin{DoxyCompactList}\small\item\em Executes the current players combat rounds. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_addda43dfc74c96188a27f35844925760}{land\+Combat}} (\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}battlefield)
+\begin{DoxyCompactList}\small\item\em Executes a land battle at the given city for one combat round. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_runner_a279b91e29a994cf5f93a1d39edf89307}{sea\+Combat}} (\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}battlefield)
+\begin{DoxyCompactList}\small\item\em Executes a sea battle at the given \textquotesingle{}city\textquotesingle{} until concluded. \end{DoxyCompactList}\item 
+vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_runner_ae3c41783620e8a41af4f38417ebf2951}{get\+Battles}} (const City\+Type allegiance)
+\begin{DoxyCompactList}\small\item\em Check which cities have a current battle happening. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{class_runner_a5dca1a5476d99423cc792bd95a0a71da}{get\+Num\+Players}} () const
+\begin{DoxyCompactList}\small\item\em Get the number of players. \end{DoxyCompactList}\item 
+\Hypertarget{class_runner_a1ce72219d4a739ae2dbc91430502e2dc}\label{class_runner_a1ce72219d4a739ae2dbc91430502e2dc} 
+void {\bfseries free\+Memory} ()
+\item 
+\Hypertarget{class_runner_adda4105efb5d6f7d92602d9bd5074edf}\label{class_runner_adda4105efb5d6f7d92602d9bd5074edf} 
+const \mbox{\hyperlink{class_map}{Map}} \& {\bfseries get\+Map} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The main controller of the game and controls sequence of play. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_runner_a0de74fe5b4c57efd12b6f361e134dadb}\label{class_runner_a0de74fe5b4c57efd12b6f361e134dadb} 
+\index{Runner@{Runner}!Runner@{Runner}}
+\index{Runner@{Runner}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{Runner()}{Runner()}}
+{\footnotesize\ttfamily Runner\+::\+Runner (\begin{DoxyParamCaption}\item[{bool}]{default\+\_\+mode = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new \doxylink{class_runner}{Runner} object that intializes the map and players. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em default\+\_\+mode} & true if should go off of default or read in through the map \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a0de74fe5b4c57efd12b6f361e134dadb_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_runner_a6b86ea8f00eff661c9e5b5b32eb9a160}\label{class_runner_a6b86ea8f00eff661c9e5b5b32eb9a160} 
+\index{Runner@{Runner}!canMove@{canMove}}
+\index{canMove@{canMove}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{canMove()}{canMove()}}
+{\footnotesize\ttfamily size\+\_\+t Runner\+::can\+Move (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}}]{unit,  }\item[{const string}]{start,  }\item[{const string}]{name }\end{DoxyParamCaption})}
+
+
+
+Checks if that unit is able to move into that city. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unit} & The unit moving \\
+\hline
+{\em name} & The target \doxylink{struct_city}{City} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size\+\_\+t How much movement would be left (returns INFI if it can\textquotesingle{}t) 
+\end{DoxyReturn}
+Draw the available citiesHere is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_runner_a6b86ea8f00eff661c9e5b5b32eb9a160_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a184367c79c742005f743ad1cfca05b2a}\label{class_runner_a184367c79c742005f743ad1cfca05b2a} 
+\index{Runner@{Runner}!combatRound@{combatRound}}
+\index{combatRound@{combatRound}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{combatRound()}{combatRound()}}
+{\footnotesize\ttfamily void Runner\+::combat\+Round (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Executes the current players combat rounds. 
+
+!! Methods for combat round !!! Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a184367c79c742005f743ad1cfca05b2a_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a38a4e7be3c09505c6d0335872615a4cb}\label{class_runner_a38a4e7be3c09505c6d0335872615a4cb} 
+\index{Runner@{Runner}!disengage@{disengage}}
+\index{disengage@{disengage}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{disengage()}{disengage()}}
+{\footnotesize\ttfamily bool Runner\+::disengage (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}}]{unit,  }\item[{const string}]{start,  }\item[{const string}]{end }\end{DoxyParamCaption})}
+
+
+
+When the unit is leaving a battle it can move to one adjacent friendly city. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unit} & The unit disengaging \\
+\hline
+{\em start} & The city with the conflict \\
+\hline
+{\em end} & The city to disengage to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true Is able to move to end 
+
+false is unable (border limits or out of range or not friendly) 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{class_runner_a38a4e7be3c09505c6d0335872615a4cb_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ae3c41783620e8a41af4f38417ebf2951}\label{class_runner_ae3c41783620e8a41af4f38417ebf2951} 
+\index{Runner@{Runner}!getBattles@{getBattles}}
+\index{getBattles@{getBattles}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{getBattles()}{getBattles()}}
+{\footnotesize\ttfamily vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ Runner\+::get\+Battles (\begin{DoxyParamCaption}\item[{const City\+Type}]{allegiance }\end{DoxyParamCaption})}
+
+
+
+Check which cities have a current battle happening. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em allegiance} & The allegiance of the current player \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector$<$\+City\texorpdfstring{$\ast$}{*}$>$ Vector of all cities the player is batteling for 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{class_runner_ae3c41783620e8a41af4f38417ebf2951_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=328pt]{class_runner_ae3c41783620e8a41af4f38417ebf2951_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a5dca1a5476d99423cc792bd95a0a71da}\label{class_runner_a5dca1a5476d99423cc792bd95a0a71da} 
+\index{Runner@{Runner}!getNumPlayers@{getNumPlayers}}
+\index{getNumPlayers@{getNumPlayers}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{getNumPlayers()}{getNumPlayers()}}
+{\footnotesize\ttfamily size\+\_\+t Runner\+::get\+Num\+Players (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the number of players. 
+
+\begin{DoxyReturn}{Returns}
+size\+\_\+t The number of playes in the game (2 or 3) 
+\end{DoxyReturn}
+\Hypertarget{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22}\label{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22} 
+\index{Runner@{Runner}!initMap@{initMap}}
+\index{initMap@{initMap}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{initMap()}{initMap()}}
+{\footnotesize\ttfamily bool Runner\+::init\+Map (\begin{DoxyParamCaption}\item[{string}]{map\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Creates the game map including nations and cities and connections. 
+
+\begin{DoxyReturn}{Returns}
+true Was able to succesfully make the map 
+
+false Encountered an error while making 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=276pt]{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=286pt]{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_addda43dfc74c96188a27f35844925760}\label{class_runner_addda43dfc74c96188a27f35844925760} 
+\index{Runner@{Runner}!landCombat@{landCombat}}
+\index{landCombat@{landCombat}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{landCombat()}{landCombat()}}
+{\footnotesize\ttfamily void Runner\+::land\+Combat (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{battlefield }\end{DoxyParamCaption})}
+
+
+
+Executes a land battle at the given city for one combat round. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em battlefield} & The city with the battle taken place \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=336pt]{class_runner_addda43dfc74c96188a27f35844925760_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a7da49e43690943e7040d405588d0b793}\label{class_runner_a7da49e43690943e7040d405588d0b793} 
+\index{Runner@{Runner}!mapPlayer@{mapPlayer}}
+\index{mapPlayer@{mapPlayer}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{mapPlayer()}{mapPlayer()}}
+{\footnotesize\ttfamily bool Runner\+::map\+Player (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})}
+
+
+
+Goes over the players holdings over the map and sums up their pop, res, CV. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true No changes were made from the stored attributes 
+
+false Changes were made from stale attributes 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{class_runner_a7da49e43690943e7040d405588d0b793_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=301pt]{class_runner_a7da49e43690943e7040d405588d0b793_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a5fc406cae4aee55ee32026295464b0e1}\label{class_runner_a5fc406cae4aee55ee32026295464b0e1} 
+\index{Runner@{Runner}!run@{run}}
+\index{run@{run}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily bool Runner\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+! ~\newline
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=263pt]{class_runner_a5fc406cae4aee55ee32026295464b0e1_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a279b91e29a994cf5f93a1d39edf89307}\label{class_runner_a279b91e29a994cf5f93a1d39edf89307} 
+\index{Runner@{Runner}!seaCombat@{seaCombat}}
+\index{seaCombat@{seaCombat}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{seaCombat()}{seaCombat()}}
+{\footnotesize\ttfamily bool Runner\+::sea\+Combat (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{battlefield }\end{DoxyParamCaption})}
+
+
+
+Executes a sea battle at the given \textquotesingle{}city\textquotesingle{} until concluded. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em battlefield} & The \textquotesingle{}city\textquotesingle{} with the battle taken place \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the combat round needs to repeat 
+
+false if the battle fininshed 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{class_runner_a279b91e29a994cf5f93a1d39edf89307_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Runner.\+h\item 
+Graphics.\+h\item 
+Runner.\+cpp\item 
+Sequence.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,9 @@
+<map id="Runner::disengage" name="Runner::disengage">
+<area shape="rect" id="Node000001" title="When the unit is leaving a battle it can move to one adjacent friendly city." alt="" coords="5,55,136,80"/>
+<area shape="rect" id="Node000002" href="$struct_city.html#a3994937bd3bc9594597271aec1658ae9" title="Adds a unit to this city." alt="" coords="195,5,293,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,51,181,33,182,38,119,57"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a01a979e1788d8f3df965a298b7ec2c78" title="Works as the [] overload for out of scope." alt="" coords="196,55,292,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="136,65,180,65,180,70,136,70"/>
+<area shape="rect" id="Node000004" href="$struct_city.html#a792bdc0db42861f30ba41515746cf867" title="Removes a unit form this city." alt="" coords="184,104,304,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="119,78,182,97,181,102,118,84"/>
+</map>

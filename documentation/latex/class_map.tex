@@ -1,0 +1,335 @@
+\doxysection{Map Class Reference}
+\hypertarget{class_map}{}\label{class_map}\index{Map@{Map}}
+
+
+Collaboration diagram for Map\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{class_map__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_map_afd91fda8a0e0ec2b4070e477d89f587b}{init\+Lists}} (const size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Initalizes the adjacency list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_map_a3313ee9e1dc1bc7e8865ab2c64082ca8}{add\+City}} (\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city)
+\begin{DoxyCompactList}\small\item\em Adds a city pointer to the map and master list. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_map_ae1d96a7ee2becdc089361ea6d1403960}{operator\mbox{[}$\,$\mbox{]}}} (const string target)
+\begin{DoxyCompactList}\small\item\em overloads \mbox{[}\mbox{]} such that the hash map can be accessed from outside the scope \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_map_acc63b666965ca2606df11b94121aadfa}{operator\mbox{[}$\,$\mbox{]}}} (const size\+\_\+t id)
+\begin{DoxyCompactList}\small\item\em Returns the city form the ML at the index (id) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_map_a05500fa50c9527e23c0b976f72063ee8}{connect}} (const size\+\_\+t \&idx1, const size\+\_\+t \&idx2, const Border\+Type border)
+\begin{DoxyCompactList}\small\item\em Connects two cities with the given border and updates adjacncy list. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{class_map_a5c633ad5ef3b388b1d13f43023a22909}{find\+City}} (const string name) const
+\begin{DoxyCompactList}\small\item\em Works as the \mbox{[}\mbox{]} overload for out of scope but gives the ID of the found city. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{get\+City}} (const string name) const
+\begin{DoxyCompactList}\small\item\em Works as the \mbox{[}\mbox{]} overload for out of scope. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_map_a80e0de4a38a3b0a4962bbb0cbd6f0774}{get\+City}} (const size\+\_\+t id) const
+\begin{DoxyCompactList}\small\item\em Get the desiured city by id (works like \mbox{[}\mbox{]} overload) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_map_a825302e61539b3f1ca4c3e271f89bda1}{check\+Connection}} (const string A, const string B)
+\begin{DoxyCompactList}\small\item\em Checks to see if there is a connection between the two named cities. \end{DoxyCompactList}\item 
+const size\+\_\+t \mbox{\hyperlink{class_map_aec078176c2dc99ab8f77753942fdb081}{get\+Num\+City}} () const
+\begin{DoxyCompactList}\small\item\em Get the total number of cities. \end{DoxyCompactList}\item 
+const unordered\+\_\+map$<$ string, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ \& \mbox{\hyperlink{class_map_a63e2c7855bc61a903d6db26c6927a606}{get\+Cities}} () const
+\begin{DoxyCompactList}\small\item\em Get reference to hash map of cities to reduce calls. \end{DoxyCompactList}\item 
+const vector$<$ vector$<$ Border\+Type $>$ $>$ \& \mbox{\hyperlink{class_map_a31afbd5f99cc78254121b203564f557c}{get\+Adjacency}} () const
+\begin{DoxyCompactList}\small\item\em Get the adjacency matrix of cities to reduce calls. \end{DoxyCompactList}\item 
+\Hypertarget{class_map_ae2ca3cf38d86f86a0ac819db71fd3354}\label{class_map_ae2ca3cf38d86f86a0ac819db71fd3354} 
+void {\bfseries print} () const
+\begin{DoxyCompactList}\small\item\em Prints all the cities and stats (not connections) \end{DoxyCompactList}\item 
+\Hypertarget{class_map_a8254a700f6c57fa8a0b3c2e26fc90963}\label{class_map_a8254a700f6c57fa8a0b3c2e26fc90963} 
+void {\bfseries free\+Memory} ()
+\begin{DoxyCompactList}\small\item\em Evokes each city to free memory before clearing the hasmap and masterlist. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_map_a3313ee9e1dc1bc7e8865ab2c64082ca8}\label{class_map_a3313ee9e1dc1bc7e8865ab2c64082ca8} 
+\index{Map@{Map}!addCity@{addCity}}
+\index{addCity@{addCity}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{addCity()}{addCity()}}
+{\footnotesize\ttfamily void Map\+::add\+City (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Adds a city pointer to the map and master list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em city} & The new city \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_map_a3313ee9e1dc1bc7e8865ab2c64082ca8_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_map_a825302e61539b3f1ca4c3e271f89bda1}\label{class_map_a825302e61539b3f1ca4c3e271f89bda1} 
+\index{Map@{Map}!checkConnection@{checkConnection}}
+\index{checkConnection@{checkConnection}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{checkConnection()}{checkConnection()}}
+{\footnotesize\ttfamily bool Map\+::check\+Connection (\begin{DoxyParamCaption}\item[{const string}]{A,  }\item[{const string}]{B }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Checks to see if there is a connection between the two named cities. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Starting \doxylink{struct_city}{City} \\
+\hline
+{\em B} & Ending \doxylink{struct_city}{City} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The cities share a connection 
+
+false The cities don\textquotesingle{}t share a connection 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=307pt]{class_map_a825302e61539b3f1ca4c3e271f89bda1_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_map_a05500fa50c9527e23c0b976f72063ee8}\label{class_map_a05500fa50c9527e23c0b976f72063ee8} 
+\index{Map@{Map}!connect@{connect}}
+\index{connect@{connect}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{connect()}{connect()}}
+{\footnotesize\ttfamily void Map\+::connect (\begin{DoxyParamCaption}\item[{const size\+\_\+t \&}]{idx1,  }\item[{const size\+\_\+t \&}]{idx2,  }\item[{const Border\+Type}]{border }\end{DoxyParamCaption})}
+
+
+
+Connects two cities with the given border and updates adjacncy list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em idx1} & \\
+\hline
+{\em idx2} & \\
+\hline
+{\em border} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_map_a05500fa50c9527e23c0b976f72063ee8_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_map_a5c633ad5ef3b388b1d13f43023a22909}\label{class_map_a5c633ad5ef3b388b1d13f43023a22909} 
+\index{Map@{Map}!findCity@{findCity}}
+\index{findCity@{findCity}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{findCity()}{findCity()}}
+{\footnotesize\ttfamily size\+\_\+t Map\+::find\+City (\begin{DoxyParamCaption}\item[{const string}]{name }\end{DoxyParamCaption}) const}
+
+
+
+Works as the \mbox{[}\mbox{]} overload for out of scope but gives the ID of the found city. 
+
+\begin{DoxySeeAlso}{See also}
+City\texorpdfstring{$\ast$}{*} \doxylink{class_map_ae1d96a7ee2becdc089361ea6d1403960}{operator\mbox{[}$\,$\mbox{]}(const string target)}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & name of the desired city \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size\+\_\+t the Id of the city with \textquotesingle{}name\textquotesingle{} 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_map_a5c633ad5ef3b388b1d13f43023a22909_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_map_a31afbd5f99cc78254121b203564f557c}\label{class_map_a31afbd5f99cc78254121b203564f557c} 
+\index{Map@{Map}!getAdjacency@{getAdjacency}}
+\index{getAdjacency@{getAdjacency}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{getAdjacency()}{getAdjacency()}}
+{\footnotesize\ttfamily const vector$<$ vector$<$ Border\+Type $>$ $>$ \& Map\+::get\+Adjacency (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the adjacency matrix of cities to reduce calls. 
+
+\begin{DoxyReturn}{Returns}
+const vector$<$vector$<$\+Border\+Type$>$$>$\& The adjacency matrix reference 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_map_a31afbd5f99cc78254121b203564f557c_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_map_a63e2c7855bc61a903d6db26c6927a606}\label{class_map_a63e2c7855bc61a903d6db26c6927a606} 
+\index{Map@{Map}!getCities@{getCities}}
+\index{getCities@{getCities}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{getCities()}{getCities()}}
+{\footnotesize\ttfamily const unordered\+\_\+map$<$ string, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ \& Map\+::get\+Cities (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get reference to hash map of cities to reduce calls. 
+
+\begin{DoxyReturn}{Returns}
+const unordered\+\_\+map$<$string, City\texorpdfstring{$\ast$}{*}$>$\& The city hashmap reference 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_map_a63e2c7855bc61a903d6db26c6927a606_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_map_a80e0de4a38a3b0a4962bbb0cbd6f0774}\label{class_map_a80e0de4a38a3b0a4962bbb0cbd6f0774} 
+\index{Map@{Map}!getCity@{getCity}}
+\index{getCity@{getCity}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{getCity()}{getCity()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} Map\+::get\+City (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{id }\end{DoxyParamCaption}) const}
+
+
+
+Get the desiured city by id (works like \mbox{[}\mbox{]} overload) 
+
+\begin{DoxySeeAlso}{See also}
+City\texorpdfstring{$\ast$}{*} \doxylink{class_map_acc63b666965ca2606df11b94121aadfa}{operator\mbox{[}$\,$\mbox{]}(const size\+\_\+t id)}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em id} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+City\texorpdfstring{$\ast$}{*} 
+\end{DoxyReturn}
+\Hypertarget{class_map_a01a979e1788d8f3df965a298b7ec2c78}\label{class_map_a01a979e1788d8f3df965a298b7ec2c78} 
+\index{Map@{Map}!getCity@{getCity}}
+\index{getCity@{getCity}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{getCity()}{getCity()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} Map\+::get\+City (\begin{DoxyParamCaption}\item[{const string}]{name }\end{DoxyParamCaption}) const}
+
+
+
+Works as the \mbox{[}\mbox{]} overload for out of scope. 
+
+\begin{DoxySeeAlso}{See also}
+City\texorpdfstring{$\ast$}{*} \doxylink{class_map_ae1d96a7ee2becdc089361ea6d1403960}{operator\mbox{[}$\,$\mbox{]}(const string target)}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & name of the desired city \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+City\texorpdfstring{$\ast$}{*} The desired city obj 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=286pt]{class_map_a01a979e1788d8f3df965a298b7ec2c78_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_map_aec078176c2dc99ab8f77753942fdb081}\label{class_map_aec078176c2dc99ab8f77753942fdb081} 
+\index{Map@{Map}!getNumCity@{getNumCity}}
+\index{getNumCity@{getNumCity}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{getNumCity()}{getNumCity()}}
+{\footnotesize\ttfamily const size\+\_\+t Map\+::get\+Num\+City (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the total number of cities. 
+
+\begin{DoxyReturn}{Returns}
+const size\+\_\+t The total number of cities (shouldn\textquotesingle{}t change after initalization) 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=303pt]{class_map_aec078176c2dc99ab8f77753942fdb081_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_map_afd91fda8a0e0ec2b4070e477d89f587b}\label{class_map_afd91fda8a0e0ec2b4070e477d89f587b} 
+\index{Map@{Map}!initLists@{initLists}}
+\index{initLists@{initLists}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{initLists()}{initLists()}}
+{\footnotesize\ttfamily void Map\+::init\+Lists (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Initalizes the adjacency list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & The amount of cities and ultimate the side length of it \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_map_afd91fda8a0e0ec2b4070e477d89f587b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_map_acc63b666965ca2606df11b94121aadfa}\label{class_map_acc63b666965ca2606df11b94121aadfa} 
+\index{Map@{Map}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} Map\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the city form the ML at the index (id) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The id of the target city \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+City\texorpdfstring{$\ast$}{*} The city with the given id 
+\end{DoxyReturn}
+\Hypertarget{class_map_ae1d96a7ee2becdc089361ea6d1403960}\label{class_map_ae1d96a7ee2becdc089361ea6d1403960} 
+\index{Map@{Map}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} Map\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const string}]{target }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+overloads \mbox{[}\mbox{]} such that the hash map can be accessed from outside the scope 
+
+
+\begin{DoxyParams}{Parameters}
+{\em target} & The name of the city that acts as the key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+City\texorpdfstring{$\ast$}{*} The city with the given name 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Map.\+h\item 
+Map.\+cpp\end{DoxyCompactItemize}

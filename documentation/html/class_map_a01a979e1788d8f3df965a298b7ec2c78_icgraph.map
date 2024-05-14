@@ -1,0 +1,7 @@
+<map id="Map::getCity" name="Map::getCity">
+<area shape="rect" id="Node000001" title="Works as the [] overload for out of scope." alt="" coords="184,31,280,56"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a6b86ea8f00eff661c9e5b5b32eb9a160" title="Checks if that unit is able to move into that city." alt="" coords="8,5,133,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,36,133,31,134,25,169,31"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a38a4e7be3c09505c6d0335872615a4cb" title="When the unit is leaving a battle it can move to one adjacent friendly city." alt="" coords="5,55,136,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,56,137,60,136,55,168,50"/>
+</map>

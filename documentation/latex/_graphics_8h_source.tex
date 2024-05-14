@@ -1,0 +1,776 @@
+\doxysection{Graphics.\+h}
+\hypertarget{_graphics_8h_source}{}\label{_graphics_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}Runner.h"{}}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ Game\ Object}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{//SDL\ Routines}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keywordtype}{bool}\ Runner::InitSDL()\{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_Init(SDL\_INIT\_EVERYTHING)\ >\ 0)\{}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}SDL\_Init\ failed\ with\ error:\ "{}}\ <<\ SDL\_GetError()\ <<\ endl;}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00011\ \ \ \ \ \}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00014\ \}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{//Graphics\ Routine}}
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{void}\ Runner::ClearScreen()\{}
+\DoxyCodeLine{00018\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 216,\ 216,\ 216,\ 255);}
+\DoxyCodeLine{00019\ \ \ \ \ SDL\_RenderClear(app.renderer);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keywordtype}{void}\ Runner::DrawCity(\mbox{\hyperlink{struct_city}{City}}*\ city)\{}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{comment}{//FORTRESS,\ AIR,\ CARRIER,\ SUB,\ FLEET,\ TANK,\ INFANTRY,\ CONVOY}}
+\DoxyCodeLine{00025\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ target.x\ =\ city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}};}
+\DoxyCodeLine{00028\ \ \ \ \ target.y\ =\ city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}};}
+\DoxyCodeLine{00029\ \ \ \ \ target.h\ =\ city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}};}
+\DoxyCodeLine{00030\ \ \ \ \ target.w\ =\ city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ city-\/>color[0],\ city-\/>color[1],\ city-\/>color[2],\ 255);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{comment}{//Draw\ all\ the\ units\ in\ there}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{float}\ scale\ =\ 5;}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{int}\ offset\ =\ city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}};}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ unit\ :city-\/>occupants[0])\{\ \textcolor{comment}{//west}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ (this-\/>*draw[unit-\/>unit\_type])(unit,\ city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}},\ city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+offset,\ scale);}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ offset\ +=\ 5*scale;}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ offset\ =\ city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}};}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ unit\ :city-\/>occupants[1])\{\ \textcolor{comment}{//axis}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ (this-\/>*draw[unit-\/>unit\_type])(unit,\ city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+6*scale,\ city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+offset,\ scale);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ offset\ +=\ 5*scale;}
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ offset\ =\ city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}};}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ unit\ :city-\/>occupants[2])\{\ \textcolor{comment}{//ussr}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ (this-\/>*draw[unit-\/>unit\_type])(unit,\ city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+12*scale,\ city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+offset,\ scale);}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ offset\ +=\ 5*scale;}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ offset\ =\ city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}};}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ unit\ :city-\/>occupants[3])\{\ \textcolor{comment}{//neutral}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ (this-\/>*draw[unit-\/>unit\_type])(unit,\ city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+18*scale,\ city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+offset,\ scale);}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ offset\ +=\ 5*scale;}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{keywordtype}{void}\ Runner::DrawConnections()\{}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{auto}\&\ map\ =\ getMap();}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{auto}\&\ adjacency\ =\ getMap().\mbox{\hyperlink{class_map_a31afbd5f99cc78254121b203564f557c}{getAdjacency}}();}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ city=0;\ city\ <\ adjacency.size();\ city++)\{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ border=0;\ border\ <\ adjacency.size();\ border++)\{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (adjacency[city][border]\ ==\ 0)\ \textcolor{comment}{//no\ connection}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ temp\ =\ adjacency[city][border];}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ BORDER\_COLOR[temp][0],\ BORDER\_COLOR[temp][1],\ BORDER\_COLOR[temp][2],\ 255);}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ start\_city\ =\ map.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(city);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ end\_city\ =\ map.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(border);}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderDrawLine(app.renderer,\ start\_city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}\ +\ start\_city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}/2,\ start\_city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+\ start\_city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}/2,\ end\_city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+\ end\_city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}/2,\ end\_city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+\ end\_city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}/2);}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{comment}{//\ Application\ Routine}}
+\DoxyCodeLine{00083\ \textcolor{keywordtype}{void}\ Runner::ShutdownApplication()\{}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (app.window\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ SDL\_DestroyWindow(app.window);}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ app.window\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00087\ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{if}\ (app.renderer\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ SDL\_DestroyRenderer(app.renderer);}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ app.renderer\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00092\ \ \ \ \ \}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ SDL\_Quit();}
+\DoxyCodeLine{00095\ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{keywordtype}{bool}\ Runner::InitApplication()\{}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{if}\ (InitSDL()\ ==\ \textcolor{keyword}{false})\{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ ShutdownApplication();}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00101\ \ \ \ \ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ app.window\ =\ SDL\_CreateWindow(}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SDL\ Create\ Window\ (Triumph\ And\ Tragedy)"{}},}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ app.screen.WIDTH,}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ app.screen.HEIGHT,\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ SDL\_WINDOW\_OPENGL}
+\DoxyCodeLine{00111\ \ \ \ \ );}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordflow}{if}\ (app.window\ ==\ \textcolor{keyword}{nullptr})\{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Unable\ to\ create\ window.\ Error:\ "{}}<<\ SDL\_GetError()\ <<\ endl;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ ShutdownApplication();}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00117\ \ \ \ \ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ app.renderer\ =\ SDL\_CreateRenderer(app.window,\ -\/1,\ SDL\_RENDERER\_PRESENTVSYNC);}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00122\ \}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{comment}{//\&\ Drawing\ units}}
+\DoxyCodeLine{00125\ \textcolor{keywordtype}{void}\ Runner::drawFortress(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ base\ square}}
+\DoxyCodeLine{00127\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
+\DoxyCodeLine{00128\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00129\ \ \ \ \ target.h\ =\ (int)(5*scale);}
+\DoxyCodeLine{00130\ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00131\ \ \ \ \ target.x\ =\ (float)x;}
+\DoxyCodeLine{00132\ \ \ \ \ target.y\ =\ (float)y;}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ inner\ rect}}
+\DoxyCodeLine{00137\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ target.h\ =\ (int)(3*scale);}
+\DoxyCodeLine{00140\ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00141\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00142\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 70,\ 68,\ 62,\ 255);}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+0*scale;}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00156\ \ \ \ \ \}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+0*scale;}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00165\ \ \ \ \ \}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+4*scale;}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00174\ \ \ \ \ \}}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+4*scale;}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00183\ \ \ \ \ \}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \}}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \textcolor{keywordtype}{void}\ Runner::drawAir(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ long\ cross\ sectinon}}
+\DoxyCodeLine{00190\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
+\DoxyCodeLine{00191\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00192\ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00193\ \ \ \ \ target.w\ =\ 5*scale;}
+\DoxyCodeLine{00194\ \ \ \ \ target.x\ =\ (float)x;}
+\DoxyCodeLine{00195\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00196\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ mid\ section}}
+\DoxyCodeLine{00199\ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00200\ \ \ \ \ target.w\ =\ 3*scale;}
+\DoxyCodeLine{00201\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00202\ \ \ \ \ target.y\ =\ (float)y+2*scale;}
+\DoxyCodeLine{00203\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ vertical\ bar}}
+\DoxyCodeLine{00206\ \ \ \ \ target.h\ =\ 5*scale;}
+\DoxyCodeLine{00207\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00208\ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00209\ \ \ \ \ target.y\ =\ (float)y+0*scale;}
+\DoxyCodeLine{00210\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00211\ \ \ \ \ }
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00221\ \ \ \ \ \}}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00230\ \ \ \ \ \}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00239\ \ \ \ \ \}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00248\ \ \ \ \ \}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \}}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ \textcolor{keywordtype}{void}\ Runner::drawCarrier(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ first\ long\ cross\ section}}
+\DoxyCodeLine{00254\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
+\DoxyCodeLine{00255\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00256\ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00257\ \ \ \ \ target.w\ =\ 5*scale;}
+\DoxyCodeLine{00258\ \ \ \ \ target.x\ =\ (float)x;}
+\DoxyCodeLine{00259\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00260\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ second\ long\ cross\ section}}
+\DoxyCodeLine{00263\ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00264\ \ \ \ \ target.w\ =\ 5*scale;}
+\DoxyCodeLine{00265\ \ \ \ \ target.x\ =\ (float)x;}
+\DoxyCodeLine{00266\ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00267\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ bar\ going\ down}}
+\DoxyCodeLine{00270\ \ \ \ \ target.h\ =\ 4*scale;}
+\DoxyCodeLine{00271\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00272\ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00273\ \ \ \ \ target.y\ =\ (float)y+0;}
+\DoxyCodeLine{00274\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ the\ two\ little\ bits\ at\ the\ bottem}}
+\DoxyCodeLine{00278\ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00279\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00280\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00281\ \ \ \ \ target.y\ =\ (float)y+4*scale;}
+\DoxyCodeLine{00282\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00285\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00286\ \ \ \ \ target.x\ =\ (float)x+3*scale;}
+\DoxyCodeLine{00287\ \ \ \ \ target.y\ =\ (float)y+4*scale;}
+\DoxyCodeLine{00288\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
+\DoxyCodeLine{00291\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00298\ \ \ \ \ \}}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00300\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00307\ \ \ \ \ \}}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00316\ \ \ \ \ \}}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00325\ \ \ \ \ \}}
+\DoxyCodeLine{00326\ \}}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \textcolor{keywordtype}{void}\ Runner::drawSub(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00329\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ bottom\ left}}
+\DoxyCodeLine{00330\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
+\DoxyCodeLine{00331\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00332\ \ \ \ \ target.h\ =\ 2*scale;}
+\DoxyCodeLine{00333\ \ \ \ \ target.w\ =\ 3*scale;}
+\DoxyCodeLine{00334\ \ \ \ \ target.x\ =\ (float)x;}
+\DoxyCodeLine{00335\ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00336\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ middle\ section}}
+\DoxyCodeLine{00339\ \ \ \ \ target.h\ =\ 2*scale;}
+\DoxyCodeLine{00340\ \ \ \ \ target.w\ =\ 2*scale;}
+\DoxyCodeLine{00341\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00342\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00343\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ top\ right}}
+\DoxyCodeLine{00346\ \ \ \ \ target.h\ =\ 3*scale;}
+\DoxyCodeLine{00347\ \ \ \ \ target.w\ =\ 2*scale;}
+\DoxyCodeLine{00348\ \ \ \ \ target.x\ =\ (float)x+3*scale;}
+\DoxyCodeLine{00349\ \ \ \ \ target.y\ =\ (float)y+0;}
+\DoxyCodeLine{00350\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00351\ }
+\DoxyCodeLine{00352\ }
+\DoxyCodeLine{00353\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ the\ two\ little\ bits\ at\ the\ bottem}}
+\DoxyCodeLine{00354\ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00355\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00356\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00357\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00358\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00361\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00362\ \ \ \ \ target.x\ =\ (float)x+4*scale;}
+\DoxyCodeLine{00363\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00364\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00366\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
+\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00374\ \ \ \ \ \}}
+\DoxyCodeLine{00375\ }
+\DoxyCodeLine{00376\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00383\ \ \ \ \ \}}
+\DoxyCodeLine{00384\ }
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00392\ \ \ \ \ \}}
+\DoxyCodeLine{00393\ }
+\DoxyCodeLine{00394\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00401\ \ \ \ \ \}}
+\DoxyCodeLine{00402\ \}}
+\DoxyCodeLine{00403\ }
+\DoxyCodeLine{00404\ \textcolor{keywordtype}{void}\ Runner::drawFleet(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ first\ long\ cross\ section}}
+\DoxyCodeLine{00406\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
+\DoxyCodeLine{00407\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00408\ \ \ \ \ target.h\ =\ 5*scale;}
+\DoxyCodeLine{00409\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00410\ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00411\ \ \ \ \ target.y\ =\ (float)y;}
+\DoxyCodeLine{00412\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00413\ }
+\DoxyCodeLine{00414\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ second\ long\ cross\ section}}
+\DoxyCodeLine{00415\ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00416\ \ \ \ \ target.w\ =\ 5*scale;}
+\DoxyCodeLine{00417\ \ \ \ \ target.x\ =\ (float)x;}
+\DoxyCodeLine{00418\ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00419\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00420\ }
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ bar\ going\ down}}
+\DoxyCodeLine{00422\ \ \ \ \ target.h\ =\ 5*scale;}
+\DoxyCodeLine{00423\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00424\ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00425\ \ \ \ \ target.y\ =\ (float)y+0;}
+\DoxyCodeLine{00426\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00427\ }
+\DoxyCodeLine{00428\ }
+\DoxyCodeLine{00429\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ the\ two\ little\ bits\ at\ the\ bottem}}
+\DoxyCodeLine{00430\ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00431\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00432\ \ \ \ \ target.x\ =\ (float)x+0*scale;}
+\DoxyCodeLine{00433\ \ \ \ \ target.y\ =\ (float)y+4*scale;}
+\DoxyCodeLine{00434\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00435\ }
+\DoxyCodeLine{00436\ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00437\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00438\ \ \ \ \ target.x\ =\ (float)x+4*scale;}
+\DoxyCodeLine{00439\ \ \ \ \ target.y\ =\ (float)y+4*scale;}
+\DoxyCodeLine{00440\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00442\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
+\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00450\ \ \ \ \ \}}
+\DoxyCodeLine{00451\ }
+\DoxyCodeLine{00452\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+0*scale;}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00459\ \ \ \ \ \}}
+\DoxyCodeLine{00460\ }
+\DoxyCodeLine{00461\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00468\ \ \ \ \ \}}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00470\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+4*scale;}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00477\ \ \ \ \ \}}
+\DoxyCodeLine{00478\ \}}
+\DoxyCodeLine{00479\ }
+\DoxyCodeLine{00480\ \textcolor{keywordtype}{void}\ Runner::drawTank(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00481\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ main\ rectangles}}
+\DoxyCodeLine{00482\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
+\DoxyCodeLine{00483\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00484\ \ \ \ \ target.h\ =\ (int)(5*scale);}
+\DoxyCodeLine{00485\ \ \ \ \ target.w\ =\ (int)(3*scale);}
+\DoxyCodeLine{00486\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00487\ \ \ \ \ target.y\ =\ (float)y;}
+\DoxyCodeLine{00488\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00489\ }
+\DoxyCodeLine{00490\ \ \ \ \ target.h\ =\ (int)(3*scale);}
+\DoxyCodeLine{00491\ \ \ \ \ target.w\ =\ (int)(5*scale);}
+\DoxyCodeLine{00492\ \ \ \ \ target.x\ =\ (float)x;}
+\DoxyCodeLine{00493\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00494\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00495\ }
+\DoxyCodeLine{00496\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
+\DoxyCodeLine{00497\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00504\ \ \ \ \ \}}
+\DoxyCodeLine{00505\ }
+\DoxyCodeLine{00506\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00513\ \ \ \ \ \}}
+\DoxyCodeLine{00514\ }
+\DoxyCodeLine{00515\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00522\ \ \ \ \ \}}
+\DoxyCodeLine{00523\ }
+\DoxyCodeLine{00524\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00531\ \ \ \ \ \}}
+\DoxyCodeLine{00532\ }
+\DoxyCodeLine{00533\ \}}
+\DoxyCodeLine{00534\ }
+\DoxyCodeLine{00535\ \textcolor{keywordtype}{void}\ Runner::drawInfantry(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00536\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ the\ 4\ spikes}}
+\DoxyCodeLine{00537\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
+\DoxyCodeLine{00538\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00539\ \ \ \ \ target.h\ =\ 2*scale;}
+\DoxyCodeLine{00540\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00541\ \ \ \ \ target.x\ =\ (float)x;}
+\DoxyCodeLine{00542\ \ \ \ \ target.y\ =\ (float)y;}
+\DoxyCodeLine{00543\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00544\ }
+\DoxyCodeLine{00545\ \ \ \ \ target.h\ =\ 2*scale;}
+\DoxyCodeLine{00546\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00547\ \ \ \ \ target.x\ =\ (float)x+4*scale;}
+\DoxyCodeLine{00548\ \ \ \ \ target.y\ =\ (float)y;}
+\DoxyCodeLine{00549\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00550\ }
+\DoxyCodeLine{00551\ \ \ \ \ target.h\ =\ 2*scale;}
+\DoxyCodeLine{00552\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00553\ \ \ \ \ target.x\ =\ (float)x;}
+\DoxyCodeLine{00554\ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00555\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00556\ }
+\DoxyCodeLine{00557\ \ \ \ \ target.h\ =\ 2*scale;}
+\DoxyCodeLine{00558\ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00559\ \ \ \ \ target.x\ =\ (float)x+4*scale;}
+\DoxyCodeLine{00560\ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00561\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00562\ }
+\DoxyCodeLine{00563\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ middle\ section}}
+\DoxyCodeLine{00564\ \ \ \ \ target.h\ =\ 3*scale;}
+\DoxyCodeLine{00565\ \ \ \ \ target.w\ =\ 3*scale;}
+\DoxyCodeLine{00566\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00567\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00568\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00569\ }
+\DoxyCodeLine{00570\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
+\DoxyCodeLine{00571\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00578\ \ \ \ \ \}}
+\DoxyCodeLine{00579\ }
+\DoxyCodeLine{00580\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00587\ \ \ \ \ \}}
+\DoxyCodeLine{00588\ }
+\DoxyCodeLine{00589\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00596\ \ \ \ \ \}}
+\DoxyCodeLine{00597\ }
+\DoxyCodeLine{00598\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00605\ \ \ \ \ \}}
+\DoxyCodeLine{00606\ \}}
+\DoxyCodeLine{00607\ }
+\DoxyCodeLine{00608\ \textcolor{keywordtype}{void}\ Runner::drawConvoy(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00609\ }
+\DoxyCodeLine{00610\ \}}
+\DoxyCodeLine{00611\ }
+\DoxyCodeLine{00612\ }
+\DoxyCodeLine{00613\ }
+\DoxyCodeLine{00614\ \textcolor{keywordtype}{void}\ Runner::DrawTimeTrack()\{}
+\DoxyCodeLine{00615\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ Outline}}
+\DoxyCodeLine{00616\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00617\ }
+\DoxyCodeLine{00618\ \ \ \ \ target.h\ =\ 155;}
+\DoxyCodeLine{00619\ \ \ \ \ target.w\ =\ 145*1.5;}
+\DoxyCodeLine{00620\ \ \ \ \ target.x\ =\ 0;}
+\DoxyCodeLine{00621\ \ \ \ \ target.y\ =\ app.screen.HEIGHT\ -\/\ 150*1.5+5;}
+\DoxyCodeLine{00622\ }
+\DoxyCodeLine{00623\ \ \ \ \ \textcolor{comment}{//outer\ box}}
+\DoxyCodeLine{00624\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255);}
+\DoxyCodeLine{00625\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00626\ }
+\DoxyCodeLine{00627\ \ \ \ \ target.h\ =\ 150;}
+\DoxyCodeLine{00628\ \ \ \ \ target.w\ =\ 140*1.5;}
+\DoxyCodeLine{00629\ \ \ \ \ target.x\ =\ 0;}
+\DoxyCodeLine{00630\ \ \ \ \ target.y\ =\ app.screen.HEIGHT\ -\/\ target.h*1.5+10;}
+\DoxyCodeLine{00631\ \ \ \ \ \textcolor{keyword}{auto}\ dot\_start\ =\ app.screen.HEIGHT\ -\/\ target.h*1.5+10;}
+\DoxyCodeLine{00632\ }
+\DoxyCodeLine{00633\ \ \ \ \ \textcolor{comment}{//inner\ box}}
+\DoxyCodeLine{00634\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 125,\ 125,\ 125,\ 255);}
+\DoxyCodeLine{00635\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00636\ }
+\DoxyCodeLine{00637\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ dash\ line}}
+\DoxyCodeLine{00638\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255);}
+\DoxyCodeLine{00639\ \ \ \ \ target.h\ =\ 5;}
+\DoxyCodeLine{00640\ \ \ \ \ target.w\ =\ 18;}
+\DoxyCodeLine{00641\ \ \ \ \ target.x\ =\ 0;}
+\DoxyCodeLine{00642\ \ \ \ \ target.y\ =\ app.screen.HEIGHT\ -\/\ 2*5*14;}
+\DoxyCodeLine{00643\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ 5;\ i++)\{}
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ target.x\ +=\ 5;}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ target.x\ +=\ 23;}
+\DoxyCodeLine{00647\ \ \ \ \ \}}
+\DoxyCodeLine{00648\ }
+\DoxyCodeLine{00649\ \ \ \ \ target.h\ =\ 25;}
+\DoxyCodeLine{00650\ \ \ \ \ target.w\ =\ 5;}
+\DoxyCodeLine{00651\ \ \ \ \ target.x\ =\ 5*7*4;}
+\DoxyCodeLine{00652\ \ \ \ \ target.y\ =\ dot\_start-\/5;}
+\DoxyCodeLine{00653\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ 5;\ i++)\{}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ target.y\ +=\ 7;}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ target.y\ +=\ 25;}
+\DoxyCodeLine{00657\ \ \ \ \ \}}
+\DoxyCodeLine{00658\ }
+\DoxyCodeLine{00659\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ Start\ Year}}
+\DoxyCodeLine{00660\ \ \ \ \ drawNumber(year,\ 0,\ app.screen.HEIGHT\ -\/\ 3*5*14,\ 5);}
+\DoxyCodeLine{00661\ }
+\DoxyCodeLine{00662\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ End\ Year}}
+\DoxyCodeLine{00663\ \ \ \ \ drawNumber(end\_year,\ 0,\ app.screen.HEIGHT\ -\/\ 2*5*13,\ 5);}
+\DoxyCodeLine{00664\ }
+\DoxyCodeLine{00665\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ American\ Flag\ from\ 1941\ to\ 1944}}
+\DoxyCodeLine{00666\ \ \ \ \ \textcolor{keywordflow}{if}\ (year\ >=\ 1941\ \&\&\ year\ <=\ 1944)\{}
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 255,\ 255);}
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ target.h\ =\ 120;}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ target.w\ =\ 50;}
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ target.x\ =\ 153;}
+\DoxyCodeLine{00671\ \ \ \ \ \ \ \ \ target.y\ =\ dot\_start+10;}
+\DoxyCodeLine{00672\ }
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00674\ }
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 5;\ i++)\{}
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 80;}
+\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5;}
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ dot\_start+50;}
+\DoxyCodeLine{00680\ }
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00682\ }
+\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ +=\ 5;}
+\DoxyCodeLine{00684\ }
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 0,\ 0,\ 255);}
+\DoxyCodeLine{00686\ }
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00688\ }
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ +=\ 5;}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00691\ }
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ what\ level\ the\ US\ is\ at}}
+\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ drawNumber(year-\/1941,\ 153+5*5,\ dot\_start+15,\ 2.5,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00695\ \ \ \ \ \}}
+\DoxyCodeLine{00696\ \}}
+\DoxyCodeLine{00697\ }
+\DoxyCodeLine{00698\ \textcolor{keywordtype}{void}\ Runner::drawNumber(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ num,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale,\ \textcolor{keyword}{const}\ uint8\_t\ r,\ \textcolor{keyword}{const}\ uint8\_t\ g,\ \textcolor{keyword}{const}\ uint8\_t\ b)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00699\ \ \ \ \ \textcolor{keywordtype}{int}\ digits\ =\ 0;}
+\DoxyCodeLine{00700\ \ \ \ \ \textcolor{keyword}{auto}\ copy\ =\ num;}
+\DoxyCodeLine{00701\ \ \ \ \ \textcolor{keywordflow}{while}\ (copy)\ \{}
+\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ copy\ /=\ 10;}
+\DoxyCodeLine{00703\ \ \ \ \ \ \ \ \ digits++;}
+\DoxyCodeLine{00704\ \ \ \ \ \}}
+\DoxyCodeLine{00705\ \ \ \ \ \textcolor{keywordflow}{if}\ \ (num\ ==\ 0)}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ \ \ digits\ =\ 1;}
+\DoxyCodeLine{00707\ }
+\DoxyCodeLine{00708\ \ \ \ \ \textcolor{keywordtype}{int}\ offset\ =\ -\/(7*scale)/2;}
+\DoxyCodeLine{00709\ \ \ \ \ copy\ =\ num;}
+\DoxyCodeLine{00710\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 1;\ i\ <=\ digits;\ i++,\ offset\ +=\ 8*scale)\{}
+\DoxyCodeLine{00711\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ f\ =\ pow(10,\ digits-\/1);}
+\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ digit\ =\ copy/f;}
+\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ copy\ -\/=\ digit\ *\ f;}
+\DoxyCodeLine{00714\ \ \ \ \ \ \ \ \ copy\ *=\ 10;}
+\DoxyCodeLine{00715\ }
+\DoxyCodeLine{00716\ \ \ \ \ \ \ \ \ (num\ ==\ end\_year)?\ \ SDL\_SetRenderDrawColor(app.renderer,\ 248,\ 194,\ 46,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ r,\ g,\ b,\ 255);}
+\DoxyCodeLine{00717\ }
+\DoxyCodeLine{00718\ \ \ \ \ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][0])\{\ \textcolor{comment}{//A}}
+\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00721\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5*scale;}
+\DoxyCodeLine{00722\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+1*scale+offset;}
+\DoxyCodeLine{00723\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y;}
+\DoxyCodeLine{00724\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00725\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00726\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][1])\{\ \textcolor{comment}{//B}}
+\DoxyCodeLine{00727\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
+\DoxyCodeLine{00728\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+6*scale+offset;}
+\DoxyCodeLine{00730\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+1*scale;}
+\DoxyCodeLine{00731\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00732\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00733\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][2])\{\ \textcolor{comment}{//C}}
+\DoxyCodeLine{00734\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
+\DoxyCodeLine{00735\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00736\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+6*scale+offset;}
+\DoxyCodeLine{00737\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+7*scale;}
+\DoxyCodeLine{00738\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00739\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00740\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][3])\{\ \textcolor{comment}{//D}}
+\DoxyCodeLine{00741\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00742\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5*scale;}
+\DoxyCodeLine{00743\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+1*scale+offset;}
+\DoxyCodeLine{00744\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+12*scale;}
+\DoxyCodeLine{00745\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00746\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00747\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][4])\{\ \textcolor{comment}{//E}}
+\DoxyCodeLine{00748\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
+\DoxyCodeLine{00749\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00750\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+0*scale+offset;}
+\DoxyCodeLine{00751\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+7*scale;}
+\DoxyCodeLine{00752\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00753\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00754\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][5])\{\ \textcolor{comment}{//F}}
+\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
+\DoxyCodeLine{00756\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00757\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+0*scale+offset;}
+\DoxyCodeLine{00758\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+1*scale;}
+\DoxyCodeLine{00759\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00760\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00761\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][6])\{\ \textcolor{comment}{//G}}
+\DoxyCodeLine{00762\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00763\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5*scale;}
+\DoxyCodeLine{00764\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+1*scale+offset;}
+\DoxyCodeLine{00765\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+6*scale;}
+\DoxyCodeLine{00766\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00767\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00768\ \ \ \ \ \}}
+\DoxyCodeLine{00769\ }
+\DoxyCodeLine{00770\ }
+\DoxyCodeLine{00771\ \}}
+
+\end{DoxyCode}

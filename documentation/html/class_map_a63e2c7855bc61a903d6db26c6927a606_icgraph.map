@@ -1,0 +1,13 @@
+<map id="Map::getCities" name="Map::getCities">
+<area shape="rect" id="Node000001" title="Get reference to hash map of cities to reduce calls." alt="" coords="387,55,493,80"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#ae3c41783620e8a41af4f38417ebf2951" title="Check which cities have a current battle happening." alt="" coords="207,5,338,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="379,52,318,34,320,29,380,47"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a7da49e43690943e7040d405588d0b793" title="Goes over the players holdings over the map and sums up their pop, res, CV." alt="" coords="206,55,339,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="371,70,340,70,340,65,371,65"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title=" " alt="" coords="228,104,317,130"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="380,88,318,106,317,101,379,83"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a184367c79c742005f743ad1cfca05b2a" title="Executes the current players combat rounds." alt="" coords="5,5,158,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="192,21,158,21,158,16,192,16"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a0de74fe5b4c57efd12b6f361e134dadb" title="Construct a new Runner object that intializes the map and players." alt="" coords="25,55,138,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="190,70,138,70,138,65,190,65"/>
+</map>

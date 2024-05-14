@@ -1,0 +1,19 @@
+<map id="Runner::Runner" name="Runner::Runner">
+<area shape="rect" id="Node000001" title="Construct a new Runner object that intializes the map and players." alt="" coords="5,179,119,204"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#aefd29fbf6627aaf0c89c46b2fe55ea22" title="Creates the game map including nations and cities and connections." alt="" coords="177,129,290,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,175,171,157,172,162,110,181"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a7da49e43690943e7040d405588d0b793" title="Goes over the players holdings over the map and sums up their pop, res, CV." alt="" coords="167,203,300,228"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="119,197,152,201,151,207,119,202"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a3313ee9e1dc1bc7e8865ab2c64082ca8" title="Adds a city pointer to the map and master list." alt="" coords="352,5,451,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="245,127,288,86,346,40,352,36,355,41,350,44,292,90,249,131"/>
+<area shape="rect" id="Node000004" href="$class_map.html#a05500fa50c9527e23c0b976f72063ee8" title="Connects two cities with the given border and updates adjacncy list." alt="" coords="351,55,451,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="263,126,355,85,357,90,265,131"/>
+<area shape="rect" id="Node000005" href="$class_map.html#a5c633ad5ef3b388b1d13f43023a22909" title="Works as the [] overload for out of scope but gives the ID of the found city." alt="" coords="352,104,451,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="290,131,336,124,337,129,291,136"/>
+<area shape="rect" id="Node000006" href="$class_map.html#afd91fda8a0e0ec2b4070e477d89f587b" title="Initalizes the adjacency list." alt="" coords="352,153,451,179"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="291,148,337,154,336,160,290,153"/>
+<area shape="rect" id="Node000007" href="$class_map.html#ae2ca3cf38d86f86a0ac819db71fd3354" title="Prints all the cities and stats (not connections)" alt="" coords="362,203,441,228"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="266,153,357,194,355,198,264,158"/>
+<area shape="rect" id="Node000009" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Get reference to hash map of cities to reduce calls." alt="" coords="348,252,454,278"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="281,226,341,245,340,250,279,232"/>
+</map>

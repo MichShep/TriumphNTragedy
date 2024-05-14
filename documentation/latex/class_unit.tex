@@ -1,0 +1,130 @@
+\doxysection{Unit Class Reference}
+\hypertarget{class_unit}{}\label{class_unit}\index{Unit@{Unit}}
+
+
+Collaboration diagram for Unit\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=182pt]{class_unit__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_unit_a98919a643401f3277e96958a117d27e5}{Unit}} (const size\+\_\+t \mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}}, Unit\+Country \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}, Unit\+Type \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\+\_\+type}})
+\item 
+\Hypertarget{class_unit_a72af7adca063bf801eb1f16088c9a127}\label{class_unit_a72af7adca063bf801eb1f16088c9a127} 
+{\bfseries Unit} (const City\+Type \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}, const Unit\+Class \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\+\_\+type}}, const Unit\+Type \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\+\_\+type}}, const size\+\_\+t \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\+\_\+value}}, const size\+\_\+t \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}, const bool \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}, const bool \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}})
+\item 
+\Hypertarget{class_unit_a4bb9013a7375ea641def03705d2bb58f}\label{class_unit_a4bb9013a7375ea641def03705d2bb58f} 
+void {\bfseries set\+Movement} (const size\+\_\+t mov)
+\item 
+\Hypertarget{class_unit_ae00d9e82c3260903f2f5a9d67e93dbc4}\label{class_unit_ae00d9e82c3260903f2f5a9d67e93dbc4} 
+void {\bfseries print} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}}
+\item 
+City\+Type \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}
+\item 
+Unit\+Country \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}
+\item 
+Unit\+Class \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\+\_\+type}}
+\item 
+Unit\+Type \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\+\_\+type}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\+\_\+value}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\+\_\+combat\+\_\+value}}
+\item 
+size\+\_\+t \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}
+\item 
+bool \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}
+\item 
+size\+\_\+t \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}
+\item 
+\Hypertarget{class_unit_ad8dc3c6ca01813ee3924f0f3381fc05f}\label{class_unit_ad8dc3c6ca01813ee3924f0f3381fc05f} 
+bool {\bfseries convoy}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_unit_a98919a643401f3277e96958a117d27e5}\label{class_unit_a98919a643401f3277e96958a117d27e5} 
+\index{Unit@{Unit}!Unit@{Unit}}
+\index{Unit@{Unit}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{Unit()}{Unit()}}
+{\footnotesize\ttfamily Unit\+::\+Unit (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{id,  }\item[{Unit\+Country}]{nationality,  }\item[{Unit\+Type}]{unit\+\_\+type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+If the ground unit is a convoy its an infantry in the water and can\textquotesingle{}t attack 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_unit_af6ab0a5472e0d167c04a7813ade4f175}\label{class_unit_af6ab0a5472e0d167c04a7813ade4f175} 
+\index{Unit@{Unit}!allegiance@{allegiance}}
+\index{allegiance@{allegiance}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{allegiance}{allegiance}}
+{\footnotesize\ttfamily City\+Type Unit\+::allegiance}
+
+Which power the unit belongs to (West, Axis, USSR, Neutral) \Hypertarget{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}\label{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334} 
+\index{Unit@{Unit}!class\_type@{class\_type}}
+\index{class\_type@{class\_type}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{class\_type}{class\_type}}
+{\footnotesize\ttfamily Unit\+Class Unit\+::class\+\_\+type}
+
+Which class the unit is in that is mostly just for movement and Re\+Base \Hypertarget{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}\label{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce} 
+\index{Unit@{Unit}!combat\_value@{combat\_value}}
+\index{combat\_value@{combat\_value}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{combat\_value}{combat\_value}}
+{\footnotesize\ttfamily uint8\+\_\+t Unit\+::combat\+\_\+value}
+
+Functions as how many forces are in the one unit and how many it fires in battle \Hypertarget{class_unit_a4095688cb400304ab585177f84ac94f1}\label{class_unit_a4095688cb400304ab585177f84ac94f1} 
+\index{Unit@{Unit}!id@{id}}
+\index{id@{id}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily size\+\_\+t Unit\+::id}
+
+ID of the unit \Hypertarget{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}\label{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe} 
+\index{Unit@{Unit}!landing@{landing}}
+\index{landing@{landing}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{landing}{landing}}
+{\footnotesize\ttfamily size\+\_\+t Unit\+::landing}
+
+The year the unit landed from water this turn (therefore it can\textquotesingle{}t attack) \Hypertarget{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}\label{class_unit_ac74a304146ccb68a0aad61ba983c2a0b} 
+\index{Unit@{Unit}!max\_combat\_value@{max\_combat\_value}}
+\index{max\_combat\_value@{max\_combat\_value}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{max\_combat\_value}{max\_combat\_value}}
+{\footnotesize\ttfamily uint8\+\_\+t Unit\+::max\+\_\+combat\+\_\+value}
+
+Limits the max amount offorces can be in the unit \Hypertarget{class_unit_ab3610b61133bb4c605ad9e627dff8607}\label{class_unit_ab3610b61133bb4c605ad9e627dff8607} 
+\index{Unit@{Unit}!movement@{movement}}
+\index{movement@{movement}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{movement}{movement}}
+{\footnotesize\ttfamily size\+\_\+t Unit\+::movement}
+
+The max amount of cities it can move in one turn \Hypertarget{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}\label{class_unit_ae1c31473ba1995100763d9d0a8d9aaba} 
+\index{Unit@{Unit}!nationality@{nationality}}
+\index{nationality@{nationality}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{nationality}{nationality}}
+{\footnotesize\ttfamily Unit\+Country Unit\+::nationality}
+
+Which country the unit comes from (West\+:British, USA, France; Axis\+: Germany, Italy; USSR\+: USSR) \Hypertarget{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}\label{class_unit_a4b734abe04dacb29ee9cdfb93dce021e} 
+\index{Unit@{Unit}!rebase@{rebase}}
+\index{rebase@{rebase}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{rebase}{rebase}}
+{\footnotesize\ttfamily bool Unit\+::rebase}
+
+If this unit can Re\+Base (move freely to ground force) \Hypertarget{class_unit_a60283283866df57b43649417eaa57014}\label{class_unit_a60283283866df57b43649417eaa57014} 
+\index{Unit@{Unit}!unit\_type@{unit\_type}}
+\index{unit\_type@{unit\_type}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{unit\_type}{unit\_type}}
+{\footnotesize\ttfamily Unit\+Type Unit\+::unit\+\_\+type}
+
+Which type of unit that decied attack and movement (Fortress, Infantry, Air...) 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Unit.\+h\item 
+Unit.\+cpp\end{DoxyCompactItemize}

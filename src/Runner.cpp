@@ -78,6 +78,31 @@ bool Runner::initMap(string map_name){
                 break;
         }
 
+        PopulationType population_type;
+        map_file >> tempS;
+
+        if (tempS == "Empty"){
+            population_type = EMPTY;
+        }
+        else if (tempS == "Town"){
+            population_type = TOWN;
+        }
+        else if (tempS == "City"){
+            population_type = CITY;
+        }
+        else if (tempS == "CapitalCity"){
+            population_type = CAPITAL_CITY;
+        }
+        else if (tempS == "SubCapital"){
+            population_type = SUB_CAPITAL;
+        }
+        else if (tempS == "MainCapital"){
+            population_type = MAIN_CAPITAL;
+        }
+        else{
+            population_type = EMPTY;
+        }
+
         size_t population;
         map_file >> population;
 
@@ -97,7 +122,7 @@ bool Runner::initMap(string map_name){
                 resource_type = TRANS_ATLANTIC;
                 break;
         }
-        City* c = new City{ID, name, city_type, power_type, population, muster, resource, resource_type};
+        City* c = new City{ID, name, city_type, power_type, population_type, population, muster, resource, resource_type};
         map.addCity(c);
 
         int x, y;
@@ -195,7 +220,7 @@ bool Runner::mapPlayer(Player& player){
     //- Go through each city
     for (auto& city : temp_map){
         //- If it belongs to the player
-        if (city.second->ruler_type == player.getallegiance()){ 
+        if (city.second->ruler_type == player.getAllegiance()){ 
             //- Add to temp variables
             temp_resources += city.second->resource;
             temp_population += city.second->population;
@@ -407,7 +432,7 @@ void Runner::printMemo(size_t memo[][5]) const{
 
 void Runner::combatRound(){
     //- Get all battles the player is in
-    vector<City*> battles = getBattles(active_player->getallegiance());
+    vector<City*> battles = getBattles(active_player->getAllegiance());
 
     //- Have player choose until all battles are dealt with (taken or passed)
     while (battles.size()){
@@ -452,7 +477,7 @@ void Runner::combatRound(){
 
 void Runner::landCombat(City* battlefield){
     //- Go through each unit
-    CityType attacker = active_player->getallegiance(); //Defender goes after attacker (the one who started the battle, i.e. the active_player)
+    CityType attacker = active_player->getAllegiance(); //Defender goes after attacker (the one who started the battle, i.e. the active_player)
     for (size_t i = 0; i < CONVOY; i++){ //convoys don't have CA
         printf("%zu are now acting!\n", i);
         //Attacker chooses target if enemies is greater than 1
@@ -562,7 +587,7 @@ vector<City*> Runner::getBattles(const CityType allegiance){
     vector<City*> battles;
 
     for (auto city : cities){
-        if (city.second->occupants[allegiance].size() > 0 && city.second->isEnemy(active_player->getallegiance())){
+        if (city.second->occupants[allegiance].size() > 0 && city.second->isEnemy(active_player->getAllegiance())){
             battles.push_back(city.second);
         }
     }

@@ -1,0 +1,5 @@
+<map id="Runner::landCombat" name="Runner::landCombat">
+<area shape="rect" id="Node000001" title="Executes a land battle at the given city for one combat round." alt="" coords="206,5,347,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a184367c79c742005f743ad1cfca05b2a" title="Executes the current players combat rounds." alt="" coords="5,5,158,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,21,158,21,158,16,190,16"/>
+</map>

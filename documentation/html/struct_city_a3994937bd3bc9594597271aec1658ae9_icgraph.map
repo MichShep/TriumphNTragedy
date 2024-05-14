@@ -1,0 +1,5 @@
+<map id="City::addUnit" name="City::addUnit">
+<area shape="rect" id="Node000001" title="Adds a unit to this city." alt="" coords="184,5,282,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a38a4e7be3c09505c6d0335872615a4cb" title="When the unit is leaving a battle it can move to one adjacent friendly city." alt="" coords="5,5,136,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,21,136,21,136,16,168,16"/>
+</map>

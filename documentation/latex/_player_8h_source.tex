@@ -1,0 +1,144 @@
+\doxysection{Player.\+h}
+\hypertarget{_player_8h_source}{}\label{_player_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Map.h"{}}}
+
+
+
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_player}{Player}}\{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{comment}{//\&Player\ attributes}}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{string}\ name;}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ victory\_points;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ rival\_capitals;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{bool}\ atomic;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{comment}{//\&Great\ Power\ attributes}}
+\DoxyCodeLine{00020\ \ \ \ \ CityType\ allegiance;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ population;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ resources;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ industry;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ card\_size;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ factory\_cost;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ vector<Unit*>\ units;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{bool}\ ussr\_treaty;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{bool}\ west\_treaty;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{bool}\ axis\_treaty;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{bool}\ axis;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{bool}\ usa\_treaty;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{//\&Hands}}
+\DoxyCodeLine{00045\ \ \ \ \ vector<ActionCard*>\ action\_hand;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ vector<InvestmentCard*>\ invest\_hand;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//\&Stats}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ battles\_won[3];\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ battles\_lost[3];\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ total\_units[8];\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ cards\_spent;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ cities\_controlled;}
+\DoxyCodeLine{00059\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}()\{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ name\ =\ \textcolor{stringliteral}{"{}Default"{}};}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ name,\ \textcolor{keyword}{const}\ CityType\ allegiance):\ name(name),\ allegiance(allegiance)\{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (allegiance)\{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (WEST):}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_player_ac425db62cfedd0dbce791044ccd134bb}{westInit}}();}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (AXIS):}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_player_a3dda1040e1618d64e5756c592624e886}{axisInit}}();}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (USSR):}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_player_ae5f40c12d7d2e9cc2afc768dfd826b12}{ussrInit}}();}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Unkown\ allegiance\ \%d!\(\backslash\)n"{}},\ (\textcolor{keywordtype}{int})allegiance);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ exit(1);}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ name,\ \textcolor{keyword}{const}\ CityType\ allegiance,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ population,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ resource,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ industry,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ card\_size,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ factory\_cost,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ ussr\_treaty,\ \textcolor{keywordtype}{bool}\ axis\_treaty,\ \textcolor{keywordtype}{bool}\ allies\_treaty,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ usa\_treaty)}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ :\ name(name),\ allegiance(allegiance),\ population(population),\ resources(resource),\ industry(industry),\ card\_size(card\_size),\ factory\_cost(factory\_cost),\ ussr\_treaty(ussr\_treaty),\ west\_treaty(allies\_treaty),\ axis\_treaty(axis\_treaty),\ usa\_treaty(usa\_treaty)\{}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ }
+
+
+
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_player_ac425db62cfedd0dbce791044ccd134bb}{westInit}}();}
+\DoxyCodeLine{00091\ \ \ \ \ }
+
+
+
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_player_a3dda1040e1618d64e5756c592624e886}{axisInit}}();}
+\DoxyCodeLine{00097\ }
+
+
+
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_player_ae5f40c12d7d2e9cc2afc768dfd826b12}{ussrInit}}();}
+\DoxyCodeLine{00103\ }
+
+
+
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_player_a09704e14f1afc7025ad7c8ac38cc287d}{mapPlayer}}();}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ CityType\ getallegiance()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ allegiance;}
+\DoxyCodeLine{00112\ \ \ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ getPopulation()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ population;}
+\DoxyCodeLine{00116\ \ \ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ getResource()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ resources;}
+\DoxyCodeLine{00120\ \ \ \ \ \}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{void}\ setPopulation(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pop)\{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ population\ =\ pop;}
+\DoxyCodeLine{00124\ \ \ \ \ \}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordtype}{void}\ setResource(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ res)\{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ resources\ =\ res;}
+\DoxyCodeLine{00128\ \ \ \ \ \}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ getHandSize()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ action\_hand.size()\ +\ invest\_hand.size();}
+\DoxyCodeLine{00132\ \ \ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ getMaxCard()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ card\_size;}
+\DoxyCodeLine{00136\ \ \ \ \ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ getMaxProduction()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::max(population,\ std::max(resources,\ industry));}
+\DoxyCodeLine{00140\ \ \ \ \ \}}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ getVP()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ victory\_points;}
+\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordtype}{void}\ print()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00147\ \};}
+
+\end{DoxyCode}
