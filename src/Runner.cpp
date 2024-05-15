@@ -372,7 +372,6 @@ size_t Runner::canMove(Unit* unit, const string start, const string target){
     //! Draw the available cities
     SDL_SetRenderDrawColor(app.renderer, 255, 255, 0, 255);
 
-    printMemo(memo);
 
     for (auto city : reachable_cities){
 

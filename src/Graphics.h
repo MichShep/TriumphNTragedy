@@ -4,6 +4,8 @@
 
 //SDL Routines
 
+
+
 bool Runner::InitSDL(){
     if (SDL_Init(SDL_INIT_EVERYTHING) > 0){
         cout << "SDL_Init failed with error: " << SDL_GetError() << endl;
@@ -36,32 +38,32 @@ void Runner::DrawCity(City* city){
     SDL_RenderFillRect(app.renderer, &target);
 
     //- Draw the Population type (capital, subcapital, ...)
-    
+
 
     //- Draw all the units in there
-    float scale = 5;
+    float scale = 1;
     int offset = city->HEIGHT;
     for (auto unit :city->occupants[0]){ //west
         (this->*draw[unit->unit_type])(unit, city->x, city->y+offset, scale);
-        offset += 5*scale;
+        offset += 32*scale;
     }
 
     offset = city->HEIGHT;
     for (auto unit :city->occupants[1]){ //axis
-        (this->*draw[unit->unit_type])(unit, city->x+6*scale, city->y+offset, scale);
-        offset += 5*scale;
+        (this->*draw[unit->unit_type])(unit, city->x+32*scale, city->y+offset, scale);
+        offset += 32*scale;
     }
 
     offset = city->HEIGHT;
     for (auto unit :city->occupants[2]){ //ussr
-        (this->*draw[unit->unit_type])(unit, city->x+12*scale, city->y+offset, scale);
-        offset += 5*scale;
+        (this->*draw[unit->unit_type])(unit, city->x+32*2*scale, city->y+offset, scale);
+        offset += 32*scale;
     }
 
     offset = city->HEIGHT;
     for (auto unit :city->occupants[3]){ //neutral
-        (this->*draw[unit->unit_type])(unit, city->x+18*scale, city->y+offset, scale);
-        offset += 5*scale;
+        (this->*draw[unit->unit_type])(unit, city->x+32*3*scale, city->y+offset, scale);
+        offset += 32*scale;
     }
 }
 
@@ -128,486 +130,123 @@ bool Runner::InitApplication(){
 
 //& Drawing units
 void Runner::drawFortress(Unit* unit, int x, int y, float scale) const{
-    //- Create base square
-    SDL_SetRenderDrawColor(app.renderer, UNIT_COLOR[unit->nationality][0], UNIT_COLOR[unit->nationality][1], UNIT_COLOR[unit->nationality][2], 255);
+    //- Get the sprite depending on thenationality and current CV
+    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Fortress/"+NATIONALITY_STRING[unit->nationality] +"-FORT.png";
+
+    Spritesheet tank(path.c_str(), app.renderer);
+    tank.selectSprite(unit->combat_value);
+
     SDL_Rect target;
-    target.h = (int)(5*scale);
-    target.w = target.h;
-    target.x = (float)x;
-    target.y = (float)y;
+    target.x = x;
+    target.y = y;
+    target.h = 32 * scale;
+    target.w = 32 * scale;
 
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Draw inner rect
-    SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-
-    target.h = (int)(3*scale);
-    target.w = target.h;
-    target.x = (float)x+1*scale;
-    target.y = (float)y+1*scale;
-
-    SDL_SetRenderDrawColor(app.renderer, 70, 68, 62, 255);
-
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Draw the pips
-    if (unit->max_combat_value >= 1){
-        (1 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+2*scale;
-        target.y = (float)y+0*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 2){
-        (2 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+0*scale;
-        target.y = (float)y+2*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 3){
-        (3 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+4*scale;
-        target.y = (float)y+2*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 4){
-        (4 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+2*scale;
-        target.y = (float)y+4*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
+    tank.drawSelectedSprite(app.renderer, &target);
 
 }
 
 void Runner::drawAir(Unit* unit, const int x, const int y, const float scale) const{
-    //- Create long cross sectinon
-    SDL_SetRenderDrawColor(app.renderer, UNIT_COLOR[unit->nationality][0], UNIT_COLOR[unit->nationality][1], UNIT_COLOR[unit->nationality][2], 255);
+    //- Get the sprite depending on thenationality and current CV
+    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Air/"+NATIONALITY_STRING[unit->nationality] +"-AIR.png";
+
+   Spritesheet tank(path.c_str(), app.renderer);
+   tank.selectSprite(unit->combat_value);
+
+
     SDL_Rect target;
-    target.h = 1*scale;
-    target.w = 5*scale;
-    target.x = (float)x;
-    target.y = (float)y+1*scale;
-    SDL_RenderFillRect(app.renderer, &target);
+    target.x = x;
+    target.y = y;
+    target.h = 32 * scale;
+    target.w = 32 * scale;
 
-    //- Create mid section
-    target.h = 1*scale;
-    target.w = 3*scale;
-    target.x = (float)x+1*scale;
-    target.y = (float)y+2*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Create vertical bar
-    target.h = 5*scale;
-    target.w = 1*scale;
-    target.x = (float)x+2*scale;
-    target.y = (float)y+0*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-    
-
-    //- Draw the pips
-    if (unit->max_combat_value >= 1){
-        (1 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+1*scale;
-        target.y = (float)y+1*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 2){
-        (2 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+3*scale;
-        target.y = (float)y+1*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 3){
-        (3 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+1*scale;
-        target.y = (float)y+3*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 4){
-        (4 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+3*scale;
-        target.y = (float)y+3*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
+    tank.drawSelectedSprite(app.renderer, &target);
 
 }
 
 void Runner::drawCarrier(Unit* unit, const int x, const int y, const float scale) const{
-    //- Create first long cross section
-    SDL_SetRenderDrawColor(app.renderer, UNIT_COLOR[unit->nationality][0], UNIT_COLOR[unit->nationality][1], UNIT_COLOR[unit->nationality][2], 255);
+     //- Get the sprite depending on thenationality and current CV
+    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Carrier/"+NATIONALITY_STRING[unit->nationality] +"-CARRIER.png";
+
+   Spritesheet tank(path.c_str(), app.renderer);
+   tank.selectSprite(unit->combat_value);
+
+
     SDL_Rect target;
-    target.h = 1*scale;
-    target.w = 5*scale;
-    target.x = (float)x;
-    target.y = (float)y+1*scale;
-    SDL_RenderFillRect(app.renderer, &target);
+    target.x = x;
+    target.y = y;
+    target.h = 32 * scale;
+    target.w = 32 * scale;
 
-    //- Create second long cross section
-    target.h = 1*scale;
-    target.w = 5*scale;
-    target.x = (float)x;
-    target.y = (float)y+3*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Create bar going down
-    target.h = 4*scale;
-    target.w = 1*scale;
-    target.x = (float)x+2*scale;
-    target.y = (float)y+0;
-    SDL_RenderFillRect(app.renderer, &target);
-
-
-    //- Create the two little bits at the bottem
-    target.h = 1*scale;
-    target.w = 1*scale;
-    target.x = (float)x+1*scale;
-    target.y = (float)y+4*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    target.h = 1*scale;
-    target.w = 1*scale;
-    target.x = (float)x+3*scale;
-    target.y = (float)y+4*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Draw the pips
-    if (unit->max_combat_value >= 1){
-        (1 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+1*scale;
-        target.y = (float)y+1*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 2){
-        (2 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+3*scale;
-        target.y = (float)y+1*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 3){
-        (3 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+1*scale;
-        target.y = (float)y+3*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 4){
-        (4 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+3*scale;
-        target.y = (float)y+3*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
+    tank.drawSelectedSprite(app.renderer, &target);
 }
 
 void Runner::drawSub(Unit* unit, const int x, const int y, const float scale) const{
-    //- Create bottom left
-    SDL_SetRenderDrawColor(app.renderer, UNIT_COLOR[unit->nationality][0], UNIT_COLOR[unit->nationality][1], UNIT_COLOR[unit->nationality][2], 255);
+     //- Get the sprite depending on thenationality and current CV
+    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Tank/"+NATIONALITY_STRING[unit->nationality] +"-TANK.png";
+
+   Spritesheet tank(path.c_str(), app.renderer);
+   tank.selectSprite(unit->combat_value);
+
+
     SDL_Rect target;
-    target.h = 2*scale;
-    target.w = 3*scale;
-    target.x = (float)x;
-    target.y = (float)y+3*scale;
-    SDL_RenderFillRect(app.renderer, &target);
+    target.x = x;
+    target.y = y;
+    target.h = 32 * scale;
+    target.w = 32 * scale;
 
-    //- Create middle section
-    target.h = 2*scale;
-    target.w = 2*scale;
-    target.x = (float)x+1*scale;
-    target.y = (float)y+1*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Create top right
-    target.h = 3*scale;
-    target.w = 2*scale;
-    target.x = (float)x+3*scale;
-    target.y = (float)y+0;
-    SDL_RenderFillRect(app.renderer, &target);
-
-
-    //- Create the two little bits at the bottem
-    target.h = 1*scale;
-    target.w = 1*scale;
-    target.x = (float)x+1*scale;
-    target.y = (float)y+1*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    target.h = 1*scale;
-    target.w = 1*scale;
-    target.x = (float)x+4*scale;
-    target.y = (float)y+1*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Draw the pips
-    if (unit->max_combat_value >= 1){
-        (1 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+1*scale;
-        target.y = (float)y+1*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 2){
-        (2 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+3*scale;
-        target.y = (float)y+1*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 3){
-        (3 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+1*scale;
-        target.y = (float)y+3*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 4){
-        (4 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+3*scale;
-        target.y = (float)y+3*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
+    tank.drawSelectedSprite(app.renderer, &target);
 }
 
 void Runner::drawFleet(Unit* unit, const int x, const int y, const float scale) const{
-    //- Create first long cross section
-    SDL_SetRenderDrawColor(app.renderer, UNIT_COLOR[unit->nationality][0], UNIT_COLOR[unit->nationality][1], UNIT_COLOR[unit->nationality][2], 255);
+     //- Get the sprite depending on thenationality and current CV
+    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Fleet/"+NATIONALITY_STRING[unit->nationality] +"-FLEET.png";
+
+   Spritesheet tank(path.c_str(), app.renderer);
+   tank.selectSprite(unit->combat_value);
+
+
     SDL_Rect target;
-    target.h = 5*scale;
-    target.w = 1*scale;
-    target.x = (float)x+2*scale;
-    target.y = (float)y;
-    SDL_RenderFillRect(app.renderer, &target);
+    target.x = x;
+    target.y = y;
+    target.h = 32 * scale;
+    target.w = 32 * scale;
 
-    //- Create second long cross section
-    target.h = 1*scale;
-    target.w = 5*scale;
-    target.x = (float)x;
-    target.y = (float)y+3*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Create bar going down
-    target.h = 5*scale;
-    target.w = 1*scale;
-    target.x = (float)x+2*scale;
-    target.y = (float)y+0;
-    SDL_RenderFillRect(app.renderer, &target);
-
-
-    //- Create the two little bits at the bottem
-    target.h = 1*scale;
-    target.w = 1*scale;
-    target.x = (float)x+0*scale;
-    target.y = (float)y+4*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    target.h = 1*scale;
-    target.w = 1*scale;
-    target.x = (float)x+4*scale;
-    target.y = (float)y+4*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Draw the pips
-    if (unit->max_combat_value >= 1){
-        (1 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+2*scale;
-        target.y = (float)y+1*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 2){
-        (2 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+0*scale;
-        target.y = (float)y+3*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 3){
-        (3 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+2*scale;
-        target.y = (float)y+3*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 4){
-        (4 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+4*scale;
-        target.y = (float)y+3*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
+    tank.drawSelectedSprite(app.renderer, &target);
 }
 
 void Runner::drawTank(Unit* unit, const int x, const int y, const float scale) const{
-    //- Draw the main rectangles
-    SDL_SetRenderDrawColor(app.renderer, UNIT_COLOR[unit->nationality][0], UNIT_COLOR[unit->nationality][1], UNIT_COLOR[unit->nationality][2], 255);
+    //- Get the sprite depending on thenationality and current CV
+    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Tank/"+NATIONALITY_STRING[unit->nationality] +"-TANK.png";
+
+   Spritesheet tank(path.c_str(), app.renderer);
+   tank.selectSprite(unit->combat_value);
+
+
     SDL_Rect target;
-    target.h = (int)(5*scale);
-    target.w = (int)(3*scale);
-    target.x = (float)x+1*scale;
-    target.y = (float)y;
-    SDL_RenderFillRect(app.renderer, &target);
+    target.x = x;
+    target.y = y;
+    target.h = 32 * scale;
+    target.w = 32 * scale;
 
-    target.h = (int)(3*scale);
-    target.w = (int)(5*scale);
-    target.x = (float)x;
-    target.y = (float)y+1*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Draw the pips
-    if (unit->max_combat_value >= 1){
-        (1 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+2*scale;
-        target.y = (float)y+1*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 2){
-        (2 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+1*scale;
-        target.y = (float)y+2*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 3){
-        (3 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+3*scale;
-        target.y = (float)y+2*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 4){
-        (4 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+2*scale;
-        target.y = (float)y+3*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
+    tank.drawSelectedSprite(app.renderer, &target);
 }
 
 void Runner::drawInfantry(Unit* unit, const int x, const int y, const float scale) const{
-    //- Create the 4 spikes
-    SDL_SetRenderDrawColor(app.renderer, UNIT_COLOR[unit->nationality][0], UNIT_COLOR[unit->nationality][1], UNIT_COLOR[unit->nationality][2], 255);
+     //- Get the sprite depending on thenationality and current CV
+    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Infantry/"+NATIONALITY_STRING[unit->nationality] +"-INFA.png";
+
+   Spritesheet tank(path.c_str(), app.renderer);
+   tank.selectSprite(unit->combat_value);
+
+
     SDL_Rect target;
-    target.h = 2*scale;
-    target.w = 1*scale;
-    target.x = (float)x;
-    target.y = (float)y;
-    SDL_RenderFillRect(app.renderer, &target);
+    target.x = x;
+    target.y = y;
+    target.h = 32 * scale;
+    target.w = 32 * scale;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 
-    target.h = 2*scale;
-    target.w = 1*scale;
-    target.x = (float)x+4*scale;
-    target.y = (float)y;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    target.h = 2*scale;
-    target.w = 1*scale;
-    target.x = (float)x;
-    target.y = (float)y+3*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    target.h = 2*scale;
-    target.w = 1*scale;
-    target.x = (float)x+4*scale;
-    target.y = (float)y+3*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Create middle section
-    target.h = 3*scale;
-    target.w = 3*scale;
-    target.x = (float)x+1*scale;
-    target.y = (float)y+1*scale;
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Draw the pips
-    if (unit->max_combat_value >= 1){
-        (1 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+2*scale;
-        target.y = (float)y+1*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 2){
-        (2 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+1*scale;
-        target.y = (float)y+2*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 3){
-        (3 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+3*scale;
-        target.y = (float)y+2*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
-
-    if (unit->max_combat_value >= 4){
-        (4 <= unit->combat_value)? SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255) : SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-        target.h = 1*scale;
-        target.w = target.h;
-        target.x = (float)x+2*scale;
-        target.y = (float)y+3*scale;
-        SDL_RenderFillRect(app.renderer, &target);
-    }
+    tank.drawSelectedSprite(app.renderer, &target);
 }
 
 void Runner::drawConvoy(Unit* unit, const int x, const int y,const float scale) const{

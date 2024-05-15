@@ -29,9 +29,9 @@ using std::priority_queue;
 #include <cmath>
 using std::pow;
 
-#include "/opt/homebrew/Cellar/sdl2/2.30.2/include/SDL2/SDL.h"
+#include "../include/SDL2/SDL.h"
 
-#include "/opt/homebrew/Cellar/sdl2_ttf/2.22.0/include/SDL2/SDL_ttf.h"
+#include "../include/SDL2_image/SDL_image.h"
 
 #define END_YEAR 1945;
 
@@ -39,6 +39,8 @@ using std::pow;
 
 #define INFI SIZE_MAX;
 enum CityType {WEST, AXIS, USSR, NEUTRAL, NEUTRAL_AT_WAR, WATER};
+
+const string NATIONALITY_STRING[7] = {"BRITISH", "FRANCE", "USA", "GERMAN", "ITALY", "USSR", "NEUTRAL"};
 
 enum PowerType {GREAT, HOME, MINOR, NONE, SEA};
 
@@ -138,6 +140,32 @@ namespace Graphics{
         const int center_x = WIDTH /2;
         const int center_y = HEIGHT /2;
     };
+};
+
+class Spritesheet{
+private:
+    SDL_Rect clip;
+    SDL_Texture* spritesheet_image;
+
+public:
+    Spritesheet(char const *path, SDL_Renderer* renderer){
+        auto spritesheet_surface = IMG_Load(path);
+        spritesheet_image = SDL_CreateTextureFromSurface(renderer, spritesheet_surface);
+
+        clip.w = 32;
+        clip.h = 32;
+    }
+
+    ~Spritesheet(){
+    }
+
+    void selectSprite(int x, int y=0){
+        clip.x = x * clip.w;
+        clip.y = y * clip.h;
+    }
+    void drawSelectedSprite(SDL_Renderer* renderer, SDL_Rect* position){
+        SDL_RenderCopy(renderer, spritesheet_image, &clip, position);
+    }
 };
 
 // Application

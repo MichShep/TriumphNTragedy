@@ -33,7 +33,9 @@ bool Runner::run(){
                     }
                     if (event.key.keysym.scancode == SDL_SCANCODE_N){
                         year++;
-
+                    }
+                    if (event.key.keysym.scancode == SDL_SCANCODE_B){
+                        map["C"]->occupants[0][0]->combat_value++;
                     }
                     break;
                 }
@@ -53,7 +55,7 @@ bool Runner::run(){
         DrawTimeTrack();
 
         //- Draw Player Stats
-
+        
         SDL_RenderPresent(app.renderer);
     }
     

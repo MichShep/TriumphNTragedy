@@ -65,6 +65,9 @@
         "algorithm": "cpp",
         "iterator": "cpp",
         "memory_resource": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "sdl_version.h": "c",
+        "begin_code.h": "c",
+        "close_code.h": "c"
     }
 }

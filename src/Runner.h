@@ -110,7 +110,7 @@ public:
         map["K"]->addUnit(uAir1);
 
         //For I
-        Unit* wTank1 = new Unit(9, USA_U, TANK);
+        Unit* wTank1 = new Unit(9, FRANCE_U, TANK);
 
         map["C"]->addUnit(wTank1);
 
