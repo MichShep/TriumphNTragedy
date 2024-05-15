@@ -27,6 +27,8 @@ private:
 
     vector<InvestmentCard*> invest_discard; /**< Discard pile of investment cards*/
 
+    vector<PeaceChit> peace_dividends_bag; /**< Holds all the unpulled peace dividends*/
+
     Player* start_player; /**Player who will start the turn*/
 
     Player* active_player; /**< Player whose turn it is currently*/
@@ -76,6 +78,14 @@ public:
             ShutdownApplication();
             exit(1);
         }
+
+        const unsigned int seed = 42;
+        std::mt19937 g(seed);
+
+        peace_dividends_bag = {{2,0,0}, {2,0,0}, {2,0,0}, {2,0,0},
+                               {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, 
+                               {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}};
+        shuffle(peace_dividends_bag.begin(), peace_dividends_bag.end(), g);
     }
 
     size_t test(){
@@ -306,7 +316,15 @@ private:
      * 
      * @param city 
      */
-    void DrawCity(City* city);
+    void drawCity(City* city);
+
+    /**
+     * @brief Get the City Sprite object
+     * 
+     * @param city The city being drawn
+     * @return int The index of the sprite in the sprite map
+     */
+    int getCitySprite(City* city);
 
     /**
      * @brief Draws a fortress of the units nationality located at the given coords
@@ -398,6 +416,13 @@ private:
      * 
      */
     void DrawTimeTrack();
+
+    /**
+     * @brief Draws the players pop, res, ind, and DoW's onto the screen
+     * 
+     * @param player The player who is being drawn
+     */
+    void drawPlayerStats(Player& player);
 
     /**
      * @brief Takes any length number and draws it as a 7-segment at the x,y as the top left. Origional scale is 7*13 for one digit. Defaul color is black

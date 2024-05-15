@@ -29,6 +29,10 @@ using std::priority_queue;
 #include <cmath>
 using std::pow;
 
+#include <random>
+#include <algorithm>
+using std::shuffle;
+
 #include "../include/SDL2/SDL.h"
 
 #include "../include/SDL2_image/SDL_image.h"
@@ -38,9 +42,8 @@ using std::pow;
 #define START_YEAR 1936;
 
 #define INFI SIZE_MAX;
-enum CityType {WEST, AXIS, USSR, NEUTRAL, NEUTRAL_AT_WAR, WATER};
 
-const string NATIONALITY_STRING[7] = {"BRITISH", "FRANCE", "USA", "GERMAN", "ITALY", "USSR", "NEUTRAL"};
+enum CityType {WEST, AXIS, USSR, NEUTRAL, NEUTRAL_AT_WAR, WATER};
 
 enum PowerType {GREAT, HOME, MINOR, NONE, SEA};
 
@@ -58,7 +61,11 @@ enum UnitCountry {BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRA
 
 enum Season {SPRING, SUMMER, FALL, WINTER};
 
+enum DowState {PEACE, DECLARED, VICTIM};
+
 enum Tech {AIR_DEFENSE, FIRST_FIRE, INDUSTRIAL_ESPIONAGE, SCIENCE};
+
+const string NATIONALITY_STRING[7] = {"BRITISH", "FRANCE", "USA", "GERMAN", "ITALY", "USSR", "NEUTRAL"};
 
 const int FIREPOWER_TABLE[8][4] = { // Damage against {A N G S}
     {2, 3, 4, 3}, //Fort
@@ -148,12 +155,12 @@ private:
     SDL_Texture* spritesheet_image;
 
 public:
-    Spritesheet(char const *path, SDL_Renderer* renderer){
+    Spritesheet(char const *path, SDL_Renderer* renderer, int width=32, int height=32){
         auto spritesheet_surface = IMG_Load(path);
         spritesheet_image = SDL_CreateTextureFromSurface(renderer, spritesheet_surface);
 
-        clip.w = 32;
-        clip.h = 32;
+        clip.w = width;
+        clip.h = height;
     }
 
     ~Spritesheet(){

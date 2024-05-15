@@ -45,9 +45,28 @@ void City::printOccupants() const{
 void Map::initLists(const size_t size){
     //- Resize adjacency list
     adjacency.resize(size);
+    sortedX.resize(size-1);
+    sortedY.resize(size-1);
     city_masterlist.resize(size);
     for (auto& v : adjacency)
         v.resize(size);
+
+    list_size = size-1;
+}
+
+City* Map::getClosestCity(const int x, const int y) const{
+    City* closest;
+    size_t dist = INFI;
+    for (int i = 1; i <= list_size; i++){
+        size_t possible_dist = (city_masterlist[i]->x - x)*(city_masterlist[i]->x - x) + (city_masterlist[i]->y - y)*(city_masterlist[i]->y - y);
+        if (possible_dist < dist){
+            dist = possible_dist;
+            closest = city_masterlist[i];
+        }
+
+    }
+
+    return closest;
 }
 
 
@@ -81,5 +100,17 @@ void Map::print() const{
         }
         printf("]\n");
     }
+
+    printf("sortedX: [ ");
+    for (size_t j = 0; j < list_size; j++){
+        printf("%s, ", sortedX[j]->name.c_str());
+    }
+
+    printf("]\n");
+    printf("sortedY: [ ");
+    for (size_t j = 0; j < list_size; j++){
+        printf("%s, ", sortedY[j]->name.c_str());
+    }
+    printf("]\n");
 }
 

@@ -29,7 +29,9 @@ public:
 
     CityType ruler_type; /**< The current ruler of the city (origionally set to the city_type until conquered)*/
 
-    PopulationType population_type; /**< The type of city */
+    PopulationType population_type; /**< The type of city population (capital, city, town...)*/
+
+    UnitCountry nationality; /**< The nationality of the city (different from country where non-powers is neutral)*/
     
     size_t population; /**< The population (pop) of the city*/
 
@@ -70,8 +72,8 @@ public:
      * @param resource How many resources given
      * @param resource_type The type of resource (N is none as well)
      */
-    City(const size_t ID=0, const string name="City", const CityType city_type=WATER, const PowerType power_type=NONE, const PopulationType population_type=EMPTY, const size_t population=0, const size_t muster=0, const size_t resource=0, const ResourceType resource_type=NORMAL):
-    ID(ID), name(name), city_type(city_type), power_type(power_type), population_type(population_type), population(population), muster(muster), resource(resource), resource_type(resource_type){
+    City(const size_t ID=0, const string name="City", const CityType city_type=WATER, const PowerType power_type=NONE, const PopulationType population_type=EMPTY, const UnitCountry nationality=NEUTRAL_U, const size_t population=0, const size_t muster=0, const size_t resource=0, const ResourceType resource_type=NORMAL):
+    ID(ID), name(name), city_type(city_type), power_type(power_type), population_type(population_type), nationality(nationality), population(population), muster(muster), resource(resource), resource_type(resource_type){
         ruler_type=city_type; //set it be ruled by who starts with it
         influence = 0;
         WIDTH = 32;
@@ -185,11 +187,17 @@ public:
 
 class Map{
 private:
+    size_t list_size; /**< The size or amount of cities in the game*/
+
     unordered_map<string, City*> cities; /**< Hash table of all cities where the city pointer is the value of the City key name*/
 
     vector<City*> city_masterlist; /**< Masterlist of all cities*/
 
     vector<vector<BorderType>> adjacency /**< Is an adjacency matrix of the cities where the connection of cities is reresented by as nonzero value (0 is an offset city)*/;
+
+    vector<City*> sortedX; /**< Sorts all cities by their x value (left...right)*/
+
+    vector<City*> sortedY; /**< Sorts all cities by their y value (bottom...top)*/
 
 public:
     /**
@@ -205,7 +213,26 @@ public:
      * @param city The new city
      */
     void addCity(City* city){
+        //- Add to hashmap
         cities.insert(std::make_pair(city->getName(), city));
+
+        //- Add to sorted x
+        size_t i = 0;
+        for (; i < list_size; i++){
+            if (sortedX[i] == NULL || sortedX[i]->x > city->x)
+                break;
+        }
+        sortedX.insert(sortedX.begin()+i, city);
+
+        //- Add to sorted y
+        i = 0;
+        for (; i < list_size; i++){
+            if (sortedY[i] == NULL || sortedY[i]->y > city->y)
+                break;
+        }
+        sortedY.insert(sortedY.begin()+i, city);
+
+        //- Add to masterlist
         city_masterlist.insert(city_masterlist.begin()+city->getID(), city);
     }
     
@@ -276,6 +303,15 @@ public:
     bool checkConnection(const string A, const string B){
         return adjacency[findCity(A)][findCity(B)];
     }
+
+    /**
+     * @brief Gets the city closest to the x,y coords from the mouse position
+     * 
+     * @param x The x coord of the anchor
+     * @param y The y coord of the anchor
+     * @return City* The city closest to the (x,y)
+     */
+    City* getClosestCity(const int x, const int y) const;
 
     /**
      * @brief Get the total number of cities

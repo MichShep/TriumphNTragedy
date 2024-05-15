@@ -8,8 +8,7 @@ bool Runner::run(){
     SDL_Event event;
 
     test();
-
-    auto& cities = map.getCities();
+    City* closest = map.getCity("A");
 
     while (running){
         ClearScreen();
@@ -17,14 +16,17 @@ bool Runner::run(){
         //-Draw the connections
         DrawConnections();
 
-        //-Draw the cities and troops
-        for (auto city : cities){
-            //printf("%d %d\n", city.second->x, city.second->y);
-            DrawCity(city.second);
-        }
-
+        
         if (SDL_PollEvent(&event)){
             switch (event.type) {
+                case SDL_MOUSEMOTION:{
+                    int x, y;
+                    SDL_GetMouseState(&x, &y);
+
+                    closest = map.getClosestCity(x, y);
+
+                }
+
                 case SDL_KEYDOWN:{
                     running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
 
@@ -36,6 +38,17 @@ bool Runner::run(){
                     }
                     if (event.key.keysym.scancode == SDL_SCANCODE_B){
                         map["C"]->occupants[0][0]->combat_value++;
+                    }
+                    if (event.key.keysym.scancode == SDL_SCANCODE_V){
+                        players[0].setUsaDow(DECLARED);
+                        players[0].setUssrDow(VICTIM);
+                        players[0].setAxisDow(DECLARED);
+
+                        players[1].setUssrDow(DECLARED);
+                        players[1].setWestDow(VICTIM);
+
+                        players[2].setWestDow(DECLARED);
+                        players[2].setAxisDow(VICTIM);
                     }
                     break;
                 }
@@ -51,11 +64,20 @@ bool Runner::run(){
             }
         }
 
+        drawCity(closest);
+
         //- Draw the time track
         DrawTimeTrack();
 
         //- Draw Player Stats
+        drawPlayerStats(players[0]);
+        drawPlayerStats(players[1]);
+        drawPlayerStats(players[2]);
+
+        //- New Year
+        newNear();
         
+
         SDL_RenderPresent(app.renderer);
     }
     
@@ -72,7 +94,7 @@ bool Runner::run(){
 //- New Year
 CityType Runner::newNear(){
     //- Advance Year
-    year++;
+    //year++;
 
     //- Victroy Check 
     for (Player player : players){
@@ -208,7 +230,26 @@ void Runner::reshuffle(){
 }
 
 void Runner::peaceDividends(){
+    if (peace_dividends_bag.size() == 0) //in game its impossible to runnout of chits so this is for testing
+        return;
 
+    //- Check for West
+    if (players[0].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
+        players[0].givePeaceDividend(peace_dividends_bag.back());
+        peace_dividends_bag.pop_back();
+    }
+
+    //- Axis
+    if (players[1].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
+        players[1].givePeaceDividend(peace_dividends_bag.back());
+        peace_dividends_bag.pop_back();
+    }
+
+    //-USSR
+    if (players[2].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
+        players[2].givePeaceDividend(peace_dividends_bag.back());
+        peace_dividends_bag.pop_back();
+    }
 }
 
 void Runner::newYearRes(){

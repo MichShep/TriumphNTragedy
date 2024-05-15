@@ -23,7 +23,7 @@ void Runner::ClearScreen(){
 
 }
 
-void Runner::DrawCity(City* city){
+void Runner::drawCity(City* city){
     //FORTRESS, AIR, CARRIER, SUB, FLEET, TANK, INFANTRY, CONVOY
     SDL_Rect target;
 
@@ -33,9 +33,12 @@ void Runner::DrawCity(City* city){
     target.h = city->HEIGHT;
     target.w = city->WIDTH;
 
-    SDL_SetRenderDrawColor(app.renderer, city->color[0], city->color[1], city->color[2], 255);
+    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/CityTypes.png";
 
-    SDL_RenderFillRect(app.renderer, &target);
+    Spritesheet cities(path.c_str(), app.renderer);
+    cities.selectSprite(getCitySprite(city));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+
+    cities.drawSelectedSprite(app.renderer, &target);
 
     //- Draw the Population type (capital, subcapital, ...)
 
@@ -65,6 +68,53 @@ void Runner::DrawCity(City* city){
         (this->*draw[unit->unit_type])(unit, city->x+32*3*scale, city->y+offset, scale);
         offset += 32*scale;
     }
+}
+
+int Runner::getCitySprite(City* city){
+    switch (city->population_type){
+        case MAIN_CAPITAL:
+            switch (city->city_type){
+                case WEST:
+                    return 1;
+                case AXIS:
+                    return 2;
+                case USSR:
+                    return 0;
+                default:
+                    return -1;;
+            }
+        case SUB_CAPITAL:
+            switch (city->nationality){
+                case BRITIAN_U:
+                    return 6;
+                case FRANCE_U:
+                    return 7;
+                case USA_U:
+                    return 8;
+                case GERMANY_U:
+                    return 4;
+                case ITALY_U:
+                    return 5;
+                case USSR_U:
+                    return 3;
+                default:
+                    return -1;;
+            }
+        // Cities below don't have any change in colors
+        case CAPITAL_CITY:
+            return 9;
+        case CITY:
+            return 10;
+        case TOWN:
+            return 11;
+        case EMPTY:
+            return 12;        
+        default:
+            return -1;
+    }
+
+
+    return -1;
 }
 
 void Runner::DrawConnections(){
@@ -233,11 +283,11 @@ void Runner::drawTank(Unit* unit, const int x, const int y, const float scale) c
 }
 
 void Runner::drawInfantry(Unit* unit, const int x, const int y, const float scale) const{
-     //- Get the sprite depending on thenationality and current CV
+    //- Get the sprite depending on thenationality and current CV
     string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Infantry/"+NATIONALITY_STRING[unit->nationality] +"-INFA.png";
 
-   Spritesheet tank(path.c_str(), app.renderer);
-   tank.selectSprite(unit->combat_value);
+    Spritesheet tank(path.c_str(), app.renderer);
+    tank.selectSprite(unit->combat_value);
 
 
     SDL_Rect target;
@@ -338,6 +388,249 @@ void Runner::DrawTimeTrack(){
            
     }
 }
+
+void Runner::drawPlayerStats(Player& player){
+    //- Get the sprite depending on the power
+    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/PlayerStats.png";
+
+    Spritesheet board(path.c_str(), app.renderer, 96, 64);
+    board.selectSprite(player.getAllegiance());
+
+    float scale = 3;
+
+    int x;
+
+    switch (player.getAllegiance()){
+        case WEST:
+            x = 0;
+            break;
+
+        case AXIS:
+            x = app.screen.WIDTH/2-(int)(96*scale)/2;
+            break;
+        case USSR:
+            x = app.screen.WIDTH-(int)(96*scale);
+            break;
+        
+        default:
+            x = -1;
+            break;
+    }
+
+    //- Draw the Board
+    SDL_Rect target = {x, 0, (int)(96*scale), (int)(64*scale)};
+
+    board.drawSelectedSprite(app.renderer, &target);
+
+    //- Draw the stats onto the spots
+    //(16,20) for pop, (40,20) for res (64,20) for ind (82,20) for ind_cost
+    drawNumber(player.getPopulation(), x+(int)(scale*16)+7*scale/2, (int)(scale*20), 3); //pop
+
+    drawNumber(player.getResource(), x+(int)(scale*40)+7*scale/2, (int)(scale*20), 3); //res
+
+    drawNumber(player.getIndustry(), x+(int)(scale*64)+7*scale/2, (int)(scale*20), 3); //ind
+
+    drawNumber(player.getIndustryCost(), x+(int)(scale*82)+7*scale/2, (int)(scale*20), 1.5); //ind_cost
+
+    path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/DoWs.png";
+
+    Spritesheet treaties(path.c_str(), app.renderer, 19, 19);
+
+    switch (player.getAllegiance()){
+        case WEST:{
+            //check USSR DoW
+            target = {(int)(x+14*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
+            switch (player.getUssrDow()){
+            case VICTIM:
+                //dont draw anything
+                break;
+
+            case DECLARED:
+                //draw flipped size
+                treaties.selectSprite(3);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            case PEACE:
+                //draw normal peace size
+                treaties.selectSprite(2);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            default:
+                break;
+            }
+            
+            //check Axis DoW
+            target = {(int)(x+38*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
+            switch (player.getAxisDow()){
+            case VICTIM:
+                //dont draw anything
+                break;
+
+            case DECLARED:
+                //draw flipped size
+                treaties.selectSprite(5);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            case PEACE:
+                //draw normal peace size
+                treaties.selectSprite(4);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            default:
+                break;
+            }
+
+            //check USA invlovement
+            target = {(int)(x+62*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
+            switch (player.getAxisDow()){
+            case VICTIM:
+                //dont draw anything
+                break;
+
+            case DECLARED:
+                //draw flipped at war size
+                treaties.selectSprite(7);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            case PEACE:
+                //draw normal neutral size
+                treaties.selectSprite(6);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            default:
+                break;
+            }
+        }
+        break;
+        case AXIS:
+            //check USSR DoW
+            target = {(int)(x+26*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
+            switch (player.getUssrDow()){
+            case VICTIM:
+                //dont draw anything
+                break;
+
+            case DECLARED:
+                //draw flipped size
+                treaties.selectSprite(3);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            case PEACE:
+                //draw normal peace size
+                treaties.selectSprite(2);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            default:
+                break;
+            }
+            
+            //check West DoW
+            target = {(int)(x+50*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
+            switch (player.getWestDow()){
+            case VICTIM:
+                //dont draw anything
+                break;
+
+            case DECLARED:
+                //draw flipped size
+                treaties.selectSprite(1);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            case PEACE:
+                //draw normal peace size
+                treaties.selectSprite(0);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            default:
+                break;
+            }
+            break;
+        case USSR:
+            //check AXis DoW
+            target = {(int)(x+26*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
+            switch (player.getAxisDow()){
+            case VICTIM:
+                //dont draw anything
+                break;
+
+            case DECLARED:
+                //draw flipped size
+                treaties.selectSprite(5);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            case PEACE:
+                //draw normal peace size
+                treaties.selectSprite(4);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            default:
+                break;
+            }
+            
+            //check West DoW
+            target = {(int)(x+50*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
+            switch (player.getWestDow()){
+            case VICTIM:
+                //dont draw anything
+                break;
+
+            case DECLARED:
+                //draw flipped size
+                treaties.selectSprite(1);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            case PEACE:
+                //draw normal peace size
+                treaties.selectSprite(0);
+                treaties.drawSelectedSprite(app.renderer, &target);
+                break;
+            
+            default:
+                break;
+            }
+            break;
+        
+        default:
+            break;
+        }
+
+    //- Draw chits
+    path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/PeaceChit.png";
+
+    Spritesheet peace(path.c_str(), app.renderer);
+    peace.selectSprite(0);
+
+    target = {(int)(x+79*scale), (int)(6*scale), (int)(8*scale), (int)(8*scale)};
+
+    for (size_t i = 0; i < player.getPeaceDividendSize(); i++){
+        auto& chit = player.getPeaceDividend(i);
+
+        if (chit.y == 0){
+            chit.y = target.y + rand() % (4 - -4 + 1) + -4;
+        }
+         if (chit.x == 0){
+            chit.x = target.x + rand() % (4 - -4 + 1) + -4;
+        }
+        target.y = chit.y;
+        target.x = chit.x;
+        peace.drawSelectedSprite(app.renderer, &target);
+        
+    }
+}
+
 
 void Runner::drawNumber(const int num, const int x, const int y, const float scale, const uint8_t r, const uint8_t g, const uint8_t b) const{
     int digits = 0;

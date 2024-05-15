@@ -10,11 +10,13 @@ private:
     //&Player attributes
     string name; /**< The name of the player*/
 
-    size_t victory_points; /**< Current number of VP*/
+    size_t victory_points=0; /**< Current number of VP*/
 
-    size_t rival_capitals; /**< Number of enemy capitals the player has captured*/
+    size_t rival_capitals=0; /**< Number of enemy capitals the player has captured*/
 
-    bool atomic; /**< If the player has all 4 stages of atomics*/
+    bool atomic=false; /**< If the player has all 4 stages of atomics*/
+
+    size_t year_at_peace; /**< Is the last year the player was at peace (used for peace chits)*/
 
     //&Great Power attributes
     CityType allegiance; /**< Which power the player is controlling (West, Axis, USSR)*/
@@ -31,18 +33,20 @@ private:
 
     vector<Unit*> units; /**< Masterlist of all units the player controls*/
 
-    bool ussr_treaty; /**< If the player is peaceful with USSR will be true*/
+    DowState ussr_dow=PEACE; /**< Holds the diplomacy state of the DOW with USSR*/
 
-    bool west_treaty; /**< If the player is peacful with the West will be true*/
+    DowState west_dow=PEACE; /**< Holds the diplomacy state of the DOW with USSR*/
 
-    bool axis_treaty; /**< If the player is peacful witht the Axis will be true*/
+    DowState axis_dow=PEACE; /**< Holds the diplomacy state of the DOW with USSR*/
 
-    bool usa_treaty; /**< If the USA has joined the West*/
+    DowState usa_dow; /**< Holds the diplomacy state of the DOW with USSR*/
 
     //&Hands
     vector<ActionCard*> action_hand; /**< Hand of all action cards (used in command and government)*/
 
     vector<InvestmentCard*> invest_hand; /**< Hand of all investment cards*/
+
+    vector<PeaceChit> peace_dividends;
 
     //&Stats
     size_t battles_won[3]; /**< Allies:0 Axis:1 USSR:2 where each index specifies against who*/
@@ -80,6 +84,8 @@ public:
             exit(1);
             break;
         }
+
+        year_at_peace = START_YEAR;
     }
 
     /**
@@ -92,13 +98,13 @@ public:
      * @param industry Starting industry (ind)
      * @param card_size Starting max hand size
      * @param factory_cost Starting cost to upgrade industry
-     * @param ussr_treaty Inital ties with USSR
-     * @param axis_treaty Inital ties with AXIS
-     * @param allies_treaty Inital ties with WEST
-     * @param usa_treaty Inital USA involvement
+     * @param ussr_dow Inital ties with USSR
+     * @param axis_dow Inital ties with AXIS
+     * @param allies_dow Inital ties with WEST
+     * @param usa_dow Inital USA involvement
      */
-    Player(const string name, const CityType allegiance, const size_t population, const size_t resource, const size_t industry, const size_t card_size, const size_t factory_cost, const bool ussr_treaty, bool axis_treaty, bool allies_treaty, const bool usa_treaty)
-        : name(name), allegiance(allegiance), population(population), resources(resource), industry(industry), card_size(card_size), factory_cost(factory_cost), ussr_treaty(ussr_treaty), west_treaty(allies_treaty), axis_treaty(axis_treaty), usa_treaty(usa_treaty){
+    Player(const string name, const CityType allegiance, const size_t population, const size_t resource, const size_t industry, const size_t card_size, const size_t factory_cost, const DowState ussr_treaty, DowState axis_treaty, DowState allies_treaty, const DowState usa_treaty)
+        : name(name), allegiance(allegiance), population(population), resources(resource), industry(industry), card_size(card_size), factory_cost(factory_cost), ussr_dow(ussr_treaty), west_dow(allies_treaty), axis_dow(axis_treaty), usa_dow(usa_treaty){
 
     }
 
@@ -153,6 +159,14 @@ public:
         return resources;
     }
 
+    size_t getIndustry() const{
+        return industry;
+    }
+
+    size_t getIndustryCost() const{
+        return factory_cost;
+    }
+
     /**
      * @brief Set the players population
      * 
@@ -180,6 +194,43 @@ public:
         return action_hand.size() + invest_hand.size();
     }
 
+    DowState getUssrDow() const{
+        return ussr_dow;
+    }
+
+    DowState getWestDow() const{
+        return west_dow;
+    }
+
+    DowState getAxisDow() const{
+        return axis_dow;
+    }
+
+    DowState getUsaDow() const{
+        return usa_dow;
+    }
+
+    size_t getYearAtPeace() const{
+        return year_at_peace;
+    }
+
+
+    void setUssrDow(const DowState ds) {
+        ussr_dow = ds;
+    }
+
+    void setWestDow(const DowState ds) {
+        west_dow = ds;
+    }
+
+    void setAxisDow(const DowState ds) {
+        axis_dow = ds;
+    }
+
+    void setUsaDow(const DowState ds) {
+        usa_dow = ds;
+    }
+
     /**
      * @brief gets the player's card limit
      * 
@@ -205,6 +256,18 @@ public:
      */
     size_t getVP() const{
         return victory_points;
+    }
+
+    void givePeaceDividend(const PeaceChit chit){
+        peace_dividends.push_back(chit);
+    }
+
+    PeaceChit& getPeaceDividend(const size_t i){
+        return peace_dividends[i];
+    }
+
+    size_t getPeaceDividendSize() const{
+        return peace_dividends.size();
     }
 
     /**

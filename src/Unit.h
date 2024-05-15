@@ -2,6 +2,13 @@
 
 #include "Includes.h"
 
+struct PeaceChit{
+    uint8_t value;
+
+    int x; 
+    int y;
+};
+
 struct Dice{
     vector<int> stats; /**< Vector to hold how often each side was rolled*/
 

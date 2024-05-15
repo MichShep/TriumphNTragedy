@@ -68,6 +68,8 @@
         "utility": "cpp",
         "sdl_version.h": "c",
         "begin_code.h": "c",
-        "close_code.h": "c"
+        "close_code.h": "c",
+        "list": "cpp",
+        "execution": "cpp"
     }
 }

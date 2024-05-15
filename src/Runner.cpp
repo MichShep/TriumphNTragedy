@@ -78,6 +78,37 @@ bool Runner::initMap(string map_name){
                 break;
         }
 
+        char naty;
+        UnitCountry nationality;
+        map_file >> naty;
+        switch (naty)
+        {
+        case ('B'): //britian
+            nationality = BRITIAN_U;
+            break;
+        case ('U'): //usa
+            nationality = USA_U;
+            break;
+        case ('F'): //france
+            nationality = FRANCE_U;
+            break;
+        case ('G'): //germany
+            nationality = GERMANY_U;
+            break;
+        case ('I'): //italy
+            nationality = ITALY_U;
+            break;
+        case ('S'): //uSsr
+            nationality = USSR_U;
+            break;
+        case ('N'): //uSsr
+            nationality = NEUTRAL_U;
+            break;
+        default:
+            nationality = NEUTRAL_U;
+            break;
+        }
+
         PopulationType population_type;
         map_file >> tempS;
 
@@ -122,8 +153,7 @@ bool Runner::initMap(string map_name){
                 resource_type = TRANS_ATLANTIC;
                 break;
         }
-        City* c = new City{ID, name, city_type, power_type, population_type, population, muster, resource, resource_type};
-        map.addCity(c);
+        City* c = new City{ID, name, city_type, power_type, population_type, nationality, population, muster, resource, resource_type};
 
         int x, y;
         map_file >> x;
@@ -131,6 +161,8 @@ bool Runner::initMap(string map_name){
 
         c->x = x;
         c->y = y;
+
+        map.addCity(c);
         
         c->color[0] = COLOR_TABLE[city_type][0];
         c->color[1] = COLOR_TABLE[city_type][1];
