@@ -25,11 +25,11 @@ private:
 
     size_t resources; /**< Total number of resources player has*/
 
-    size_t industry; /**< Total number of industry the player has*/
+    size_t industry=0; /**< Total number of industry the player has*/
 
     size_t card_size; /**< Hand size of the player they must discard to at the end of government*/
 
-    size_t factory_cost; /**< The cost to upgrade the industry*/
+    size_t factory_cost=0; /**< The cost to upgrade the industry*/
 
     vector<Unit*> units; /**< Masterlist of all units the player controls*/
 
@@ -125,13 +125,17 @@ public:
      * 
      */
     void ussrInit();
+    
+    //& Card Things
+    void deal(ActionCard* aC){
+        action_hand.push_back(aC);
+    }
 
-    /**
-     * @brief Goes through the map and fills in the players stats
-     * 
-     */
-    void mapPlayer();
+    void deal(InvestmentCard* iC){
+        invest_hand.push_back(iC);
+    }
 
+    //& Getters and Setters
     /**
      * @brief Gets which power the player is
      * 

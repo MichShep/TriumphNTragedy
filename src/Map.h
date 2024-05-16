@@ -115,6 +115,7 @@ public:
             return false;
         }
     }
+    
 
     /**
      * @brief Gives the number of enemies (not the number of units) in the current city
@@ -185,9 +186,100 @@ public:
     void print() const;
 };
 
+struct Country{
+public:
+    size_t id;
+
+    string name="";
+
+    string capital="";
+
+    CityType allegiance=WATER;
+
+    InfluenceType influence_level;
+    
+    int influence;
+
+    int added_influence=0;
+
+    CityType top_card=WATER;
+
+    vector<City*> cities;
+
+public:
+    /**
+     * @brief Construct a new Country
+     * 
+     * @param name Name of the country
+     * @param influence_level The satelite state of this country (UNALIGNED, ASSOCIATES, PROTECTORATES, SATELLITES)
+     * @param influence The current influnce level of the country [0...3]
+     */
+    Country(const size_t id, const string name, const string capital, const InfluenceType influence_level=UNALIGNED, const int influence=0):
+    id(id), name(name), capital(capital), influence_level(influence_level), influence(influence){
+    }
+
+    void pushback(City* city){
+        if (allegiance == WATER) //since the 
+            allegiance = city->city_type;
+
+        cities.push_back(city);
+    }
+
+    void addCard(const CityType influencer){
+        if (top_card == NEUTRAL){ //neutral means its empty
+            top_card = influencer;
+            added_influence = 1;
+        }
+        else if (top_card != influencer){ //if its not the influencer then cancel one card
+            if (added_influence == 1){
+                top_card = NEUTRAL;
+            }
+            added_influence--;
+        }
+        else if (top_card == influencer){ //if its the influencer then add onto the influence being added
+            added_influence++;
+        }
+    }
+
+    void resolveCards(){
+        if (allegiance == NEUTRAL && added_influence > 0){
+            allegiance = top_card;
+            influence = added_influence;
+        }
+        else if (allegiance == top_card){
+            influence += added_influence;
+        }
+        else if (allegiance != top_card){
+            if (added_influence > influence){ //if the added influence is from a rival and greater than the difference is for the new allegiance
+                allegiance = top_card;
+                influence = added_influence-influence;
+            }
+            else if (added_influence == influence){ //if its equal then they all cancel out and goes back to neutal
+                allegiance = NEUTRAL;
+                influence = 0;
+            }
+            else{ //if it wasn't more than the current it just decreases it
+                influence -= added_influence;
+            }
+        }
+
+        resolveDiplomacy();
+    }
+
+    void resolveDiplomacy(){
+        
+    }
+
+    string getName()const{
+        return name;
+    }
+};
+
 class Map{
 private:
     size_t list_size; /**< The size or amount of cities in the game*/
+
+    unordered_map<string, Country*> countries; /**< Hash table of all countrues where the country is a collection of cities that share the same influence*/
 
     unordered_map<string, City*> cities; /**< Hash table of all cities where the city pointer is the value of the City key name*/
 
@@ -206,6 +298,15 @@ public:
      * @param size The amount of cities and ultimate the side length of it
      */
     void initLists(const size_t size);
+
+    /**
+     * @brief Adds a country pointer to the map
+     * 
+     * @param country The country being added
+     */
+    void addCountry(Country* country){
+        countries.insert(std::make_pair(country->getName(), country));
+    }
 
     /**
      * @brief Adds a city pointer to the map and master list
@@ -293,6 +394,26 @@ public:
     City* getCity(const size_t id) const;
 
     /**
+     * @brief Gets the country of that name
+     * 
+     * @param name Name of the country
+     * @return Country* The country of that name
+     */
+    Country* getCountry(const string name) const{
+        return countries.at(name);
+    }
+
+    /**
+     * @brief Gets the capital of that country
+     * 
+     * @param country Name of the country with the desired capital
+     * @return City* The capital of the city (where influence is places)
+     */
+    City* getCapital(const string country) const{
+        return getCity(countries.at(country)->capital);
+    }
+
+    /**
      * @brief Checks to see if there is a connection between the two named cities
      * 
      * @param A Starting City
@@ -329,6 +450,15 @@ public:
      */
     const unordered_map<string, City*>& getCities() const{
         return cities;
+    }
+
+    /**
+     * @brief Get reference to hash map of countries to reduce calls 
+     * 
+     * @return const unordered_map<string, Country*>& The city hashmap reference
+     */
+    const unordered_map<string, Country*>& getCountries() const{
+        return countries;
     }
 
     /**

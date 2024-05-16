@@ -9,9 +9,11 @@ bool Runner::initMap(string map_name){
     }
 
     //- Read in number of cities in map
-    size_t num_cities;
+    size_t num_cities, num_countries;
 
     map_file >> num_cities;
+
+    map_file >> num_countries;
 
     //- Resize adjacency and border lists
     map.initLists(num_cities+1); //is one more so that the first is 1 not 0
@@ -63,18 +65,25 @@ bool Runner::initMap(string map_name){
 
         PowerType power_type;
         map_file >> tempS;
-        switch (tempS[0]){ // {GREAT, HOME, MINOR, NONE}
-            case 'G': //great
+        switch (tempS[0]+tempS[1]){ // {GREAT, MAJOR, COLONIES, MINOR, NONE, SEA}
+            case 'G' + 'r': //great
                 power_type = GREAT;
                 break;
-            case 'H': //home
-                power_type = HOME;
+            case 'M'+'a': //major
+                power_type = MAJOR;
                 break;
-            case 'M': //minor
+            case 'C'+'o': //colony
+                power_type = COLONY;
+                break;
+            case 'M'+'i': //minor
                 power_type = MINOR;
                 break;
-            case 'N': //none
+            case 'N'+'o': //none
                 power_type = NONE;
+                break;
+            default:
+                printf("Unkown powertype!\n");
+                exit(1);
                 break;
         }
 
@@ -112,33 +121,40 @@ bool Runner::initMap(string map_name){
         PopulationType population_type;
         map_file >> tempS;
 
+        size_t population;
+
+        size_t muster;
+
         if (tempS == "Empty"){
             population_type = EMPTY;
+            population = 0; muster = 0;
         }
         else if (tempS == "Town"){
             population_type = TOWN;
+            population = 0; muster = 1;
         }
         else if (tempS == "City"){
             population_type = CITY;
+            population = 1; muster = 2;
         }
         else if (tempS == "CapitalCity"){
             population_type = CAPITAL_CITY;
+            population = 1; muster = 3;
         }
         else if (tempS == "SubCapital"){
             population_type = SUB_CAPITAL;
+            population = 2; muster = 0;
         }
         else if (tempS == "MainCapital"){
             population_type = MAIN_CAPITAL;
+            population = 3; muster = 0;
         }
         else{
             population_type = EMPTY;
+            population = 0; muster = 0;
         }
 
-        size_t population;
-        map_file >> population;
-
-        size_t muster;
-        map_file >> muster;
+        
 
         size_t resource;
         map_file >> resource;
@@ -238,10 +254,113 @@ bool Runner::initMap(string map_name){
         }
 
     }
-    map.print();
+    //map.print();
+
+    //- Add cities to certain Countries
+    string country_line;
+    for (size_t curr_country = 0; curr_country < num_countries; curr_country++){
+        string name; //first is country name
+        string capital; //second is the capital
+        string city;
+        map_file >> name;
+        map_file >> capital;
+        name.pop_back();
+
+        //Construct incomplete country
+        Country* country = new Country(curr_country, name, capital);
+
+        country->pushback(map[capital]);
+
+        getline(map_file, country_line);
+        std::istringstream ss(country_line);
+        while (ss >> city){
+            country->pushback(map[city]);
+        }
+
+        map.addCountry(country);
+    }
 
     return true;
 }
+bool Runner::initCards(const string invest_name, const string action_name){
+    fstream invest_file(invest_name, std::ios_base::in);
+    fstream action_file(action_name, std::ios_base::in);
+
+    if (!invest_file.is_open()){
+        printf("Unable to open invest card file!\n");
+        return false;
+    }
+
+    if (!action_file.is_open()){
+        printf("Unable to open action card file!\n");
+        return false;
+    }
+
+    size_t invest_size, action_size;
+    invest_file >> invest_size;
+    action_file >> action_size;
+
+    for (size_t curr_card = 0; curr_card < invest_size; curr_card++){
+        size_t type=0, cost=0, year=0;
+        invest_file >> type;
+        string tech1="", tech2="";
+        
+        if (type == 2){ //need a year
+            invest_file >> year;
+        }
+        else{
+            invest_file >> tech1;
+            if (type == 0)
+                invest_file >> tech2;
+        }
+
+        invest_file >> cost; //all have a cost
+
+        //InvestmentCard(const InvestType type - 1, const string tech1 - 2, const string tech2 - 3, const Tech tech - 4, const int amount - 5, const size_t year - 6): 
+        invest_discard.push_back(new InvestmentCard((InvestType)type, tech1, tech2, cost, year));
+    }
+
+    for (size_t curr_card = 0; curr_card < action_size; curr_card++){
+        int type, number;
+        string countryA="", countryB="", seasonString="";
+        Season season;
+        char letter;
+
+        action_file >> type;
+
+        action_file >> countryA;
+        if (!type){ //is !1 = 0 means a normal card then take second country
+            action_file >> countryB;
+        }
+
+        action_file >> seasonString;
+        switch (seasonString[1]){
+        case 'u': //sUmmer
+            season = SUMMER;
+            break;
+        case 'p': //sPring
+            season = SPRING;
+            break;
+        case 'a': //fAll
+            season = FALL;
+            break;
+        default:
+            printf("Unkown Season!\n");
+            return false;
+        }
+
+        action_file >> letter;
+        action_file >> number;
+
+        //ActionCard(const ActionType type, const string countryA, const string countryB, const Season season, const char letter, const int number)
+        action_discard.push_back(new ActionCard((ActionType)type, countryA, countryB, season, letter, number));
+
+        //reshuffle(false);
+    }
+
+    return true;
+}
+
 
 bool Runner::mapPlayer(Player& player){
     auto temp_map = map.getCities();

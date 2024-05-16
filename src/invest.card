@@ -1,0 +1,56 @@
+55
+0 LSTs Motorized_Infantry 3
+0 AirDefense_Radar Naval_Radar 1
+0 AirDefense_Radar Rocket_Artillery 3
+0 Naval_Radar Heavy_Tanks 2
+0 Heavy_Bombers Percision_Bombsight 3
+1 Spy_Ring 3
+1 Code_Breaker 1
+1 Agent 2
+0 Heavy_Tanks Rocket_Artillery 3
+0 Heavy_Tanks Jets 3
+1 Double_Agent 4
+0 Jets Motorized_Infantry 3
+1 Mole 3
+0 LSTs Motorized_Infantry 3 
+0 Heavy_Bombers Jets 4
+2 1944 4
+0 Sonar Naval_Radar 1 
+0 Naval_Radar Sonar 1 
+0 Sonar Atomic_Research_1 2
+0 Heavy_Bombers Industrial_Espionage 2
+0 Industrial_Espionage AirDefense_Radar 2
+0 LSTs Motorized_Infantry 3
+0 Heavy_Tanks Rocket_Artillery 3 
+0 Naval_Radar Sonar 1
+2 1938 1
+1 Spy_Ring 2
+0 Industrial_Espionage Atomic_Research_2 3
+0 Motorized_Infantry Atomic_Research_2 3
+0 LSTs Atomic_Research_3 4
+1 Agent 1
+0 Percision_Bombsight Industrial_Espionage 3
+0 Percision_Bombsight Atomic_Research_1 2
+0 Naval_Radar Sonar 2
+0 Heavy_Bombers Atomic_Research_4 4
+0 Sonar AirDefense_Radar 1
+0 Rocket_Artillery Sonar 2
+0 Heavy_Bombers LSTs 3
+0 AirDefense_Radar Heavy_Tanks 2
+2 1942 3
+0 Rocket_Artillery Percision_Bombsight 3
+0 Motorized_Infantry Atomic_Research_3 3
+1 Sabotage 3
+1 Code_Breaker 2
+0 LSTs Heavy_Bombers 3
+0 Sonar AirDefense_Radar 1
+1 Coup 4
+2 1940 2
+0 Sonar Naval_Radar 2
+2 1938 1
+0 Heavy_Tanks AirDefense_Radar 2
+0 Industrial_Espionage Percision_Bombsight 3
+0 AirDefense_Radar Atomic_Research_2 2
+0 Percision_Bombsight Atomic_Research_1 3
+0 Jets Atomic_Research_4 4
+0 Percision_Bombsight Atomic_Research_1 2

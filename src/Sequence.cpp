@@ -8,24 +8,34 @@ bool Runner::run(){
     SDL_Event event;
 
     test();
-    City* closest = map.getCity("A");
+
+    //& Draw the initial Board
+    //-Draw the connections
+    ClearScreen();
+    //- Draw Player Stats
+    drawPlayerStats(players[0]);
+    drawPlayerStats(players[1]);
+    drawPlayerStats(players[2]);
+
+    DrawConnections();
+
+    auto& cities = map.getCities();
+    for (auto city : cities)
+        drawCity(city.second);
+
+    //- Draw the time track
+    //DrawTimeTrack();
+
+    SDL_RenderPresent(app.renderer);
 
     while (running){
-        ClearScreen();
+        
 
         //-Draw the connections
-        DrawConnections();
 
         
         if (SDL_PollEvent(&event)){
             switch (event.type) {
-                case SDL_MOUSEMOTION:{
-                    int x, y;
-                    SDL_GetMouseState(&x, &y);
-
-                    closest = map.getClosestCity(x, y);
-
-                }
 
                 case SDL_KEYDOWN:{
                     running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
@@ -62,23 +72,13 @@ bool Runner::run(){
                     break;
                 }
             }
-        }
+    }
+    }
 
-        drawCity(closest);
+    //& Main game Loop
+    CityType winner;
+    while ((winner=newYear()) != WATER){ //run the game unitl a winner is found
 
-        //- Draw the time track
-        DrawTimeTrack();
-
-        //- Draw Player Stats
-        drawPlayerStats(players[0]);
-        drawPlayerStats(players[1]);
-        drawPlayerStats(players[2]);
-
-        //- New Year
-        newNear();
-        
-
-        SDL_RenderPresent(app.renderer);
     }
     
     
@@ -92,9 +92,9 @@ bool Runner::run(){
 }
 
 //- New Year
-CityType Runner::newNear(){
+CityType Runner::newYear(){
     //- Advance Year
-    //year++;
+    year++;
 
     //- Victroy Check 
     for (Player player : players){
@@ -103,18 +103,17 @@ CityType Runner::newNear(){
         }
     }
 
-    //- Reshuffle
-    reshuffle();
+    //- Reshuffle.
+    reshuffle(true);
 
-    //- Peace Dividends
+    //- Peace Dividends.
     peaceDividends();
 
-    //- Turn Order
+    //- Turn Order.
     start_player = &players[(start_player->getAllegiance()+1)%3];
 
-    //- New Year Resolution
-    if (year >= 1943)
-        newYearRes();
+    //- New Year Resolution.
+    newYearRes();
 
     //- Production Phase
     production();
@@ -225,9 +224,49 @@ void Runner::winter(){
 }
 
 
-void Runner::reshuffle(){
+void Runner::reshuffle(const bool animation){
+    //- Add action discard and shuffle
+    action_deck.insert(action_deck.end(), action_discard.begin(), action_discard.end());
+    shuffle(action_deck.begin(), action_deck.end(), g);
 
+    //- Add invest discard and shuffle
+    invest_deck.insert(invest_deck.end(), invest_discard.begin(), invest_discard.end());
+    shuffle(invest_deck.begin(), invest_deck.end(), g);
+
+    if (animation)
+        reshuffleAnimation(action_discard.size(), invest_discard.size());
+
+    //- Clear discard pile
+    action_discard.clear();
+    invest_discard.clear();
 }
+
+bool Runner::deal(Player* player, size_t amount, const char state){
+    switch (state){
+    case 'A': //action cards
+        if (action_deck.empty())
+            return false;
+        while (amount--){
+            player->deal(action_deck.back());
+            action_deck.pop_back();
+        }
+        break;
+    case 'I': //action cards
+        if (invest_deck.empty())
+            return false;
+        while (amount--){
+            player->deal(invest_deck.back());
+            invest_deck.pop_back();
+        }
+        break;
+    
+    default:
+        break;
+    }
+
+    return true;
+}
+
 
 void Runner::peaceDividends(){
     if (peace_dividends_bag.size() == 0) //in game its impossible to runnout of chits so this is for testing
@@ -253,6 +292,19 @@ void Runner::peaceDividends(){
 }
 
 void Runner::newYearRes(){
+    auto usa = map.getCountry("USA");
+    if (year >= 1941 && year < 1945){
+        usa->influence++;
+        usa->resolveDiplomacy(); //? 8.44 Becomes a satellite immediately
+        
+        if (year != 1941 && usa->influence_level == SATELLITES){ //? 8.54 during 1942 to 1944 USA forces [AF/Fleet/Infantry/Tank] arrive with 1 CV up to 3 CV depending on the year
+            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_A, AIR, year-1941, 2, true));
+            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_N, FLEET, year-1941, 3, true, true));
+            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_G, INFANTRY, year-1941, 2, true));
+            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_A, TANK, year-1941, 3, true));
+        }
+    }
+
 
 }
 

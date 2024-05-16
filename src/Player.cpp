@@ -5,45 +5,30 @@ void Player::westInit(){
 
     //- Place cadres in France
 
-    //- Draw 8 cards
-
-    industry = 7;
-
     factory_cost = 6;
 
-    population = 12;
+    card_size = 8;
 
-    resources = 11;
+    industry = 7;
 }
 
 void Player::axisInit(){
-    //- Place cadres in Germany
-
-    //- Place cadres in Italy
-
-    //-Draw 14 cards
-
-    industry = 12;
-
     factory_cost = 5;
 
-    population = 11;
+    card_size = 7;
 
-    resources = 6;
+    industry = 12;
 }
 
 void Player::ussrInit(){
     //- Place cadres in USSR
 
     //- Draw 6 cards
-
-    industry = 9;
-
     factory_cost = 7;
 
-    population = 12;
+    card_size = 6;
 
-    resources = 11;
+    industry = 9;
 }
 
 void Player::print() const{

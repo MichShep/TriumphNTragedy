@@ -33,12 +33,9 @@ void Runner::drawCity(City* city){
     target.h = city->HEIGHT;
     target.w = city->WIDTH;
 
-    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/CityTypes.png";
+    sprite_map_32s.selectSprite(getCitySprite(city), 8);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 
-    Spritesheet cities(path.c_str(), app.renderer);
-    cities.selectSprite(getCitySprite(city));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-
-    cities.drawSelectedSprite(app.renderer, &target);
+    sprite_map_32s.drawSelectedSprite(app.renderer, &target);
 
     //- Draw the Population type (capital, subcapital, ...)
 
@@ -47,25 +44,25 @@ void Runner::drawCity(City* city){
     float scale = 1;
     int offset = city->HEIGHT;
     for (auto unit :city->occupants[0]){ //west
-        (this->*draw[unit->unit_type])(unit, city->x, city->y+offset, scale);
+        drawUnit(unit, city->x, city->y+offset, scale);
         offset += 32*scale;
     }
 
     offset = city->HEIGHT;
     for (auto unit :city->occupants[1]){ //axis
-        (this->*draw[unit->unit_type])(unit, city->x+32*scale, city->y+offset, scale);
+        drawUnit(unit, city->x+32, city->y+offset, scale);
         offset += 32*scale;
     }
 
     offset = city->HEIGHT;
     for (auto unit :city->occupants[2]){ //ussr
-        (this->*draw[unit->unit_type])(unit, city->x+32*2*scale, city->y+offset, scale);
+        drawUnit(unit, city->x+64, city->y+offset, scale);
         offset += 32*scale;
     }
 
     offset = city->HEIGHT;
     for (auto unit :city->occupants[3]){ //neutral
-        (this->*draw[unit->unit_type])(unit, city->x+32*3*scale, city->y+offset, scale);
+        drawUnit(unit, city->x+96, city->y+offset, scale);
         offset += 32*scale;
     }
 }
@@ -159,7 +156,7 @@ bool Runner::InitApplication(){
 
 
     app.window = SDL_CreateWindow(
-        "SDL Create Window (Triumph And Tragedy)",
+        "Triumph And Tragedy",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         app.screen.WIDTH,
@@ -179,12 +176,10 @@ bool Runner::InitApplication(){
 }
 
 //& Drawing units
-void Runner::drawFortress(Unit* unit, int x, int y, float scale) const{
+void Runner::drawUnit(Unit* unit, int x, int y, float scale){
     //- Get the sprite depending on thenationality and current CV
-    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Fortress/"+NATIONALITY_STRING[unit->nationality] +"-FORT.png";
 
-    Spritesheet tank(path.c_str(), app.renderer);
-    tank.selectSprite(unit->combat_value);
+    sprite_map_32s.selectSprite(UNIT_SPRITE_OFFSET[unit->nationality]+unit->combat_value, 1 + (int)unit->unit_type);
 
     SDL_Rect target;
     target.x = x;
@@ -192,118 +187,8 @@ void Runner::drawFortress(Unit* unit, int x, int y, float scale) const{
     target.h = 32 * scale;
     target.w = 32 * scale;
 
-    tank.drawSelectedSprite(app.renderer, &target);
-
+    sprite_map_32s.drawSelectedSprite(app.renderer, &target);
 }
-
-void Runner::drawAir(Unit* unit, const int x, const int y, const float scale) const{
-    //- Get the sprite depending on thenationality and current CV
-    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Air/"+NATIONALITY_STRING[unit->nationality] +"-AIR.png";
-
-   Spritesheet tank(path.c_str(), app.renderer);
-   tank.selectSprite(unit->combat_value);
-
-
-    SDL_Rect target;
-    target.x = x;
-    target.y = y;
-    target.h = 32 * scale;
-    target.w = 32 * scale;
-
-    tank.drawSelectedSprite(app.renderer, &target);
-
-}
-
-void Runner::drawCarrier(Unit* unit, const int x, const int y, const float scale) const{
-     //- Get the sprite depending on thenationality and current CV
-    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Carrier/"+NATIONALITY_STRING[unit->nationality] +"-CARRIER.png";
-
-   Spritesheet tank(path.c_str(), app.renderer);
-   tank.selectSprite(unit->combat_value);
-
-
-    SDL_Rect target;
-    target.x = x;
-    target.y = y;
-    target.h = 32 * scale;
-    target.w = 32 * scale;
-
-    tank.drawSelectedSprite(app.renderer, &target);
-}
-
-void Runner::drawSub(Unit* unit, const int x, const int y, const float scale) const{
-     //- Get the sprite depending on thenationality and current CV
-    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Tank/"+NATIONALITY_STRING[unit->nationality] +"-TANK.png";
-
-   Spritesheet tank(path.c_str(), app.renderer);
-   tank.selectSprite(unit->combat_value);
-
-
-    SDL_Rect target;
-    target.x = x;
-    target.y = y;
-    target.h = 32 * scale;
-    target.w = 32 * scale;
-
-    tank.drawSelectedSprite(app.renderer, &target);
-}
-
-void Runner::drawFleet(Unit* unit, const int x, const int y, const float scale) const{
-     //- Get the sprite depending on thenationality and current CV
-    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Fleet/"+NATIONALITY_STRING[unit->nationality] +"-FLEET.png";
-
-   Spritesheet tank(path.c_str(), app.renderer);
-   tank.selectSprite(unit->combat_value);
-
-
-    SDL_Rect target;
-    target.x = x;
-    target.y = y;
-    target.h = 32 * scale;
-    target.w = 32 * scale;
-
-    tank.drawSelectedSprite(app.renderer, &target);
-}
-
-void Runner::drawTank(Unit* unit, const int x, const int y, const float scale) const{
-    //- Get the sprite depending on thenationality and current CV
-    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Tank/"+NATIONALITY_STRING[unit->nationality] +"-TANK.png";
-
-   Spritesheet tank(path.c_str(), app.renderer);
-   tank.selectSprite(unit->combat_value);
-
-
-    SDL_Rect target;
-    target.x = x;
-    target.y = y;
-    target.h = 32 * scale;
-    target.w = 32 * scale;
-
-    tank.drawSelectedSprite(app.renderer, &target);
-}
-
-void Runner::drawInfantry(Unit* unit, const int x, const int y, const float scale) const{
-    //- Get the sprite depending on thenationality and current CV
-    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Infantry/"+NATIONALITY_STRING[unit->nationality] +"-INFA.png";
-
-    Spritesheet tank(path.c_str(), app.renderer);
-    tank.selectSprite(unit->combat_value);
-
-
-    SDL_Rect target;
-    target.x = x;
-    target.y = y;
-    target.h = 32 * scale;
-    target.w = 32 * scale;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-
-    tank.drawSelectedSprite(app.renderer, &target);
-}
-
-void Runner::drawConvoy(Unit* unit, const int x, const int y,const float scale) const{
-
-}
-
-
 
 void Runner::DrawTimeTrack(){
     //- Draw Outline
@@ -389,12 +274,11 @@ void Runner::DrawTimeTrack(){
     }
 }
 
+//TODO optomize
 void Runner::drawPlayerStats(Player& player){
     //- Get the sprite depending on the power
-    string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/PlayerStats.png";
 
-    Spritesheet board(path.c_str(), app.renderer, 96, 64);
-    board.selectSprite(player.getAllegiance());
+    sprite_map_96_64.selectSprite(player.getAllegiance(), 5);
 
     float scale = 3;
 
@@ -420,7 +304,7 @@ void Runner::drawPlayerStats(Player& player){
     //- Draw the Board
     SDL_Rect target = {x, 0, (int)(96*scale), (int)(64*scale)};
 
-    board.drawSelectedSprite(app.renderer, &target);
+    sprite_map_96_64.drawSelectedSprite(app.renderer, &target);
 
     //- Draw the stats onto the spots
     //(16,20) for pop, (40,20) for res (64,20) for ind (82,20) for ind_cost
@@ -432,9 +316,6 @@ void Runner::drawPlayerStats(Player& player){
 
     drawNumber(player.getIndustryCost(), x+(int)(scale*82)+7*scale/2, (int)(scale*20), 1.5); //ind_cost
 
-    path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/DoWs.png";
-
-    Spritesheet treaties(path.c_str(), app.renderer, 19, 19);
 
     switch (player.getAllegiance()){
         case WEST:{
@@ -447,14 +328,14 @@ void Runner::drawPlayerStats(Player& player){
 
             case DECLARED:
                 //draw flipped size
-                treaties.selectSprite(3);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(3);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             case PEACE:
                 //draw normal peace size
-                treaties.selectSprite(2);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(2);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             default:
@@ -470,14 +351,14 @@ void Runner::drawPlayerStats(Player& player){
 
             case DECLARED:
                 //draw flipped size
-                treaties.selectSprite(5);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(5);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             case PEACE:
                 //draw normal peace size
-                treaties.selectSprite(4);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(4);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             default:
@@ -493,14 +374,14 @@ void Runner::drawPlayerStats(Player& player){
 
             case DECLARED:
                 //draw flipped at war size
-                treaties.selectSprite(7);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(7);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             case PEACE:
                 //draw normal neutral size
-                treaties.selectSprite(6);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(6);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             default:
@@ -518,14 +399,14 @@ void Runner::drawPlayerStats(Player& player){
 
             case DECLARED:
                 //draw flipped size
-                treaties.selectSprite(3);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(3);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             case PEACE:
                 //draw normal peace size
-                treaties.selectSprite(2);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(2);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             default:
@@ -541,14 +422,14 @@ void Runner::drawPlayerStats(Player& player){
 
             case DECLARED:
                 //draw flipped size
-                treaties.selectSprite(1);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(1);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             case PEACE:
                 //draw normal peace size
-                treaties.selectSprite(0);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(0);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             default:
@@ -565,14 +446,14 @@ void Runner::drawPlayerStats(Player& player){
 
             case DECLARED:
                 //draw flipped size
-                treaties.selectSprite(5);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(5);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             case PEACE:
                 //draw normal peace size
-                treaties.selectSprite(4);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(4);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             default:
@@ -588,14 +469,14 @@ void Runner::drawPlayerStats(Player& player){
 
             case DECLARED:
                 //draw flipped size
-                treaties.selectSprite(1);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(1);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             case PEACE:
                 //draw normal peace size
-                treaties.selectSprite(0);
-                treaties.drawSelectedSprite(app.renderer, &target);
+                sprite_map_19s.selectSprite(0);
+                sprite_map_19s.drawSelectedSprite(app.renderer, &target);
                 break;
             
             default:
@@ -608,10 +489,7 @@ void Runner::drawPlayerStats(Player& player){
         }
 
     //- Draw chits
-    path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/PeaceChit.png";
-
-    Spritesheet peace(path.c_str(), app.renderer);
-    peace.selectSprite(0);
+    sprite_map_32s.selectSprite(0, 9);
 
     target = {(int)(x+79*scale), (int)(6*scale), (int)(8*scale), (int)(8*scale)};
 
@@ -626,7 +504,7 @@ void Runner::drawPlayerStats(Player& player){
         }
         target.y = chit.y;
         target.x = chit.x;
-        peace.drawSelectedSprite(app.renderer, &target);
+        sprite_map_32s.drawSelectedSprite(app.renderer, &target);
         
     }
 }
@@ -706,3 +584,103 @@ void Runner::drawNumber(const int num, const int x, const int y, const float sca
 
 
 }
+
+void Runner::reshuffleAnimation(const size_t& action_size, const size_t& invest_size){
+    bool running = true;
+    SDL_Event event;
+    int action_offset = 0;
+    int invest_offset = 0;
+    float scale = 3;
+    int delta_time = rand() % (8 - 1 + 1) + 1;
+    bool state = true;
+    SDL_Rect target;
+    while (running){
+        ClearScreen();
+        if (state){ //move cards
+            sprite_map_96_64.selectSprite(7, 5);
+
+            target = {app.screen.WIDTH/2-(int)(scale*96)/2, app.screen.HEIGHT/2-(int)(scale*64) ,(int)(scale*96), (int)(scale*64)};
+
+            sprite_map_96_64.drawSelectedSprite(app.renderer, &target);
+
+            sprite_map_32s.selectSprite(7);
+            for (int i = 0; i < invest_size; i++){
+                if (invest_offset - i*16 >= app.screen.WIDTH/2-(int)(scale*96)/2+(int)(9*scale))
+                    target = {app.screen.WIDTH/2-(int)(scale*96)/2+(int)(9*scale), app.screen.HEIGHT/2-(int)(scale*64)+(int)(15*scale) , (int)(scale*32), (int)(scale*32)};
+                else
+                    target = {invest_offset - i*16, app.screen.HEIGHT/2-(int)(scale*64)+(int)(15*scale), (int)(scale*32), (int)(scale*32)};
+                sprite_map_32s.drawSelectedSprite(app.renderer, &target);
+
+            }
+            invest_offset += delta_time;
+
+            for (int i = 0; i < action_size; i++){
+                if (app.screen.WIDTH + action_offset + i*16 <= app.screen.WIDTH/2-(int)(scale*96)/2+(int)(57*scale))
+                    target = {app.screen.WIDTH/2-(int)(scale*96)/2+(int)(57*scale), app.screen.HEIGHT/2-(int)(scale*64)+(int)(15*scale) , (int)(scale*32), (int)(scale*32)};
+                else
+                    target = {app.screen.WIDTH + action_offset + i*16, app.screen.HEIGHT/2-(int)(scale*64)+(int)(15*scale), (int)(scale*32), (int)(scale*32)};
+                sprite_map_32s.drawSelectedSprite(app.renderer, &target);
+
+            }
+            action_offset -= delta_time;
+            SDL_RenderPresent(app.renderer);
+        }
+        else{ //finish sign
+            for (int i = 0; i < 6; i++){
+                ClearScreen();
+                sprite_map_96_64.selectSprite(3, 5);
+                sprite_map_96_64.drawSelectedSprite(app.renderer, &target);
+                SDL_RenderPresent(app.renderer);
+                SDL_Delay(50);
+
+                ClearScreen();
+                sprite_map_96_64.selectSprite(4, 5);
+                sprite_map_96_64.drawSelectedSprite(app.renderer, &target);
+                SDL_RenderPresent(app.renderer);
+                SDL_Delay(50);
+
+                ClearScreen();
+                sprite_map_96_64.selectSprite(5, 5);
+                sprite_map_96_64.drawSelectedSprite(app.renderer, &target);
+                SDL_RenderPresent(app.renderer);
+                SDL_Delay(50);
+
+                ClearScreen();
+                sprite_map_96_64.selectSprite(6, 5);
+                sprite_map_96_64.drawSelectedSprite(app.renderer, &target);
+                SDL_RenderPresent(app.renderer);
+                SDL_Delay(100);
+            }
+
+            return;
+        }
+
+        //- Player can skip cutscene
+        if (SDL_PollEvent(&event)){
+            switch (event.type) {
+
+                case SDL_KEYDOWN:{
+                    running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
+                    break;
+                }
+
+                case SDL_QUIT:{
+                    running = false;
+                    break;
+                }
+
+                default: {
+                    break;
+                }
+            }
+        }
+
+        //- Check to see if animation is done
+        if ((app.screen.WIDTH + action_offset + (action_size-1)*16    <= app.screen.WIDTH/2-(int)(scale*96)/2+(int)(57*scale)) &&
+            (invest_offset                           >= app.screen.WIDTH/2-(int)(scale*96)/2+(int)(9*scale))){
+            target = {app.screen.WIDTH/2-(int)(scale*96)/2, app.screen.HEIGHT/2-(int)(scale*64) ,(int)(scale*96), (int)(scale*64)};
+            state = false;
+        }
+    }
+}
+

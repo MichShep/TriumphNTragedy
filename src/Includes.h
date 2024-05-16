@@ -45,7 +45,7 @@ using std::shuffle;
 
 enum CityType {WEST, AXIS, USSR, NEUTRAL, NEUTRAL_AT_WAR, WATER};
 
-enum PowerType {GREAT, HOME, MINOR, NONE, SEA};
+enum PowerType {GREAT, MAJOR, COLONY, MINOR, NONE, SEA};
 
 enum PopulationType {EMPTY, TOWN, CITY, CAPITAL_CITY, SUB_CAPITAL, MAIN_CAPITAL};
 
@@ -62,6 +62,12 @@ enum UnitCountry {BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRA
 enum Season {SPRING, SUMMER, FALL, WINTER};
 
 enum DowState {PEACE, DECLARED, VICTIM};
+
+enum InvestType {TECHNOLOGY, INTELLIGENCE, YEAR};
+
+enum ActionType {DIPLOMACY, WILD};
+
+enum InfluenceType {UNALIGNED, ASSOCIATES, PROTECTORATES, SATELLITES};
 
 enum Tech {AIR_DEFENSE, FIRST_FIRE, INDUSTRIAL_ESPIONAGE, SCIENCE};
 
@@ -132,6 +138,10 @@ const bool SEVEN_SEGMENT_DISPLAY[10][7] = {
     { 1,1,1,0,0,1,1 }  // display '9'
 };
 
+const int UNIT_SPRITE_OFFSET[7]{ //"BRITISH", "FRANCE", "USA", "GERMAN", "ITALY", "USSR", "NEUTRAL"
+    0, 5, 9, 14, 19, 23, 27
+};
+
 //Colors
 namespace Colors{
     const SDL_Color BLACK = {0, 0, 0, 255};
@@ -142,7 +152,7 @@ namespace Colors{
 namespace Graphics{
     struct Screen{
         const int WIDTH = 1512;
-        const int HEIGHT = 982;
+        const int HEIGHT = 912;
 
         const int center_x = WIDTH /2;
         const int center_y = HEIGHT /2;
@@ -155,6 +165,9 @@ private:
     SDL_Texture* spritesheet_image;
 
 public:
+    Spritesheet(){
+    }
+
     Spritesheet(char const *path, SDL_Renderer* renderer, int width=32, int height=32){
         auto spritesheet_surface = IMG_Load(path);
         spritesheet_image = SDL_CreateTextureFromSurface(renderer, spritesheet_surface);

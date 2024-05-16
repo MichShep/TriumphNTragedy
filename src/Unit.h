@@ -64,6 +64,8 @@ struct Dice{
 
 struct ActionCard{
 public:
+    ActionType type;
+
     string countryA;
     string countryB;
 
@@ -73,15 +75,18 @@ public:
     char letter;
     int number;
 
-    ActionCard(const string countryA, const string countryB, const Season season, const char letter, const int number):
-    countryA(countryA), countryB(countryB), season(season), letter(letter), number(number){
+    ActionCard(const ActionType type, const string countryA, const string countryB, const Season season, const char letter, const int number):
+    type(type), countryA(countryA), countryB(countryB), season(season), letter(letter), number(number){
 
     }
 };
 
 struct InvestmentCard{
 public:
-    string name;
+    InvestType type;
+
+    string tech1;
+    string tech2;
 
     Tech tech;
 
@@ -90,8 +95,9 @@ public:
     //for science cards
     size_t year;
 
-    InvestmentCard(const string name, const Tech tech, const int amount, const size_t year): name(name), tech(tech), amount(amount), year(year){
-
+    InvestmentCard(const InvestType type, const string tech1, const string tech2, const int amount, const size_t year): 
+    type(type), tech1(tech1), tech2(tech2), amount(amount), year(year){
+        tech = AIR_DEFENSE;
     }
 };
 
@@ -266,8 +272,8 @@ public:
 
     }
 
-    Unit(const CityType allegiance, const UnitClass class_type, const UnitType unit_type, const size_t combat_value, const size_t movement, const  bool rebase, const bool landing): allegiance(allegiance), class_type(class_type), unit_type(unit_type), combat_value(combat_value),
-    movement(movement), rebase(rebase), landing(landing){ //for making custom units
+    Unit(const UnitCountry nationality, const CityType allegiance, const UnitClass class_type, const UnitType unit_type, const size_t combat_value, const size_t movement, const  bool rebase, const bool landing=false): 
+    allegiance(allegiance), nationality(nationality), class_type(class_type), unit_type(unit_type), combat_value(combat_value), movement(movement), rebase(rebase), landing(landing){ //for making custom units or US delivery
 
     }
 

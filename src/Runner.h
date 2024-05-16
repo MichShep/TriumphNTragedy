@@ -19,11 +19,11 @@ private:
 
     Dice die; /**< Dice used to roll decisions, default a D6*/
 
-    queue<ActionCard*> action_deck; /**< Draw deck of the action cards*/
+    vector<ActionCard*> action_deck; /**< Draw deck of the action cards*/
 
     vector<ActionCard*> action_discard; /**< Draw deck of the action cards*/
 
-    queue<InvestmentCard*> invest_hand; /**< Draw deck of the invest cards*/
+    vector<InvestmentCard*> invest_deck; /**< Draw deck of the invest cards*/
 
     vector<InvestmentCard*> invest_discard; /**< Discard pile of investment cards*/
 
@@ -33,7 +33,11 @@ private:
 
     Player* active_player; /**< Player whose turn it is currently*/
 
-    App app;
+    const unsigned int seed = 42;
+    
+    std::mt19937 g;
+
+    App app; /**< The stuct that holds all window and renderer for SDL2*/
 
 public:
     /**
@@ -55,78 +59,50 @@ public:
         year--;
 
         //- Create Map
-        initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter2.map");
+        initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter3.map");
+
+        //- Create Cards
+        initCards("/Users/michshep/Desktop/TriumphNTragedy/src/invest.card", "/Users/michshep/Desktop/TriumphNTragedy/src/action.card");
 
         start_player = &players[1]; //AXIS start
         
         //- Init Players
-        players[0] = Player("Michael", WEST);
-        players[1] = Player("Taiga", AXIS);
-        players[2] = Player("Luke", USSR);
-        
+        players[0] = Player("Michael", WEST); //give 8 cards
+        deal(&players[0], 8);
+        players[1] = Player("Taiga", AXIS); //give 14 cards
+        deal(&players[1], 14);
+        players[2] = Player("Luke", USSR); //give 7 cards
+        deal(&players[2], 7);
+
+
         if (!default_mode){
             mapPlayer(players[0]);
             mapPlayer(players[1]);
             mapPlayer(players[2]);
         }
 
-        players[0].print();
-        players[1].print();
-        players[2].print();
-
         if (InitApplication() == false){
             ShutdownApplication();
             exit(1);
         }
 
-        const unsigned int seed = 42;
         std::mt19937 g(seed);
 
         peace_dividends_bag = {{2,0,0}, {2,0,0}, {2,0,0}, {2,0,0},
                                {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, 
                                {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}};
         shuffle(peace_dividends_bag.begin(), peace_dividends_bag.end(), g);
+
+        string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/SpriteMap0.png";
+        sprite_map_32s = Spritesheet(path.c_str(), app.renderer);
+
+        sprite_map_96_64 = Spritesheet(path.c_str(), app.renderer, 96, 64);
+
+        sprite_map_19s = Spritesheet(path.c_str(), app.renderer, 19, 19);
     }
 
     size_t test(){
-        active_player = &players[0];
-
-        //For B
-        Unit* wInfa0 = new Unit(1, BRITIAN_U, INFANTRY);
-        Unit* wAir0 = new Unit(2, BRITIAN_U, AIR);
-
-        Unit* uInfa0 = new Unit(3, USSR_U, INFANTRY);
-        Unit* uInfa1 = new Unit(4, USSR_U, INFANTRY);
-
-        map["B"]->addUnit(wInfa0);
-        map["B"]->addUnit(wAir0);
-        map["B"]->addUnit(uInfa0);
-        map["B"]->addUnit(uInfa1);
-
-        //For A
-        Unit* aTank0 = new Unit(5, GERMANY_U, TANK);
-        Unit* aTank1 = new Unit(11, ITALY_U, TANK);
-
-        map["A"]->addUnit(aTank0);
-        map["A"]->addUnit(aTank1);
-
-        //For J
-        Unit* uInfa2 = new Unit(6, USSR_U, INFANTRY);
-        Unit* uAir0 = new Unit(7, USSR_U, AIR);
-        Unit* uAir1 = new Unit(8, USSR_U, AIR);
-
-        map["K"]->addUnit(uInfa2);
-        map["K"]->addUnit(uAir0);
-        map["K"]->addUnit(uAir1);
-
-        //For I
-        Unit* wTank1 = new Unit(9, FRANCE_U, TANK);
-
-        map["C"]->addUnit(wTank1);
-
-        //For H 
-        Unit* nFort = new Unit(10, NEUTRAL_U, FORTRESS);
-        map["H"]->addUnit(nFort);
+        map["London"]->occupants[0].push_back(new Unit(1, BRITIAN_U, FLEET));
 
         return 0;
     }
@@ -144,12 +120,20 @@ public:
      */
     bool initMap(string map_file);
 
+    /**
+     * @brief Creates the decks of cards
+     * 
+     * @return true 
+     * @return false 
+     */
+    bool initCards(const string invest_file, const string action_file);
+
     //& Sequence of Play
-    //- round handler
+    //- Round handler
     bool run();
 
     //- New Year
-    CityType newNear();
+    CityType newYear();
 
     //- Production Phase
     void production();
@@ -172,13 +156,15 @@ public:
     //- Winter Season
     void winter();
 
-    void reshuffle();
+    void reshuffle(const bool animation);
 
     void peaceDividends();
 
     void newYearRes();
 
     void handCheck(Player* player);
+
+    bool deal(Player* player, size_t amount, const char state='A');
 
     //&Checking on map
 
@@ -273,8 +259,14 @@ private:
 
     void printMemo(size_t memo[][5]) const;
 
-private:
-    //!!! Graphics things
+private:  //!!! Graphics things
+
+    Spritesheet sprite_map_32s; /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 32 by 32 pixels*/
+
+    Spritesheet sprite_map_96_64; /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 98 by 94 pixels*/
+
+    Spritesheet sprite_map_19s; /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 19 by 19 pixels*/
+
     //- Init Functions
     /**
      * @brief Initalizes SDL2 and the window
@@ -306,12 +298,6 @@ private:
 
     //- Game Displaying
     /**
-     * @brief An array that holds the pointers to functions that draw the units, use4s the unit's type as an index
-     * 
-     */
-    void (Runner::* draw [8])(Unit*, int, int, float) const = {&Runner::drawFortress, &Runner::drawAir, &Runner::drawCarrier, &Runner::drawSub, &Runner::drawFleet, &Runner::drawTank, &Runner::drawInfantry, &Runner::drawConvoy};
-
-    /**
      * @brief Draws the city onto the renderer and the units that are in this city
      * 
      * @param city 
@@ -327,83 +313,14 @@ private:
     int getCitySprite(City* city);
 
     /**
-     * @brief Draws a fortress of the units nationality located at the given coords
+     * @brief Draws a unit of the units nationality located at the given coords
      * 
-     * @param unit The unit thats a fortress
+     * @param unit The target unit
      * @param x The x coord of the unit (upper left corner is the origin)
      * @param y The x coord of the unit (upper left corner is the origin)
      * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
      */
-    void drawFortress(Unit* unit, const int x, const int y, const float scale) const;
-
-    /**
-     * @brief Draws a air unit of the units nationality located at the given coords
-     * 
-     * @param unit The unit thats a air unit
-     * @param x The x coord of the unit (upper left corner is the origin)
-     * @param y The x coord of the unit (upper left corner is the origin)
-     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
-     */
-    void drawAir(Unit* unit, const int x, const int y, const float scale) const;
-
-    /**
-     * @brief Draws a carrier of the units nationality located at the given coords
-     * 
-     * @param unit The unit thats a carrier
-     * @param x The x coord of the unit (upper left corner is the origin)
-     * @param y The x coord of the unit (upper left corner is the origin)
-     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
-     */
-    void drawCarrier(Unit* unit, const int x, const int y, const float scale) const;
-
-    /**
-     * @brief Draws a submarine unit of the units nationality located at the given coords
-     * 
-     * @param unit The unit thats a sub
-     * @param x The x coord of the unit (upper left corner is the origin)
-     * @param y The x coord of the unit (upper left corner is the origin)
-     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
-     */
-    void drawSub(Unit* unit, const int x, const int y, const float scale) const;
-
-    /**
-     * @brief Draws a fleet of the units nationality located at the given coords
-     * 
-     * @param unit The unit thats a fleet
-     * @param x The x coord of the unit (upper left corner is the origin)
-     * @param y The x coord of the unit (upper left corner is the origin)
-     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
-     */
-    void drawFleet(Unit* unit, const int x, const int y, const float scale) const;
-    /**
-     * @brief Draws a tank of the units nationality located at the given coords
-     * 
-     * @param unit The unit thats a tank
-     * @param x The x coord of the unit (upper left corner is the origin)
-     * @param y The x coord of the unit (upper left corner is the origin)
-     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
-     */
-    void drawTank(Unit* unit, const int x, const int y, const float scale) const;
-
-     /**
-     * @brief Draws a infantry of the units nationality located at the given coords
-     * 
-     * @param unit The unit thats a infantry
-     * @param x The x coord of the unit (upper left corner is the origin)
-     * @param y The x coord of the unit (upper left corner is the origin)
-     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
-     */
-    void drawInfantry(Unit* unit, const int x, const int y, const float scale) const;
-
-     /**
-     * @brief Draws a conoy of the units nationality located at the given coords
-     * 
-     * @param unit The unit thats a convoy
-     * @param x The x coord of the unit (upper left corner is the origin)
-     * @param y The x coord of the unit (upper left corner is the origin)
-     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
-     */
-    void drawConvoy(Unit* unit, const int x, const int y, const float scale) const;
+    void drawUnit(Unit* unit, const int x, const int y, const float scale);
     
     /**
      * @brief Draws all the connections between the cities and colors them based on the border 
@@ -436,5 +353,7 @@ private:
      * @param b The blue value of the color (0, 255) 
      */
     void drawNumber(const int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255) const;
+
+    void reshuffleAnimation(const size_t& action_size, const size_t& invest_size);
 
 };
