@@ -154,6 +154,14 @@ public:
         return population;
     }
 
+    size_t getActionSize() const{
+        return action_hand.size();
+    }
+
+    size_t getInvestSize() const{
+        return invest_hand.size();
+    }
+
     /**
      * @brief Get the number of resources owned
      * 
@@ -244,15 +252,29 @@ public:
         return card_size;
     }
 
+    ActionCard* getActionCard(const size_t indx) const{
+        return action_hand[indx];
+    }
+
+    InvestmentCard* getInvestCard(const size_t indx) const{
+        return invest_hand[indx];
+    }
+
+
+
     /**
-     * @brief Get the max production of the player max(pop, res, ind)
+     * @brief Get the min production of the player min(pop, res, ind). If not at war then dont look at res
      * 
      * @return size_t The production of the player for the phase
      */
-    size_t getMaxProduction() const{
-        return std::max(population, std::max(resources, industry));
+    size_t getProduction() const{
+        return (atWar()? std::min(population, std::min(resources, industry)):  std::min(population, industry)); //At war : not at war 
     }
 
+
+    bool atWar() const{
+        return ussr_dow != PEACE || west_dow != PEACE || axis_dow != PEACE;
+    }
     /**
      * @brief Get the current VP of player
      * 

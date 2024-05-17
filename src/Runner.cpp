@@ -354,9 +354,9 @@ bool Runner::initCards(const string invest_name, const string action_name){
 
         //ActionCard(const ActionType type, const string countryA, const string countryB, const Season season, const char letter, const int number)
         action_discard.push_back(new ActionCard((ActionType)type, countryA, countryB, season, letter, number));
-
-        //reshuffle(false);
     }
+
+    reshuffle(false);
 
     return true;
 }

@@ -37,7 +37,9 @@ private:
     
     std::mt19937 g;
 
-    App app; /**< The stuct that holds all window and renderer for SDL2*/
+    App app; /**< The stuct that holds all window and renderer for SDL2 and shows the main board*/
+
+    App west_app; /**< The stuct that holds all window and renderer for SDL2 to show the West Players board*/
 
 public:
     /**
@@ -48,7 +50,7 @@ public:
     Runner(bool default_mode = 1){
         //- Set random seed
 
-        srand(100);
+        srand(seed);
 
         //- Init Dice
         die = Dice(1, 6);
@@ -96,13 +98,19 @@ public:
         string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/SpriteMap0.png";
         sprite_map_32s = Spritesheet(path.c_str(), app.renderer);
 
+        sprite_map_32s_west = Spritesheet(path.c_str(), west_app.renderer);
+
+        sprite_map_504_304_west = Spritesheet(path.c_str(), west_app.renderer, 504, 304);
+
         sprite_map_96_64 = Spritesheet(path.c_str(), app.renderer, 96, 64);
 
         sprite_map_19s = Spritesheet(path.c_str(), app.renderer, 19, 19);
+
     }
 
     size_t test(){
         map["London"]->occupants[0].push_back(new Unit(1, BRITIAN_U, FLEET));
+
 
         return 0;
     }
@@ -263,6 +271,10 @@ private:  //!!! Graphics things
 
     Spritesheet sprite_map_32s; /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 32 by 32 pixels*/
 
+    Spritesheet sprite_map_32s_west;  /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 32 by 32 pixels but used for the second renderer*/
+
+    Spritesheet sprite_map_504_304_west;
+    
     Spritesheet sprite_map_96_64; /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 98 by 94 pixels*/
 
     Spritesheet sprite_map_19s; /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 19 by 19 pixels*/
@@ -280,7 +292,7 @@ private:  //!!! Graphics things
      * @brief Clears the screen so the screen can 'update'
      * 
      */
-    void ClearScreen();
+    void ClearScreen(SDL_Renderer* renderer);
 
     /**
      * @brief Deletes the windows and frees memory specifically used by SDL
@@ -354,6 +366,14 @@ private:  //!!! Graphics things
      */
     void drawNumber(const int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255) const;
 
+    /**
+     * @brief Animation of the cards from the discard pile being added back
+     * 
+     * @param action_size Number of action cards to add back
+     * @param invest_size Number of invest cards to add back
+     */
     void reshuffleAnimation(const size_t& action_size, const size_t& invest_size);
+
+    void drawPlayerCards(const Player& player, SDL_Renderer* renderer);
 
 };

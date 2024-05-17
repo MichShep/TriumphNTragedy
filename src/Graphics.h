@@ -1,11 +1,7 @@
 #include "Runner.h"
 
-// Game Object
 
-//SDL Routines
-
-
-
+//& SDL Routines
 bool Runner::InitSDL(){
     if (SDL_Init(SDL_INIT_EVERYTHING) > 0){
         cout << "SDL_Init failed with error: " << SDL_GetError() << endl;
@@ -16,11 +12,90 @@ bool Runner::InitSDL(){
 }
 
 //Graphics Routine
-;
-void Runner::ClearScreen(){
-    SDL_SetRenderDrawColor(app.renderer, 216, 216, 216, 255);
-    SDL_RenderClear(app.renderer);
 
+void Runner::ClearScreen(SDL_Renderer* renderer){
+    SDL_SetRenderDrawColor(renderer, 216, 216, 216, 255);
+    if (SDL_RenderClear(renderer) < 0){
+        cout << "SDL_RenderClear failed with error: " << SDL_GetError() << endl;
+    }
+
+}
+// Application Routine
+void Runner::ShutdownApplication(){
+    if (app.window != nullptr) {
+        SDL_DestroyWindow(app.window);
+        app.window = nullptr;
+    }
+
+    if (app.renderer != nullptr) {
+        SDL_DestroyRenderer(app.renderer);
+        app.renderer = nullptr;
+    }
+
+    if (west_app.window != nullptr) {
+        SDL_DestroyWindow(west_app.window);
+        west_app.window = nullptr;
+    }
+
+    if (west_app.renderer != nullptr) {
+        SDL_DestroyRenderer(west_app.renderer);
+        west_app.renderer = nullptr;
+    }
+
+    SDL_Quit();
+    exit(0);
+}
+
+bool Runner::InitApplication(){
+    //- Init SDL
+    if (InitSDL() == false){
+        ShutdownApplication();
+        return false;
+    }
+
+    //- Init main app
+    app.window = SDL_CreateWindow(
+        "Triumph And Tragedy",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        app.screen.WIDTH,
+        app.screen.HEIGHT, 
+        SDL_WINDOW_OPENGL
+    );
+
+    //- Init west app
+    west_app.window = SDL_CreateWindow(
+        "West Player",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        504,
+        304, 
+        SDL_WINDOW_OPENGL
+    );
+
+    if (app.window == nullptr){
+        cout << "Unable to create main window. Error: "<< SDL_GetError() << endl;
+        ShutdownApplication();
+        return false;
+    }
+
+    if (west_app.window == nullptr){
+        cout << "Unable to create West window. Error: "<< SDL_GetError() << endl;
+        ShutdownApplication();
+        return false;
+    }
+
+    if (!(app.renderer = SDL_CreateRenderer(app.window, -1, SDL_RENDERER_PRESENTVSYNC))){
+        cout << "Unable to create main renderer. Error: "<< SDL_GetError() << endl;
+        ShutdownApplication();
+    }
+
+    if (!(west_app.renderer = SDL_CreateRenderer(west_app.window, -1, SDL_RENDERER_PRESENTVSYNC))){
+        cout << "Unable to create West renderer. Error: "<< SDL_GetError() << endl;
+        ShutdownApplication();
+    }
+
+    return true;
 }
 
 void Runner::drawCity(City* city){
@@ -131,48 +206,6 @@ void Runner::DrawConnections(){
             SDL_RenderDrawLine(app.renderer, start_city->x + start_city->WIDTH/2, start_city->y+ start_city->HEIGHT/2, end_city->x+ end_city->WIDTH/2, end_city->y+ end_city->HEIGHT/2);
         }
     }
-}
-
-// Application Routine
-void Runner::ShutdownApplication(){
-    if (app.window != nullptr) {
-        SDL_DestroyWindow(app.window);
-        app.window = nullptr;
-    }
-
-    if (app.renderer != nullptr) {
-        SDL_DestroyRenderer(app.renderer);
-        app.renderer = nullptr;
-    }
-
-    SDL_Quit();
-}
-
-bool Runner::InitApplication(){
-    if (InitSDL() == false){
-        ShutdownApplication();
-        return false;
-    }
-
-
-    app.window = SDL_CreateWindow(
-        "Triumph And Tragedy",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        app.screen.WIDTH,
-        app.screen.HEIGHT, 
-        SDL_WINDOW_OPENGL
-    );
-
-    if (app.window == nullptr){
-        cout << "Unable to create window. Error: "<< SDL_GetError() << endl;
-        ShutdownApplication();
-        return false;
-    }
-
-    app.renderer = SDL_CreateRenderer(app.window, -1, SDL_RENDERER_PRESENTVSYNC);
-
-    return true;
 }
 
 //& Drawing units
@@ -499,7 +532,7 @@ void Runner::drawPlayerStats(Player& player){
         if (chit.y == 0){
             chit.y = target.y + rand() % (4 - -4 + 1) + -4;
         }
-         if (chit.x == 0){
+        if (chit.x == 0){
             chit.x = target.x + rand() % (4 - -4 + 1) + -4;
         }
         target.y = chit.y;
@@ -591,11 +624,11 @@ void Runner::reshuffleAnimation(const size_t& action_size, const size_t& invest_
     int action_offset = 0;
     int invest_offset = 0;
     float scale = 3;
-    int delta_time = rand() % (8 - 1 + 1) + 1;
+    int delta_time = rand() % (8 - 4 + 1) + 4;
     bool state = true;
     SDL_Rect target;
     while (running){
-        ClearScreen();
+        ClearScreen(app.renderer);
         if (state){ //move cards
             sprite_map_96_64.selectSprite(7, 5);
 
@@ -627,25 +660,25 @@ void Runner::reshuffleAnimation(const size_t& action_size, const size_t& invest_
         }
         else{ //finish sign
             for (int i = 0; i < 6; i++){
-                ClearScreen();
+                ClearScreen(app.renderer);
                 sprite_map_96_64.selectSprite(3, 5);
                 sprite_map_96_64.drawSelectedSprite(app.renderer, &target);
                 SDL_RenderPresent(app.renderer);
                 SDL_Delay(50);
 
-                ClearScreen();
+                ClearScreen(app.renderer);
                 sprite_map_96_64.selectSprite(4, 5);
                 sprite_map_96_64.drawSelectedSprite(app.renderer, &target);
                 SDL_RenderPresent(app.renderer);
                 SDL_Delay(50);
 
-                ClearScreen();
+                ClearScreen(app.renderer);
                 sprite_map_96_64.selectSprite(5, 5);
                 sprite_map_96_64.drawSelectedSprite(app.renderer, &target);
                 SDL_RenderPresent(app.renderer);
                 SDL_Delay(50);
 
-                ClearScreen();
+                ClearScreen(app.renderer);
                 sprite_map_96_64.selectSprite(6, 5);
                 sprite_map_96_64.drawSelectedSprite(app.renderer, &target);
                 SDL_RenderPresent(app.renderer);
@@ -680,7 +713,61 @@ void Runner::reshuffleAnimation(const size_t& action_size, const size_t& invest_
             (invest_offset                           >= app.screen.WIDTH/2-(int)(scale*96)/2+(int)(9*scale))){
             target = {app.screen.WIDTH/2-(int)(scale*96)/2, app.screen.HEIGHT/2-(int)(scale*64) ,(int)(scale*96), (int)(scale*64)};
             state = false;
+            SDL_Delay(100);
         }
     }
 }
 
+void Runner::drawPlayerCards(const Player& player, SDL_Renderer* renderer){
+    SDL_Rect target;
+
+    float scale = 2;
+    int offset = 400 / (player.getActionSize()+player.getInvestSize()); //total cards / total spce
+
+    ClearScreen(renderer);
+    target = {0, 0, 504 ,304}; //504 304
+    sprite_map_504_304_west.selectSprite(0, 2);
+    sprite_map_504_304_west.drawSelectedSprite(renderer, &target);
+
+    sprite_map_32s_west.selectSprite(6);
+    target = {33, 131, (int)(scale*32) ,(int)(scale*32)}; //504 304
+    for (size_t i = 0; i < 1; i++){
+        auto card = player.getActionCard(i);
+        sprite_map_32s_west.selectSprite(18,15); //the left side
+        sprite_map_32s_west.drawSelectedSprite(renderer, &target);
+        target.x += (int)(scale*32);
+
+        sprite_map_32s_west.selectSprite(0,16); //the middle base
+        sprite_map_32s_west.drawSelectedSprite(renderer, &target);
+
+        sprite_map_32s_west.selectSprite(1,16); //the season
+        sprite_map_32s_west.drawSelectedSprite(renderer, &target);
+
+        sprite_map_32s_west.selectSprite(4,16); //the leter
+        sprite_map_32s_west.drawSelectedSprite(renderer, &target);
+
+        sprite_map_32s_west.selectSprite(30,16); //the number
+        sprite_map_32s_west.drawSelectedSprite(renderer, &target);
+
+        target.x += (int)(scale*32);
+
+        sprite_map_32s_west.selectSprite(21,15); //the right side
+        sprite_map_32s_west.drawSelectedSprite(renderer, &target);
+    }
+
+    target.x += (int)(scale*32);
+    for (size_t i = 0; i < 1; i++){
+        sprite_map_32s_west.selectSprite(3,14); //the left
+        sprite_map_32s_west.drawSelectedSprite(renderer, &target);
+        target.x += (int)(scale*32);
+
+        sprite_map_32s_west.selectSprite(27,14); //the middle
+        sprite_map_32s_west.drawSelectedSprite(renderer, &target);
+        target.x += (int)(scale*32);
+
+        sprite_map_32s_west.selectSprite(10,14); //the right
+        sprite_map_32s_west.drawSelectedSprite(renderer, &target);
+    }
+
+    SDL_RenderPresent(renderer);
+}

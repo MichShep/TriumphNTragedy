@@ -39,6 +39,8 @@ public:
 
     size_t resource; /**< The amount of resources this city provides (mixed resources are always halfed so can be stored as one)*/
 
+    bool blockcade=false; /**< If the city is unable to be traced back to the*/
+
     ResourceType resource_type; /**What type of resource is on this city (only matters for blockades and going around Africa)*/
 
     vector<Unit*> occupants[4]; /**< Hold the current units and sperates them by their power 0:West, 1:Axis 2:USSR: 3:Neutral */

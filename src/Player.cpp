@@ -10,6 +10,8 @@ void Player::westInit(){
     card_size = 8;
 
     industry = 7;
+
+    invest_hand.resize(4);
 }
 
 void Player::axisInit(){

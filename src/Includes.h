@@ -157,6 +157,8 @@ namespace Graphics{
         const int center_x = WIDTH /2;
         const int center_y = HEIGHT /2;
     };
+
+   
 };
 
 class Spritesheet{
@@ -170,7 +172,9 @@ public:
 
     Spritesheet(char const *path, SDL_Renderer* renderer, int width=32, int height=32){
         auto spritesheet_surface = IMG_Load(path);
-        spritesheet_image = SDL_CreateTextureFromSurface(renderer, spritesheet_surface);
+        if (!(spritesheet_image = SDL_CreateTextureFromSurface(renderer, spritesheet_surface))){
+            cout << "Creating spritesheet failed with error: " << SDL_GetError() << endl;
+        }
 
         clip.w = width;
         clip.h = height;
@@ -184,7 +188,18 @@ public:
         clip.y = y * clip.h;
     }
     void drawSelectedSprite(SDL_Renderer* renderer, SDL_Rect* position){
-        SDL_RenderCopy(renderer, spritesheet_image, &clip, position);
+        if (SDL_RenderCopy(renderer, spritesheet_image, &clip, position) < 0){ //was an error
+            cout << "Drawing selected sprite failed with error: " << SDL_GetError() << endl;
+        }
+    }
+
+    void drawSprite(SDL_Renderer* renderer, SDL_Rect* position, int row, int pos, int size_x=32, int size_y=32){
+        clip.x = pos * size_x;
+        clip.y = row * size_y;
+
+        if (SDL_RenderCopy(renderer, spritesheet_image, &clip, position) < 0){ //was an error
+            cout << "Drawing sprite failed with error: " << SDL_GetError() << endl;
+        }
     }
 };
 
@@ -194,5 +209,4 @@ struct App{
     SDL_Renderer* renderer;
 
     Graphics::Screen screen;
-
 };

@@ -10,12 +10,15 @@ bool Runner::run(){
     test();
 
     //& Draw the initial Board
-    //-Draw the connections
-    ClearScreen();
+    ClearScreen(app.renderer);
+    ClearScreen(west_app.renderer);
+
     //- Draw Player Stats
     drawPlayerStats(players[0]);
     drawPlayerStats(players[1]);
     drawPlayerStats(players[2]);
+    drawPlayerCards(players[0], west_app.renderer);
+    
 
     DrawConnections();
 
@@ -104,7 +107,8 @@ CityType Runner::newYear(){
     }
 
     //- Reshuffle.
-    reshuffle(true);
+    if (year != 1936)
+        reshuffle(true);
 
     //- Peace Dividends.
     peaceDividends();
@@ -133,12 +137,11 @@ CityType Runner::newYear(){
 
 //- Production Phase
 void Runner::production(){
-    size_t max_prod[3] = {SIZE_MAX, SIZE_MAX, SIZE_MAX};
-
-    //- Production Level
-
     //- Blockade Resolution
 
+    //- Production Level
+    size_t production[3] = {players[WEST].getProduction(), players[AXIS].getProduction(), players[USSR].getProduction()};    
+   
     //- Spending Resolution
 
         //- Building Units
