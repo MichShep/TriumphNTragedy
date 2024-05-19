@@ -19,6 +19,8 @@ private:
 
     Dice die; /**< Dice used to roll decisions, default a D6*/
 
+    State state;
+
     vector<ActionCard*> action_deck; /**< Draw deck of the action cards*/
 
     vector<ActionCard*> action_discard; /**< Draw deck of the action cards*/
@@ -39,7 +41,7 @@ private:
 
     App app; /**< The stuct that holds all window and renderer for SDL2 and shows the main board*/
 
-    App west_app; /**< The stuct that holds all window and renderer for SDL2 to show the West Players board*/
+    App powers_app[3];
 
 public:
     /**
@@ -71,11 +73,13 @@ public:
         //- Init Players
         players[0] = Player("Michael", WEST); //give 8 cards
         deal(&players[0], 8);
+        deal(&players[0], 8, 'I');
         players[1] = Player("Taiga", AXIS); //give 14 cards
         deal(&players[1], 14);
+        deal(&players[1], 8, 'I');
         players[2] = Player("Luke", USSR); //give 7 cards
         deal(&players[2], 7);
-
+        deal(&players[2], 8, 'I');
 
         if (!default_mode){
             mapPlayer(players[0]);
@@ -96,21 +100,55 @@ public:
         shuffle(peace_dividends_bag.begin(), peace_dividends_bag.end(), g);
 
         string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/SpriteMap0.png";
-        sprite_map_32s = Spritesheet(path.c_str(), app.renderer);
 
-        sprite_map_32s_west = Spritesheet(path.c_str(), west_app.renderer);
+        sprite_map = Spritesheet(path.c_str(), app.renderer);
 
-        sprite_map_504_304_west = Spritesheet(path.c_str(), west_app.renderer, 504, 304);
+        map_sprite = Spritesheet("/Users/michshep/Desktop/TriumphNTragedy/sprites/starter3.png", app.renderer);
 
-        sprite_map_96_64 = Spritesheet(path.c_str(), app.renderer, 96, 64);
-
-        sprite_map_19s = Spritesheet(path.c_str(), app.renderer, 19, 19);
+        powers_sprite_map[0] = Spritesheet(path.c_str(), powers_app[0].renderer);
+        powers_sprite_map[1] = Spritesheet(path.c_str(), powers_app[1].renderer);
+        powers_sprite_map[2] = Spritesheet(path.c_str(), powers_app[2].renderer);
 
     }
 
     size_t test(){
         map["London"]->occupants[0].push_back(new Unit(1, BRITIAN_U, FLEET));
 
+        map.getCountry("Low_Countries")->influence = 2;
+        map.getCountry("Low_Countries")->allegiance = AXIS;
+
+        map.getCountry("Norway")->influence = 1;
+        map.getCountry("Norway")->allegiance = WEST;
+
+        map.getCountry("Poland")->influence_level = SATELLITES;
+        map.getCountry("Poland")->allegiance = USSR;
+        map.getCity("Warsaw")->ruler_type = USSR;
+
+        map.getCountry("Rumania")->influence_level = SATELLITES;
+        map.getCountry("Rumania")->allegiance = WEST;
+
+        map.getCountry("Yugoslavia")->influence = 3;
+        map.getCountry("Yugoslavia")->allegiance = USSR;
+
+        map.getCity("Venice")->blockcade = true;
+        map.getCity("Milan")->blockcade = true;
+
+        map.getCity("Vienna")->ruler_type = WEST;
+        map.getCity("Prague")->ruler_type = WEST;
+        map.getCountry("Austria")->influence_level = SATELLITES;
+        map.getCountry("Czechoslovakia")->influence_level = SATELLITES;
+
+        map.getCountry("Czechoslovakia")->allegiance = WEST;
+        map.getCountry("Austria")->allegiance = WEST;
+
+        map.getCity("Ankara")->ruler_type = WEST;
+        map.getCity("Ankara")->blockcade = true;
+        map.getCountry("Turkey")->allegiance = WEST;
+        map.getCountry("Turkey")->influence_level = SATELLITES;
+
+        players[0].add(map.getCity("Ankara"));
+
+        mapPlayer(players[WEST]);
 
         return 0;
     }
@@ -185,7 +223,18 @@ public:
      */
     bool mapPlayer(Player& player);
 
+    /**
+     * @brief During the production phase it needs to verify all cities controlled by the player that are blockaded are still blockaded (route can only include 1 land segment and 1 sea segment)
+     * 
+     * @param player The player whose trade routes are being checked
+     * @param main_capital The capital of the player that the cities must conenct to 
+     * @return true Blockades were removed 
+     * @return false Blockades weren't removed
+     */
+    bool checkTradeRoutes(Player& player, string main_capital);
+
     //&&&Unit Actions
+
 
     //& Movement 
     bool move(Unit* unit, const string start, const string end);
@@ -269,16 +318,13 @@ private:
 
 private:  //!!! Graphics things
 
-    Spritesheet sprite_map_32s; /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 32 by 32 pixels*/
+    Spritesheet sprite_map; /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 32 by 32 pixels*/
 
-    Spritesheet sprite_map_32s_west;  /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 32 by 32 pixels but used for the second renderer*/
+    Spritesheet map_sprite;
 
-    Spritesheet sprite_map_504_304_west;
+    Spritesheet powers_sprite_map[3];  /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 32 by 32 pixels but used for the second renderer*/
+
     
-    Spritesheet sprite_map_96_64; /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 98 by 94 pixels*/
-
-    Spritesheet sprite_map_19s; /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 19 by 19 pixels*/
-
     //- Init Functions
     /**
      * @brief Initalizes SDL2 and the window
@@ -315,6 +361,10 @@ private:  //!!! Graphics things
      * @param city 
      */
     void drawCity(City* city);
+
+    void drawCity(int x, int y, PopulationType population_type);
+
+    void drawInfluence();
 
     /**
      * @brief Get the City Sprite object
@@ -374,6 +424,8 @@ private:  //!!! Graphics things
      */
     void reshuffleAnimation(const size_t& action_size, const size_t& invest_size);
 
-    void drawPlayerCards(const Player& player, SDL_Renderer* renderer);
+    void drawPlayerBoards(const Player& player, SDL_Renderer* renderer);
+
+    void drawMemoResolution(const size_t memo[][6], vector<City*> unblocked);
 
 };

@@ -75,8 +75,11 @@ public:
     char letter;
     int number;
 
-    ActionCard(const ActionType type, const string countryA, const string countryB, const Season season, const char letter, const int number):
-    type(type), countryA(countryA), countryB(countryB), season(season), letter(letter), number(number){
+    size_t sprite_offset_left;
+    size_t sprite_offset_right;
+
+    ActionCard(const ActionType type, const string countryA, const string countryB, const Season season, const char letter, const size_t number, const size_t sprite_offset_left, const size_t sprite_offset_right):
+    type(type), countryA(countryA), countryB(countryB), season(season), letter(letter), number(number), sprite_offset_left(sprite_offset_left*2), sprite_offset_right(sprite_offset_right*2+1){
 
     }
 };
@@ -95,8 +98,11 @@ public:
     //for science cards
     size_t year;
 
-    InvestmentCard(const InvestType type, const string tech1, const string tech2, const int amount, const size_t year): 
-    type(type), tech1(tech1), tech2(tech2), amount(amount), year(year){
+    size_t sprite_offset_left;
+    size_t sprite_offset_right;
+
+    InvestmentCard(const InvestType type, const string tech1, const string tech2, const int amount, const size_t year, const size_t sprite_offset_left, const size_t sprite_offset_right): 
+    type(type), tech1(tech1), tech2(tech2), amount(amount), year(year), sprite_offset_left(sprite_offset_left), sprite_offset_right(sprite_offset_right) {
         tech = AIR_DEFENSE;
     }
 };
@@ -115,7 +121,7 @@ public:
 
     uint8_t combat_value; /**< Functions as how many forces are in the one unit and how many it fires in battle*/
 
-    uint8_t max_combat_value; /**< Limits the max amount offorces can be in the unit*/
+    uint8_t max_combat_value; /**< Limits the max amount of forces can be in the unit*/
 
     size_t movement; /**< The max amount of cities it can move in one turn*/
 
@@ -124,6 +130,8 @@ public:
     size_t landing; /**< The year the unit landed from water this turn (therefore it can't attack)*/
 
     bool convoy; /**< If the ground unit is a convoy its an infantry in the water and can't attack*/
+
+    bool escaped=false; /**< Used for subs and if they have 'escaped' and can block trade routes */
 
     Unit(const size_t id, UnitCountry nationality, UnitType unit_type): id(id), nationality(nationality), unit_type(unit_type){ //for making cadres
 

@@ -51,7 +51,7 @@ enum PopulationType {EMPTY, TOWN, CITY, CAPITAL_CITY, SUB_CAPITAL, MAIN_CAPITAL}
 
 enum ResourceType {NORMAL, TRANS_ATLANTIC};
 
-enum BorderType {NA, COAST, STRAIT, MOUNTAIN, FOREST, RIVER, PLAINS, OCEAN}; //NA means not connected
+enum BorderType {NA, OCEAN, DEEP_OCEAN, COAST, WATER_STRAIT, COAST_MOUNTAIN, COAST_FOREST, COAST_RIVER, COAST_PLAINS, MOUNTAIN, FOREST, RIVER, PLAINS, LAND_STRAIT}; //NA means not connected
 
 enum UnitClass {CLASS_A, CLASS_N, CLASS_G, CLASS_S};
 
@@ -59,7 +59,7 @@ enum UnitType {FORTRESS, AIR, CARRIER, SUB, FLEET, TANK, INFANTRY, CONVOY};
 
 enum UnitCountry {BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRAL_U};
 
-enum Season {SPRING, SUMMER, FALL, WINTER};
+enum Season {SUMMER, FALL, SPRING, WINTER};
 
 enum DowState {PEACE, DECLARED, VICTIM};
 
@@ -70,6 +70,8 @@ enum ActionType {DIPLOMACY, WILD};
 enum InfluenceType {UNALIGNED, ASSOCIATES, PROTECTORATES, SATELLITES};
 
 enum Tech {AIR_DEFENSE, FIRST_FIRE, INDUSTRIAL_ESPIONAGE, SCIENCE};
+
+enum State {ADVANCE_YEAR, VICTORY_CHECK, RESHUFFLE, PEACE_DIVIDENDS, TURN_ORDER, NEW_YEAR_RES, PRODUCTION, GOVERNMENT, HAND_CHECK};
 
 const string NATIONALITY_STRING[7] = {"BRITISH", "FRANCE", "USA", "GERMAN", "ITALY", "USSR", "NEUTRAL"};
 
@@ -104,15 +106,21 @@ const Uint8 COLOR_TABLE[6][3] = {
     {131, 236, 232}  //WATER - light blue
 };
 
-const int BORDER_COLOR[8][3]{
-    {0,0,0}, //NA
-    {0,198,226}, //Coast
-    {9,132,149}, //Strait
-    {61,63,63}, //Mountain
-    {25,198,27}, //Forest
-    {159, 244, 255}, //River
-    {221, 239, 198}, //Plains
-    {131, 236, 232} //Ocean
+const int BORDER_COLOR[14][3]{ // NA, OCEAN, DEEP_OCEAN, STRAIT, COAST, COAST_MOUNTAIN, COAST_FOREST, COAST_RIVER, COAST_PLAINS, MOUNTAIN, FOREST, RIVER, PLAINS
+    {0,0,0},            //NA
+    {0, 59, 255},        //OCEAN
+    {4, 35, 137},        //DEEP_OCEAN
+    {4, 136, 137},         //COAST
+    {245, 255, 78},     //WATER_STRAIT
+    {51, 189, 190},        //COAST_MOUNTAIN
+    {60, 165, 98},    //COAST_FOREST
+    {92, 193, 176},    //COAST_RIVER
+    {82, 90, 111},    //COAST_PLAINS
+    {79, 79, 79},    //MOUNTAIN
+    {37, 224, 75},    //FOREST
+    {54, 236, 237},    //RIVER
+    {155, 255, 174},    //PLAINS
+    {196, 237, 49}    //LAND_STRAIT
 };
 
 const int UNIT_COLOR[7][3]{ //BRITIAN, FRANCE, USA, GERMANY, ITALY, USSR, neautral
@@ -183,9 +191,15 @@ public:
     ~Spritesheet(){
     }
 
-    void selectSprite(int x, int y=0){
-        clip.x = x * clip.w;
-        clip.y = y * clip.h;
+    void selectSprite(int x, int y=0, int clip_x=-1, int clip_y=-1){
+        clip.x = x * ((clip_x == -1)? clip.w : clip_x);
+        clip.y = y * ((clip_y == -1)? clip.h : clip_y);
+
+        if (clip_y !=-1){
+            clip.w = clip_x;
+            clip.h = clip_y;
+        }
+      
     }
     void drawSelectedSprite(SDL_Renderer* renderer, SDL_Rect* position){
         if (SDL_RenderCopy(renderer, spritesheet_image, &clip, position) < 0){ //was an error
@@ -193,9 +207,12 @@ public:
         }
     }
 
-    void drawSprite(SDL_Renderer* renderer, SDL_Rect* position, int row, int pos, int size_x=32, int size_y=32){
+    void drawSprite(SDL_Renderer* renderer, SDL_Rect* position, int row, int pos, int size_x=32, int size_y=32, int offset=0){
+        position->x += offset;
         clip.x = pos * size_x;
         clip.y = row * size_y;
+        clip.w = size_x;
+        clip.h = size_y;
 
         if (SDL_RenderCopy(renderer, spritesheet_image, &clip, position) < 0){ //was an error
             cout << "Drawing sprite failed with error: " << SDL_GetError() << endl;

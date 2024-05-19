@@ -161,7 +161,7 @@ bool Runner::initMap(string map_name){
 
         ResourceType resource_type;
         map_file >> tempS;
-        switch (tempS[0]){ // {GREAT, HOME, MINOR, NONE}
+        switch (tempS[0]){ //
             case 'N': //normal
                 resource_type = NORMAL;
                 break;
@@ -220,16 +220,38 @@ bool Runner::initMap(string map_name){
             start_pos = connections.find('[');
             end_pos = connections.find(']');
 
-            BorderType border_type;
-            switch (border[0]){ //NA, COAST, STRAIT, MOUNTAIN, FOREST, RIVER, PLAINS, OCEAN
+            BorderType border_type=NA;
+            switch (border[0]){ //NA, OCEAN, DEEP_OCEAN, COAST, COAST_MOUNTAIN, COAST_FOREST, COAST_RIVER, COAST_PLAINS, MOUNTAIN, FOREST, RIVER, PLAINS, STRAIT
                 case ('N'):
                     border_type = NA;
                     break;
-                case ('C'):
-                    border_type = COAST;
+                case ('O'):
+                    border_type = OCEAN;
                     break;
-                case ('S'):
-                    border_type = STRAIT;
+                case ('D'):
+                    border_type = DEEP_OCEAN;
+                    break;
+                case ('C'):{ //C..
+                    switch (border[1]){
+                        case 'o': //cOast
+                            border_type = COAST;
+                            break;
+                        case ('M'): //cMount
+                            border_type = COAST_MOUNTAIN;
+                            break;
+                        case ('F'): //cForest
+                            border_type = COAST_FOREST;
+                            break;
+                        case ('R'): //cRiver
+                            border_type = COAST_RIVER;
+                            break;
+                        case ('P'): //cPlain
+                            border_type = COAST_PLAINS;
+                            break; 
+                        default:
+                            break;
+                        }
+                    }
                     break;
                 case ('M'):
                     border_type = MOUNTAIN;
@@ -243,9 +265,17 @@ bool Runner::initMap(string map_name){
                 case ('P'):
                     border_type = PLAINS;
                     break;
-                case ('O'):
-                    border_type = OCEAN;
+                case ('L'):
+                    border_type = LAND_STRAIT;
                     break;
+                case ('W'):
+                    border_type = WATER_STRAIT;
+                    break;
+                default:
+                    printf("Unkown border type");
+                    exit(1);
+
+                
             }
 
             //- Add each pair
@@ -286,6 +316,59 @@ bool Runner::initCards(const string invest_name, const string action_name){
     fstream invest_file(invest_name, std::ios_base::in);
     fstream action_file(action_name, std::ios_base::in);
 
+    unordered_map<string, size_t> sprite_offsets;
+    sprite_offsets["Czechoslovakia"] = 0;
+    sprite_offsets["Bulgaria"] = 1;
+    sprite_offsets["Rumania"] = 2;
+    sprite_offsets["Austria"] = 3;
+    sprite_offsets["Sweden"] = 4;
+    sprite_offsets["Baltic_States"] = 4;
+    sprite_offsets["Poland"] = 6;
+    sprite_offsets["Hungary"] = 7;
+    sprite_offsets["Greece"] = 8;
+    sprite_offsets["Latin_America"] = 9;
+    sprite_offsets["USA"] = 10;
+    sprite_offsets["Yugoslavia"] = 11;
+    sprite_offsets["Spain"] = 12;
+    sprite_offsets["Finland"] = 13;
+    sprite_offsets["Low_Countries"] = 14;
+    sprite_offsets["Denmark"] = 15;
+    sprite_offsets["Afghanistan"] = 16;
+    sprite_offsets["Norway"] = 17;
+    sprite_offsets["Turkey"] = 18;
+    sprite_offsets["Persia"] = 19;
+    sprite_offsets["Portugal"] = 20;
+    sprite_offsets["Empty_Action"] = 21;
+
+    sprite_offsets["LSTs"] = 0;
+    sprite_offsets["Motorized_Infantry"] = 1;
+    sprite_offsets["AirDefense_Radar"] = 9;
+    sprite_offsets["Naval_Radar"] = 2;
+    sprite_offsets["Rocket_Artillery"] = 3;
+    sprite_offsets["Heavy_Tanks"] = 4;
+    sprite_offsets["Heavy_Bombers"] = 5;
+    sprite_offsets["Percision_Bombsight"] = 6;
+    sprite_offsets["Spy_Ring"] = 15;
+    sprite_offsets["Code_Breaker"] = 11;
+    sprite_offsets["Agent"] = 12;
+    sprite_offsets["Jets"] = 7;
+    sprite_offsets["Double_Agent"] = 16;
+    sprite_offsets["Mole"] = 13;
+    sprite_offsets["1944"] = 24;
+    sprite_offsets["Sonar"] = 8;
+    sprite_offsets["Atomic_Research_1"] = 17;
+    sprite_offsets["Industrial_Espionage"] = 0;
+    sprite_offsets["Atomic_Research_2"] = 18;
+    sprite_offsets["Atomic_Research_3"] = 19;
+    sprite_offsets["Atomic_Research_4"] = 20;
+    sprite_offsets["1938"] = 21;
+    sprite_offsets["Sabotage"] = 14;
+    sprite_offsets["Coup"] = 10;
+    sprite_offsets["1942"] = 23;
+    sprite_offsets["1940"] = 22;
+    sprite_offsets["Empty_Invest"] = 29;
+    
+
     if (!invest_file.is_open()){
         printf("Unable to open invest card file!\n");
         return false;
@@ -303,10 +386,11 @@ bool Runner::initCards(const string invest_name, const string action_name){
     for (size_t curr_card = 0; curr_card < invest_size; curr_card++){
         size_t type=0, cost=0, year=0;
         invest_file >> type;
-        string tech1="", tech2="";
+        string tech1="Empty_Invest", tech2="Empty_Invest";
         
         if (type == 2){ //need a year
             invest_file >> year;
+            tech1 = std::to_string(year);
         }
         else{
             invest_file >> tech1;
@@ -317,12 +401,12 @@ bool Runner::initCards(const string invest_name, const string action_name){
         invest_file >> cost; //all have a cost
 
         //InvestmentCard(const InvestType type - 1, const string tech1 - 2, const string tech2 - 3, const Tech tech - 4, const int amount - 5, const size_t year - 6): 
-        invest_discard.push_back(new InvestmentCard((InvestType)type, tech1, tech2, cost, year));
+        invest_discard.push_back(new InvestmentCard((InvestType)type, tech1, tech2, cost, year, sprite_offsets[tech1], sprite_offsets[tech2]));
     }
 
     for (size_t curr_card = 0; curr_card < action_size; curr_card++){
-        int type, number;
-        string countryA="", countryB="", seasonString="";
+        int type, number = 0;
+        string countryA="Empty_Action", countryB="Empty_Action", seasonString="";
         Season season;
         char letter;
 
@@ -352,8 +436,7 @@ bool Runner::initCards(const string invest_name, const string action_name){
         action_file >> letter;
         action_file >> number;
 
-        //ActionCard(const ActionType type, const string countryA, const string countryB, const Season season, const char letter, const int number)
-        action_discard.push_back(new ActionCard((ActionType)type, countryA, countryB, season, letter, number));
+        action_discard.push_back(new ActionCard((ActionType)type, countryA, countryB, season, letter, number, sprite_offsets[countryA], sprite_offsets[countryB]));
     }
 
     reshuffle(false);
@@ -371,11 +454,11 @@ bool Runner::mapPlayer(Player& player){
     //- Go through each city
     for (auto& city : temp_map){
         //- If it belongs to the player
-        if (city.second->ruler_type == player.getAllegiance()){ 
+        if (city.second->ruler_type == player.getAllegiance() && !city.second->blockcade){ 
             //- Add to temp variables
             temp_resources += city.second->resource;
             temp_population += city.second->population;
-            
+            player.add(city.second);
         }
     }
     bool check = false;
@@ -443,7 +526,179 @@ bool Runner::canDisengage(Unit* unit, const string start, const string end){
 }
 
 
-//Dijkstra's algorithm knock-off
+bool Runner::checkTradeRoutes(Player& player, string main_capital){
+    const vector<vector<BorderType>>& adjacency = map.getAdjacency();
+    const size_t num_city = adjacency.size();
+    vector<City*> freed_cities;
+    size_t num_blockcaded = player.getNumBlockaded(); //number of cities that are blockaded and that need to be checked
+    freed_cities.reserve(num_blockcaded);
+    size_t check = num_blockcaded;
+    size_t city_indx = map.findCity(main_capital); //starting index
+    queue<size_t> indx_to_go; // priority queue can be used and not a heap since everything is unweighted
+
+    size_t memo [map.getNumCity()+1][6]; //0: visited? 1: previous 1: previous border 3: distance 4: land segment? 5: sea segment?
+
+    size_t VISITED=0, PREVIOUS=1, PREVIOUS_BORDER=2, DISTANCE=3, LAND=4, SEA=5, infi=INFI;
+    for (size_t i = 0; i < map.getNumCity()+1; i++){ //initalize all memo entries
+        memo[i][0] = false;
+        memo[i][1] = infi;
+        memo[i][2] = NA;
+        memo[i][3] = infi;
+        memo[i][4] = false;
+        memo[i][5] = false;
+    }
+
+    memo[city_indx][0] = false;
+    memo[city_indx][1] = 0;
+    memo[city_indx][2] = NA;
+    memo[city_indx][3] = 0;
+    memo[city_indx][4] = false; // Set both segments to false bcause we don't know yet if it will go on a land or seas segment, so the ones connected will change these
+    memo[city_indx][5] = false;
+
+    indx_to_go.push(city_indx);
+
+    printf("\n\n\n");
+
+    //? (14.1) The Sea Segment can only cross Coastal Straits, Sea and Ocean borders
+    //? (14.1) The Land Segment can only cross Land and Straits borders.
+    // Like Dijkstras and will have the main capital find a path to all the cities it controls and runs through it until all those blockcaded is visited
+    while (num_blockcaded && !indx_to_go.empty()){ //- While there are still blockaded cities to check
+        city_indx = indx_to_go.front();
+        indx_to_go.pop();
+
+        //- See if has been visited since time it was added to the queue
+        if (memo[city_indx][VISITED])
+            continue;
+
+        //- For straits since you can pass through it can add rival land so need to check
+        if (map.getCity(city_indx)->ruler_type != player.getAllegiance() && map.getCity(city_indx)->ruler_type != NEUTRAL && map.getCity(city_indx)->ruler_type != WATER)
+            continue;
+
+        //- Set to visited
+        memo[city_indx][VISITED] = true;
+        printf("Now at %s\n", map.getCity(city_indx)->name.c_str());
+
+        //- If the city visited is one blockaded it means we can visit and can decreae the count
+        if (map.getCity(city_indx)->blockcade && map.getCity(city_indx)->ruler_type == player.getAllegiance()){
+            printf("%s was found and connected!\n", map.getCity(city_indx)->name.c_str());
+            map.getCity(city_indx)->blockcade = false;
+            freed_cities.push_back(map.getCity(city_indx));
+            num_blockcaded--;
+        }
+
+        //- Go thourgh each adjacent node
+        for (size_t connect_indx = 1; connect_indx <= num_city; connect_indx++){  
+            //- Check what border connects them
+            auto& border = adjacency[city_indx][connect_indx];
+
+            //- Check if its connected and not visited
+            if (border == NA || memo[connect_indx][VISITED]){
+                continue;
+            }
+
+            //- Check if there it is an enemy controlled city (in cases of straits it can only go through rivals, not enemies)
+            if (border == LAND_STRAIT || border == WATER_STRAIT){ //if a strait then it can't iff its an ENEMY (not rival)
+                if (player.isEnemy(map.getCity(city_indx)->ruler_type)){ //if an enemy with the strait ruler
+                    continue;
+                }
+            }
+            else{
+                if (map.getCity(connect_indx)->ruler_type != player.getAllegiance() && map.getCity(connect_indx)->ruler_type != NEUTRAL && map.getCity(connect_indx)->ruler_type != WATER){ //if its a regular spot then it can;t pass through rival OR enemy
+                    continue;
+                }
+            }
+
+            bool unchanged_sea=true, unchanged_land=true;
+
+            //- Basically for the first node only to set where things are
+            if (memo[city_indx][PREVIOUS_BORDER] == NA){
+                if (border <= WATER_STRAIT){ //- if starting sea
+                    unchanged_sea=false;
+                    memo[connect_indx][SEA] = true;
+                    memo[connect_indx][PREVIOUS_BORDER] = border;
+                }
+                else if (border <= COAST_PLAINS){ //- if coastal movement could be both so ignore
+                    memo[connect_indx][PREVIOUS_BORDER] = border;
+                }
+                else if (border >= MOUNTAIN){
+                    unchanged_land = false;
+                    memo[connect_indx][LAND] = true;
+                    memo[connect_indx][PREVIOUS_BORDER] = border;
+                }
+
+            }
+
+            //- CONTINUING land segment
+            else if (border >= MOUNTAIN && memo[city_indx][PREVIOUS_BORDER] >= MOUNTAIN){
+                memo[connect_indx][PREVIOUS_BORDER] = border;
+            }
+            
+            //- CONTINUING sea segment
+            else if (border <= WATER_STRAIT && memo[city_indx][PREVIOUS_BORDER] <= WATER_STRAIT){
+                memo[connect_indx][PREVIOUS_BORDER] = border;
+            }
+
+            // - STARTING land 
+            else if (border >= MOUNTAIN && memo[city_indx][PREVIOUS_BORDER] <= WATER_STRAIT){ //check that by seeing if the previous movement was a sea one
+                if (!memo[city_indx][LAND]){ //if land hasn't started yet then okay!
+                    memo[connect_indx][LAND] = true; //change
+                    unchanged_land = false;
+                    memo[connect_indx][SEA] = memo[city_indx][SEA]; //set to what the connector has
+                    memo[connect_indx][PREVIOUS_BORDER] = border;
+                }
+                else{ //if the land segment has already started then no on
+                    continue;
+                }
+            }
+
+            // - Starting sea segment
+            else if (border <= WATER_STRAIT && memo[city_indx][PREVIOUS_BORDER] >= MOUNTAIN){
+                if (!memo[city_indx][SEA]){ //if land hasn't started yet then okay!
+                    memo[connect_indx][SEA] = true;
+                    unchanged_sea = false;
+                    memo[connect_indx][LAND] = memo[city_indx][LAND];
+                    memo[connect_indx][PREVIOUS_BORDER] = border;
+                }
+                else{ //if the sea segment has already started then no on
+                    continue;
+                }
+            }
+            else if (COAST_MOUNTAIN <= border){ //if its a coastal movement it could be either and won't count
+                memo[connect_indx][PREVIOUS_BORDER] = border;
+            }
+            else{ //- It can't move to this area since it woudl start a preexisting segment!
+                continue;
+            }
+
+            //- If the land and sea segmetns weren't changes then copy from the old
+            if (unchanged_land){
+                memo[connect_indx][LAND] = memo[city_indx][LAND];
+            }
+
+            if (unchanged_sea){
+                memo[connect_indx][SEA] = memo[city_indx][SEA];
+            }
+
+            //- If this is reahed it means its a valid continuation of the trade route!
+            memo[connect_indx][DISTANCE] = memo[city_indx][DISTANCE]+1;
+            memo[connect_indx][PREVIOUS] = city_indx;
+
+            indx_to_go.push(connect_indx);
+        }
+    }
+
+    drawMemoResolution(memo, freed_cities);
+
+    return num_blockcaded == check; //if the starting equals the end
+}
+
+
+
+
+
+
+
+//Dijkstra's algorithm knock-off I
 size_t Runner::canMove(Unit* unit, const string start, const string target){
     City* city = map.getCity(target);
     const vector<vector<BorderType>>& adjacency = map.getAdjacency();
@@ -451,7 +706,7 @@ size_t Runner::canMove(Unit* unit, const string start, const string target){
     size_t num_city = map.getNumCity();
     size_t num_visited = 0;
 
-    queue<size_t> indx_to_go; //max priority queue
+    queue<size_t> indx_to_go; // priority queue
 
     //dist movement prev madeWithStrategic visited
     size_t memo[num_city+1][5];

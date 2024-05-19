@@ -18,6 +18,10 @@ private:
 
     size_t year_at_peace; /**< Is the last year the player was at peace (used for peace chits)*/
 
+    size_t action_card_start=0;
+
+    size_t invest_card_start=0;
+
     //&Great Power attributes
     CityType allegiance; /**< Which power the player is controlling (West, Axis, USSR)*/
 
@@ -32,6 +36,8 @@ private:
     size_t factory_cost=0; /**< The cost to upgrade the industry*/
 
     vector<Unit*> units; /**< Masterlist of all units the player controls*/
+
+    unordered_map<string, City*> controlled_cities; /**< Masterlist of all cites the player controls*/
 
     DowState ussr_dow=PEACE; /**< Holds the diplomacy state of the DOW with USSR*/
 
@@ -108,6 +114,7 @@ public:
 
     }
 
+    //& Initalizers 
     /**
      * @brief Setup West player on default values in rules
      * 
@@ -125,6 +132,40 @@ public:
      * 
      */
     void ussrInit();
+
+    //& Control things
+    void add(City* city){
+        if (controlled_cities.find(city->name) ==  controlled_cities.end()){ //not found
+            controlled_cities[city->name] = city;
+        }
+    }
+
+    size_t getNumBlockaded(){
+        size_t sum = 0;
+        for (auto& city : controlled_cities){
+            sum += city.second->blockcade;
+        }
+
+        return sum;
+    }
+
+    bool isEnemy(CityType& allegiance){
+        switch (allegiance){
+        case WEST:
+            return west_dow != PEACE;
+            break;
+        case AXIS:
+            return axis_dow != PEACE;
+            break;
+        case USSR:
+            return ussr_dow != PEACE;
+            break;
+        
+        default:
+            return false;
+            break;
+        }
+    }
     
     //& Card Things
     void deal(ActionCard* aC){

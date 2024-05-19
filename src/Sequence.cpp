@@ -11,14 +11,13 @@ bool Runner::run(){
 
     //& Draw the initial Board
     ClearScreen(app.renderer);
-    ClearScreen(west_app.renderer);
+    for (auto& a : powers_app){
+        ClearScreen(a.renderer);
+    }
 
     //- Draw Player Stats
-    drawPlayerStats(players[0]);
-    drawPlayerStats(players[1]);
-    drawPlayerStats(players[2]);
-    drawPlayerCards(players[0], west_app.renderer);
-    
+    SDL_Rect tar = {0,0,1512,912};
+    map_sprite.drawSprite(app.renderer, &tar, 0, 0, 1512, 912);
 
     DrawConnections();
 
@@ -26,10 +25,15 @@ bool Runner::run(){
     for (auto city : cities)
         drawCity(city.second);
 
-    //- Draw the time track
-    //DrawTimeTrack();
+    drawInfluence();
 
     SDL_RenderPresent(app.renderer);
+
+    //- Draw the time track
+    drawPlayerBoards(players[WEST], powers_app[WEST].renderer);
+    drawPlayerBoards(players[AXIS], powers_app[AXIS].renderer);
+    drawPlayerBoards(players[USSR], powers_app[USSR].renderer);
+
 
     while (running){
         
@@ -137,7 +141,12 @@ CityType Runner::newYear(){
 
 //- Production Phase
 void Runner::production(){
-    //- Blockade Resolution
+    //- Blockade Resolution 
+    //? (7.211) During Production, remove Blockade markers from friendly POP/RES that can currently trace a Trade Route: POP/RES that remain Blockaded are not counted for friendly Production. After Production, remove all Blockade markers.
+    //checkTradeRoutes(players[WEST], "London");
+    //checkTradeRoutes(players[AXIS], "Berlin");
+    //checkTradeRoutes(players[USSR], "Moscow");
+
 
     //- Production Level
     size_t production[3] = {players[WEST].getProduction(), players[AXIS].getProduction(), players[USSR].getProduction()};    
@@ -228,6 +237,8 @@ void Runner::winter(){
 
 
 void Runner::reshuffle(const bool animation){
+    if (year == 1936)
+        return;
     //- Add action discard and shuffle
     action_deck.insert(action_deck.end(), action_discard.begin(), action_discard.end());
     shuffle(action_deck.begin(), action_deck.end(), g);

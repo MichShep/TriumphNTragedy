@@ -8,7 +8,7 @@
  */
 struct City{
 public:
-    //? For graphics
+    // For graphics
     int HEIGHT; /**< The height of the city when rendered*/
     int WIDTH; /**< The width of the city when rendered*/
     int x; /**< The x origin of the city shape*/

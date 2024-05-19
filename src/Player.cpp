@@ -11,7 +11,6 @@ void Player::westInit(){
 
     industry = 7;
 
-    invest_hand.resize(4);
 }
 
 void Player::axisInit(){

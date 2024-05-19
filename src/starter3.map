@@ -7,12 +7,12 @@
 6  Gascony            West       Major     F    Empty           0   N   104  720
 7  Lorraine           West       Major     F    Empty           2   N   285  621
 8  Marseille          West       Major     F    City            0   N   265  827
-9  Amsterdam          Neutral    Minor     N    City            0   N   237  445
+9  Amsterdam          Neutral    Minor     N    City            0   N   287  445
 10 Ruhr               Axis       Great     G    SubCapital      3   N   471  405
 11 Munich             Axis       Great     G    City            0   N   493  593
 12 Berlin             Axis       Great     G    MainCapital     1   N   576  347
 13 Milan              Axis       Major     I    City            1   N   464  797
-14 Venice             Axis       Major     I    Empty           1   N   617  730
+14 Venice             Axis       Major     I    Empty           1   N   557  720
 15 Adriatic_Sea       Water      None      N    Empty           0   N   631  830
 16 Coppenhagen        Neutral    Minor     N    Town            1   N   493  191
 17 Oslo               Netural    Minor     N    Town            1   N   493  22
@@ -44,35 +44,35 @@
 43 Ankara             Neutral    Minor     N    CapitalCity     0   N   1378 876
 44 Washington         Neutral    Major     U    SubCapital      2   N   0    200
 45 New_York           Neutral    Major     U    City            1   N   0    100
-London [Glasgow Mountain]
+London [Glasgow CMountain]
 Glasgow 
 English_Channel [London Coast] [Paris Coast] [North_Sea Ocean]
-North_Sea [London Coast] [Glasgow Coast] [Amsterdam Coast] [Oslo Coast] [Ruhr Coast] [Coppenhagen Strait]
-Paris [Gascony Plains] [Lorraine Plains] [Amsterdam Plains]
+North_Sea [London Coast] [Glasgow Coast] [Amsterdam Coast] [Oslo Coast] [Ruhr Coast] [Coppenhagen WStrait]
+Paris [Gascony CPlains] [Lorraine Plains] [Amsterdam CPlains]
 Gascony [Marseille Plains] [Lorraine Plains]
 Lorraine [Marseille Plains] [Munich River]
-Marseille [Milan Mountain]
-Amsterdam [Ruhr River] [Munich River] [Lorraine Forest]
-Ruhr [Munich Plains] [Berlin Plains] [Coppenhagen Strait]
+Marseille [Milan CMountain]
+Amsterdam [Ruhr CRiver] [Munich River] [Lorraine Forest]
+Ruhr [Munich Plains] [Berlin Plains] [Coppenhagen LStrait]
 Munich [Vienna Plains] [Prague Forest] [Berlin Plains]
-Berlin [Prague Forest] [Warsaw River]
+Berlin [Prague Forest] [Warsaw CRiver]
 Milan [Venice Plains]
-Venice [Vienna Mountain] [Croatia Mountain]
+Venice [Vienna Mountain] [Croatia CMountain]
 Adriatic_Sea [Venice Coast] [Croatia Coast]
-Coppenhagen [Stockholm Strait] [Oslo Strait]
-Oslo [Stockholm Forest]
+Coppenhagen [Stockholm LStrait] [Oslo LStrait]
+Oslo [Stockholm CForest]
 Stockholm
-Baltic_Sea [Stockholm Coast] [Coppenhagen Strait] [Gulf_of_Bothnia Ocean] [Warsaw Coast] [Könisberg Coast] [Riga Coast] [Berlin Coast] [Ruhr Coast]
+Baltic_Sea [Stockholm Coast] [Coppenhagen WStrait] [Gulf_of_Bothnia Ocean] [Warsaw Coast] [Könisberg Coast] [Riga Coast] [Berlin Coast] [Ruhr Coast]
 Gulf_of_Bothnia [Leningrad Coast] [Riga Coast] [Stockholm Coast]
-Warsaw [Könisberg River] [Prague Forest] [Vilna River] [Lvov Riga]
-Könisberg [Vilna Forest] [Riga Plains]
-Riga [Leningrad Forest] [Belorussia Plains] [Vilna Plains]
+Warsaw [Könisberg CRiver] [Prague Forest] [Vilna River] [Lvov River]
+Könisberg [Vilna Forest] [Riga CPlains]
+Riga [Leningrad CForest] [Belorussia Plains] [Vilna Plains]
 Lvov [Prague Mountain] [Budapest Mountain] [Odessa Plains] [Kiev Plains] [Vilna Plains] [Bucharest River]
 Vilna [Belorussia Plains]
 Leningrad [Belorussia Forest] [Moscow Forest]
 Belorussia [Bryansk Plains]
 Kiev [Odessa Plains] [Bryansk River] [Kharhov River]
-Odessa [Kharhov River] [Bucharest River] [Sevastopol Strait]
+Odessa [Kharhov River] [Bucharest CRiver] [Sevastopol LStrait]
 Moscow [Bryansk Forest]
 Bryansk [Kharhov Plains]
 Kharhov
@@ -82,10 +82,10 @@ Vienna [Croatia Mountain] [Budapest Plains]
 Croatia [Belgrade Forest] [Budapest Plains]
 Budapest [Belgrade Plains] [Bucharest Mountain]
 Belgrade [Sofia Mountain] [Bucharest River]
-Sofia [Bucharest River] [Istanbul Strait]
+Sofia [Bucharest CRiver] [Istanbul LStrait]
 Bucharest
-Western_Black_Sea [Istanbul Strait] [Sofia Coast] [Bucharest Coast] [Odessa Coast] [Ankara Coast] [Sevastopol Strait]
-Istanbul [Ankara Strait]
+Western_Black_Sea [Istanbul WStrait] [Sofia Coast] [Bucharest Coast] [Odessa Coast] [Ankara Coast] [Sevastopol WStrait]
+Istanbul [Ankara LStrait]
 Ankara
 Washington [New_York Plains]
 New_York

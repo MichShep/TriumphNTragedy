@@ -31,7 +31,7 @@
 0 Sweden Baltic_States              Fall    K 7
 0 Austria Czechoslovakia            Spring  E 5
 0 USA Austria                       Summer  Q 9
-0 Greece Portugal                   Spring  0 5
+0 Greece Portugal                   Spring  O 5
 0 Rumania Bulgaria                  Spring  J 5
 0 Czechoslovakia Finland            Fall    N 6
 1 Birds_Of_A_Feather                Fall    E 7
@@ -44,14 +44,14 @@
 0 Yugoslavia Hungary                Spring  G 6
 0 Greece Hungary                    Summer  P 10
 0 Portugal Czechoslovakia           Summer  V 8
-0 USA Latin_America                 Summer  0 7
+0 USA Latin_America                 Summer  O 7
 0 Poland Austria                    Spring  H 6
 0 Turkey Denmark                    Summer  H 8
 0 Greece Bulgaria                   Fall    M 6
 1 Isolationism                      Summer  U 8
 0 Hungary Portugal                  Spring  N 4
-0 Austria Bulgaria                  Summer  1 7
-1 Brothers_In_Arms                  Fall    0 7
+0 Austria Bulgaria                  Summer  Q 7
+1 Brothers_In_Arms                  Fall    O 7
 0 Yugoslavia Hungary                Summer  T 8
 1 Foreign_Aid                       Summer  B 6 
 0 Poland Spain                      Summer  Z 6
