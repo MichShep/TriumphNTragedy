@@ -18,10 +18,6 @@ private:
 
     size_t year_at_peace; /**< Is the last year the player was at peace (used for peace chits)*/
 
-    size_t action_card_start=0;
-
-    size_t invest_card_start=0;
-
     //&Great Power attributes
     CityType allegiance; /**< Which power the player is controlling (West, Axis, USSR)*/
 
@@ -37,6 +33,8 @@ private:
 
     vector<Unit*> units; /**< Masterlist of all units the player controls*/
 
+    vector<Technology> achieved_tech; /**< List of all technologies that the player has discovered*/
+
     unordered_map<string, City*> controlled_cities; /**< Masterlist of all cites the player controls*/
 
     DowState ussr_dow=PEACE; /**< Holds the diplomacy state of the DOW with USSR*/
@@ -46,6 +44,8 @@ private:
     DowState axis_dow=PEACE; /**< Holds the diplomacy state of the DOW with USSR*/
 
     DowState usa_dow; /**< Holds the diplomacy state of the DOW with USSR*/
+
+    string capital="";
 
     //&Hands
     vector<ActionCard*> action_hand; /**< Hand of all action cards (used in command and government)*/
@@ -65,6 +65,17 @@ private:
 
     size_t cities_controlled; /**< Number of cities the player controls*/
 public:
+    //& Graphics things
+    int action_card_start=0;
+
+    int invest_card_start=0;
+
+    int tech_card_start=0;
+
+    int controlled_cities_start=0;
+
+    BoardState state = HOME_BOARD;
+
     Player(){
         name = "Default";
     }
@@ -109,8 +120,8 @@ public:
      * @param allies_dow Inital ties with WEST
      * @param usa_dow Inital USA involvement
      */
-    Player(const string name, const CityType allegiance, const size_t population, const size_t resource, const size_t industry, const size_t card_size, const size_t factory_cost, const DowState ussr_treaty, DowState axis_treaty, DowState allies_treaty, const DowState usa_treaty)
-        : name(name), allegiance(allegiance), population(population), resources(resource), industry(industry), card_size(card_size), factory_cost(factory_cost), ussr_dow(ussr_treaty), west_dow(allies_treaty), axis_dow(axis_treaty), usa_dow(usa_treaty){
+    Player(const string name, const CityType allegiance, const size_t population, const size_t resource, const size_t industry, const size_t card_size, const size_t factory_cost, const DowState ussr_treaty, DowState axis_treaty, DowState allies_treaty, const DowState usa_treaty, const string capital)
+        : name(name), allegiance(allegiance), population(population), resources(resource), industry(industry), card_size(card_size), factory_cost(factory_cost), ussr_dow(ussr_treaty), west_dow(allies_treaty), axis_dow(axis_treaty), usa_dow(usa_treaty), capital(capital){
 
     }
 
@@ -138,6 +149,18 @@ public:
         if (controlled_cities.find(city->name) ==  controlled_cities.end()){ //not found
             controlled_cities[city->name] = city;
         }
+    }
+
+    unordered_map<string,City*>::const_iterator getControlledCitiesBegin() const{
+        return controlled_cities.begin();
+    };
+
+    unordered_map<string,City*>::const_iterator getControlledCitiesEnd() const{
+        return controlled_cities.end();
+    };
+
+    size_t getControlledSize() const{
+        return controlled_cities.size();
     }
 
     size_t getNumBlockaded(){
@@ -203,6 +226,10 @@ public:
         return invest_hand.size();
     }
 
+    size_t getTechSize() const{
+        return achieved_tech.size();
+    }
+
     /**
      * @brief Get the number of resources owned
      * 
@@ -244,7 +271,10 @@ public:
      * @return size_t 
      */
     size_t getHandSize() const{
-        return action_hand.size() + invest_hand.size();
+        int num_secret=0;
+        for(const auto& t : achieved_tech)
+            num_secret += t.secret;
+        return action_hand.size() + invest_hand.size() + num_secret;
     }
 
     DowState getUssrDow() const{
@@ -265,6 +295,10 @@ public:
 
     size_t getYearAtPeace() const{
         return year_at_peace;
+    }
+
+    string getCapital() const{
+        return capital;
     }
 
 
@@ -301,7 +335,9 @@ public:
         return invest_hand[indx];
     }
 
-
+    const Technology& getTech(const size_t indx) const{
+        return achieved_tech[indx];
+    }
 
     /**
      * @brief Get the min production of the player min(pop, res, ind). If not at war then dont look at res

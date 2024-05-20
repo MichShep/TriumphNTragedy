@@ -9,6 +9,21 @@ struct PeaceChit{
     int y;
 };
 
+struct Technology{
+    string name;
+
+    Tech tech;
+
+    bool secret;
+
+    Technology(){
+        name=""; tech=LSTs; secret=false;
+    }
+
+    Technology(const string name, const Tech tech, bool secret=false): name(name), tech(tech), secret(secret){
+    }
+};
+
 struct Dice{
     vector<int> stats; /**< Vector to hold how often each side was rolled*/
 
@@ -88,10 +103,9 @@ struct InvestmentCard{
 public:
     InvestType type;
 
-    string tech1;
-    string tech2;
+    Technology tech1;
 
-    Tech tech;
+    Technology tech2;
 
     size_t amount;
 
@@ -101,9 +115,10 @@ public:
     size_t sprite_offset_left;
     size_t sprite_offset_right;
 
-    InvestmentCard(const InvestType type, const string tech1, const string tech2, const int amount, const size_t year, const size_t sprite_offset_left, const size_t sprite_offset_right): 
-    type(type), tech1(tech1), tech2(tech2), amount(amount), year(year), sprite_offset_left(sprite_offset_left), sprite_offset_right(sprite_offset_right) {
-        tech = AIR_DEFENSE;
+    InvestmentCard(const InvestType type, const string tech1_name, const string tech2_name, const int amount, const size_t year, const size_t sprite_offset_left, const size_t sprite_offset_right): 
+    type(type), amount(amount), year(year), sprite_offset_left(sprite_offset_left), sprite_offset_right(sprite_offset_right) {
+        tech1 = Technology(tech1_name, (Tech)sprite_offset_left, false);
+        tech2 = Technology(tech2_name, (Tech)sprite_offset_right, false);
     }
 };
 
@@ -118,6 +133,8 @@ public:
     UnitClass class_type; /**< Which class the unit is in that is mostly just for movement and ReBase*/
 
     UnitType unit_type; /**< Which type of unit that decied attack and movement (Fortress, Infantry, Air...)*/
+
+    size_t birth_year;
 
     uint8_t combat_value; /**< Functions as how many forces are in the one unit and how many it fires in battle*/
 

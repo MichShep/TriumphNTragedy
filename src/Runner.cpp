@@ -557,7 +557,7 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
 
     indx_to_go.push(city_indx);
 
-    printf("\n\n\n");
+    //printf("\n\n\n");
 
     //? (14.1) The Sea Segment can only cross Coastal Straits, Sea and Ocean borders
     //? (14.1) The Land Segment can only cross Land and Straits borders.
@@ -576,11 +576,11 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
 
         //- Set to visited
         memo[city_indx][VISITED] = true;
-        printf("Now at %s\n", map.getCity(city_indx)->name.c_str());
+        //printf("Now at %s\n", map.getCity(city_indx)->name.c_str());
 
         //- If the city visited is one blockaded it means we can visit and can decreae the count
         if (map.getCity(city_indx)->blockcade && map.getCity(city_indx)->ruler_type == player.getAllegiance()){
-            printf("%s was found and connected!\n", map.getCity(city_indx)->name.c_str());
+            //printf("%s was found and connected!\n", map.getCity(city_indx)->name.c_str());
             map.getCity(city_indx)->blockcade = false;
             freed_cities.push_back(map.getCity(city_indx));
             num_blockcaded--;
@@ -837,148 +837,10 @@ void Runner::printMemo(size_t memo[][5]) const{
 
 void Runner::combatRound(){
     //- Get all battles the player is in
-    vector<City*> battles = getBattles(active_player->getAllegiance());
-
-    //- Have player choose until all battles are dealt with (taken or passed)
-    while (battles.size()){
-        //- Print out the battles
-        size_t i = 0;
-        for (auto city : battles){ //TODO repalce so each city is highlited on map
-            printf("%zu:%s ", i++, city->name.c_str());
-        }
-        printf("\n");
-
-        printf("Which city to target\n"); //TODO replace with player clicking on city
-        size_t target;
-        cin >> target;
-        printf("Skip (0) or battle (1)\n"); //TODO reaplce with player clicking the option
-        bool choice;
-        cin >> choice;
-        if (choice){ //choose to have a battle
-            if (battles[target]->city_type == WATER){
-                while (seaCombat(battles[target])); //plays out until completion
-            }
-            else{
-                landCombat(battles[target]);
-                for(vector <City* >::iterator it(battles.begin()); it != battles.end(); ++it){ //TODO change to index type
-                if (*it == battles[target]){
-                    it = battles.erase(it);
-                    break;
-                } //if
-            } //foe
-            }
-
-        }
-        else{ //choose to skip from having a battle
-            for(vector <City* >::iterator it(battles.begin()); it != battles.end(); ++it){
-                if (*it == battles[target]){
-                    it = battles.erase(it);
-                    break;
-                } //if
-            } //foe
-        } //else
-    } //while
 }
 
 void Runner::landCombat(City* battlefield){
-    //- Go through each unit
-    CityType attacker = active_player->getAllegiance(); //Defender goes after attacker (the one who started the battle, i.e. the active_player)
-    for (size_t i = 0; i < CONVOY; i++){ //convoys don't have CA
-        printf("%zu are now acting!\n", i);
-        //Attacker chooses target if enemies is greater than 1
-        CityType defender;
-        if (battlefield->numEnemies(attacker) > 1){
-            printf("\tChoose who to target\n");
-            int temp;
-            cin >> temp; //TODO replace with clicking on screen
-            defender = (CityType)temp;
-        } 
-        else{
-            defender = battlefield->getEnemy(attacker);
-        }
-
-        //-Combat Action
-        CityType firer;
-        CityType receiver;
-        int count = 0;
-        while (count++ < 2){
-            if (count == 1){
-                firer = defender;
-                receiver = attacker;
-                printf("\tdefender is shooting\n");
-            }
-            else if (count == 2){
-                firer = attacker;
-                receiver = defender;
-                printf("\tattcker is shooting\n");
-            }
-            else{
-                exit(1);
-            }
-            
-            for (Unit* unit : battlefield->occupants[firer]){
-                if (unit->unit_type != (UnitType)i )
-                    continue;
-                
-                printf("\t%zu: Retreat(0) or Fire(1)?\n", unit->id);
-                bool combat_action;
-                cin >> combat_action; //TODO make palyer click
-                //- Retreat ->
-                if (!combat_action){
-                    //TODO add retreating
-                    continue;
-                }
-
-                //- Fire
-
-                //-Choose target
-                UnitType target;
-                int temp;
-                printf("\tChoose unit to attack \n"); //FORTRESS, AIR, CARRIER, SUB, FLEET, TANK, INFANTRY, CONVOY
-                cin >> temp; //TODO have player click on type
-                target = (UnitType)temp;
-
-                //-Roll #CV dices
-                for (size_t k = 0; k < unit->combat_value; k++){
-                    if (die.roll() <= FIREPOWER_TABLE[(size_t)unit->unit_type][(size_t)target]){
-                        printf("\tHit!\n");
-                        //- Highest of that type loses one CV
-                        size_t maxCV;
-                        Unit* victim;
-                        for (Unit* potential_victim : battlefield->occupants[receiver]){
-                            if (potential_victim->unit_type == target && potential_victim->combat_value > maxCV){
-                                maxCV = potential_victim->combat_value;
-                                victim = potential_victim;
-                            }
-                        }
-
-                        victim->combat_value--;
-
-                        //- Remove units with 0 CV
-                        if(victim->combat_value == 0){
-                            battlefield->removeUnit(victim);
-                        }
-                    }
-                }
-            }
-        }
-        
-        
-            
-
-
-
-
-
-        //-Check Ground support
-            //- No support then ANS retreat
-
-            //- End
-
-        //- ANS may ReBase
-    }
-
-    
+   
 }
 
 bool Runner::seaCombat(City* battlefield){
@@ -987,15 +849,5 @@ bool Runner::seaCombat(City* battlefield){
 }
 
 vector<City*> Runner::getBattles(const CityType allegiance){
-    auto cities = map.getCities();
-
-    vector<City*> battles;
-
-    for (auto city : cities){
-        if (city.second->occupants[allegiance].size() > 0 && city.second->isEnemy(active_player->getAllegiance())){
-            battles.push_back(city.second);
-        }
-    }
-
-    return battles;
+    return {};
 }

@@ -89,13 +89,13 @@ public:
     }
 
     /**
-     * @brief If there currently a battle going on (more than one allegiance of troops) (Doesn't check neutrality)
+     * @brief If there currently a battle going on (more than one allegiance of troops) 
      * 
      * @return true There is a battle
      * @return false There is no battle (friendly troops or empty)
      */
     bool isConflict(){
-        return ((bool)occupants[0].size() + (bool)occupants[1].size() + (bool)occupants[2].size()) > 1;
+        return ((bool)occupants[0].size() + (bool)occupants[1].size() + (bool)occupants[2].size() + (bool)occupants[3].size()) > 1;
     }
 
     /**

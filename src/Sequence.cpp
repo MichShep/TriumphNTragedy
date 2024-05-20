@@ -5,8 +5,6 @@
 bool Runner::run(){
     bool running = true;
 
-    SDL_Event event;
-
     test();
 
     //& Draw the initial Board
@@ -29,20 +27,78 @@ bool Runner::run(){
 
     SDL_RenderPresent(app.renderer);
 
-    //- Draw the time track
-    drawPlayerBoards(players[WEST], powers_app[WEST].renderer);
-    drawPlayerBoards(players[AXIS], powers_app[AXIS].renderer);
-    drawPlayerBoards(players[USSR], powers_app[USSR].renderer);
-
-
+    bool player_board_changed[3] = {true, true, true}; //true for first time for initial draw
+    SDL_Event event;
     while (running){
-        
-
-        //-Draw the connections
-
-        
+        if (player_board_changed[WEST]){
+            drawPlayerBoard(players[WEST], powers_app[WEST].renderer);
+            player_board_changed[WEST] = false;
+        }
+        if (player_board_changed[AXIS]){
+            drawPlayerBoard(players[AXIS], powers_app[AXIS].renderer);
+            player_board_changed[AXIS] = false;
+        }
+        if (player_board_changed[USSR]){
+            drawPlayerBoard(players[USSR], powers_app[USSR].renderer);
+            player_board_changed[USSR] = false;
+        }
+ 
         if (SDL_PollEvent(&event)){
             switch (event.type) {
+                case SDL_MOUSEBUTTONDOWN:{
+                    int mouseX,mouseY;
+                    SDL_GetMouseState(&mouseX, &mouseY);
+                    const auto& allegiance = event.window.windowID-2;
+                    if (event.window.windowID > 1){ //is a player window //TODO Optomize
+                        if (mouseY > 40*3){
+                            if (inBox(53*3, 47*3, 27, 51, mouseX, mouseY)){ // is button #1
+                                player_board_changed[allegiance] = true;
+                                if ((players[allegiance].action_card_start-=2) < 0)
+                                    players[allegiance].action_card_start = players[allegiance].getActionSize()-2;
+                            }
+                            else if (inBox(262*3, 47*3, 27, 51, mouseX, mouseY)){ // is button #2
+                                player_board_changed[allegiance] = true;
+                                if ((players[allegiance].action_card_start+= 2) >= players[allegiance].getActionSize())
+                                    players[allegiance].action_card_start = 0;
+                            }
+
+                            else if (inBox(53*3, 86*3, 27, 51, mouseX, mouseY)){ // is button #3
+                                player_board_changed[allegiance] = true;
+                                if ((players[allegiance].invest_card_start-=2) < 0)
+                                    players[allegiance].invest_card_start = players[allegiance].getInvestSize()-2;
+                            }
+                            else if (inBox(262*3, 86*3, 27, 51, mouseX, mouseY)){ // is button #4
+                                player_board_changed[allegiance] = true;
+                                if ((players[allegiance].invest_card_start+= 2) >= players[allegiance].getInvestSize())
+                                    players[allegiance].invest_card_start = 0;
+                            }
+
+                            else if (inBox(70*3, 128*3, 27, 51, mouseX, mouseY)){ // is button #5
+                                player_board_changed[allegiance] = true;
+                                if ((players[allegiance].tech_card_start-=5) < 0)
+                                    players[allegiance].tech_card_start = players[allegiance].getTechSize()-2;
+                            }
+                            else if (inBox(245*3, 128*3, 27, 51, mouseX, mouseY)){ // is button #6
+                                player_board_changed[allegiance] = true;
+                                if ((players[allegiance].tech_card_start+= 5) >= players[allegiance].getTechSize()){
+                                    players[allegiance].tech_card_start = 0;
+                                }
+                            }
+                        }
+                        else if (inBox(9*3, 8*3, 81*3, 23*3, mouseX, mouseY)){ //is a change screen button
+                            if (mouseX >= 35*3 && players[allegiance].state != PRODUCTION_BOARD){ //production button
+                                players[allegiance].state = PRODUCTION_BOARD;
+                                player_board_changed[allegiance] = true;
+                            }
+
+                            else if (mouseX <= 30*3 && mouseX >= 10*3 && players[allegiance].state != HOME_BOARD){ //home button
+                                players[allegiance].state = HOME_BOARD;
+                                player_board_changed[allegiance] = true;
+                            }
+                        }
+                    }
+                }
+                break;
 
                 case SDL_KEYDOWN:{
                     running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
@@ -79,12 +135,12 @@ bool Runner::run(){
                     break;
                 }
             }
-    }
+        }
     }
 
     //& Main game Loop
     CityType winner;
-    while ((winner=newYear()) != WATER){ //run the game unitl a winner is found
+    while ((winner=newYear()) != WATER && year <= end_year){ //run the game unitl a winner is found
 
     }
     
@@ -110,15 +166,14 @@ CityType Runner::newYear(){
         }
     }
 
-    //- Reshuffle.
-    if (year != 1936)
-        reshuffle(true);
+    //- Reshuffle..
+    reshuffle(true);
 
     //- Peace Dividends.
     peaceDividends();
 
-    //- Turn Order.
-    start_player = &players[(start_player->getAllegiance()+1)%3];
+    //- Turn Order..
+    decideTurnOrder();
 
     //- New Year Resolution.
     newYearRes();
@@ -141,22 +196,155 @@ CityType Runner::newYear(){
 
 //- Production Phase
 void Runner::production(){
-    //- Blockade Resolution 
-    //? (7.211) During Production, remove Blockade markers from friendly POP/RES that can currently trace a Trade Route: POP/RES that remain Blockaded are not counted for friendly Production. After Production, remove all Blockade markers.
-    //checkTradeRoutes(players[WEST], "London");
-    //checkTradeRoutes(players[AXIS], "Berlin");
-    //checkTradeRoutes(players[USSR], "Moscow");
+    int num_production;
+    bool running=true;
+    bool player_board_changed[3] = {true, true, true};
 
+    bool map_changed = true;
 
-    //- Production Level
-    size_t production[3] = {players[WEST].getProduction(), players[AXIS].getProduction(), players[USSR].getProduction()};    
-   
-    //- Spending Resolution
+    //1:add invest card 1:add action card
+    stack<int> actions;
 
-        //- Building Units
+    int bought_action=0, bought_invest=0;
 
-        //- Buying Cards
+    SDL_Event event;
+    //- Go through each player in turn order
+    for (auto& player : turn_order){
+        //- Check trade routes
+        checkTradeRoutes(*player, player->getCapital());
 
+        num_production = player->getProduction();
+
+        while (running){
+
+            if (map_changed){
+                ClearScreen(app.renderer);
+                SDL_Rect tar = {0,0,1512,912};
+                map_sprite.drawSprite(app.renderer, &tar, 0, 0, 1512, 912);
+
+                DrawConnections();
+
+                auto& cities = map.getCities();
+                for (auto city : cities)
+                    drawCity(city.second);
+
+                drawInfluence();
+
+                SDL_RenderPresent(app.renderer);
+            }
+
+            if (player_board_changed[WEST]){
+                drawPlayerBoard(players[WEST], powers_app[WEST].renderer, bought_action, bought_invest);
+                player_board_changed[WEST] = false;
+            }
+            if (player_board_changed[AXIS]){
+                drawPlayerBoard(players[AXIS], powers_app[AXIS].renderer, bought_action, bought_invest);
+                player_board_changed[AXIS] = false;
+            }
+            if (player_board_changed[USSR]){
+                drawPlayerBoard(players[USSR], powers_app[USSR].renderer, bought_action, bought_invest);
+                player_board_changed[USSR] = false;
+            }
+
+            if (SDL_PollEvent(&event)){
+                switch (event.type) {
+                    case SDL_MOUSEBUTTONDOWN:{
+                        int mouseX,mouseY;
+                        SDL_GetMouseState(&mouseX, &mouseY);
+                        const auto& allegiance = event.window.windowID-2;
+                        if (event.window.windowID > 1){ //is a player window //TODO Optomize
+                            //- Check on all boards if the board needs to change
+                            if (inBox(9*3, 9*3, 73*3, 23*3, mouseX, mouseY)){ //is a change screen button
+                                if (mouseX <= 30*3 && mouseX >= 10*3 && players[allegiance].state != HOME_BOARD){ //home button
+                                    players[allegiance].state = HOME_BOARD;
+                                    player_board_changed[allegiance] = true;
+                                }
+                                else if (mouseX >= 35*3 && players[allegiance].state != PRODUCTION_BOARD){ //production button
+                                    players[allegiance].state = PRODUCTION_BOARD;
+                                    player_board_changed[allegiance] = true;
+                                }
+                            }
+
+                            //- Check home board buttons
+                            if (players[allegiance].state == HOME_BOARD){
+                                if (inBox(53*3, 47*3, 27, 51, mouseX, mouseY)){ // is button #1
+                                    player_board_changed[allegiance] = true;
+                                    if ((players[allegiance].action_card_start-=2) < 0)
+                                        players[allegiance].action_card_start = players[allegiance].getActionSize()-2;
+                                }
+                                else if (inBox(262*3, 47*3, 27, 51, mouseX, mouseY)){ // is button #2
+                                    player_board_changed[allegiance] = true;
+                                    if ((players[allegiance].action_card_start+= 2) >= players[allegiance].getActionSize())
+                                        players[allegiance].action_card_start = 0;
+                                }
+
+                                else if (inBox(53*3, 86*3, 27, 51, mouseX, mouseY)){ // is button #3
+                                    player_board_changed[allegiance] = true;
+                                    if ((players[allegiance].invest_card_start-=2) < 0)
+                                        players[allegiance].invest_card_start = players[allegiance].getInvestSize()-2;
+                                }
+                                else if (inBox(262*3, 86*3, 27, 51, mouseX, mouseY)){ // is button #4
+                                    player_board_changed[allegiance] = true;
+                                    if ((players[allegiance].invest_card_start+= 2) >= players[allegiance].getInvestSize())
+                                        players[allegiance].invest_card_start = 0;
+                                }
+
+                                else if (inBox(70*3, 128*3, 27, 51, mouseX, mouseY)){ // is button #5
+                                    player_board_changed[allegiance] = true;
+                                    if ((players[allegiance].tech_card_start-=5) < 0)
+                                        players[allegiance].tech_card_start = players[allegiance].getTechSize()-2;
+                                }
+                                else if (inBox(245*3, 128*3, 27, 51, mouseX, mouseY)){ // is button #6
+                                    player_board_changed[allegiance] = true;
+                                    if ((players[allegiance].tech_card_start+= 5) >= players[allegiance].getTechSize()){
+                                        players[allegiance].tech_card_start = 0;
+                                    }
+                                }
+                            }
+                            
+                            //- Only the currenyt player will have access to confirm, others can plan ahead
+                            else if (players[allegiance].state == PRODUCTION_BOARD){
+                                //- PRODUCTION BUTTON ACTIONS
+                                if (inBox(289*3, 87*3, 23*3, 23*3, mouseX, mouseY)){ //add investment card
+                                    bought_invest++;
+                                    actions.push(1);
+                                    player_board_changed[allegiance] = true;
+                                }
+                                else if (inBox(289*3, 113*3, 23*3, 23*3, mouseX, mouseY)){ //add investment card
+                                    bought_action++;
+                                    actions.push(2);
+                                    player_board_changed[allegiance] = true;
+                                }
+                                else if (inBox(3*6, 3*100, 3*9, 3*17, mouseX, mouseY)){ //scroll left
+                                    player_board_changed[allegiance] = true;
+                                    if ((players[allegiance].controlled_cities_start-=6) < 0)
+                                        players[allegiance].controlled_cities_start = players[allegiance].getControlledSize()-6;
+                                }
+
+                                else if (inBox(3*242, 3*100, 3*9, 3*17, mouseX, mouseY)){ //scroll right
+                                    player_board_changed[allegiance] = true;
+                                    if ((players[allegiance].controlled_cities_start+= 6) >= players[allegiance].getControlledSize())
+                                        players[allegiance].controlled_cities_start = 0;
+                                }
+
+                            }
+                            
+                        }
+                    }
+                    break;
+
+                    case SDL_KEYDOWN:{
+                        running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
+                    }
+                    break;
+
+                    default: {
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 //- Government Phase
@@ -281,6 +469,53 @@ bool Runner::deal(Player* player, size_t amount, const char state){
     return true;
 }
 
+void Runner::decideTurnOrder(){
+    //- Determine starting player and the rotation of turns (roll dice)
+    int result = die.roll();
+    switch (result){
+    case 1:
+        start_player = players[AXIS];
+        turn_order[0] = &players[AXIS];
+        turn_order[1] = &players[USSR];
+        turn_order[2] = &players[WEST];
+        break;
+    case 2:
+        start_player = players[AXIS];
+        turn_order[0] = &players[AXIS];
+        turn_order[1] = &players[WEST];
+        turn_order[2] = &players[USSR];
+        break;
+    case 3:
+        start_player = players[WEST];
+        turn_order[0] = &players[WEST];
+        turn_order[1] = &players[AXIS];
+        turn_order[2] = &players[USSR];
+        break;
+    case 4:
+        start_player = players[WEST];
+        turn_order[0] = &players[WEST];
+        turn_order[1] = &players[USSR];
+        turn_order[2] = &players[AXIS];
+        break;
+    case 5:
+        start_player = players[USSR];
+        turn_order[0] = &players[USSR];
+        turn_order[1] = &players[WEST];
+        turn_order[2] = &players[AXIS];
+        break;
+    case 6:
+        start_player = players[USSR];
+        turn_order[0] = &players[USSR];
+        turn_order[1] = &players[AXIS];
+        turn_order[2] = &players[WEST];
+        break;
+    default:
+        printf("Uh this dice need to be fixed");
+        exit(1);
+    }
+
+    drawTurnRoll(result);
+}
 
 void Runner::peaceDividends(){
     if (peace_dividends_bag.size() == 0) //in game its impossible to runnout of chits so this is for testing

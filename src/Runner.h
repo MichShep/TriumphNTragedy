@@ -19,8 +19,6 @@ private:
 
     Dice die; /**< Dice used to roll decisions, default a D6*/
 
-    State state;
-
     vector<ActionCard*> action_deck; /**< Draw deck of the action cards*/
 
     vector<ActionCard*> action_discard; /**< Draw deck of the action cards*/
@@ -31,11 +29,13 @@ private:
 
     vector<PeaceChit> peace_dividends_bag; /**< Holds all the unpulled peace dividends*/
 
-    Player* start_player; /**Player who will start the turn*/
+    Player start_player; /**Player who will start the turn*/
 
-    Player* active_player; /**< Player whose turn it is currently*/
+    Player current_player;
 
-    const unsigned int seed = 42;
+    Player* turn_order[3];
+
+    const unsigned int seed = 300;
     
     std::mt19937 g;
 
@@ -68,18 +68,15 @@ public:
         //- Create Cards
         initCards("/Users/michshep/Desktop/TriumphNTragedy/src/invest.card", "/Users/michshep/Desktop/TriumphNTragedy/src/action.card");
 
-        start_player = &players[1]; //AXIS start
+        start_player = players[1]; //AXIS start
         
         //- Init Players
         players[0] = Player("Michael", WEST); //give 8 cards
         deal(&players[0], 8);
-        deal(&players[0], 8, 'I');
         players[1] = Player("Taiga", AXIS); //give 14 cards
         deal(&players[1], 14);
-        deal(&players[1], 8, 'I');
         players[2] = Player("Luke", USSR); //give 7 cards
         deal(&players[2], 7);
-        deal(&players[2], 8, 'I');
 
         if (!default_mode){
             mapPlayer(players[0]);
@@ -103,58 +100,42 @@ public:
 
         sprite_map = Spritesheet(path.c_str(), app.renderer);
 
-        map_sprite = Spritesheet("/Users/michshep/Desktop/TriumphNTragedy/sprites/starter3.png", app.renderer);
+        string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/starter3.png";
+        map_sprite = Spritesheet(path2.c_str(), app.renderer);
 
         powers_sprite_map[0] = Spritesheet(path.c_str(), powers_app[0].renderer);
         powers_sprite_map[1] = Spritesheet(path.c_str(), powers_app[1].renderer);
         powers_sprite_map[2] = Spritesheet(path.c_str(), powers_app[2].renderer);
+
+        powers_map_sprite[0] = Spritesheet(path2.c_str(), powers_app[0].renderer);
+        powers_map_sprite[1] = Spritesheet(path2.c_str(), powers_app[1].renderer);
+        powers_map_sprite[2] = Spritesheet(path2.c_str(), powers_app[2].renderer);
 
     }
 
     size_t test(){
         map["London"]->occupants[0].push_back(new Unit(1, BRITIAN_U, FLEET));
 
-        map.getCountry("Low_Countries")->influence = 2;
-        map.getCountry("Low_Countries")->allegiance = AXIS;
+        map["Paris"]->occupants[0].push_back(new Unit(1, BRITIAN_U, INFANTRY));
+        map["Paris"]->occupants[0].push_back(new Unit(2, USA_U, TANK));
+        map["Paris"]->occupants[0].push_back(new Unit(3, FRANCE_U, AIR));
+        map["Paris"]->occupants[0].push_back(new Unit(1, BRITIAN_U, FLEET));
+        map["Paris"]->occupants[0].push_back(new Unit(2, BRITIAN_U, CARRIER));
+        map["Paris"]->occupants[0].push_back(new Unit(1, USA_U, SUB));
+        map["Paris"]->occupants[0].push_back(new Unit(1, BRITIAN_U, TANK));
+        map["Paris"]->occupants[0].push_back(new Unit(4, BRITIAN_U, FORTRESS));
+        map["Paris"]->occupants[0].back()->combat_value = 4;
 
-        map.getCountry("Norway")->influence = 1;
-        map.getCountry("Norway")->allegiance = WEST;
+        map["Budapest"]->occupants[0].push_back(new Unit(1, BRITIAN_U, INFANTRY));
 
-        map.getCountry("Poland")->influence_level = SATELLITES;
-        map.getCountry("Poland")->allegiance = USSR;
-        map.getCity("Warsaw")->ruler_type = USSR;
-
-        map.getCountry("Rumania")->influence_level = SATELLITES;
-        map.getCountry("Rumania")->allegiance = WEST;
-
-        map.getCountry("Yugoslavia")->influence = 3;
-        map.getCountry("Yugoslavia")->allegiance = USSR;
-
-        map.getCity("Venice")->blockcade = true;
-        map.getCity("Milan")->blockcade = true;
-
-        map.getCity("Vienna")->ruler_type = WEST;
-        map.getCity("Prague")->ruler_type = WEST;
-        map.getCountry("Austria")->influence_level = SATELLITES;
-        map.getCountry("Czechoslovakia")->influence_level = SATELLITES;
-
-        map.getCountry("Czechoslovakia")->allegiance = WEST;
-        map.getCountry("Austria")->allegiance = WEST;
-
-        map.getCity("Ankara")->ruler_type = WEST;
-        map.getCity("Ankara")->blockcade = true;
-        map.getCountry("Turkey")->allegiance = WEST;
-        map.getCountry("Turkey")->influence_level = SATELLITES;
-
-        players[0].add(map.getCity("Ankara"));
-
-        mapPlayer(players[WEST]);
+        map["Marseille"]->blockcade = true;
 
         return 0;
     }
 
     void test1(){
         move(map["A"]->occupants[1][0], "A", "H");
+
 
     }
 
@@ -211,6 +192,8 @@ public:
     void handCheck(Player* player);
 
     bool deal(Player* player, size_t amount, const char state='A');
+
+    void decideTurnOrder();
 
     //&Checking on map
 
@@ -324,7 +307,8 @@ private:  //!!! Graphics things
 
     Spritesheet powers_sprite_map[3];  /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 32 by 32 pixels but used for the second renderer*/
 
-    
+    Spritesheet powers_map_sprite[3];
+
     //- Init Functions
     /**
      * @brief Initalizes SDL2 and the window
@@ -377,12 +361,13 @@ private:  //!!! Graphics things
     /**
      * @brief Draws a unit of the units nationality located at the given coords
      * 
+     * @param renderer The screen that the unit will be drawn too
      * @param unit The target unit
      * @param x The x coord of the unit (upper left corner is the origin)
      * @param y The x coord of the unit (upper left corner is the origin)
      * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
      */
-    void drawUnit(Unit* unit, const int x, const int y, const float scale);
+    void drawUnit(SDL_Renderer* renderer, Unit* unit, const int x, const int y, const float scale);
     
     /**
      * @brief Draws all the connections between the cities and colors them based on the border 
@@ -414,7 +399,7 @@ private:  //!!! Graphics things
      * @param g The green value of the color (0, 255)
      * @param b The blue value of the color (0, 255) 
      */
-    void drawNumber(const int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255) const;
+    void drawNumber(SDL_Renderer* renderer, const int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255) const;
 
     /**
      * @brief Animation of the cards from the discard pile being added back
@@ -424,8 +409,43 @@ private:  //!!! Graphics things
      */
     void reshuffleAnimation(const size_t& action_size, const size_t& invest_size);
 
-    void drawPlayerBoards(const Player& player, SDL_Renderer* renderer);
+    /**
+     * @brief Draws the private view of the player including cards and VP and production levels and acheived tech
+     * 
+     * @param player The player whose card is being drawn
+     * @param renderer The player's renderer
+     */
+    void drawPlayerBoard(const Player& player, SDL_Renderer* renderer, const int bought_action=0, const int bought_invest=0);
 
+    void drawHomeBoard(const Player& player, SDL_Renderer* renderer);
+
+    void drawProductionBoard(const Player& player, SDL_Renderer* renderer, const int bought_action, const int bought_invest);
+
+    /**
+     * @brief Takes the memo of the Dijkstra's knock-off II for finding trade routes and highlighting the route it takes
+     * 
+     * @param memo The completed memo
+     * @param unblocked The list of cities who were unblockaded and there path will be shown
+     */
     void drawMemoResolution(const size_t memo[][6], vector<City*> unblocked);
+    
+    /**
+     * @brief Used for button presses where a given mouse clip position will see if its in the rectangle provided
+     * 
+     * @param x The top left x-coord of the rectangle
+     * @param y The top left y-coord of the rectangle
+     * @param width The width of the button 
+     * @param height The height of the button
+     * @param target_x The x-coord where the mouse clicked
+     * @param target_y The y-coord where the mouse clicked
+     * @return true The click is in the button
+     * @return false The click is not in the button
+     */
+    bool inBox(int x, int y, int width, int height, int target_x, int target_y){
+        return (target_x >= x && target_x <= x+width) && (target_y >= y && target_y <= y+height);
+    }
+
+    void drawTurnRoll(const int& result);
+
 
 };

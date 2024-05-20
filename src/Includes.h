@@ -26,6 +26,9 @@ using std::printf;
 using std::queue;
 using std::priority_queue;
 
+#include <stack>
+using std::stack;
+
 #include <cmath>
 using std::pow;
 
@@ -69,9 +72,13 @@ enum ActionType {DIPLOMACY, WILD};
 
 enum InfluenceType {UNALIGNED, ASSOCIATES, PROTECTORATES, SATELLITES};
 
-enum Tech {AIR_DEFENSE, FIRST_FIRE, INDUSTRIAL_ESPIONAGE, SCIENCE};
+enum BoardState {HOME_BOARD, PRODUCTION_BOARD, GOVERNMENT_BOARD};
 
-enum State {ADVANCE_YEAR, VICTORY_CHECK, RESHUFFLE, PEACE_DIVIDENDS, TURN_ORDER, NEW_YEAR_RES, PRODUCTION, GOVERNMENT, HAND_CHECK};
+enum Tech   {LSTs, MOTORIZED_INFANTRY, NAVAL_RADAR, ROCKET_ARTILLERY, HEAVY_TANKS, HEAVY_BOMBERS, PERCISION_BOMBERS, JETs, SONAR, AIRDEFENCE_RADAR, 
+            COUP, CODE_BREAKER, AGENT, MOLE, SABOTAGE, SPY_RING, DOUBLE_AGENT,
+            ATOMIC_ONE, ATOMIC_TWO, ATOMIC_THREE, ATOMIC_FOUR, Y_1938, Y_1940, Y_1942, Y_1944};
+
+//enum State {ADVANCE_YEAR, VICTORY_CHECK, RESHUFFLE, PEACE_DIVIDENDS, TURN_ORDER, NEW_YEAR_RES, PRODUCTION, GOVERNMENT, HAND_CHECK};
 
 const string NATIONALITY_STRING[7] = {"BRITISH", "FRANCE", "USA", "GERMAN", "ITALY", "USSR", "NEUTRAL"};
 
@@ -160,7 +167,7 @@ namespace Colors{
 namespace Graphics{
     struct Screen{
         const int WIDTH = 1512;
-        const int HEIGHT = 912;
+        const int HEIGHT = 982;
 
         const int center_x = WIDTH /2;
         const int center_y = HEIGHT /2;
