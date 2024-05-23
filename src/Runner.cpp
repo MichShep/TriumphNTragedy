@@ -562,6 +562,7 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
     //? (14.1) The Sea Segment can only cross Coastal Straits, Sea and Ocean borders
     //? (14.1) The Land Segment can only cross Land and Straits borders.
     // Like Dijkstras and will have the main capital find a path to all the cities it controls and runs through it until all those blockcaded is visited
+    bool new_sea, new_land;
     while (num_blockcaded && !indx_to_go.empty()){ //- While there are still blockaded cities to check
         city_indx = indx_to_go.front();
         indx_to_go.pop();
@@ -570,8 +571,12 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
         if (memo[city_indx][VISITED])
             continue;
 
-        //- For straits since you can pass through it can add rival land so need to check
-        if (map.getCity(city_indx)->ruler_type != player.getAllegiance() && map.getCity(city_indx)->ruler_type != NEUTRAL && map.getCity(city_indx)->ruler_type != WATER)
+        //- Can only pass through straits if the ruler isn't an enemy
+        if ((memo[city_indx][PREVIOUS_BORDER] == LAND_STRAIT || memo[city_indx][PREVIOUS_BORDER] == WATER_STRAIT) && !player.isEnemy(map.getCity(city_indx)->ruler_type)){
+        }
+
+        //- Check a non-strait if the ruler is a rival (not the current player ruler)
+        else if (map.getCity(city_indx)->ruler_type != player.getAllegiance() && map.getCity(city_indx)->ruler_type != NEUTRAL && map.getCity(city_indx)->ruler_type != WATER)
             continue;
 
         //- Set to visited
@@ -614,37 +619,30 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
             if (memo[city_indx][PREVIOUS_BORDER] == NA){
                 if (border <= WATER_STRAIT){ //- if starting sea
                     unchanged_sea=false;
-                    memo[connect_indx][SEA] = true;
-                    memo[connect_indx][PREVIOUS_BORDER] = border;
+                    new_sea = true;
                 }
                 else if (border <= COAST_PLAINS){ //- if coastal movement could be both so ignore
-                    memo[connect_indx][PREVIOUS_BORDER] = border;
                 }
                 else if (border >= MOUNTAIN){
                     unchanged_land = false;
-                    memo[connect_indx][LAND] = true;
-                    memo[connect_indx][PREVIOUS_BORDER] = border;
+                    new_land = true;
                 }
 
             }
 
             //- CONTINUING land segment
             else if (border >= MOUNTAIN && memo[city_indx][PREVIOUS_BORDER] >= MOUNTAIN){
-                memo[connect_indx][PREVIOUS_BORDER] = border;
             }
             
             //- CONTINUING sea segment
             else if (border <= WATER_STRAIT && memo[city_indx][PREVIOUS_BORDER] <= WATER_STRAIT){
-                memo[connect_indx][PREVIOUS_BORDER] = border;
             }
 
             // - STARTING land 
             else if (border >= MOUNTAIN && memo[city_indx][PREVIOUS_BORDER] <= WATER_STRAIT){ //check that by seeing if the previous movement was a sea one
                 if (!memo[city_indx][LAND]){ //if land hasn't started yet then okay!
-                    memo[connect_indx][LAND] = true; //change
+                    new_land = true; //change
                     unchanged_land = false;
-                    memo[connect_indx][SEA] = memo[city_indx][SEA]; //set to what the connector has
-                    memo[connect_indx][PREVIOUS_BORDER] = border;
                 }
                 else{ //if the land segment has already started then no on
                     continue;
@@ -654,17 +652,14 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
             // - Starting sea segment
             else if (border <= WATER_STRAIT && memo[city_indx][PREVIOUS_BORDER] >= MOUNTAIN){
                 if (!memo[city_indx][SEA]){ //if land hasn't started yet then okay!
-                    memo[connect_indx][SEA] = true;
+                    new_sea = true;
                     unchanged_sea = false;
-                    memo[connect_indx][LAND] = memo[city_indx][LAND];
-                    memo[connect_indx][PREVIOUS_BORDER] = border;
                 }
                 else{ //if the sea segment has already started then no on
                     continue;
                 }
             }
             else if (COAST_MOUNTAIN <= border){ //if its a coastal movement it could be either and won't count
-                memo[connect_indx][PREVIOUS_BORDER] = border;
             }
             else{ //- It can't move to this area since it woudl start a preexisting segment!
                 continue;
@@ -672,18 +667,26 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
 
             //- If the land and sea segmetns weren't changes then copy from the old
             if (unchanged_land){
-                memo[connect_indx][LAND] = memo[city_indx][LAND];
+                new_land = memo[city_indx][LAND];
             }
 
             if (unchanged_sea){
-                memo[connect_indx][SEA] = memo[city_indx][SEA];
+                new_sea = memo[city_indx][SEA];
+            }
+
+            indx_to_go.push(connect_indx);
+
+            //- Compare to the current values (if NA always rewrite) if they are the same then take the shorter distance
+            if (memo[connect_indx][PREVIOUS_BORDER] != NA || (memo[connect_indx][SEA] == new_sea && memo[connect_indx][LAND] == new_land && memo[connect_indx][DISTANCE] < memo[city_indx][DISTANCE]+1)){
+                continue;
             }
 
             //- If this is reahed it means its a valid continuation of the trade route!
+            memo[connect_indx][SEA] = new_sea;
+            memo[connect_indx][LAND] = new_land;
             memo[connect_indx][DISTANCE] = memo[city_indx][DISTANCE]+1;
             memo[connect_indx][PREVIOUS] = city_indx;
-
-            indx_to_go.push(connect_indx);
+            memo[connect_indx][PREVIOUS_BORDER] = border;
         }
     }
 

@@ -54,8 +54,8 @@ public:
 
     void freeMemory(){
         if (name != ""){
-            for (auto occ : occupants){
-                for(auto un : occ)
+            for (auto& occ : occupants){
+                for(auto& un : occ)
                     delete un;
                 occ.clear();
             } 
@@ -325,7 +325,7 @@ public:
             if (sortedX[i] == NULL || sortedX[i]->x > city->x)
                 break;
         }
-        sortedX.insert(sortedX.begin()+i, city);
+        sortedX[i] = city;
 
         //- Add to sorted y
         i = 0;
@@ -333,10 +333,10 @@ public:
             if (sortedY[i] == NULL || sortedY[i]->y > city->y)
                 break;
         }
-        sortedY.insert(sortedY.begin()+i, city);
+        sortedY[i]= city;
 
         //- Add to masterlist
-        city_masterlist.insert(city_masterlist.begin()+city->getID(), city);
+        city_masterlist[+city->getID()] = city;
     }
     
     /**
@@ -483,7 +483,7 @@ public:
      * 
      */
     void freeMemory(){
-        for (auto city : city_masterlist){
+        for (auto& city : city_masterlist){
             if (city == nullptr)
                 continue;
             city->freeMemory();
@@ -491,6 +491,10 @@ public:
         }
         city_masterlist.clear();
         cities.clear();
+        sortedX.clear();
+        sortedY.clear();
+
+        countries.clear();
     }
 
 };

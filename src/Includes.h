@@ -40,6 +40,8 @@ using std::shuffle;
 
 #include "../include/SDL2_image/SDL_image.h"
 
+#include "../include/SDL2/SDL_gamecontroller.h"
+
 #define END_YEAR 1945;
 
 #define START_YEAR 1936;
@@ -195,7 +197,9 @@ public:
         clip.h = height;
     }
 
-    ~Spritesheet(){
+    void freeMemory(){
+        SDL_DestroyTexture(spritesheet_image);
+        spritesheet_image = nullptr;
     }
 
     void selectSprite(int x, int y=0, int clip_x=-1, int clip_y=-1){
@@ -214,10 +218,10 @@ public:
         }
     }
 
-    void drawSprite(SDL_Renderer* renderer, SDL_Rect* position, int row, int pos, int size_x=32, int size_y=32, int offset=0){
+    void drawSprite(SDL_Renderer* renderer, SDL_Rect* position, int row, int pos, int size_x=32, int size_y=32, int offset=0, int unscaledX=0, int unscaledY=0){
         position->x += offset;
-        clip.x = pos * size_x;
-        clip.y = row * size_y;
+        clip.x = pos * size_x + unscaledX;
+        clip.y = row * size_y + unscaledY;
         clip.w = size_x;
         clip.h = size_y;
 

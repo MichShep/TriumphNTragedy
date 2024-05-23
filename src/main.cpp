@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv[]){
     App app;
-    Runner runner(0);
+    Runner runner(1);
 
     return runner.run();
 }

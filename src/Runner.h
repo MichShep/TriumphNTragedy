@@ -29,13 +29,13 @@ private:
 
     vector<PeaceChit> peace_dividends_bag; /**< Holds all the unpulled peace dividends*/
 
-    Player start_player; /**Player who will start the turn*/
+    Player* start_player; /**Player who will start the turn*/
 
-    Player current_player;
+    Player* current_player;
 
     Player* turn_order[3];
 
-    const unsigned int seed = 300;
+    const unsigned int seed = time(NULL);
     
     std::mt19937 g;
 
@@ -50,8 +50,12 @@ public:
      * @param default_mode true if should go off of default or read in through the map
      */
     Runner(bool default_mode = 1){
+        if (InitApplication() == false){
+            ShutdownApplication();
+            exit(1);
+        }
+        
         //- Set random seed
-
         srand(seed);
 
         //- Init Dice
@@ -62,13 +66,20 @@ public:
         end_year = END_YEAR;
         year--;
 
+        
+
+        if (!default_mode){
+            setXY("/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map");
+            exit(EXIT_SUCCESS);
+        }
+
         //- Create Map
-        initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter3.map");
+        initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map");
 
         //- Create Cards
         initCards("/Users/michshep/Desktop/TriumphNTragedy/src/invest.card", "/Users/michshep/Desktop/TriumphNTragedy/src/action.card");
 
-        start_player = players[1]; //AXIS start
+        start_player = &players[1]; //AXIS start
         
         //- Init Players
         players[0] = Player("Michael", WEST); //give 8 cards
@@ -78,17 +89,11 @@ public:
         players[2] = Player("Luke", USSR); //give 7 cards
         deal(&players[2], 7);
 
-        if (!default_mode){
-            mapPlayer(players[0]);
-            mapPlayer(players[1]);
-            mapPlayer(players[2]);
-        }
-
-        if (InitApplication() == false){
-            ShutdownApplication();
-            exit(1);
-        }
-
+        
+        mapPlayer(players[0]);
+        mapPlayer(players[1]);
+        mapPlayer(players[2]);
+        
         std::mt19937 g(seed);
 
         peace_dividends_bag = {{2,0,0}, {2,0,0}, {2,0,0}, {2,0,0},
@@ -100,7 +105,7 @@ public:
 
         sprite_map = Spritesheet(path.c_str(), app.renderer);
 
-        string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/starter3.png";
+        string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png";
         map_sprite = Spritesheet(path2.c_str(), app.renderer);
 
         powers_sprite_map[0] = Spritesheet(path.c_str(), powers_app[0].renderer);
@@ -129,6 +134,15 @@ public:
         map["Budapest"]->occupants[0].push_back(new Unit(1, BRITIAN_U, INFANTRY));
 
         map["Marseille"]->blockcade = true;
+
+        map["Ankara"]->ruler_type = WEST;
+        map["Ankara"]->blockcade = true;
+        players[0].add(map.getCity("Ankara"));
+
+        map["Iraq"]->blockcade = true;
+
+        map["Gibraltar"]->ruler_type = AXIS;
+
 
         return 0;
     }
@@ -287,6 +301,42 @@ public:
 
     void freeMemory(){
         map.freeMemory();
+        sprite_map.freeMemory();
+        map_sprite.freeMemory();
+
+        powers_sprite_map[0].freeMemory();
+        powers_sprite_map[1].freeMemory();
+        powers_sprite_map[2].freeMemory();
+        powers_map_sprite[0].freeMemory();
+        powers_map_sprite[1].freeMemory();
+        powers_map_sprite[2].freeMemory();
+
+        for (ActionCard* ac : action_deck){
+            if (ac != nullptr) delete ac;
+        }
+        action_deck.clear();
+        for (ActionCard* ac : action_discard){
+            if (ac != nullptr) delete ac;
+        }
+        action_discard.clear();
+
+        for (InvestmentCard* ac : invest_deck){
+            if (ac != nullptr) delete ac;
+        }
+        invest_deck.clear();
+        for (InvestmentCard* ac : invest_discard){
+            if (ac != nullptr) delete ac;
+        }
+        invest_discard.clear();
+
+        players[0].freeMemory();
+        players[1].freeMemory();
+        players[2].freeMemory();
+
+        current_player = nullptr;
+        start_player = nullptr;
+
+        ShutdownApplication();
     }
 
     //& Runner Getters and Setters
@@ -308,6 +358,17 @@ private:  //!!! Graphics things
     Spritesheet powers_sprite_map[3];  /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 32 by 32 pixels but used for the second renderer*/
 
     Spritesheet powers_map_sprite[3];
+
+    //& Controller Things
+    SDL_GameController *west_controller=nullptr;
+
+    SDL_GameController *axis_controller=nullptr;
+
+    SDL_GameController *ussr_controller=nullptr;
+
+    SDL_GameController* controllers[3]= {nullptr, nullptr, nullptr};
+
+
 
     //- Init Functions
     /**
@@ -344,7 +405,7 @@ private:  //!!! Graphics things
      * 
      * @param city 
      */
-    void drawCity(City* city);
+    void drawCity(City* city, const bool resources=true);
 
     void drawCity(int x, int y, PopulationType population_type);
 
@@ -447,5 +508,87 @@ private:  //!!! Graphics things
 
     void drawTurnRoll(const int& result);
 
+    void drawPeaceDividends(const bool west, const bool axis, const bool ussr);
 
+    void drawMap(const bool cities, const bool influence, const bool resources, const bool connections, const bool render=true);
+
+    void setXY(const string& path){
+        string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Artboard 1.png";
+        map_sprite = Spritesheet(path2.c_str(), app.renderer);
+        SDL_Rect tar = {0,0,1512,982};
+        string line;
+        
+
+        fstream map_file(path, std::ios_base::in);
+        fstream out_file("out.txt");
+
+        if (!map_file.is_open()){
+            cout << "failed to open file " << path << endl;
+            exit(1);
+        }
+
+        if (!out_file.is_open()){
+            cout << "failed to open file out.txt" << endl; 
+            exit(1);
+        }
+
+        int num_cities, num_countries;
+
+        map_file >> num_cities;
+        map_file >> num_countries;
+        getline(map_file, line); //junk line
+
+        SDL_Event event;
+        out_file << num_cities << " " << num_countries << "\n";
+        for (int i = 0; i < num_cities; i++){
+            bool running = true;
+            getline(map_file, line);
+            out_file << line << " ";
+            cout <<  line << endl;
+            while (running){
+                ClearScreen(app.renderer);
+
+                map_sprite.drawSprite(app.renderer, &tar, 0, 0, 1512, 982);
+
+                if (SDL_PollEvent(&event)){
+                    switch (event.type) {
+                        case SDL_MOUSEBUTTONDOWN:{
+                            int mouseX,mouseY;
+                            SDL_GetMouseState(&mouseX, &mouseY);
+                            out_file << mouseX << " " << mouseY << "\n";
+                            cout << line << " "<< mouseX << " " << mouseY << endl;
+                            running = false;
+                            break;
+                        }
+                        case SDL_KEYDOWN:{
+                            goto Skip;
+                            break;
+                        }
+                    }
+                }
+                SDL_RenderPresent(app.renderer);
+            }
+        }
+
+        Skip:
+        for (int i = 0; i < num_cities; i ++){
+            getline(map_file, line);
+            if (line[0] <= '9'){
+                i--;
+                continue;
+            }
+            std::istringstream iss(line);
+            string starting_city;
+            iss >> starting_city;
+            out_file << starting_city << " ";
+
+            string city, border;
+            while (!iss.fail()){
+                iss >> city;
+                iss >> border;
+                out_file << "[" << city << " " << border << "] ";
+            }
+            out_file << "\n";
+        }
+    }
 };

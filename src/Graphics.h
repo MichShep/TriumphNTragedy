@@ -6,6 +6,27 @@ bool Runner::InitSDL(){
     if (SDL_Init(SDL_INIT_EVERYTHING) > 0){
         cout << "SDL_Init failed with error: " << SDL_GetError() << endl;
         return false;
+
+    
+    }
+    SDL_JoystickEventState(SDL_ENABLE);
+    SDL_GameControllerEventState(SDL_ENABLE);
+    const char* mapping_string = "030000000d0f0000f600000001000000,Lic Pro Controller,a:b0,b:b1,x:b2,y:b3,back:b8,guide:b12,start:b9,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,lefttrigger:b6,righttrigger:b7,platform:Mac OS X";
+
+    cout << SDL_GameControllerAddMapping(mapping_string) << endl;
+                                        //030000000d0f0000f600000001000000,Lic Pro Controller,a:b0,b:b1,x:b2,y:b3,back:b8,guide:b12,start:b9,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,lefttrigger:b6,righttrigger:b7,platform:Mac OS X
+    for (int i = 0; i < SDL_NumJoysticks(); i++){
+        if (SDL_IsGameController(i)){
+            west_controller = SDL_GameControllerOpen(0);
+            controllers[0] = west_controller;
+            SDL_Joystick* joystick = SDL_GameControllerGetJoystick(west_controller);
+            char guid[64];
+            SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
+            char* currentMapping = SDL_GameControllerMappingForGUID(SDL_JoystickGetGUID(joystick));
+            std::cout << "Current mapping for GUID " << guid << ": " << currentMapping << std::endl;
+            SDL_free(currentMapping); // Free the string allocated by SDL_GameControllerMappingForGUID
+            break;
+        }
     }
 
     return true;
@@ -34,18 +55,22 @@ void Runner::ShutdownApplication(){
 
     for (auto& a : powers_app){
         if (a.window != nullptr) {
-        SDL_DestroyWindow(a.window);
-        a.window = nullptr;
+            SDL_DestroyWindow(a.window);
+            a.window = nullptr;
+        }
+
+        if (a.renderer != nullptr) {
+            SDL_DestroyRenderer(a.renderer);
+            a.renderer = nullptr;
+        }
     }
 
-    if (a.renderer != nullptr) {
-        SDL_DestroyRenderer(a.renderer);
-        a.renderer = nullptr;
-    }
-    }
+    SDL_GameControllerClose(controllers[0]);
+    SDL_GameControllerClose(controllers[1]);
+    SDL_GameControllerClose(controllers[2]);
+
 
     SDL_Quit();
-    exit(0);
 }
 
 bool Runner::InitApplication(){
@@ -124,45 +149,28 @@ bool Runner::InitApplication(){
     return true;
 }
 
-void Runner::drawCity(City* city){
+void Runner::drawCity(City* city, const bool resources){
     SDL_Rect target = {city->x, city->y, city->HEIGHT, city->WIDTH};
 
     //- Draw the Population type (capital, subcapital, ...)
     sprite_map.drawSprite(app.renderer, &target, 8, getCitySprite(city));
-
-    //- Draw all the units in there
     float scale = 1;
-    int offset = city->HEIGHT;
-    for (auto unit :city->occupants[0]){ //west
-        drawUnit(app.renderer, unit, city->x, city->y+offset, scale);
-        offset += 32*scale;
-    }
 
-    for (auto unit :city->occupants[1]){ //axis
-        drawUnit(app.renderer, unit, city->x, city->y+offset, scale);
-        offset += 32*scale;
-    }
-
-    for (auto unit :city->occupants[2]){ //ussr
-        drawUnit(app.renderer, unit, city->x, city->y+offset, scale);
-        offset += 32*scale;
-    }
-
-    for (auto unit :city->occupants[3]){ //neutral
-        drawUnit(app.renderer, unit, city->x, city->y+offset, scale);
-        offset += 32*scale;
-    }
+    int scaled_size = 32*scale;
 
     //- Draw the resources
-    if (city->blockcade == true){
-        target = {city->x, city->y-(int)(scale*32), city->HEIGHT, city->WIDTH};
-        if (city->resource_type != TRANS_ATLANTIC){
-            (city->blockcade)? sprite_map.drawSprite(app.renderer, &target, 17, 0) : sprite_map.drawSprite(app.renderer, &target, 17, 1+city->resource);
-        }
-        else{ //transadental
-            target.x -= (int)(scale*16);
-            sprite_map.drawSprite(app.renderer, &target, 17, 1+(city->resource/2));
-            sprite_map.drawSprite(app.renderer, &target, 17, 4+(city->resource/2), (int)(scale*32));
+    if (resources){
+        target = {city->x, city->y-(scaled_size), city->HEIGHT, city->WIDTH};
+        if (city->resource > 0 ||city->blockcade){ //can blockade even with no resources
+            if (city->resource_type != TRANS_ATLANTIC){
+                (city->blockcade)? sprite_map.drawSprite(app.renderer, &target, 17, 0) : sprite_map.drawSprite(app.renderer, &target, 17, 1+city->resource);
+            }
+            else{ //transadental
+                target.x -= 40;
+                sprite_map.drawSprite(app.renderer, &target, 17, 1+(city->resource/2));
+                target.x +=32;
+                sprite_map.drawSprite(app.renderer, &target, 17, 4+(city->resource/2), (scaled_size));
+            }
         }
     }
 }
@@ -572,7 +580,6 @@ void Runner::drawPlayerStats(Player& player){
     }
 }
 
-
 void Runner::drawNumber(SDL_Renderer* renderer, const int num, const int x, const int y, const float scale, const uint8_t r, const uint8_t g, const uint8_t b) const{
     int digits = 0;
     auto copy = num;
@@ -653,7 +660,8 @@ void Runner::reshuffleAnimation(const size_t& action_size, const size_t& invest_
     SDL_Event event;
     int action_offset = 0;
     int invest_offset = 0;
-    float scale = 3;
+    int scale = 5;
+    int scaled_size = (5*32);
     int delta_time = rand() % (8 - 4 + 1) + 4;
     bool state = true;
     SDL_Rect target;
@@ -661,26 +669,26 @@ void Runner::reshuffleAnimation(const size_t& action_size, const size_t& invest_
         ClearScreen(app.renderer);
         if (state){ //move cards
 
-            target = {app.screen.WIDTH/2-(int)(scale*96)/2, app.screen.HEIGHT/2-(int)(scale*64) ,(int)(scale*96), (int)(scale*64)};
+            target = {(app.screen.WIDTH/2-(scale*96)/2), (app.screen.HEIGHT/2-(scale*64)/2), (scale*96), (scale*64)};
 
             sprite_map.drawSprite(app.renderer, &target, 5, 7, 96, 64);
 
             sprite_map.selectSprite(7, 0, 32, 32);
             for (int i = 0; i < invest_size; i++){
-                if (invest_offset - i*16 >= app.screen.WIDTH/2-(int)(scale*96)/2+(int)(9*scale))
-                    target = {app.screen.WIDTH/2-(int)(scale*96)/2+(int)(9*scale), app.screen.HEIGHT/2-(int)(scale*64)+(int)(15*scale) , (int)(scale*32), (int)(scale*32)};
+                if (invest_offset - i*16 >= app.screen.WIDTH/2-(scale*96)/2+(9*scale))
+                    target = {app.screen.WIDTH/2-(scale*96)/2+(9*scale), (app.screen.HEIGHT/2-(scale*64)/2)+(15*scale) , scaled_size, scaled_size};
                 else
-                    target = {invest_offset - i*16, app.screen.HEIGHT/2-(int)(scale*64)+(int)(15*scale), (int)(scale*32), (int)(scale*32)};
+                    target = {invest_offset - i*16,                      (app.screen.HEIGHT/2-(scale*64)/2)+(15*scale), scaled_size, scaled_size};
                 sprite_map.drawSelectedSprite(app.renderer, &target);
 
             }
             invest_offset += delta_time;
 
             for (int i = 0; i < action_size; i++){
-                if (app.screen.WIDTH + action_offset + i*16 <= app.screen.WIDTH/2-(int)(scale*96)/2+(int)(57*scale))
-                    target = {app.screen.WIDTH/2-(int)(scale*96)/2+(int)(57*scale), app.screen.HEIGHT/2-(int)(scale*64)+(int)(15*scale) , (int)(scale*32), (int)(scale*32)};
+                if (app.screen.WIDTH + action_offset + i*16 <= app.screen.WIDTH/2-(scale*96)/2+(57*scale))
+                    target = {app.screen.WIDTH/2-(scale*96)/2+(57*scale), (app.screen.HEIGHT/2-(scale*64)/2)+(15*scale) , scaled_size, scaled_size};
                 else
-                    target = {app.screen.WIDTH + action_offset + i*16, app.screen.HEIGHT/2-(int)(scale*64)+(int)(15*scale), (int)(scale*32), (int)(scale*32)};
+                    target = {app.screen.WIDTH + action_offset + i*16, (app.screen.HEIGHT/2-(scale*64)/2)+(15*scale), scaled_size, scaled_size};
                 sprite_map.drawSelectedSprite(app.renderer, &target);
 
             }
@@ -736,9 +744,9 @@ void Runner::reshuffleAnimation(const size_t& action_size, const size_t& invest_
         }
 
         //- Check to see if animation is done
-        if ((app.screen.WIDTH + action_offset + (action_size-1)*16    <= app.screen.WIDTH/2-(int)(scale*96)/2+(int)(57*scale)) &&
-            (invest_offset                           >= app.screen.WIDTH/2-(int)(scale*96)/2+(int)(9*scale))){
-            target = {app.screen.WIDTH/2-(int)(scale*96)/2, app.screen.HEIGHT/2-(int)(scale*64) ,(int)(scale*96), (int)(scale*64)};
+        if ((app.screen.WIDTH + action_offset + (action_size-1)*16    <= app.screen.WIDTH/2-(scale*96)/2+(57*scale)) &&
+            (invest_offset                           >= app.screen.WIDTH/2-(scale*96)/2+(9*scale))){
+            target = {app.screen.WIDTH/2-(scale*96)/2, (app.screen.HEIGHT/2-(scale*64)/2) ,(scale*96), (scale*64)};
             state = false;
             SDL_Delay(100);
         }
@@ -753,6 +761,8 @@ void Runner::drawPlayerBoard(const Player& player, SDL_Renderer* renderer, const
         case (PRODUCTION_BOARD):
             drawProductionBoard(player, renderer, bought_action, bought_invest);
             break;
+        case (GOVERNMENT_BOARD):
+            ClearScreen(renderer);
         
         default:
             break;
@@ -762,47 +772,31 @@ void Runner::drawPlayerBoard(const Player& player, SDL_Renderer* renderer, const
 void Runner::drawProductionBoard(const Player& player, SDL_Renderer* renderer, const int bought_action, const int bought_invest){
     ClearScreen(renderer);
 
-    int scale = 3;
-    int scaled_size = (int)(scale*32);
-    CityType allegiance = player.getAllegiance();
+    const int scale = 3;
+    const int scaled_size = scale*32;
+    const CityType& allegiance = player.getAllegiance();
 
     //- Draw the Board
-    SDL_Rect target = {0,0,960,576}, target2={0,0,32,32}, target3;
+    SDL_Rect target = {0,0,960,576}, target2={69,114,207*scale,147*scale}, target3 = {69, 342, scale*207, 1}, target4 = {381, 114, 1, 147*scale};
     powers_sprite_map[allegiance].drawSprite(renderer, &target, 3, 3+allegiance, 320, 192);
 
-    //- Draw all controlled cities
     target = {20*3-scaled_size, 38*3, scaled_size, scaled_size};
-    auto cities_begin = player.getControlledCitiesBegin(); //only units that are legible ot be upgrade is when they are in a frindly (controlled) undisputed area
-    const auto& cities_end = player.getControlledCitiesEnd();
 
-    for (int i = 0, count = 0; i < player.getControlledSize() && cities_begin != cities_end && count < 6; cities_begin++, i++){
-        if (i < player.controlled_cities_start)
-            continue;
+    //- Draw the maps position
+    powers_map_sprite[allegiance].drawSprite(renderer, &target2, 0,0, 207*scale,147*scale, 0, player.mapX,player.mapY);
 
-        count++;
+    //- Draw the cities within the range
+    City* closest =  map.getClosestCity(player.mapX + 314, player.mapY + 228); 
 
-        //- Draw the cities where this player's units are present or where its a home territory
-        const auto& city = (cities_begin)->second;
+    SDL_Rect target5 = {closest->x + 69 - player.mapX, closest->y + 114 - player.mapY, 32, 32};
+    cout << closest->name << endl;
+    powers_sprite_map[player.getAllegiance()].drawSprite(renderer, &target5, 8,getCitySprite(closest));
 
-        if (!city->isConflict()){ //since we know all cities are controlled by the player we juse need to check if theres a conflict 
-            powers_map_sprite[allegiance].drawSprite(renderer, &target, (city->y/128), (city->x/128), 128, 128, scaled_size+9);
-            target2.x = ((city->x - (city->x/128)*128) + target.x)-32;
-            target2.y = ((city->y - (city->y/128)*128) + target.y)-32;
+    //- Draw the scope thingy   
+    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+    SDL_RenderDrawRect(renderer, &target3);
+    SDL_RenderDrawRect(renderer, &target4);
 
-            powers_sprite_map[allegiance].drawSprite(renderer, &target2, 8, getCitySprite(city), 32, 32);
-        }
-        //- Draw all units there
-        int offset = 32 + 32*(city->occupants[allegiance].size() <= 3);
-        target3 = {target.x, target.y+scaled_size, offset, offset};
-        for (const auto& unit : city->occupants[allegiance]){
-            powers_sprite_map[allegiance].drawSprite(renderer, &target3, 1 + (int)unit->unit_type, UNIT_SPRITE_OFFSET[unit->nationality]+unit->combat_value);
-            if ((target3.x += offset) >= target.x + scaled_size){
-                target3.x = target.x;
-                target3.y += offset;
-            }
-        }
-    }
-    //256 39
 
     //- Draw all the cards that have been bought
     int offset = (32*scale/4);
@@ -815,6 +809,10 @@ void Runner::drawProductionBoard(const Player& player, SDL_Renderer* renderer, c
         powers_sprite_map[allegiance].drawSprite(renderer, &target, 0, 5, 32, 32); 
         target.y += offset;
     }
+
+    //- Draw the current production (245, 13)
+    drawNumber(renderer, player.getProduction()-bought_action-bought_invest,scale*245, scale*13, 3.5,0,0,0);
+
 
     SDL_RenderPresent(renderer);
 }  
@@ -908,12 +906,9 @@ void Runner::drawHomeBoard(const Player& player, SDL_Renderer* renderer){
 
 }
 
-void Runner::drawMemoResolution(const size_t memo[][6], vector<City*> unblocked){
-    SDL_Rect target = {0,0,1512,912};
-    
+void Runner::drawMemoResolution(const size_t memo[][6], vector<City*> unblocked){    
     for (const auto& city : unblocked){
-        ClearScreen(app.renderer);
-        map_sprite.drawSprite(app.renderer, &target, 0, 0, 1512, 912);
+        drawMap(false, true, false, false, false);
         size_t city_indx = city->ID;
         City* city_obj = map.getCity(city_indx);
         //printf("To link %s to the capital go: ", city->name.c_str());
@@ -931,7 +926,7 @@ void Runner::drawMemoResolution(const size_t memo[][6], vector<City*> unblocked)
         drawCity(city_obj->x, city_obj->y, city_obj->population_type);
         //printf("%s .\n", map.getCity(city_indx)->name.c_str());
         SDL_RenderPresent(app.renderer);
-        SDL_Delay(800);
+        SDL_Delay(1600);
 
     }
     
@@ -941,11 +936,35 @@ void Runner::drawTurnRoll(const int& result){
     int scale = 5;
     int scaled_size = scale*32;
     SDL_Rect target = {app.screen.WIDTH/2-scaled_size/2, app.screen.HEIGHT/2-scaled_size/2, scaled_size, scaled_size};
-    for (int i = 0; i < 50; i ++){
+    SDL_Event event;
+    bool running = true, skipped = false;
+    for (int i = 0; i < 50 && running; i ++){
         ClearScreen(app.renderer);
         sprite_map.drawSprite(app.renderer, &target, 12, i%6);
         SDL_RenderPresent(app.renderer);
         SDL_Delay(50);
+
+        //- Player can skip cutscene
+        if (SDL_PollEvent(&event)){
+            switch (event.type) {
+
+                case SDL_KEYDOWN:{
+                    running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
+                    skipped = true;
+                    return;
+                    break;
+                }
+
+                case SDL_QUIT:{
+                    running = false;
+                    break;
+                }
+
+                default: {
+                    break;
+                }
+            }
+        }
     }
     
     ClearScreen(app.renderer);
@@ -957,34 +976,35 @@ void Runner::drawTurnRoll(const int& result){
     SDL_Rect target2 = {(target.x+5*scale), target.y+22*scale, scaled_size, scaled_size};
     SDL_Rect target3 = {target.x+38*scale, target.y+22*scale, scaled_size, scaled_size};
     SDL_Rect target4 = {target.x+71*scale, target.y+22*scale, scaled_size, scaled_size};
+    if (!skipped){
+        //blank
+        ClearScreen(app.renderer);
+        sprite_map.drawSprite(app.renderer, &target, 5, 8, 96, 64);
+        SDL_RenderPresent(app.renderer);
+        SDL_Delay(400);
 
-    //blank
-    ClearScreen(app.renderer);
-    sprite_map.drawSprite(app.renderer, &target, 5, 8, 96, 64);
-    SDL_RenderPresent(app.renderer);
-    SDL_Delay(400);
+        //add first
+        ClearScreen(app.renderer);
+        sprite_map.drawSprite(app.renderer, &target, 5, 9, 96, 64);
+        sprite_map.drawSprite(app.renderer, &target2, 0, 8+turn_order[0]->getAllegiance());
+        SDL_RenderPresent(app.renderer);
+        SDL_Delay(400);
 
-    //add first
-    ClearScreen(app.renderer);
-    sprite_map.drawSprite(app.renderer, &target, 5, 9, 96, 64);
-    sprite_map.drawSprite(app.renderer, &target2, 0, 8+turn_order[0]->getAllegiance());
-    SDL_RenderPresent(app.renderer);
-    SDL_Delay(400);
+        ClearScreen(app.renderer);
+        sprite_map.drawSprite(app.renderer, &target, 5, 10, 96, 64);
+        sprite_map.drawSprite(app.renderer, &target2, 0, 8+turn_order[0]->getAllegiance());
+        sprite_map.drawSprite(app.renderer, &target3, 0, 8+turn_order[1]->getAllegiance());
+        SDL_RenderPresent(app.renderer);
+        SDL_Delay(400);
 
-    ClearScreen(app.renderer);
-    sprite_map.drawSprite(app.renderer, &target, 5, 10, 96, 64);
-    sprite_map.drawSprite(app.renderer, &target2, 0, 8+turn_order[0]->getAllegiance());
-    sprite_map.drawSprite(app.renderer, &target3, 0, 8+turn_order[1]->getAllegiance());
-    SDL_RenderPresent(app.renderer);
-    SDL_Delay(400);
-
-    ClearScreen(app.renderer);
-    sprite_map.drawSprite(app.renderer, &target, 5, 11, 96, 64);
-    sprite_map.drawSprite(app.renderer, &target2, 0, 8+turn_order[0]->getAllegiance());
-    sprite_map.drawSprite(app.renderer, &target3, 0, 8+turn_order[1]->getAllegiance());
-    sprite_map.drawSprite(app.renderer, &target4, 0, 8+turn_order[2]->getAllegiance());
-    SDL_RenderPresent(app.renderer);
-    SDL_Delay(400);
+        ClearScreen(app.renderer);
+        sprite_map.drawSprite(app.renderer, &target, 5, 11, 96, 64);
+        sprite_map.drawSprite(app.renderer, &target2, 0, 8+turn_order[0]->getAllegiance());
+        sprite_map.drawSprite(app.renderer, &target3, 0, 8+turn_order[1]->getAllegiance());
+        sprite_map.drawSprite(app.renderer, &target4, 0, 8+turn_order[2]->getAllegiance());
+        SDL_RenderPresent(app.renderer);
+        SDL_Delay(400);
+    }
 
     for (int i = 0; i < 12; i++){
         ClearScreen(app.renderer);
@@ -1000,3 +1020,109 @@ void Runner::drawTurnRoll(const int& result){
 
 }
 
+
+void Runner::drawPeaceDividends(const bool west, const bool axis, const bool ussr){
+    int scale = 6;
+    int scaled_size = scale*32/2;
+    SDL_Rect target  = {(app.screen.WIDTH/2-(scale*96)/2), (app.screen.HEIGHT/2-(scale*64)/2), (scale*96), (scale*64)}, 
+             target2 = {0, (app.screen.HEIGHT/2-(scale*64)/2)+scale*40, scaled_size, scaled_size},
+             target_west = {target.x+46*scale,target.y+6*scale, 64, 64},
+             target_axis = target_west,
+             target_ussr = target_west;
+    SDL_Event event;
+    bool running = true, move = true;
+
+    float offsetX1=target_west.x, offsetX2=target_axis.x, offsetX3=target_ussr.x;
+    float offsetY=target_west.y;
+
+    while (running){
+        
+        ClearScreen(app.renderer);
+
+        //- Always draw the board
+        sprite_map.drawSprite(app.renderer, &target, 5, 12, 96, 64);
+
+        if (move){        
+            offsetY += .88; // all decrease the same amount
+            if (west){ //west need to be drawn and the peace chit
+                //- Draw Peace Chit
+                sprite_map.drawSprite(app.renderer, &target_west, 9, 0);
+                offsetX1 -= .56;
+                target_west.x = (int)offsetX1;
+                target_west.y = (int)offsetY;
+            }
+
+            if (axis){ //west need to be drawn and the peace chit
+                //- Draw Peace Chit
+                sprite_map.drawSprite(app.renderer, &target_axis, 9, 0);
+                offsetX2 -= .02;
+                target_axis.x = (int)offsetX2;
+                target_axis.y = (int)offsetY;
+            }
+
+            if (ussr){ //west need to be drawn and the peace chit
+                //- Draw Peace Chit
+                sprite_map.drawSprite(app.renderer, &target_ussr, 9, 0);
+                offsetX3 += .51;
+                target_ussr.x = (int)offsetX3;
+                target_ussr.y = (int)offsetY;
+            }
+
+            //- Check for when main animation is done
+            if (offsetY > target.y+42*scale){
+                running = false;
+                target_west = target;
+            }
+        }
+
+        if (west) {target2.x = app.screen.WIDTH/2-(scale*96)/2 + scale*18; sprite_map.drawSprite(app.renderer, &target2, 13, 0);}
+        if (axis) {target2.x = app.screen.WIDTH/2-(scale*96)/2 + scale*41; sprite_map.drawSprite(app.renderer, &target2, 13, 2);}
+        if (ussr) {target2.x = app.screen.WIDTH/2-(scale*96)/2 + scale*63; sprite_map.drawSprite(app.renderer, &target2, 13, 4);}
+
+        SDL_RenderPresent(app.renderer);
+
+        //- Player can skip cutscene
+        if (SDL_PollEvent(&event)){
+            switch (event.type) {
+
+                case SDL_KEYDOWN:{
+                    running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
+                    break;
+                }
+
+                case SDL_QUIT:{
+                    running = false;
+                    break;
+                }
+
+                default: {
+                    break;
+                }
+            }
+        }
+    }
+
+}
+
+void Runner::drawMap(const bool cities, const bool influence, const bool resources, const bool connections, const bool clear){
+    ClearScreen(app.renderer);
+
+    SDL_Rect tar = {0,0,1512,982};
+    map_sprite.drawSprite(app.renderer, &tar, 0, 0, 1512, 982);
+
+    if (connections)
+        DrawConnections();
+
+    if (cities){
+        auto& cities = map.getCities();
+        for (auto city : cities)
+            drawCity(city.second, resources);
+    }
+
+    if (influence){
+        drawInfluence();
+    }
+
+    if (clear)
+        SDL_RenderPresent(app.renderer);
+}

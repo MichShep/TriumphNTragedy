@@ -76,6 +76,10 @@ public:
 
     BoardState state = HOME_BOARD;
 
+    int mapX = 0;
+
+    int mapY = 0;
+
     Player(){
         name = "Default";
     }
@@ -378,4 +382,22 @@ public:
      * 
      */
     void print() const;
+
+    void freeMemory(){
+        for (ActionCard* ac: action_hand){
+            if (ac != nullptr) delete ac;
+        }
+        action_hand.clear();
+        for (InvestmentCard* ac: invest_hand){
+            if (ac != nullptr) delete ac;
+        }
+        invest_hand.clear();
+        for (Unit* unit: units){
+            if (unit != nullptr) delete unit;
+        }
+        units.clear();
+        controlled_cities.clear();
+
+        name = "DELETED";
+    }
 };

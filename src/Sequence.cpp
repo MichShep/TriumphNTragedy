@@ -8,26 +8,9 @@ bool Runner::run(){
     test();
 
     //& Draw the initial Board
-    ClearScreen(app.renderer);
-    for (auto& a : powers_app){
-        ClearScreen(a.renderer);
-    }
+    drawMap(true, false, false, true);
 
-    //- Draw Player Stats
-    SDL_Rect tar = {0,0,1512,912};
-    map_sprite.drawSprite(app.renderer, &tar, 0, 0, 1512, 912);
-
-    DrawConnections();
-
-    auto& cities = map.getCities();
-    for (auto city : cities)
-        drawCity(city.second);
-
-    drawInfluence();
-
-    SDL_RenderPresent(app.renderer);
-
-    bool player_board_changed[3] = {true, true, true}; //true for first time for initial draw
+    /*bool player_board_changed[3] = {true, true, true}; //true for first time for initial draw
     SDL_Event event;
     while (running){
         if (player_board_changed[WEST]){
@@ -100,28 +83,45 @@ bool Runner::run(){
                 }
                 break;
 
+                case SDL_CONTROLLERBUTTONDOWN:{
+                    if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A){
+                        cout << "A was mapped!" << endl;
+                    }
+                    if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A){
+                        cout << "B was mapped!" << endl;
+                    }
+                }
+
                 case SDL_KEYDOWN:{
                     running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
+                    switch(event.key.keysym.scancode){
+                        case SDL_SCANCODE_RIGHT:{
+                            players[WEST].mapX += 6;
+                            player_board_changed[WEST] = true;
+                            break;
 
-                    if (event.key.keysym.scancode == SDL_SCANCODE_M){
-                        test1();
-                    }
-                    if (event.key.keysym.scancode == SDL_SCANCODE_N){
-                        year++;
-                    }
-                    if (event.key.keysym.scancode == SDL_SCANCODE_B){
-                        map["C"]->occupants[0][0]->combat_value++;
-                    }
-                    if (event.key.keysym.scancode == SDL_SCANCODE_V){
-                        players[0].setUsaDow(DECLARED);
-                        players[0].setUssrDow(VICTIM);
-                        players[0].setAxisDow(DECLARED);
+                        }
 
-                        players[1].setUssrDow(DECLARED);
-                        players[1].setWestDow(VICTIM);
+                        case SDL_SCANCODE_LEFT:{
+                            players[WEST].mapX -= 6;
+                            player_board_changed[WEST] = true;
+                            break;
+                        }
 
-                        players[2].setWestDow(DECLARED);
-                        players[2].setAxisDow(VICTIM);
+                        case SDL_SCANCODE_UP:{
+                            players[WEST].mapY -= 6;
+                            player_board_changed[WEST] = true;
+                            break;
+                        }
+
+                        case SDL_SCANCODE_DOWN:{
+                            players[WEST].mapY += 6;
+                            player_board_changed[WEST] = true;
+                            break;
+                        }
+                        default:{
+                            break;
+                        }
                     }
                     break;
                 }
@@ -136,8 +136,8 @@ bool Runner::run(){
                 }
             }
         }
-    }
-
+    }*/
+    
     //& Main game Loop
     CityType winner;
     while ((winner=newYear()) != WATER && year <= end_year){ //run the game unitl a winner is found
@@ -146,11 +146,9 @@ bool Runner::run(){
     
     
     freeMemory();
-
     printf("Memory was deleted\n");
-    //!!    
 
-    ShutdownApplication();
+
     return EXIT_SUCCESS;
 }
 
@@ -167,13 +165,13 @@ CityType Runner::newYear(){
     }
 
     //- Reshuffle..
-    reshuffle(true);
+    //reshuffle(true);
 
     //- Peace Dividends.
-    peaceDividends();
+    //peaceDividends();
 
     //- Turn Order..
-    decideTurnOrder();
+    //decideTurnOrder();
 
     //- New Year Resolution.
     newYearRes();
@@ -199,6 +197,9 @@ void Runner::production(){
     int num_production;
     bool running=true;
     bool player_board_changed[3] = {true, true, true};
+    unsigned int a = SDL_GetTicks();
+    unsigned int b = SDL_GetTicks();
+    double delta = 0;
 
     bool map_changed = true;
 
@@ -211,137 +212,84 @@ void Runner::production(){
     //- Go through each player in turn order
     for (auto& player : turn_order){
         //- Check trade routes
-        checkTradeRoutes(*player, player->getCapital());
+        //checkTradeRoutes(*player, player->getCapital());
 
+        //- Get the production for this round
         num_production = player->getProduction();
 
         while (running){
+            a = SDL_GetTicks();
+            delta = a - b;
 
-            if (map_changed){
-                ClearScreen(app.renderer);
-                SDL_Rect tar = {0,0,1512,912};
-                map_sprite.drawSprite(app.renderer, &tar, 0, 0, 1512, 912);
+            if (delta > 1000/60.0){
 
-                DrawConnections();
+                //cout << "fps: " << 1000 / delta << endl;
+                b = a;  
+                //- Check if things have chnaged to redraw
+                if (map_changed){
+                    drawMap(true, true, true, false, true);
+                }
 
-                auto& cities = map.getCities();
-                for (auto city : cities)
-                    drawCity(city.second);
+                if (player_board_changed[WEST]){
+                    drawPlayerBoard(players[WEST], powers_app[WEST].renderer, bought_action, bought_invest);
+                    player_board_changed[WEST] = false;
+                }
+                if (player_board_changed[AXIS]){
+                    drawPlayerBoard(players[AXIS], powers_app[AXIS].renderer, bought_action, bought_invest);
+                    player_board_changed[AXIS] = false;
+                }
+                if (player_board_changed[USSR]){
+                    drawPlayerBoard(players[USSR], powers_app[USSR].renderer, bought_action, bought_invest);
+                    player_board_changed[USSR] = false;
+                }
 
-                drawInfluence();
 
-                SDL_RenderPresent(app.renderer);
-            }
-
-            if (player_board_changed[WEST]){
-                drawPlayerBoard(players[WEST], powers_app[WEST].renderer, bought_action, bought_invest);
-                player_board_changed[WEST] = false;
-            }
-            if (player_board_changed[AXIS]){
-                drawPlayerBoard(players[AXIS], powers_app[AXIS].renderer, bought_action, bought_invest);
-                player_board_changed[AXIS] = false;
-            }
-            if (player_board_changed[USSR]){
-                drawPlayerBoard(players[USSR], powers_app[USSR].renderer, bought_action, bought_invest);
-                player_board_changed[USSR] = false;
-            }
-
-            if (SDL_PollEvent(&event)){
-                switch (event.type) {
-                    case SDL_MOUSEBUTTONDOWN:{
-                        int mouseX,mouseY;
-                        SDL_GetMouseState(&mouseX, &mouseY);
-                        const auto& allegiance = event.window.windowID-2;
-                        if (event.window.windowID > 1){ //is a player window //TODO Optomize
-                            //- Check on all boards if the board needs to change
-                            if (inBox(9*3, 9*3, 73*3, 23*3, mouseX, mouseY)){ //is a change screen button
-                                if (mouseX <= 30*3 && mouseX >= 10*3 && players[allegiance].state != HOME_BOARD){ //home button
-                                    players[allegiance].state = HOME_BOARD;
+                //- Check Player input
+                if (SDL_PollEvent(&event)){
+                    cout << event.type << endl;
+                    switch (event.type) {
+                        case (SDL_CONTROLLERBUTTONDOWN):{
+                            int allegiance = event.cbutton.which;
+                            switch(event.cbutton.button){
+                                case (SDL_CONTROLLER_BUTTON_LEFTSHOULDER):{
+                                    cout << "Left bumber pressed" << endl;
                                     player_board_changed[allegiance] = true;
-                                }
-                                else if (mouseX >= 35*3 && players[allegiance].state != PRODUCTION_BOARD){ //production button
-                                    players[allegiance].state = PRODUCTION_BOARD;
-                                    player_board_changed[allegiance] = true;
-                                }
-                            }
-
-                            //- Check home board buttons
-                            if (players[allegiance].state == HOME_BOARD){
-                                if (inBox(53*3, 47*3, 27, 51, mouseX, mouseY)){ // is button #1
-                                    player_board_changed[allegiance] = true;
-                                    if ((players[allegiance].action_card_start-=2) < 0)
-                                        players[allegiance].action_card_start = players[allegiance].getActionSize()-2;
-                                }
-                                else if (inBox(262*3, 47*3, 27, 51, mouseX, mouseY)){ // is button #2
-                                    player_board_changed[allegiance] = true;
-                                    if ((players[allegiance].action_card_start+= 2) >= players[allegiance].getActionSize())
-                                        players[allegiance].action_card_start = 0;
-                                }
-
-                                else if (inBox(53*3, 86*3, 27, 51, mouseX, mouseY)){ // is button #3
-                                    player_board_changed[allegiance] = true;
-                                    if ((players[allegiance].invest_card_start-=2) < 0)
-                                        players[allegiance].invest_card_start = players[allegiance].getInvestSize()-2;
-                                }
-                                else if (inBox(262*3, 86*3, 27, 51, mouseX, mouseY)){ // is button #4
-                                    player_board_changed[allegiance] = true;
-                                    if ((players[allegiance].invest_card_start+= 2) >= players[allegiance].getInvestSize())
-                                        players[allegiance].invest_card_start = 0;
-                                }
-
-                                else if (inBox(70*3, 128*3, 27, 51, mouseX, mouseY)){ // is button #5
-                                    player_board_changed[allegiance] = true;
-                                    if ((players[allegiance].tech_card_start-=5) < 0)
-                                        players[allegiance].tech_card_start = players[allegiance].getTechSize()-2;
-                                }
-                                else if (inBox(245*3, 128*3, 27, 51, mouseX, mouseY)){ // is button #6
-                                    player_board_changed[allegiance] = true;
-                                    if ((players[allegiance].tech_card_start+= 5) >= players[allegiance].getTechSize()){
-                                        players[allegiance].tech_card_start = 0;
+                                    if (players[allegiance].state == HOME_BOARD){
+                                        players[allegiance].state = GOVERNMENT_BOARD;
                                     }
+                                    else{
+                                        players[allegiance].state = (BoardState)(players[allegiance].state-1);  
+                                    }
+                                    break;
+                                }
+                                case (SDL_CONTROLLER_BUTTON_RIGHTSHOULDER):{
+                                    cout << "Right bumber pressed" << endl;
+                                    player_board_changed[allegiance] = true;
+                                    players[allegiance].state = (BoardState)((players[allegiance].state+1)%3);
+                                    break;
+                                }
+                                
+                                default:{
+                                    break;
                                 }
                             }
-                            
-                            //- Only the currenyt player will have access to confirm, others can plan ahead
-                            else if (players[allegiance].state == PRODUCTION_BOARD){
-                                //- PRODUCTION BUTTON ACTIONS
-                                if (inBox(289*3, 87*3, 23*3, 23*3, mouseX, mouseY)){ //add investment card
-                                    bought_invest++;
-                                    actions.push(1);
-                                    player_board_changed[allegiance] = true;
-                                }
-                                else if (inBox(289*3, 113*3, 23*3, 23*3, mouseX, mouseY)){ //add investment card
-                                    bought_action++;
-                                    actions.push(2);
-                                    player_board_changed[allegiance] = true;
-                                }
-                                else if (inBox(3*6, 3*100, 3*9, 3*17, mouseX, mouseY)){ //scroll left
-                                    player_board_changed[allegiance] = true;
-                                    if ((players[allegiance].controlled_cities_start-=6) < 0)
-                                        players[allegiance].controlled_cities_start = players[allegiance].getControlledSize()-6;
-                                }
+                        
+                        }
 
-                                else if (inBox(3*242, 3*100, 3*9, 3*17, mouseX, mouseY)){ //scroll right
-                                    player_board_changed[allegiance] = true;
-                                    if ((players[allegiance].controlled_cities_start+= 6) >= players[allegiance].getControlledSize())
-                                        players[allegiance].controlled_cities_start = 0;
-                                }
+                        case SDL_KEYDOWN:{
+                            running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;                       
+                            break;
+                        }
 
-                            }
-                            
+                        default: {
+                            break;
                         }
                     }
-                    break;
-
-                    case SDL_KEYDOWN:{
-                        running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
-                    }
-                    break;
-
-                    default: {
-                        break;
-                    }
                 }
+            }
+            else{
+                SDL_FlushEvent(1536);
+                SDL_FlushEvent(1616);
             }
         }
     }
@@ -474,37 +422,37 @@ void Runner::decideTurnOrder(){
     int result = die.roll();
     switch (result){
     case 1:
-        start_player = players[AXIS];
+        start_player = &players[AXIS];
         turn_order[0] = &players[AXIS];
         turn_order[1] = &players[USSR];
         turn_order[2] = &players[WEST];
         break;
     case 2:
-        start_player = players[AXIS];
+        start_player = &players[AXIS];
         turn_order[0] = &players[AXIS];
         turn_order[1] = &players[WEST];
         turn_order[2] = &players[USSR];
         break;
     case 3:
-        start_player = players[WEST];
+        start_player = &players[WEST];
         turn_order[0] = &players[WEST];
         turn_order[1] = &players[AXIS];
         turn_order[2] = &players[USSR];
         break;
     case 4:
-        start_player = players[WEST];
+        start_player = &players[WEST];
         turn_order[0] = &players[WEST];
         turn_order[1] = &players[USSR];
         turn_order[2] = &players[AXIS];
         break;
     case 5:
-        start_player = players[USSR];
+        start_player = &players[USSR];
         turn_order[0] = &players[USSR];
         turn_order[1] = &players[WEST];
         turn_order[2] = &players[AXIS];
         break;
     case 6:
-        start_player = players[USSR];
+        start_player = &players[USSR];
         turn_order[0] = &players[USSR];
         turn_order[1] = &players[AXIS];
         turn_order[2] = &players[WEST];
@@ -518,6 +466,7 @@ void Runner::decideTurnOrder(){
 }
 
 void Runner::peaceDividends(){
+    bool animates1=false, animates2=false, animates3=false;
     if (peace_dividends_bag.size() == 0) //in game its impossible to runnout of chits so this is for testing
         return;
 
@@ -525,19 +474,24 @@ void Runner::peaceDividends(){
     if (players[0].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
         players[0].givePeaceDividend(peace_dividends_bag.back());
         peace_dividends_bag.pop_back();
+        animates1 = true;
     }
 
     //- Axis
     if (players[1].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
         players[1].givePeaceDividend(peace_dividends_bag.back());
         peace_dividends_bag.pop_back();
+        animates2 = true;
     }
 
     //-USSR
     if (players[2].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
         players[2].givePeaceDividend(peace_dividends_bag.back());
         peace_dividends_bag.pop_back();
+        animates3 = true;
     }
+
+    drawPeaceDividends(animates1, animates2, animates3);
 }
 
 void Runner::newYearRes(){
