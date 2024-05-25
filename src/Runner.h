@@ -1,6 +1,20 @@
 #pragma once
 
 #include "Player.h"
+
+static int SDLCALL event_filter(void* userdata, SDL_Event* event) {
+    if (event->type == SDL_JOYAXISMOTION) {
+        int value = event->jaxis.value;
+        // Apply deadzone filtering
+        if (value > -JOYSTICK_DEADZONE && value < JOYSTICK_DEADZONE) {
+            return false; // Filter out this event
+        }
+    }
+
+    // Allow other events to pass through
+    return true;
+}
+
 /**
  * @brief The main controller of the game and controls sequence of play
  * 
@@ -116,6 +130,9 @@ public:
         powers_map_sprite[1] = Spritesheet(path2.c_str(), powers_app[1].renderer);
         powers_map_sprite[2] = Spritesheet(path2.c_str(), powers_app[2].renderer);
 
+
+        //for handling stick drift
+        SDL_SetEventFilter(event_filter, NULL);
     }
 
     size_t test(){
@@ -510,7 +527,7 @@ private:  //!!! Graphics things
 
     void drawPeaceDividends(const bool west, const bool axis, const bool ussr);
 
-    void drawMap(const bool cities, const bool influence, const bool resources, const bool connections, const bool render=true);
+    void drawMap(const bool cities, const bool influence, const bool resources, const bool connections, const bool render=true, const int& fps=-1);
 
     void setXY(const string& path){
         string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/Artboard 1.png";

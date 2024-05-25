@@ -221,13 +221,13 @@ void Runner::production(){
             a = SDL_GetTicks();
             delta = a - b;
 
-            if (delta > 1000/60.0){
+            if (delta > 1000/30.0){
+                //cout << "fps:" << (1000/delta) << endl;
 
-                //cout << "fps: " << 1000 / delta << endl;
                 b = a;  
                 //- Check if things have chnaged to redraw
                 if (map_changed){
-                    drawMap(true, true, true, false, true);
+                    drawMap(true, true, true, false, true, (1000/delta));
                 }
 
                 if (player_board_changed[WEST]){
@@ -246,11 +246,11 @@ void Runner::production(){
 
                 //- Check Player input
                 if (SDL_PollEvent(&event)){
-                    cout << event.type << endl;
                     switch (event.type) {
                         case (SDL_CONTROLLERBUTTONDOWN):{
                             int allegiance = event.cbutton.which;
                             switch(event.cbutton.button){
+                                //- Change current screen to the one on the left
                                 case (SDL_CONTROLLER_BUTTON_LEFTSHOULDER):{
                                     cout << "Left bumber pressed" << endl;
                                     player_board_changed[allegiance] = true;
@@ -262,10 +262,44 @@ void Runner::production(){
                                     }
                                     break;
                                 }
+
+                                //- Change current screen to the one on the right
                                 case (SDL_CONTROLLER_BUTTON_RIGHTSHOULDER):{
                                     cout << "Right bumber pressed" << endl;
                                     player_board_changed[allegiance] = true;
                                     players[allegiance].state = (BoardState)((players[allegiance].state+1)%3);
+                                    break;
+                                }
+
+                                case (SDL_CONTROLLER_BUTTON_DPAD_LEFT):{
+                                    cout << "DPAD left pressed" << endl;
+                                    players[allegiance].mapX -= 6;
+                                    if (players[allegiance].state == PRODUCTION_BOARD)
+                                        player_board_changed[allegiance] = true;
+                                    break;
+                                }
+
+                                case (SDL_CONTROLLER_BUTTON_DPAD_RIGHT):{
+                                    cout << "DPAD right pressed" << endl;
+                                    players[allegiance].mapX += 6;
+                                    if (players[allegiance].state == PRODUCTION_BOARD)
+                                        player_board_changed[allegiance] = true;
+                                    break;
+                                }
+
+                                case (SDL_CONTROLLER_BUTTON_DPAD_UP):{
+                                    cout << "DPAD up pressed" << endl;
+                                    players[allegiance].mapY -= 6;
+                                    if (players[allegiance].state == PRODUCTION_BOARD)
+                                        player_board_changed[allegiance] = true;
+                                    break;
+                                }
+
+                                case (SDL_CONTROLLER_BUTTON_DPAD_DOWN):{
+                                    cout << "DPAD down pressed" << endl;
+                                    players[allegiance].mapY += 6;
+                                    if (players[allegiance].state == PRODUCTION_BOARD)
+                                        player_board_changed[allegiance] = true;
                                     break;
                                 }
                                 
@@ -282,14 +316,14 @@ void Runner::production(){
                         }
 
                         default: {
+                            cout << event.type << endl;
                             break;
                         }
                     }
                 }
             }
             else{
-                SDL_FlushEvent(1536);
-                SDL_FlushEvent(1616);
+
             }
         }
     }

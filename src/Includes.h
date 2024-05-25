@@ -48,6 +48,9 @@ using std::shuffle;
 
 #define INFI SIZE_MAX;
 
+const int JOYSTICK_DEADZONE = 8000;
+
+
 enum CityType {WEST, AXIS, USSR, NEUTRAL, NEUTRAL_AT_WAR, WATER};
 
 enum PowerType {GREAT, MAJOR, COLONY, MINOR, NONE, SEA};

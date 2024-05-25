@@ -19,12 +19,6 @@ bool Runner::InitSDL(){
         if (SDL_IsGameController(i)){
             west_controller = SDL_GameControllerOpen(0);
             controllers[0] = west_controller;
-            SDL_Joystick* joystick = SDL_GameControllerGetJoystick(west_controller);
-            char guid[64];
-            SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
-            char* currentMapping = SDL_GameControllerMappingForGUID(SDL_JoystickGetGUID(joystick));
-            std::cout << "Current mapping for GUID " << guid << ": " << currentMapping << std::endl;
-            SDL_free(currentMapping); // Free the string allocated by SDL_GameControllerMappingForGUID
             break;
         }
     }
@@ -121,6 +115,8 @@ bool Runner::InitApplication(){
         576, 
         SDL_WINDOW_OPENGL
     );
+
+    SDL_SetWindowFullscreen(app.window, 0);
 
     if (app.window == nullptr){
         cout << "Unable to create main window. Error: "<< SDL_GetError() << endl;
@@ -763,6 +759,8 @@ void Runner::drawPlayerBoard(const Player& player, SDL_Renderer* renderer, const
             break;
         case (GOVERNMENT_BOARD):
             ClearScreen(renderer);
+            SDL_RenderPresent(renderer);
+            break;
         
         default:
             break;
@@ -777,18 +775,18 @@ void Runner::drawProductionBoard(const Player& player, SDL_Renderer* renderer, c
     const CityType& allegiance = player.getAllegiance();
 
     //- Draw the Board
-    SDL_Rect target = {0,0,960,576}, target2={69,114,207*scale,147*scale}, target3 = {69, 342, scale*207, 1}, target4 = {381, 114, 1, 147*scale};
+    SDL_Rect target = {0,0,960,576}, target2={69,114,207*scale,147*scale}, target3 = {69, 342 +((player.mapY < 0)? player.mapY : 0), scale*207, 1}, target4 = {381 + ((player.mapX < 0)? player.mapX : 0), 114, 1, 147*scale};
     powers_sprite_map[allegiance].drawSprite(renderer, &target, 3, 3+allegiance, 320, 192);
 
     target = {20*3-scaled_size, 38*3, scaled_size, scaled_size};
 
     //- Draw the maps position
-    powers_map_sprite[allegiance].drawSprite(renderer, &target2, 0,0, 207*scale,147*scale, 0, player.mapX,player.mapY);
+    powers_map_sprite[allegiance].drawSprite(renderer, &target2, 0,0, 207*scale,147*scale, 0, player.mapX*(player.mapX > 0),player.mapY*(player.mapY > 0));
 
     //- Draw the cities within the range
     City* closest =  map.getClosestCity(player.mapX + 314, player.mapY + 228); 
 
-    SDL_Rect target5 = {closest->x + 69 - player.mapX, closest->y + 114 - player.mapY, 32, 32};
+    SDL_Rect target5 = {closest->x + 69 - player.mapX*(player.mapX > 0), closest->y + 114 - player.mapY*(player.mapY > 0), 32, 32};
     cout << closest->name << endl;
     powers_sprite_map[player.getAllegiance()].drawSprite(renderer, &target5, 8,getCitySprite(closest));
 
@@ -1104,7 +1102,7 @@ void Runner::drawPeaceDividends(const bool west, const bool axis, const bool uss
 
 }
 
-void Runner::drawMap(const bool cities, const bool influence, const bool resources, const bool connections, const bool clear){
+void Runner::drawMap(const bool cities, const bool influence, const bool resources, const bool connections, const bool clear, const int& fps){
     ClearScreen(app.renderer);
 
     SDL_Rect tar = {0,0,1512,982};
@@ -1125,4 +1123,9 @@ void Runner::drawMap(const bool cities, const bool influence, const bool resourc
 
     if (clear)
         SDL_RenderPresent(app.renderer);
+
+    if (fps != -1){
+        drawNumber(app.renderer, (1000 / fps), 100, 100, 10, 0,0,0);
+
+    }
 }
