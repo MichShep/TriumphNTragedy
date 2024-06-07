@@ -14,10 +14,13 @@ public:
     int x; /**< The x origin of the city shape*/
     int y; /**< The y origin of the city shape*/
 
+    int res_x;
+    int res_y;
+
     int color[3];
 public:
     //#ID Name            Type    Status  Pop     Muster  Resource    ResourceType
-    size_t ID; /**< The ID of the city*/
+    size_t ID=0; /**< The ID of the city*/
 
     string name =""; /**< The name of the city*/
 
@@ -39,11 +42,15 @@ public:
 
     size_t resource; /**< The amount of resources this city provides (mixed resources are always halfed so can be stored as one)*/
 
-    bool blockcade=false; /**< If the city is unable to be traced back to the*/
+    bool blockcade=false; /**< If the city is unable to be traced back to the main capital*/
+
+    bool med_blockcade=false; /**< If the city is unable to be traced back to the main capital, BUT the red resource is able to go around africa*/
 
     ResourceType resource_type; /**What type of resource is on this city (only matters for blockades and going around Africa)*/
 
     vector<Unit*> occupants[4]; /**< Hold the current units and sperates them by their power 0:West, 1:Axis 2:USSR: 3:Neutral */
+
+    size_t country_counts[7] = {0, 0, 0, 0, 0, 0, 0}; //BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRAL_U
 
     //For influence
     uint8_t influence; /**< The amount of influence on this country*/
@@ -149,9 +156,9 @@ public:
         case WEST:
             return (occupants[USSR].size() ==0 )? AXIS: USSR;
         case AXIS:
-            return (occupants[WEST].size() ==0 )? USSR: WEST;;
+            return (occupants[WEST].size() ==0 )? USSR: WEST;
         case USSR:
-            return (occupants[AXIS].size() ==0 )? WEST: AXIS;;
+            return (occupants[AXIS].size() ==0 )? WEST: AXIS;
         default:
             return WATER;
         }

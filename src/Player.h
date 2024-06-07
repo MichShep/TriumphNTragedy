@@ -31,6 +31,10 @@ private:
 
     size_t factory_cost=0; /**< The cost to upgrade the industry*/
 
+    size_t max_production=0;
+
+    size_t current_production=0;
+
     vector<Unit*> units; /**< Masterlist of all units the player controls*/
 
     vector<Technology> achieved_tech; /**< List of all technologies that the player has discovered*/
@@ -43,16 +47,16 @@ private:
 
     DowState axis_dow=PEACE; /**< Holds the diplomacy state of the DOW with USSR*/
 
-    DowState usa_dow; /**< Holds the diplomacy state of the DOW with USSR*/
+    DowState usa_dow=PEACE; /**< Holds the diplomacy state of the DOW with USA (only for the WEST really)*/
 
-    string capital="";
+    string capital=""; /**< The capital city of the player (either London, Berlin, or Moscow)*/
 
     //&Hands
     vector<ActionCard*> action_hand; /**< Hand of all action cards (used in command and government)*/
 
     vector<InvestmentCard*> invest_hand; /**< Hand of all investment cards*/
 
-    vector<PeaceChit> peace_dividends;
+    vector<PeaceChit> peace_dividends; /**< List of all peace chits earned*/
 
     //&Stats
     size_t battles_won[3]; /**< Allies:0 Axis:1 USSR:2 where each index specifies against who*/
@@ -66,23 +70,40 @@ private:
     size_t cities_controlled; /**< Number of cities the player controls*/
 public:
     //& Graphics things
-    int action_card_start=0;
+    int action_card_start=0; /**< Which action card to start displaying on the main home screen*/
+    int invest_card_start=0; /**< Which invest card to start displaying on the main home screen*/
+    int tech_card_start=0; /**< Which discovered tech card to start displaying on the main home screen*/
 
-    int invest_card_start=0;
+    BoardState state = HOME_BOARD; /**< The current board to show the player*/
 
-    int tech_card_start=0;
+    int mapX = 0; /**< The x-coord offset of the production map of the player to show*/
+    int mapY = 0; /**< The y-coord offset of the production map of the player to show*/
 
-    int controlled_cities_start=0;
+    size_t bought_action = 0;
+    size_t bought_invest = 0;
 
-    BoardState state = HOME_BOARD;
+    int current_home_button=0;
 
-    int mapX = 0;
+    bool board_change=true;
 
-    int mapY = 0;
+    bool show_action = false;
+    bool show_invest = false;
+    
+    bool flip=0;
 
+    double cursor_x = 1512/2;
+    double cursor_y = 982/2;
+
+    City* closest_map_city = nullptr;
+
+    /**
+     * @brief Construct a blank default Player object
+     * 
+     */
     Player(){
-        name = "Default";
+        name = "Default"; 
     }
+
     /**
      * @brief Constructs the player based on the allegiance
      * 
@@ -149,34 +170,66 @@ public:
     void ussrInit();
 
     //& Control things
+    /**
+     * @brief Adds a city to the current control list of the player
+     * 
+     * @param city The city to be controlled by the player
+     */
     void add(City* city){
         if (controlled_cities.find(city->name) ==  controlled_cities.end()){ //not found
             controlled_cities[city->name] = city;
         }
     }
 
+    /**
+     * @brief Get the begin iterator of the controlled cities hashmap to iteratre through
+     * 
+     * @return unordered_map<string,City*>::const_iterator 
+     */
     unordered_map<string,City*>::const_iterator getControlledCitiesBegin() const{
         return controlled_cities.begin();
     };
 
+    /**
+     * @brief Get the end iterator of the controlled cities hashmap to iteratre through
+     * 
+     * @return unordered_map<string,City*>::const_iterator 
+     */
     unordered_map<string,City*>::const_iterator getControlledCitiesEnd() const{
         return controlled_cities.end();
     };
 
+    /**
+     * @brief Get the number of controlled cities 
+     * 
+     * @return size_t Number of controlled cities
+     */
     size_t getControlledSize() const{
         return controlled_cities.size();
     }
 
+    /**
+     * @brief Get the number of cities controlled that are blockaded 
+     * 
+     * @return size_t Number of blockaded cities
+     */
     size_t getNumBlockaded(){
         size_t sum = 0;
         for (auto& city : controlled_cities){
-            sum += city.second->blockcade;
+            sum += (city.second->blockcade || city.second->med_blockcade);
         }
 
         return sum;
     }
 
-    bool isEnemy(CityType& allegiance){
+    /**
+     * @brief See if the player allegiance provided is an enemy of the player (has a DOW)
+     * 
+     * @param allegiance The allegiance to check if an enemy
+     * @return true Is an enemy
+     * @return false Is not an enemy (at peace)
+     */
+    bool isEnemy(const CityType& allegiance) const{
         switch (allegiance){
         case WEST:
             return west_dow != PEACE;
@@ -195,10 +248,20 @@ public:
     }
     
     //& Card Things
+    /**
+     * @brief Gives the player the provided card into the corresponding hand
+     * 
+     * @param aC The action card to add into the action hand
+     */
     void deal(ActionCard* aC){
         action_hand.push_back(aC);
     }
 
+    /**
+     * @brief Gives the player the provided card into the corresponding hand
+     * 
+     * @param iC The invest card to add into the action hand
+     */
     void deal(InvestmentCard* iC){
         invest_hand.push_back(iC);
     }
@@ -222,14 +285,29 @@ public:
         return population;
     }
 
+    /**
+     * @brief Get the number of action cards the player has
+     * 
+     * @return size_t number of action cards
+     */
     size_t getActionSize() const{
         return action_hand.size();
     }
 
+    /**
+     * @brief Get the number of invest cards the player has
+     * 
+     * @return size_t number of invest cards
+     */
     size_t getInvestSize() const{
         return invest_hand.size();
     }
 
+    /**
+     * @brief Get the number of achieved tech the player has
+     * 
+     * @return size_t number of achieved tech
+     */
     size_t getTechSize() const{
         return achieved_tech.size();
     }
@@ -243,10 +321,20 @@ public:
         return resources;
     }
 
+    /**
+     * @brief Get the current industry (ind) of the player
+     * 
+     * @return size_t The current industry of player
+     */
     size_t getIndustry() const{
         return industry;
     }
 
+    /**
+     * @brief Get the cost to add 1 to the current industry 
+     * 
+     * @return size_t the cost of upgrading industry
+     */
     size_t getIndustryCost() const{
         return factory_cost;
     }
@@ -281,43 +369,92 @@ public:
         return action_hand.size() + invest_hand.size() + num_secret;
     }
 
+    /**
+     * @brief Get the USSR Declaration of War 
+     * 
+     * @return DowState The state of the DOW (peacful, victim, or declarer)
+     */
     DowState getUssrDow() const{
         return ussr_dow;
     }
 
+    /**
+     * @brief Get the WEST Declaration of War 
+     * 
+     * @return DowState The state of the DOW (peacful, victim, or declarer)
+     */
     DowState getWestDow() const{
         return west_dow;
     }
 
+    /**
+     * @brief Get the AXIS Declaration of War 
+     * 
+     * @return DowState The state of the DOW (peacful, victim, or declarer)
+     */
     DowState getAxisDow() const{
         return axis_dow;
     }
 
+    /**
+     * @brief Get the USA Declaration of War which represents the 
+     * 
+     * @return DowState The state of the DOW (peacful, victim, or declarer)
+     */
     DowState getUsaDow() const{
         return usa_dow;
     }
 
+    /**
+     * @brief Get the last year the player was peaceful
+     * 
+     * @return size_t the year at peace
+     */
     size_t getYearAtPeace() const{
         return year_at_peace;
     }
 
+    /**
+     * @brief Get the capital of the player that the traderoutes need to be traced to
+     * 
+     * @return string Name of the capital
+     */
     string getCapital() const{
         return capital;
     }
 
-
+    /**
+     * @brief Set the USSR DoW state
+     * 
+     * @param ds The new state of the USSR DoW
+     */
     void setUssrDow(const DowState ds) {
         ussr_dow = ds;
     }
 
+    /**
+     * @brief Set the WEST DoW state
+     * 
+     * @param ds The new state of the USSR DoW
+     */
     void setWestDow(const DowState ds) {
         west_dow = ds;
     }
 
+    /**
+     * @brief Set the AXIS DoW state
+     * 
+     * @param ds The new state of the USSR DoW
+     */
     void setAxisDow(const DowState ds) {
         axis_dow = ds;
     }
 
+    /**
+     * @brief Set the USA DoW state
+     * 
+     * @param ds The new state of the USSR DoW
+     */
     void setUsaDow(const DowState ds) {
         usa_dow = ds;
     }
@@ -331,14 +468,32 @@ public:
         return card_size;
     }
 
+    /**
+     * @brief Get the Action Card at the specific index
+     * 
+     * @param indx The index of the wanted card
+     * @return ActionCard* The pointer of the desired card
+     */
     ActionCard* getActionCard(const size_t indx) const{
         return action_hand[indx];
     }
 
+    /**
+     * @brief Get the Invest Card at the specific index
+     * 
+     * @param indx The index of the wanted card
+     * @return InvestmentCard* The pointer of the desired card
+     */
     InvestmentCard* getInvestCard(const size_t indx) const{
         return invest_hand[indx];
     }
 
+    /**
+     * @brief Get the acheived tech at the specific index
+     * 
+     * @param indx the desired index of the tech
+     * @return const Technology& The tech at the index
+     */
     const Technology& getTech(const size_t indx) const{
         return achieved_tech[indx];
     }
@@ -348,11 +503,26 @@ public:
      * 
      * @return size_t The production of the player for the phase
      */
-    size_t getProduction() const{
-        return (atWar()? std::min(population, std::min(resources, industry)):  std::min(population, industry)); //At war : not at war 
+    size_t calculateProduction() {
+        max_production = (atWar()? std::min(population, std::min(resources, industry)):  std::min(population, industry));
+
+        return current_production=max_production; //At war : not at war 
     }
 
+    const size_t getCurrentProduction() const{
+        return current_production;
+    }
 
+    const size_t getMaxProduction() const{
+        return max_production;
+    }
+
+    /**
+     * @brief Gets if the player is at war with any other player
+     * 
+     * @return true Is at war with another player
+     * @return false Is not at war (not neccisarily peaceful if the VoN)
+     */
     bool atWar() const{
         return ussr_dow != PEACE || west_dow != PEACE || axis_dow != PEACE;
     }
@@ -365,14 +535,30 @@ public:
         return victory_points;
     }
 
+    /**
+     * @brief Gives the player a peace chit 
+     * 
+     * @param chit The chit to give the player
+     */
     void givePeaceDividend(const PeaceChit chit){
         peace_dividends.push_back(chit);
     }
 
+    /**
+     * @brief Get the peace chit at the specific index
+     * 
+     * @param i The index of the peace chit
+     * @return PeaceChit& Refrence to the peace chit
+     */
     PeaceChit& getPeaceDividend(const size_t i){
         return peace_dividends[i];
     }
 
+    /**
+     * @brief Get the number of peace chits owned
+     * 
+     * @return size_t The number of peace chits
+     */
     size_t getPeaceDividendSize() const{
         return peace_dividends.size();
     }
@@ -383,6 +569,10 @@ public:
      */
     void print() const;
 
+    /**
+     * @brief Frees the memort allocated for the player
+     * 
+     */
     void freeMemory(){
         for (ActionCard* ac: action_hand){
             if (ac != nullptr) delete ac;

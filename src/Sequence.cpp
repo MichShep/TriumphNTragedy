@@ -3,15 +3,12 @@
 //& Sequence of Play
 
 bool Runner::run(){
-    bool running = true;
-
-    test();
+    reshuffle(false);
 
     //& Draw the initial Board
-    drawMap(true, false, false, true);
+    //drawMap(WEST, true, false, false, true);
 
-    /*bool player_board_changed[3] = {true, true, true}; //true for first time for initial draw
-    SDL_Event event;
+    /*SDL_Event event;
     while (running){
         if (player_board_changed[WEST]){
             drawPlayerBoard(players[WEST], powers_app[WEST].renderer);
@@ -152,7 +149,7 @@ bool Runner::run(){
     return EXIT_SUCCESS;
 }
 
-//- New Year
+//& New Year
 CityType Runner::newYear(){
     //- Advance Year
     year++;
@@ -171,7 +168,7 @@ CityType Runner::newYear(){
     //peaceDividends();
 
     //- Turn Order..
-    //decideTurnOrder();
+    decideTurnOrder();
 
     //- New Year Resolution.
     newYearRes();
@@ -194,138 +191,58 @@ CityType Runner::newYear(){
 
 //- Production Phase
 void Runner::production(){
-    int num_production;
-    bool running=true;
-    bool player_board_changed[3] = {true, true, true};
+    // Used to calculate fps
     unsigned int a = SDL_GetTicks();
     unsigned int b = SDL_GetTicks();
     double delta = 0;
 
-    bool map_changed = true;
-
     //1:add invest card 1:add action card
     stack<int> actions;
 
-    int bought_action=0, bought_invest=0;
-
-    SDL_Event event;
     //- Go through each player in turn order
+    bool running=true;
+    SDL_Event event;
     for (auto& player : turn_order){
         //- Check trade routes
-        //checkTradeRoutes(*player, player->getCapital());
+        checkTradeRoutes(*player, player->getCapital());
 
         //- Get the production for this round
-        num_production = player->getProduction();
+        player->calculateProduction();
 
         while (running){
             a = SDL_GetTicks();
             delta = a - b;
-
-            if (delta > 1000/30.0){
-                //cout << "fps:" << (1000/delta) << endl;
-
+            //ensures framerate of 30fps
+            if (delta > 1000/60.0){
                 b = a;  
-                //- Check if things have chnaged to redraw
-                if (map_changed){
-                    drawMap(true, true, true, false, true, (1000/delta));
-                }
+                //- Player input
+                productionUsersInput(player, event, running, delta);
 
-                if (player_board_changed[WEST]){
-                    drawPlayerBoard(players[WEST], powers_app[WEST].renderer, bought_action, bought_invest);
-                    player_board_changed[WEST] = false;
-                }
-                if (player_board_changed[AXIS]){
-                    drawPlayerBoard(players[AXIS], powers_app[AXIS].renderer, bought_action, bought_invest);
-                    player_board_changed[AXIS] = false;
-                }
-                if (player_board_changed[USSR]){
-                    drawPlayerBoard(players[USSR], powers_app[USSR].renderer, bought_action, bought_invest);
-                    player_board_changed[USSR] = false;
-                }
-
-
-                //- Check Player input
-                if (SDL_PollEvent(&event)){
-                    switch (event.type) {
-                        case (SDL_CONTROLLERBUTTONDOWN):{
-                            int allegiance = event.cbutton.which;
-                            switch(event.cbutton.button){
-                                //- Change current screen to the one on the left
-                                case (SDL_CONTROLLER_BUTTON_LEFTSHOULDER):{
-                                    cout << "Left bumber pressed" << endl;
-                                    player_board_changed[allegiance] = true;
-                                    if (players[allegiance].state == HOME_BOARD){
-                                        players[allegiance].state = GOVERNMENT_BOARD;
-                                    }
-                                    else{
-                                        players[allegiance].state = (BoardState)(players[allegiance].state-1);  
-                                    }
-                                    break;
-                                }
-
-                                //- Change current screen to the one on the right
-                                case (SDL_CONTROLLER_BUTTON_RIGHTSHOULDER):{
-                                    cout << "Right bumber pressed" << endl;
-                                    player_board_changed[allegiance] = true;
-                                    players[allegiance].state = (BoardState)((players[allegiance].state+1)%3);
-                                    break;
-                                }
-
-                                case (SDL_CONTROLLER_BUTTON_DPAD_LEFT):{
-                                    cout << "DPAD left pressed" << endl;
-                                    players[allegiance].mapX -= 6;
-                                    if (players[allegiance].state == PRODUCTION_BOARD)
-                                        player_board_changed[allegiance] = true;
-                                    break;
-                                }
-
-                                case (SDL_CONTROLLER_BUTTON_DPAD_RIGHT):{
-                                    cout << "DPAD right pressed" << endl;
-                                    players[allegiance].mapX += 6;
-                                    if (players[allegiance].state == PRODUCTION_BOARD)
-                                        player_board_changed[allegiance] = true;
-                                    break;
-                                }
-
-                                case (SDL_CONTROLLER_BUTTON_DPAD_UP):{
-                                    cout << "DPAD up pressed" << endl;
-                                    players[allegiance].mapY -= 6;
-                                    if (players[allegiance].state == PRODUCTION_BOARD)
-                                        player_board_changed[allegiance] = true;
-                                    break;
-                                }
-
-                                case (SDL_CONTROLLER_BUTTON_DPAD_DOWN):{
-                                    cout << "DPAD down pressed" << endl;
-                                    players[allegiance].mapY += 6;
-                                    if (players[allegiance].state == PRODUCTION_BOARD)
-                                        player_board_changed[allegiance] = true;
-                                    break;
-                                }
-                                
-                                default:{
-                                    break;
-                                }
-                            }
-                        
-                        }
-
-                        case SDL_KEYDOWN:{
-                            running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;                       
-                            break;
-                        }
-
-                        default: {
-                            cout << event.type << endl;
-                            break;
-                        }
-                    }
-                }
-            }
-            else{
-
+                //- Render
+                drawProductionPhase();
             }
         }
+    }
+}
+
+void Runner::drawProductionPhase(){
+    //- Check if things have changed and need to be redrawn
+
+    if (map_changed){
+        //drawMap(WEST, true, true, true, false, true);
+    }
+    
+    if (players[WEST].board_change){
+        drawPlayerBoard(players[WEST], powers_app[WEST].renderer, players[WEST].bought_action, players[WEST].bought_invest);
+        players[WEST].board_change = false;
+    }
+    if (players[AXIS].board_change){
+        drawPlayerBoard(players[AXIS], powers_app[AXIS].renderer, players[AXIS].bought_action, players[AXIS].bought_invest);
+        players[AXIS].board_change = false;
+    }
+    if (players[USSR].board_change){
+        drawPlayerBoard(players[USSR], powers_app[USSR].renderer, players[USSR].bought_action, players[USSR].bought_invest);
+        players[USSR].board_change = false;
     }
 }
 
@@ -451,7 +368,7 @@ bool Runner::deal(Player* player, size_t amount, const char state){
     return true;
 }
 
-void Runner::decideTurnOrder(){
+void Runner::decideTurnOrder(const bool animation){
     //- Determine starting player and the rotation of turns (roll dice)
     int result = die.roll();
     switch (result){
@@ -496,7 +413,8 @@ void Runner::decideTurnOrder(){
         exit(1);
     }
 
-    drawTurnRoll(result);
+    if (animation)
+        drawTurnRoll(result);
 }
 
 void Runner::peaceDividends(){

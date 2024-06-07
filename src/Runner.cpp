@@ -82,7 +82,7 @@ bool Runner::initMap(string map_name){
                 power_type = NONE;
                 break;
             default:
-                printf("Unkown powertype!\n");
+                printf("Unkown powertype: %s!\n", tempS.c_str());
                 exit(1);
                 break;
         }
@@ -114,7 +114,8 @@ bool Runner::initMap(string map_name){
             nationality = NEUTRAL_U;
             break;
         default:
-            nationality = NEUTRAL_U;
+            printf("Unkown nationality: %c!\n", naty);
+            exit(1);
             break;
         }
 
@@ -150,8 +151,8 @@ bool Runner::initMap(string map_name){
             population = 3; muster = 0;
         }
         else{
-            population_type = EMPTY;
-            population = 0; muster = 0;
+            printf("Unkown population: %s!\n", tempS.c_str());
+            exit(1);
         }
 
         
@@ -168,6 +169,10 @@ bool Runner::initMap(string map_name){
             case 'T': //Transatlantic
                 resource_type = TRANS_ATLANTIC;
                 break;
+            default:
+                printf("Unkown resource type: %s!\n", tempS.c_str());
+                exit(1);
+            break;
         }
         City* c = new City{ID, name, city_type, power_type, population_type, nationality, population, muster, resource, resource_type};
 
@@ -177,6 +182,12 @@ bool Runner::initMap(string map_name){
 
         c->x = x;
         c->y = y;
+
+        map_file >> x;
+        map_file >> y;
+
+        c->res_x = x;
+        c->res_y = y;
 
         map.addCity(c);
         
@@ -272,7 +283,7 @@ bool Runner::initMap(string map_name){
                     border_type = WATER_STRAIT;
                     break;
                 default:
-                    printf("Unkown border type");
+                    printf("Unkown border type: %s", border.c_str());
                     exit(1);
 
                 
@@ -312,6 +323,7 @@ bool Runner::initMap(string map_name){
 
     return true;
 }
+
 bool Runner::initCards(const string invest_name, const string action_name){
     fstream invest_file(invest_name, std::ios_base::in);
     fstream action_file(action_name, std::ios_base::in);
@@ -444,7 +456,6 @@ bool Runner::initCards(const string invest_name, const string action_name){
     return true;
 }
 
-
 bool Runner::mapPlayer(Player& player){
     auto temp_map = map.getCities();
 
@@ -475,43 +486,6 @@ bool Runner::mapPlayer(Player& player){
     return check;
 }
 
-bool Runner::move(Unit* unit, const string start, const string target){
-    //look for type of movement
-    if (map[start]->isConflict()){ //if the starting city is in conflict then disengage
-        return disengage(unit, start, target);
-    }   
-
-    //- Check if the city is within movement range
-    size_t move_result = canMove(unit, start, target);
-    if (move_result == SIZE_MAX){ //can't move to target
-        return false;
-    }
-
-    //- If in battle than disengage
-        //- Check if friendly
-    
-    //- Check if its neutral and needs to deploy Neutral Forces
-
-    //- Check if its enemy and need to declare war
-
-    //- After all checks move player in
-
-    map[start]->removeUnit(unit);
-    map[target]->addUnit(unit);
-    return true;
-}
-
-bool Runner::disengage(Unit* unit, const string start, const string end){
-    //TODO Add checking how many troops have gone over border
-    if (canDisengage(unit, start, end)){
-        map.getCity(start)->removeUnit(unit);
-        map.getCity(end)->addUnit(unit);
-        return true;
-    }
-        
-    return false;
-}
-
 bool Runner::canDisengage(Unit* unit, const string start, const string end){
     //- Check if you the two are connected (0 means they aren't)
     auto city = map.getCity(end);
@@ -525,76 +499,63 @@ bool Runner::canDisengage(Unit* unit, const string start, const string end){
     ;     
 }
 
-
-bool Runner::checkTradeRoutes(Player& player, string main_capital){
-    const vector<vector<BorderType>>& adjacency = map.getAdjacency();
+bool Runner::checkTradeRoutes(Player& player, const string& main_capital){
+    const auto& adjacency = map.getAdjacency();
     const size_t num_city = adjacency.size();
     vector<City*> freed_cities;
-    size_t num_blockcaded = player.getNumBlockaded(); //number of cities that are blockaded and that need to be checked
-    freed_cities.reserve(num_blockcaded);
-    size_t check = num_blockcaded;
-    size_t city_indx = map.findCity(main_capital); //starting index
-    queue<size_t> indx_to_go; // priority queue can be used and not a heap since everything is unweighted
+    size_t num_blockaded = player.getNumBlockaded();
+    const size_t check = num_blockaded;
+    freed_cities.reserve(num_blockaded);
 
-    size_t memo [map.getNumCity()+1][6]; //0: visited? 1: previous 1: previous border 3: distance 4: land segment? 5: sea segment?
+    constexpr size_t VISITED = 0, PREVIOUS = 1, PREVIOUS_BORDER = 2, DISTANCE = 3, LAND = 4, SEA = 5, infi = INFI;
 
-    size_t VISITED=0, PREVIOUS=1, PREVIOUS_BORDER=2, DISTANCE=3, LAND=4, SEA=5, infi=INFI;
-    for (size_t i = 0; i < map.getNumCity()+1; i++){ //initalize all memo entries
-        memo[i][0] = false;
-        memo[i][1] = infi;
-        memo[i][2] = NA;
-        memo[i][3] = infi;
-        memo[i][4] = false;
-        memo[i][5] = false;
-    }
+    const size_t num_cities = map.getNumCity();
+    vector<std::array<size_t, 6>> memo(num_cities + 1, {false, infi, NA, infi, false, false});
 
-    memo[city_indx][0] = false;
-    memo[city_indx][1] = 0;
-    memo[city_indx][2] = NA;
-    memo[city_indx][3] = 0;
-    memo[city_indx][4] = false; // Set both segments to false bcause we don't know yet if it will go on a land or seas segment, so the ones connected will change these
-    memo[city_indx][5] = false;
+    size_t city_index = map.findCity(main_capital);
+    memo[city_index] = {false, 0, NA, 0, false, false};
 
-    indx_to_go.push(city_indx);
+    queue<size_t> index_to_go;
+    index_to_go.push(city_index);
 
     //printf("\n\n\n");
 
     //? (14.1) The Sea Segment can only cross Coastal Straits, Sea and Ocean borders
     //? (14.1) The Land Segment can only cross Land and Straits borders.
     // Like Dijkstras and will have the main capital find a path to all the cities it controls and runs through it until all those blockcaded is visited
-    bool new_sea, new_land;
-    while (num_blockcaded && !indx_to_go.empty()){ //- While there are still blockaded cities to check
-        city_indx = indx_to_go.front();
-        indx_to_go.pop();
+     bool new_sea, new_land;
+    while (num_blockaded && !index_to_go.empty()){ //- While there are still blockaded cities to check
+        city_index = index_to_go.front();
+        index_to_go.pop();
 
         //- See if has been visited since time it was added to the queue
-        if (memo[city_indx][VISITED])
+        if (memo[city_index][VISITED])
             continue;
 
         //- Can only pass through straits if the ruler isn't an enemy
-        if ((memo[city_indx][PREVIOUS_BORDER] == LAND_STRAIT || memo[city_indx][PREVIOUS_BORDER] == WATER_STRAIT) && !player.isEnemy(map.getCity(city_indx)->ruler_type)){
+        if ((memo[city_index][PREVIOUS_BORDER] == LAND_STRAIT || memo[city_index][PREVIOUS_BORDER] == WATER_STRAIT) && !player.isEnemy(map.getCity(city_index)->ruler_type)){
         }
 
         //- Check a non-strait if the ruler is a rival (not the current player ruler)
-        else if (map.getCity(city_indx)->ruler_type != player.getAllegiance() && map.getCity(city_indx)->ruler_type != NEUTRAL && map.getCity(city_indx)->ruler_type != WATER)
+        else if (map.getCity(city_index)->ruler_type != player.getAllegiance() && map.getCity(city_index)->ruler_type != NEUTRAL && map.getCity(city_index)->ruler_type != WATER)
             continue;
 
         //- Set to visited
-        memo[city_indx][VISITED] = true;
-        //printf("Now at %s\n", map.getCity(city_indx)->name.c_str());
+        memo[city_index][VISITED] = true;
+        //printf("Now at %s\n", map.getCity(city_index)->name.c_str());
 
         //- If the city visited is one blockaded it means we can visit and can decreae the count
-        if (map.getCity(city_indx)->blockcade && map.getCity(city_indx)->ruler_type == player.getAllegiance()){
-            //printf("%s was found and connected!\n", map.getCity(city_indx)->name.c_str());
-            map.getCity(city_indx)->blockcade = false;
-            freed_cities.push_back(map.getCity(city_indx));
-            num_blockcaded--;
+        if (map.getCity(city_index)->blockcade && map.getCity(city_index)->ruler_type == player.getAllegiance()){
+            //printf("%s was found and connected!\n", map.getCity(city_index)->name.c_str());
+            map.getCity(city_index)->blockcade = false;
+            freed_cities.push_back(map.getCity(city_index));
+            num_blockaded--;
         }
 
         //- Go thourgh each adjacent node
         for (size_t connect_indx = 1; connect_indx <= num_city; connect_indx++){  
             //- Check what border connects them
-            auto& border = adjacency[city_indx][connect_indx];
+            auto& border = adjacency[city_index][connect_indx];
 
             //- Check if its connected and not visited
             if (border == NA || memo[connect_indx][VISITED]){
@@ -603,7 +564,7 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
 
             //- Check if there it is an enemy controlled city (in cases of straits it can only go through rivals, not enemies)
             if (border == LAND_STRAIT || border == WATER_STRAIT){ //if a strait then it can't iff its an ENEMY (not rival)
-                if (player.isEnemy(map.getCity(city_indx)->ruler_type)){ //if an enemy with the strait ruler
+                if (player.isEnemy(map.getCity(city_index)->ruler_type)){ //if an enemy with the strait ruler
                     continue;
                 }
             }
@@ -616,7 +577,7 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
             bool unchanged_sea=true, unchanged_land=true;
 
             //- Basically for the first node only to set where things are
-            if (memo[city_indx][PREVIOUS_BORDER] == NA){
+            if (memo[city_index][PREVIOUS_BORDER] == NA){
                 if (border <= WATER_STRAIT){ //- if starting sea
                     unchanged_sea=false;
                     new_sea = true;
@@ -631,16 +592,16 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
             }
 
             //- CONTINUING land segment
-            else if (border >= MOUNTAIN && memo[city_indx][PREVIOUS_BORDER] >= MOUNTAIN){
+            else if (border >= MOUNTAIN && memo[city_index][PREVIOUS_BORDER] >= MOUNTAIN){
             }
             
             //- CONTINUING sea segment
-            else if (border <= WATER_STRAIT && memo[city_indx][PREVIOUS_BORDER] <= WATER_STRAIT){
+            else if (border <= WATER_STRAIT && memo[city_index][PREVIOUS_BORDER] <= WATER_STRAIT){
             }
 
             // - STARTING land 
-            else if (border >= MOUNTAIN && memo[city_indx][PREVIOUS_BORDER] <= WATER_STRAIT){ //check that by seeing if the previous movement was a sea one
-                if (!memo[city_indx][LAND]){ //if land hasn't started yet then okay!
+            else if (border >= MOUNTAIN && memo[city_index][PREVIOUS_BORDER] <= WATER_STRAIT){ //check that by seeing if the previous movement was a sea one
+                if (!memo[city_index][LAND]){ //if land hasn't started yet then okay!
                     new_land = true; //change
                     unchanged_land = false;
                 }
@@ -650,8 +611,8 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
             }
 
             // - Starting sea segment
-            else if (border <= WATER_STRAIT && memo[city_indx][PREVIOUS_BORDER] >= MOUNTAIN){
-                if (!memo[city_indx][SEA]){ //if land hasn't started yet then okay!
+            else if (border <= WATER_STRAIT && memo[city_index][PREVIOUS_BORDER] >= MOUNTAIN){
+                if (!memo[city_index][SEA]){ //if land hasn't started yet then okay!
                     new_sea = true;
                     unchanged_sea = false;
                 }
@@ -667,130 +628,32 @@ bool Runner::checkTradeRoutes(Player& player, string main_capital){
 
             //- If the land and sea segmetns weren't changes then copy from the old
             if (unchanged_land){
-                new_land = memo[city_indx][LAND];
+                new_land = memo[city_index][LAND];
             }
 
             if (unchanged_sea){
-                new_sea = memo[city_indx][SEA];
+                new_sea = memo[city_index][SEA];
             }
 
-            indx_to_go.push(connect_indx);
+            index_to_go.push(connect_indx);
 
             //- Compare to the current values (if NA always rewrite) if they are the same then take the shorter distance
-            if (memo[connect_indx][PREVIOUS_BORDER] != NA || (memo[connect_indx][SEA] == new_sea && memo[connect_indx][LAND] == new_land && memo[connect_indx][DISTANCE] < memo[city_indx][DISTANCE]+1)){
+            if (memo[connect_indx][PREVIOUS_BORDER] != NA || (memo[connect_indx][SEA] == new_sea && memo[connect_indx][LAND] == new_land && memo[connect_indx][DISTANCE] < memo[city_index][DISTANCE]+1)){
                 continue;
             }
 
             //- If this is reahed it means its a valid continuation of the trade route!
             memo[connect_indx][SEA] = new_sea;
             memo[connect_indx][LAND] = new_land;
-            memo[connect_indx][DISTANCE] = memo[city_indx][DISTANCE]+1;
-            memo[connect_indx][PREVIOUS] = city_indx;
+            memo[connect_indx][DISTANCE] = memo[city_index][DISTANCE]+1;
+            memo[connect_indx][PREVIOUS] = city_index;
             memo[connect_indx][PREVIOUS_BORDER] = border;
         }
     }
 
     drawMemoResolution(memo, freed_cities);
 
-    return num_blockcaded == check; //if the starting equals the end
-}
-
-
-
-
-
-
-
-//Dijkstra's algorithm knock-off I
-size_t Runner::canMove(Unit* unit, const string start, const string target){
-    City* city = map.getCity(target);
-    const vector<vector<BorderType>>& adjacency = map.getAdjacency();
-    size_t movement = unit->movement*2; //assume can strategic move
-    size_t num_city = map.getNumCity();
-    size_t num_visited = 0;
-
-    queue<size_t> indx_to_go; // priority queue
-
-    //dist movement prev madeWithStrategic visited
-    size_t memo[num_city+1][5];
-
-    //- Init each row in memo
-    for (auto&v : memo){
-        v[0] = INFI; v[1] = INFI; v[2] = INFI; v[3] = 0; v[4] = 0;
-    }
-
-    //- Set Starting Node
-    size_t city_indx = map.findCity(start);
-    memo[city_indx][0] = 0; memo[city_indx][1] = movement; memo[city_indx][2] = 0; memo[city_indx][3] = 1; memo[city_indx][4] = 1;
-    
-    //- Until all cities are visited
-    while (num_visited != num_city){
-        //printMemo(memo);
-        //- Set to visited;
-        num_visited++;
-        memo[city_indx][4] = 1;
-
-        if (memo[city_indx][0] == 18446744073709551615UL){ //is next to but unreachable
-            continue;
-        }
-        //- Go thourgh each adjacent node
-        for (size_t connect_id = 1; connect_id <= num_city; connect_id++){ 
-            //- If not visited and connected
-            if (!memo[connect_id][4] && adjacency[city_indx][connect_id] != NA){ //if the value at [city_indx][connect_id] is not 0 then that means there is a connection
-                //- Add to queue
-                indx_to_go.push(connect_id);
-                
-                //- Calculate the cost to get there
-                size_t cost = 1; //distance plus 1
-                size_t temp_move = memo[city_indx][1];
-                bool usedStrat = memo[city_indx][3];
-                if (memo[city_indx][3] && (map.getCity(connect_id)->ruler_type != map.getCity(city_indx)->ruler_type) ){ //- If can't use strategic lose it (1/2)
-                    temp_move = unit->movement - (2*unit->movement-temp_move);
-                    usedStrat = 0;
-                }
-                //-If it can make it and lower than update it
-                if (temp_move >= cost && (temp_move-cost > memo[connect_id][1] || memo[connect_id][1] == 18446744073709551615UL)){ //want to prioritize movement
-                    memo[connect_id][1] = temp_move-cost;
-                    memo[connect_id][0] = cost;
-                    memo[connect_id][2] = city_indx;
-                    memo[connect_id][3] = (size_t)usedStrat;
-                }
-            }
-        }
-
-        //- Update city_indx to any connected edge
-        while (!indx_to_go.empty() && memo[indx_to_go.front()][4] == 1)
-            indx_to_go.pop();
-        if (indx_to_go.empty()) //smth's wrong
-            continue;
-        city_indx = indx_to_go.front();
-        indx_to_go.pop();
-    }
-
-    //printf("Final Memo:\n");
-    //printMemo(memo);
-    vector<SDL_Rect*> reachable_cities;
-    for (size_t i = 1; i <= num_city; i++){
-        if (memo[i][0] != 18446744073709551615UL){ //able to move
-            auto city = map.getCity(i);
-            reachable_cities.push_back(new SDL_Rect{city->x, city->y, city->HEIGHT/2, city->WIDTH/2});
-
-        }
-    }
-
-    //! Draw the available cities
-    SDL_SetRenderDrawColor(app.renderer, 255, 255, 0, 255);
-
-
-    for (auto city : reachable_cities){
-
-        SDL_RenderFillRect(app.renderer, city);
-
-    }
-
-    SDL_RenderPresent(app.renderer);    
-
-    return memo[city->getID()][0];
+    return num_blockaded == check; //if the starting equals the end
 }
 
 void Runner::printMemo(size_t memo[][5]) const{
@@ -831,26 +694,119 @@ void Runner::printMemo(size_t memo[][5]) const{
     printf("\n\n");
 }
 
+//!!!! User Input
+void Runner::productionUsersInput(Player* active_player, SDL_Event& event, bool& running, const double& deltaTime){
+    if (SDL_PollEvent(&event)){
+        //Button inputs to always check
+        if (event.type == SDL_KEYDOWN){
+            running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;                       
+        }
 
+        if (event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERAXISMOTION){
+            int allegiance=0;
+            if (event.type == SDL_CONTROLLERBUTTONDOWN)
+                allegiance = event.cbutton.which;
 
+            else if (event.type == SDL_CONTROLLERAXISMOTION)
+                allegiance = event.caxis.which;
 
-
-//!!! Methods for combat round !!!
-
-
-void Runner::combatRound(){
-    //- Get all battles the player is in
+            homeBoardInput(&players[allegiance], event, deltaTime);
+        }
+    }
 }
 
-void Runner::landCombat(City* battlefield){
-   
+void Runner::homeBoardInput(Player* player, const SDL_Event& event, const double& deltaTime) {
+    switch (event.type) {
+        case SDL_CONTROLLERBUTTONDOWN:{
+            switch (event.cbutton.button) {
+                //- Toggling to show cards
+                case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:{
+                    player->show_action = !player->show_action;
+                    player->board_change = true;
+                    break;
+                }
+
+                case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:{
+                    player->show_invest = !player->show_invest;
+                    player->board_change = true;
+                    break;
+                }
+
+                //- Changing current Button
+                case SDL_CONTROLLER_BUTTON_DPAD_UP:{
+                    player->cursor_y -= 5;
+                    player->closest_map_city = map.getClosestCity(player->cursor_x, player->cursor_y);
+                    player->board_change = true;
+                    break;
+                }
+
+                case SDL_CONTROLLER_BUTTON_DPAD_DOWN:{
+                    player->cursor_y += 5;
+                    player->closest_map_city = map.getClosestCity(player->cursor_x, player->cursor_y);
+                    player->board_change = true;
+                    break;
+                }
+
+                case SDL_CONTROLLER_BUTTON_DPAD_LEFT:{
+                    player->cursor_x -= 5;
+                    player->closest_map_city = map.getClosestCity(player->cursor_x, player->cursor_y);
+                    player->board_change = true;
+                    break;
+                }
+
+                case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:{
+                    player->cursor_x += 5;
+                    player->closest_map_city = map.getClosestCity(player->cursor_x, player->cursor_y);
+                    player->board_change = true;
+                    break;
+                }
+                
+                
+                default:{
+                    break;
+                }
+            }
+            break;
+        }
+        case SDL_CONTROLLERAXISMOTION:{ //12000 to 32000 
+            switch (event.caxis.axis){
+                case (SDL_CONTROLLER_AXIS_LEFTX):{
+                    cout << "left x moved " << event.caxis.value << " " << scaleAxis(event.caxis.value) << endl;
+                    player->cursor_x += .1 * scaleAxis(event.caxis.value) *deltaTime;
+                    if ((player->flip=!player->flip) == true)
+                        player->board_change = true;
+
+                    break;
+                }
+                case (SDL_CONTROLLER_AXIS_LEFTY):{
+                    cout << "left y moved " << event.caxis.value << " " << scaleAxis(event.caxis.value) << endl;
+                    player->cursor_y += .1 * scaleAxis(event.caxis.value)*deltaTime;
+                    if ((player->flip=!player->flip) == true)
+                        player->board_change = true;
+                    break;
+                }
+                case (SDL_CONTROLLER_AXIS_RIGHTX):{
+                    cout << "right x moved" << endl;
+                    break;
+                }
+                case (SDL_CONTROLLER_AXIS_RIGHTY):{
+                    cout << "right y moved" << endl;
+                    break;
+                }
+                
+                default:{
+                    break;
+                }
+            }
+
+            break;
+        }
+        default:
+            break;
+
+    }
 }
 
-bool Runner::seaCombat(City* battlefield){
+void Runner::productionBoardInput(Player* player, const SDL_Event& event){
 
-    return false;
-}
-
-vector<City*> Runner::getBattles(const CityType allegiance){
-    return {};
 }

@@ -5,6 +5,7 @@ void City::removeUnit(Unit* unit){
     for(vector <Unit* >::iterator it(occupants[(size_t)unit->allegiance].begin()); it != occupants[(size_t)unit->allegiance].end(); ++it){
         if (*it == unit){
             it = occupants[(size_t)unit->allegiance].erase(it);
+            country_counts[unit->nationality]--;
             return;
         }
     }
@@ -20,6 +21,8 @@ void City::addUnit(Unit* unit){
     if (unit->allegiance != ruler_type && city_type != WATER){
         aggresor = unit->allegiance;
     }
+
+    country_counts[unit->nationality]++;
 
     //- If undefended then take 
     //TODO Add conquering method
