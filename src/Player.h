@@ -94,6 +94,8 @@ public:
     double cursor_x = 1512/2;
     double cursor_y = 982/2;
 
+    bool controller_moving = false;
+
     City* closest_map_city = nullptr;
 
     /**

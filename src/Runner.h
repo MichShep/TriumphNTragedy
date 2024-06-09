@@ -12,15 +12,20 @@
  */
 static int SDLCALL event_filter(void* userdata, SDL_Event* event) {
     if (event->type == SDL_JOYAXISMOTION) {
-        int value = event->jaxis.value;
+        /*int value = event->jaxis.value;
         // Apply deadzone filtering
         if (value > -JOYSTICK_DEADZONE && value < JOYSTICK_DEADZONE) {
             return false; // Filter out this event
-        }
+        }*/
+       return false;
     }
 
     // Allow other events to pass through
     return true;
+}
+
+static bool pastDeadZone(const int& move){
+    return !(move > -JOYSTICK_DEADZONE && move < JOYSTICK_DEADZONE);
 }
 
 static double scaleAxis(double x) {
@@ -672,12 +677,6 @@ private:  //!!! Graphics things
      */
     void drawPeaceDividends(const bool west, const bool axis, const bool ussr);
 
-    //& User Input
-
-    void handleControllerButtonDown(const SDL_Event& event);
-
-    void handleUserBoardInput(const SDL_Event& event);
-
     /**
      * @brief Draws the players action cards onto their screen starting at the given x and y and decends
      * 
@@ -701,16 +700,6 @@ private:  //!!! Graphics things
     void drawInvestCards(const Player* player, int start_x, int start_y, int count, int scale=1);
 
     /**
-     * @brief Holds the switch case chain for the production phase
-     * 
-     */
-    void productionUsersInput(Player* active_player, SDL_Event& event, bool& running, const double& deltaTime);
-
-    void homeBoardInput(Player* player, const SDL_Event& event, const double& deltaTime);
-
-    void productionBoardInput(Player* player, const SDL_Event& event);
-
-    /**
      * @brief Used for button presses where a given mouse clip position will see if its in the rectangle provided
      * 
      * @param x The top left x-coord of the rectangle
@@ -725,6 +714,14 @@ private:  //!!! Graphics things
     bool inBox(int x, int y, int width, int height, int target_x, int target_y){
         return (target_x >= x && target_x <= x+width) && (target_y >= y && target_y <= y+height);
     }
+
+    //& User Input
+
+    void handleUserInput(bool& running);
+
+    void handleButtonDown(Player& player, const SDL_Event& event);
+
+    void handleJoyStickMovement(Player& player);
     
     //& Dev Tools
     /**

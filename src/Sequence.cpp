@@ -216,7 +216,7 @@ void Runner::production(){
             if (delta > 1000/60.0){
                 b = a;  
                 //- Player input
-                productionUsersInput(player, event, running, delta);
+                handleUserInput(running);
 
                 //- Render
                 drawProductionPhase();

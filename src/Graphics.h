@@ -22,6 +22,10 @@ bool Runner::InitSDL(){
             break;
         }
     }
+    if (controllers[0] == nullptr){
+        cout << "West controller not connected" << endl;
+        exit(1);
+    }
 
     return true;
 }
