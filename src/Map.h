@@ -52,6 +52,8 @@ public:
 
     size_t country_counts[7] = {0, 0, 0, 0, 0, 0, 0}; //BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRAL_U
 
+    size_t num_occupants = 0;
+
     //For influence
     uint8_t influence; /**< The amount of influence on this country*/
 
@@ -179,6 +181,104 @@ public:
     void addUnit(Unit* unit);
 
     void printOccupants() const;
+
+    CityType& getFirst (int& curr, CityType& allegiance_viewing, Unit** selected_unit){
+        if (occupants[WEST].size() != 0){
+            allegiance_viewing = WEST;
+        } 
+        else if (occupants[AXIS].size() != 0){
+            allegiance_viewing = AXIS;
+        }
+        else if (occupants[USSR].size() != 0){
+            allegiance_viewing = USSR;
+        }
+        else if (occupants[NEUTRAL].size() != 0){
+            allegiance_viewing = NEUTRAL;
+        }
+        else{
+            return allegiance_viewing;
+        }
+
+        curr = 0;
+        *selected_unit = occupants[allegiance_viewing][curr];
+
+        return allegiance_viewing;
+    }
+
+    CityType& getLast (int& curr, CityType& allegiance_viewing, Unit** selected_unit){
+        if (occupants[NEUTRAL].size() != 0){
+            curr = occupants[NEUTRAL].size()-1;
+            allegiance_viewing = NEUTRAL;
+        }
+        else if (occupants[USSR].size() != 0){
+            curr = occupants[USSR].size()-1;
+            allegiance_viewing = USSR;
+        }
+        
+        else if (occupants[AXIS].size() != 0){
+            curr = occupants[AXIS].size()-1;
+            allegiance_viewing = AXIS;
+        }
+
+        else if (occupants[WEST].size() != 0){
+            curr = occupants[WEST].size()-1;
+            allegiance_viewing = WEST;
+        }
+
+        *selected_unit = occupants[allegiance_viewing][curr];
+        return allegiance_viewing;
+    }
+
+    void getNext(int& curr, CityType& allegiance_viewing, Unit** selected_unit){
+        //cout << selected_unit << endl;
+        if (curr == -1)
+            return;
+
+        if (curr+1 >= occupants[allegiance_viewing].size()){ //move to next allegiance thats not empty
+            curr = 0;
+            for (int i = (((int)allegiance_viewing+1)%4), count=0; count < 4; i = (i+1)%4, count++){
+                if (occupants[i].size() > 0){
+                    allegiance_viewing = (CityType)i;
+                    *selected_unit = occupants[allegiance_viewing][0];
+                    return;
+                }
+            }
+
+        }
+        else{
+            curr++;
+            *selected_unit = occupants[allegiance_viewing][curr];
+        }
+    }
+
+    void getPrev(int& curr, CityType& allegiance_viewing, Unit** selected_unit){
+        if (curr == -1)
+            return;
+
+        if (curr-1 < 0){ //move to next allegiance
+            for (int i = (((int)allegiance_viewing-1)%4), count=0; count < 4; i = loopVal(i-1, 0, 3), count++){
+                if (occupants[i].size() > 0){
+                    allegiance_viewing = (CityType)i;
+                    curr = occupants[allegiance_viewing].size()-1;
+                    *selected_unit = occupants[allegiance_viewing][curr];
+                    return;
+                }
+            
+            }
+        }
+        else{
+            curr--;
+            *selected_unit = occupants[allegiance_viewing][curr];
+        }
+    }
+
+    int loopVal(const int val, const int min_val, const int max_val){
+        if (val < min_val)
+            return max_val;
+        if (val > max_val)
+            return min_val;
+        return val;
+    }
 
     string getName() const{
         return name;

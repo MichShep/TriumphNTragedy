@@ -24,14 +24,6 @@ static int SDLCALL event_filter(void* userdata, SDL_Event* event) {
     return true;
 }
 
-static bool pastDeadZone(const int& move){
-    return !(move > -JOYSTICK_DEADZONE && move < JOYSTICK_DEADZONE);
-}
-
-static double scaleAxis(double x) {
-    return 2.0 * ((SDL_clamp(x, -32000, 32000) - -32000.f) / (32000 - - 32000.f)) - 1.0;
-} 
-
 /**
  * @brief The main controller of the game and controls sequence of play
  * 
@@ -66,7 +58,7 @@ private:
 
     Player* turn_order[3]; /**< Array with the first player at 0 and the last player in the loop at 2*/
 
-    const unsigned int seed = time(NULL); /**< The set (or time set seed) for all randomness*/
+    const unsigned int seed = 100; /**< The set (or time set seed) for all randomness*/
     
     std::mt19937 g; /**< The random generator for shuffling*/
 
@@ -100,7 +92,8 @@ public:
         
 
         if (!default_mode){
-            setXY("/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map");
+            //setXY("/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map");
+            setResXY();
             exit(EXIT_SUCCESS);
         }
 
@@ -137,6 +130,7 @@ public:
         sprite_map = Spritesheet(path.c_str(), app.renderer);
 
         string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png";
+        string path3 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/UnitSprites.png";
         map_sprite = Spritesheet(path2.c_str(), app.renderer);
 
         powers_sprite_map[0] = Spritesheet(path.c_str(), powers_app[0].renderer);
@@ -147,26 +141,64 @@ public:
         powers_map_sprite[1] = Spritesheet(path2.c_str(), powers_app[1].renderer);
         powers_map_sprite[2] = Spritesheet(path2.c_str(), powers_app[2].renderer);
 
+
+        powers_units_sprite[0] = Spritesheet(path3.c_str(), powers_app[0].renderer);
+        powers_units_sprite[1] = Spritesheet(path3.c_str(), powers_app[1].renderer);
+        powers_units_sprite[2] = Spritesheet(path3.c_str(), powers_app[2].renderer);
+
         test();
 
         //for handling stick drift
         SDL_SetEventFilter(event_filter, NULL);
 
         last_tick = SDL_GetTicks();
+
+        players[0].cursor_x = map.getCapital("Britian")->x;
+        players[0].cursor_y = map.getCapital("Britian")->y;
+        players[0].closest_map_city = map.getCapital("Britian");
+
+        players[2].cursor_x = map.getCapital("USSR")->x;
+        players[2].cursor_y = map.getCapital("USSR")->y;
+        players[2].closest_map_city = map.getCapital("USSR");
+
+        players[1].cursor_x = map.getCapital("Germany")->x;
+        players[1].cursor_y = map.getCapital("Germany")->y;
+        players[1].closest_map_city = map.getCapital("Germany");
     }
 
     size_t test(){
         map["London"]->occupants[0].push_back(new Unit(1, BRITIAN_U, FLEET));
+        map["London"]->num_occupants = 1;
 
         map["Paris"]->occupants[0].push_back(new Unit(1, BRITIAN_U, INFANTRY));
         map["Paris"]->occupants[0].push_back(new Unit(2, USA_U, TANK));
         map["Paris"]->occupants[0].push_back(new Unit(3, FRANCE_U, AIR));
-        map["Paris"]->occupants[0].push_back(new Unit(1, GERMANY_U, FLEET));
-        map["Paris"]->occupants[0].push_back(new Unit(2, ITALY_U, CARRIER));
+        map["Paris"]->occupants[1].push_back(new Unit(1, GERMANY_U, FLEET));
+        map["Paris"]->occupants[1].push_back(new Unit(2, ITALY_U, CARRIER));
         map["Paris"]->occupants[0].push_back(new Unit(1, USA_U, SUB));
+        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
+        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
+        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
+        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
+        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
+        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
+        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
+        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
+        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
         map["Paris"]->occupants[0].push_back(new Unit(1, BRITIAN_U, TANK));
-        map["Paris"]->occupants[0].push_back(new Unit(4, NEUTRAL_U, FORTRESS));
+        map["Paris"]->occupants[0].push_back(new Unit(1, BRITIAN_U, TANK));
+        map["Paris"]->occupants[0].push_back(new Unit(1, BRITIAN_U, TANK));
+        map["Paris"]->occupants[3].push_back(new Unit(4, NEUTRAL_U, FORTRESS));
         map["Paris"]->occupants[0].back()->combat_value = 4;
+        map["Paris"]->num_occupants = 19;
+
+        map["Ruhr"]->occupants[3].push_back(new Unit(1, NEUTRAL_U, TANK));
+        map["Ruhr"]->occupants[3].push_back(new Unit(1, NEUTRAL_U, TANK));
+        map["Ruhr"]->occupants[3].push_back(new Unit(1, NEUTRAL_U, TANK));
+        map["Ruhr"]->occupants[1].push_back(new Unit(1, GERMANY_U, AIR));
+        map["Ruhr"]->occupants[1].push_back(new Unit(1, GERMANY_U, AIR));
+        map["Ruhr"]->occupants[1].push_back(new Unit(1, GERMANY_U, INFANTRY));
+        map["Ruhr"]->num_occupants = 6;
 
         map["Paris"]->country_counts[0] = 3;
         map["Paris"]->country_counts[1] = 5;
@@ -512,6 +544,8 @@ private:  //!!! Graphics things
 
     Spritesheet powers_map_sprite[3];
 
+    Spritesheet powers_units_sprite[3];
+
     //& Controller Things
     SDL_GameController *west_controller=nullptr;
 
@@ -634,7 +668,7 @@ private:  //!!! Graphics things
      * @param g The green value of the color (0, 255)
      * @param b The blue value of the color (0, 255) 
      */
-    void drawNumber(SDL_Renderer* renderer, const int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255) const;
+    void drawNumber(SDL_Renderer* renderer, int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255) const;
 
     //& Animations
     /**
@@ -711,9 +745,11 @@ private:  //!!! Graphics things
      * @return true The click is in the button
      * @return false The click is not in the button
      */
-    bool inBox(int x, int y, int width, int height, int target_x, int target_y){
+    bool inBox(const int x, const int y, const int width, const int height, const int target_x, const int target_y){
         return (target_x >= x && target_x <= x+width) && (target_y >= y && target_y <= y+height);
     }
+
+    void drawCityTroops(const Player& player);
 
     //& User Input
 
@@ -810,6 +846,14 @@ private:  //!!! Graphics things
     }
 
     void setResXY(){
+        initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map");
+        string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/SpriteMap0.png";
+
+        sprite_map = Spritesheet(path.c_str(), app.renderer);
+
+        string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png";
+        map_sprite = Spritesheet(path2.c_str(), app.renderer);
+
         vector<std::pair<int, int>> coords;
         SDL_Rect tar = {0,0,1512,982};
         SDL_Event event;
@@ -854,4 +898,14 @@ private:  //!!! Graphics things
         Skip:
         exit(0);
     }
+
+    bool pastDeadZone(const int& move) const{
+        return !(move > -JOYSTICK_DEADZONE && move < JOYSTICK_DEADZONE);
+    }
+
+    double scaleAxis(const double& x) const{
+        return 2.0 * ((SDL_clamp(x, -32000, 32000) - -32000.f) / (32000 - - 32000.f)) - 1.0;
+    
+    }
+
 };

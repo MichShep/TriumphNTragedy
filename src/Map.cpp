@@ -6,6 +6,7 @@ void City::removeUnit(Unit* unit){
         if (*it == unit){
             it = occupants[(size_t)unit->allegiance].erase(it);
             country_counts[unit->nationality]--;
+            num_occupants--;
             return;
         }
     }
@@ -23,6 +24,7 @@ void City::addUnit(Unit* unit){
     }
 
     country_counts[unit->nationality]++;
+    num_occupants++;
 
     //- If undefended then take 
     //TODO Add conquering method

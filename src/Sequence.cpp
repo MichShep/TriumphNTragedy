@@ -201,7 +201,6 @@ void Runner::production(){
 
     //- Go through each player in turn order
     bool running=true;
-    SDL_Event event;
     for (auto& player : turn_order){
         //- Check trade routes
         checkTradeRoutes(*player, player->getCapital());

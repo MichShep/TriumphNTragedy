@@ -69,34 +69,38 @@ private:
 
     size_t cities_controlled; /**< Number of cities the player controls*/
 public:
+
+    stack<ProductionAction> production_actions;
+
     //& Graphics things
     int action_card_start=0; /**< Which action card to start displaying on the main home screen*/
     int invest_card_start=0; /**< Which invest card to start displaying on the main home screen*/
     int tech_card_start=0; /**< Which discovered tech card to start displaying on the main home screen*/
 
-    BoardState state = HOME_BOARD; /**< The current board to show the player*/
-
     int mapX = 0; /**< The x-coord offset of the production map of the player to show*/
-    int mapY = 0; /**< The y-coord offset of the production map of the player to show*/
+    int mapY = 1; /**< The y-coord offset of the production map of the player to show*/
 
     size_t bought_action = 0;
     size_t bought_invest = 0;
-
-    int current_home_button=0;
 
     bool board_change=true;
 
     bool show_action = false;
     bool show_invest = false;
     
-    bool flip=0;
-
     double cursor_x = 1512/2;
     double cursor_y = 982/2;
 
-    bool controller_moving = false;
+    int city_viewing = -1;
+
+    int unit_viewing = -1;
+    CityType allegiance_viewing = NEUTRAL;
 
     City* closest_map_city = nullptr;
+
+    vector<City*> displayed_cities;
+
+    Unit* selected_unit = nullptr;
 
     /**
      * @brief Construct a blank default Player object
@@ -128,7 +132,6 @@ public:
             exit(1);
             break;
         }
-
         year_at_peace = START_YEAR;
     }
 

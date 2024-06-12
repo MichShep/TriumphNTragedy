@@ -35,6 +35,7 @@ using std::pow;
 #include <random>
 #include <algorithm>
 using std::shuffle;
+using std::find;
 
 #include "../include/SDL2/SDL.h"
 
@@ -48,7 +49,7 @@ using std::shuffle;
 
 #define INFI SIZE_MAX;
 
-const int JOYSTICK_DEADZONE = 8000;
+const int JOYSTICK_DEADZONE = 11000;
 
 
 enum CityType {WEST, AXIS, USSR, NEUTRAL, NEUTRAL_AT_WAR, WATER};
@@ -79,7 +80,7 @@ enum InfluenceType {UNALIGNED, ASSOCIATES, PROTECTORATES, SATELLITES};
 
 enum BoardState {HOME_BOARD, PRODUCTION_BOARD, GOVERNMENT_BOARD};
 
-enum ButtonMovements {NORTH_D, WEST_D, SOUTH_D, EAST_D};
+enum ProductionAction {BUY_AC, BUY_IC, UNIT_UP, CADRE};
 
 enum Tech   {LSTs, MOTORIZED_INFANTRY, NAVAL_RADAR, ROCKET_ARTILLERY, HEAVY_TANKS, HEAVY_BOMBERS, PERCISION_BOMBERS, JETs, SONAR, AIRDEFENCE_RADAR, 
             COUP, CODE_BREAKER, AGENT, MOLE, SABOTAGE, SPY_RING, DOUBLE_AGENT,
@@ -160,51 +161,10 @@ const bool SEVEN_SEGMENT_DISPLAY[10][7] = {
     { 1,1,1,0,0,1,1 }  // display '9'
 };
 
-const int HOME_BOARD_BUTTONS[9][8] = { //id is the index n, w, s, e, x, y, w, h
-    {3, 4, 1, 6, 192, 111, 579, 102}, //0
-    {0, 4, 2, 7, 192, 231, 579, 102}, //1 
-    {1, 5, 3, 8, 240, 360, 483, 96}, //2
-    {2, 5, 0, 8, 429, 465, 102, 102}, //3
-    {5, 6, 5, 0, 12, 177, 102, 102}, //4
-    {4, 7, 4, 1, 12, 294, 102, 102}, //5
-    {8, 0, 7, 4, 852, 45, 102, 102}, //6
-    {6, 1, 8, 5, 852, 207, 105, 102}, //7
-    {7, 3, 6, 5, 852, 366, 102, 102}, //8
-};
-
 const int UNIT_SPRITE_OFFSET[7]{ //"BRITISH", "FRANCE", "USA", "GERMAN", "ITALY", "USSR", "NEUTRAL"
     0, 5, 9, 14, 19, 23, 27
 };
 
-struct Button{
-    int x;
-    int y;
-
-    int width;
-    int height;
-
-    string name;
-    int id;
-
-    Button* north;
-    Button* west;
-    Button* south;
-    Button* east;
-    Button* north_east;
-    Button* north_west;
-    Button* south_east;
-    Button* south_west;
-
-    Button(){
-        name = "default";
-        id = -1;
-    }
-
-    Button(const int x, const int y, const int width, const int height, const string name, const int id, Button* north, Button* west, Button* south ,Button* east, Button* north_east ,Button* north_west , Button* south_east, Button* south_west)
-    : x(x), y(y), width(width), height(height), name(name), id(id), north(north), west(west), south(south), east(east), north_east(north_east), north_west(north_west), south_east(south_east), south_west(south_west){
-
-    }
-};
 
 //Colors
 namespace Colors{

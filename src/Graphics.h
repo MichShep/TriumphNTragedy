@@ -119,7 +119,8 @@ bool Runner::InitApplication(){
         SDL_WINDOW_OPENGL
     );
 
-    SDL_SetWindowFullscreen(app.window, 0);
+    //SDL_SetWindowFullscreen(powers_app[WEST].window, SDL_TRUE);
+    SDL_SetWindowFullscreen(powers_app[WEST].window, SDL_WINDOW_FULLSCREEN);
 
     if (app.window == nullptr){
         cout << "Unable to create main window. Error: "<< SDL_GetError() << endl;
@@ -140,12 +141,11 @@ bool Runner::InitApplication(){
         }
 
         if (!(a.renderer = SDL_CreateRenderer(a.window, -1, SDL_RENDERER_PRESENTVSYNC))){
-            cout << "Unable to create main renderer. Error: "<< SDL_GetError() << endl;
+            cout << "Unable to create power renderer. Error: "<< SDL_GetError() << endl;
             ShutdownApplication();
         }
     }
 
-    SDL_RaiseWindow(powers_app[WEST].window);
 
     return true;
 }
@@ -153,7 +153,6 @@ bool Runner::InitApplication(){
 void Runner::drawCity(const CityType nationality, City* city, const bool resources){
     SDL_Rect target = {city->x, city->y, city->HEIGHT, city->WIDTH};
     auto& sprite_sheet = powers_sprite_map[nationality];
-    auto& renderer = powers_app[nationality].renderer;
     //- Draw the Population type (capital, subcapital, ...)
     sprite_sheet.drawSprite(&target, 8, getCitySprite(city));
     int scale = 1;
@@ -167,43 +166,6 @@ void Runner::drawCity(const CityType nationality, City* city, const bool resourc
                 sprite_sheet.drawSprite(&target, 0, (city->med_blockcade)? 29 : 29 + (city->resource/2), 23, 23);
             }
         }
-    }
-
-    //- Draw the units that are there around it
-    int offset = 0;
-    if (city->country_counts[BRITIAN_U] > 0){
-        drawNumber(renderer, city->country_counts[BRITIAN_U], city->x+offset, city->y-18, 1, UNIT_COLOR[BRITIAN_U][0], UNIT_COLOR[BRITIAN_U][1], UNIT_COLOR[BRITIAN_U][2]);
-        offset += 10;
-    }
-
-    if (city->country_counts[FRANCE_U] > 0){
-        drawNumber(renderer, city->country_counts[FRANCE_U], city->x+offset, city->y-18, 1, UNIT_COLOR[FRANCE_U][0], UNIT_COLOR[FRANCE_U][1], UNIT_COLOR[FRANCE_U][2]);
-        offset += 10;
-    }
-
-    if (city->country_counts[USA_U] > 0){
-        drawNumber(renderer, city->country_counts[USA_U], city->x+offset, city->y-18, 1, UNIT_COLOR[USA_U][0], UNIT_COLOR[USA_U][1], UNIT_COLOR[USA_U][2]);
-        offset += 10;
-    }
-
-    if (city->country_counts[GERMANY_U] > 0){
-        drawNumber(renderer, city->country_counts[GERMANY_U], city->x+offset, city->y-18, 1, UNIT_COLOR[GERMANY_U][0], UNIT_COLOR[GERMANY_U][1], UNIT_COLOR[GERMANY_U][2]);
-        offset += 10;
-    }
-
-    if (city->country_counts[ITALY_U] > 0){
-        drawNumber(renderer, city->country_counts[ITALY_U], city->x+offset, city->y-18, 1, UNIT_COLOR[ITALY_U][0], UNIT_COLOR[ITALY_U][1], UNIT_COLOR[ITALY_U][2]);
-        offset += 10;
-    }
-
-    if (city->country_counts[USSR_U] > 0){
-        drawNumber(renderer, city->country_counts[USSR_U], city->x+offset, city->y-18, 1, UNIT_COLOR[USSR_U][0], UNIT_COLOR[USSR_U][1], UNIT_COLOR[USSR_U][2]);
-        offset += 10;
-    }
-
-    if (city->country_counts[NEUTRAL_U] > 0){
-        drawNumber(renderer, city->country_counts[NEUTRAL_U], city->x+offset, city->y-18, 1, UNIT_COLOR[NEUTRAL_U][0], UNIT_COLOR[NEUTRAL_U][1], UNIT_COLOR[NEUTRAL_U][2]);
-        offset += 10;
     }
 }
 
@@ -306,91 +268,7 @@ void Runner::drawUnit(const CityType nationality, Unit* unit, int x, int y, floa
 
     SDL_Rect target {x, y, (int)(32 * scale), (int)(32 * scale)};
 
-    powers_sprite_map[nationality].drawSprite(&target, 1 + (int)unit->unit_type, UNIT_SPRITE_OFFSET[unit->nationality]+unit->combat_value);
-}
-
-void Runner::DrawTimeTrack(){
-    //- Draw Outline
-    SDL_Rect target;
-
-    target.h = 155;
-    target.w = 145*1.5;
-    target.x = 0;
-    target.y = app.screen.HEIGHT - 150*1.5+5;
-
-    //outer box
-    SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255);
-    SDL_RenderFillRect(app.renderer, &target);
-
-    target.h = 150;
-    target.w = 140*1.5;
-    target.x = 0;
-    target.y = app.screen.HEIGHT - target.h*1.5+10;
-    auto dot_start = app.screen.HEIGHT - target.h*1.5+10;
-
-    //inner box
-    SDL_SetRenderDrawColor(app.renderer, 125, 125, 125, 255);
-    SDL_RenderFillRect(app.renderer, &target);
-
-    //- Draw dash line
-    SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255);
-    target.h = 5;
-    target.w = 18;
-    target.x = 0;
-    target.y = app.screen.HEIGHT - 2*5*14;
-    for (size_t i = 0; i < 5; i++){
-        target.x += 5;
-        SDL_RenderFillRect(app.renderer, &target);
-        target.x += 23;
-    }
-
-    target.h = 25;
-    target.w = 5;
-    target.x = 5*7*4;
-    target.y = dot_start-5;
-    for (size_t i = 0; i < 5; i++){
-        target.y += 7;
-        SDL_RenderFillRect(app.renderer, &target);
-        target.y += 25;
-    }
-
-    //- Draw Start Year
-    drawNumber(app.renderer, year, 0, app.screen.HEIGHT - 3*5*14, 5);
-
-    //- Draw End Year
-    drawNumber(app.renderer, end_year, 0, app.screen.HEIGHT - 2*5*13, 5);
-
-    //- Draw American Flag from 1941 to 1944
-    if (year >= 1941 && year <= 1944){
-        SDL_SetRenderDrawColor(app.renderer, 0, 0, 255, 255);
-        target.h = 120;
-        target.w = 50;
-        target.x = 153;
-        target.y = dot_start+10;
-
-        SDL_RenderFillRect(app.renderer, &target);
-
-        for (int i = 0; i < 5; i++){
-            SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 255);
-            target.h = 80;
-            target.w = 5;
-            target.y = dot_start+50;
-
-            SDL_RenderFillRect(app.renderer, &target);
-
-            target.x += 5;
-
-            SDL_SetRenderDrawColor(app.renderer, 255, 0, 0, 255);
-
-            SDL_RenderFillRect(app.renderer, &target);
-
-            target.x += 5;
-        }
-
-        //- Draw what level the US is at
-        drawNumber(app.renderer,year-1941, 153+5*5, dot_start+15, 2.5, 255, 255, 255);
-           
-    }
+    powers_units_sprite[nationality].drawSprite(&target, (int)unit->unit_type+7*unit->upgrading, 5*unit->nationality+unit->combat_value+unit->upgrading, 64, 64);
 }
 
 //TODO optomize
@@ -613,25 +491,39 @@ void Runner::drawPlayerStats(Player& player){
     }*/
 }
 
-void Runner::drawNumber(SDL_Renderer* renderer, const int num, const int x, const int y, const float scale, const uint8_t r, const uint8_t g, const uint8_t b) const{
+void Runner::drawNumber(SDL_Renderer* renderer, int num, const int x, const int y, const float scale, const uint8_t r, const uint8_t g, const uint8_t b) const{
     int digits = 0;
+    bool negative = num < 0;
+    num = abs(num);
     auto copy = num;
     while (copy) {
         copy /= 10;
         digits++;
     }
 
+    (negative)? SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255) : SDL_SetRenderDrawColor(renderer, r, g, b, 255);
+
+    if (digits == 0) //for drawing 0
+        digits = 1;
+
     int offset = -(7*scale)/2;
     copy = num;
+
+    SDL_Rect target;
+    if (negative){ //Negatie Sign
+            target.h = 1*scale;
+            target.w = 5*scale;
+            target.x = x+1*scale+offset;
+            target.y = y+6*scale;
+            offset += 8*scale;
+            SDL_RenderFillRect(renderer, &target);
+    }
     for (int i = 1; i <= digits; i++, offset += 8*scale){
         auto f = pow(10, digits-1);
         int digit = copy/f;
         copy -= digit * f;
         copy *= 10;
 
-        (num == end_year)?  SDL_SetRenderDrawColor(renderer, 248, 194, 46, 255) : SDL_SetRenderDrawColor(renderer, r, g, b, 255);
-
-        SDL_Rect target;
         if (SEVEN_SEGMENT_DISPLAY[digit][0]){ //A
             target.h = 1*scale;
             target.w = 5*scale;
@@ -845,17 +737,11 @@ void Runner::drawPlayerBoard(const Player& player, SDL_Renderer* renderer, const
         sprite_sheet.drawSprite(&target, 6, 3, 102, 102);
     }
 
-    //- Draw the options around the closest city
-    if (player.closest_map_city != nullptr){
-        target = {player.closest_map_city->x-25, player.closest_map_city->y+4, 23, 23}; //draw the add
-        sprite_sheet.drawSprite(&target, 0, 22, 23, 23);
+    //- Draw the displayed cities
+    drawCityTroops(player);
 
-        target = {player.closest_map_city->x+5, player.closest_map_city->y-25, 23, 23}; //draw the upgrade
-        sprite_sheet.drawSprite(&target, 0, 20, 23, 23);
-
-        target = {player.closest_map_city->x+34, player.closest_map_city->y+5, 23, 23}; //draw the trade route
-        sprite_sheet.drawSprite(&target, 0, 24, 23, 23);
-    }
+    //- Draw the production left
+    drawNumber(powers_app[player.getAllegiance()].renderer, player.getCurrentProduction()-player.production_actions.size(), 50, 0, 5, 255, 255, 255);
 
     //- Draw the cursor
     target = {(int)player.cursor_x, (int)player.cursor_y, 32, 32};
@@ -919,7 +805,7 @@ void Runner::drawInvestCards(const Player* player, int start_x, int start_y, int
 
 void Runner::drawMemoResolution(const vector<std::array<size_t, 6>>& memo, vector<City*> unblocked){    
     for (const auto& city : unblocked){
-        drawMap(WEST, false, true, false, false, false);
+        drawMap(WEST, true, true, false, false, false);
         size_t city_indx = city->ID;
         City* city_obj = map.getCity(city_indx);
         //printf("To link %s to the capital go: ", city->name.c_str());
@@ -1119,7 +1005,7 @@ void Runner::drawMap(const CityType nationality, const bool cities, const bool i
     ClearScreen(powers_app[nationality].renderer);
 
     SDL_Rect tar = {0,0,1512,982};
-    powers_map_sprite[nationality].drawSprite(&tar, 0, 0, 1512, 982);
+    powers_map_sprite[nationality].drawSprite(&tar, 0, 0, 1512/players[nationality].mapY, 982/players[nationality].mapY);
 
     if (connections)
         drawConnections(nationality);
@@ -1134,11 +1020,101 @@ void Runner::drawMap(const CityType nationality, const bool cities, const bool i
         drawInfluence(nationality);
     }
 
+    if (true){
+
+    }
+
     if (clear)
         SDL_RenderPresent(powers_app[nationality].renderer);
 
     if (fps != -1){
         drawNumber(powers_app[nationality].renderer, (1000 / fps), 100, 100, 10, 0,0,0);
 
+    }
+}
+
+void Runner::drawCityTroops(const Player& player){
+    const CityType& allegiance = player.getAllegiance();
+    SDL_Rect target = {108, 909, 32, 70};
+    SDL_Rect target2 = {0, 0, 64, 64};
+    SDL_SetRenderDrawColor(powers_app[allegiance].renderer, 255, 251, 0, 255);
+
+    //Most units in a shown row can be 20 (inlcuding map square)
+    int city_count = -1;
+    for (const auto& city : player.displayed_cities){
+        city_count++;
+        target.x = 108;
+        target.w = 32;
+        target.h = 70;
+        int offset = 64;
+        //- draw container left
+        powers_sprite_map[allegiance].drawSprite(&target, 11, 0, 32, 70);
+
+        //- draw container middle
+        target.x += 3;
+        target.w = (city->num_occupants+1)*64;
+        powers_sprite_map[allegiance].drawSprite(&target, 11, 1, 32, 70);
+
+        //-draw container right
+        target.x += target.w-29;
+        target.w = 32;
+        powers_sprite_map[allegiance].drawSprite(&target, 11, 2, 32, 70);
+
+        //- draw the map
+        int drawY = target.y+3;
+        target = {111, target.y+3, 64, 64};
+        powers_map_sprite[allegiance].drawSprite(&target, 0, 0, 64, 64, 0, city->x-16, city->y-16);
+
+        //- if selected draw rect
+        if (player.city_viewing == city_count){
+            SDL_RenderDrawRect(powers_app[allegiance].renderer, &target);
+        }
+
+        target = {111+16,  target.y+3+16, 32, 32};
+        powers_sprite_map[allegiance].drawSprite(&target, 8, getCitySprite(city));
+
+        if (city->num_occupants == 0){ //if no occupants skip units part
+            target.y = drawY - 73;
+            continue;
+        }
+        Unit* highlight_unit = (player.city_viewing == city_count && player.unit_viewing!=-1)? city->occupants[player.allegiance_viewing][player.unit_viewing] : nullptr;
+        //- Draw all units in there
+        for (const auto& unit : city->occupants[0]){ //west units
+            drawUnit(allegiance, unit, 111+offset, drawY, 2);
+            if (highlight_unit == unit){
+                target2.x = 111+offset;
+                target2.y = drawY;
+                SDL_RenderDrawRect(powers_app[allegiance].renderer, &target2);
+            }
+            offset += 64;
+        }
+        for (const auto& unit : city->occupants[1]){ //axis units
+            drawUnit(allegiance, unit, 111+offset, drawY, 2);
+            if (highlight_unit == unit){
+                target2.x = 111+offset;
+                target2.y = drawY;
+                SDL_RenderDrawRect(powers_app[allegiance].renderer, &target2);
+            }
+            offset += 64;
+        }
+        for (const auto& unit : city->occupants[2]){ //ussr units
+            drawUnit(allegiance, unit, 111+offset, drawY, 2);
+            if (highlight_unit == unit){
+                target2.x = 111+offset;
+                target2.y = drawY;
+                SDL_RenderDrawRect(powers_app[allegiance].renderer, &target2);
+            }
+            offset += 64;
+        }
+        for (const auto& unit : city->occupants[3]){ //neutral units
+            drawUnit(allegiance, unit, 111+offset, drawY, 2);
+            if (highlight_unit == unit){
+                target2.x = 111+offset;
+                target2.y = drawY;
+                SDL_RenderDrawRect(powers_app[allegiance].renderer, &target2);
+            }
+            offset += 64;
+        }
+        target.y = drawY - 73;
     }
 }

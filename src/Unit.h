@@ -169,17 +169,19 @@ public:
 
     size_t birth_year; /**< The year that the unit was created in*/
 
+    bool upgrading; /**< The year after the year which the unit was upgraded in*/
+
     uint8_t combat_value; /**< Functions as how many forces are in the one unit and how many it fires in battle*/
 
     uint8_t max_combat_value; /**< Limits the max amount of forces can be in the unit*/
 
     size_t movement; /**< The max amount of cities it can move in one turn*/
 
-    bool rebase; /**< If this unit can ReBase (move freely to ground force)*/
+    bool rebase=false; /**< If this unit can ReBase (move freely to ground force)*/
 
-    size_t landing; /**< The year the unit landed from water this turn (therefore it can't attack)*/
+    size_t landing=0; /**< The year the unit landed from water this turn (therefore it can't attack)*/
 
-    bool convoy; /**< If the ground unit is a convoy its an infantry in the water and can't attack*/
+    bool convoy=false; /**< If the ground unit is a convoy its an infantry in the water and can't attack*/
 
     bool escaped=false; /**< Used for subs and if they have 'escaped' and can block trade routes */
 
@@ -354,7 +356,9 @@ public:
      */
     void setMovement(const size_t mov){ //just for testing
         movement = mov;
-    }   
+    }
+
+
 
     /**
      * @brief Print out the data of the unit
