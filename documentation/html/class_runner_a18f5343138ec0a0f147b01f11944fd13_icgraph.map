@@ -1,0 +1,40 @@
+<map id="Runner::drawUnit" name="Runner::drawUnit">
+<area shape="rect" id="Node000001" title="Draws the unit onto the player&#39;s screen." alt="" coords="1769,105,1893,131"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a2996d3087d986e2cf841b210462296b3" title="Draws 5 units under the city, rotating to the next 5 every 5 seconds." alt="" coords="1344,105,1498,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1754,121,1498,121,1498,116,1754,116"/>
+<area shape="rect" id="Node000018" href="$class_runner.html#a3c4e0b26262b401b673d3035e4821fe1" title="If the city has full displayed enable, every unit at the city will be displayed in rows of 5 (no rota..." alt="" coords="1546,131,1721,156"/>
+<area shape="poly" id="edge19_Node000001_Node000018" title=" " alt="" coords="1754,131,1722,135,1722,130,1754,125"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a5d52cd35d83ba1b9efb0829716e0833b" title="Draws a city onto the players renderer and if opted the resources as well." alt="" coords="1172,105,1296,131"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1329,121,1296,121,1296,116,1329,116"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a4136cf24a9abfc8282ad29125f42e519" title="Draw&#39;s the map to the main rendered with different options to control what is shown." alt="" coords="997,55,1121,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1171,103,1105,83,1106,78,1173,98"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a907d7cff65d53572390c9d7c71be3d15" title="Takes the memo of the Dijkstra&#39;s knock&#45;off II for finding trade routes and highlighting the route it ..." alt="" coords="748,105,945,131"/>
+<area shape="poly" id="edge16_Node000003_Node000006" title=" " alt="" coords="1157,121,945,121,945,116,1157,116"/>
+<area shape="rect" id="Node000016" href="$class_runner.html#a1a3632ffdf69bc9a94506d47ec401d2f" title="Dev tool to Set the resource x and y coords for each city that has a resource." alt="" coords="993,156,1124,182"/>
+<area shape="poly" id="edge17_Node000003_Node000016" title=" " alt="" coords="1173,138,1106,158,1105,153,1171,133"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a0f3a9c7f2d0c8fc32b07a88809cbfb5a" title="Draws the memo of the Dijkstra&#39;s knock&#45;off III for supply routes." alt="" coords="748,5,945,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="985,53,904,34,906,29,986,48"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="988,87,904,107,903,102,986,82"/>
+<area shape="rect" id="Node000014" href="$class_runner.html#a1679bec0ebffeb405fb263af9d92f2f5" title="Draws the private view of the player including cards and VP and production levels and acheived tech." alt="" coords="761,55,932,80"/>
+<area shape="poly" id="edge13_Node000004_Node000014" title=" " alt="" coords="981,70,932,70,932,65,981,65"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a9ed144ab26455935edae9ead1c77cc3c" title="During the production phase it needs to verify all cities controlled by the player that are blockaded..." alt="" coords="510,104,691,130"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="732,120,692,120,692,115,732,115"/>
+<area shape="rect" id="Node000011" href="$class_runner.html#a1339ccfbb7f33637f68ab258df440b6e" title="A decider for if the city provided is supplied and can have steps built. All the cities on the route ..." alt="" coords="537,153,664,179"/>
+<area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="762,137,665,156,664,151,761,132"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="317,67,448,92"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="506,103,448,93,449,88,507,98"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,67,264,92"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="301,82,264,82,264,77,301,77"/>
+<area shape="rect" id="Node000010" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,67,95,92"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="127,82,95,82,95,77,127,77"/>
+<area shape="rect" id="Node000012" href="$class_runner.html#a1c0a70248221bf1496e152a443ccc3a0" title="Decider for if a new unit of the given type is able to be built in the city provided." alt="" coords="322,140,443,166"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="521,164,444,159,444,154,521,159"/>
+<area shape="rect" id="Node000013" href="$class_runner.html#a0152b039104c601aa118d049989e60e3" title="Decider for if an exisiting unit can be upgraded." alt="" coords="312,189,453,215"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="522,182,454,193,453,188,521,177"/>
+<area shape="rect" id="Node000015" href="$class_runner.html#a16088828db0867024b5afe804b3958ce" title="Handles what to draw during the production phase." alt="" coords="501,55,700,80"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="745,70,700,70,700,65,745,65"/>
+<area shape="poly" id="edge15_Node000015_Node000008" title=" " alt="" coords="486,76,449,79,449,73,486,71"/>
+<area shape="rect" id="Node000017" href="$class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="790,156,903,182"/>
+<area shape="poly" id="edge18_Node000016_Node000017" title=" " alt="" coords="978,172,904,172,904,166,978,166"/>
+<area shape="poly" id="edge20_Node000018_Node000002" title=" " alt="" coords="1530,134,1498,130,1499,125,1531,129"/>
+</map>

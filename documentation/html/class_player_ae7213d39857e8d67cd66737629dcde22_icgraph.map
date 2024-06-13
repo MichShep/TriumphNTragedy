@@ -1,0 +1,5 @@
+<map id="Player::givePeaceDividend" name="Player::givePeaceDividend">
+<area shape="rect" id="Node000001" title="Gives the player a peace chit." alt="" coords="218,5,396,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a38409a814f07a34df8461ae4d33b2af1" title="All players who have been peacful (not DoW&#39;s or VoN in the past year) will recieve a random chit of 0..." alt="" coords="5,5,170,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,21,170,21,170,16,202,16"/>
+</map>

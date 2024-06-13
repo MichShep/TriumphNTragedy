@@ -1,0 +1,47 @@
+\doxysection{Spritesheet Class Reference}
+\hypertarget{class_spritesheet}{}\label{class_spritesheet}\index{Spritesheet@{Spritesheet}}
+
+
+Collaboration diagram for Spritesheet\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{class_spritesheet__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_spritesheet_ad3b83f8b0c1077f83976ac214516374e}\label{class_spritesheet_ad3b83f8b0c1077f83976ac214516374e} 
+{\bfseries Spritesheet} (char const \texorpdfstring{$\ast$}{*}path, SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}renderer, int width=32, int height=32)
+\item 
+\Hypertarget{class_spritesheet_a0444642cc87d4c2e9399729110cf1a9e}\label{class_spritesheet_a0444642cc87d4c2e9399729110cf1a9e} 
+void {\bfseries free\+Memory} ()
+\item 
+\Hypertarget{class_spritesheet_a5bf9df27c24af9a048f76531b051cf36}\label{class_spritesheet_a5bf9df27c24af9a048f76531b051cf36} 
+void {\bfseries select\+Sprite} (int x, int y=0, int clip\+\_\+x=-\/1, int clip\+\_\+y=-\/1)
+\item 
+\Hypertarget{class_spritesheet_ab9733766b7345ab854beb3bddfc311c5}\label{class_spritesheet_ab9733766b7345ab854beb3bddfc311c5} 
+void {\bfseries draw\+Selected\+Sprite} (SDL\+\_\+\+Rect \texorpdfstring{$\ast$}{*}position)
+\item 
+\Hypertarget{class_spritesheet_afd34ac6c2a5c23663fef2b1faf2bf1b8}\label{class_spritesheet_afd34ac6c2a5c23663fef2b1faf2bf1b8} 
+void {\bfseries draw\+Sprite} (SDL\+\_\+\+Rect \texorpdfstring{$\ast$}{*}position, int row, int pos, int size\+\_\+x=32, int size\+\_\+y=32, int offset=0, int unscaledX=0, int unscaledY=0)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_spritesheet_a70a7ce07bc07ee611f408978ed43b2d7}\label{class_spritesheet_a70a7ce07bc07ee611f408978ed43b2d7} 
+SDL\+\_\+\+Rect {\bfseries clip}
+\item 
+\Hypertarget{class_spritesheet_af1f5d4e857f373250c39bd49f45ce1a6}\label{class_spritesheet_af1f5d4e857f373250c39bd49f45ce1a6} 
+SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} {\bfseries spritesheet\+\_\+image}
+\item 
+\Hypertarget{class_spritesheet_a65f107df0f91542292f5fca422d26ef1}\label{class_spritesheet_a65f107df0f91542292f5fca422d26ef1} 
+SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*} {\bfseries renderer}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Includes.\+h\end{DoxyCompactItemize}

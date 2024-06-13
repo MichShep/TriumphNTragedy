@@ -29,125 +29,257 @@
 \DoxyCodeLine{00026\ \textcolor{keyword}{using\ }std::queue;}
 \DoxyCodeLine{00027\ \textcolor{keyword}{using\ }std::priority\_queue;}
 \DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <cmath>}}
-\DoxyCodeLine{00030\ \textcolor{keyword}{using\ }std::pow;}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stack>}}
+\DoxyCodeLine{00030\ \textcolor{keyword}{using\ }std::stack;}
 \DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}/opt/homebrew/Cellar/sdl2/2.30.2/include/SDL2/SDL.h"{}}}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}/opt/homebrew/Cellar/sdl2\_ttf/2.22.0/include/SDL2/SDL\_ttf.h"{}}}
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ END\_YEAR\ 1945;}}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ START\_YEAR\ 1936;}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00033\ \textcolor{keyword}{using\ }std::pow;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ <random>}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00037\ \textcolor{keyword}{using\ }std::shuffle;}
+\DoxyCodeLine{00038\ \textcolor{keyword}{using\ }std::find;}
 \DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ INFI\ SIZE\_MAX;}}
-\DoxyCodeLine{00041\ \textcolor{keyword}{enum}\ CityType\ \{WEST,\ AXIS,\ USSR,\ NEUTRAL,\ NEUTRAL\_AT\_WAR,\ WATER\};}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \textcolor{keyword}{enum}\ PowerType\ \{GREAT,\ HOME,\ MINOR,\ NONE,\ SEA\};}
-\DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \textcolor{keyword}{enum}\ ResourceType\ \{NORMAL,\ TRANS\_ATLANTIC\};}
-\DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \textcolor{keyword}{enum}\ BorderType\ \{NA,\ COAST,\ STRAIT,\ MOUNTAIN,\ FOREST,\ RIVER,\ PLAINS,\ OCEAN\};\ \textcolor{comment}{//NA\ means\ not\ connected}}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00049\ \textcolor{keyword}{enum}\ UnitClass\ \{CLASS\_A,\ CLASS\_N,\ CLASS\_G,\ CLASS\_S\};}
-\DoxyCodeLine{00050\ }
-\DoxyCodeLine{00051\ \textcolor{keyword}{enum}\ UnitType\ \{FORTRESS,\ AIR,\ CARRIER,\ SUB,\ FLEET,\ TANK,\ INFANTRY,\ CONVOY\};}
-\DoxyCodeLine{00052\ }
-\DoxyCodeLine{00053\ \textcolor{keyword}{enum}\ UnitCountry\ \{BRITIAN\_U,\ FRANCE\_U,\ USA\_U,\ GERMANY\_U,\ ITALY\_U,\ USSR\_U,\ NEUTRAL\_U\};}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#include\ "{}../include/SDL2/SDL.h"{}}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#include\ "{}../include/SDL2\_image/SDL\_image.h"{}}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#include\ "{}../include/SDL2/SDL\_gamecontroller.h"{}}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ END\_YEAR\ 1945;}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ START\_YEAR\ 1936;}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ INFI\ SIZE\_MAX;}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ JOYSTICK\_DEADZONE\ =\ 16000;}
+\DoxyCodeLine{00053\ }
 \DoxyCodeLine{00054\ }
-\DoxyCodeLine{00055\ \textcolor{keyword}{enum}\ Season\ \{SPRING,\ SUMMER,\ FALL,\ WINTER\};}
+\DoxyCodeLine{00055\ \textcolor{keyword}{enum}\ CityType\ \{WEST,\ AXIS,\ USSR,\ NEUTRAL,\ NEUTRAL\_AT\_WAR,\ WATER\};}
 \DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \textcolor{keyword}{enum}\ Tech\ \{AIR\_DEFENSE,\ FIRST\_FIRE,\ INDUSTRIAL\_ESPIONAGE,\ SCIENCE\};}
+\DoxyCodeLine{00057\ \textcolor{keyword}{enum}\ PowerType\ \{GREAT,\ MAJOR,\ COLONY,\ MINOR,\ NONE,\ SEA\};}
 \DoxyCodeLine{00058\ }
-\DoxyCodeLine{00059\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ FIREPOWER\_TABLE[8][4]\ =\ \{\ \textcolor{comment}{//\ Damage\ against\ \{A\ N\ G\ S\}}}
-\DoxyCodeLine{00060\ \ \ \ \ \{2,\ 3,\ 4,\ 3\},\ \textcolor{comment}{//Fort}}
-\DoxyCodeLine{00061\ \ \ \ \ \{3,\ 1,\ 1,\ 1\},\ \textcolor{comment}{//Air}}
-\DoxyCodeLine{00062\ \ \ \ \ \{2,\ 2,\ 1,\ 2\},\ \textcolor{comment}{//Carrir}}
-\DoxyCodeLine{00063\ \ \ \ \ \{2,\ 2,\ 1,\ 2\},\ \textcolor{comment}{//Sub}}
-\DoxyCodeLine{00064\ \ \ \ \ \{1,\ 3,\ 1,\ 2\},\ \textcolor{comment}{//Fleet}}
-\DoxyCodeLine{00065\ \ \ \ \ \{0,\ 0,\ 2,\ 0\},\ \textcolor{comment}{//Tank}}
-\DoxyCodeLine{00066\ \ \ \ \ \{1,\ 1,\ 3,\ 0\},\ \textcolor{comment}{//Infantry}}
-\DoxyCodeLine{00067\ \ \ \ \ \{0,\ 0,\ 0,\ 0\}\ \ \textcolor{comment}{//Convoy}}
-\DoxyCodeLine{00068\ \};}
-\DoxyCodeLine{00069\ }
-\DoxyCodeLine{00070\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ MAX\_CV\_TABLE[8][7]\ =\ \{\ \textcolor{comment}{//BRITIAN,\ FRANCE,\ USA,\ GERMANY,\ ITALY,\ USSR,\ neautral}}
-\DoxyCodeLine{00071\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 3\},\ \textcolor{comment}{//Fort}}
-\DoxyCodeLine{00072\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Air}}
-\DoxyCodeLine{00073\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Carrir}}
-\DoxyCodeLine{00074\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Sub}}
-\DoxyCodeLine{00075\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Fleet}}
-\DoxyCodeLine{00076\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Tank}}
-\DoxyCodeLine{00077\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Infantry}}
-\DoxyCodeLine{00078\ \ \ \ \ \{0,\ 0,\ 0,\ 0,\ 0,\ 3,\ 0\}\ \ \textcolor{comment}{//Convoy}}
-\DoxyCodeLine{00079\ \};}
+\DoxyCodeLine{00059\ \textcolor{keyword}{enum}\ PopulationType\ \{EMPTY,\ TOWN,\ CITY,\ CAPITAL\_CITY,\ SUB\_CAPITAL,\ MAIN\_CAPITAL\};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{enum}\ ResourceType\ \{NORMAL,\ TRANS\_ATLANTIC\};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{enum}\ BorderType\ \{NA,\ OCEAN,\ DEEP\_OCEAN,\ COAST,\ WATER\_STRAIT,\ COAST\_MOUNTAIN,\ COAST\_FOREST,\ COAST\_RIVER,\ COAST\_PLAINS,\ MOUNTAIN,\ FOREST,\ RIVER,\ PLAINS,\ LAND\_STRAIT\};\ \textcolor{comment}{//NA\ means\ not\ connected}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{keyword}{enum}\ UnitClass\ \{CLASS\_A,\ CLASS\_N,\ CLASS\_G,\ CLASS\_S\};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{enum}\ UnitType\ \{FORTRESS,\ AIR,\ CARRIER,\ SUB,\ FLEET,\ TANK,\ INFANTRY,\ CONVOY\};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{keyword}{enum}\ UnitCountry\ \{BRITIAN\_U,\ FRANCE\_U,\ USA\_U,\ GERMANY\_U,\ ITALY\_U,\ USSR\_U,\ NEUTRAL\_U\};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{keyword}{enum}\ Season\ \{NEW\_YEAR,\ SUMMER,\ FALL,\ SPRING,\ WINTER\};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{enum}\ DowState\ \{PEACE,\ DECLARED,\ VICTIM\};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{enum}\ InvestType\ \{TECHNOLOGY,\ INTELLIGENCE,\ YEAR\};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{keyword}{enum}\ ActionType\ \{DIPLOMACY,\ WILD\};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{keyword}{enum}\ InfluenceType\ \{UNALIGNED,\ ASSOCIATES,\ PROTECTORATES,\ SATELLITES\};}
 \DoxyCodeLine{00080\ }
-\DoxyCodeLine{00081\ \textcolor{keyword}{const}\ Uint8\ COLOR\_TABLE[6][3]\ =\ \{}
-\DoxyCodeLine{00082\ \ \ \ \ \{16,\ 28,\ 238\},\ \textcolor{comment}{//WEST\ -\/\ blue}}
-\DoxyCodeLine{00083\ \ \ \ \ \{142,\ 143,\ 158\},\ \textcolor{comment}{//AXIS\ -\/\ grey}}
-\DoxyCodeLine{00084\ \ \ \ \ \{210,\ 13,\ 13\},\ \textcolor{comment}{//USSR\ -\/\ red}}
-\DoxyCodeLine{00085\ \ \ \ \ \{251,\ 160,\ 6\},\ \textcolor{comment}{//NEUTRAL\ -\/\ orange}}
-\DoxyCodeLine{00086\ \ \ \ \ \{233,\ 99,\ 6\},\ \textcolor{comment}{//NEUTRAL\_AT\_WAR\ -\/\ blood-\/oragen}}
-\DoxyCodeLine{00087\ \ \ \ \ \{131,\ 236,\ 232\}\ \ \textcolor{comment}{//WATER\ -\/\ light\ blue}}
-\DoxyCodeLine{00088\ \};}
-\DoxyCodeLine{00089\ }
-\DoxyCodeLine{00090\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ BORDER\_COLOR[8][3]\{}
-\DoxyCodeLine{00091\ \ \ \ \ \{0,0,0\},\ \textcolor{comment}{//NA}}
-\DoxyCodeLine{00092\ \ \ \ \ \{0,198,226\},\ \textcolor{comment}{//Coast}}
-\DoxyCodeLine{00093\ \ \ \ \ \{9,132,149\},\ \textcolor{comment}{//Strait}}
-\DoxyCodeLine{00094\ \ \ \ \ \{61,63,63\},\ \textcolor{comment}{//Mountain}}
-\DoxyCodeLine{00095\ \ \ \ \ \{25,198,27\},\ \textcolor{comment}{//Forest}}
-\DoxyCodeLine{00096\ \ \ \ \ \{159,\ 244,\ 255\},\ \textcolor{comment}{//River}}
-\DoxyCodeLine{00097\ \ \ \ \ \{221,\ 239,\ 198\},\ \textcolor{comment}{//Plains}}
-\DoxyCodeLine{00098\ \ \ \ \ \{131,\ 236,\ 232\}\ \textcolor{comment}{//Ocean}}
-\DoxyCodeLine{00099\ \};}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00101\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ UNIT\_COLOR[7][3]\{\ \textcolor{comment}{//BRITIAN,\ FRANCE,\ USA,\ GERMANY,\ ITALY,\ USSR,\ neautral}}
-\DoxyCodeLine{00102\ \ \ \ \ \{11,\ 56,\ 208\},\ \textcolor{comment}{//britian\ }}
-\DoxyCodeLine{00103\ \ \ \ \ \{36,\ 226,\ 208\},\ \textcolor{comment}{//france}}
-\DoxyCodeLine{00104\ \ \ \ \ \{42,\ 171,\ 85\},\ \textcolor{comment}{//usa}}
-\DoxyCodeLine{00105\ \ \ \ \ \{178,\ 191,\ 196\},\ \textcolor{comment}{//germany}}
-\DoxyCodeLine{00106\ \ \ \ \ \{210,\ 200,\ 128\},\ \textcolor{comment}{//italy}}
-\DoxyCodeLine{00107\ \ \ \ \ \{213,\ 19,\ 19\},\ \textcolor{comment}{//ussr\_u}}
-\DoxyCodeLine{00108\ \ \ \ \ \{255,\ 191,\ 58\}\ \textcolor{comment}{//neutral\_u}}
-\DoxyCodeLine{00109\ \};}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00111\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ SEVEN\_SEGMENT\_DISPLAY[10][7]\ =\ \{\ }
-\DoxyCodeLine{00112\ \ \ \ \ \{\ 1,1,1,1,1,1,0\ \},\ \textcolor{comment}{//\ display\ '0'}}
-\DoxyCodeLine{00113\ \ \ \ \ \{\ 0,1,1,0,0,0,0\ \},\ \textcolor{comment}{//\ display\ '1'}}
-\DoxyCodeLine{00114\ \ \ \ \ \{\ 1,1,0,1,1,0,1\ \},\ \textcolor{comment}{//\ display\ '2'}}
-\DoxyCodeLine{00115\ \ \ \ \ \{\ 1,1,1,1,0,0,1\ \},\ \textcolor{comment}{//\ display\ '3'}}
-\DoxyCodeLine{00116\ \ \ \ \ \{\ 0,1,1,0,0,1,1\ \},\ \textcolor{comment}{//\ display\ '4'}}
-\DoxyCodeLine{00117\ \ \ \ \ \{\ 1,0,1,1,0,1,1\ \},\ \textcolor{comment}{//\ display\ '5'}}
-\DoxyCodeLine{00118\ \ \ \ \ \{\ 1,0,1,1,1,1,1\ \},\ \textcolor{comment}{//\ display\ '6'}}
-\DoxyCodeLine{00119\ \ \ \ \ \{\ 1,1,1,0,0,0,0\ \},\ \textcolor{comment}{//\ display\ '7'}}
-\DoxyCodeLine{00120\ \ \ \ \ \{\ 1,1,1,1,1,1,1\ \},\ \textcolor{comment}{//\ display\ '8'}}
-\DoxyCodeLine{00121\ \ \ \ \ \{\ 1,1,1,0,0,1,1\ \}\ \ \textcolor{comment}{//\ display\ '9'}}
-\DoxyCodeLine{00122\ \};}
-\DoxyCodeLine{00123\ }
-\DoxyCodeLine{00124\ \textcolor{comment}{//Colors}}
-\DoxyCodeLine{00125\ \textcolor{keyword}{namespace\ }Colors\{}
-\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{const}\ SDL\_Color\ BLACK\ =\ \{0,\ 0,\ 0,\ 255\};}
-\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keyword}{const}\ SDL\_Color\ GREEN\ =\ \{0,\ 255,\ 0,\ 255\};}
-\DoxyCodeLine{00128\ \}}
+\DoxyCodeLine{00081\ \textcolor{keyword}{enum}\ BoardState\ \{HOME\_BOARD,\ PRODUCTION\_BOARD,\ GOVERNMENT\_BOARD\};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{keyword}{enum}\ ProductionAction\ \{BUY\_AC,\ BUY\_IC,\ UNIT\_UP,\ CADRE\};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{enum}\ ProductionError\{}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{comment}{//Building\ units}}
+\DoxyCodeLine{00087\ \ \ \ \ ABLE=\ 0,}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ OUTSIDE\_HOME\ =\ 1,}
+\DoxyCodeLine{00090\ \ \ \ \ PRE\_FORTRESS,}
+\DoxyCodeLine{00091\ \ \ \ \ UNIT\_MAXED,}
+\DoxyCodeLine{00092\ \ \ \ \ ENEMY\_FORTRESS,}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ AT\_SEA\ =\ 10,}
+\DoxyCodeLine{00095\ \ \ \ \ ENGAGED,}
+\DoxyCodeLine{00096\ \ \ \ \ UNSUPPLIED,}
+\DoxyCodeLine{00097\ \ \ \ \ MAX\_CV}
+\DoxyCodeLine{00098\ \};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{keyword}{enum}\ Tech\ \ \ \{LSTs,\ MOTORIZED\_INFANTRY,\ NAVAL\_RADAR,\ ROCKET\_ARTILLERY,\ HEAVY\_TANKS,\ HEAVY\_BOMBERS,\ PERCISION\_BOMBERS,\ JETs,\ SONAR,\ AIRDEFENCE\_RADAR,\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ COUP,\ CODE\_BREAKER,\ AGENT,\ MOLE,\ SABOTAGE,\ SPY\_RING,\ DOUBLE\_AGENT,}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ ATOMIC\_ONE,\ ATOMIC\_TWO,\ ATOMIC\_THREE,\ ATOMIC\_FOUR,\ Y\_1938,\ Y\_1940,\ Y\_1942,\ Y\_1944\};}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{comment}{//enum\ State\ \{ADVANCE\_YEAR,\ VICTORY\_CHECK,\ RESHUFFLE,\ PEACE\_DIVIDENDS,\ TURN\_ORDER,\ NEW\_YEAR\_RES,\ PRODUCTION,\ GOVERNMENT,\ HAND\_CHECK\};}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ NATIONALITY\_STRING[7]\ =\ \{\textcolor{stringliteral}{"{}BRITISH"{}},\ \textcolor{stringliteral}{"{}FRANCE"{}},\ \textcolor{stringliteral}{"{}USA"{}},\ \textcolor{stringliteral}{"{}GERMAN"{}},\ \textcolor{stringliteral}{"{}ITALY"{}},\ \textcolor{stringliteral}{"{}USSR"{}},\ \textcolor{stringliteral}{"{}NEUTRAL"{}}\};}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ FIREPOWER\_TABLE[8][4]\ =\ \{\ \textcolor{comment}{//\ Damage\ against\ \{A\ N\ G\ S\}}}
+\DoxyCodeLine{00109\ \ \ \ \ \{2,\ 3,\ 4,\ 3\},\ \textcolor{comment}{//Fort}}
+\DoxyCodeLine{00110\ \ \ \ \ \{3,\ 1,\ 1,\ 1\},\ \textcolor{comment}{//Air}}
+\DoxyCodeLine{00111\ \ \ \ \ \{2,\ 2,\ 1,\ 2\},\ \textcolor{comment}{//Carrir}}
+\DoxyCodeLine{00112\ \ \ \ \ \{2,\ 2,\ 1,\ 2\},\ \textcolor{comment}{//Sub}}
+\DoxyCodeLine{00113\ \ \ \ \ \{1,\ 3,\ 1,\ 2\},\ \textcolor{comment}{//Fleet}}
+\DoxyCodeLine{00114\ \ \ \ \ \{0,\ 0,\ 2,\ 0\},\ \textcolor{comment}{//Tank}}
+\DoxyCodeLine{00115\ \ \ \ \ \{1,\ 1,\ 3,\ 0\},\ \textcolor{comment}{//Infantry}}
+\DoxyCodeLine{00116\ \ \ \ \ \{0,\ 0,\ 0,\ 0\}\ \ \textcolor{comment}{//Convoy}}
+\DoxyCodeLine{00117\ \};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ MAX\_CV\_TABLE[8][7]\ =\ \{\ \textcolor{comment}{//BRITIAN,\ FRANCE,\ USA,\ GERMANY,\ ITALY,\ USSR,\ NEUTRAL}}
+\DoxyCodeLine{00120\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 3\},\ \textcolor{comment}{//Fort}}
+\DoxyCodeLine{00121\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Air}}
+\DoxyCodeLine{00122\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Carrir}}
+\DoxyCodeLine{00123\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Sub}}
+\DoxyCodeLine{00124\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Fleet}}
+\DoxyCodeLine{00125\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Tank}}
+\DoxyCodeLine{00126\ \ \ \ \ \{4,\ 3,\ 4,\ 4,\ 3,\ 3,\ 0\},\ \textcolor{comment}{//Infantry}}
+\DoxyCodeLine{00127\ \ \ \ \ \{0,\ 0,\ 0,\ 0,\ 0,\ 3,\ 0\}\ \ \textcolor{comment}{//Convoy}}
+\DoxyCodeLine{00128\ \};}
 \DoxyCodeLine{00129\ }
-\DoxyCodeLine{00130\ \textcolor{comment}{//Graphics}}
-\DoxyCodeLine{00131\ \textcolor{keyword}{namespace\ }Graphics\{}
-\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_graphics_1_1_screen}{Screen}}\{}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ WIDTH\ =\ 1512;}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ HEIGHT\ =\ 982;}
-\DoxyCodeLine{00135\ }
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ center\_x\ =\ WIDTH\ /2;}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ center\_y\ =\ HEIGHT\ /2;}
-\DoxyCodeLine{00138\ \ \ \ \ \};}
+\DoxyCodeLine{00130\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ UNIT\_COUNTS[7][7]\ =\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{comment}{//BRITIAN,\ FRANCE,\ USA,\ GERMANY,\ ITALY,\ USSR,\ NEUTRAL}}
+\DoxyCodeLine{00132\ \ \ \ \ \{6,\ 3,\ 2,\ 8,\ \ 2,\ 6,\ \ 8\},\ \textcolor{comment}{//Fort}}
+\DoxyCodeLine{00133\ \ \ \ \ \{4,\ 3,\ 4,\ 8,\ \ 3,\ 6,\ \ 0\},\ \textcolor{comment}{//Air}}
+\DoxyCodeLine{00134\ \ \ \ \ \{2,\ 1,\ 1,\ 2,\ \ 1,\ 2,\ \ 0\},\ \textcolor{comment}{//Carrir}}
+\DoxyCodeLine{00135\ \ \ \ \ \{3,\ 1,\ 1,\ 8,\ \ 2,\ 2,\ \ 0\},\ \textcolor{comment}{//Sub}}
+\DoxyCodeLine{00136\ \ \ \ \ \{6,\ 4,\ 4,\ 6,\ \ 4,\ 4,\ \ 0\},\ \textcolor{comment}{//Fleet}}
+\DoxyCodeLine{00137\ \ \ \ \ \{3,\ 2,\ 4,\ 8,\ \ 2,\ 8,\ \ 0\},\ \textcolor{comment}{//Tank}}
+\DoxyCodeLine{00138\ \ \ \ \ \{6,\ 6,\ 4,\ 16,\ 6,\ 16,\ 0\}\ \textcolor{comment}{//Infantry}}
 \DoxyCodeLine{00139\ \};}
 \DoxyCodeLine{00140\ }
-\DoxyCodeLine{00141\ \textcolor{comment}{//\ Application}}
-\DoxyCodeLine{00142\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_app}{App}}\{}
-\DoxyCodeLine{00143\ \ \ \ \ SDL\_Window*\ window;}
-\DoxyCodeLine{00144\ \ \ \ \ SDL\_Renderer*\ renderer;}
-\DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ \ \ \ \ \mbox{\hyperlink{struct_graphics_1_1_screen}{Graphics::Screen}}\ screen;}
-\DoxyCodeLine{00147\ }
-\DoxyCodeLine{00148\ \};}
+\DoxyCodeLine{00141\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ BORDER\_COLOR[14][3]\{\ \textcolor{comment}{//\ NA,\ OCEAN,\ DEEP\_OCEAN,\ STRAIT,\ COAST,\ COAST\_MOUNTAIN,\ COAST\_FOREST,\ COAST\_RIVER,\ COAST\_PLAINS,\ MOUNTAIN,\ FOREST,\ RIVER,\ PLAINS}}
+\DoxyCodeLine{00142\ \ \ \ \ \{0,0,0\},\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//NA}}
+\DoxyCodeLine{00143\ \ \ \ \ \{0,\ 59,\ 255\},\ \ \ \ \ \ \ \ \textcolor{comment}{//OCEAN}}
+\DoxyCodeLine{00144\ \ \ \ \ \{4,\ 35,\ 137\},\ \ \ \ \ \ \ \ \textcolor{comment}{//DEEP\_OCEAN}}
+\DoxyCodeLine{00145\ \ \ \ \ \{4,\ 136,\ 137\},\ \ \ \ \ \ \ \ \ \textcolor{comment}{//COAST}}
+\DoxyCodeLine{00146\ \ \ \ \ \{245,\ 255,\ 78\},\ \ \ \ \ \textcolor{comment}{//WATER\_STRAIT}}
+\DoxyCodeLine{00147\ \ \ \ \ \{51,\ 189,\ 190\},\ \ \ \ \ \ \ \ \textcolor{comment}{//COAST\_MOUNTAIN}}
+\DoxyCodeLine{00148\ \ \ \ \ \{60,\ 165,\ 98\},\ \ \ \ \textcolor{comment}{//COAST\_FOREST}}
+\DoxyCodeLine{00149\ \ \ \ \ \{92,\ 193,\ 176\},\ \ \ \ \textcolor{comment}{//COAST\_RIVER}}
+\DoxyCodeLine{00150\ \ \ \ \ \{82,\ 90,\ 111\},\ \ \ \ \textcolor{comment}{//COAST\_PLAINS}}
+\DoxyCodeLine{00151\ \ \ \ \ \{79,\ 79,\ 79\},\ \ \ \ \textcolor{comment}{//MOUNTAIN}}
+\DoxyCodeLine{00152\ \ \ \ \ \{37,\ 224,\ 75\},\ \ \ \ \textcolor{comment}{//FOREST}}
+\DoxyCodeLine{00153\ \ \ \ \ \{54,\ 236,\ 237\},\ \ \ \ \textcolor{comment}{//RIVER}}
+\DoxyCodeLine{00154\ \ \ \ \ \{155,\ 255,\ 174\},\ \ \ \ \textcolor{comment}{//PLAINS}}
+\DoxyCodeLine{00155\ \ \ \ \ \{196,\ 237,\ 49\}\ \ \ \ \textcolor{comment}{//LAND\_STRAIT}}
+\DoxyCodeLine{00156\ \};}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ SEVEN\_SEGMENT\_DISPLAY[10][7]\ =\ \{\ }
+\DoxyCodeLine{00159\ \ \ \ \ \{\ 1,1,1,1,1,1,0\ \},\ \textcolor{comment}{//\ display\ '0'}}
+\DoxyCodeLine{00160\ \ \ \ \ \{\ 0,1,1,0,0,0,0\ \},\ \textcolor{comment}{//\ display\ '1'}}
+\DoxyCodeLine{00161\ \ \ \ \ \{\ 1,1,0,1,1,0,1\ \},\ \textcolor{comment}{//\ display\ '2'}}
+\DoxyCodeLine{00162\ \ \ \ \ \{\ 1,1,1,1,0,0,1\ \},\ \textcolor{comment}{//\ display\ '3'}}
+\DoxyCodeLine{00163\ \ \ \ \ \{\ 0,1,1,0,0,1,1\ \},\ \textcolor{comment}{//\ display\ '4'}}
+\DoxyCodeLine{00164\ \ \ \ \ \{\ 1,0,1,1,0,1,1\ \},\ \textcolor{comment}{//\ display\ '5'}}
+\DoxyCodeLine{00165\ \ \ \ \ \{\ 1,0,1,1,1,1,1\ \},\ \textcolor{comment}{//\ display\ '6'}}
+\DoxyCodeLine{00166\ \ \ \ \ \{\ 1,1,1,0,0,0,0\ \},\ \textcolor{comment}{//\ display\ '7'}}
+\DoxyCodeLine{00167\ \ \ \ \ \{\ 1,1,1,1,1,1,1\ \},\ \textcolor{comment}{//\ display\ '8'}}
+\DoxyCodeLine{00168\ \ \ \ \ \{\ 1,1,1,0,0,1,1\ \}\ \ \textcolor{comment}{//\ display\ '9'}}
+\DoxyCodeLine{00169\ \};}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ ZOOM\_DIMENSIONS[3][2]\ =\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \{20,\ 20\},\ \textcolor{comment}{//Zoom\ 1\ (broadest)}}
+\DoxyCodeLine{00173\ \ \ \ \ \{40,\ 40\},\ \textcolor{comment}{//Zoom\ 2\ }}
+\DoxyCodeLine{00174\ \ \ \ \ \{64,\ 64\}\ \ \textcolor{comment}{//Zoom\ 3\ (Closest)}}
+\DoxyCodeLine{00175\ \};}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ UNIT\_SPRITE\_OFFSET[7]\{\ \textcolor{comment}{//"{}BRITISH"{},\ "{}FRANCE"{},\ "{}USA"{},\ "{}GERMAN"{},\ "{}ITALY"{},\ "{}USSR"{},\ "{}NEUTRAL"{}}}
+\DoxyCodeLine{00178\ \ \ \ \ 0,\ 5,\ 9,\ 14,\ 19,\ 23,\ 27}
+\DoxyCodeLine{00179\ \};}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \textcolor{comment}{//Colors}}
+\DoxyCodeLine{00183\ \textcolor{keyword}{namespace\ }Colors\{}
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keyword}{const}\ SDL\_Color\ BLACK\ =\ \{0,\ 0,\ 0,\ 255\};}
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keyword}{const}\ SDL\_Color\ GREEN\ =\ \{0,\ 255,\ 0,\ 255\};}
+\DoxyCodeLine{00186\ \}}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \textcolor{comment}{//Graphics}}
+\DoxyCodeLine{00189\ \textcolor{keyword}{namespace\ }Graphics\{}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_graphics_1_1_screen}{Screen}}\{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ WIDTH\ =\ 1512;}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ HEIGHT\ =\ 946;}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ zoom\_factor\ =\ 1.0;}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ zoom\_x\ =\ 0;}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ zoom\_y\ =\ 0;}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ getCenterX()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (WIDTH/zoom\_factor\ +\ zoom\_x)\ /2;}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ getCenterY()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (HEIGHT/zoom\_factor\ +\ zoom\_y)\ /2;}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ getScaleX()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ zoom\_factor*WIDTH/1512.0;}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ getScaleY()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ zoom\_factor*HEIGHT/982.0;}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00213\ \ \ \ \ \};}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ }
+\DoxyCodeLine{00216\ \};}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00218\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_spritesheet}{Spritesheet}}\{}
+\DoxyCodeLine{00219\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00220\ \ \ \ \ SDL\_Rect\ clip;}
+\DoxyCodeLine{00221\ \ \ \ \ SDL\_Texture*\ spritesheet\_image;}
+\DoxyCodeLine{00222\ \ \ \ \ SDL\_Renderer*\ renderer;}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00225\ \ \ \ \ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}()\{}
+\DoxyCodeLine{00226\ \ \ \ \ \}}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *path,\ SDL\_Renderer*\ renderer,\ \textcolor{keywordtype}{int}\ width=32,\ \textcolor{keywordtype}{int}\ height=32)\{}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ this-\/>renderer\ =\ renderer;}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ spritesheet\_surface\ =\ \mbox{\hyperlink{_s_d_l__image_8h_aa21efc052860dbaa49c905fa62d366a4}{IMG\_Load}}(path);}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(spritesheet\_image\ =\ SDL\_CreateTextureFromSurface(renderer,\ spritesheet\_surface)))\{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Creating\ spritesheet\ failed\ with\ error:\ "{}}\ <<\ SDL\_GetError()\ <<\ endl;}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ clip.w\ =\ width;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ clip.h\ =\ height;}
+\DoxyCodeLine{00238\ \ \ \ \ \}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ \textcolor{keywordtype}{void}\ freeMemory()\{}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ SDL\_DestroyTexture(spritesheet\_image);}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ spritesheet\_image\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00243\ \ \ \ \ \}}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordtype}{void}\ selectSprite(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y=0,\ \textcolor{keywordtype}{int}\ clip\_x=-\/1,\ \textcolor{keywordtype}{int}\ clip\_y=-\/1)\{}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ clip.x\ =\ x\ *\ ((clip\_x\ ==\ -\/1)?\ clip.w\ :\ clip\_x);}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ clip.y\ =\ y\ *\ ((clip\_y\ ==\ -\/1)?\ clip.h\ :\ clip\_y);}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clip\_y\ !=-\/1)\{}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ clip.w\ =\ clip\_x;}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ clip.h\ =\ clip\_y;}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ }
+\DoxyCodeLine{00254\ \ \ \ \ \}}
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{keywordtype}{void}\ drawSelectedSprite(SDL\_Rect*\ position)\{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_RenderCopy(renderer,\ spritesheet\_image,\ \&clip,\ position)\ <\ 0)\{\ \textcolor{comment}{//was\ an\ error}}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Drawing\ selected\ sprite\ failed\ with\ error:\ "{}}\ <<\ SDL\_GetError()\ <<\ endl;}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00259\ \ \ \ \ \}}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{keywordtype}{void}\ drawSprite(SDL\_Rect*\ position,\ \textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ pos,\ \textcolor{keywordtype}{int}\ size\_x=32,\ \textcolor{keywordtype}{int}\ size\_y=32,\ \textcolor{keywordtype}{int}\ offset=0,\ \textcolor{keywordtype}{int}\ unscaledX=0,\ \textcolor{keywordtype}{int}\ unscaledY=0)\{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ position-\/>x\ +=\ offset;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ clip.x\ =\ pos\ *\ size\_x\ +\ unscaledX;}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ clip.y\ =\ row\ *\ size\_y\ +\ unscaledY;}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ clip.w\ =\ size\_x;}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ clip.h\ =\ size\_y;}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_RenderCopy(renderer,\ spritesheet\_image,\ \&clip,\ position)\ <\ 0)\{\ \textcolor{comment}{//was\ an\ error}}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Drawing\ sprite\ failed\ with\ error:\ "{}}\ <<\ SDL\_GetError()\ <<\ endl;}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00271\ \ \ \ \ \}}
+\DoxyCodeLine{00272\ \};}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \textcolor{comment}{//\ Application}}
+\DoxyCodeLine{00275\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_app}{App}}\{}
+\DoxyCodeLine{00276\ \ \ \ \ SDL\_Window*\ window;}
+\DoxyCodeLine{00277\ \ \ \ \ SDL\_Renderer*\ renderer;}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ \mbox{\hyperlink{struct_graphics_1_1_screen}{Graphics::Screen}}\ screen;}
+\DoxyCodeLine{00280\ \};}
 
 \end{DoxyCode}

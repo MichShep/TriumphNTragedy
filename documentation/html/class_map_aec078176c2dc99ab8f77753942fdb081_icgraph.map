@@ -1,5 +1,19 @@
 <map id="Map::getNumCity" name="Map::getNumCity">
-<area shape="rect" id="Node000001" title="Get the total number of cities." alt="" coords="178,5,302,31"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#a6b86ea8f00eff661c9e5b5b32eb9a160" title="Checks if that unit is able to move into that city." alt="" coords="5,5,130,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,21,130,21,130,16,162,16"/>
+<area shape="rect" id="Node000001" title="Get the total number of cities." alt="" coords="747,55,871,80"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a9ed144ab26455935edae9ead1c77cc3c" title="During the production phase it needs to verify all cities controlled by the player that are blockaded..." alt="" coords="509,5,691,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="736,53,657,34,658,29,737,48"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a0f3a9c7f2d0c8fc32b07a88809cbfb5a" title="Draws the memo of the Dijkstra&#39;s knock&#45;off III for supply routes." alt="" coords="501,55,699,80"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="731,70,699,70,699,65,731,65"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a1339ccfbb7f33637f68ab258df440b6e" title="A decider for if the city provided is supplied and can have steps built. All the cities on the route ..." alt="" coords="536,104,664,130"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="737,87,658,106,657,101,736,82"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="317,5,448,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="494,21,449,21,449,16,494,16"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,5,264,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="301,21,264,21,264,16,301,16"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,5,95,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="127,21,95,21,95,16,127,16"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a1c0a70248221bf1496e152a443ccc3a0" title="Decider for if a new unit of the given type is able to be built in the city provided." alt="" coords="322,79,443,104"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="521,110,443,101,444,96,521,105"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#a0152b039104c601aa118d049989e60e3" title="Decider for if an exisiting unit can be upgraded." alt="" coords="312,128,453,154"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="521,128,454,136,454,130,521,123"/>
 </map>

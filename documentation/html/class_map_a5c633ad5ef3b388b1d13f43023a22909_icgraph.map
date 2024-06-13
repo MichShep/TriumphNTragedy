@@ -1,11 +1,22 @@
 <map id="Map::findCity" name="Map::findCity">
-<area shape="rect" id="Node000001" title="Works as the [] overload for out of scope but gives the ID of the found city." alt="" coords="370,55,469,80"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#a6b86ea8f00eff661c9e5b5b32eb9a160" title="Checks if that unit is able to move into that city." alt="" coords="182,5,307,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="356,53,292,34,294,29,358,47"/>
-<area shape="rect" id="Node000003" href="$class_map.html#a825302e61539b3f1ca4c3e271f89bda1" title="Checks to see if there is a connection between the two named cities." alt="" coords="167,55,322,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="355,70,322,70,322,65,355,65"/>
-<area shape="rect" id="Node000004" href="$class_runner.html#aefd29fbf6627aaf0c89c46b2fe55ea22" title="Creates the game map including nations and cities and connections." alt="" coords="188,104,301,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="358,88,294,106,292,101,356,82"/>
-<area shape="rect" id="Node000005" href="$class_runner.html#a0de74fe5b4c57efd12b6f361e134dadb" title="Construct a new Runner object that intializes the map and players." alt="" coords="5,104,119,130"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="172,120,119,120,119,114,172,114"/>
+<area shape="rect" id="Node000001" title="Works as the [] overload for out of scope but gives the ID of the found city." alt="" coords="744,55,843,80"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a825302e61539b3f1ca4c3e271f89bda1" title="Checks to see if there is a connection between the two named cities." alt="" coords="527,5,683,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="728,53,656,34,657,29,729,48"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a9ed144ab26455935edae9ead1c77cc3c" title="During the production phase it needs to verify all cities controlled by the player that are blockaded..." alt="" coords="514,55,696,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="728,70,696,70,696,65,728,65"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#aefd29fbf6627aaf0c89c46b2fe55ea22" title="Creates the game map including nations and cities and connections." alt="" coords="548,105,662,131"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="729,87,656,107,655,102,728,82"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#abf0b00bafd1b65a660b73d3aa53bfb1c" title="Checks if the player can disengage from the current battle." alt="" coords="312,5,466,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="511,21,467,21,467,16,511,16"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="324,55,455,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="499,70,455,70,455,65,499,65"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,55,264,80"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="308,70,264,70,264,65,308,65"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,55,95,80"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="127,70,95,70,95,65,127,65"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="147,131,260,156"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="533,125,260,143,260,137,533,120"/>
+<area shape="rect" id="Node000010" href="$class_runner.html#a1a3632ffdf69bc9a94506d47ec401d2f" title="Dev tool to Set the resource x and y coords for each city that has a resource." alt="" coords="324,156,455,182"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="534,137,448,158,447,153,533,132"/>
+<area shape="poly" id="edge10_Node000010_Node000009" title=" " alt="" coords="308,161,260,154,261,149,309,155"/>
 </map>

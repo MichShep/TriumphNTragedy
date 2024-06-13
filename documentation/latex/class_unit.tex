@@ -13,17 +13,16 @@ Collaboration diagram for Unit\+:
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{class_unit_a98919a643401f3277e96958a117d27e5}{Unit}} (const size\+\_\+t \mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}}, Unit\+Country \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}, Unit\+Type \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\+\_\+type}})
+\Hypertarget{class_unit_a98919a643401f3277e96958a117d27e5}\label{class_unit_a98919a643401f3277e96958a117d27e5} 
+{\bfseries Unit} (const size\+\_\+t \mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}}, Unit\+Country \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}, Unit\+Type \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\+\_\+type}})
 \item 
-\Hypertarget{class_unit_a72af7adca063bf801eb1f16088c9a127}\label{class_unit_a72af7adca063bf801eb1f16088c9a127} 
-{\bfseries Unit} (const City\+Type \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}, const Unit\+Class \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\+\_\+type}}, const Unit\+Type \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\+\_\+type}}, const size\+\_\+t \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\+\_\+value}}, const size\+\_\+t \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}, const bool \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}, const bool \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}})
-\item 
-\Hypertarget{class_unit_a4bb9013a7375ea641def03705d2bb58f}\label{class_unit_a4bb9013a7375ea641def03705d2bb58f} 
-void {\bfseries set\+Movement} (const size\+\_\+t mov)
-\item 
+\mbox{\hyperlink{class_unit_acad90d9f5717f2df5442324170ff9d3c}{Unit}} (const Unit\+Country \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}, const City\+Type \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}, const Unit\+Class \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\+\_\+type}}, const Unit\+Type \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\+\_\+type}}, const size\+\_\+t \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\+\_\+value}}, const size\+\_\+t \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}, const bool \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}, const bool \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}=false)
+\begin{DoxyCompactList}\small\item\em Construct a custom unit. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_unit_a4bb9013a7375ea641def03705d2bb58f}{set\+Movement}} (const size\+\_\+t mov)
+\begin{DoxyCompactList}\small\item\em Set the movement of the unit. \end{DoxyCompactList}\item 
 \Hypertarget{class_unit_ae00d9e82c3260903f2f5a9d67e93dbc4}\label{class_unit_ae00d9e82c3260903f2f5a9d67e93dbc4} 
 void {\bfseries print} () const
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Print out the data of the unit. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -37,29 +36,75 @@ Unit\+Class \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class
 \item 
 Unit\+Type \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\+\_\+type}}
 \item 
+size\+\_\+t \mbox{\hyperlink{class_unit_ae358211f79a79fa45867464123fa3607}{birth\+\_\+year}}
+\item 
+bool \mbox{\hyperlink{class_unit_a83d70dd6eb277b62e929900a8662465d}{upgrading}}
+\item 
 uint8\+\_\+t \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\+\_\+value}}
 \item 
 uint8\+\_\+t \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\+\_\+combat\+\_\+value}}
 \item 
 size\+\_\+t \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}
 \item 
-bool \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}
+bool \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}} =false
 \item 
-size\+\_\+t \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}
+size\+\_\+t \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}} =0
 \item 
-\Hypertarget{class_unit_ad8dc3c6ca01813ee3924f0f3381fc05f}\label{class_unit_ad8dc3c6ca01813ee3924f0f3381fc05f} 
-bool {\bfseries convoy}
+bool \mbox{\hyperlink{class_unit_ad8dc3c6ca01813ee3924f0f3381fc05f}{convoy}} =false
+\item 
+bool \mbox{\hyperlink{class_unit_a2d0fa7089b943e97916576ce3df53485}{escaped}} =false
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{class_unit_a98919a643401f3277e96958a117d27e5}\label{class_unit_a98919a643401f3277e96958a117d27e5} 
+\Hypertarget{class_unit_acad90d9f5717f2df5442324170ff9d3c}\label{class_unit_acad90d9f5717f2df5442324170ff9d3c} 
 \index{Unit@{Unit}!Unit@{Unit}}
 \index{Unit@{Unit}!Unit@{Unit}}
 \doxysubsubsection{\texorpdfstring{Unit()}{Unit()}}
-{\footnotesize\ttfamily Unit\+::\+Unit (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{id,  }\item[{Unit\+Country}]{nationality,  }\item[{Unit\+Type}]{unit\+\_\+type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily Unit\+::\+Unit (\begin{DoxyParamCaption}\item[{const Unit\+Country}]{nationality,  }\item[{const City\+Type}]{allegiance,  }\item[{const Unit\+Class}]{class\+\_\+type,  }\item[{const Unit\+Type}]{unit\+\_\+type,  }\item[{const size\+\_\+t}]{combat\+\_\+value,  }\item[{const size\+\_\+t}]{movement,  }\item[{const bool}]{rebase,  }\item[{const bool}]{landing = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-If the ground unit is a convoy its an infantry in the water and can\textquotesingle{}t attack 
+
+
+Construct a custom unit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nationality} & \\
+\hline
+{\em allegiance} & \\
+\hline
+{\em class\+\_\+type} & \\
+\hline
+{\em unit\+\_\+type} & \\
+\hline
+{\em combat\+\_\+value} & \\
+\hline
+{\em movement} & \\
+\hline
+{\em rebase} & \\
+\hline
+{\em landing} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_unit_a4bb9013a7375ea641def03705d2bb58f}\label{class_unit_a4bb9013a7375ea641def03705d2bb58f} 
+\index{Unit@{Unit}!setMovement@{setMovement}}
+\index{setMovement@{setMovement}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{setMovement()}{setMovement()}}
+{\footnotesize\ttfamily void Unit\+::set\+Movement (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{mov }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the movement of the unit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mov} & The new unit of the unit \\
+\hline
+\end{DoxyParams}
+
 
 \doxysubsection{Member Data Documentation}
 \Hypertarget{class_unit_af6ab0a5472e0d167c04a7813ade4f175}\label{class_unit_af6ab0a5472e0d167c04a7813ade4f175} 
@@ -68,7 +113,13 @@ If the ground unit is a convoy its an infantry in the water and can\textquotesin
 \doxysubsubsection{\texorpdfstring{allegiance}{allegiance}}
 {\footnotesize\ttfamily City\+Type Unit\+::allegiance}
 
-Which power the unit belongs to (West, Axis, USSR, Neutral) \Hypertarget{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}\label{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334} 
+Which power the unit belongs to (West, Axis, USSR, Neutral) \Hypertarget{class_unit_ae358211f79a79fa45867464123fa3607}\label{class_unit_ae358211f79a79fa45867464123fa3607} 
+\index{Unit@{Unit}!birth\_year@{birth\_year}}
+\index{birth\_year@{birth\_year}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{birth\_year}{birth\_year}}
+{\footnotesize\ttfamily size\+\_\+t Unit\+::birth\+\_\+year}
+
+The year that the unit was created in \Hypertarget{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}\label{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334} 
 \index{Unit@{Unit}!class\_type@{class\_type}}
 \index{class\_type@{class\_type}!Unit@{Unit}}
 \doxysubsubsection{\texorpdfstring{class\_type}{class\_type}}
@@ -80,7 +131,19 @@ Which class the unit is in that is mostly just for movement and Re\+Base \Hypert
 \doxysubsubsection{\texorpdfstring{combat\_value}{combat\_value}}
 {\footnotesize\ttfamily uint8\+\_\+t Unit\+::combat\+\_\+value}
 
-Functions as how many forces are in the one unit and how many it fires in battle \Hypertarget{class_unit_a4095688cb400304ab585177f84ac94f1}\label{class_unit_a4095688cb400304ab585177f84ac94f1} 
+Functions as how many forces are in the one unit and how many it fires in battle \Hypertarget{class_unit_ad8dc3c6ca01813ee3924f0f3381fc05f}\label{class_unit_ad8dc3c6ca01813ee3924f0f3381fc05f} 
+\index{Unit@{Unit}!convoy@{convoy}}
+\index{convoy@{convoy}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{convoy}{convoy}}
+{\footnotesize\ttfamily bool Unit\+::convoy =false}
+
+If the ground unit is a convoy its an infantry in the water and can\textquotesingle{}t attack \Hypertarget{class_unit_a2d0fa7089b943e97916576ce3df53485}\label{class_unit_a2d0fa7089b943e97916576ce3df53485} 
+\index{Unit@{Unit}!escaped@{escaped}}
+\index{escaped@{escaped}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{escaped}{escaped}}
+{\footnotesize\ttfamily bool Unit\+::escaped =false}
+
+Used for subs and if they have \textquotesingle{}escaped\textquotesingle{} and can block trade routes \Hypertarget{class_unit_a4095688cb400304ab585177f84ac94f1}\label{class_unit_a4095688cb400304ab585177f84ac94f1} 
 \index{Unit@{Unit}!id@{id}}
 \index{id@{id}!Unit@{Unit}}
 \doxysubsubsection{\texorpdfstring{id}{id}}
@@ -90,7 +153,7 @@ ID of the unit \Hypertarget{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}\label{
 \index{Unit@{Unit}!landing@{landing}}
 \index{landing@{landing}!Unit@{Unit}}
 \doxysubsubsection{\texorpdfstring{landing}{landing}}
-{\footnotesize\ttfamily size\+\_\+t Unit\+::landing}
+{\footnotesize\ttfamily size\+\_\+t Unit\+::landing =0}
 
 The year the unit landed from water this turn (therefore it can\textquotesingle{}t attack) \Hypertarget{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}\label{class_unit_ac74a304146ccb68a0aad61ba983c2a0b} 
 \index{Unit@{Unit}!max\_combat\_value@{max\_combat\_value}}
@@ -98,7 +161,7 @@ The year the unit landed from water this turn (therefore it can\textquotesingle{
 \doxysubsubsection{\texorpdfstring{max\_combat\_value}{max\_combat\_value}}
 {\footnotesize\ttfamily uint8\+\_\+t Unit\+::max\+\_\+combat\+\_\+value}
 
-Limits the max amount offorces can be in the unit \Hypertarget{class_unit_ab3610b61133bb4c605ad9e627dff8607}\label{class_unit_ab3610b61133bb4c605ad9e627dff8607} 
+Limits the max amount of forces can be in the unit \Hypertarget{class_unit_ab3610b61133bb4c605ad9e627dff8607}\label{class_unit_ab3610b61133bb4c605ad9e627dff8607} 
 \index{Unit@{Unit}!movement@{movement}}
 \index{movement@{movement}!Unit@{Unit}}
 \doxysubsubsection{\texorpdfstring{movement}{movement}}
@@ -114,7 +177,7 @@ Which country the unit comes from (West\+:British, USA, France; Axis\+: Germany,
 \index{Unit@{Unit}!rebase@{rebase}}
 \index{rebase@{rebase}!Unit@{Unit}}
 \doxysubsubsection{\texorpdfstring{rebase}{rebase}}
-{\footnotesize\ttfamily bool Unit\+::rebase}
+{\footnotesize\ttfamily bool Unit\+::rebase =false}
 
 If this unit can Re\+Base (move freely to ground force) \Hypertarget{class_unit_a60283283866df57b43649417eaa57014}\label{class_unit_a60283283866df57b43649417eaa57014} 
 \index{Unit@{Unit}!unit\_type@{unit\_type}}
@@ -122,7 +185,13 @@ If this unit can Re\+Base (move freely to ground force) \Hypertarget{class_unit_
 \doxysubsubsection{\texorpdfstring{unit\_type}{unit\_type}}
 {\footnotesize\ttfamily Unit\+Type Unit\+::unit\+\_\+type}
 
-Which type of unit that decied attack and movement (Fortress, Infantry, Air...) 
+Which type of unit that decied attack and movement (Fortress, Infantry, Air...) \Hypertarget{class_unit_a83d70dd6eb277b62e929900a8662465d}\label{class_unit_a83d70dd6eb277b62e929900a8662465d} 
+\index{Unit@{Unit}!upgrading@{upgrading}}
+\index{upgrading@{upgrading}!Unit@{Unit}}
+\doxysubsubsection{\texorpdfstring{upgrading}{upgrading}}
+{\footnotesize\ttfamily bool Unit\+::upgrading}
+
+The year after the year which the unit was upgraded in 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

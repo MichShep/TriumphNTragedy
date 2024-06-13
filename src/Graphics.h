@@ -2,6 +2,7 @@
 
 
 //& SDL Routines
+
 bool Runner::InitSDL(){
     if (SDL_Init(SDL_INIT_EVERYTHING) > 0){
         cout << "SDL_Init failed with error: " << SDL_GetError() << endl;
@@ -30,14 +31,92 @@ bool Runner::InitSDL(){
     return true;
 }
 
-//Graphics Routine
-void Runner::ClearScreen(SDL_Renderer* renderer){
-    SDL_SetRenderDrawColor(renderer, 216, 216, 216, 255);
-    if (SDL_RenderClear(renderer) < 0){
-        cout << "SDL_RenderClear failed with error: " << SDL_GetError() << endl;
+bool Runner::InitApplication(){
+    //- Init SDL
+    if (InitSDL() == false){
+        ShutdownApplication();
+        return false;
     }
 
+    //- Init main app
+    app.window = SDL_CreateWindow(
+        "Triumph And Tragedy",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        app.screen.WIDTH,
+        app.screen.HEIGHT, 
+        SDL_WINDOW_OPENGL
+    );
+
+    //SDL_SetWindowFullscreen(app.window, SDL_WINDOW_FULLSCREEN);
+
+    //- Init axis app
+    powers_app[AXIS].window = SDL_CreateWindow(
+        "Axis Player",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        600,
+        600, 
+        SDL_WINDOW_OPENGL
+    );
+
+    //- Init ussr app
+    powers_app[USSR].window = SDL_CreateWindow(
+        "USSR Player",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        app.screen.WIDTH,
+        app.screen.HEIGHT, 
+        SDL_WINDOW_OPENGL
+    );
+
+    //- Init west app
+    powers_app[WEST].window = SDL_CreateWindow(
+        "West Player",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        app.screen.WIDTH,
+        app.screen.HEIGHT, 
+        SDL_WINDOW_OPENGL
+    );
+
+    //SDL_SetWindowFullscreen(powers_app[WEST].window, SDL_TRUE);
+    SDL_SetWindowFullscreen(powers_app[USSR].window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    SDL_SetWindowFullscreen(powers_app[AXIS].window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    SDL_SetWindowFullscreen(powers_app[WEST].window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+
+    if (app.window == nullptr){
+        cout << "Unable to create main window. Error: "<< SDL_GetError() << endl;
+        ShutdownApplication();
+        return false;
+    }
+
+    if (!(app.renderer = SDL_CreateRenderer(app.window, -1, SDL_RENDERER_PRESENTVSYNC))){
+        cout << "Unable to create main renderer. Error: "<< SDL_GetError() << endl;
+        ShutdownApplication();
+    }
+
+    for (auto& a : powers_app){
+        if (a.window == nullptr){
+            cout << "Unable to create power window. Error: "<< SDL_GetError() << endl;
+            ShutdownApplication();
+            return false;
+        }
+        int width, height;
+        SDL_GetWindowSize(a.window, &width, &height);
+        a.screen.WIDTH = width;
+        a.screen.HEIGHT = height;
+
+        if (!(a.renderer = SDL_CreateRenderer(a.window, -1, SDL_RENDERER_PRESENTVSYNC))){
+            cout << "Unable to create power renderer. Error: "<< SDL_GetError() << endl;
+            ShutdownApplication();
+        }
+    }
+
+
+    return true;
 }
+
 // Application Routine
 void Runner::ShutdownApplication(){
     if (app.window != nullptr) {
@@ -70,103 +149,270 @@ void Runner::ShutdownApplication(){
     SDL_Quit();
 }
 
-bool Runner::InitApplication(){
-    //- Init SDL
-    if (InitSDL() == false){
-        ShutdownApplication();
-        return false;
+void Runner::ClearScreen(SDL_Renderer* renderer){
+    SDL_SetRenderDrawColor(renderer, 216, 216, 216, 255);
+    if (SDL_RenderClear(renderer) < 0){
+        cout << "SDL_RenderClear failed with error: " << SDL_GetError() << endl;
     }
-
-    //- Init main app
-    app.window = SDL_CreateWindow(
-        "Triumph And Tragedy",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        app.screen.WIDTH,
-        app.screen.HEIGHT, 
-        SDL_WINDOW_OPENGL
-    );
-
-    //SDL_SetWindowFullscreen(app.window, SDL_WINDOW_FULLSCREEN);
-
-    //- Init west app
-    powers_app[WEST].window = SDL_CreateWindow(
-        "West Player",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        app.screen.WIDTH,
-        app.screen.HEIGHT, 
-        SDL_WINDOW_OPENGL
-    );
-
-    //- Init axis app
-    powers_app[AXIS].window = SDL_CreateWindow(
-        "Axis Player",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        app.screen.WIDTH,
-        app.screen.HEIGHT, 
-        SDL_WINDOW_OPENGL
-    );
-
-    //- Init ussr app
-    powers_app[USSR].window = SDL_CreateWindow(
-        "USSR Player",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        app.screen.WIDTH,
-        app.screen.HEIGHT, 
-        SDL_WINDOW_OPENGL
-    );
-
-    //SDL_SetWindowFullscreen(powers_app[WEST].window, SDL_TRUE);
-    SDL_SetWindowFullscreen(powers_app[WEST].window, SDL_WINDOW_FULLSCREEN);
-
-    if (app.window == nullptr){
-        cout << "Unable to create main window. Error: "<< SDL_GetError() << endl;
-        ShutdownApplication();
-        return false;
-    }
-
-    if (!(app.renderer = SDL_CreateRenderer(app.window, -1, SDL_RENDERER_PRESENTVSYNC))){
-        cout << "Unable to create main renderer. Error: "<< SDL_GetError() << endl;
-        ShutdownApplication();
-    }
-
-    for (auto& a : powers_app){
-        if (a.window == nullptr){
-            cout << "Unable to create power window. Error: "<< SDL_GetError() << endl;
-            ShutdownApplication();
-            return false;
-        }
-
-        if (!(a.renderer = SDL_CreateRenderer(a.window, -1, SDL_RENDERER_PRESENTVSYNC))){
-            cout << "Unable to create power renderer. Error: "<< SDL_GetError() << endl;
-            ShutdownApplication();
-        }
-    }
-
-
-    return true;
 }
 
-void Runner::drawCity(const CityType nationality, City* city, const bool resources){
-    SDL_Rect target = {city->x, city->y, city->HEIGHT, city->WIDTH};
-    auto& sprite_sheet = powers_sprite_map[nationality];
+//!!! Drawing Player board
+
+void Runner::drawPlayerBoard(const Player& player, SDL_Renderer* renderer, const int bought_action, const int bought_invest){
+    //- Draw the map and the cities
+    drawMap(player, true, true, true, false, false);
+
+    auto& sprite_sheet = powers_sprite_map[player.getAllegiance()];
+    
+    //- Draw the current state of the 
+    int y = powers_app[player.getAllegiance()].screen.HEIGHT-105;
+    SDL_Rect target = {3, y, 102, 102};
+    if (player.show_action){ //draw all the action cards
+        if (player.getActionSize() > 0){
+            //- Draw the opening icon
+            sprite_sheet.drawSprite(&target, 6, 1, 102, 102);
+
+            //- calcualte how many cards need to be shown and draw background (max amount will be 12)
+            target = {3, y-(int)(32*player.getActionSize()), 102, (int)(32*player.getActionSize())};
+            sprite_sheet.drawSprite(&target, 6, 2, 102, 102);
+            target = {3, y-(int)(32*player.getActionSize()), 102, 102};
+            sprite_sheet.drawSprite(&target, 6, 2, 102, 102);
+
+            //- Draw the cards
+            drawActionCards(&player, 6, y-(int)(32*player.getActionSize())+3, 15);
+        }
+        else{
+            target.y = 875-102/2;
+            sprite_sheet.drawSprite(&target, 6, 2, 102, 102);
+
+            target.y = 875;
+            sprite_sheet.drawSprite(&target, 6, 1, 102, 102);
+        }
+    }
+    else{ //draw just the icon
+        sprite_sheet.drawSprite(&target, 6, 0, 102, 102);
+    }
+
+    target = {powers_app[player.getAllegiance()].screen.WIDTH-105, y, 102, 102};
+    const int x = target.x;
+    if (player.show_invest){ //draw all the invest cards
+        if (player.getInvestSize() > 0){
+            //- Draw the opening icon
+            sprite_sheet.drawSprite(&target, 6, 4, 102, 102);
+
+            //- calcualte how many cards need to be shown and draw background (max amount will be 12)
+            target = {x, y-(int)(32*player.getInvestSize()), 102, (int)(32*player.getInvestSize())};
+            sprite_sheet.drawSprite(&target, 6, 5, 102, 102);
+            target = {x, y-(int)(32*player.getInvestSize()), 102, 102};
+            sprite_sheet.drawSprite(&target, 6, 5, 102, 102);
+
+            //- Draw the cards
+            drawInvestCards(&player, x+3, y-(int)(32*player.getInvestSize())+3, 15);
+        }
+        else{
+            target.y = 875-102/2;
+            sprite_sheet.drawSprite(&target, 6, 5, 102, 102);
+
+            target.y = 875;
+            sprite_sheet.drawSprite(&target, 6, 4, 102, 102);
+        }
+    }
+    else{
+        sprite_sheet.drawSprite(&target, 6, 3, 102, 102);
+    }
+
+
+    //- Draw the production left
+    drawNumber(powers_app[player.getAllegiance()].renderer, player.getCurrentProduction()-player.production_actions.size(), 50, 0, 5, 255, 255, 255);
+
+    //- Draw the cursor
+    target = {(int)player.cursor_x, (int)player.cursor_y, 32, 32};
+    sprite_sheet.drawSprite(&target, 0, 11+player.getAllegiance(), 32, 32);
+
+    SDL_RenderPresent(powers_app[player.getAllegiance()].renderer);
+}
+
+void Runner::drawMap(const Player& player, const bool cities, const bool influence, const bool resources, const bool connections, const bool clear, const int& fps){
+    ClearScreen(player.app->renderer);
+    int width, height;
+    SDL_GetWindowSize(player.app->window, &width, &height);
+    SDL_Rect tar = {player.app->screen.zoom_x*(player.app->screen.zoom_x<0), player.app->screen.zoom_y*(player.app->screen.zoom_y>0), width, height};
+    player.map_sprite->drawSprite(&tar, 0, 0, (int)(1512/player.app->screen.zoom_factor), (int)(982/player.app->screen.zoom_factor), 0, player.app->screen.zoom_x*(player.app->screen.zoom_x>0), player.app->screen.zoom_y*(player.app->screen.zoom_x>0));
+
+    if (connections)
+        drawConnections(player);
+
+    if (cities){
+        auto& cities = map.getCities();
+        for (auto city : cities)
+            drawCity(player, city.second, resources);
+    }
+
+    if (influence){
+        drawInfluence(player);
+    }
+
+    if (clear)
+        SDL_RenderPresent(player.app->renderer);
+
+    if (fps != -1){
+        drawNumber(player.app->renderer, (1000 / fps), 100, 100, 10, 0,0,0);
+
+    }
+}
+
+void Runner::drawCityUnits(const Player& player, City* city){
+    if (city->full_display){
+        drawFullCityUnits(player, city);
+        return;
+    }
+
+    const CityType& allegiance = player.getAllegiance();
+    const auto& zoom_scale = player.app->screen.zoom_factor;
+    const auto& zoom = (int)player.app->screen.zoom_factor;
+    const int off = ZOOM_DIMENSIONS[zoom-1][1];
+
+    //Most units in a shown row can be 5
+    SDL_Rect target = {0, 0, 20, 20};
+
+    int unit_count = 0;
+    int skipped = 0;
+    target = {(int)(city->x*zoom_scale*player.app->screen.WIDTH/1512)+8, (int)(city->y*zoom_scale*player.app->screen.HEIGHT/982)+33, 20, 20};
+    int offset = -(((city->num_occupants <= 5)? city->num_occupants : 5)/2*20);
+
+
+    bool hide_rivals = !city->isConflict() && WEST != allegiance; //if there is no conflict then rival units are placed 'face up' and not viewable by rivals
+    for (const auto& unit : city->occupants[0]){ //west units
+        if (unit_count == 5)
+            break;
+        if (skipped < city->skip_troop[allegiance]){
+            skipped++;
+            continue;
+        }
+        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals);
+        offset += off;  unit_count++;
+    }
+
+    hide_rivals = !city->isConflict() && AXIS != allegiance;
+    if (unit_count != 5)
+    for (const auto& unit : city->occupants[1]){ //axis units
+        if (unit_count == 5)
+            break;
+        if (skipped < city->skip_troop[allegiance]){
+            skipped++;
+            continue;
+        }
+        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals);
+        offset += off; unit_count++;
+    }
+
+    hide_rivals = !city->isConflict() && USSR != allegiance;
+    if (unit_count != 5)
+    for (const auto& unit : city->occupants[2]){ //ussr units
+        if (unit_count == 5)
+            break;
+        if (skipped < city->skip_troop[allegiance]){
+            skipped++;
+            continue;
+        }
+        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals);
+        offset += off; unit_count++;
+    }
+
+    //always show neutral units (only forts)
+    if (unit_count != 5)
+    for (const auto& unit : city->occupants[3]){ //neutral units
+        if (unit_count == 5)
+            break;
+        if (skipped < city->skip_troop[allegiance]){
+            skipped++;
+            continue;
+        }
+        drawUnit(player, unit, target.x+offset, target.y, zoom);
+        offset += off; unit_count++;
+        if (unit_count == 5)
+            break;
+    }
+    Uint32 res = SDL_GetTicks();
+    if (res - city->last_skip[allegiance] >= 2500 && city->num_occupants > 5){
+        city->skip_troop[allegiance] = (city->skip_troop[allegiance]+5 >= (((city->num_occupants / 5) + 1)) * 5)? 0 : city->skip_troop[allegiance]+5;
+        city->last_skip[allegiance] = res;
+    }
+}
+
+void Runner::drawFullCityUnits(const Player& player, City* city){
+    const CityType& allegiance = player.getAllegiance();
+    const auto& zoom_scale = player.app->screen.zoom_factor;
+    const auto& zoom = (int)player.app->screen.zoom_factor;
+    const int off = ZOOM_DIMENSIONS[zoom-1][1];
+
+    SDL_Rect target = {(int)(city->x*zoom_scale*player.app->screen.WIDTH/1512)+8, (int)(city->y*zoom_scale*player.app->screen.HEIGHT/982)+33-off, 20, 20};
+    int offset =-(((city->num_occupants <= 5)? city->num_occupants : 5)/2*20);
+    const int og_offset = offset;
+    int unit_count = 0;
+
+    bool hide_rivals = !city->isConflict() && WEST != allegiance; //if there is no conflict then rival units are placed 'face up' and not viewable by rivals
+    for (const auto& unit : city->occupants[0]){ //west units
+        if (unit_count % 5 == 0){
+            target.y += off;
+            offset = og_offset;
+        }
+        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals);
+        offset += off;  unit_count++;
+    }
+
+    hide_rivals = !city->isConflict() && AXIS != allegiance;
+    for (const auto& unit : city->occupants[1]){ //axis units
+        if (unit_count % 5 == 0){
+            target.y += off;
+            offset = og_offset;
+        }
+        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals);
+        offset += off; unit_count++;
+    }
+
+    hide_rivals = !city->isConflict() && USSR != allegiance;
+    for (const auto& unit : city->occupants[2]){ //ussr units
+        if (unit_count % 5 == 0){
+            target.y += off;
+            offset = og_offset;
+        }
+        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals);
+        offset += off; unit_count++;
+    }
+
+    //always show neutral units (only forts)
+    for (const auto& unit : city->occupants[3]){ //neutral units
+        if (unit_count % 5 == 0){
+            target.y += off;
+            offset = og_offset;
+        }
+        drawUnit(player, unit, target.x+offset, target.y, zoom);
+        offset += off; unit_count++;
+    }
+}
+
+void Runner::drawCity(const Player& player, City* city, const bool resources){
+    const auto& x_scale = player.app->screen.getScaleX();
+    const auto& y_scale = player.app->screen.getScaleY();
+    SDL_Rect target = {(int)(city->x*x_scale), (int)(city->y*y_scale), city->HEIGHT, city->WIDTH};
+    auto& sprite_sheet = player.sprite_sheet;
     //- Draw the Population type (capital, subcapital, ...)
-    sprite_sheet.drawSprite(&target, 8, getCitySprite(city));
+    sprite_sheet->drawSprite(&target, 8, getCitySprite(city));
     int scale = 1;
     //- Draw the resources
     if (resources){
-        target = {city->res_x, city->res_y,23*scale , 23*scale};
+        target = {(int)(city->res_x*x_scale), (int)(city->res_y*y_scale),23*scale , 23*scale};
         if (city->resource > 0){ //can blockade even with no resources
-            sprite_sheet.drawSprite(&target, 0, (city->blockcade)? 25 : 25 + (city->resource)/((city->resource_type == TRANS_ATLANTIC)? 2 : 1), 23, 23);
+            sprite_sheet->drawSprite(&target, 0, (city->blockcade)? 25 : 25 + (city->resource)/((city->resource_type == TRANS_ATLANTIC)? 2 : 1), 23, 23);
             if (city->resource_type == TRANS_ATLANTIC){
                 target.x +=24;
-                sprite_sheet.drawSprite(&target, 0, (city->med_blockcade)? 29 : 29 + (city->resource/2), 23, 23);
+                sprite_sheet->drawSprite(&target, 0, (city->med_blockcade)? 29 : 29 + (city->resource/2), 23, 23);
             }
         }
     }
+    //-Draw Units
+    drawCityUnits(player, city);
 }
 
 void Runner::drawCity(int x, int y, PopulationType population_type){
@@ -174,20 +420,20 @@ void Runner::drawCity(int x, int y, PopulationType population_type){
     sprite_map.drawSprite(&target, 8, 13+5-(int)population_type);
 }
 
-void Runner::drawInfluence(const CityType nationality){
+void Runner::drawInfluence(const Player& player){
     //- Draw influence at the capitals
     SDL_Rect target;
 
     float scale = 1;
     for (const auto& country : map.getCountries()){
-        target = {map.getCity(country.second->capital)->x+(int)(32*scale), map.getCity(country.second->capital)->y, (int)(32*scale), (int)(32*scale)};
+        target = {(int)(map.getCity(country.second->capital)->x*player.app->screen.zoom_factor*player.app->screen.WIDTH/1512+ 32*scale), (int)(map.getCity(country.second->capital)->y*player.app->screen.zoom_factor*player.app->screen.HEIGHT/982), (int)(32*scale), (int)(32*scale)};
 
         if (country.second->influence_level == SATELLITES){ //draw one big token
-            powers_sprite_map[nationality].drawSprite(&target, 13, country.second->allegiance*2);
+            player.sprite_sheet->drawSprite(&target, 13, country.second->allegiance*2);
         }
         else{ //draw how many influnece token it has
             for (size_t i = 0; i < country.second->influence; i++){
-                powers_sprite_map[nationality].drawSprite(&target, 13, country.second->allegiance*2+1, 32, 32, (int)(16*scale));
+                player.sprite_sheet->drawSprite(&target, 13, country.second->allegiance*2+1, 32, 32, (int)(16*scale));
             }
         }
     }
@@ -240,10 +486,10 @@ int Runner::getCitySprite(City* city){
     return -1;
 }
 
-void Runner::drawConnections(const CityType allegiance){
-    auto& map = getMap();
-    auto& adjacency = getMap().getAdjacency();
-    auto& renderer = powers_app[allegiance].renderer;
+void Runner::drawConnections(const Player& player){
+    const auto& map = getMap();
+    const auto& adjacency = getMap().getAdjacency();
+    auto& renderer = player.app->renderer;
     for (size_t city=0; city < adjacency.size(); city++){
         for (size_t border=0; border < adjacency.size(); border++){
             if (adjacency[city][border] == 0) //no connection
@@ -262,233 +508,18 @@ void Runner::drawConnections(const CityType allegiance){
     }
 }
 
-//& Drawing units
-void Runner::drawUnit(const CityType nationality, Unit* unit, int x, int y, float scale){
+void Runner::drawUnit(const Player& player, const Unit* unit, const int x, const int y, const int zoom, const bool secret){
     //- Get the sprite depending on thenationality and current CV
 
-    SDL_Rect target {x, y, (int)(32 * scale), (int)(32 * scale)};
-
-    powers_units_sprite[nationality].drawSprite(&target, (int)unit->unit_type+7*unit->upgrading, 5*unit->nationality+unit->combat_value+unit->upgrading, 64, 64);
-}
-
-//TODO optomize
-void Runner::drawPlayerStats(Player& player){
-    /*//- Get the sprite depending on the power
-
-    float scale = 3;
-
-    int x;
-
-    switch (player.getAllegiance()){
-        case WEST:
-            x = 0;
-            break;
-
-        case AXIS:
-            x = app.screen.WIDTH/2-(int)(96*scale)/2;
-            break;
-        case USSR:
-            x = app.screen.WIDTH-(int)(96*scale);
-            break;
-        
-        default:
-            x = -1;
-            break;
+    SDL_Rect target {x, y, ZOOM_DIMENSIONS[zoom-1][0], ZOOM_DIMENSIONS[zoom-1][0]};
+    if (zoom <= 2){
+        if (secret)
+            player.units_sprite_z1->drawSprite(&target, 0, 35+unit->nationality, 20, 20);
+        else
+            player.units_sprite_z1->drawSprite(&target, (int)unit->unit_type+7*unit->upgrading, 5*unit->nationality+unit->combat_value+unit->upgrading, 20, 20);
     }
-
-    //- Draw the Board
-    SDL_Rect target = {x, 0, (int)(96*scale), (int)(64*scale)};
-
-    sprite_map.drawSprite(app.renderer, &target, 5, player.getAllegiance(), 96, 64);
-
-    //- Draw the stats onto the spots
-    //(16,20) for pop, (40,20) for res (64,20) for ind (82,20) for ind_cost
-    drawNumber(app.renderer, player.getPopulation(), x+(int)(scale*16)+7*scale/2, (int)(scale*20), 3); //pop
-
-    drawNumber(app.renderer,player.getResource(), x+(int)(scale*40)+7*scale/2, (int)(scale*20), 3); //res
-
-    drawNumber(app.renderer, player.getIndustry(), x+(int)(scale*64)+7*scale/2, (int)(scale*20), 3); //ind
-
-    drawNumber(app.renderer, player.getIndustryCost(), x+(int)(scale*82)+7*scale/2, (int)(scale*20), 1.5); //ind_cost
-
-
-    switch (player.getAllegiance()){
-        case WEST:{
-            //check USSR DoW
-            target = {(int)(x+14*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
-            switch (player.getUssrDow()){
-            case VICTIM:
-                //dont draw anything
-                break;
-
-            case DECLARED:
-                //draw flipped size
-                sprite_map.drawSprite(app.renderer, &target, 0, 3, 19, 19);
-                break;
-            
-            case PEACE:
-                //draw normal peace size
-                sprite_map.drawSprite(app.renderer, &target, 0, 2, 19, 19);
-                break;
-            
-            default:
-                break;
-            }
-            
-            //check Axis DoW
-            target = {(int)(x+38*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
-            switch (player.getAxisDow()){
-            case VICTIM:
-                //dont draw anything
-                break;
-
-            case DECLARED:
-                //draw flipped size
-                sprite_map.drawSprite(app.renderer, &target, 0, 5, 19, 19);
-                break;
-            
-            case PEACE:
-                //draw normal peace size
-                sprite_map.drawSprite(app.renderer, &target, 0, 4, 19, 19);
-                break;
-            
-            default:
-                break;
-            }
-
-            //check USA invlovement
-            target = {(int)(x+62*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
-            switch (player.getAxisDow()){
-            case VICTIM:
-                //dont draw anything
-                break;
-
-            case DECLARED:
-                //draw flipped at war size
-                sprite_map.drawSprite(app.renderer, &target, 0, 7, 19, 19);
-                break;
-            
-            case PEACE:
-                //draw normal neutral size
-                sprite_map.drawSprite(app.renderer, &target, 0, 6, 19, 19);
-                break;
-            
-            default:
-                break;
-            }
-        }
-        break;
-        case AXIS:
-            //check USSR DoW
-            target = {(int)(x+26*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
-            switch (player.getUssrDow()){
-            case VICTIM:
-                //dont draw anything
-                break;
-
-            case DECLARED:
-                //draw flipped size
-                sprite_map.drawSprite(app.renderer, &target, 0, 3, 19, 19);
-                break;
-            
-            case PEACE:
-                //draw normal peace size
-                sprite_map.drawSprite(app.renderer, &target, 0, 2, 19, 19);
-                break;
-            
-            default:
-                break;
-            }
-            
-            //check West DoW
-            target = {(int)(x+50*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
-            switch (player.getWestDow()){
-            case VICTIM:
-                //dont draw anything
-                break;
-
-            case DECLARED:
-                //draw flipped size
-                sprite_map.drawSprite(app.renderer, &target, 0, 1, 19, 19);
-                break;
-            
-            case PEACE:
-                //draw normal peace size
-                sprite_map.drawSprite(app.renderer, &target, 0, 0, 19, 19);
-
-                break;
-            
-            default:
-                break;
-            }
-            break;
-        case USSR:
-            //check AXis DoW
-            target = {(int)(x+26*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
-            switch (player.getAxisDow()){
-            case VICTIM:
-                //dont draw anything
-                break;
-
-            case DECLARED:
-                //draw flipped size
-                sprite_map.drawSprite(app.renderer, &target, 5, 2, 19, 19);
-                break;
-            
-            case PEACE:
-                //draw normal peace size
-                sprite_map.drawSprite(app.renderer, &target, 0, 4, 19, 19);
-                break;
-            
-            default:
-                break;
-            }
-            
-            //check West DoW
-            target = {(int)(x+50*scale), (int)(41*scale), (int)(19*scale), (int)(19*scale)};
-            switch (player.getWestDow()){
-            case VICTIM:
-                //dont draw anything
-                break;
-
-            case DECLARED:
-                //draw flipped size
-                sprite_map.drawSprite(app.renderer, &target, 0, 1, 19, 19);
-
-                break;
-            
-            case PEACE:
-                //draw normal peace size
-                sprite_map.drawSprite(app.renderer, &target, 0, 0, 19, 19);
-                break;
-            
-            default:
-                break;
-            }
-            break;
-        
-        default:
-            break;
-        }
-
-    //- Draw chits
-
-    target = {(int)(x+79*scale), (int)(6*scale), (int)(8*scale), (int)(8*scale)};
-
-    for (size_t i = 0; i < player.getPeaceDividendSize(); i++){
-        auto& chit = player.getPeaceDividend(i);
-
-        if (chit.y == 0){
-            chit.y = target.y + rand() % (4 - -4 + 1) + -4;
-        }
-        if (chit.x == 0){
-            chit.x = target.x + rand() % (4 - -4 + 1) + -4;
-        }
-        target.y = chit.y;
-        target.x = chit.x;
-        sprite_map.drawSprite(app.renderer, &target, 9, 0);
-        
-    }*/
+    if (zoom == 3)
+        player.units_sprite_z3->drawSprite(&target, (int)unit->unit_type+7*unit->upgrading, 5*unit->nationality+unit->combat_value+unit->upgrading, 64, 64);
 }
 
 void Runner::drawNumber(SDL_Renderer* renderer, int num, const int x, const int y, const float scale, const uint8_t r, const uint8_t g, const uint8_t b) const{
@@ -577,6 +608,8 @@ void Runner::drawNumber(SDL_Renderer* renderer, int num, const int x, const int 
 
 
 }
+
+//&&& Animations
 
 void Runner::reshuffleAnimation(const size_t& action_size, const size_t& invest_size){
     bool running = true;
@@ -676,80 +709,6 @@ void Runner::reshuffleAnimation(const size_t& action_size, const size_t& invest_
     }
 }
 
-void Runner::drawPlayerBoard(const Player& player, SDL_Renderer* renderer, const int bought_action, const int bought_invest){
-    //- Draw the map and the cities
-    drawMap(player.getAllegiance(), true, true, true, false, false);
-
-    auto& sprite_sheet = powers_sprite_map[player.getAllegiance()];
-    
-    //- Draw the current state of the 
-    SDL_Rect target = {3, 875, 102, 102};
-    if (player.show_action){ //draw all the action cards
-        if (player.getActionSize() > 0){
-            //- Draw the opening icon
-            sprite_sheet.drawSprite(&target, 6, 1, 102, 102);
-
-            //- calcualte how many cards need to be shown and draw background (max amount will be 12)
-            target = {3, 875-(int)(32*player.getActionSize()), 102, (int)(32*player.getActionSize())};
-            sprite_sheet.drawSprite(&target, 6, 2, 102, 102);
-            target = {3, 875-(int)(32*player.getActionSize()), 102, 102};
-            sprite_sheet.drawSprite(&target, 6, 2, 102, 102);
-
-            //- Draw the cards
-            drawActionCards(&player, 6, 875-(int)(32*player.getActionSize())+3, 15);
-        }
-        else{
-            target.y = 875-102/2;
-            sprite_sheet.drawSprite(&target, 6, 2, 102, 102);
-
-            target.y = 875;
-            sprite_sheet.drawSprite(&target, 6, 1, 102, 102);
-        }
-    }
-    else{ //draw just the icon
-        sprite_sheet.drawSprite(&target, 6, 0, 102, 102);
-    }
-
-    target = {1407, 875, 102, 102};
-    if (player.show_invest){ //draw all the invest cards
-        if (player.getInvestSize() > 0){
-            //- Draw the opening icon
-            sprite_sheet.drawSprite(&target, 6, 4, 102, 102);
-
-            //- calcualte how many cards need to be shown and draw background (max amount will be 12)
-            target = {1407, 875-(int)(32*player.getInvestSize()), 102, (int)(32*player.getInvestSize())};
-            sprite_sheet.drawSprite(&target, 6, 5, 102, 102);
-            target = {1407, 875-(int)(32*player.getInvestSize()), 102, 102};
-            sprite_sheet.drawSprite(&target, 6, 5, 102, 102);
-
-            //- Draw the cards
-            drawInvestCards(&player, 1410, 875-(int)(32*player.getInvestSize())+3, 15);
-        }
-        else{
-            target.y = 875-102/2;
-            sprite_sheet.drawSprite(&target, 6, 5, 102, 102);
-
-            target.y = 875;
-            sprite_sheet.drawSprite(&target, 6, 4, 102, 102);
-        }
-    }
-    else{
-        sprite_sheet.drawSprite(&target, 6, 3, 102, 102);
-    }
-
-    //- Draw the displayed cities
-    drawCityTroops(player);
-
-    //- Draw the production left
-    drawNumber(powers_app[player.getAllegiance()].renderer, player.getCurrentProduction()-player.production_actions.size(), 50, 0, 5, 255, 255, 255);
-
-    //- Draw the cursor
-    target = {(int)player.cursor_x, (int)player.cursor_y, 32, 32};
-    sprite_sheet.drawSprite(&target, 0, 11+player.getAllegiance(), 32, 32);
-
-    SDL_RenderPresent(powers_app[player.getAllegiance()].renderer);
-}
-
 void Runner::drawActionCards(const Player* player, int start_x, int start_y, int count, int scale){
     int scaled_size = 32*scale;
     SDL_Rect target = {start_x,start_y,scaled_size,scaled_size};
@@ -765,7 +724,7 @@ void Runner::drawActionCards(const Player* player, int start_x, int start_y, int
         sprite_sheet.drawSprite( &target, 16, 0, 32, 32, scaled_size);
 
         //- draw season
-        sprite_sheet.drawSprite( &target, 16, card->season, 32, 32);
+        sprite_sheet.drawSprite( &target, 16, card->season-1, 32, 32);
 
         //- draw letter
         sprite_sheet.drawSprite( &target, 16, 4+card->letter-'A', 32, 32);
@@ -805,7 +764,7 @@ void Runner::drawInvestCards(const Player* player, int start_x, int start_y, int
 
 void Runner::drawMemoResolution(const vector<std::array<size_t, 6>>& memo, vector<City*> unblocked){    
     for (const auto& city : unblocked){
-        drawMap(WEST, true, true, false, false, false);
+        drawMap(players[WEST], true, true, false, false, false);
         size_t city_indx = city->ID;
         City* city_obj = map.getCity(city_indx);
         //printf("To link %s to the capital go: ", city->name.c_str());
@@ -829,6 +788,32 @@ void Runner::drawMemoResolution(const vector<std::array<size_t, 6>>& memo, vecto
     
 }
 
+//TODO fix goofy ahhh lines
+
+void Runner::drawMemoResolution(const Player& player, const vector<std::array<size_t, 4>>& memo){
+    //- Draw Map
+    drawMap(player, true, true, false, false, false);
+    SDL_SetRenderDrawColor(player.app->renderer, 225, 194, 20, 255);
+    
+    const int scale_x = player.app->screen.getScaleX();
+    const int scale_y = player.app->screen.getScaleY();
+    
+
+    //-Go through and draw all connections in the memo since all of them can go through the og city and then to the supplier (draw all previouses)
+    for (size_t city_indx = 0; city_indx < map.getNumCity(); city_indx++){
+        if (memo[city_indx][0] && memo[city_indx][1]!= 0){ //vistited and if there is a prev from here (discount starting one from error)
+            const int oldx=map.getCity(city_indx)->x*scale_x, oldy=map.getCity(city_indx)->y*scale_y;
+            
+            const int newx=map.getCity(memo[city_indx][1])->x*scale_x, newy=map.getCity(memo[city_indx][1])->y*scale_y;
+
+            SDL_RenderDrawLine(player.app->renderer, oldx, oldy, newx, newy);
+            //SDL_RenderDrawLine(player.app->renderer, oldx-1 + 16, oldy+1+ 16,   newx-1+ 16,newy+1+ 16);
+            //SDL_RenderDrawLine(player.app->renderer, oldx + 16, oldy+1+ 16,     newx+ 16, newy+1+ 16);
+        }
+    }
+    SDL_RenderPresent(player.app->renderer);
+    SDL_Delay(1600);
+}
 void Runner::drawTurnRoll(const int& result){
     int scale = 5;
     int scaled_size = scale*32;
@@ -917,7 +902,6 @@ void Runner::drawTurnRoll(const int& result){
     ClearScreen(app.renderer);
 
 }
-
 void Runner::drawPeaceDividends(const bool west, const bool axis, const bool ussr){
     int scale = 6;
     int scaled_size = scale*32/2;
@@ -999,122 +983,4 @@ void Runner::drawPeaceDividends(const bool west, const bool axis, const bool uss
         }
     }
 
-}
-
-void Runner::drawMap(const CityType nationality, const bool cities, const bool influence, const bool resources, const bool connections, const bool clear, const int& fps){
-    ClearScreen(powers_app[nationality].renderer);
-
-    SDL_Rect tar = {0,0,1512,982};
-    powers_map_sprite[nationality].drawSprite(&tar, 0, 0, 1512/players[nationality].mapY, 982/players[nationality].mapY);
-
-    if (connections)
-        drawConnections(nationality);
-
-    if (cities){
-        auto& cities = map.getCities();
-        for (auto city : cities)
-            drawCity(nationality, city.second, resources);
-    }
-
-    if (influence){
-        drawInfluence(nationality);
-    }
-
-    if (true){
-
-    }
-
-    if (clear)
-        SDL_RenderPresent(powers_app[nationality].renderer);
-
-    if (fps != -1){
-        drawNumber(powers_app[nationality].renderer, (1000 / fps), 100, 100, 10, 0,0,0);
-
-    }
-}
-
-void Runner::drawCityTroops(const Player& player){
-    const CityType& allegiance = player.getAllegiance();
-    SDL_Rect target = {108, 909, 32, 70};
-    SDL_Rect target2 = {0, 0, 64, 64};
-    SDL_SetRenderDrawColor(powers_app[allegiance].renderer, 255, 251, 0, 255);
-
-    //Most units in a shown row can be 20 (inlcuding map square)
-    int city_count = -1;
-    for (const auto& city : player.displayed_cities){
-        city_count++;
-        target.x = 108;
-        target.w = 32;
-        target.h = 70;
-        int offset = 64;
-        //- draw container left
-        powers_sprite_map[allegiance].drawSprite(&target, 11, 0, 32, 70);
-
-        //- draw container middle
-        target.x += 3;
-        target.w = (city->num_occupants+1)*64;
-        powers_sprite_map[allegiance].drawSprite(&target, 11, 1, 32, 70);
-
-        //-draw container right
-        target.x += target.w-29;
-        target.w = 32;
-        powers_sprite_map[allegiance].drawSprite(&target, 11, 2, 32, 70);
-
-        //- draw the map
-        int drawY = target.y+3;
-        target = {111, target.y+3, 64, 64};
-        powers_map_sprite[allegiance].drawSprite(&target, 0, 0, 64, 64, 0, city->x-16, city->y-16);
-
-        //- if selected draw rect
-        if (player.city_viewing == city_count){
-            SDL_RenderDrawRect(powers_app[allegiance].renderer, &target);
-        }
-
-        target = {111+16,  target.y+3+16, 32, 32};
-        powers_sprite_map[allegiance].drawSprite(&target, 8, getCitySprite(city));
-
-        if (city->num_occupants == 0){ //if no occupants skip units part
-            target.y = drawY - 73;
-            continue;
-        }
-        Unit* highlight_unit = (player.city_viewing == city_count && player.unit_viewing!=-1)? city->occupants[player.allegiance_viewing][player.unit_viewing] : nullptr;
-        //- Draw all units in there
-        for (const auto& unit : city->occupants[0]){ //west units
-            drawUnit(allegiance, unit, 111+offset, drawY, 2);
-            if (highlight_unit == unit){
-                target2.x = 111+offset;
-                target2.y = drawY;
-                SDL_RenderDrawRect(powers_app[allegiance].renderer, &target2);
-            }
-            offset += 64;
-        }
-        for (const auto& unit : city->occupants[1]){ //axis units
-            drawUnit(allegiance, unit, 111+offset, drawY, 2);
-            if (highlight_unit == unit){
-                target2.x = 111+offset;
-                target2.y = drawY;
-                SDL_RenderDrawRect(powers_app[allegiance].renderer, &target2);
-            }
-            offset += 64;
-        }
-        for (const auto& unit : city->occupants[2]){ //ussr units
-            drawUnit(allegiance, unit, 111+offset, drawY, 2);
-            if (highlight_unit == unit){
-                target2.x = 111+offset;
-                target2.y = drawY;
-                SDL_RenderDrawRect(powers_app[allegiance].renderer, &target2);
-            }
-            offset += 64;
-        }
-        for (const auto& unit : city->occupants[3]){ //neutral units
-            drawUnit(allegiance, unit, 111+offset, drawY, 2);
-            if (highlight_unit == unit){
-                target2.x = 111+offset;
-                target2.y = drawY;
-                SDL_RenderDrawRect(powers_app[allegiance].renderer, &target2);
-            }
-            offset += 64;
-        }
-        target.y = drawY - 73;
-    }
 }

@@ -1,0 +1,9 @@
+<map id="Runner::drawFullCityUnits" name="Runner::drawFullCityUnits">
+<area shape="rect" id="Node000001" title="If the city has full displayed enable, every unit at the city will be displayed in rows of 5 (no rota..." alt="" coords="5,55,181,80"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a18f5343138ec0a0f147b01f11944fd13" title="Draws the unit onto the player&#39;s screen." alt="" coords="239,5,363,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,51,228,33,229,38,151,57"/>
+<area shape="rect" id="Node000003" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="229,55,373,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,65,213,65,213,70,181,70"/>
+<area shape="rect" id="Node000004" href="$struct_city.html#ad92576a7777d79bff78d720b0ef46dc5" title="If there currently a battle going on (more than one allegiance of troops)" alt="" coords="247,104,355,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="151,78,232,98,231,103,150,84"/>
+</map>

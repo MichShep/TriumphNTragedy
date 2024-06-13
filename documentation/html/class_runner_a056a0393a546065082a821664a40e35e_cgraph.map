@@ -1,0 +1,9 @@
+<map id="Runner::drawConnections" name="Runner::drawConnections">
+<area shape="rect" id="Node000001" title="Draws all the connections between the cities and colors them based on the type of border." alt="" coords="5,55,178,80"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="226,5,359,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,51,221,33,223,38,148,57"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a01a979e1788d8f3df965a298b7ec2c78" title="Works as the [] overload for out of scope." alt="" coords="244,55,341,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,65,229,65,229,70,178,70"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#adda4105efb5d6f7d92602d9bd5074edf" title="Get the map of the game." alt="" coords="235,104,350,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="148,78,223,97,221,102,146,84"/>
+</map>

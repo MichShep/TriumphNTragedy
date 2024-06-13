@@ -1,5 +1,7 @@
 #include "Runner.h"
 
+//&&& Initalizing the Game
+
 bool Runner::initMap(string map_name){
     fstream map_file(map_name, std::ios_base::in);
 
@@ -24,7 +26,6 @@ bool Runner::initMap(string map_name){
     }
 
     map_file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
     //- Read and store map
     for (size_t curr_city = 0; curr_city < num_cities; curr_city++){
         int temp;
@@ -190,11 +191,6 @@ bool Runner::initMap(string map_name){
         c->res_y = y;
 
         map.addCity(c);
-        
-        c->color[0] = COLOR_TABLE[city_type][0];
-        c->color[1] = COLOR_TABLE[city_type][1];
-        c->color[2] = COLOR_TABLE[city_type][2];
-
     }
 
     //- Read and make connections
@@ -486,6 +482,8 @@ bool Runner::mapPlayer(Player& player){
     return check;
 }
 
+//! Logic Checks
+
 bool Runner::canDisengage(Unit* unit, const string start, const string end){
     //- Check if you the two are connected (0 means they aren't)
     auto city = map.getCity(end);
@@ -523,7 +521,7 @@ bool Runner::checkTradeRoutes(Player& player, const string& main_capital){
     //? (14.1) The Sea Segment can only cross Coastal Straits, Sea and Ocean borders
     //? (14.1) The Land Segment can only cross Land and Straits borders.
     // Like Dijkstras and will have the main capital find a path to all the cities it controls and runs through it until all those blockcaded is visited
-     bool new_sea, new_land;
+    bool new_sea, new_land;
     while (num_blockaded && !index_to_go.empty()){ //- While there are still blockaded cities to check
         city_index = index_to_go.front();
         index_to_go.pop();
@@ -655,6 +653,170 @@ bool Runner::checkTradeRoutes(Player& player, const string& main_capital){
 
     return num_blockaded == check; //if the starting equals the end
 }
+
+ProductionError Runner::canBuild(const Player& player,  City* city, const UnitCountry nationality, const UnitType unit){
+    cout << city->name << " ";
+    //? 7.231 Building Fortresses Fortress Cadres/steps can be built anywhere in undisputed Friendly Territory, even where Unsupplied
+    if (unit == FORTRESS){
+        if (city->ruler_type != player.getAllegiance() && nationality != city->nationality){ 
+            return ENEMY_FORTRESS;
+        }
+    }
+    else{
+        //? 2.3 Home Territory Land Areas within the national boundaries of a Great or Major Power (colorcoded) are termed its Home Territory. Except for Fortresses (3.241) all new units (Cadres) must be built within Home Territory.
+        if (city->power_type > MAJOR || city->city_type != player.getAllegiance() || city->ruler_type != player.getAllegiance() || nationality != city->nationality){ 
+            return OUTSIDE_HOME;
+        }
+    }
+    //? 7.231 Building Fortresses ... Only one Fortress is allowed per Land Area
+    if (unit == FORTRESS){
+        for (const auto& city_units : city->occupants[player.getAllegiance()]){
+            if (city_units->unit_type == FORTRESS)
+                return PRE_FORTRESS;
+        }
+    }
+
+    //? 7.23 Building Unit Steps Units cannot be built if they are Unsupplied (14.1), but see 7.231
+    if (city->year_supplied == year && city->season_supplied == season && !city->supllied){ //if it was already checked this season for supply lines then use result
+        return UNSUPPLIED;
+    }
+
+    if ((city->year_supplied != year || city->season_supplied != season) && !isSupllied(player, city, player.getAllegiance())){ //if it hasn't been checked this season then need to run check
+        return UNSUPPLIED;
+    }
+
+    //? Can't use more blocks then you have
+    if (player.unit_counts[unit]+1 > UNIT_COUNTS[nationality][unit]){
+        return UNIT_MAXED;
+    }
+
+    return ABLE;
+
+}
+
+ProductionError Runner::canUpgrade(const Player& player, City* city, const UnitCountry nationality, const Unit* unit){
+    //? 7.23 Building Unit Steps Units cannot be built if they are at Sea
+    if (city->city_type == WATER){
+        return AT_SEA;
+    }
+
+    //? 7.23 Building Unit Steps Units cannot be built if Engaged in battle
+    if (city->isConflict()){
+        return ENGAGED;
+    }
+
+    //? 7.23 Building Unit Steps Units cannot be built if they are Unsupplied (14.1), but see 7.231
+    if (city->year_supplied == year && city->season_supplied == season && !city->supllied){ //if it was already checked this season for supply lines then use result
+        return UNSUPPLIED;
+    }
+
+    if ((city->year_supplied != year || city->season_supplied != season) && !isSupllied(player, city, unit->allegiance)){ //if it hasn't been checked this season then need to run check
+        return UNSUPPLIED;
+    }
+
+    if (unit->combat_value+1 > unit->max_combat_value){
+        return MAX_CV;
+    }
+
+    return ABLE;
+}
+
+bool Runner::isSupllied(const Player& player, City* city, const CityType allegiance){
+    //? 14.11 Supply Lines Supply Lines can only pass through Friendly Territory (including Disputed Areas that are Friendly-controlled) and Open Seas.
+    //? They cannot pass through Enemy-controlled areas or Rival/Neutral Territory (except Straits, 1.3).
+    const auto& adjacency = map.getAdjacency();
+    const size_t num_city = adjacency.size();
+
+    constexpr size_t VISITED = 0, PREVIOUS = 1, DISTANCE = 2, STRAIT = 3, infi = INFI;
+
+    const size_t num_cities = map.getNumCity();
+    vector<std::array<size_t, 4>> memo(num_cities + 1, {false, infi, infi, false});
+
+    size_t city_index = city->getID();
+    memo[city_index] = {0, 0, 0, false};
+
+    queue<size_t> index_to_go;
+    index_to_go.push(city_index);
+
+    City* supplier=nullptr; //will get set to true if an adjacent city is found
+
+    //Basically, since the supply lines can go to a Capital OR Subcapital, it has more freedom as a trade route, but it can only go through friendly (ruler_type==allegiance) or
+    // water areas. Finding the route will be easy since run it until it hits either, but also it can have that all cities on the route to that subcapital or captial can be set as supplied
+    // since they can take the same route but starting later on
+    while (!index_to_go.empty()){
+        city_index = index_to_go.front();
+        index_to_go.pop();
+
+        const CityType city_ruler_type = map.getCity(city_index)->ruler_type;
+
+        //- See if has been visited since time it was added to the queue
+        if (memo[city_index][VISITED])
+            continue;
+
+        //- Can only pass through straits if the ruler isn't an enemy
+        if (memo[city_index][STRAIT] && !player.isEnemy(city_ruler_type)){
+        }
+
+        //- Check that for non straits it can only go through friendly areas (not neutral or enemy) or water
+        else if (map.getCity(city_index)->ruler_type != allegiance && city_ruler_type != WATER)
+            continue;
+
+        //- If the city is friendly controlled (if is then is a strait) then visit
+        memo[city_index][VISITED] = true;
+
+        //- Go thourgh each adjacent node
+        for (size_t connect_indx = 1; connect_indx <= num_city; connect_indx++){  
+            //- Check what border connects them
+            auto& border = adjacency[city_index][connect_indx];
+
+            if (border == NA || memo[connect_indx][VISITED]){
+                continue;
+            }
+            
+            //- If the border is a strait then set that this city is connected by a strait
+            memo[connect_indx][STRAIT] = border == WATER_STRAIT;
+
+            //- Check if there it is an enemy controlled city (in cases of straits it can only go through rivals, not enemies)
+            if (memo[connect_indx][STRAIT]){ //if a strait then it can't iff its an ENEMY (not rival)
+                if (player.isEnemy(map.getCity(connect_indx)->ruler_type)){ //if an enemy with the strait ruler
+                    continue;
+                }
+            }
+            else{
+                if (map.getCity(connect_indx)->ruler_type != player.getAllegiance() && map.getCity(connect_indx)->ruler_type != WATER){ //if its a regular spot then it can't pass through rival OR enemy
+                    continue;
+                }
+            }
+
+            //- If a subcapital or capital is found it means that the city is suppliable
+            if (map.getCity(connect_indx)->population_type >= SUB_CAPITAL){
+                supplier = map.getCity(connect_indx);
+            }
+
+            //- If this is reahed it means its a valid continuation of the trade route!
+            memo[connect_indx][DISTANCE] = memo[city_index][DISTANCE]+1;
+            memo[connect_indx][PREVIOUS] = city_index;
+            index_to_go.push(connect_indx);
+        }
+    }
+
+    bool supplied = supplier != nullptr;
+    for (size_t connect_indx = 1; connect_indx < num_city; connect_indx++){  
+
+        if (memo[connect_indx][VISITED]){
+            const auto& lucky_one = map.getCity(connect_indx);
+            lucky_one->year_supplied = year;
+            lucky_one->season_supplied = season;
+            lucky_one->supllied = supplied;
+        }
+    }
+
+    drawMemoResolution(player, memo);
+
+    return supplied;
+}
+
+//& Dev tools
 
 void Runner::printMemo(size_t memo[][5]) const{
     printf("\tDist\tMove\tPrev\tS\tV\n");

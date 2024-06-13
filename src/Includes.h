@@ -49,7 +49,7 @@ using std::find;
 
 #define INFI SIZE_MAX;
 
-const int JOYSTICK_DEADZONE = 11000;
+const int JOYSTICK_DEADZONE = 16000;
 
 
 enum CityType {WEST, AXIS, USSR, NEUTRAL, NEUTRAL_AT_WAR, WATER};
@@ -68,7 +68,7 @@ enum UnitType {FORTRESS, AIR, CARRIER, SUB, FLEET, TANK, INFANTRY, CONVOY};
 
 enum UnitCountry {BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRAL_U};
 
-enum Season {SUMMER, FALL, SPRING, WINTER};
+enum Season {NEW_YEAR, SUMMER, FALL, SPRING, WINTER};
 
 enum DowState {PEACE, DECLARED, VICTIM};
 
@@ -81,6 +81,21 @@ enum InfluenceType {UNALIGNED, ASSOCIATES, PROTECTORATES, SATELLITES};
 enum BoardState {HOME_BOARD, PRODUCTION_BOARD, GOVERNMENT_BOARD};
 
 enum ProductionAction {BUY_AC, BUY_IC, UNIT_UP, CADRE};
+
+enum ProductionError{
+    //Building units
+    ABLE= 0,
+
+    OUTSIDE_HOME = 1,
+    PRE_FORTRESS,
+    UNIT_MAXED,
+    ENEMY_FORTRESS,
+
+    AT_SEA = 10,
+    ENGAGED,
+    UNSUPPLIED,
+    MAX_CV
+};
 
 enum Tech   {LSTs, MOTORIZED_INFANTRY, NAVAL_RADAR, ROCKET_ARTILLERY, HEAVY_TANKS, HEAVY_BOMBERS, PERCISION_BOMBERS, JETs, SONAR, AIRDEFENCE_RADAR, 
             COUP, CODE_BREAKER, AGENT, MOLE, SABOTAGE, SPY_RING, DOUBLE_AGENT,
@@ -101,7 +116,7 @@ const int FIREPOWER_TABLE[8][4] = { // Damage against {A N G S}
     {0, 0, 0, 0}  //Convoy
 };
 
-const int MAX_CV_TABLE[8][7] = { //BRITIAN, FRANCE, USA, GERMANY, ITALY, USSR, neautral
+const int MAX_CV_TABLE[8][7] = { //BRITIAN, FRANCE, USA, GERMANY, ITALY, USSR, NEUTRAL
     {4, 3, 4, 4, 3, 3, 3}, //Fort
     {4, 3, 4, 4, 3, 3, 0}, //Air
     {4, 3, 4, 4, 3, 3, 0}, //Carrir
@@ -112,13 +127,15 @@ const int MAX_CV_TABLE[8][7] = { //BRITIAN, FRANCE, USA, GERMANY, ITALY, USSR, n
     {0, 0, 0, 0, 0, 3, 0}  //Convoy
 };
 
-const Uint8 COLOR_TABLE[6][3] = {
-    {16, 28, 238}, //WEST - blue
-    {142, 143, 158}, //AXIS - grey
-    {210, 13, 13}, //USSR - red
-    {251, 160, 6}, //NEUTRAL - orange
-    {233, 99, 6}, //NEUTRAL_AT_WAR - blood-oragen
-    {131, 236, 232}  //WATER - light blue
+const int UNIT_COUNTS[7][7] = {
+    //BRITIAN, FRANCE, USA, GERMANY, ITALY, USSR, NEUTRAL
+    {6, 3, 2, 8,  2, 6,  8}, //Fort
+    {4, 3, 4, 8,  3, 6,  0}, //Air
+    {2, 1, 1, 2,  1, 2,  0}, //Carrir
+    {3, 1, 1, 8,  2, 2,  0}, //Sub
+    {6, 4, 4, 6,  4, 4,  0}, //Fleet
+    {3, 2, 4, 8,  2, 8,  0}, //Tank
+    {6, 6, 4, 16, 6, 16, 0} //Infantry
 };
 
 const int BORDER_COLOR[14][3]{ // NA, OCEAN, DEEP_OCEAN, STRAIT, COAST, COAST_MOUNTAIN, COAST_FOREST, COAST_RIVER, COAST_PLAINS, MOUNTAIN, FOREST, RIVER, PLAINS
@@ -138,16 +155,6 @@ const int BORDER_COLOR[14][3]{ // NA, OCEAN, DEEP_OCEAN, STRAIT, COAST, COAST_MO
     {196, 237, 49}    //LAND_STRAIT
 };
 
-const int UNIT_COLOR[7][3]{ //BRITIAN, FRANCE, USA, GERMANY, ITALY, USSR, neautral
-    {11, 56, 208}, //britian 
-    {36, 226, 208}, //france
-    {42, 171, 85}, //usa
-    {178, 191, 196}, //germany
-    {210, 200, 128}, //italy
-    {213, 19, 19}, //ussr_u
-    {255, 191, 58} //neutral_u
-};
-
 const bool SEVEN_SEGMENT_DISPLAY[10][7] = { 
     { 1,1,1,1,1,1,0 }, // display '0'
     { 0,1,1,0,0,0,0 }, // display '1'
@@ -159,6 +166,12 @@ const bool SEVEN_SEGMENT_DISPLAY[10][7] = {
     { 1,1,1,0,0,0,0 }, // display '7'
     { 1,1,1,1,1,1,1 }, // display '8'
     { 1,1,1,0,0,1,1 }  // display '9'
+};
+
+const int ZOOM_DIMENSIONS[3][2] = {
+    {20, 20}, //Zoom 1 (broadest)
+    {40, 40}, //Zoom 2 
+    {64, 64}  //Zoom 3 (Closest)
 };
 
 const int UNIT_SPRITE_OFFSET[7]{ //"BRITISH", "FRANCE", "USA", "GERMAN", "ITALY", "USSR", "NEUTRAL"
@@ -175,11 +188,28 @@ namespace Colors{
 //Graphics
 namespace Graphics{
     struct Screen{
-        const int WIDTH = 1512;
-        const int HEIGHT = 982;
+        int WIDTH = 1512;
+        int HEIGHT = 946;
 
-        const int center_x = WIDTH /2;
-        const int center_y = HEIGHT /2;
+        double zoom_factor = 1.0;
+
+        int zoom_x = 0;
+        int zoom_y = 0;
+
+        inline int getCenterX() const {
+            return (WIDTH/zoom_factor + zoom_x) /2;
+        }
+        inline int getCenterY() const {
+            return (HEIGHT/zoom_factor + zoom_y) /2;
+        }
+
+        inline double getScaleX() const{
+            return zoom_factor*WIDTH/1512.0;
+        }
+
+        inline double getScaleY() const{
+            return zoom_factor*HEIGHT/982.0;
+        }
     };
 
    

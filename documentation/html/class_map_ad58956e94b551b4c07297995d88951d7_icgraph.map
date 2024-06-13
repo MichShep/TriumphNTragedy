@@ -1,0 +1,10 @@
+<map id="Map::addCountry" name="Map::addCountry">
+<area shape="rect" id="Node000001" title="Adds a country pointer to the map." alt="" coords="507,5,629,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#aefd29fbf6627aaf0c89c46b2fe55ea22" title="Creates the game map including nations and cities and connections." alt="" coords="346,5,459,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="492,21,460,21,460,16,492,16"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="5,5,119,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="330,21,119,21,119,16,330,16"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a1a3632ffdf69bc9a94506d47ec401d2f" title="Dev tool to Set the resource x and y coords for each city that has a resource." alt="" coords="167,31,298,56"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="331,32,299,36,298,31,330,26"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="151,34,119,29,120,24,151,29"/>
+</map>

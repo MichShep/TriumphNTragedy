@@ -149,7 +149,8 @@ bool Runner::run(){
     return EXIT_SUCCESS;
 }
 
-//& New Year
+//&^ New Year
+
 CityType Runner::newYear(){
     //- Advance Year
     year++;
@@ -191,6 +192,7 @@ CityType Runner::newYear(){
 
 //- Production Phase
 void Runner::production(){
+    season = NEW_YEAR;
     // Used to calculate fps
     unsigned int a = SDL_GetTicks();
     unsigned int b = SDL_GetTicks();
@@ -263,6 +265,7 @@ void Runner::government(){
 
 //- Spring Season
 void Runner::spring(){
+    season = SPRING;
     //- Command Phase
 
     //- Player Turns
@@ -277,6 +280,7 @@ void Runner::spring(){
 
 //- Summer Season
 void Runner::summer(){
+    season = SUMMER;
     //- Command Phase
 
     //- Player Turns
@@ -297,6 +301,7 @@ void Runner::blockade(){
 
 //- Fall Season
 void Runner::fall(){
+    season = FALL;
     //- Command Phase
 
     //- Player Turns
@@ -310,6 +315,7 @@ void Runner::fall(){
 
 //- Winter Season
 void Runner::winter(){
+    season = WINTER;
     //- USSR plays one card
 
     //- USSR Turn
@@ -321,6 +327,7 @@ void Runner::winter(){
         //- Supply
 }
 
+//&^^ New Year Helpers
 
 void Runner::reshuffle(const bool animation){
     if (year == 1936)

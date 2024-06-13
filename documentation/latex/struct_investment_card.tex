@@ -7,31 +7,107 @@ Collaboration diagram for Investment\+Card\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=173pt]{struct_investment_card__coll__graph}
+\includegraphics[width=176pt]{struct_investment_card__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{struct_investment_card_a95e19142f6e775b9cf9dbc58746af2a1}\label{struct_investment_card_a95e19142f6e775b9cf9dbc58746af2a1} 
-{\bfseries Investment\+Card} (const string name, const Tech tech, const int amount, const size\+\_\+t year)
-\end{DoxyCompactItemize}
+\mbox{\hyperlink{struct_investment_card_a9ed5ef1292ed0c827c345ed295539007}{Investment\+Card}} (const Invest\+Type \mbox{\hyperlink{struct_investment_card_af8fd989dc535c131130726a849ecdb71}{type}}, const string tech1\+\_\+name, const string tech2\+\_\+name, const int \mbox{\hyperlink{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}{amount}}, const size\+\_\+t \mbox{\hyperlink{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}{year}}, const size\+\_\+t \mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\+\_\+offset\+\_\+left}}, const size\+\_\+t \mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\+\_\+offset\+\_\+right}})
+\begin{DoxyCompactList}\small\item\em Construct a new Investment Card object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{struct_investment_card_a29cad2bdff5d4ccc825bf7963b717525}\label{struct_investment_card_a29cad2bdff5d4ccc825bf7963b717525} 
-string {\bfseries name}
+Invest\+Type \mbox{\hyperlink{struct_investment_card_af8fd989dc535c131130726a849ecdb71}{type}}
 \item 
-\Hypertarget{struct_investment_card_a01114e3ba44773d7b5d167f45274129d}\label{struct_investment_card_a01114e3ba44773d7b5d167f45274129d} 
-Tech {\bfseries tech}
+\mbox{\hyperlink{struct_technology}{Technology}} \mbox{\hyperlink{struct_investment_card_aebd4bc849c69c8af6f7c36aa79543106}{tech1}}
 \item 
-\Hypertarget{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}\label{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909} 
-size\+\_\+t {\bfseries amount}
+\mbox{\hyperlink{struct_technology}{Technology}} \mbox{\hyperlink{struct_investment_card_a44a0a94b46c68f7d7d1b565ffc97d0db}{tech2}}
 \item 
-\Hypertarget{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}\label{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8} 
-size\+\_\+t {\bfseries year}
+size\+\_\+t \mbox{\hyperlink{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}{amount}}
+\item 
+size\+\_\+t \mbox{\hyperlink{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}{year}}
+\item 
+size\+\_\+t \mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\+\_\+offset\+\_\+left}}
+\item 
+size\+\_\+t \mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\+\_\+offset\+\_\+right}}
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_investment_card_a9ed5ef1292ed0c827c345ed295539007}\label{struct_investment_card_a9ed5ef1292ed0c827c345ed295539007} 
+\index{InvestmentCard@{InvestmentCard}!InvestmentCard@{InvestmentCard}}
+\index{InvestmentCard@{InvestmentCard}!InvestmentCard@{InvestmentCard}}
+\doxysubsubsection{\texorpdfstring{InvestmentCard()}{InvestmentCard()}}
+{\footnotesize\ttfamily Investment\+Card\+::\+Investment\+Card (\begin{DoxyParamCaption}\item[{const Invest\+Type}]{type,  }\item[{const string}]{tech1\+\_\+name,  }\item[{const string}]{tech2\+\_\+name,  }\item[{const int}]{amount,  }\item[{const size\+\_\+t}]{year,  }\item[{const size\+\_\+t}]{sprite\+\_\+offset\+\_\+left,  }\item[{const size\+\_\+t}]{sprite\+\_\+offset\+\_\+right }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new Investment Card object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & \\
+\hline
+{\em tech1\+\_\+name} & \\
+\hline
+{\em tech2\+\_\+name} & \\
+\hline
+{\em amount} & \\
+\hline
+{\em year} & \\
+\hline
+{\em sprite\+\_\+offset\+\_\+left} & \\
+\hline
+{\em sprite\+\_\+offset\+\_\+right} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}\label{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909} 
+\index{InvestmentCard@{InvestmentCard}!amount@{amount}}
+\index{amount@{amount}!InvestmentCard@{InvestmentCard}}
+\doxysubsubsection{\texorpdfstring{amount}{amount}}
+{\footnotesize\ttfamily size\+\_\+t Investment\+Card\+::amount}
+
+The value the card contributes to raising the industry \Hypertarget{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}\label{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3} 
+\index{InvestmentCard@{InvestmentCard}!sprite\_offset\_left@{sprite\_offset\_left}}
+\index{sprite\_offset\_left@{sprite\_offset\_left}!InvestmentCard@{InvestmentCard}}
+\doxysubsubsection{\texorpdfstring{sprite\_offset\_left}{sprite\_offset\_left}}
+{\footnotesize\ttfamily size\+\_\+t Investment\+Card\+::sprite\+\_\+offset\+\_\+left}
+
+The sprite index of the left tech \Hypertarget{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}\label{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40} 
+\index{InvestmentCard@{InvestmentCard}!sprite\_offset\_right@{sprite\_offset\_right}}
+\index{sprite\_offset\_right@{sprite\_offset\_right}!InvestmentCard@{InvestmentCard}}
+\doxysubsubsection{\texorpdfstring{sprite\_offset\_right}{sprite\_offset\_right}}
+{\footnotesize\ttfamily size\+\_\+t Investment\+Card\+::sprite\+\_\+offset\+\_\+right}
+
+The sprite index of the right tech \Hypertarget{struct_investment_card_aebd4bc849c69c8af6f7c36aa79543106}\label{struct_investment_card_aebd4bc849c69c8af6f7c36aa79543106} 
+\index{InvestmentCard@{InvestmentCard}!tech1@{tech1}}
+\index{tech1@{tech1}!InvestmentCard@{InvestmentCard}}
+\doxysubsubsection{\texorpdfstring{tech1}{tech1}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_technology}{Technology}} Investment\+Card\+::tech1}
+
+\texorpdfstring{$<$}{<} The name of the left side of the tech (or the year it\textquotesingle{}s usable) \Hypertarget{struct_investment_card_a44a0a94b46c68f7d7d1b565ffc97d0db}\label{struct_investment_card_a44a0a94b46c68f7d7d1b565ffc97d0db} 
+\index{InvestmentCard@{InvestmentCard}!tech2@{tech2}}
+\index{tech2@{tech2}!InvestmentCard@{InvestmentCard}}
+\doxysubsubsection{\texorpdfstring{tech2}{tech2}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_technology}{Technology}} Investment\+Card\+::tech2}
+
+The name of the right side of the tech (blank for INTELLIGENCE cards) \Hypertarget{struct_investment_card_af8fd989dc535c131130726a849ecdb71}\label{struct_investment_card_af8fd989dc535c131130726a849ecdb71} 
+\index{InvestmentCard@{InvestmentCard}!type@{type}}
+\index{type@{type}!InvestmentCard@{InvestmentCard}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily Invest\+Type Investment\+Card\+::type}
+
+The type of invest Card (the basic two sided TECHNOLOGY card, or a wild effect INTELLIGENCE, or a wild YEAR card) \Hypertarget{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}\label{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8} 
+\index{InvestmentCard@{InvestmentCard}!year@{year}}
+\index{year@{year}!InvestmentCard@{InvestmentCard}}
+\doxysubsubsection{\texorpdfstring{year}{year}}
+{\footnotesize\ttfamily size\+\_\+t Investment\+Card\+::year}
+
+The year of the YEAR card it applies too 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

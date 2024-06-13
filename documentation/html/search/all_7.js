@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['landcombat_0',['landCombat',['../class_runner.html#addda43dfc74c96188a27f35844925760',1,'Runner']]],
-  ['landing_1',['landing',['../class_unit.html#a82a0f0846b9d87ac2a3918065f85ffbe',1,'Unit']]]
+  ['handcheck_0',['handCheck',['../class_runner.html#a22b0ff9811693c494fdadd997970819b',1,'Runner']]],
+  ['handlebuttondown_1',['handleButtonDown',['../class_runner.html#adcd6dddf89143047d2ecf91911cc83bf',1,'Runner']]],
+  ['handlejoystickmovement_2',['handleJoyStickMovement',['../class_runner.html#ad6258b83739b4b6a526b80894c3fe5b7',1,'Runner']]],
+  ['handletriggermovement_3',['handleTriggerMovement',['../class_runner.html#a4fdc26d720545c6fc684be2f09e491d2',1,'Runner']]],
+  ['handleuserinput_4',['handleUserInput',['../class_runner.html#ad79b06566acb1f70735dea8fa14aeaef',1,'Runner']]],
+  ['height_5',['HEIGHT',['../struct_city.html#a902450ac6f7b561ef6bd5f8efdbea162',1,'City']]]
 ];

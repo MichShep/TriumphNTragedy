@@ -40,6 +40,8 @@ private:
 
     size_t end_year; /**< Year the game will end (usually 1945)*/
 
+    Season season=NEW_YEAR; /**< The current season being playes */
+
     Dice die; /**< Dice used to roll decisions, default a D6*/
 
     vector<ActionCard*> action_deck; /**< Draw deck of the action cards*/
@@ -72,7 +74,7 @@ public:
      * 
      * @param default_mode true if should go off of default or read in through the map
      */
-    Runner(bool default_mode = 1){
+    Runner(bool default_mode = true){
         if (InitApplication() == false){
             ShutdownApplication();
             exit(1);
@@ -130,21 +132,46 @@ public:
         sprite_map = Spritesheet(path.c_str(), app.renderer);
 
         string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png";
-        string path3 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/UnitSprites.png";
+        string path3 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/UnitSpritesZ1.png";
+        string path4 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/UnitSpritesZ3.png";
         map_sprite = Spritesheet(path2.c_str(), app.renderer);
 
         powers_sprite_map[0] = Spritesheet(path.c_str(), powers_app[0].renderer);
+        players[WEST].sprite_sheet = &powers_sprite_map[0];
         powers_sprite_map[1] = Spritesheet(path.c_str(), powers_app[1].renderer);
+        players[AXIS].sprite_sheet = &powers_sprite_map[1];
         powers_sprite_map[2] = Spritesheet(path.c_str(), powers_app[2].renderer);
+        players[USSR].sprite_sheet = &powers_sprite_map[2];
 
         powers_map_sprite[0] = Spritesheet(path2.c_str(), powers_app[0].renderer);
+        players[WEST].map_sprite = &powers_map_sprite[0];
         powers_map_sprite[1] = Spritesheet(path2.c_str(), powers_app[1].renderer);
+        players[AXIS].map_sprite = &powers_map_sprite[1];
         powers_map_sprite[2] = Spritesheet(path2.c_str(), powers_app[2].renderer);
+        players[USSR].map_sprite = &powers_map_sprite[2];
 
+        powers_units_sprite_z1[0] = Spritesheet(path3.c_str(), powers_app[0].renderer);
+        players[WEST].units_sprite_z1 = &powers_units_sprite_z1[0];
 
-        powers_units_sprite[0] = Spritesheet(path3.c_str(), powers_app[0].renderer);
-        powers_units_sprite[1] = Spritesheet(path3.c_str(), powers_app[1].renderer);
-        powers_units_sprite[2] = Spritesheet(path3.c_str(), powers_app[2].renderer);
+        powers_units_sprite_z1[1] = Spritesheet(path3.c_str(), powers_app[1].renderer);
+        players[AXIS].units_sprite_z1 = &powers_units_sprite_z1[1];
+
+        powers_units_sprite_z1[2] = Spritesheet(path3.c_str(), powers_app[2].renderer);
+        players[USSR].units_sprite_z1 = &powers_units_sprite_z1[2];
+
+        powers_units_sprite_z3[0] = Spritesheet(path4.c_str(), powers_app[0].renderer);
+        players[WEST].units_sprite_z3 = &powers_units_sprite_z3[0];
+
+        powers_units_sprite_z3[1] = Spritesheet(path4.c_str(), powers_app[1].renderer);
+        players[AXIS].units_sprite_z3 = &powers_units_sprite_z3[1];
+
+        powers_units_sprite_z3[2] = Spritesheet(path4.c_str(), powers_app[2].renderer);
+        players[USSR].units_sprite_z3 = &powers_units_sprite_z3[2];
+
+        players[WEST].app = &powers_app[0];
+        players[AXIS].app = &powers_app[1];
+        players[USSR].app = &powers_app[2];
+
 
         test();
 
@@ -164,60 +191,77 @@ public:
         players[1].cursor_x = map.getCapital("Germany")->x;
         players[1].cursor_y = map.getCapital("Germany")->y;
         players[1].closest_map_city = map.getCapital("Germany");
+
+        players[0].calculateProduction();
+        players[1].calculateProduction();
+        players[2].calculateProduction();
     }
 
     size_t test(){
+    
         map["London"]->occupants[0].push_back(new Unit(1, BRITIAN_U, FLEET));
-        map["London"]->num_occupants = 1;
+        map["London"]->occupants[0].push_back(new Unit(2, BRITIAN_U, FORTRESS));
+        map["London"]->num_occupants = 2;
+        
+        map["Washington"]->occupants[0].push_back(new Unit(1, USA_U, FLEET));
+        map["Washington"]->occupants[0].push_back(new Unit(2, USA_U, FORTRESS));
+        map["Washington"]->occupants[0].push_back(new Unit(1, USA_U, SUB));
+        map["Washington"]->occupants[0].push_back(new Unit(2, USA_U, CARRIER));
+        map["Washington"]->occupants[0].push_back(new Unit(1, USA_U, AIR));
+        map["Washington"]->occupants[0].push_back(new Unit(2, USA_U, TANK));
+        map["Washington"]->occupants[0].push_back(new Unit(1, USA_U, INFANTRY));
+        map["Washington"]->num_occupants = 7;
 
-        map["Paris"]->occupants[0].push_back(new Unit(1, BRITIAN_U, INFANTRY));
-        map["Paris"]->occupants[0].push_back(new Unit(2, USA_U, TANK));
-        map["Paris"]->occupants[0].push_back(new Unit(3, FRANCE_U, AIR));
-        map["Paris"]->occupants[1].push_back(new Unit(1, GERMANY_U, FLEET));
-        map["Paris"]->occupants[1].push_back(new Unit(2, ITALY_U, CARRIER));
-        map["Paris"]->occupants[0].push_back(new Unit(1, USA_U, SUB));
-        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
-        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
-        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
-        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
-        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
-        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
-        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
-        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
-        map["Paris"]->occupants[2].push_back(new Unit(1, USSR_U, TANK));
-        map["Paris"]->occupants[0].push_back(new Unit(1, BRITIAN_U, TANK));
-        map["Paris"]->occupants[0].push_back(new Unit(1, BRITIAN_U, TANK));
-        map["Paris"]->occupants[0].push_back(new Unit(1, BRITIAN_U, TANK));
-        map["Paris"]->occupants[3].push_back(new Unit(4, NEUTRAL_U, FORTRESS));
-        map["Paris"]->occupants[0].back()->combat_value = 4;
-        map["Paris"]->num_occupants = 19;
-
-        map["Ruhr"]->occupants[3].push_back(new Unit(1, NEUTRAL_U, TANK));
-        map["Ruhr"]->occupants[3].push_back(new Unit(1, NEUTRAL_U, TANK));
-        map["Ruhr"]->occupants[3].push_back(new Unit(1, NEUTRAL_U, TANK));
-        map["Ruhr"]->occupants[1].push_back(new Unit(1, GERMANY_U, AIR));
-        map["Ruhr"]->occupants[1].push_back(new Unit(1, GERMANY_U, AIR));
-        map["Ruhr"]->occupants[1].push_back(new Unit(1, GERMANY_U, INFANTRY));
+        map["Ruhr"]->occupants[3].push_back(new Unit(3, USSR_U, TANK));
+        map["Ruhr"]->occupants[3].push_back(new Unit(4, USSR_U, TANK));
+        map["Ruhr"]->occupants[3].push_back(new Unit(5, USSR_U, TANK));
+        map["Ruhr"]->occupants[1].push_back(new Unit(6, GERMANY_U, AIR));
+        map["Ruhr"]->occupants[1].push_back(new Unit(7, GERMANY_U, AIR));
+        map["Ruhr"]->occupants[1].push_back(new Unit(8, GERMANY_U, INFANTRY));
         map["Ruhr"]->num_occupants = 6;
 
-        map["Paris"]->country_counts[0] = 3;
-        map["Paris"]->country_counts[1] = 5;
-        map["Paris"]->country_counts[2] = 8;
-        map["Paris"]->country_counts[3] = 1;
-        map["Paris"]->country_counts[4] = 3;
-        map["Paris"]->country_counts[5] = 2;
-        map["Paris"]->country_counts[6] = 1;
+        map["Moscow"]->occupants[2].push_back(new Unit(3, USSR_U, TANK));
+        map["Moscow"]->occupants[2].push_back(new Unit(4, USSR_U, INFANTRY));
+        map["Moscow"]->occupants[2].push_back(new Unit(5, USSR_U, AIR));
+        map["Moscow"]->occupants[2].push_back(new Unit(6, USSR_U, AIR));
+        map["Moscow"]->occupants[2].push_back(new Unit(7, USSR_U, INFANTRY));
+        map["Moscow"]->occupants[2].push_back(new Unit(8, USSR_U, TANK));
+        map["Moscow"]->num_occupants = 6;
+
+        map["Warsaw"]->occupants[3].push_back(new Unit(1, NEUTRAL_U, FORTRESS));
+        map["Warsaw"]->occupants[3][0]->combat_value = 3;
+        map["Warsaw"]->num_occupants = 1;
 
         map["Budapest"]->occupants[0].push_back(new Unit(1, BRITIAN_U, INFANTRY));
+        map["Budapest"]->occupants[1].push_back(new Unit(1, GERMANY_U, AIR));
+        map["Budapest"]->num_occupants = 2;
+
+        map["Berlin"]->occupants[1].push_back(new Unit(1, GERMANY_U, INFANTRY));
+        map["Berlin"]->occupants[1][0]->combat_value = 3;
+        map["Berlin"]->occupants[1].push_back(new Unit(1, GERMANY_U, AIR));
+        map["Berlin"]->occupants[1][1]->combat_value = 2;
+        map["Berlin"]->num_occupants = 2;
+
+        map["Croatia"]->occupants[0].push_back(new Unit(1, BRITIAN_U, INFANTRY));
+        map["Croatia"]->occupants[2].push_back(new Unit(1, USSR_U, AIR));
+        map["Croatia"]->num_occupants = 2;
+
+        map["Budapest"]->ruler_type = WEST;
+        map.getCountry("Hungary")->influence_level = SATELLITES;
+        map.getCountry("Hungary")->allegiance = WEST;
+        map["Budapest"]->influencer = WEST;
         map["Budapest"]->country_counts[0] = 2;
+        players[0].add(map.getCity("Budapest"));
 
-        map["Marseille"]->blockcade = true;
 
+        map.getCountry("Turkey")->influence_level = SATELLITES;
+        map.getCountry("Turkey")->allegiance = WEST;
         map["Ankara"]->ruler_type = WEST;
         map["Ankara"]->blockcade = true;
         players[0].add(map.getCity("Ankara"));
 
         map["Iraq"]->blockcade = true;
+        map["Marseille"]->blockcade = true;
 
         map["Gibraltar"]->ruler_type = AXIS;
 
@@ -388,8 +432,40 @@ public:
      */
     bool checkTradeRoutes(Player& player, const string& main_capital);
 
+    /**
+     * @brief A decider for if the city provided is supplied and can have steps built. All the cities on the route are marked as supplied to decrease redundancy
+     * 
+     * @param player The player who would build the unit
+     * @param city The city where the unit wants to be built
+     * @param allegiance The allegiance of the current city
+     * @return true The city is suplliable
+     * @return false The city is not suplliable
+     */
+    bool isSupllied(const Player& player, City* city, const CityType allegiance);
+
     //&&&Unit Actions
 
+    /**
+     * @brief Decider for if a new unit of the given type is able to be built in the city provided
+     * 
+     * @param player Player whose troop will be added
+     * @param city The city where the unit wants to be added
+     * @param nationality The nationality (or color) of the unit that wants to be added (used to track limits)
+     * @param unit The type of unit that wants to be added (used to track limits)
+     * @return ProductionError The error given as to why it can't be built (0 if no error)
+     */
+    ProductionError canBuild(const Player& player,  City* city, const UnitCountry nationality, const UnitType unit);
+
+    /**
+     * @brief Decider for if an exisiting unit can be upgraded
+     * 
+     * @param player The player who wants to upgrade the unit
+     * @param city The city where the unit is
+     * @param nationality The nationality of the unit
+     * @param unit The unit who would be upgraded
+     * @return ProductionError The error given as to why it can't be upgrade (0 if no error)
+     */
+    ProductionError canUpgrade(const Player& player, City* city, const UnitCountry nationality, const Unit* unit);
 
     //& Movement 
     /**
@@ -542,22 +618,24 @@ private:  //!!! Graphics things
 
     Spritesheet powers_sprite_map[3];  /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in for the player's seperate renderer*/
 
-    Spritesheet powers_map_sprite[3];
+    Spritesheet powers_map_sprite[3]; /**< An array of the spritesheets initaliazed to the powers renderer that has the map */
 
-    Spritesheet powers_units_sprite[3];
+    Spritesheet powers_units_sprite_z1[3]; /**< An array of the spritesheets initaliazed to the powers renderer that has the units at the first zoom level */
+
+    Spritesheet powers_units_sprite_z3[3]; /**< An array of the spritesheets initaliazed to the powers renderer that has the units at the third zoom level */
 
     //& Controller Things
-    SDL_GameController *west_controller=nullptr;
+    SDL_GameController *west_controller=nullptr; /**< The controller of the West player */
 
-    SDL_GameController *axis_controller=nullptr;
+    SDL_GameController *axis_controller=nullptr;  /**< The controller of the Axis player */
 
-    SDL_GameController *ussr_controller=nullptr;
+    SDL_GameController *ussr_controller=nullptr;  /**< The controller of the USSR player */
 
-    SDL_GameController* controllers[3]= {nullptr, nullptr, nullptr};
+    SDL_GameController* controllers[3]= {nullptr, nullptr, nullptr}; /**< Array of the controllers so that the controller.which can be used to index the controller obj*/
 
-    bool map_changed=true;
+    bool map_changed=true; /**< Boolean that is true when an update has happened on the main screen and the main screen needs to be re-rendered */
 
-    Uint32 last_tick;
+    Uint32 last_tick; /**< Used by animations to see how long has elapsed since the last render */
 
     //& Init Functions
     /**
@@ -569,10 +647,12 @@ private:  //!!! Graphics things
     bool InitSDL();
 
     /**
-     * @brief Clears the screen so the screen can 'update'
+     * @brief Initalizes the 'app', the struct that hlds the renderer and the window
      * 
+     * @return true Initalized succesfully
+     * @return false Failexcd to initalize
      */
-    void ClearScreen(SDL_Renderer* renderer);
+    bool InitApplication();
 
     /**
      * @brief Deletes the windows and frees memory specifically used by SDL
@@ -581,14 +661,12 @@ private:  //!!! Graphics things
     void ShutdownApplication();
 
     /**
-     * @brief Initalizes the 'app', the struct that hlds the renderer and the window
+     * @brief Clears the screen so the screen can 'update'
      * 
-     * @return true Initalized succesfully
-     * @return false Failexcd to initalize
      */
-    bool InitApplication();
+    void ClearScreen(SDL_Renderer* renderer);
 
-    //& Game Displaying
+    //& Map Displaying
     /**
      * @brief Draw's the map to the main rendered with different options to control what is shown
      * 
@@ -599,85 +677,7 @@ private:  //!!! Graphics things
      * @param render Will render the map onto the renderer if true (used for when nothing will be added ontop of the map)
      * @param fps If a fps is provided it will draw it onto the renderer
      */
-    void drawMap(const CityType nationality, const bool cities, const bool influence, const bool resources, const bool connections, const bool render=true, const int& fps=-1);
-
-    /**
-     * @brief Draws the city onto the renderer and the units that are in this city
-     * 
-     * @param city 
-     */
-    void drawCity(const CityType nationality, City* city, const bool resources=true);
-
-    /**
-     * @brief Draw a city marker (not tied to any specific city)
-     * 
-     * @param x The x-coord of the city
-     * @param y The y-coord of the city
-     * @param population_type The type of city to draw
-     */
-    void drawCity(int x, int y, PopulationType population_type);
-
-    void drawInfluence(const CityType nationality);
-
-    /**
-     * @brief Get the City Sprite object
-     * 
-     * @param city The city being drawn
-     * @return int The index of the sprite in the sprite map
-     */
-    int getCitySprite(City* city);
-
-    /**
-     * @brief Draws a unit of the units nationality located at the given coords
-     * 
-     * @param renderer The screen that the unit will be drawn too
-     * @param unit The target unit
-     * @param x The x coord of the unit (upper left corner is the origin)
-     * @param y The x coord of the unit (upper left corner is the origin)
-     * @param scale The scale to draw the unit (origin is still x,y); scale of 1 is 5x5
-     */
-    void drawUnit(const CityType nationality, Unit* unit, const int x, const int y, const float scale);
-    
-    /**
-     * @brief Draws all the connections between the cities and colors them based on the type of border 
-     * 
-     */
-    void drawConnections(const CityType allegiance);
-
-    /**
-     * @brief Draws the current year and end year; shows the American flag and the level from 1941 to 1944
-     * 
-     */
-    void DrawTimeTrack();
-
-    /**
-     * @brief Draws the players pop, res, ind, and DoW's onto the screen
-     * 
-     * @param player The player who is being drawn
-     */
-    void drawPlayerStats(Player& player);
-
-    /**
-     * @brief Takes any length number and draws it as a 7-segment at the x,y as the top left. Origional scale is 7*13 for one digit. Defaul color is black
-     * 
-     * @param num Number to render
-     * @param x X coord of number origin
-     * @param y Y coord of number origin
-     * @param scale Scales draw size of the number
-     * @param r The red value of the color (0, 255)
-     * @param g The green value of the color (0, 255)
-     * @param b The blue value of the color (0, 255) 
-     */
-    void drawNumber(SDL_Renderer* renderer, int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255) const;
-
-    //& Animations
-    /**
-     * @brief Animation of the cards from the discard pile being added back
-     * 
-     * @param action_size Number of action cards to add back
-     * @param invest_size Number of invest cards to add back
-     */
-    void reshuffleAnimation(const size_t& action_size, const size_t& invest_size);
+    void drawMap(const Player& player, const bool cities, const bool influence, const bool resources, const bool connections, const bool render=true, const int& fps=-1);
 
     /**
      * @brief Draws the private view of the player including cards and VP and production levels and acheived tech
@@ -688,28 +688,67 @@ private:  //!!! Graphics things
     void drawPlayerBoard(const Player& player, SDL_Renderer* renderer, const int bought_action=0, const int bought_invest=0);
 
     /**
-     * @brief Takes the memo of the Dijkstra's knock-off II for finding trade routes and highlighting the route it takes
+     * @brief Get the index of the sprite needed for the city
      * 
-     * @param memo The completed memo
-     * @param unblocked The list of cities who were unblockaded and there path will be shown
+     * @param city The city being drawn
+     * @return int The index of the sprite in the sprite map
      */
-    void drawMemoResolution(const vector<std::array<size_t, 6>>& memo, vector<City*> unblocked);
+    int getCitySprite(City* city);
 
     /**
-     * @brief Animation for rolling a D6 and form that the turn order that is decided
+     * @brief Draws a city onto the players renderer and if opted the resources as well
      * 
-     * @param result The result of the dice roll
+     * @param player The player whose screen will have the city drawn on
+     * @param city The city being drawn
+     * @param resources If the resources should be drawn or not
      */
-    void drawTurnRoll(const int& result);
+    void drawCity(const Player& player, City* city, const bool resources=true);
 
     /**
-     * @brief Animation of the cities who were peacful receiving a peace chit
+     * @brief Draw a city marker (not tied to any specific city)
      * 
-     * @param west Bool if the WEST player should be shown receiving a peace chit
-     * @param axis Bool if the AXIS player should be shown receiving a peace chit
-     * @param ussr Bool if the USSR player should be shown receiving a peace chit
+     * @param x The x-coord of the city
+     * @param y The y-coord of the city
+     * @param population_type The type of city to draw
      */
-    void drawPeaceDividends(const bool west, const bool axis, const bool ussr);
+    void drawCity(int x, int y, PopulationType population_type);
+
+    /**
+     * @brief Draws the unit onto the player's screen
+     * 
+     * @param player The player whose screen will have the unit drawn
+     * @param unit The unit that will be drawn
+     * @param x The x-coord of the unit to draw 
+     * @param y The y-coord of the unit to draw 
+     * @param zoom The zoom level of the player's map to determine units level of detail
+     * @param secret If true the unit sprite will be a question mark only showing the nationality (for when not in combat and not the player's allegiance)
+     * 
+     * @pre x and y have already been scaled 
+     */
+    void drawUnit(const Player& player, const Unit* unit, const int x, const int y, const int zoom, const bool secret=false);
+
+    /**
+     * @brief Draws 5 units under the city, rotating to the next 5 every 5 seconds
+     * 
+     * @param player The player whose screen will have the units drawn (also affects which units are visible)
+     * @param city The city whose occupants will be drawn
+     */
+    void drawCityUnits(const Player& player, City* city);
+
+    /**
+     * @brief If the city has full displayed enable, every unit at the city will be displayed in rows of 5 (no rotation)
+     * 
+     * @param player The player who opted for the city to be fully displayed
+     * @param city The city whose units will all be shown
+     */
+    void drawFullCityUnits(const Player& player, City* city);
+
+    /**
+     * @brief Draws the influence tokens onto the map
+     * 
+     * @param player The player whose screen will have the tokens rendered to
+     */
+    void drawInfluence(const Player& player);
 
     /**
      * @brief Draws the players action cards onto their screen starting at the given x and y and decends
@@ -733,6 +772,70 @@ private:  //!!! Graphics things
      */
     void drawInvestCards(const Player* player, int start_x, int start_y, int count, int scale=1);
 
+    
+    /**
+     * @brief Draws all the connections between the cities and colors them based on the type of border 
+     * 
+     * @param The player whose screen will have connections drawn on
+     * 
+     */
+    void drawConnections(const Player& player);
+
+    /**
+     * @brief Takes any length number and draws it as a 7-segment at the x,y as the top left. Origional scale is 7*13 for one digit. Default color is black
+     * 
+     * @param renderer The rendererer to draw the number onto
+     * @param num Number to render
+     * @param x X coord of number origin
+     * @param y Y coord of number origin
+     * @param scale Scales draw size of the number
+     * @param r The red value of the color (0, 255)
+     * @param g The green value of the color (0, 255)
+     * @param b The blue value of the color (0, 255) 
+     */
+    void drawNumber(SDL_Renderer* renderer, int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255) const;
+
+    //& Animations
+    /**
+     * @brief Animation of the cards from the discard pile being added back
+     * 
+     * @param action_size Number of action cards to add back
+     * @param invest_size Number of invest cards to add back
+     */
+    void reshuffleAnimation(const size_t& action_size, const size_t& invest_size);
+
+    /**
+     * @brief Takes the memo of the Dijkstra's knock-off II for finding trade routes and highlighting the route it takes
+     * 
+     * @param memo The completed memo
+     * @param unblocked The list of cities who were unblockaded and there path will be shown
+     */
+    void drawMemoResolution(const vector<std::array<size_t, 6>>& memo, vector<City*> unblocked);
+
+    /**
+     * @brief Draws the memo of the Dijkstra's knock-off III for supply routes
+     * 
+     * @param player The player whose screen it will be drawn too
+     * @param memo The completed memo of the algorithm
+     */
+    void drawMemoResolution(const Player& player, const vector<std::array<size_t, 4>>& memo);
+
+    /**
+     * @brief Animation for rolling a D6 and form that the turn order that is decided
+     * 
+     * @param result The result of the dice roll
+     */
+    void drawTurnRoll(const int& result);
+
+    /**
+     * @brief Animation of the cities who were peacful receiving a peace chit
+     * 
+     * @param west Bool if the WEST player should be shown receiving a peace chit
+     * @param axis Bool if the AXIS player should be shown receiving a peace chit
+     * @param ussr Bool if the USSR player should be shown receiving a peace chit
+     */
+    void drawPeaceDividends(const bool west, const bool axis, const bool ussr);
+
     /**
      * @brief Used for button presses where a given mouse clip position will see if its in the rectangle provided
      * 
@@ -749,15 +852,36 @@ private:  //!!! Graphics things
         return (target_x >= x && target_x <= x+width) && (target_y >= y && target_y <= y+height);
     }
 
-    void drawCityTroops(const Player& player);
-
     //& User Input
 
+    /**
+     * @brief Main handler for all possible user input
+     * 
+     * @param running Reference to the check if the game loop should continue running and can be changed if player inputs it so
+     */
     void handleUserInput(bool& running);
 
+    /**
+     * @brief Handels the cases where the player pressed down on a button
+     * 
+     * @param player The player who commenced the event
+     * @param event The button down event by the player
+     */
     void handleButtonDown(Player& player, const SDL_Event& event);
 
+    /**
+     * @brief Handels the players controller joystick movement the dictates cursor movement and is called only every frame to make game smoother
+     * 
+     * @param player The player whose controller is checked for movement
+     */
     void handleJoyStickMovement(Player& player);
+
+    /**
+     * @brief Handels the players controller trigger (L2, R2) movement that dictates zoom and is called only every frame to make game smoother
+     * 
+     * @param player The player whose controller is checked for movement
+     */
+    void handleTriggerMovement(Player& player);
     
     //& Dev Tools
     /**
@@ -845,6 +969,10 @@ private:  //!!! Graphics things
         }
     }
 
+    /**
+     * @brief Dev tool to Set the resource x and y coords for each city that has a resource
+     * 
+     */
     void setResXY(){
         initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map");
         string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/SpriteMap0.png";
@@ -899,10 +1027,23 @@ private:  //!!! Graphics things
         exit(0);
     }
 
+    /**
+     * @brief Checks if the joy stick movement is within the accepted range of movement (fights stick drift)
+     * 
+     * @param move The degree of the joystick movement 
+     * @return true The movement is acceptable 
+     * @return false The movement is unacceptable (in the dead zone) 
+     */
     bool pastDeadZone(const int& move) const{
         return !(move > -JOYSTICK_DEADZONE && move < JOYSTICK_DEADZONE);
     }
 
+    /**
+     * @brief Takes a joy axis movement and scales it to be from [0.0, 1.0] bases on a min movement of -32000 and max movement of 32000
+     * 
+     * @param x The joy axis movement
+     * @return double The scaled joy axis movement
+     */
     double scaleAxis(const double& x) const{
         return 2.0 * ((SDL_clamp(x, -32000, 32000) - -32000.f) / (32000 - - 32000.f)) - 1.0;
     

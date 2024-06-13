@@ -31,9 +31,9 @@ private:
 
     size_t factory_cost=0; /**< The cost to upgrade the industry*/
 
-    size_t max_production=0;
+    size_t max_production=0; /**< Max production level of the player for the current production phase*/
 
-    size_t current_production=0;
+    size_t current_production=0; /**< The current production left for the pleyer for the production phase */
 
     vector<Unit*> units; /**< Masterlist of all units the player controls*/
 
@@ -69,38 +69,47 @@ private:
 
     size_t cities_controlled; /**< Number of cities the player controls*/
 public:
-
     stack<ProductionAction> production_actions;
 
+    int unit_counts[7] = {0, 0, 0, 0, 0, 0, 0}; /**< An array of the count of how many units on the board this player has made*/
+
     //& Graphics things
+    App* app; /**< Container for the attributes of the player's window/screen and renderer*/
+
+    Spritesheet* sprite_sheet; /**< The general spritesheet for the player's renderer */
+
+    Spritesheet* map_sprite; /**< The spirte of the map for the player's renderer */
+
+    Spritesheet* units_sprite_z1; /**< The sprite sheet for units at zoom 1 (the broadest) */
+
+    Spritesheet* units_sprite_z3; /**< The sprite sheet for the units at zoom 3 (the closest) */
+
     int action_card_start=0; /**< Which action card to start displaying on the main home screen*/
     int invest_card_start=0; /**< Which invest card to start displaying on the main home screen*/
     int tech_card_start=0; /**< Which discovered tech card to start displaying on the main home screen*/
 
-    int mapX = 0; /**< The x-coord offset of the production map of the player to show*/
-    int mapY = 1; /**< The y-coord offset of the production map of the player to show*/
+    int zoom = 1; /**< The current zoom level (1,2,3) of the player's screen  */
 
-    size_t bought_action = 0;
-    size_t bought_invest = 0;
+    size_t bought_action = 0; /**< The current number of action cards the player intends to buy*/
+    size_t bought_invest = 0; /**< The current number of invest cards the player intends to buy */
 
-    bool board_change=true;
+    bool board_change=true; /**< Boolen to track wether the player's board/view has changed and needs to be redrawn*/
 
-    bool show_action = false;
-    bool show_invest = false;
+    bool show_action = false; /**< Boolean to track if the action hand should be expanded to show all cards*/
+    bool show_invest = false; /**< Boolean to track if the invest hand should be expanded to show all cards*/
     
-    double cursor_x = 1512/2;
-    double cursor_y = 982/2;
+    double cursor_x = 0;  /**< The current x coord of the player's cursor on the screen*/
+    double cursor_y = 0;  /**< The current y coord of the player's cursor on the screen*/
 
-    int city_viewing = -1;
+    int city_viewing = -1; /**< The ID of the city being view or in focus, meaning all action are set to this */
 
-    int unit_viewing = -1;
-    CityType allegiance_viewing = NEUTRAL;
+    int unit_viewing = -1; /**< The ID of the unit being view or in focus, meaning all action are set to this */
+    CityType allegiance_viewing = NEUTRAL;  /**< The allegiance of the unit being view or in focus*/
+    Unit* selected_unit = nullptr; /**< The unit thats under focus and all actions pertaining to*/
 
-    City* closest_map_city = nullptr;
+    City* closest_map_city = nullptr; /**< The city that is closest to the player's cursor (updated when cursor stops moving) */
 
-    vector<City*> displayed_cities;
-
-    Unit* selected_unit = nullptr;
+    vector<City*> displayed_cities; /**< Vector of all cities pinned by the player to show all information */
 
     /**
      * @brief Construct a blank default Player object
@@ -514,10 +523,21 @@ public:
         return current_production=max_production; //At war : not at war 
     }
 
+    /**
+     * @brief Gets the Current production of the player for this production phase
+     * 
+     * @return const size_t The current production (or how much they have left to spend)
+     */
     const size_t getCurrentProduction() const{
         return current_production;
     }
 
+    /**
+     * @brief Get the max production of the player for this production phase (is calculated in )
+     * @see calculateProduction
+     * 
+     * @return const size_t The max production of the player for this production phase
+     */
     const size_t getMaxProduction() const{
         return max_production;
     }

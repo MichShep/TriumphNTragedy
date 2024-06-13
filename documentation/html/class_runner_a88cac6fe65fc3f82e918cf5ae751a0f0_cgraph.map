@@ -1,0 +1,5 @@
+<map id="Runner::setXY" name="Runner::setXY">
+<area shape="rect" id="Node000001" title="Dev tool for setup when deciding the X and Y of the city, it&#39;ll print which city and then record the ..." alt="" coords="5,5,113,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a0293328b045476f6ab1ea47025d1b8dc" title="Clears the screen so the screen can &#39;update&#39;." alt="" coords="161,5,304,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,16,145,16,145,21,113,21"/>
+</map>

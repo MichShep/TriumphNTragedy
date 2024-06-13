@@ -1,0 +1,89 @@
+\doxysection{Country Struct Reference}
+\hypertarget{struct_country}{}\label{struct_country}\index{Country@{Country}}
+
+
+Collaboration diagram for Country\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{struct_country__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_country_afbade6c463c8ed732cd627d04c976c33}{Country}} (const size\+\_\+t id, const string name, const string capital, const Influence\+Type influence\+\_\+level=UNALIGNED, const int influence=0)
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{struct_country}{Country}. \end{DoxyCompactList}\item 
+\Hypertarget{struct_country_a322dd44a9991d099df590e5691c493e5}\label{struct_country_a322dd44a9991d099df590e5691c493e5} 
+void {\bfseries pushback} (\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city)
+\item 
+\Hypertarget{struct_country_a5aca5908eb8dc63883ea34b7cd652c1a}\label{struct_country_a5aca5908eb8dc63883ea34b7cd652c1a} 
+void {\bfseries add\+Card} (const City\+Type influencer)
+\item 
+\Hypertarget{struct_country_a48278a0a376bd25cb55d969e1a358692}\label{struct_country_a48278a0a376bd25cb55d969e1a358692} 
+void {\bfseries resolve\+Cards} ()
+\item 
+\Hypertarget{struct_country_a6a1ee4db727200c3c7c299634a5557a6}\label{struct_country_a6a1ee4db727200c3c7c299634a5557a6} 
+void {\bfseries resolve\+Diplomacy} ()
+\item 
+\Hypertarget{struct_country_af86e64cecec9c266dbf284329ab072f3}\label{struct_country_af86e64cecec9c266dbf284329ab072f3} 
+string {\bfseries get\+Name} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_country_ad7fba8f21310bc034785bb68f40c670e}\label{struct_country_ad7fba8f21310bc034785bb68f40c670e} 
+size\+\_\+t {\bfseries id}
+\item 
+\Hypertarget{struct_country_a4b51ef0ea54d74f9debaf596e4276f05}\label{struct_country_a4b51ef0ea54d74f9debaf596e4276f05} 
+string {\bfseries name} ="{}"{}
+\item 
+\Hypertarget{struct_country_a3f1e0c6e819c3683411c57677f4f712d}\label{struct_country_a3f1e0c6e819c3683411c57677f4f712d} 
+string {\bfseries capital} ="{}"{}
+\item 
+\Hypertarget{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}\label{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1} 
+City\+Type {\bfseries allegiance} =WATER
+\item 
+\Hypertarget{struct_country_a43888bdcc402526f590dc8671a761fa8}\label{struct_country_a43888bdcc402526f590dc8671a761fa8} 
+Influence\+Type {\bfseries influence\+\_\+level}
+\item 
+\Hypertarget{struct_country_ac2a4867b4fe307847ecac957016c92ec}\label{struct_country_ac2a4867b4fe307847ecac957016c92ec} 
+int {\bfseries influence}
+\item 
+\Hypertarget{struct_country_ad66f5ded040e3002ff9de573c714cbdf}\label{struct_country_ad66f5ded040e3002ff9de573c714cbdf} 
+int {\bfseries added\+\_\+influence} =0
+\item 
+\Hypertarget{struct_country_a03b399412a79a9bcfddd634c4061dc65}\label{struct_country_a03b399412a79a9bcfddd634c4061dc65} 
+City\+Type {\bfseries top\+\_\+card} =WATER
+\item 
+\Hypertarget{struct_country_acee45b9a81b107276eb4c6f2bd162d34}\label{struct_country_acee45b9a81b107276eb4c6f2bd162d34} 
+vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries cities}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_country_afbade6c463c8ed732cd627d04c976c33}\label{struct_country_afbade6c463c8ed732cd627d04c976c33} 
+\index{Country@{Country}!Country@{Country}}
+\index{Country@{Country}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{Country()}{Country()}}
+{\footnotesize\ttfamily Country\+::\+Country (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{id,  }\item[{const string}]{name,  }\item[{const string}]{capital,  }\item[{const Influence\+Type}]{influence\+\_\+level = {\ttfamily UNALIGNED},  }\item[{const int}]{influence = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new \doxylink{struct_country}{Country}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of the country \\
+\hline
+{\em influence\+\_\+level} & The satelite state of this country (UNALIGNED, ASSOCIATES, PROTECTORATES, SATELLITES) \\
+\hline
+{\em influence} & The current influnce level of the country \mbox{[}0...3\mbox{]} \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Map.\+h\end{DoxyCompactItemize}

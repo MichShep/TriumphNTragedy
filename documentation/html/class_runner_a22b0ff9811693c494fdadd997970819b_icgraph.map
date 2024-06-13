@@ -1,0 +1,7 @@
+<map id="Runner::handCheck" name="Runner::handCheck">
+<area shape="rect" id="Node000001" title="Checks the players hand to see if it is over the card limit, and to discard down to the hand limit." alt="" coords="312,5,449,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,5,264,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="297,21,265,21,265,16,297,16"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,5,95,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="127,21,95,21,95,16,127,16"/>
+</map>

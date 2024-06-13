@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['occupants_0',['occupants',['../struct_city.html#aba46e60eb67a357fa1754c4ebf20f1fc',1,'City']]]
+  ['height_0',['HEIGHT',['../struct_city.html#a902450ac6f7b561ef6bd5f8efdbea162',1,'City']]]
 ];

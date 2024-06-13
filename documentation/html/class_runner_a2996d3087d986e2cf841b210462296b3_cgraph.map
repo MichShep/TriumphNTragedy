@@ -1,0 +1,14 @@
+<map id="Runner::drawCityUnits" name="Runner::drawCityUnits">
+<area shape="rect" id="Node000001" title="Draws 5 units under the city, rotating to the next 5 every 5 seconds." alt="" coords="5,56,160,82"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a3c4e0b26262b401b673d3035e4821fe1" title="If the city has full displayed enable, every unit at the city will be displayed in rows of 5 (no rota..." alt="" coords="208,31,383,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,57,192,53,192,58,161,62"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a18f5343138ec0a0f147b01f11944fd13" title="Draws the unit onto the player&#39;s screen." alt="" coords="442,5,565,31"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="107,53,153,32,207,16,264,8,322,4,426,8,426,13,322,10,264,13,208,21,155,37,110,58"/>
+<area shape="rect" id="Node000004" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="431,68,575,94"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="160,68,415,76,415,81,160,74"/>
+<area shape="rect" id="Node000005" href="$struct_city.html#ad92576a7777d79bff78d720b0ef46dc5" title="If there currently a battle going on (more than one allegiance of troops)" alt="" coords="449,117,557,143"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="160,77,434,118,433,123,160,83"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="383,30,426,25,426,30,383,35"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="371,54,416,63,415,68,370,60"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="324,54,432,104,446,109,444,114,430,109,322,59"/>
+</map>

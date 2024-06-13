@@ -1,0 +1,5 @@
+<map id="Runner::reshuffleAnimation" name="Runner::reshuffleAnimation">
+<area shape="rect" id="Node000001" title="Animation of the cards from the discard pile being added back." alt="" coords="5,5,185,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a0293328b045476f6ab1ea47025d1b8dc" title="Clears the screen so the screen can &#39;update&#39;." alt="" coords="233,5,376,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,16,217,16,217,21,185,21"/>
+</map>

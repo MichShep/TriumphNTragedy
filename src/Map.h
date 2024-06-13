@@ -8,16 +8,19 @@
  */
 struct City{
 public:
-    // For graphics
+    //! For graphics
     int HEIGHT; /**< The height of the city when rendered*/
     int WIDTH; /**< The width of the city when rendered*/
     int x; /**< The x origin of the city shape*/
     int y; /**< The y origin of the city shape*/
 
-    int res_x;
-    int res_y;
+    int res_x; /**< The x origin of the cities resources*/
+    int res_y; /**< The y origin of the cities resources*/
 
-    int color[3];
+    int skip_troop[3]   = {0, 0, 0};  /**< When cities are shown the troop to start showing is at the index of the players nationality*/
+    Uint32 last_skip[3] = {0, 0, 0,}; /**< Every 10 seconds update the skip units count */
+
+    bool full_display = false;
 public:
     //#ID Name            Type    Status  Pop     Muster  Resource    ResourceType
     size_t ID=0; /**< The ID of the city*/
@@ -42,11 +45,11 @@ public:
 
     size_t resource; /**< The amount of resources this city provides (mixed resources are always halfed so can be stored as one)*/
 
+    ResourceType resource_type; /**What type of resource is on this city (only matters for blockades and going around Africa)*/
+
     bool blockcade=false; /**< If the city is unable to be traced back to the main capital*/
 
     bool med_blockcade=false; /**< If the city is unable to be traced back to the main capital, BUT the red resource is able to go around africa*/
-
-    ResourceType resource_type; /**What type of resource is on this city (only matters for blockades and going around Africa)*/
 
     vector<Unit*> occupants[4]; /**< Hold the current units and sperates them by their power 0:West, 1:Axis 2:USSR: 3:Neutral */
 
@@ -60,6 +63,13 @@ public:
     CityType influencer; /**< The power who has the current influence over a starting neutral country (neutral if no influence)*/
 
     CityType aggresor; /**< The Attacker is the Faction provoking Combat in that Player Turn (the Active player). This is not the same as the Aggressor (the Faction trying to wrest control of a Land Area from the Owner)*/
+
+    //For supply lines
+    size_t year_supplied=0;
+
+    Season season_supplied;
+
+    bool supllied=false;
 
     void freeMemory(){
         if (name != ""){
@@ -92,9 +102,8 @@ public:
 
     }
 
-    City(const int height, const int width, const int x, const int y, const int r=255, const int g=255, const int b=255, const size_t ID=0, const string name="City"): 
+    City(const int height, const int width, const int x, const int y, const size_t ID=0, const string name="City"): 
     HEIGHT(height), WIDTH(width), x(x), y(y), ID(ID), name(name){
-        color[0] = r; color[1] = g; color[2] = b;
     }
 
     /**
@@ -452,7 +461,7 @@ public:
      * @param target The name of the city that acts as the key
      * @return City* The city with the given name
      */
-    City* operator[](const string target){
+    inline City* operator[](const string target){
         return cities.at(target);
     }
 
@@ -462,7 +471,7 @@ public:
      * @param id The id of the target city
      * @return City* The city with the given id
      */
-    City* operator[](const size_t id){
+    inline City* operator[](const size_t id){
         return city_masterlist[id];
     }
 
@@ -491,7 +500,7 @@ public:
      * @param name name of the desired city
      * @return City* The desired city obj
      */
-    City* getCity(const string name) const;
+    inline City* getCity(const string name) const;
 
     /**
      * @brief Get the desiured city by id (works like [] overload)
@@ -500,7 +509,7 @@ public:
      * @param id 
      * @return City* 
      */
-    City* getCity(const size_t id) const;
+    inline City* getCity(const size_t id) const;
 
     /**
      * @brief Gets the country of that name
@@ -508,7 +517,7 @@ public:
      * @param name Name of the country
      * @return Country* The country of that name
      */
-    Country* getCountry(const string name) const{
+    inline Country* getCountry(const string name) const{
         return countries.at(name);
     }
 
@@ -518,7 +527,7 @@ public:
      * @param country Name of the country with the desired capital
      * @return City* The capital of the city (where influence is places)
      */
-    City* getCapital(const string country) const{
+    inline City* getCapital(const string country) const{
         return getCity(countries.at(country)->capital);
     }
 
@@ -530,7 +539,7 @@ public:
      * @return true The cities share a connection
      * @return false The cities don't share a connection
      */
-    bool checkConnection(const string A, const string B){
+    inline bool checkConnection(const string A, const string B){
         return adjacency[findCity(A)][findCity(B)];
     }
 
@@ -539,16 +548,17 @@ public:
      * 
      * @param x The x coord of the anchor
      * @param y The y coord of the anchor
+     * @param zoom The zoom scale to apply when looking at distance
      * @return City* The city closest to the (x,y)
      */
-    City* getClosestCity(const int x, const int y) const;
+    City* getClosestCity(const int x, const int y, const double zoom_x, const double zoom_y) const;
 
     /**
      * @brief Get the total number of cities
      * 
      * @return const size_t The total number of cities (shouldn't change after initalization)
      */
-    const size_t getNumCity() const{
+    inline const size_t getNumCity() const{
         return cities.size();
     }
 
@@ -557,7 +567,7 @@ public:
      * 
      * @return const unordered_map<string, City*>& The city hashmap reference
      */
-    const unordered_map<string, City*>& getCities() const{
+    inline const unordered_map<string, City*>& getCities() const{
         return cities;
     }
 
@@ -566,7 +576,7 @@ public:
      * 
      * @return const unordered_map<string, Country*>& The city hashmap reference
      */
-    const unordered_map<string, Country*>& getCountries() const{
+    inline const unordered_map<string, Country*>& getCountries() const{
         return countries;
     }
 
@@ -575,7 +585,7 @@ public:
      * 
      * @return const vector<vector<BorderType>>& The adjacency matrix reference
      */
-    const vector<vector<BorderType>>& getAdjacency() const{
+    inline const vector<vector<BorderType>>& getAdjacency() const{
         return adjacency;
     }
 

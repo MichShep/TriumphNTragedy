@@ -1,0 +1,5 @@
+<map id="Runner::pastDeadZone" name="Runner::pastDeadZone">
+<area shape="rect" id="Node000001" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="5,5,162,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#abdfbb9ff4d3924b378cd13c3a2a58c28" title="Checks what type of movement is allowed and if the player is allowed to move there." alt="" coords="210,5,313,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,16,194,16,194,21,162,21"/>
+</map>

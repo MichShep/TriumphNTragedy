@@ -3,774 +3,988 @@
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}Runner.h"{}}}
 \DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{comment}{//\ Game\ Object}}
-\DoxyCodeLine{00004\ }
-\DoxyCodeLine{00005\ \textcolor{comment}{//SDL\ Routines}}
-\DoxyCodeLine{00006\ }
-\DoxyCodeLine{00007\ \textcolor{keywordtype}{bool}\ Runner::InitSDL()\{}
-\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_Init(SDL\_INIT\_EVERYTHING)\ >\ 0)\{}
-\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}SDL\_Init\ failed\ with\ error:\ "{}}\ <<\ SDL\_GetError()\ <<\ endl;}
-\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00011\ \ \ \ \ \}}
-\DoxyCodeLine{00012\ }
-\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00014\ \}}
-\DoxyCodeLine{00015\ }
-\DoxyCodeLine{00016\ \textcolor{comment}{//Graphics\ Routine}}
-\DoxyCodeLine{00017\ \textcolor{keywordtype}{void}\ Runner::ClearScreen()\{}
-\DoxyCodeLine{00018\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 216,\ 216,\ 216,\ 255);}
-\DoxyCodeLine{00019\ \ \ \ \ SDL\_RenderClear(app.renderer);}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \}}
-\DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \textcolor{keywordtype}{void}\ Runner::DrawCity(\mbox{\hyperlink{struct_city}{City}}*\ city)\{}
-\DoxyCodeLine{00024\ \ \ \ \ \textcolor{comment}{//FORTRESS,\ AIR,\ CARRIER,\ SUB,\ FLEET,\ TANK,\ INFANTRY,\ CONVOY}}
-\DoxyCodeLine{00025\ \ \ \ \ SDL\_Rect\ target;}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ target.x\ =\ city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}};}
-\DoxyCodeLine{00028\ \ \ \ \ target.y\ =\ city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}};}
-\DoxyCodeLine{00029\ \ \ \ \ target.h\ =\ city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}};}
-\DoxyCodeLine{00030\ \ \ \ \ target.w\ =\ city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}};}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ city-\/>color[0],\ city-\/>color[1],\ city-\/>color[2],\ 255);}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{comment}{//\&\ SDL\ Routines}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a8b714ecc76891bd5e84cff941c86e511}{Runner::InitSDL}}()\{}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_Init(SDL\_INIT\_EVERYTHING)\ >\ 0)\{}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}SDL\_Init\ failed\ with\ error:\ "{}}\ <<\ SDL\_GetError()\ <<\ endl;}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ }
+\DoxyCodeLine{00012\ \ \ \ \ \}}
+\DoxyCodeLine{00013\ \ \ \ \ SDL\_JoystickEventState(SDL\_ENABLE);}
+\DoxyCodeLine{00014\ \ \ \ \ SDL\_GameControllerEventState(SDL\_ENABLE);}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ mapping\_string\ =\ \textcolor{stringliteral}{"{}030000000d0f0000f600000001000000,Lic\ Pro\ Controller,a:b0,b:b1,x:b2,y:b3,back:b8,guide:b12,start:b9,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,lefttrigger:b6,righttrigger:b7,platform:Mac\ OS\ X"{}};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ cout\ <<\ SDL\_GameControllerAddMapping(mapping\_string)\ <<\ endl;}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//030000000d0f0000f600000001000000,Lic\ Pro\ Controller,a:b0,b:b1,x:b2,y:b3,back:b8,guide:b12,start:b9,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,lefttrigger:b6,righttrigger:b7,platform:Mac\ OS\ X}}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ SDL\_NumJoysticks();\ i++)\{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_IsGameController(i))\{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a810404576dd9ef7cde5915ae65ce3cfd}{west\_controller}}\ =\ SDL\_GameControllerOpen(0);}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a9e4926e3e17b5b14568b4262c2201a7b}{controllers}}[0]\ =\ \mbox{\hyperlink{class_runner_a810404576dd9ef7cde5915ae65ce3cfd}{west\_controller}};}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \}}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_runner_a9e4926e3e17b5b14568b4262c2201a7b}{controllers}}[0]\ ==\ \textcolor{keyword}{nullptr})\{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}West\ controller\ not\ connected"{}}\ <<\ endl;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ exit(1);}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00032\ \}}
 \DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{comment}{//Draw\ all\ the\ units\ in\ there}}
-\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{float}\ scale\ =\ 5;}
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{int}\ offset\ =\ city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}};}
-\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ unit\ :city-\/>occupants[0])\{\ \textcolor{comment}{//west}}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ (this-\/>*draw[unit-\/>unit\_type])(unit,\ city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}},\ city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+offset,\ scale);}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ offset\ +=\ 5*scale;}
-\DoxyCodeLine{00042\ \ \ \ \ \}}
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \ \ \ \ offset\ =\ city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}};}
-\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ unit\ :city-\/>occupants[1])\{\ \textcolor{comment}{//axis}}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ (this-\/>*draw[unit-\/>unit\_type])(unit,\ city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+6*scale,\ city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+offset,\ scale);}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ offset\ +=\ 5*scale;}
-\DoxyCodeLine{00048\ \ \ \ \ \}}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ offset\ =\ city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}};}
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ unit\ :city-\/>occupants[2])\{\ \textcolor{comment}{//ussr}}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ (this-\/>*draw[unit-\/>unit\_type])(unit,\ city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+12*scale,\ city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+offset,\ scale);}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ offset\ +=\ 5*scale;}
-\DoxyCodeLine{00054\ \ \ \ \ \}}
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00056\ \ \ \ \ offset\ =\ city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}};}
-\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ unit\ :city-\/>occupants[3])\{\ \textcolor{comment}{//neutral}}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ (this-\/>*draw[unit-\/>unit\_type])(unit,\ city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+18*scale,\ city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+offset,\ scale);}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ offset\ +=\ 5*scale;}
-\DoxyCodeLine{00060\ \ \ \ \ \}}
-\DoxyCodeLine{00061\ \}}
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a748b05df92aa9d64bc6288845f51566d}{Runner::InitApplication}}()\{}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{comment}{//-\/\ Init\ SDL}}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_runner_a8b714ecc76891bd5e84cff941c86e511}{InitSDL}}()\ ==\ \textcolor{keyword}{false})\{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a3fbb12039477f1bcdb82c58c5320f2d5}{ShutdownApplication}}();}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{comment}{//-\/\ Init\ main\ app}}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.window\ =\ SDL\_CreateWindow(}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Triumph\ And\ Tragedy"{}},}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH,}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT,\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ SDL\_WINDOW\_OPENGL}
+\DoxyCodeLine{00049\ \ \ \ \ );}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{//SDL\_SetWindowFullscreen(app.window,\ SDL\_WINDOW\_FULLSCREEN);}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{comment}{//-\/\ Init\ axis\ app}}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[AXIS].window\ =\ SDL\_CreateWindow(}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Axis\ Player"{}},}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ 600,}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ 600,\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ SDL\_WINDOW\_OPENGL}
+\DoxyCodeLine{00061\ \ \ \ \ );}
 \DoxyCodeLine{00062\ }
-\DoxyCodeLine{00063\ \textcolor{keywordtype}{void}\ Runner::DrawConnections()\{}
-\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{auto}\&\ map\ =\ getMap();}
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{auto}\&\ adjacency\ =\ getMap().\mbox{\hyperlink{class_map_a31afbd5f99cc78254121b203564f557c}{getAdjacency}}();}
-\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ city=0;\ city\ <\ adjacency.size();\ city++)\{}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ border=0;\ border\ <\ adjacency.size();\ border++)\{}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (adjacency[city][border]\ ==\ 0)\ \textcolor{comment}{//no\ connection}}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{00070\ }
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ temp\ =\ adjacency[city][border];}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{comment}{//-\/\ Init\ ussr\ app}}
+\DoxyCodeLine{00064\ \ \ \ \ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[USSR].window\ =\ SDL\_CreateWindow(}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}USSR\ Player"{}},}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH,}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT,\ }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ SDL\_WINDOW\_OPENGL}
+\DoxyCodeLine{00071\ \ \ \ \ );}
 \DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ BORDER\_COLOR[temp][0],\ BORDER\_COLOR[temp][1],\ BORDER\_COLOR[temp][2],\ 255);}
-\DoxyCodeLine{00074\ }
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ start\_city\ =\ map.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(city);}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ end\_city\ =\ map.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(border);}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderDrawLine(app.renderer,\ start\_city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}\ +\ start\_city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}/2,\ start\_city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+\ start\_city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}/2,\ end\_city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+\ end\_city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}/2,\ end\_city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+\ end\_city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}/2);}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00079\ \ \ \ \ \}}
-\DoxyCodeLine{00080\ \}}
-\DoxyCodeLine{00081\ }
-\DoxyCodeLine{00082\ \textcolor{comment}{//\ Application\ Routine}}
-\DoxyCodeLine{00083\ \textcolor{keywordtype}{void}\ Runner::ShutdownApplication()\{}
-\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (app.window\ !=\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ SDL\_DestroyWindow(app.window);}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ app.window\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00087\ \ \ \ \ \}}
-\DoxyCodeLine{00088\ }
-\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{if}\ (app.renderer\ !=\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ SDL\_DestroyRenderer(app.renderer);}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ app.renderer\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{comment}{//-\/\ Init\ west\ app}}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[WEST].window\ =\ SDL\_CreateWindow(}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}West\ Player"{}},}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH,}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT,\ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ SDL\_WINDOW\_OPENGL}
+\DoxyCodeLine{00081\ \ \ \ \ );}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{comment}{//SDL\_SetWindowFullscreen(powers\_app[WEST].window,\ SDL\_TRUE);}}
+\DoxyCodeLine{00084\ \ \ \ \ SDL\_SetWindowFullscreen(\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[USSR].window,\ SDL\_WINDOW\_FULLSCREEN\_DESKTOP);}
+\DoxyCodeLine{00085\ \ \ \ \ SDL\_SetWindowFullscreen(\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[AXIS].window,\ SDL\_WINDOW\_FULLSCREEN\_DESKTOP);}
+\DoxyCodeLine{00086\ \ \ \ \ SDL\_SetWindowFullscreen(\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[WEST].window,\ SDL\_WINDOW\_FULLSCREEN\_DESKTOP);}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.window\ ==\ \textcolor{keyword}{nullptr})\{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Unable\ to\ create\ main\ window.\ Error:\ "{}}<<\ SDL\_GetError()\ <<\ endl;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a3fbb12039477f1bcdb82c58c5320f2d5}{ShutdownApplication}}();}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00092\ \ \ \ \ \}}
 \DoxyCodeLine{00093\ }
-\DoxyCodeLine{00094\ \ \ \ \ SDL\_Quit();}
-\DoxyCodeLine{00095\ \}}
-\DoxyCodeLine{00096\ }
-\DoxyCodeLine{00097\ \textcolor{keywordtype}{bool}\ Runner::InitApplication()\{}
-\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{if}\ (InitSDL()\ ==\ \textcolor{keyword}{false})\{}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ ShutdownApplication();}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00101\ \ \ \ \ \}}
-\DoxyCodeLine{00102\ }
-\DoxyCodeLine{00103\ }
-\DoxyCodeLine{00104\ \ \ \ \ app.window\ =\ SDL\_CreateWindow(}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SDL\ Create\ Window\ (Triumph\ And\ Tragedy)"{}},}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ SDL\_WINDOWPOS\_CENTERED,}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ app.screen.WIDTH,}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ app.screen.HEIGHT,\ }
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ SDL\_WINDOW\_OPENGL}
-\DoxyCodeLine{00111\ \ \ \ \ );}
-\DoxyCodeLine{00112\ }
-\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordflow}{if}\ (app.window\ ==\ \textcolor{keyword}{nullptr})\{}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Unable\ to\ create\ window.\ Error:\ "{}}<<\ SDL\_GetError()\ <<\ endl;}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ ShutdownApplication();}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00117\ \ \ \ \ \}}
-\DoxyCodeLine{00118\ }
-\DoxyCodeLine{00119\ \ \ \ \ app.renderer\ =\ SDL\_CreateRenderer(app.window,\ -\/1,\ SDL\_RENDERER\_PRESENTVSYNC);}
-\DoxyCodeLine{00120\ }
-\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00122\ \}}
-\DoxyCodeLine{00123\ }
-\DoxyCodeLine{00124\ \textcolor{comment}{//\&\ Drawing\ units}}
-\DoxyCodeLine{00125\ \textcolor{keywordtype}{void}\ Runner::drawFortress(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00126\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ base\ square}}
-\DoxyCodeLine{00127\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
-\DoxyCodeLine{00128\ \ \ \ \ SDL\_Rect\ target;}
-\DoxyCodeLine{00129\ \ \ \ \ target.h\ =\ (int)(5*scale);}
-\DoxyCodeLine{00130\ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00131\ \ \ \ \ target.x\ =\ (float)x;}
-\DoxyCodeLine{00132\ \ \ \ \ target.y\ =\ (float)y;}
-\DoxyCodeLine{00133\ }
-\DoxyCodeLine{00134\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00135\ }
-\DoxyCodeLine{00136\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ inner\ rect}}
-\DoxyCodeLine{00137\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00138\ }
-\DoxyCodeLine{00139\ \ \ \ \ target.h\ =\ (int)(3*scale);}
-\DoxyCodeLine{00140\ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00141\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00142\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer\ =\ SDL\_CreateRenderer(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.window,\ -\/1,\ SDL\_RENDERER\_PRESENTVSYNC)))\{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Unable\ to\ create\ main\ renderer.\ Error:\ "{}}<<\ SDL\_GetError()\ <<\ endl;}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a3fbb12039477f1bcdb82c58c5320f2d5}{ShutdownApplication}}();}
+\DoxyCodeLine{00097\ \ \ \ \ \}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ a\ :\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}})\{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (a.window\ ==\ \textcolor{keyword}{nullptr})\{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Unable\ to\ create\ power\ window.\ Error:\ "{}}<<\ SDL\_GetError()\ <<\ endl;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a3fbb12039477f1bcdb82c58c5320f2d5}{ShutdownApplication}}();}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ width,\ height;}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ SDL\_GetWindowSize(a.window,\ \&width,\ \&height);}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ a.screen.WIDTH\ =\ width;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ a.screen.HEIGHT\ =\ height;}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(a.renderer\ =\ SDL\_CreateRenderer(a.window,\ -\/1,\ SDL\_RENDERER\_PRESENTVSYNC)))\{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Unable\ to\ create\ power\ renderer.\ Error:\ "{}}<<\ SDL\_GetError()\ <<\ endl;}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a3fbb12039477f1bcdb82c58c5320f2d5}{ShutdownApplication}}();}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00114\ \ \ \ \ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00118\ \}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \textcolor{comment}{//\ Application\ Routine}}
+\DoxyCodeLine{00121\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a3fbb12039477f1bcdb82c58c5320f2d5}{Runner::ShutdownApplication}}()\{}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.window\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ SDL\_DestroyWindow(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.window);}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.window\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00125\ \ \ \ \ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ SDL\_DestroyRenderer(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00130\ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ a\ :\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}})\{}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (a.window\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_DestroyWindow(a.window);}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ a.window\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (a.renderer\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_DestroyRenderer(a.renderer);}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ a.renderer\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
 \DoxyCodeLine{00143\ }
-\DoxyCodeLine{00144\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 70,\ 68,\ 62,\ 255);}
-\DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00144\ \ \ \ \ SDL\_GameControllerClose(\mbox{\hyperlink{class_runner_a9e4926e3e17b5b14568b4262c2201a7b}{controllers}}[0]);}
+\DoxyCodeLine{00145\ \ \ \ \ SDL\_GameControllerClose(\mbox{\hyperlink{class_runner_a9e4926e3e17b5b14568b4262c2201a7b}{controllers}}[1]);}
+\DoxyCodeLine{00146\ \ \ \ \ SDL\_GameControllerClose(\mbox{\hyperlink{class_runner_a9e4926e3e17b5b14568b4262c2201a7b}{controllers}}[2]);}
 \DoxyCodeLine{00147\ }
-\DoxyCodeLine{00148\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
-\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+0*scale;}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ SDL\_Quit();}
+\DoxyCodeLine{00150\ \}}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{Runner::ClearScreen}}(SDL\_Renderer*\ renderer)\{}
+\DoxyCodeLine{00153\ \ \ \ \ SDL\_SetRenderDrawColor(renderer,\ 216,\ 216,\ 216,\ 255);}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_RenderClear(renderer)\ <\ 0)\{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}SDL\_RenderClear\ failed\ with\ error:\ "{}}\ <<\ SDL\_GetError()\ <<\ endl;}
 \DoxyCodeLine{00156\ \ \ \ \ \}}
-\DoxyCodeLine{00157\ }
-\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+0*scale;}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00165\ \ \ \ \ \}}
-\DoxyCodeLine{00166\ }
-\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+4*scale;}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00174\ \ \ \ \ \}}
-\DoxyCodeLine{00175\ }
-\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+4*scale;}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00183\ \ \ \ \ \}}
-\DoxyCodeLine{00184\ }
-\DoxyCodeLine{00185\ }
-\DoxyCodeLine{00186\ \}}
+\DoxyCodeLine{00157\ \}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a1679bec0ebffeb405fb263af9d92f2f5}{Runner::drawPlayerBoard}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ SDL\_Renderer*\ renderer,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ bought\_action,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ bought\_invest)\{}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ map\ and\ the\ cities}}
+\DoxyCodeLine{00163\ \ \ \ \ \mbox{\hyperlink{class_runner_a4136cf24a9abfc8282ad29125f42e519}{drawMap}}(player,\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{false},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keyword}{auto}\&\ sprite\_sheet\ =\ \mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[player.\mbox{\hyperlink{class_player_ac1bf32f466ba9dc1f93852fa835bbff2}{getAllegiance}}()];}
+\DoxyCodeLine{00166\ \ \ \ \ }
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ current\ state\ of\ the\ }}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordtype}{int}\ y\ =\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[player.\mbox{\hyperlink{class_player_ac1bf32f466ba9dc1f93852fa835bbff2}{getAllegiance}}()].screen.HEIGHT-\/105;}
+\DoxyCodeLine{00169\ \ \ \ \ SDL\_Rect\ target\ =\ \{3,\ y,\ 102,\ 102\};}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordflow}{if}\ (player.\mbox{\hyperlink{class_player_aa8e2cd083de4535d19199590013e7474}{show\_action}})\{\ \textcolor{comment}{//draw\ all\ the\ action\ cards}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.\mbox{\hyperlink{class_player_ad21151ebd80ff1990e9d530f3188f505}{getActionSize}}()\ >\ 0)\{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ opening\ icon}}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 1,\ 102,\ 102);}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ calcualte\ how\ many\ cards\ need\ to\ be\ shown\ and\ draw\ background\ (max\ amount\ will\ be\ 12)}}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ target\ =\ \{3,\ y-\/(int)(32*player.\mbox{\hyperlink{class_player_ad21151ebd80ff1990e9d530f3188f505}{getActionSize}}()),\ 102,\ (\textcolor{keywordtype}{int})(32*player.\mbox{\hyperlink{class_player_ad21151ebd80ff1990e9d530f3188f505}{getActionSize}}())\};}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 2,\ 102,\ 102);}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ target\ =\ \{3,\ y-\/(int)(32*player.\mbox{\hyperlink{class_player_ad21151ebd80ff1990e9d530f3188f505}{getActionSize}}()),\ 102,\ 102\};}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 2,\ 102,\ 102);}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ cards}}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ad1093c7a0155bb2b1b57c18788ad0ea9}{drawActionCards}}(\&player,\ 6,\ y-\/(\textcolor{keywordtype}{int})(32*player.\mbox{\hyperlink{class_player_ad21151ebd80ff1990e9d530f3188f505}{getActionSize}}())+3,\ 15);}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ 875-\/102/2;}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 2,\ 102,\ 102);}
 \DoxyCodeLine{00187\ }
-\DoxyCodeLine{00188\ \textcolor{keywordtype}{void}\ Runner::drawAir(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00189\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ long\ cross\ sectinon}}
-\DoxyCodeLine{00190\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
-\DoxyCodeLine{00191\ \ \ \ \ SDL\_Rect\ target;}
-\DoxyCodeLine{00192\ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00193\ \ \ \ \ target.w\ =\ 5*scale;}
-\DoxyCodeLine{00194\ \ \ \ \ target.x\ =\ (float)x;}
-\DoxyCodeLine{00195\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00196\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00197\ }
-\DoxyCodeLine{00198\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ mid\ section}}
-\DoxyCodeLine{00199\ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00200\ \ \ \ \ target.w\ =\ 3*scale;}
-\DoxyCodeLine{00201\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00202\ \ \ \ \ target.y\ =\ (float)y+2*scale;}
-\DoxyCodeLine{00203\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00204\ }
-\DoxyCodeLine{00205\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ vertical\ bar}}
-\DoxyCodeLine{00206\ \ \ \ \ target.h\ =\ 5*scale;}
-\DoxyCodeLine{00207\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00208\ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00209\ \ \ \ \ target.y\ =\ (float)y+0*scale;}
-\DoxyCodeLine{00210\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00211\ \ \ \ \ }
-\DoxyCodeLine{00212\ }
-\DoxyCodeLine{00213\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
-\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
-\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00221\ \ \ \ \ \}}
-\DoxyCodeLine{00222\ }
-\DoxyCodeLine{00223\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
-\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00230\ \ \ \ \ \}}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ 875;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 1,\ 102,\ 102);}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00191\ \ \ \ \ \}}
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordflow}{else}\{\ \textcolor{comment}{//draw\ just\ the\ icon}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 0,\ 102,\ 102);}
+\DoxyCodeLine{00194\ \ \ \ \ \}}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ target\ =\ \{\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[player.\mbox{\hyperlink{class_player_ac1bf32f466ba9dc1f93852fa835bbff2}{getAllegiance}}()].screen.WIDTH-\/105,\ y,\ 102,\ 102\};}
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x\ =\ target.x;}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordflow}{if}\ (player.\mbox{\hyperlink{class_player_af9bd015a2a04ac84ea439f244beddece}{show\_invest}})\{\ \textcolor{comment}{//draw\ all\ the\ invest\ cards}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.\mbox{\hyperlink{class_player_ab3c69056b6dae04e42ce9e1a70d76882}{getInvestSize}}()\ >\ 0)\{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ opening\ icon}}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 4,\ 102,\ 102);}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ calcualte\ how\ many\ cards\ need\ to\ be\ shown\ and\ draw\ background\ (max\ amount\ will\ be\ 12)}}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ target\ =\ \{x,\ y-\/(int)(32*player.\mbox{\hyperlink{class_player_ab3c69056b6dae04e42ce9e1a70d76882}{getInvestSize}}()),\ 102,\ (\textcolor{keywordtype}{int})(32*player.\mbox{\hyperlink{class_player_ab3c69056b6dae04e42ce9e1a70d76882}{getInvestSize}}())\};}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 5,\ 102,\ 102);}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ target\ =\ \{x,\ y-\/(int)(32*player.\mbox{\hyperlink{class_player_ab3c69056b6dae04e42ce9e1a70d76882}{getInvestSize}}()),\ 102,\ 102\};}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 5,\ 102,\ 102);}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ cards}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8e24f1914ccb107be28aa45760e0353c}{drawInvestCards}}(\&player,\ x+3,\ y-\/(\textcolor{keywordtype}{int})(32*player.\mbox{\hyperlink{class_player_ab3c69056b6dae04e42ce9e1a70d76882}{getInvestSize}}())+3,\ 15);}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ 875-\/102/2;}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 5,\ 102,\ 102);}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ 875;}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 4,\ 102,\ 102);}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00219\ \ \ \ \ \}}
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 6,\ 3,\ 102,\ 102);}
+\DoxyCodeLine{00222\ \ \ \ \ \}}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ production\ left}}
+\DoxyCodeLine{00226\ \ \ \ \ \mbox{\hyperlink{class_runner_a5b2b1d5425a4646d84a507704fa98b74}{drawNumber}}(\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[player.\mbox{\hyperlink{class_player_ac1bf32f466ba9dc1f93852fa835bbff2}{getAllegiance}}()].renderer,\ player.\mbox{\hyperlink{class_player_a98b0917380317c6f2c3fcf3fad18efa5}{getCurrentProduction}}()-\/player.production\_actions.size(),\ 50,\ 0,\ 5,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ cursor}}
+\DoxyCodeLine{00229\ \ \ \ \ target\ =\ \{(int)player.\mbox{\hyperlink{class_player_a3973c439ed48986ad2b056796ce3b9aa}{cursor\_x}},\ (\textcolor{keywordtype}{int})player.\mbox{\hyperlink{class_player_ab931ec5f35eb49859482a0bccce08987}{cursor\_y}},\ 32,\ 32\};}
+\DoxyCodeLine{00230\ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 0,\ 11+player.\mbox{\hyperlink{class_player_ac1bf32f466ba9dc1f93852fa835bbff2}{getAllegiance}}(),\ 32,\ 32);}
 \DoxyCodeLine{00231\ }
-\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00239\ \ \ \ \ \}}
-\DoxyCodeLine{00240\ }
-\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
-\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
-\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00248\ \ \ \ \ \}}
-\DoxyCodeLine{00249\ }
-\DoxyCodeLine{00250\ \}}
-\DoxyCodeLine{00251\ }
-\DoxyCodeLine{00252\ \textcolor{keywordtype}{void}\ Runner::drawCarrier(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00253\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ first\ long\ cross\ section}}
-\DoxyCodeLine{00254\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
-\DoxyCodeLine{00255\ \ \ \ \ SDL\_Rect\ target;}
-\DoxyCodeLine{00256\ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00257\ \ \ \ \ target.w\ =\ 5*scale;}
-\DoxyCodeLine{00258\ \ \ \ \ target.x\ =\ (float)x;}
-\DoxyCodeLine{00259\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00260\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00261\ }
-\DoxyCodeLine{00262\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ second\ long\ cross\ section}}
-\DoxyCodeLine{00263\ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00264\ \ \ \ \ target.w\ =\ 5*scale;}
-\DoxyCodeLine{00265\ \ \ \ \ target.x\ =\ (float)x;}
-\DoxyCodeLine{00266\ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00267\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00268\ }
-\DoxyCodeLine{00269\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ bar\ going\ down}}
-\DoxyCodeLine{00270\ \ \ \ \ target.h\ =\ 4*scale;}
-\DoxyCodeLine{00271\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00272\ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00273\ \ \ \ \ target.y\ =\ (float)y+0;}
-\DoxyCodeLine{00274\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00275\ }
-\DoxyCodeLine{00276\ }
-\DoxyCodeLine{00277\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ the\ two\ little\ bits\ at\ the\ bottem}}
-\DoxyCodeLine{00278\ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00279\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00280\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00281\ \ \ \ \ target.y\ =\ (float)y+4*scale;}
-\DoxyCodeLine{00282\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00232\ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[player.\mbox{\hyperlink{class_player_ac1bf32f466ba9dc1f93852fa835bbff2}{getAllegiance}}()].renderer);}
+\DoxyCodeLine{00233\ \}}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a4136cf24a9abfc8282ad29125f42e519}{Runner::drawMap}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ cities,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ influence,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ resources,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ connections,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ clear,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ fps)\{}
+\DoxyCodeLine{00236\ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>renderer);}
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keywordtype}{int}\ width,\ height;}
+\DoxyCodeLine{00238\ \ \ \ \ SDL\_GetWindowSize(player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>window,\ \&width,\ \&height);}
+\DoxyCodeLine{00239\ \ \ \ \ SDL\_Rect\ tar\ =\ \{player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_x*(player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_x<0),\ player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_y*(player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_y>0),\ width,\ height\};}
+\DoxyCodeLine{00240\ \ \ \ \ player.\mbox{\hyperlink{class_player_af664de25e4412cd788e4464bea9c54fe}{map\_sprite}}-\/>drawSprite(\&tar,\ 0,\ 0,\ (\textcolor{keywordtype}{int})(1512/player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_factor),\ (\textcolor{keywordtype}{int})(982/player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_factor),\ 0,\ player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_x*(player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_x>0),\ player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_y*(player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_x>0));}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keywordflow}{if}\ (connections)}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a056a0393a546065082a821664a40e35e}{drawConnections}}(player);}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordflow}{if}\ (cities)\{}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ cities\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a63e2c7855bc61a903d6db26c6927a606}{getCities}}();}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ city\ :\ cities)}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a5d52cd35d83ba1b9efb0829716e0833b}{drawCity}}(player,\ city.second,\ resources);}
+\DoxyCodeLine{00249\ \ \ \ \ \}}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordflow}{if}\ (influence)\{}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a614dfd919d1e8e9c34a7a5a9d00c88cf}{drawInfluence}}(player);}
+\DoxyCodeLine{00253\ \ \ \ \ \}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{keywordflow}{if}\ (clear)}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ SDL\_RenderPresent(player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>renderer);}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keywordflow}{if}\ (fps\ !=\ -\/1)\{}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a5b2b1d5425a4646d84a507704fa98b74}{drawNumber}}(player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>renderer,\ (1000\ /\ fps),\ 100,\ 100,\ 10,\ 0,0,0);}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ \ \ \}}
+\DoxyCodeLine{00262\ \}}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a2996d3087d986e2cf841b210462296b3}{Runner::drawCityUnits}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \mbox{\hyperlink{struct_city}{City}}*\ city)\{}
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keywordflow}{if}\ (city-\/>full\_display)\{}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a3c4e0b26262b401b673d3035e4821fe1}{drawFullCityUnits}}(player,\ city);}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00268\ \ \ \ \ \}}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keyword}{const}\ CityType\&\ allegiance\ =\ player.\mbox{\hyperlink{class_player_ac1bf32f466ba9dc1f93852fa835bbff2}{getAllegiance}}();}
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ zoom\_scale\ =\ player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_factor;}
+\DoxyCodeLine{00272\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ zoom\ =\ (int)player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_factor;}
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ off\ =\ ZOOM\_DIMENSIONS[zoom-\/1][1];}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{comment}{//Most\ units\ in\ a\ shown\ row\ can\ be\ 5}}
+\DoxyCodeLine{00276\ \ \ \ \ SDL\_Rect\ target\ =\ \{0,\ 0,\ 20,\ 20\};}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keywordtype}{int}\ unit\_count\ =\ 0;}
+\DoxyCodeLine{00279\ \ \ \ \ \textcolor{keywordtype}{int}\ skipped\ =\ 0;}
+\DoxyCodeLine{00280\ \ \ \ \ target\ =\ \{(int)(city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}*zoom\_scale*player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.WIDTH/1512)+8,\ (int)(city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}*zoom\_scale*player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.HEIGHT/982)+33,\ 20,\ 20\};}
+\DoxyCodeLine{00281\ \ \ \ \ \textcolor{keywordtype}{int}\ offset\ =\ -\/(((city-\/>num\_occupants\ <=\ 5)?\ city-\/>num\_occupants\ :\ 5)/2*20);}
+\DoxyCodeLine{00282\ }
 \DoxyCodeLine{00283\ }
-\DoxyCodeLine{00284\ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00285\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00286\ \ \ \ \ target.x\ =\ (float)x+3*scale;}
-\DoxyCodeLine{00287\ \ \ \ \ target.y\ =\ (float)y+4*scale;}
-\DoxyCodeLine{00288\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00289\ }
-\DoxyCodeLine{00290\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
-\DoxyCodeLine{00291\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00298\ \ \ \ \ \}}
-\DoxyCodeLine{00299\ }
-\DoxyCodeLine{00300\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
-\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
-\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordtype}{bool}\ hide\_rivals\ =\ !city-\/>\mbox{\hyperlink{struct_city_ad92576a7777d79bff78d720b0ef46dc5}{isConflict}}()\ \&\&\ WEST\ !=\ allegiance;\ \textcolor{comment}{//if\ there\ is\ no\ conflict\ then\ rival\ units\ are\ placed\ 'face\ up'\ and\ not\ viewable\ by\ rivals}}
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ unit\ :\ city-\/>\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[0])\{\ \textcolor{comment}{//west\ units}}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ ==\ 5)}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (skipped\ <\ city-\/>skip\_troop[allegiance])\{}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ skipped++;}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a18f5343138ec0a0f147b01f11944fd13}{drawUnit}}(player,\ unit,\ target.x+offset,\ target.y,\ zoom,\ hide\_rivals);}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ offset\ +=\ off;\ \ unit\_count++;}
+\DoxyCodeLine{00294\ \ \ \ \ \}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ hide\_rivals\ =\ !city-\/>\mbox{\hyperlink{struct_city_ad92576a7777d79bff78d720b0ef46dc5}{isConflict}}()\ \&\&\ AXIS\ !=\ allegiance;}
+\DoxyCodeLine{00297\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ !=\ 5)}
+\DoxyCodeLine{00298\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ unit\ :\ city-\/>\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[1])\{\ \textcolor{comment}{//axis\ units}}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ ==\ 5)}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (skipped\ <\ city-\/>skip\_troop[allegiance])\{}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ skipped++;}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a18f5343138ec0a0f147b01f11944fd13}{drawUnit}}(player,\ unit,\ target.x+offset,\ target.y,\ zoom,\ hide\_rivals);}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ offset\ +=\ off;\ unit\_count++;}
 \DoxyCodeLine{00307\ \ \ \ \ \}}
 \DoxyCodeLine{00308\ }
-\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
-\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00316\ \ \ \ \ \}}
-\DoxyCodeLine{00317\ }
-\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
-\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
-\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00325\ \ \ \ \ \}}
-\DoxyCodeLine{00326\ \}}
-\DoxyCodeLine{00327\ }
-\DoxyCodeLine{00328\ \textcolor{keywordtype}{void}\ Runner::drawSub(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00329\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ bottom\ left}}
-\DoxyCodeLine{00330\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
-\DoxyCodeLine{00331\ \ \ \ \ SDL\_Rect\ target;}
-\DoxyCodeLine{00332\ \ \ \ \ target.h\ =\ 2*scale;}
-\DoxyCodeLine{00333\ \ \ \ \ target.w\ =\ 3*scale;}
-\DoxyCodeLine{00334\ \ \ \ \ target.x\ =\ (float)x;}
-\DoxyCodeLine{00335\ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00336\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00337\ }
-\DoxyCodeLine{00338\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ middle\ section}}
-\DoxyCodeLine{00339\ \ \ \ \ target.h\ =\ 2*scale;}
-\DoxyCodeLine{00340\ \ \ \ \ target.w\ =\ 2*scale;}
-\DoxyCodeLine{00341\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00342\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00343\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00344\ }
-\DoxyCodeLine{00345\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ top\ right}}
-\DoxyCodeLine{00346\ \ \ \ \ target.h\ =\ 3*scale;}
-\DoxyCodeLine{00347\ \ \ \ \ target.w\ =\ 2*scale;}
-\DoxyCodeLine{00348\ \ \ \ \ target.x\ =\ (float)x+3*scale;}
-\DoxyCodeLine{00349\ \ \ \ \ target.y\ =\ (float)y+0;}
-\DoxyCodeLine{00350\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00351\ }
-\DoxyCodeLine{00352\ }
-\DoxyCodeLine{00353\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ the\ two\ little\ bits\ at\ the\ bottem}}
-\DoxyCodeLine{00354\ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00355\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00356\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00357\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00358\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00359\ }
-\DoxyCodeLine{00360\ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00361\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00362\ \ \ \ \ target.x\ =\ (float)x+4*scale;}
-\DoxyCodeLine{00363\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00364\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00365\ }
-\DoxyCodeLine{00366\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
-\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
-\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00374\ \ \ \ \ \}}
-\DoxyCodeLine{00375\ }
-\DoxyCodeLine{00376\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
-\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
-\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00383\ \ \ \ \ \}}
-\DoxyCodeLine{00384\ }
-\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
-\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00309\ \ \ \ \ hide\_rivals\ =\ !city-\/>\mbox{\hyperlink{struct_city_ad92576a7777d79bff78d720b0ef46dc5}{isConflict}}()\ \&\&\ USSR\ !=\ allegiance;}
+\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ !=\ 5)}
+\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ unit\ :\ city-\/>\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[2])\{\ \textcolor{comment}{//ussr\ units}}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ ==\ 5)}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (skipped\ <\ city-\/>skip\_troop[allegiance])\{}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ skipped++;}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a18f5343138ec0a0f147b01f11944fd13}{drawUnit}}(player,\ unit,\ target.x+offset,\ target.y,\ zoom,\ hide\_rivals);}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ offset\ +=\ off;\ unit\_count++;}
+\DoxyCodeLine{00320\ \ \ \ \ \}}
+\DoxyCodeLine{00321\ }
+\DoxyCodeLine{00322\ \ \ \ \ \textcolor{comment}{//always\ show\ neutral\ units\ (only\ forts)}}
+\DoxyCodeLine{00323\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ !=\ 5)}
+\DoxyCodeLine{00324\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ unit\ :\ city-\/>\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[3])\{\ \textcolor{comment}{//neutral\ units}}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ ==\ 5)}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (skipped\ <\ city-\/>skip\_troop[allegiance])\{}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ skipped++;}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a18f5343138ec0a0f147b01f11944fd13}{drawUnit}}(player,\ unit,\ target.x+offset,\ target.y,\ zoom);}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ offset\ +=\ off;\ unit\_count++;}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ ==\ 5)}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00335\ \ \ \ \ \}}
+\DoxyCodeLine{00336\ \ \ \ \ Uint32\ res\ =\ SDL\_GetTicks();}
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keywordflow}{if}\ (res\ -\/\ city-\/>\mbox{\hyperlink{struct_city_a297d003249ba48a4c9a9c8ce3a8652f5}{last\_skip}}[allegiance]\ >=\ 2500\ \&\&\ city-\/>num\_occupants\ >\ 5)\{}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ city-\/>\mbox{\hyperlink{struct_city_a3bf40289c8e14f82d7000a6bea1ef288}{skip\_troop}}[allegiance]\ =\ (city-\/>\mbox{\hyperlink{struct_city_a3bf40289c8e14f82d7000a6bea1ef288}{skip\_troop}}[allegiance]+5\ >=\ (((city-\/>num\_occupants\ /\ 5)\ +\ 1))\ *\ 5)?\ 0\ :\ city-\/>\mbox{\hyperlink{struct_city_a3bf40289c8e14f82d7000a6bea1ef288}{skip\_troop}}[allegiance]+5;}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ city-\/>\mbox{\hyperlink{struct_city_a297d003249ba48a4c9a9c8ce3a8652f5}{last\_skip}}[allegiance]\ =\ res;}
+\DoxyCodeLine{00340\ \ \ \ \ \}}
+\DoxyCodeLine{00341\ \}}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00343\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a3c4e0b26262b401b673d3035e4821fe1}{Runner::drawFullCityUnits}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \mbox{\hyperlink{struct_city}{City}}*\ city)\{}
+\DoxyCodeLine{00344\ \ \ \ \ \textcolor{keyword}{const}\ CityType\&\ allegiance\ =\ player.\mbox{\hyperlink{class_player_ac1bf32f466ba9dc1f93852fa835bbff2}{getAllegiance}}();}
+\DoxyCodeLine{00345\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ zoom\_scale\ =\ player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_factor;}
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ zoom\ =\ (int)player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_factor;}
+\DoxyCodeLine{00347\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ off\ =\ ZOOM\_DIMENSIONS[zoom-\/1][1];}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \ \ \ \ SDL\_Rect\ target\ =\ \{(int)(city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}*zoom\_scale*player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.WIDTH/1512)+8,\ (int)(city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}*zoom\_scale*player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.HEIGHT/982)+33-\/off,\ 20,\ 20\};}
+\DoxyCodeLine{00350\ \ \ \ \ \textcolor{keywordtype}{int}\ offset\ =-\/(((city-\/>num\_occupants\ <=\ 5)?\ city-\/>num\_occupants\ :\ 5)/2*20);}
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ og\_offset\ =\ offset;}
+\DoxyCodeLine{00352\ \ \ \ \ \textcolor{keywordtype}{int}\ unit\_count\ =\ 0;}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00354\ \ \ \ \ \textcolor{keywordtype}{bool}\ hide\_rivals\ =\ !city-\/>\mbox{\hyperlink{struct_city_ad92576a7777d79bff78d720b0ef46dc5}{isConflict}}()\ \&\&\ WEST\ !=\ allegiance;\ \textcolor{comment}{//if\ there\ is\ no\ conflict\ then\ rival\ units\ are\ placed\ 'face\ up'\ and\ not\ viewable\ by\ rivals}}
+\DoxyCodeLine{00355\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ unit\ :\ city-\/>\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[0])\{\ \textcolor{comment}{//west\ units}}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ \%\ 5\ ==\ 0)\{}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ +=\ off;}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ og\_offset;}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a18f5343138ec0a0f147b01f11944fd13}{drawUnit}}(player,\ unit,\ target.x+offset,\ target.y,\ zoom,\ hide\_rivals);}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ offset\ +=\ off;\ \ unit\_count++;}
+\DoxyCodeLine{00362\ \ \ \ \ \}}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \ \ \ \ hide\_rivals\ =\ !city-\/>\mbox{\hyperlink{struct_city_ad92576a7777d79bff78d720b0ef46dc5}{isConflict}}()\ \&\&\ AXIS\ !=\ allegiance;}
+\DoxyCodeLine{00365\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ unit\ :\ city-\/>\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[1])\{\ \textcolor{comment}{//axis\ units}}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ \%\ 5\ ==\ 0)\{}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ +=\ off;}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ og\_offset;}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a18f5343138ec0a0f147b01f11944fd13}{drawUnit}}(player,\ unit,\ target.x+offset,\ target.y,\ zoom,\ hide\_rivals);}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ offset\ +=\ off;\ unit\_count++;}
+\DoxyCodeLine{00372\ \ \ \ \ \}}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00374\ \ \ \ \ hide\_rivals\ =\ !city-\/>\mbox{\hyperlink{struct_city_ad92576a7777d79bff78d720b0ef46dc5}{isConflict}}()\ \&\&\ USSR\ !=\ allegiance;}
+\DoxyCodeLine{00375\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ unit\ :\ city-\/>\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[2])\{\ \textcolor{comment}{//ussr\ units}}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ \%\ 5\ ==\ 0)\{}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ +=\ off;}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ og\_offset;}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a18f5343138ec0a0f147b01f11944fd13}{drawUnit}}(player,\ unit,\ target.x+offset,\ target.y,\ zoom,\ hide\_rivals);}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ offset\ +=\ off;\ unit\_count++;}
+\DoxyCodeLine{00382\ \ \ \ \ \}}
+\DoxyCodeLine{00383\ }
+\DoxyCodeLine{00384\ \ \ \ \ \textcolor{comment}{//always\ show\ neutral\ units\ (only\ forts)}}
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ unit\ :\ city-\/>\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[3])\{\ \textcolor{comment}{//neutral\ units}}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (unit\_count\ \%\ 5\ ==\ 0)\{}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ +=\ off;}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ og\_offset;}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a18f5343138ec0a0f147b01f11944fd13}{drawUnit}}(player,\ unit,\ target.x+offset,\ target.y,\ zoom);}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ offset\ +=\ off;\ unit\_count++;}
 \DoxyCodeLine{00392\ \ \ \ \ \}}
-\DoxyCodeLine{00393\ }
-\DoxyCodeLine{00394\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
-\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
-\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00401\ \ \ \ \ \}}
-\DoxyCodeLine{00402\ \}}
-\DoxyCodeLine{00403\ }
-\DoxyCodeLine{00404\ \textcolor{keywordtype}{void}\ Runner::drawFleet(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00405\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ first\ long\ cross\ section}}
-\DoxyCodeLine{00406\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
-\DoxyCodeLine{00407\ \ \ \ \ SDL\_Rect\ target;}
-\DoxyCodeLine{00408\ \ \ \ \ target.h\ =\ 5*scale;}
-\DoxyCodeLine{00409\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00410\ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00411\ \ \ \ \ target.y\ =\ (float)y;}
-\DoxyCodeLine{00412\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00413\ }
-\DoxyCodeLine{00414\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ second\ long\ cross\ section}}
-\DoxyCodeLine{00415\ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00416\ \ \ \ \ target.w\ =\ 5*scale;}
-\DoxyCodeLine{00417\ \ \ \ \ target.x\ =\ (float)x;}
-\DoxyCodeLine{00418\ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00419\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00420\ }
-\DoxyCodeLine{00421\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ bar\ going\ down}}
-\DoxyCodeLine{00422\ \ \ \ \ target.h\ =\ 5*scale;}
-\DoxyCodeLine{00423\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00424\ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00425\ \ \ \ \ target.y\ =\ (float)y+0;}
-\DoxyCodeLine{00426\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00427\ }
-\DoxyCodeLine{00428\ }
-\DoxyCodeLine{00429\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ the\ two\ little\ bits\ at\ the\ bottem}}
-\DoxyCodeLine{00430\ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00431\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00432\ \ \ \ \ target.x\ =\ (float)x+0*scale;}
-\DoxyCodeLine{00433\ \ \ \ \ target.y\ =\ (float)y+4*scale;}
-\DoxyCodeLine{00434\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00435\ }
-\DoxyCodeLine{00436\ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00437\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00438\ \ \ \ \ target.x\ =\ (float)x+4*scale;}
-\DoxyCodeLine{00439\ \ \ \ \ target.y\ =\ (float)y+4*scale;}
-\DoxyCodeLine{00440\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
+\DoxyCodeLine{00393\ \}}
+\DoxyCodeLine{00394\ }
+\DoxyCodeLine{00395\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a5d52cd35d83ba1b9efb0829716e0833b}{Runner::drawCity}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \mbox{\hyperlink{struct_city}{City}}*\ city,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ resources)\{}
+\DoxyCodeLine{00396\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ x\_scale\ =\ player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.getScaleX();}
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ y\_scale\ =\ player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.getScaleY();}
+\DoxyCodeLine{00398\ \ \ \ \ SDL\_Rect\ target\ =\ \{(int)(city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}*x\_scale),\ (int)(city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}*y\_scale),\ city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}},\ city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}\};}
+\DoxyCodeLine{00399\ \ \ \ \ \textcolor{keyword}{auto}\&\ sprite\_sheet\ =\ player.\mbox{\hyperlink{class_player_a791eb3f3d22c6b54201421205b3ab6c7}{sprite\_sheet}};}
+\DoxyCodeLine{00400\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ Population\ type\ (capital,\ subcapital,\ ...)}}
+\DoxyCodeLine{00401\ \ \ \ \ sprite\_sheet-\/>drawSprite(\&target,\ 8,\ \mbox{\hyperlink{class_runner_a1d192f0cb68477269f44ec310b335bf1}{getCitySprite}}(city));}
+\DoxyCodeLine{00402\ \ \ \ \ \textcolor{keywordtype}{int}\ scale\ =\ 1;}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ resources}}
+\DoxyCodeLine{00404\ \ \ \ \ \textcolor{keywordflow}{if}\ (resources)\{}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ target\ =\ \{(int)(city-\/>\mbox{\hyperlink{struct_city_aaaa09c62c58699f0cfbeba173be1331b}{res\_x}}*x\_scale),\ (int)(city-\/>\mbox{\hyperlink{struct_city_a6304a296746cf15cf30b84c0f01512af}{res\_y}}*y\_scale),23*scale\ ,\ 23*scale\};}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (city-\/>\mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}}\ >\ 0)\{\ \textcolor{comment}{//can\ blockade\ even\ with\ no\ resources}}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet-\/>drawSprite(\&target,\ 0,\ (city-\/>\mbox{\hyperlink{struct_city_ad72d77fa3b1d67ad7855cf167636aff5}{blockcade}})?\ 25\ :\ 25\ +\ (city-\/>\mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}})/((city-\/>resource\_type\ ==\ TRANS\_ATLANTIC)?\ 2\ :\ 1),\ 23,\ 23);}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (city-\/>resource\_type\ ==\ TRANS\_ATLANTIC)\{}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ +=24;}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sprite\_sheet-\/>drawSprite(\&target,\ 0,\ (city-\/>\mbox{\hyperlink{struct_city_a429a1c112d38fff6971d1ee5e30d1b69}{med\_blockcade}})?\ 29\ :\ 29\ +\ (city-\/>\mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}}/2),\ 23,\ 23);}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00413\ \ \ \ \ \}}
+\DoxyCodeLine{00414\ \ \ \ \ \textcolor{comment}{//-\/Draw\ Units}}
+\DoxyCodeLine{00415\ \ \ \ \ \mbox{\hyperlink{class_runner_a2996d3087d986e2cf841b210462296b3}{drawCityUnits}}(player,\ city);}
+\DoxyCodeLine{00416\ \}}
+\DoxyCodeLine{00417\ }
+\DoxyCodeLine{00418\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a5d52cd35d83ba1b9efb0829716e0833b}{Runner::drawCity}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ PopulationType\ population\_type)\{}
+\DoxyCodeLine{00419\ \ \ \ \ SDL\_Rect\ target\ =\ \{x,\ y,\ 32,\ 32\};}
+\DoxyCodeLine{00420\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target,\ 8,\ 13+5-\/(\textcolor{keywordtype}{int})population\_type);}
+\DoxyCodeLine{00421\ \}}
+\DoxyCodeLine{00422\ }
+\DoxyCodeLine{00423\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a614dfd919d1e8e9c34a7a5a9d00c88cf}{Runner::drawInfluence}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player)\{}
+\DoxyCodeLine{00424\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ influence\ at\ the\ capitals}}
+\DoxyCodeLine{00425\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keywordtype}{float}\ scale\ =\ 1;}
+\DoxyCodeLine{00428\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ country\ :\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_adc8cd4da1c2a901ca059f1c0a5be3f2c}{getCountries}}())\{}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ target\ =\ \{(int)(\mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(country.second-\/>capital)-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}*player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_factor*player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.WIDTH/1512+\ 32*scale),\ (\textcolor{keywordtype}{int})(\mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(country.second-\/>capital)-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}*player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.zoom\_factor*player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.HEIGHT/982),\ (\textcolor{keywordtype}{int})(32*scale),\ (\textcolor{keywordtype}{int})(32*scale)\};}
+\DoxyCodeLine{00430\ }
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (country.second-\/>influence\_level\ ==\ SATELLITES)\{\ \textcolor{comment}{//draw\ one\ big\ token}}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ player.\mbox{\hyperlink{class_player_a791eb3f3d22c6b54201421205b3ab6c7}{sprite\_sheet}}-\/>drawSprite(\&target,\ 13,\ country.second-\/>allegiance*2);}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{\ \textcolor{comment}{//draw\ how\ many\ influnece\ token\ it\ has}}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ country.second-\/>influence;\ i++)\{}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player.\mbox{\hyperlink{class_player_a791eb3f3d22c6b54201421205b3ab6c7}{sprite\_sheet}}-\/>drawSprite(\&target,\ 13,\ country.second-\/>allegiance*2+1,\ 32,\ 32,\ (\textcolor{keywordtype}{int})(16*scale));}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00439\ \ \ \ \ \}}
+\DoxyCodeLine{00440\ \}}
 \DoxyCodeLine{00441\ }
-\DoxyCodeLine{00442\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
-\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
-\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00450\ \ \ \ \ \}}
-\DoxyCodeLine{00451\ }
-\DoxyCodeLine{00452\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
-\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+0*scale;}
-\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00459\ \ \ \ \ \}}
-\DoxyCodeLine{00460\ }
-\DoxyCodeLine{00461\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00468\ \ \ \ \ \}}
-\DoxyCodeLine{00469\ }
-\DoxyCodeLine{00470\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
-\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+4*scale;}
-\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00477\ \ \ \ \ \}}
-\DoxyCodeLine{00478\ \}}
-\DoxyCodeLine{00479\ }
-\DoxyCodeLine{00480\ \textcolor{keywordtype}{void}\ Runner::drawTank(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00481\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ main\ rectangles}}
-\DoxyCodeLine{00482\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
-\DoxyCodeLine{00483\ \ \ \ \ SDL\_Rect\ target;}
-\DoxyCodeLine{00484\ \ \ \ \ target.h\ =\ (int)(5*scale);}
-\DoxyCodeLine{00485\ \ \ \ \ target.w\ =\ (int)(3*scale);}
-\DoxyCodeLine{00486\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00487\ \ \ \ \ target.y\ =\ (float)y;}
-\DoxyCodeLine{00488\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00489\ }
-\DoxyCodeLine{00490\ \ \ \ \ target.h\ =\ (int)(3*scale);}
-\DoxyCodeLine{00491\ \ \ \ \ target.w\ =\ (int)(5*scale);}
-\DoxyCodeLine{00492\ \ \ \ \ target.x\ =\ (float)x;}
-\DoxyCodeLine{00493\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00494\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00495\ }
-\DoxyCodeLine{00496\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
-\DoxyCodeLine{00497\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
-\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00504\ \ \ \ \ \}}
-\DoxyCodeLine{00505\ }
-\DoxyCodeLine{00506\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
-\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
-\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00513\ \ \ \ \ \}}
-\DoxyCodeLine{00514\ }
-\DoxyCodeLine{00515\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
-\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
-\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
-\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00522\ \ \ \ \ \}}
-\DoxyCodeLine{00523\ }
-\DoxyCodeLine{00524\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
-\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00531\ \ \ \ \ \}}
-\DoxyCodeLine{00532\ }
-\DoxyCodeLine{00533\ \}}
+\DoxyCodeLine{00442\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_runner_a1d192f0cb68477269f44ec310b335bf1}{Runner::getCitySprite}}(\mbox{\hyperlink{struct_city}{City}}*\ city)\{}
+\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordflow}{switch}\ (city-\/>\mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\_type}})\{}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ MAIN\_CAPITAL:}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (city-\/>\mbox{\hyperlink{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}{city\_type}})\{}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ WEST:}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AXIS:}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2;}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ USSR:}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;;}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SUB\_CAPITAL:}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (city-\/>\mbox{\hyperlink{struct_city_a4ebc8212be22bb1e86babee2c3ed2f12}{nationality}})\{}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ BRITIAN\_U:}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 6;}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FRANCE\_U:}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 7;}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ USA\_U:}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 8;}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GERMANY\_U:}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4;}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ITALY\_U:}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 5;}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ USSR\_U:}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 3;}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;;}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cities\ below\ don't\ have\ any\ change\ in\ colors}}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CAPITAL\_CITY:}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 9;}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CITY:}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TOWN:}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ EMPTY:}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00483\ \ \ \ \ \}}
+\DoxyCodeLine{00484\ }
+\DoxyCodeLine{00485\ }
+\DoxyCodeLine{00486\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00487\ \}}
+\DoxyCodeLine{00488\ }
+\DoxyCodeLine{00489\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a056a0393a546065082a821664a40e35e}{Runner::drawConnections}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player)\{}
+\DoxyCodeLine{00490\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}\ =\ \mbox{\hyperlink{class_runner_adda4105efb5d6f7d92602d9bd5074edf}{getMap}}();}
+\DoxyCodeLine{00491\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ adjacency\ =\ \mbox{\hyperlink{class_runner_adda4105efb5d6f7d92602d9bd5074edf}{getMap}}().\mbox{\hyperlink{class_map_a31afbd5f99cc78254121b203564f557c}{getAdjacency}}();}
+\DoxyCodeLine{00492\ \ \ \ \ \textcolor{keyword}{auto}\&\ renderer\ =\ player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>renderer;}
+\DoxyCodeLine{00493\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ city=0;\ city\ <\ adjacency.size();\ city++)\{}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ border=0;\ border\ <\ adjacency.size();\ border++)\{}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (adjacency[city][border]\ ==\ 0)\ \textcolor{comment}{//no\ connection}}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00497\ }
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ temp\ =\ adjacency[city][border];}
+\DoxyCodeLine{00499\ }
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_SetRenderDrawColor(renderer,\ BORDER\_COLOR[temp][0],\ BORDER\_COLOR[temp][1],\ BORDER\_COLOR[temp][2],\ 255);}
+\DoxyCodeLine{00501\ }
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ start\_city\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(city);}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ end\_city\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(border);}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderDrawLine(renderer,\ start\_city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}\ +\ start\_city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}/2,\ start\_city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+\ start\_city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}/2,\ end\_city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+\ end\_city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}/2,\ end\_city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+\ end\_city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}/2);}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderDrawLine(renderer,\ start\_city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}-\/1\ +\ start\_city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}/2,\ start\_city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+1+\ start\_city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}/2,\ end\_city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}-\/1+\ end\_city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}/2,\ end\_city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+1+\ end\_city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}/2);}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderDrawLine(renderer,\ start\_city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}\ +\ start\_city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}/2,\ start\_city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+1+\ start\_city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}/2,\ end\_city-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+\ end\_city-\/>\mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}/2,\ end\_city-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+1+\ end\_city-\/>\mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}/2);}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00508\ \ \ \ \ \}}
+\DoxyCodeLine{00509\ \}}
+\DoxyCodeLine{00510\ }
+\DoxyCodeLine{00511\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a18f5343138ec0a0f147b01f11944fd13}{Runner::drawUnit}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ zoom,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ secret)\{}
+\DoxyCodeLine{00512\ \ \ \ \ \textcolor{comment}{//-\/\ Get\ the\ sprite\ depending\ on\ thenationality\ and\ current\ CV}}
+\DoxyCodeLine{00513\ }
+\DoxyCodeLine{00514\ \ \ \ \ SDL\_Rect\ target\ \{x,\ y,\ ZOOM\_DIMENSIONS[zoom-\/1][0],\ ZOOM\_DIMENSIONS[zoom-\/1][0]\};}
+\DoxyCodeLine{00515\ \ \ \ \ \textcolor{keywordflow}{if}\ (zoom\ <=\ 2)\{}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (secret)}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ player.\mbox{\hyperlink{class_player_accc75dbe633189497dbeac718c11359d}{units\_sprite\_z1}}-\/>drawSprite(\&target,\ 0,\ 35+unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}},\ 20,\ 20);}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ player.\mbox{\hyperlink{class_player_accc75dbe633189497dbeac718c11359d}{units\_sprite\_z1}}-\/>drawSprite(\&target,\ (\textcolor{keywordtype}{int})unit-\/>\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}+7*unit-\/>\mbox{\hyperlink{class_unit_a83d70dd6eb277b62e929900a8662465d}{upgrading}},\ 5*unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}+unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}}+unit-\/>\mbox{\hyperlink{class_unit_a83d70dd6eb277b62e929900a8662465d}{upgrading}},\ 20,\ 20);}
+\DoxyCodeLine{00520\ \ \ \ \ \}}
+\DoxyCodeLine{00521\ \ \ \ \ \textcolor{keywordflow}{if}\ (zoom\ ==\ 3)}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ player.\mbox{\hyperlink{class_player_afbe08fbde850b769a2366f10f01bec7e}{units\_sprite\_z3}}-\/>drawSprite(\&target,\ (\textcolor{keywordtype}{int})unit-\/>\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}+7*unit-\/>\mbox{\hyperlink{class_unit_a83d70dd6eb277b62e929900a8662465d}{upgrading}},\ 5*unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}+unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}}+unit-\/>\mbox{\hyperlink{class_unit_a83d70dd6eb277b62e929900a8662465d}{upgrading}},\ 64,\ 64);}
+\DoxyCodeLine{00523\ \}}
+\DoxyCodeLine{00524\ }
+\DoxyCodeLine{00525\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a5b2b1d5425a4646d84a507704fa98b74}{Runner::drawNumber}}(SDL\_Renderer*\ renderer,\ \textcolor{keywordtype}{int}\ num,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale,\ \textcolor{keyword}{const}\ uint8\_t\ r,\ \textcolor{keyword}{const}\ uint8\_t\ g,\ \textcolor{keyword}{const}\ uint8\_t\ b)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00526\ \ \ \ \ \textcolor{keywordtype}{int}\ digits\ =\ 0;}
+\DoxyCodeLine{00527\ \ \ \ \ \textcolor{keywordtype}{bool}\ negative\ =\ num\ <\ 0;}
+\DoxyCodeLine{00528\ \ \ \ \ num\ =\ abs(num);}
+\DoxyCodeLine{00529\ \ \ \ \ \textcolor{keyword}{auto}\ copy\ =\ num;}
+\DoxyCodeLine{00530\ \ \ \ \ \textcolor{keywordflow}{while}\ (copy)\ \{}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ copy\ /=\ 10;}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ digits++;}
+\DoxyCodeLine{00533\ \ \ \ \ \}}
 \DoxyCodeLine{00534\ }
-\DoxyCodeLine{00535\ \textcolor{keywordtype}{void}\ Runner::drawInfantry(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00536\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ the\ 4\ spikes}}
-\DoxyCodeLine{00537\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][0],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][1],\ UNIT\_COLOR[unit-\/>\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}][2],\ 255);}
-\DoxyCodeLine{00538\ \ \ \ \ SDL\_Rect\ target;}
-\DoxyCodeLine{00539\ \ \ \ \ target.h\ =\ 2*scale;}
-\DoxyCodeLine{00540\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00541\ \ \ \ \ target.x\ =\ (float)x;}
-\DoxyCodeLine{00542\ \ \ \ \ target.y\ =\ (float)y;}
-\DoxyCodeLine{00543\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00544\ }
-\DoxyCodeLine{00545\ \ \ \ \ target.h\ =\ 2*scale;}
-\DoxyCodeLine{00546\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00547\ \ \ \ \ target.x\ =\ (float)x+4*scale;}
-\DoxyCodeLine{00548\ \ \ \ \ target.y\ =\ (float)y;}
-\DoxyCodeLine{00549\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00550\ }
-\DoxyCodeLine{00551\ \ \ \ \ target.h\ =\ 2*scale;}
-\DoxyCodeLine{00552\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00553\ \ \ \ \ target.x\ =\ (float)x;}
-\DoxyCodeLine{00554\ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00555\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00556\ }
-\DoxyCodeLine{00557\ \ \ \ \ target.h\ =\ 2*scale;}
-\DoxyCodeLine{00558\ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00559\ \ \ \ \ target.x\ =\ (float)x+4*scale;}
-\DoxyCodeLine{00560\ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00561\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00562\ }
-\DoxyCodeLine{00563\ \ \ \ \ \textcolor{comment}{//-\/\ Create\ middle\ section}}
-\DoxyCodeLine{00564\ \ \ \ \ target.h\ =\ 3*scale;}
-\DoxyCodeLine{00565\ \ \ \ \ target.w\ =\ 3*scale;}
-\DoxyCodeLine{00566\ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00567\ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00568\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00569\ }
-\DoxyCodeLine{00570\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ the\ pips}}
-\DoxyCodeLine{00571\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 1)\{}
-\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ (1\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+1*scale;}
-\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00578\ \ \ \ \ \}}
-\DoxyCodeLine{00579\ }
-\DoxyCodeLine{00580\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 2)\{}
-\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ (2\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+1*scale;}
-\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
-\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00587\ \ \ \ \ \}}
-\DoxyCodeLine{00588\ }
-\DoxyCodeLine{00589\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 3)\{}
-\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ (3\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+3*scale;}
-\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+2*scale;}
-\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00596\ \ \ \ \ \}}
-\DoxyCodeLine{00597\ }
-\DoxyCodeLine{00598\ \ \ \ \ \textcolor{keywordflow}{if}\ (unit-\/>\mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ >=\ 4)\{}
-\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ (4\ <=\ unit-\/>\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})?\ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ target.w\ =\ target.h;}
-\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ target.x\ =\ (float)x+2*scale;}
-\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ target.y\ =\ (float)y+3*scale;}
-\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00605\ \ \ \ \ \}}
-\DoxyCodeLine{00606\ \}}
-\DoxyCodeLine{00607\ }
-\DoxyCodeLine{00608\ \textcolor{keywordtype}{void}\ Runner::drawConvoy(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00535\ \ \ \ \ (negative)?\ SDL\_SetRenderDrawColor(renderer,\ 255,\ 0,\ 0,\ 255)\ :\ SDL\_SetRenderDrawColor(renderer,\ r,\ \mbox{\hyperlink{class_runner_ab8856030fdc77f8c9522ceb11cde2f21}{g}},\ b,\ 255);}
+\DoxyCodeLine{00536\ }
+\DoxyCodeLine{00537\ \ \ \ \ \textcolor{keywordflow}{if}\ (digits\ ==\ 0)\ \textcolor{comment}{//for\ drawing\ 0}}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ digits\ =\ 1;}
+\DoxyCodeLine{00539\ }
+\DoxyCodeLine{00540\ \ \ \ \ \textcolor{keywordtype}{int}\ offset\ =\ -\/(7*scale)/2;}
+\DoxyCodeLine{00541\ \ \ \ \ copy\ =\ num;}
+\DoxyCodeLine{00542\ }
+\DoxyCodeLine{00543\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00544\ \ \ \ \ \textcolor{keywordflow}{if}\ (negative)\{\ \textcolor{comment}{//Negatie\ Sign}}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5*scale;}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+1*scale+offset;}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+6*scale;}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ +=\ 8*scale;}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(renderer,\ \&target);}
+\DoxyCodeLine{00551\ \ \ \ \ \}}
+\DoxyCodeLine{00552\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 1;\ i\ <=\ digits;\ i++,\ offset\ +=\ 8*scale)\{}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ f\ =\ pow(10,\ digits-\/1);}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ digit\ =\ copy/f;}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ copy\ -\/=\ digit\ *\ f;}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ copy\ *=\ 10;}
+\DoxyCodeLine{00557\ }
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][0])\{\ \textcolor{comment}{//A}}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5*scale;}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+1*scale+offset;}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y;}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(renderer,\ \&target);}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][1])\{\ \textcolor{comment}{//B}}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+6*scale+offset;}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+1*scale;}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(renderer,\ \&target);}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][2])\{\ \textcolor{comment}{//C}}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+6*scale+offset;}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+7*scale;}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(renderer,\ \&target);}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][3])\{\ \textcolor{comment}{//D}}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5*scale;}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+1*scale+offset;}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+12*scale;}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(renderer,\ \&target);}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][4])\{\ \textcolor{comment}{//E}}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+0*scale+offset;}
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+7*scale;}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(renderer,\ \&target);}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][5])\{\ \textcolor{comment}{//F}}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+0*scale+offset;}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+1*scale;}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(renderer,\ \&target);}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][6])\{\ \textcolor{comment}{//G}}
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5*scale;}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+1*scale+offset;}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+6*scale;}
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(renderer,\ \&target);}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00607\ \ \ \ \ \}}
+\DoxyCodeLine{00608\ }
 \DoxyCodeLine{00609\ }
 \DoxyCodeLine{00610\ \}}
 \DoxyCodeLine{00611\ }
-\DoxyCodeLine{00612\ }
+\DoxyCodeLine{00612\ \textcolor{comment}{//\&\&\&\ Animations}}
 \DoxyCodeLine{00613\ }
-\DoxyCodeLine{00614\ \textcolor{keywordtype}{void}\ Runner::DrawTimeTrack()\{}
-\DoxyCodeLine{00615\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ Outline}}
-\DoxyCodeLine{00616\ \ \ \ \ SDL\_Rect\ target;}
-\DoxyCodeLine{00617\ }
-\DoxyCodeLine{00618\ \ \ \ \ target.h\ =\ 155;}
-\DoxyCodeLine{00619\ \ \ \ \ target.w\ =\ 145*1.5;}
-\DoxyCodeLine{00620\ \ \ \ \ target.x\ =\ 0;}
-\DoxyCodeLine{00621\ \ \ \ \ target.y\ =\ app.screen.HEIGHT\ -\/\ 150*1.5+5;}
-\DoxyCodeLine{00622\ }
-\DoxyCodeLine{00623\ \ \ \ \ \textcolor{comment}{//outer\ box}}
-\DoxyCodeLine{00624\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255);}
-\DoxyCodeLine{00625\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00626\ }
-\DoxyCodeLine{00627\ \ \ \ \ target.h\ =\ 150;}
-\DoxyCodeLine{00628\ \ \ \ \ target.w\ =\ 140*1.5;}
-\DoxyCodeLine{00629\ \ \ \ \ target.x\ =\ 0;}
-\DoxyCodeLine{00630\ \ \ \ \ target.y\ =\ app.screen.HEIGHT\ -\/\ target.h*1.5+10;}
-\DoxyCodeLine{00631\ \ \ \ \ \textcolor{keyword}{auto}\ dot\_start\ =\ app.screen.HEIGHT\ -\/\ target.h*1.5+10;}
-\DoxyCodeLine{00632\ }
-\DoxyCodeLine{00633\ \ \ \ \ \textcolor{comment}{//inner\ box}}
-\DoxyCodeLine{00634\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 125,\ 125,\ 125,\ 255);}
-\DoxyCodeLine{00635\ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00636\ }
-\DoxyCodeLine{00637\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ dash\ line}}
-\DoxyCodeLine{00638\ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 0,\ 255);}
-\DoxyCodeLine{00639\ \ \ \ \ target.h\ =\ 5;}
-\DoxyCodeLine{00640\ \ \ \ \ target.w\ =\ 18;}
-\DoxyCodeLine{00641\ \ \ \ \ target.x\ =\ 0;}
-\DoxyCodeLine{00642\ \ \ \ \ target.y\ =\ app.screen.HEIGHT\ -\/\ 2*5*14;}
-\DoxyCodeLine{00643\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ 5;\ i++)\{}
-\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ target.x\ +=\ 5;}
-\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ target.x\ +=\ 23;}
-\DoxyCodeLine{00647\ \ \ \ \ \}}
-\DoxyCodeLine{00648\ }
-\DoxyCodeLine{00649\ \ \ \ \ target.h\ =\ 25;}
-\DoxyCodeLine{00650\ \ \ \ \ target.w\ =\ 5;}
-\DoxyCodeLine{00651\ \ \ \ \ target.x\ =\ 5*7*4;}
-\DoxyCodeLine{00652\ \ \ \ \ target.y\ =\ dot\_start-\/5;}
-\DoxyCodeLine{00653\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ 5;\ i++)\{}
-\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ target.y\ +=\ 7;}
-\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ target.y\ +=\ 25;}
-\DoxyCodeLine{00657\ \ \ \ \ \}}
-\DoxyCodeLine{00658\ }
-\DoxyCodeLine{00659\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ Start\ Year}}
-\DoxyCodeLine{00660\ \ \ \ \ drawNumber(year,\ 0,\ app.screen.HEIGHT\ -\/\ 3*5*14,\ 5);}
-\DoxyCodeLine{00661\ }
-\DoxyCodeLine{00662\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ End\ Year}}
-\DoxyCodeLine{00663\ \ \ \ \ drawNumber(end\_year,\ 0,\ app.screen.HEIGHT\ -\/\ 2*5*13,\ 5);}
-\DoxyCodeLine{00664\ }
-\DoxyCodeLine{00665\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ American\ Flag\ from\ 1941\ to\ 1944}}
-\DoxyCodeLine{00666\ \ \ \ \ \textcolor{keywordflow}{if}\ (year\ >=\ 1941\ \&\&\ year\ <=\ 1944)\{}
-\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 0,\ 0,\ 255,\ 255);}
-\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ target.h\ =\ 120;}
-\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ target.w\ =\ 50;}
-\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ target.x\ =\ 153;}
-\DoxyCodeLine{00671\ \ \ \ \ \ \ \ \ target.y\ =\ dot\_start+10;}
-\DoxyCodeLine{00672\ }
-\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00674\ }
-\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 5;\ i++)\{}
-\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 80;}
-\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5;}
-\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ dot\_start+50;}
-\DoxyCodeLine{00680\ }
-\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00682\ }
-\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ +=\ 5;}
-\DoxyCodeLine{00684\ }
-\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_SetRenderDrawColor(app.renderer,\ 255,\ 0,\ 0,\ 255);}
-\DoxyCodeLine{00686\ }
-\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00688\ }
-\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ +=\ 5;}
-\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00691\ }
-\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ what\ level\ the\ US\ is\ at}}
-\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ drawNumber(year-\/1941,\ 153+5*5,\ dot\_start+15,\ 2.5,\ 255,\ 255,\ 255);}
-\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00695\ \ \ \ \ \}}
-\DoxyCodeLine{00696\ \}}
-\DoxyCodeLine{00697\ }
-\DoxyCodeLine{00698\ \textcolor{keywordtype}{void}\ Runner::drawNumber(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ num,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale,\ \textcolor{keyword}{const}\ uint8\_t\ r,\ \textcolor{keyword}{const}\ uint8\_t\ g,\ \textcolor{keyword}{const}\ uint8\_t\ b)\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00699\ \ \ \ \ \textcolor{keywordtype}{int}\ digits\ =\ 0;}
-\DoxyCodeLine{00700\ \ \ \ \ \textcolor{keyword}{auto}\ copy\ =\ num;}
-\DoxyCodeLine{00701\ \ \ \ \ \textcolor{keywordflow}{while}\ (copy)\ \{}
-\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ copy\ /=\ 10;}
-\DoxyCodeLine{00703\ \ \ \ \ \ \ \ \ digits++;}
-\DoxyCodeLine{00704\ \ \ \ \ \}}
-\DoxyCodeLine{00705\ \ \ \ \ \textcolor{keywordflow}{if}\ \ (num\ ==\ 0)}
-\DoxyCodeLine{00706\ \ \ \ \ \ \ \ \ digits\ =\ 1;}
-\DoxyCodeLine{00707\ }
-\DoxyCodeLine{00708\ \ \ \ \ \textcolor{keywordtype}{int}\ offset\ =\ -\/(7*scale)/2;}
-\DoxyCodeLine{00709\ \ \ \ \ copy\ =\ num;}
-\DoxyCodeLine{00710\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 1;\ i\ <=\ digits;\ i++,\ offset\ +=\ 8*scale)\{}
-\DoxyCodeLine{00711\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ f\ =\ pow(10,\ digits-\/1);}
-\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ digit\ =\ copy/f;}
-\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ copy\ -\/=\ digit\ *\ f;}
-\DoxyCodeLine{00714\ \ \ \ \ \ \ \ \ copy\ *=\ 10;}
+\DoxyCodeLine{00614\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_abe7acd5992a451b154e957e7cbb4f360}{Runner::reshuffleAnimation}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\&\ action\_size,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\&\ invest\_size)\{}
+\DoxyCodeLine{00615\ \ \ \ \ \textcolor{keywordtype}{bool}\ running\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00616\ \ \ \ \ SDL\_Event\ event;}
+\DoxyCodeLine{00617\ \ \ \ \ \textcolor{keywordtype}{int}\ action\_offset\ =\ 0;}
+\DoxyCodeLine{00618\ \ \ \ \ \textcolor{keywordtype}{int}\ invest\_offset\ =\ 0;}
+\DoxyCodeLine{00619\ \ \ \ \ \textcolor{keywordtype}{int}\ scale\ =\ 5;}
+\DoxyCodeLine{00620\ \ \ \ \ \textcolor{keywordtype}{int}\ scaled\_size\ =\ (5*32);}
+\DoxyCodeLine{00621\ \ \ \ \ \textcolor{keywordtype}{int}\ delta\_time\ =\ rand()\ \%\ (8\ -\/\ 4\ +\ 1)\ +\ 4;}
+\DoxyCodeLine{00622\ \ \ \ \ \textcolor{keywordtype}{bool}\ state\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00623\ \ \ \ \ SDL\_Rect\ target;}
+\DoxyCodeLine{00624\ \ \ \ \ \textcolor{keywordflow}{while}\ (running)\{}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (state)\{\ \textcolor{comment}{//move\ cards}}
+\DoxyCodeLine{00627\ }
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \ \ \ \ \ \ target\ =\ \{(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2),\ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT/2-\/(scale*64)/2),\ (scale*96),\ (scale*64)\};}
+\DoxyCodeLine{00629\ }
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target,\ 5,\ 7,\ 96,\ 64);}
+\DoxyCodeLine{00631\ }
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.selectSprite(7,\ 0,\ 32,\ 32);}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ invest\_size;\ i++)\{}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (invest\_offset\ -\/\ i*16\ >=\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2+(9*scale))}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\ =\ \{\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2+(9*scale),\ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT/2-\/(scale*64)/2)+(15*scale)\ ,\ scaled\_size,\ scaled\_size\};}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\ =\ \{invest\_offset\ -\/\ i*16,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT/2-\/(scale*64)/2)+(15*scale),\ scaled\_size,\ scaled\_size\};}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSelectedSprite(\&target);}
+\DoxyCodeLine{00639\ }
+\DoxyCodeLine{00640\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \ \ \ \ invest\_offset\ +=\ delta\_time;}
+\DoxyCodeLine{00642\ }
+\DoxyCodeLine{00643\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ action\_size;\ i++)\{}
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH\ +\ action\_offset\ +\ i*16\ <=\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2+(57*scale))}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\ =\ \{\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2+(57*scale),\ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT/2-\/(scale*64)/2)+(15*scale)\ ,\ scaled\_size,\ scaled\_size\};}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\ =\ \{\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH\ +\ action\_offset\ +\ i*16,\ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT/2-\/(scale*64)/2)+(15*scale),\ scaled\_size,\ scaled\_size\};}
+\DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSelectedSprite(\&target);}
+\DoxyCodeLine{00649\ }
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ \ \ \ \ action\_offset\ -\/=\ delta\_time;}
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{\ \textcolor{comment}{//finish\ sign}}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 6;\ i++)\{}
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00657\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target,\ 5,\ 3,\ 96,\ 64);}
+\DoxyCodeLine{00658\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_Delay(50);}
+\DoxyCodeLine{00660\ }
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target,\ 5,\ 4,\ 96,\ 64);}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_Delay(50);}
+\DoxyCodeLine{00665\ }
+\DoxyCodeLine{00666\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target,\ 5,\ 5,\ 96,\ 64);}
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_Delay(50);}
+\DoxyCodeLine{00670\ }
+\DoxyCodeLine{00671\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00672\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target,\ 5,\ 6,\ 96,\ 64);}
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00674\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_Delay(100);}
+\DoxyCodeLine{00675\ }
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00678\ }
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00681\ }
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Player\ can\ skip\ cutscene}}
+\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_PollEvent(\&event))\{}
+\DoxyCodeLine{00684\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (event.type)\ \{}
+\DoxyCodeLine{00685\ }
+\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_KEYDOWN:\{}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ running\ =\ \textcolor{keyword}{event}.key.keysym.scancode\ !=\ SDL\_SCANCODE\_ESCAPE;}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00690\ }
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_QUIT:\{}
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ running\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00695\ }
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \{}
+\DoxyCodeLine{00697\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00699\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00700\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00701\ }
+\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Check\ to\ see\ if\ animation\ is\ done}}
+\DoxyCodeLine{00703\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH\ +\ action\_offset\ +\ (action\_size-\/1)*16\ \ \ \ <=\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2+(57*scale))\ \&\&}
+\DoxyCodeLine{00704\ \ \ \ \ \ \ \ \ \ \ \ \ (invest\_offset\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ >=\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2+(9*scale)))\{}
+\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \ \ \ \ \ target\ =\ \{\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2,\ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT/2-\/(scale*64)/2)\ ,(scale*96),\ (scale*64)\};}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ \ \ \ \ \ \ state\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00707\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_Delay(100);}
+\DoxyCodeLine{00708\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00709\ \ \ \ \ \}}
+\DoxyCodeLine{00710\ \}}
+\DoxyCodeLine{00711\ }
+\DoxyCodeLine{00712\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_ad1093c7a0155bb2b1b57c18788ad0ea9}{Runner::drawActionCards}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}*\ player,\ \textcolor{keywordtype}{int}\ start\_x,\ \textcolor{keywordtype}{int}\ start\_y,\ \textcolor{keywordtype}{int}\ count,\ \textcolor{keywordtype}{int}\ scale)\{}
+\DoxyCodeLine{00713\ \ \ \ \ \textcolor{keywordtype}{int}\ scaled\_size\ =\ 32*scale;}
+\DoxyCodeLine{00714\ \ \ \ \ SDL\_Rect\ target\ =\ \{start\_x,start\_y,scaled\_size,scaled\_size\};}
 \DoxyCodeLine{00715\ }
-\DoxyCodeLine{00716\ \ \ \ \ \ \ \ \ (num\ ==\ end\_year)?\ \ SDL\_SetRenderDrawColor(app.renderer,\ 248,\ 194,\ 46,\ 255)\ :\ SDL\_SetRenderDrawColor(app.renderer,\ r,\ g,\ b,\ 255);}
+\DoxyCodeLine{00716\ \ \ \ \ \textcolor{keyword}{auto}\&\ sprite\_sheet\ =\ \mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[player-\/>\mbox{\hyperlink{class_player_ac1bf32f466ba9dc1f93852fa835bbff2}{getAllegiance}}()];}
 \DoxyCodeLine{00717\ }
-\DoxyCodeLine{00718\ \ \ \ \ \ \ \ \ SDL\_Rect\ target;}
-\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][0])\{\ \textcolor{comment}{//A}}
-\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00721\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5*scale;}
-\DoxyCodeLine{00722\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+1*scale+offset;}
-\DoxyCodeLine{00723\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y;}
-\DoxyCodeLine{00724\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00725\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00726\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][1])\{\ \textcolor{comment}{//B}}
-\DoxyCodeLine{00727\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
-\DoxyCodeLine{00728\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+6*scale+offset;}
-\DoxyCodeLine{00730\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+1*scale;}
-\DoxyCodeLine{00731\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00732\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00733\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][2])\{\ \textcolor{comment}{//C}}
-\DoxyCodeLine{00734\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
-\DoxyCodeLine{00735\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00736\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+6*scale+offset;}
-\DoxyCodeLine{00737\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+7*scale;}
-\DoxyCodeLine{00738\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00739\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00740\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][3])\{\ \textcolor{comment}{//D}}
-\DoxyCodeLine{00741\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00742\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5*scale;}
-\DoxyCodeLine{00743\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+1*scale+offset;}
-\DoxyCodeLine{00744\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+12*scale;}
-\DoxyCodeLine{00745\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00746\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00747\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][4])\{\ \textcolor{comment}{//E}}
-\DoxyCodeLine{00748\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
-\DoxyCodeLine{00749\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00750\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+0*scale+offset;}
-\DoxyCodeLine{00751\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+7*scale;}
-\DoxyCodeLine{00752\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00753\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00754\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][5])\{\ \textcolor{comment}{//F}}
-\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 5*scale;}
-\DoxyCodeLine{00756\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 1*scale;}
-\DoxyCodeLine{00757\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+0*scale+offset;}
-\DoxyCodeLine{00758\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+1*scale;}
-\DoxyCodeLine{00759\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00760\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00761\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SEVEN\_SEGMENT\_DISPLAY[digit][6])\{\ \textcolor{comment}{//G}}
-\DoxyCodeLine{00762\ \ \ \ \ \ \ \ \ \ \ \ \ target.h\ =\ 1*scale;}
-\DoxyCodeLine{00763\ \ \ \ \ \ \ \ \ \ \ \ \ target.w\ =\ 5*scale;}
-\DoxyCodeLine{00764\ \ \ \ \ \ \ \ \ \ \ \ \ target.x\ =\ x+1*scale+offset;}
-\DoxyCodeLine{00765\ \ \ \ \ \ \ \ \ \ \ \ \ target.y\ =\ y+6*scale;}
-\DoxyCodeLine{00766\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderFillRect(app.renderer,\ \&target);}
-\DoxyCodeLine{00767\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00768\ \ \ \ \ \}}
-\DoxyCodeLine{00769\ }
-\DoxyCodeLine{00770\ }
-\DoxyCodeLine{00771\ \}}
+\DoxyCodeLine{00718\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ player-\/>\mbox{\hyperlink{class_player_a99706d1401e1e2fb0f1f16d04713e38f}{action\_card\_start}};\ i\ <\ count\ \&\&\ i\ <\ player-\/>\mbox{\hyperlink{class_player_ad21151ebd80ff1990e9d530f3188f505}{getActionSize}}();\ i++)\{\ \textcolor{comment}{//TODO\ have\ it\ so\ the\ seasons\ are\ already\ imprinted\ on\ the\ back\ for\ one\ less\ call}}
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ card\ =\ player-\/>\mbox{\hyperlink{class_player_a3d15440c59291506f3f0e5c8d6a76a8c}{getActionCard}}(i);}
+\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ draw\ left}}
+\DoxyCodeLine{00721\ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 15,\ card-\/>sprite\_offset\_left,\ 32,\ 32,\ 0);}
+\DoxyCodeLine{00722\ }
+\DoxyCodeLine{00723\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ draw\ base\ middle}}
+\DoxyCodeLine{00724\ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\ \&target,\ 16,\ 0,\ 32,\ 32,\ scaled\_size);}
+\DoxyCodeLine{00725\ }
+\DoxyCodeLine{00726\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ draw\ season}}
+\DoxyCodeLine{00727\ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\ \&target,\ 16,\ card-\/>season-\/1,\ 32,\ 32);}
+\DoxyCodeLine{00728\ }
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ draw\ letter}}
+\DoxyCodeLine{00730\ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\ \&target,\ 16,\ 4+card-\/>letter-\/\textcolor{charliteral}{'A'},\ 32,\ 32);}
+\DoxyCodeLine{00731\ }
+\DoxyCodeLine{00732\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ draw\ number}}
+\DoxyCodeLine{00733\ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\ \ \&target,\ 16,\ 28+card-\/>number,\ 32,\ 32);}
+\DoxyCodeLine{00734\ }
+\DoxyCodeLine{00735\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ draw\ right}}
+\DoxyCodeLine{00736\ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\ \&target,\ 15,\ card-\/>sprite\_offset\_right,\ 32,\ 32,\ scaled\_size);}
+\DoxyCodeLine{00737\ }
+\DoxyCodeLine{00738\ \ \ \ \ \ \ \ \ target.y\ +=\ scaled\_size;}
+\DoxyCodeLine{00739\ \ \ \ \ \ \ \ \ target.x\ =\ start\_x;}
+\DoxyCodeLine{00740\ \ \ \ \ \}}
+\DoxyCodeLine{00741\ \}}
+\DoxyCodeLine{00742\ }
+\DoxyCodeLine{00743\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a8e24f1914ccb107be28aa45760e0353c}{Runner::drawInvestCards}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}*\ player,\ \textcolor{keywordtype}{int}\ start\_x,\ \textcolor{keywordtype}{int}\ start\_y,\ \textcolor{keywordtype}{int}\ count,\ \textcolor{keywordtype}{int}\ scale)\{}
+\DoxyCodeLine{00744\ \ \ \ \ \textcolor{keywordtype}{int}\ scaled\_size\ =\ 32*scale;}
+\DoxyCodeLine{00745\ \ \ \ \ SDL\_Rect\ target\ =\ \{start\_x,start\_y,scaled\_size,scaled\_size\};}
+\DoxyCodeLine{00746\ }
+\DoxyCodeLine{00747\ \ \ \ \ \textcolor{keyword}{auto}\&\ sprite\_sheet\ =\ \mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[player-\/>\mbox{\hyperlink{class_player_ac1bf32f466ba9dc1f93852fa835bbff2}{getAllegiance}}()];}
+\DoxyCodeLine{00748\ }
+\DoxyCodeLine{00749\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ player-\/>\mbox{\hyperlink{class_player_ac98ed0a95a38a914ae582e8da315b31b}{invest\_card\_start}};\ i\ <\ count\ \&\&\ i\ <\ player-\/>\mbox{\hyperlink{class_player_ab3c69056b6dae04e42ce9e1a70d76882}{getInvestSize}}();\ i++)\{\ \textcolor{comment}{//TODO\ have\ it\ so\ the\ seasons\ are\ already\ imprinted\ on\ the\ back\ for\ one\ less\ call}}
+\DoxyCodeLine{00750\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ card\ =\ player-\/>\mbox{\hyperlink{class_player_ab0133c5fd6cb026c3c910aaa5888e7a4}{getInvestCard}}(i);}
+\DoxyCodeLine{00751\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ draw\ left}}
+\DoxyCodeLine{00752\ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 14,\ card-\/>sprite\_offset\_left,\ 32,\ 32,\ 0);}
+\DoxyCodeLine{00753\ }
+\DoxyCodeLine{00754\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ draw\ base\ factory\ cost}}
+\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 14,\ 24+card-\/>amount,\ 32,\ 32,\ scaled\_size);}
+\DoxyCodeLine{00756\ }
+\DoxyCodeLine{00757\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ draw\ right}}
+\DoxyCodeLine{00758\ \ \ \ \ \ \ \ \ sprite\_sheet.drawSprite(\&target,\ 14,\ card-\/>sprite\_offset\_right,\ 32,\ 32,\ scaled\_size);}
+\DoxyCodeLine{00759\ }
+\DoxyCodeLine{00760\ \ \ \ \ \ \ \ \ target.y\ +=\ scaled\_size;}
+\DoxyCodeLine{00761\ \ \ \ \ \ \ \ \ target.x\ =\ start\_x;}
+\DoxyCodeLine{00762\ \ \ \ \ \}}
+\DoxyCodeLine{00763\ \}}
+\DoxyCodeLine{00764\ }
+\DoxyCodeLine{00765\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a907d7cff65d53572390c9d7c71be3d15}{Runner::drawMemoResolution}}(\textcolor{keyword}{const}\ vector<std::array<size\_t,\ 6>>\&\ memo,\ vector<City*>\ unblocked)\{\ \ \ \ }
+\DoxyCodeLine{00766\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ city\ :\ unblocked)\{}
+\DoxyCodeLine{00767\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a4136cf24a9abfc8282ad29125f42e519}{drawMap}}(players[WEST],\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{false},\ \textcolor{keyword}{false},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00768\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ city\_indx\ =\ city-\/>ID;}
+\DoxyCodeLine{00769\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ city\_obj\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(city\_indx);}
+\DoxyCodeLine{00770\ \ \ \ \ \ \ \ \ \textcolor{comment}{//printf("{}To\ link\ \%s\ to\ the\ capital\ go:\ "{},\ city-\/>name.c\_str());}}
+\DoxyCodeLine{00771\ \ \ \ \ \ \ \ \ SDL\_SetRenderDrawColor(\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[WEST].renderer,\ 225,\ 194,\ 20,\ 255);}
+\DoxyCodeLine{00772\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (memo[city\_indx][1]\ !=\ 0)\{\ \textcolor{comment}{//1\ is\ previous}}
+\DoxyCodeLine{00773\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//printf("{}\%s\ [land:\%d\ sea\ \%d]to\ "{},\ map.getCity(city\_indx)-\/>name.c\_str(),\ (int)memo[city\_indx][4],\ (int)memo[city\_indx][5]);}}
+\DoxyCodeLine{00774\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ oldx=city\_obj-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}},\ oldy=city\_obj-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}};}
+\DoxyCodeLine{00775\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a5d52cd35d83ba1b9efb0829716e0833b}{drawCity}}(oldx,\ oldy,\ city\_obj-\/>\mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\_type}});}
+\DoxyCodeLine{00776\ \ \ \ \ \ \ \ \ \ \ \ \ city\_indx\ =\ memo[city\_indx][1];}
+\DoxyCodeLine{00777\ \ \ \ \ \ \ \ \ \ \ \ \ city\_obj\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(city\_indx);}
+\DoxyCodeLine{00778\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderDrawLine(\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[WEST].renderer,oldx\ +\ 16,\ oldy+\ 16,\ \ \ \ \ \ \ \ city\_obj-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+\ 16,city\_obj-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+\ 16);}
+\DoxyCodeLine{00779\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderDrawLine(\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[WEST].renderer,\ oldx-\/1\ +\ 16,\ oldy+1+\ 16,\ \ \ city\_obj-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}-\/1+\ 16,city\_obj-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+1+\ 16);}
+\DoxyCodeLine{00780\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderDrawLine(\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[WEST].renderer,\ oldx\ +\ 16,\ oldy+1+\ 16,\ \ \ \ \ city\_obj-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}+\ 16,\ city\_obj-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}+1+\ 16);}
+\DoxyCodeLine{00781\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00782\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a5d52cd35d83ba1b9efb0829716e0833b}{drawCity}}(city\_obj-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}},\ city\_obj-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}},\ city\_obj-\/>\mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\_type}});}
+\DoxyCodeLine{00783\ \ \ \ \ \ \ \ \ \textcolor{comment}{//printf("{}\%s\ .\(\backslash\)n"{},\ map.getCity(city\_indx)-\/>name.c\_str());}}
+\DoxyCodeLine{00784\ \ \ \ \ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[WEST].renderer);}
+\DoxyCodeLine{00785\ \ \ \ \ \ \ \ \ SDL\_Delay(1600);}
+\DoxyCodeLine{00786\ }
+\DoxyCodeLine{00787\ \ \ \ \ \}}
+\DoxyCodeLine{00788\ \ \ \ \ }
+\DoxyCodeLine{00789\ \}}
+\DoxyCodeLine{00790\ }
+\DoxyCodeLine{00791\ \textcolor{comment}{//TODO\ fix\ goofy\ ahhh\ lines}}
+\DoxyCodeLine{00792\ }
+\DoxyCodeLine{00793\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a907d7cff65d53572390c9d7c71be3d15}{Runner::drawMemoResolution}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \textcolor{keyword}{const}\ vector<std::array<size\_t,\ 4>>\&\ memo)\{}
+\DoxyCodeLine{00794\ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ Map}}
+\DoxyCodeLine{00795\ \ \ \ \ \mbox{\hyperlink{class_runner_a4136cf24a9abfc8282ad29125f42e519}{drawMap}}(player,\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{false},\ \textcolor{keyword}{false},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00796\ \ \ \ \ SDL\_SetRenderDrawColor(player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>renderer,\ 225,\ 194,\ 20,\ 255);}
+\DoxyCodeLine{00797\ \ \ \ \ }
+\DoxyCodeLine{00798\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ scale\_x\ =\ player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.getScaleX();}
+\DoxyCodeLine{00799\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ scale\_y\ =\ player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>screen.getScaleY();}
+\DoxyCodeLine{00800\ \ \ \ \ }
+\DoxyCodeLine{00801\ }
+\DoxyCodeLine{00802\ \ \ \ \ \textcolor{comment}{//-\/Go\ through\ and\ draw\ all\ connections\ in\ the\ memo\ since\ all\ of\ them\ can\ go\ through\ the\ og\ city\ and\ then\ to\ the\ supplier\ (draw\ all\ previouses)}}
+\DoxyCodeLine{00803\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ city\_indx\ =\ 0;\ city\_indx\ <\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_aec078176c2dc99ab8f77753942fdb081}{getNumCity}}();\ city\_indx++)\{}
+\DoxyCodeLine{00804\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (memo[city\_indx][0]\ \&\&\ memo[city\_indx][1]!=\ 0)\{\ \textcolor{comment}{//vistited\ and\ if\ there\ is\ a\ prev\ from\ here\ (discount\ starting\ one\ from\ error)}}
+\DoxyCodeLine{00805\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ oldx=\mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(city\_indx)-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}*scale\_x,\ oldy=\mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(city\_indx)-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}*scale\_y;}
+\DoxyCodeLine{00806\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00807\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ newx=\mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(memo[city\_indx][1])-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}*scale\_x,\ newy=\mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(memo[city\_indx][1])-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}*scale\_y;}
+\DoxyCodeLine{00808\ }
+\DoxyCodeLine{00809\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderDrawLine(player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>renderer,\ oldx,\ oldy,\ newx,\ newy);}
+\DoxyCodeLine{00810\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SDL\_RenderDrawLine(player.app-\/>renderer,\ oldx-\/1\ +\ 16,\ oldy+1+\ 16,\ \ \ newx-\/1+\ 16,newy+1+\ 16);}}
+\DoxyCodeLine{00811\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SDL\_RenderDrawLine(player.app-\/>renderer,\ oldx\ +\ 16,\ oldy+1+\ 16,\ \ \ \ \ newx+\ 16,\ newy+1+\ 16);}}
+\DoxyCodeLine{00812\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00813\ \ \ \ \ \}}
+\DoxyCodeLine{00814\ \ \ \ \ SDL\_RenderPresent(player.\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}-\/>renderer);}
+\DoxyCodeLine{00815\ \ \ \ \ SDL\_Delay(1600);}
+\DoxyCodeLine{00816\ \}}
+\DoxyCodeLine{00817\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a19d3b113b67736ffee2f2fb3674c2e95}{Runner::drawTurnRoll}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ result)\{}
+\DoxyCodeLine{00818\ \ \ \ \ \textcolor{keywordtype}{int}\ scale\ =\ 5;}
+\DoxyCodeLine{00819\ \ \ \ \ \textcolor{keywordtype}{int}\ scaled\_size\ =\ scale*32;}
+\DoxyCodeLine{00820\ \ \ \ \ SDL\_Rect\ target\ =\ \{\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/scaled\_size/2,\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT/2-\/scaled\_size/2,\ scaled\_size,\ scaled\_size\};}
+\DoxyCodeLine{00821\ \ \ \ \ SDL\_Event\ event;}
+\DoxyCodeLine{00822\ \ \ \ \ \textcolor{keywordtype}{bool}\ running\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00823\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 50\ \&\&\ running;\ i\ ++)\{}
+\DoxyCodeLine{00824\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00825\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target,\ 12,\ i\%6);}
+\DoxyCodeLine{00826\ \ \ \ \ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00827\ \ \ \ \ \ \ \ \ SDL\_Delay(50);}
+\DoxyCodeLine{00828\ }
+\DoxyCodeLine{00829\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Player\ can\ skip\ cutscene}}
+\DoxyCodeLine{00830\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_PollEvent(\&event))\{}
+\DoxyCodeLine{00831\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (event.type)\ \{}
+\DoxyCodeLine{00832\ }
+\DoxyCodeLine{00833\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_CONTROLLERBUTTONDOWN:\{}
+\DoxyCodeLine{00834\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (event.cbutton.button\ ==\ SDL\_CONTROLLER\_BUTTON\_START)\{}
+\DoxyCodeLine{00835\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00836\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00837\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00838\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00839\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00840\ }
+\DoxyCodeLine{00841\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_QUIT:\{}
+\DoxyCodeLine{00842\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ running\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00843\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00844\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00845\ }
+\DoxyCodeLine{00846\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \{}
+\DoxyCodeLine{00847\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00848\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00849\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00850\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00851\ \ \ \ \ \}}
+\DoxyCodeLine{00852\ \ \ \ \ }
+\DoxyCodeLine{00853\ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00854\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target,\ 12,\ result-\/1);}
+\DoxyCodeLine{00855\ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00856\ \ \ \ \ SDL\_Delay(400);}
+\DoxyCodeLine{00857\ }
+\DoxyCodeLine{00858\ \ \ \ \ target\ =\ \{\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2,\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT/2-\/(scale*64)/2,\ (scale*96),(scale*64)\};}
+\DoxyCodeLine{00859\ \ \ \ \ SDL\_Rect\ target2\ =\ \{(target.x+5*scale),\ target.y+22*scale,\ scaled\_size,\ scaled\_size\};}
+\DoxyCodeLine{00860\ \ \ \ \ SDL\_Rect\ target3\ =\ \{target.x+38*scale,\ target.y+22*scale,\ scaled\_size,\ scaled\_size\};}
+\DoxyCodeLine{00861\ \ \ \ \ SDL\_Rect\ target4\ =\ \{target.x+71*scale,\ target.y+22*scale,\ scaled\_size,\ scaled\_size\};}
+\DoxyCodeLine{00862\ }
+\DoxyCodeLine{00863\ \ \ \ \ \textcolor{comment}{//blank}}
+\DoxyCodeLine{00864\ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00865\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target,\ 5,\ 8,\ 96,\ 64);}
+\DoxyCodeLine{00866\ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00867\ \ \ \ \ SDL\_Delay(400);}
+\DoxyCodeLine{00868\ }
+\DoxyCodeLine{00869\ \ \ \ \ \textcolor{comment}{//add\ first}}
+\DoxyCodeLine{00870\ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00871\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target,\ 5,\ 9,\ 96,\ 64);}
+\DoxyCodeLine{00872\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target2,\ 0,\ 8+\mbox{\hyperlink{class_runner_a26a0b26116163188d7f6c7dc629496a4}{turn\_order}}[0]-\/>getAllegiance());}
+\DoxyCodeLine{00873\ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00874\ \ \ \ \ SDL\_Delay(400);}
+\DoxyCodeLine{00875\ }
+\DoxyCodeLine{00876\ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00877\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target,\ 5,\ 10,\ 96,\ 64);}
+\DoxyCodeLine{00878\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target2,\ 0,\ 8+\mbox{\hyperlink{class_runner_a26a0b26116163188d7f6c7dc629496a4}{turn\_order}}[0]-\/>getAllegiance());}
+\DoxyCodeLine{00879\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target3,\ 0,\ 8+\mbox{\hyperlink{class_runner_a26a0b26116163188d7f6c7dc629496a4}{turn\_order}}[1]-\/>getAllegiance());}
+\DoxyCodeLine{00880\ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00881\ \ \ \ \ SDL\_Delay(400);}
+\DoxyCodeLine{00882\ }
+\DoxyCodeLine{00883\ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00884\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target,\ 5,\ 11,\ 96,\ 64);}
+\DoxyCodeLine{00885\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target2,\ 0,\ 8+\mbox{\hyperlink{class_runner_a26a0b26116163188d7f6c7dc629496a4}{turn\_order}}[0]-\/>getAllegiance());}
+\DoxyCodeLine{00886\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target3,\ 0,\ 8+\mbox{\hyperlink{class_runner_a26a0b26116163188d7f6c7dc629496a4}{turn\_order}}[1]-\/>getAllegiance());}
+\DoxyCodeLine{00887\ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target4,\ 0,\ 8+\mbox{\hyperlink{class_runner_a26a0b26116163188d7f6c7dc629496a4}{turn\_order}}[2]-\/>getAllegiance());}
+\DoxyCodeLine{00888\ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00889\ \ \ \ \ SDL\_Delay(400);}
+\DoxyCodeLine{00890\ \ \ \ \ }
+\DoxyCodeLine{00891\ }
+\DoxyCodeLine{00892\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 12;\ i++)\{}
+\DoxyCodeLine{00893\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00894\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target,\ 5,\ 8+i\%4,\ 96,\ 64);}
+\DoxyCodeLine{00895\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target2,\ 0,\ 8+\mbox{\hyperlink{class_runner_a26a0b26116163188d7f6c7dc629496a4}{turn\_order}}[0]-\/>getAllegiance());}
+\DoxyCodeLine{00896\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target3,\ 0,\ 8+\mbox{\hyperlink{class_runner_a26a0b26116163188d7f6c7dc629496a4}{turn\_order}}[1]-\/>getAllegiance());}
+\DoxyCodeLine{00897\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target4,\ 0,\ 8+\mbox{\hyperlink{class_runner_a26a0b26116163188d7f6c7dc629496a4}{turn\_order}}[2]-\/>getAllegiance());}
+\DoxyCodeLine{00898\ \ \ \ \ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00899\ \ \ \ \ \ \ \ \ SDL\_Delay(200);}
+\DoxyCodeLine{00900\ \ \ \ \ \}}
+\DoxyCodeLine{00901\ }
+\DoxyCodeLine{00902\ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00903\ }
+\DoxyCodeLine{00904\ \}}
+\DoxyCodeLine{00905\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_abf26bf6823772bfe7c5afe5ab67582f5}{Runner::drawPeaceDividends}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ west,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ axis,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ ussr)\{}
+\DoxyCodeLine{00906\ \ \ \ \ \textcolor{keywordtype}{int}\ scale\ =\ 6;}
+\DoxyCodeLine{00907\ \ \ \ \ \textcolor{keywordtype}{int}\ scaled\_size\ =\ scale*32/2;}
+\DoxyCodeLine{00908\ \ \ \ \ SDL\_Rect\ target\ \ =\ \{(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2),\ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT/2-\/(scale*64)/2),\ (scale*96),\ (scale*64)\},\ }
+\DoxyCodeLine{00909\ \ \ \ \ \ \ \ \ \ \ \ \ \ target2\ =\ \{0,\ (\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.HEIGHT/2-\/(scale*64)/2)+scale*40,\ scaled\_size,\ scaled\_size\},}
+\DoxyCodeLine{00910\ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_west\ =\ \{target.x+46*scale,target.y+6*scale,\ 64,\ 64\},}
+\DoxyCodeLine{00911\ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_axis\ =\ target\_west,}
+\DoxyCodeLine{00912\ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_ussr\ =\ target\_west;}
+\DoxyCodeLine{00913\ \ \ \ \ SDL\_Event\ event;}
+\DoxyCodeLine{00914\ \ \ \ \ \textcolor{keywordtype}{bool}\ running\ =\ \textcolor{keyword}{true},\ \mbox{\hyperlink{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28}{move}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00915\ }
+\DoxyCodeLine{00916\ \ \ \ \ \textcolor{keywordtype}{float}\ offsetX1=target\_west.x,\ offsetX2=target\_axis.x,\ offsetX3=target\_ussr.x;}
+\DoxyCodeLine{00917\ \ \ \ \ \textcolor{keywordtype}{float}\ offsetY=target\_west.y;}
+\DoxyCodeLine{00918\ }
+\DoxyCodeLine{00919\ \ \ \ \ \textcolor{keywordflow}{while}\ (running)\{}
+\DoxyCodeLine{00920\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00921\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00922\ }
+\DoxyCodeLine{00923\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Always\ draw\ the\ board}}
+\DoxyCodeLine{00924\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target,\ 5,\ 12,\ 96,\ 64);}
+\DoxyCodeLine{00925\ }
+\DoxyCodeLine{00926\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28}{move}})\{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00927\ \ \ \ \ \ \ \ \ \ \ \ \ offsetY\ +=\ .88;\ \textcolor{comment}{//\ all\ decrease\ the\ same\ amount}}
+\DoxyCodeLine{00928\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (west)\{\ \textcolor{comment}{//west\ need\ to\ be\ drawn\ and\ the\ peace\ chit}}
+\DoxyCodeLine{00929\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ Peace\ Chit}}
+\DoxyCodeLine{00930\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target\_west,\ 9,\ 0);}
+\DoxyCodeLine{00931\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ offsetX1\ -\/=\ .56;}
+\DoxyCodeLine{00932\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_west.x\ =\ (int)offsetX1;}
+\DoxyCodeLine{00933\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_west.y\ =\ (int)offsetY;}
+\DoxyCodeLine{00934\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00935\ }
+\DoxyCodeLine{00936\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (axis)\{\ \textcolor{comment}{//west\ need\ to\ be\ drawn\ and\ the\ peace\ chit}}
+\DoxyCodeLine{00937\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ Peace\ Chit}}
+\DoxyCodeLine{00938\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target\_axis,\ 9,\ 0);}
+\DoxyCodeLine{00939\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ offsetX2\ -\/=\ .02;}
+\DoxyCodeLine{00940\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_axis.x\ =\ (int)offsetX2;}
+\DoxyCodeLine{00941\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_axis.y\ =\ (int)offsetY;}
+\DoxyCodeLine{00942\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00943\ }
+\DoxyCodeLine{00944\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ussr)\{\ \textcolor{comment}{//west\ need\ to\ be\ drawn\ and\ the\ peace\ chit}}
+\DoxyCodeLine{00945\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Draw\ Peace\ Chit}}
+\DoxyCodeLine{00946\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target\_ussr,\ 9,\ 0);}
+\DoxyCodeLine{00947\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ offsetX3\ +=\ .51;}
+\DoxyCodeLine{00948\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_ussr.x\ =\ (int)offsetX3;}
+\DoxyCodeLine{00949\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_ussr.y\ =\ (int)offsetY;}
+\DoxyCodeLine{00950\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00951\ }
+\DoxyCodeLine{00952\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Check\ for\ when\ main\ animation\ is\ done}}
+\DoxyCodeLine{00953\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (offsetY\ >\ target.y+42*scale)\{}
+\DoxyCodeLine{00954\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ running\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00955\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_west\ =\ target;}
+\DoxyCodeLine{00956\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00957\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00958\ }
+\DoxyCodeLine{00959\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (west)\ \{target2.x\ =\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2\ +\ scale*18;\ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target2,\ 13,\ 0);\}}
+\DoxyCodeLine{00960\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (axis)\ \{target2.x\ =\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2\ +\ scale*41;\ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\&target2,\ 13,\ 2);\}}
+\DoxyCodeLine{00961\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ussr)\ \{target2.x\ =\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.screen.WIDTH/2-\/(scale*96)/2\ +\ scale*63;\ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.drawSprite(\ \&target2,\ 13,\ 4);\}}
+\DoxyCodeLine{00962\ }
+\DoxyCodeLine{00963\ \ \ \ \ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00964\ }
+\DoxyCodeLine{00965\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Player\ can\ skip\ cutscene}}
+\DoxyCodeLine{00966\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_PollEvent(\&event))\{}
+\DoxyCodeLine{00967\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (event.type)\ \{}
+\DoxyCodeLine{00968\ }
+\DoxyCodeLine{00969\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_KEYDOWN:\{}
+\DoxyCodeLine{00970\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ running\ =\ \textcolor{keyword}{event}.key.keysym.scancode\ !=\ SDL\_SCANCODE\_ESCAPE;}
+\DoxyCodeLine{00971\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00972\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00973\ }
+\DoxyCodeLine{00974\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_QUIT:\{}
+\DoxyCodeLine{00975\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ running\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00976\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00977\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00978\ }
+\DoxyCodeLine{00979\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \{}
+\DoxyCodeLine{00980\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00981\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00982\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00983\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00984\ \ \ \ \ \}}
+\DoxyCodeLine{00985\ }
+\DoxyCodeLine{00986\ \}}
 
 \end{DoxyCode}

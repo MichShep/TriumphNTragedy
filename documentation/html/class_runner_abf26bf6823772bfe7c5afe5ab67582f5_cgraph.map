@@ -1,0 +1,7 @@
+<map id="Runner::drawPeaceDividends" name="Runner::drawPeaceDividends">
+<area shape="rect" id="Node000001" title="Animation of the cities who were peacful receiving a peace chit." alt="" coords="5,31,200,56"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a0293328b045476f6ab1ea47025d1b8dc" title="Clears the screen so the screen can &#39;update&#39;." alt="" coords="248,5,391,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,29,232,26,232,31,201,35"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#abdfbb9ff4d3924b378cd13c3a2a58c28" title="Checks what type of movement is allowed and if the player is allowed to move there." alt="" coords="268,55,371,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,52,252,57,252,63,200,57"/>
+</map>

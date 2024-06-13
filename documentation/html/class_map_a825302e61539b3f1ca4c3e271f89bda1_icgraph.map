@@ -1,0 +1,5 @@
+<map id="Map::checkConnection" name="Map::checkConnection">
+<area shape="rect" id="Node000001" title="Checks to see if there is a connection between the two named cities." alt="" coords="208,5,363,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#abf0b00bafd1b65a660b73d3aa53bfb1c" title="Checks if the player can disengage from the current battle." alt="" coords="5,5,160,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,21,160,21,160,16,192,16"/>
+</map>

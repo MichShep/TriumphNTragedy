@@ -1,0 +1,7 @@
+<map id="Runner::reshuffle" name="Runner::reshuffle">
+<area shape="rect" id="Node000001" title="New Year phase where Cards in the discard piles will be added to both draw decks and then the whole d..." alt="" coords="5,5,127,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#abe7acd5992a451b154e957e7cbb4f360" title="Animation of the cards from the discard pile being added back." alt="" coords="175,5,354,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,16,159,16,159,21,127,21"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a0293328b045476f6ab1ea47025d1b8dc" title="Clears the screen so the screen can &#39;update&#39;." alt="" coords="402,5,545,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="355,16,386,16,386,21,355,21"/>
+</map>

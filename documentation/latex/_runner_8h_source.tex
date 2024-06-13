@@ -4,367 +4,395 @@
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
 \DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Player.h"{}}}
-
-
-
-\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_runner}{Runner}}\{}
-\DoxyCodeLine{00009\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{int}\ num\_players;\ }
-\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}\ players[3];\ }
-\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_map}{Map}}\ map;\ }
-\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ year;\ }
-\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ end\_year;\ }
-\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{struct_dice}{Dice}}\ die;\ }
-\DoxyCodeLine{00022\ \ \ \ \ queue<ActionCard*>\ action\_deck;\ }
-\DoxyCodeLine{00024\ \ \ \ \ vector<ActionCard*>\ action\_discard;\ }
-\DoxyCodeLine{00026\ \ \ \ \ queue<InvestmentCard*>\ invest\_hand;\ }
-\DoxyCodeLine{00028\ \ \ \ \ vector<InvestmentCard*>\ invest\_discard;\ }
-\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}*\ start\_player;\ }
-\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}*\ active\_player;\ }
-\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{struct_app}{App}}\ app;}
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00004\ }
 
 
 
 
-\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{class_runner_a0de74fe5b4c57efd12b6f361e134dadb}{Runner}}(\textcolor{keywordtype}{bool}\ default\_mode\ =\ 1)\{}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Set\ random\ seed}}
-\DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ srand(100);}
-\DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Init\ Dice}}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ die\ =\ \mbox{\hyperlink{struct_dice}{Dice}}(1,\ 6);}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Set\ starting\ year}}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ year\ =\ START\_YEAR;}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ end\_year\ =\ END\_YEAR;}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ year-\/-\/;}
-\DoxyCodeLine{00054\ }
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Create\ Map}}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22}{initMap}}(\textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/src/starter2.map"{}});}
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ start\_player\ =\ \&players[1];\ \textcolor{comment}{//AXIS\ start}}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Init\ Players}}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ players[0]\ =\ \mbox{\hyperlink{class_player}{Player}}(\textcolor{stringliteral}{"{}Michael"{}},\ WEST);}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ players[1]\ =\ \mbox{\hyperlink{class_player}{Player}}(\textcolor{stringliteral}{"{}Taiga"{}},\ AXIS);}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ players[2]\ =\ \mbox{\hyperlink{class_player}{Player}}(\textcolor{stringliteral}{"{}Luke"{}},\ USSR);}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!default\_mode)\{}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a7da49e43690943e7040d405588d0b793}{mapPlayer}}(players[0]);}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a7da49e43690943e7040d405588d0b793}{mapPlayer}}(players[1]);}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a7da49e43690943e7040d405588d0b793}{mapPlayer}}(players[2]);}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00070\ }
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ players[0].print();}
-\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ players[1].print();}
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ players[2].print();}
-\DoxyCodeLine{00074\ }
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (InitApplication()\ ==\ \textcolor{keyword}{false})\{}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ ShutdownApplication();}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ exit(1);}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00079\ \ \ \ \ \}}
-\DoxyCodeLine{00080\ }
-\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ test()\{}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ active\_player\ =\ \&players[0];}
-\DoxyCodeLine{00083\ }
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{comment}{//For\ B}}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}*\ wInfa0\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ BRITIAN\_U,\ INFANTRY);}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}*\ wAir0\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(2,\ BRITIAN\_U,\ AIR);}
-\DoxyCodeLine{00087\ }
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}*\ uInfa0\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(3,\ USSR\_U,\ INFANTRY);}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}*\ uInfa1\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(4,\ USSR\_U,\ INFANTRY);}
-\DoxyCodeLine{00090\ }
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ map[\textcolor{stringliteral}{"{}B"{}}]-\/>addUnit(wInfa0);}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ map[\textcolor{stringliteral}{"{}B"{}}]-\/>addUnit(wAir0);}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ map[\textcolor{stringliteral}{"{}B"{}}]-\/>addUnit(uInfa0);}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ map[\textcolor{stringliteral}{"{}B"{}}]-\/>addUnit(uInfa1);}
+
+
+
+\DoxyCodeLine{00013\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ SDLCALL\ event\_filter(\textcolor{keywordtype}{void}*\ userdata,\ SDL\_Event*\ event)\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordflow}{if}\ (event-\/>type\ ==\ SDL\_JOYAXISMOTION)\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*int\ value\ =\ event-\/>jaxis.value;}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Apply\ deadzone\ filtering}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (value\ >\ -\/JOYSTICK\_DEADZONE\ \&\&\ value\ <\ JOYSTICK\_DEADZONE)\ \{}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ return\ false;\ //\ Filter\ out\ this\ event}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}*/}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{//\ Allow\ other\ events\ to\ pass\ through}}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00025\ \}}
+\DoxyCodeLine{00026\ }
+
+
+
+\DoxyCodeLine{00031\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_runner}{Runner}}\{}
+\DoxyCodeLine{00032\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_runner_abcd16a7f36951d76deddf361fc312500}{num\_players}};\ }
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}\ players[3];\ }
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{class_map}{Map}}\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}};\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_runner_ad49c512179505d8c8693c77affa7d756}{year}};\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_runner_a49b20e0ffc9289a7e44497ad52064dc3}{end\_year}};\ }
+\DoxyCodeLine{00043\ \ \ \ \ Season\ \mbox{\hyperlink{class_runner_aee2225c0ffc474b6fdcec6dd1320b649}{season}}=NEW\_YEAR;\ }
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{struct_dice}{Dice}}\ \mbox{\hyperlink{class_runner_a77b2b41b7718e59ffa9ab307dd958cfe}{die}};\ }
+\DoxyCodeLine{00047\ \ \ \ \ vector<ActionCard*>\ \mbox{\hyperlink{class_runner_af6adae0624ae3bf64c4f50ec518240e2}{action\_deck}};\ }
+\DoxyCodeLine{00049\ \ \ \ \ vector<ActionCard*>\ \mbox{\hyperlink{class_runner_a14e53179374d8a3aa19291ff0f6aa7cc}{action\_discard}};\ }
+\DoxyCodeLine{00051\ \ \ \ \ vector<InvestmentCard*>\ \mbox{\hyperlink{class_runner_a924d837279af06a4b98166919a2595f3}{invest\_deck}};\ }
+\DoxyCodeLine{00053\ \ \ \ \ vector<InvestmentCard*>\ \mbox{\hyperlink{class_runner_a61fb620cbea947593fd37922a3766ae4}{invest\_discard}};\ }
+\DoxyCodeLine{00055\ \ \ \ \ vector<PeaceChit>\ \mbox{\hyperlink{class_runner_ab3f6271a464ab649daf62d98d452465a}{peace\_dividends\_bag}};\ }
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}*\ \mbox{\hyperlink{class_runner_adfbbabad3bc215e42cc5484b7c2f7552}{start\_player}};\ }
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}*\ \mbox{\hyperlink{class_runner_ab2fc9bff80730445fab45bb05b23916e}{current\_player}};\ }
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}*\ \mbox{\hyperlink{class_runner_a26a0b26116163188d7f6c7dc629496a4}{turn\_order}}[3];\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_runner_a6c66593b3a3f87e1717ed411fa756964}{seed}}\ =\ 100;\ }
+\DoxyCodeLine{00065\ \ \ \ \ std::mt19937\ \mbox{\hyperlink{class_runner_ab8856030fdc77f8c9522ceb11cde2f21}{g}};\ }
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{struct_app}{App}}\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}};\ }
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{struct_app}{App}}\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[3];\ }
+\DoxyCodeLine{00071\ \textcolor{keyword}{public}:}
+
+
+
+
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{class_runner_ac5262ea57fd50233c6b5b6fe2cc45ce4}{Runner}}(\textcolor{keywordtype}{bool}\ default\_mode\ =\ \textcolor{keyword}{true})\{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_runner_a748b05df92aa9d64bc6288845f51566d}{InitApplication}}()\ ==\ \textcolor{keyword}{false})\{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a3fbb12039477f1bcdb82c58c5320f2d5}{ShutdownApplication}}();}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ exit(1);}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Set\ random\ seed}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ srand(\mbox{\hyperlink{class_runner_a6c66593b3a3f87e1717ed411fa756964}{seed}});}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Init\ Dice}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a77b2b41b7718e59ffa9ab307dd958cfe}{die}}\ =\ \mbox{\hyperlink{struct_dice}{Dice}}(1,\ 6);}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Set\ starting\ year}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ad49c512179505d8c8693c77affa7d756}{year}}\ =\ START\_YEAR;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a49b20e0ffc9289a7e44497ad52064dc3}{end\_year}}\ =\ END\_YEAR;}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ad49c512179505d8c8693c77affa7d756}{year}}-\/-\/;}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00095\ }
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{comment}{//For\ A}}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}*\ aTank0\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(5,\ GERMANY\_U,\ TANK);}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}*\ aTank1\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(11,\ ITALY\_U,\ TANK);}
-\DoxyCodeLine{00099\ }
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ map[\textcolor{stringliteral}{"{}A"{}}]-\/>addUnit(aTank0);}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ map[\textcolor{stringliteral}{"{}A"{}}]-\/>addUnit(aTank1);}
-\DoxyCodeLine{00102\ }
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{comment}{//For\ J}}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}*\ uInfa2\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(6,\ USSR\_U,\ INFANTRY);}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}*\ uAir0\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(7,\ USSR\_U,\ AIR);}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}*\ uAir1\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(8,\ USSR\_U,\ AIR);}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!default\_mode)\{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//setXY("{}/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map"{});}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a1a3632ffdf69bc9a94506d47ec401d2f}{setResXY}}();}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Create\ Map}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22}{initMap}}(\textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map"{}});}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Create\ Cards}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8bb31608fccb517fabf91990efa54f80}{initCards}}(\textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/src/invest.card"{}},\ \textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/src/action.card"{}});}
 \DoxyCodeLine{00107\ }
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ map[\textcolor{stringliteral}{"{}K"{}}]-\/>addUnit(uInfa2);}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ map[\textcolor{stringliteral}{"{}K"{}}]-\/>addUnit(uAir0);}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ map[\textcolor{stringliteral}{"{}K"{}}]-\/>addUnit(uAir1);}
-\DoxyCodeLine{00111\ }
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{comment}{//For\ I}}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}*\ wTank1\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(9,\ USA\_U,\ TANK);}
-\DoxyCodeLine{00114\ }
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ map[\textcolor{stringliteral}{"{}C"{}}]-\/>addUnit(wTank1);}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{comment}{//For\ H\ }}
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}*\ nFort\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(10,\ NEUTRAL\_U,\ FORTRESS);}
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ map[\textcolor{stringliteral}{"{}H"{}}]-\/>addUnit(nFort);}
-\DoxyCodeLine{00120\ }
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
-\DoxyCodeLine{00122\ \ \ \ \ \}}
-\DoxyCodeLine{00123\ }
-\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordtype}{void}\ test1()\{}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ move(map[\textcolor{stringliteral}{"{}A"{}}]-\/>occupants[1][0],\ \textcolor{stringliteral}{"{}A"{}},\ \textcolor{stringliteral}{"{}H"{}});}
-\DoxyCodeLine{00126\ }
-\DoxyCodeLine{00127\ \ \ \ \ \}}
-\DoxyCodeLine{00128\ }
-
-
-
-
-
-\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22}{initMap}}(\textcolor{keywordtype}{string}\ map\_file);}
-\DoxyCodeLine{00136\ }
-\DoxyCodeLine{00137\ \ \ \ \ \textcolor{comment}{//\&\ Sequence\ of\ Play}}
-\DoxyCodeLine{00138\ \ \ \ \ \textcolor{comment}{//-\/\ round\ handler}}
-\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a5fc406cae4aee55ee32026295464b0e1}{run}}();}
-\DoxyCodeLine{00140\ }
-\DoxyCodeLine{00141\ \ \ \ \ \textcolor{comment}{//-\/\ New\ Year}}
-\DoxyCodeLine{00142\ \ \ \ \ CityType\ newNear();}
-\DoxyCodeLine{00143\ }
-\DoxyCodeLine{00144\ \ \ \ \ \textcolor{comment}{//-\/\ Production\ Phase}}
-\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordtype}{void}\ production();}
-\DoxyCodeLine{00146\ }
-\DoxyCodeLine{00147\ \ \ \ \ \textcolor{comment}{//-\/\ Government\ Phase}}
-\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordtype}{void}\ government();}
-\DoxyCodeLine{00149\ }
-\DoxyCodeLine{00150\ \ \ \ \ \textcolor{comment}{//-\/\ Spring\ Season}}
-\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keywordtype}{void}\ spring();}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_adfbbabad3bc215e42cc5484b7c2f7552}{start\_player}}\ =\ \&players[1];\ \textcolor{comment}{//AXIS\ start}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Init\ Players}}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ players[0]\ =\ \mbox{\hyperlink{class_player}{Player}}(\textcolor{stringliteral}{"{}Michael"{}},\ WEST);\ \textcolor{comment}{//give\ 8\ cards}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2f289a86321f9b674b9bc02053d01a11}{deal}}(\&players[0],\ 8);}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ players[1]\ =\ \mbox{\hyperlink{class_player}{Player}}(\textcolor{stringliteral}{"{}Taiga"{}},\ AXIS);\ \textcolor{comment}{//give\ 14\ cards}}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2f289a86321f9b674b9bc02053d01a11}{deal}}(\&players[1],\ 14);}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ players[2]\ =\ \mbox{\hyperlink{class_player}{Player}}(\textcolor{stringliteral}{"{}Luke"{}},\ USSR);\ \textcolor{comment}{//give\ 7\ cards}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2f289a86321f9b674b9bc02053d01a11}{deal}}(\&players[2],\ 7);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a7da49e43690943e7040d405588d0b793}{mapPlayer}}(players[0]);}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a7da49e43690943e7040d405588d0b793}{mapPlayer}}(players[1]);}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a7da49e43690943e7040d405588d0b793}{mapPlayer}}(players[2]);}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ std::mt19937\ \mbox{\hyperlink{class_runner_ab8856030fdc77f8c9522ceb11cde2f21}{g}}(\mbox{\hyperlink{class_runner_a6c66593b3a3f87e1717ed411fa756964}{seed}});}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ab3f6271a464ab649daf62d98d452465a}{peace\_dividends\_bag}}\ =\ \{\{2,0,0\},\ \{2,0,0\},\ \{2,0,0\},\ \{2,0,0\},}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{1,0,0\},\ \{1,0,0\},\ \{1,0,0\},\ \{1,0,0\},\ \{1,0,0\},\ \{1,0,0\},\ \{1,0,0\},\ \{1,0,0\},\ \{1,0,0\},\ \{1,0,0\},\ \{1,0,0\},\ \{1,0,0\},\ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\},\ \{0,0,0\}\};}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ shuffle(\mbox{\hyperlink{class_runner_ab3f6271a464ab649daf62d98d452465a}{peace\_dividends\_bag}}.begin(),\ \mbox{\hyperlink{class_runner_ab3f6271a464ab649daf62d98d452465a}{peace\_dividends\_bag}}.end(),\ \mbox{\hyperlink{class_runner_ab8856030fdc77f8c9522ceb11cde2f21}{g}});}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ path\ =\ \textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/sprites/SpriteMap0.png"{}};}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path.c\_str(),\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ path2\ =\ \textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png"{}};}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ path3\ =\ \textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/sprites/UnitSpritesZ1.png"{}};}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ path4\ =\ \textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/sprites/UnitSpritesZ3.png"{}};}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ map\_sprite\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path2.c\_str(),\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[0]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[0].renderer);}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ players[WEST].\mbox{\hyperlink{class_player_a791eb3f3d22c6b54201421205b3ab6c7}{sprite\_sheet}}\ =\ \&\mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[0];}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[1]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[1].renderer);}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ players[AXIS].\mbox{\hyperlink{class_player_a791eb3f3d22c6b54201421205b3ab6c7}{sprite\_sheet}}\ =\ \&\mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[1];}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[2]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[2].renderer);}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ players[USSR].\mbox{\hyperlink{class_player_a791eb3f3d22c6b54201421205b3ab6c7}{sprite\_sheet}}\ =\ \&\mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[2];}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}{powers\_map\_sprite}}[0]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path2.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[0].renderer);}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ players[WEST].\mbox{\hyperlink{class_player_af664de25e4412cd788e4464bea9c54fe}{map\_sprite}}\ =\ \&\mbox{\hyperlink{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}{powers\_map\_sprite}}[0];}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}{powers\_map\_sprite}}[1]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path2.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[1].renderer);}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ players[AXIS].\mbox{\hyperlink{class_player_af664de25e4412cd788e4464bea9c54fe}{map\_sprite}}\ =\ \&\mbox{\hyperlink{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}{powers\_map\_sprite}}[1];}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}{powers\_map\_sprite}}[2]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path2.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[2].renderer);}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ players[USSR].\mbox{\hyperlink{class_player_af664de25e4412cd788e4464bea9c54fe}{map\_sprite}}\ =\ \&\mbox{\hyperlink{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}{powers\_map\_sprite}}[2];}
 \DoxyCodeLine{00152\ }
-\DoxyCodeLine{00153\ \ \ \ \ \textcolor{comment}{//-\/\ Summer\ Season}}
-\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{void}\ summer();}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0c016b27536b3fdd68d4f10c2a6a0f5c}{powers\_units\_sprite\_z1}}[0]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path3.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[0].renderer);}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ players[WEST].\mbox{\hyperlink{class_player_accc75dbe633189497dbeac718c11359d}{units\_sprite\_z1}}\ =\ \&\mbox{\hyperlink{class_runner_a0c016b27536b3fdd68d4f10c2a6a0f5c}{powers\_units\_sprite\_z1}}[0];}
 \DoxyCodeLine{00155\ }
-\DoxyCodeLine{00156\ \ \ \ \ \textcolor{comment}{//-\/\ Check\ Blockades}}
-\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordtype}{void}\ blockade();}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0c016b27536b3fdd68d4f10c2a6a0f5c}{powers\_units\_sprite\_z1}}[1]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path3.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[1].renderer);}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ players[AXIS].\mbox{\hyperlink{class_player_accc75dbe633189497dbeac718c11359d}{units\_sprite\_z1}}\ =\ \&\mbox{\hyperlink{class_runner_a0c016b27536b3fdd68d4f10c2a6a0f5c}{powers\_units\_sprite\_z1}}[1];}
 \DoxyCodeLine{00158\ }
-\DoxyCodeLine{00159\ \ \ \ \ \textcolor{comment}{//-\/\ Fall\ Season}}
-\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordtype}{void}\ fall();}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0c016b27536b3fdd68d4f10c2a6a0f5c}{powers\_units\_sprite\_z1}}[2]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path3.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[2].renderer);}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ players[USSR].\mbox{\hyperlink{class_player_accc75dbe633189497dbeac718c11359d}{units\_sprite\_z1}}\ =\ \&\mbox{\hyperlink{class_runner_a0c016b27536b3fdd68d4f10c2a6a0f5c}{powers\_units\_sprite\_z1}}[2];}
 \DoxyCodeLine{00161\ }
-\DoxyCodeLine{00162\ \ \ \ \ \textcolor{comment}{//-\/\ Winter\ Season}}
-\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keywordtype}{void}\ winter();}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a5182c63289259807a2025080cbf6bd46}{powers\_units\_sprite\_z3}}[0]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path4.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[0].renderer);}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ players[WEST].\mbox{\hyperlink{class_player_afbe08fbde850b769a2366f10f01bec7e}{units\_sprite\_z3}}\ =\ \&\mbox{\hyperlink{class_runner_a5182c63289259807a2025080cbf6bd46}{powers\_units\_sprite\_z3}}[0];}
 \DoxyCodeLine{00164\ }
-\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keywordtype}{void}\ reshuffle();}
-\DoxyCodeLine{00166\ }
-\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keywordtype}{void}\ peaceDividends();}
-\DoxyCodeLine{00168\ }
-\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordtype}{void}\ newYearRes();}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a5182c63289259807a2025080cbf6bd46}{powers\_units\_sprite\_z3}}[1]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path4.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[1].renderer);}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ players[AXIS].\mbox{\hyperlink{class_player_afbe08fbde850b769a2366f10f01bec7e}{units\_sprite\_z3}}\ =\ \&\mbox{\hyperlink{class_runner_a5182c63289259807a2025080cbf6bd46}{powers\_units\_sprite\_z3}}[1];}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a5182c63289259807a2025080cbf6bd46}{powers\_units\_sprite\_z3}}[2]\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path4.c\_str(),\ \mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[2].renderer);}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ players[USSR].\mbox{\hyperlink{class_player_afbe08fbde850b769a2366f10f01bec7e}{units\_sprite\_z3}}\ =\ \&\mbox{\hyperlink{class_runner_a5182c63289259807a2025080cbf6bd46}{powers\_units\_sprite\_z3}}[2];}
 \DoxyCodeLine{00170\ }
-\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordtype}{void}\ handCheck(\mbox{\hyperlink{class_player}{Player}}*\ player);}
-\DoxyCodeLine{00172\ }
-\DoxyCodeLine{00173\ \ \ \ \ \textcolor{comment}{//\&Checking\ on\ map}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ players[WEST].\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}\ =\ \&\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[0];}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ players[AXIS].\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}\ =\ \&\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[1];}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ players[USSR].\mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}\ =\ \&\mbox{\hyperlink{class_runner_a2ff31aa62bfbccbffd63a731e815c810}{powers\_app}}[2];}
 \DoxyCodeLine{00174\ }
-
-
-
-
-
-
-\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a7da49e43690943e7040d405588d0b793}{mapPlayer}}(\mbox{\hyperlink{class_player}{Player}}\&\ player);}
-\DoxyCodeLine{00183\ }
-\DoxyCodeLine{00184\ \ \ \ \ \textcolor{comment}{//\&\&\&Unit\ Actions}}
-\DoxyCodeLine{00185\ }
-\DoxyCodeLine{00186\ \ \ \ \ \textcolor{comment}{//\&\ Movement\ }}
-\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordtype}{bool}\ move(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ start,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ end);}
-\DoxyCodeLine{00188\ }
-
-
-
-
-
-
-
-
-\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a38a4e7be3c09505c6d0335872615a4cb}{disengage}}(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ start,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ end);}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ test();}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{comment}{//for\ handling\ stick\ drift}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ SDL\_SetEventFilter(event\_filter,\ NULL);}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a70dfac5fcbf396c9505474dcc6a3b530}{last\_tick}}\ =\ SDL\_GetTicks();}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ players[0].\mbox{\hyperlink{class_player_a3973c439ed48986ad2b056796ce3b9aa}{cursor\_x}}\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a9ed1e789af15eb96bff51d9a0f85a1fe}{getCapital}}(\textcolor{stringliteral}{"{}Britian"{}})-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}};}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ players[0].\mbox{\hyperlink{class_player_ab931ec5f35eb49859482a0bccce08987}{cursor\_y}}\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a9ed1e789af15eb96bff51d9a0f85a1fe}{getCapital}}(\textcolor{stringliteral}{"{}Britian"{}})-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}};}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ players[0].\mbox{\hyperlink{class_player_a792f2244364c1206a4ad56b01f0132ac}{closest\_map\_city}}\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a9ed1e789af15eb96bff51d9a0f85a1fe}{getCapital}}(\textcolor{stringliteral}{"{}Britian"{}});}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ players[2].\mbox{\hyperlink{class_player_a3973c439ed48986ad2b056796ce3b9aa}{cursor\_x}}\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a9ed1e789af15eb96bff51d9a0f85a1fe}{getCapital}}(\textcolor{stringliteral}{"{}USSR"{}})-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}};}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ players[2].\mbox{\hyperlink{class_player_ab931ec5f35eb49859482a0bccce08987}{cursor\_y}}\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a9ed1e789af15eb96bff51d9a0f85a1fe}{getCapital}}(\textcolor{stringliteral}{"{}USSR"{}})-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}};}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ players[2].\mbox{\hyperlink{class_player_a792f2244364c1206a4ad56b01f0132ac}{closest\_map\_city}}\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a9ed1e789af15eb96bff51d9a0f85a1fe}{getCapital}}(\textcolor{stringliteral}{"{}USSR"{}});}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ players[1].\mbox{\hyperlink{class_player_a3973c439ed48986ad2b056796ce3b9aa}{cursor\_x}}\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a9ed1e789af15eb96bff51d9a0f85a1fe}{getCapital}}(\textcolor{stringliteral}{"{}Germany"{}})-\/>\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}};}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ players[1].\mbox{\hyperlink{class_player_ab931ec5f35eb49859482a0bccce08987}{cursor\_y}}\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a9ed1e789af15eb96bff51d9a0f85a1fe}{getCapital}}(\textcolor{stringliteral}{"{}Germany"{}})-\/>\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}};}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ players[1].\mbox{\hyperlink{class_player_a792f2244364c1206a4ad56b01f0132ac}{closest\_map\_city}}\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a9ed1e789af15eb96bff51d9a0f85a1fe}{getCapital}}(\textcolor{stringliteral}{"{}Germany"{}});}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ players[0].\mbox{\hyperlink{class_player_aada43d4dfb6f6ead21fe340215e5f150}{calculateProduction}}();}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ players[1].\mbox{\hyperlink{class_player_aada43d4dfb6f6ead21fe340215e5f150}{calculateProduction}}();}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ players[2].\mbox{\hyperlink{class_player_aada43d4dfb6f6ead21fe340215e5f150}{calculateProduction}}();}
+\DoxyCodeLine{00198\ \ \ \ \ \}}
 \DoxyCodeLine{00199\ }
-
-
-
-
-
-
-\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_runner_a6b86ea8f00eff661c9e5b5b32eb9a160}{canMove}}(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ start,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ name);}
-\DoxyCodeLine{00208\ }
-\DoxyCodeLine{00209\ \ \ \ \ \textcolor{comment}{//\&\ Combat}}
-
-
-
-\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a184367c79c742005f743ad1cfca05b2a}{combatRound}}();}
-\DoxyCodeLine{00215\ }
-
-
-
-
-\DoxyCodeLine{00221\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_addda43dfc74c96188a27f35844925760}{landCombat}}(\mbox{\hyperlink{struct_city}{City}}*\ battlefield);}
+\DoxyCodeLine{00200\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ test()\{}
+\DoxyCodeLine{00201\ \ \ \ \ }
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}London"{}}]-\/>occupants[0].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ BRITIAN\_U,\ FLEET));}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}London"{}}]-\/>occupants[0].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(2,\ BRITIAN\_U,\ FORTRESS));}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}London"{}}]-\/>num\_occupants\ =\ 2;}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Washington"{}}]-\/>occupants[0].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ USA\_U,\ FLEET));}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Washington"{}}]-\/>occupants[0].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(2,\ USA\_U,\ FORTRESS));}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Washington"{}}]-\/>occupants[0].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ USA\_U,\ SUB));}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Washington"{}}]-\/>occupants[0].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(2,\ USA\_U,\ CARRIER));}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Washington"{}}]-\/>occupants[0].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ USA\_U,\ AIR));}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Washington"{}}]-\/>occupants[0].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(2,\ USA\_U,\ TANK));}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Washington"{}}]-\/>occupants[0].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ USA\_U,\ INFANTRY));}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Washington"{}}]-\/>num\_occupants\ =\ 7;}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Ruhr"{}}]-\/>occupants[3].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(3,\ USSR\_U,\ TANK));}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Ruhr"{}}]-\/>occupants[3].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(4,\ USSR\_U,\ TANK));}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Ruhr"{}}]-\/>occupants[3].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(5,\ USSR\_U,\ TANK));}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Ruhr"{}}]-\/>occupants[1].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(6,\ GERMANY\_U,\ AIR));}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Ruhr"{}}]-\/>occupants[1].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(7,\ GERMANY\_U,\ AIR));}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Ruhr"{}}]-\/>occupants[1].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(8,\ GERMANY\_U,\ INFANTRY));}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Ruhr"{}}]-\/>num\_occupants\ =\ 6;}
 \DoxyCodeLine{00222\ }
-
-
-
-
-
-
-\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a279b91e29a994cf5f93a1d39edf89307}{seaCombat}}(\mbox{\hyperlink{struct_city}{City}}*\ battlefield);}
-\DoxyCodeLine{00231\ }
-\DoxyCodeLine{00232\ \ \ \ \ }
-\DoxyCodeLine{00233\ \ \ \ \ \textcolor{comment}{//-\/check\ which\ cities\ have\ battles\ and\ have\ the}}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Moscow"{}}]-\/>occupants[2].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(3,\ USSR\_U,\ TANK));}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Moscow"{}}]-\/>occupants[2].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(4,\ USSR\_U,\ INFANTRY));}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Moscow"{}}]-\/>occupants[2].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(5,\ USSR\_U,\ AIR));}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Moscow"{}}]-\/>occupants[2].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(6,\ USSR\_U,\ AIR));}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Moscow"{}}]-\/>occupants[2].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(7,\ USSR\_U,\ INFANTRY));}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Moscow"{}}]-\/>occupants[2].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(8,\ USSR\_U,\ TANK));}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Moscow"{}}]-\/>num\_occupants\ =\ 6;}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Warsaw"{}}]-\/>occupants[3].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ NEUTRAL\_U,\ FORTRESS));}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Warsaw"{}}]-\/>occupants[3][0]-\/>combat\_value\ =\ 3;}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Warsaw"{}}]-\/>num\_occupants\ =\ 1;}
 \DoxyCodeLine{00234\ }
-
-
-
-
-
-\DoxyCodeLine{00241\ \ \ \ \ vector<City*>\ \mbox{\hyperlink{class_runner_ae3c41783620e8a41af4f38417ebf2951}{getBattles}}(\textcolor{keyword}{const}\ CityType\ allegiance);\ }
-\DoxyCodeLine{00242\ }
-
-
-
-
-\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_runner_a5dca1a5476d99423cc792bd95a0a71da}{getNumPlayers}}()\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ num\_players;}
-\DoxyCodeLine{00250\ \ \ \ \ \}}
-\DoxyCodeLine{00251\ }
-\DoxyCodeLine{00252\ \ \ \ \ \textcolor{keywordtype}{void}\ freeMemory()\{}
-\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ map.\mbox{\hyperlink{class_map_a8254a700f6c57fa8a0b3c2e26fc90963}{freeMemory}}();}
-\DoxyCodeLine{00254\ \ \ \ \ \}}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Budapest"{}}]-\/>occupants[0].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ BRITIAN\_U,\ INFANTRY));}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Budapest"{}}]-\/>occupants[1].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ GERMANY\_U,\ AIR));}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Budapest"{}}]-\/>num\_occupants\ =\ 2;}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Berlin"{}}]-\/>occupants[1].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ GERMANY\_U,\ INFANTRY));}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Berlin"{}}]-\/>occupants[1][0]-\/>combat\_value\ =\ 3;}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Berlin"{}}]-\/>occupants[1].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ GERMANY\_U,\ AIR));}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Berlin"{}}]-\/>occupants[1][1]-\/>combat\_value\ =\ 2;}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Berlin"{}}]-\/>num\_occupants\ =\ 2;}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Croatia"{}}]-\/>occupants[0].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ BRITIAN\_U,\ INFANTRY));}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Croatia"{}}]-\/>occupants[2].push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_unit}{Unit}}(1,\ USSR\_U,\ AIR));}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Croatia"{}}]-\/>num\_occupants\ =\ 2;}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Budapest"{}}]-\/>ruler\_type\ =\ WEST;}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a208489f463ca73dc87510323894ca88d}{getCountry}}(\textcolor{stringliteral}{"{}Hungary"{}})-\/>influence\_level\ =\ SATELLITES;}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a208489f463ca73dc87510323894ca88d}{getCountry}}(\textcolor{stringliteral}{"{}Hungary"{}})-\/>allegiance\ =\ WEST;}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Budapest"{}}]-\/>influencer\ =\ WEST;}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Budapest"{}}]-\/>country\_counts[0]\ =\ 2;}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ players[0].\mbox{\hyperlink{class_player_a6fb8c6d501a126035bcebdf2dd0b07f2}{add}}(\mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(\textcolor{stringliteral}{"{}Budapest"{}}));}
 \DoxyCodeLine{00255\ }
-\DoxyCodeLine{00256\ \ \ \ \ \textcolor{comment}{//\&\ Runner\ Getters\ and\ Setters}}
-\DoxyCodeLine{00257\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_map}{Map}}\&\ getMap()\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ map;}
-\DoxyCodeLine{00259\ \ \ \ \ \}}
-\DoxyCodeLine{00260\ }
-\DoxyCodeLine{00261\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00262\ \ \ \ \ \textcolor{keywordtype}{bool}\ canDisengage(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ start,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ end);}
-\DoxyCodeLine{00263\ }
-\DoxyCodeLine{00264\ \ \ \ \ \textcolor{keywordtype}{void}\ printMemo(\textcolor{keywordtype}{size\_t}\ memo[][5])\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a208489f463ca73dc87510323894ca88d}{getCountry}}(\textcolor{stringliteral}{"{}Turkey"{}})-\/>influence\_level\ =\ SATELLITES;}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a208489f463ca73dc87510323894ca88d}{getCountry}}(\textcolor{stringliteral}{"{}Turkey"{}})-\/>allegiance\ =\ WEST;}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Ankara"{}}]-\/>ruler\_type\ =\ WEST;}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Ankara"{}}]-\/>blockcade\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ players[0].\mbox{\hyperlink{class_player_a6fb8c6d501a126035bcebdf2dd0b07f2}{add}}(\mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(\textcolor{stringliteral}{"{}Ankara"{}}));}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Iraq"{}}]-\/>blockcade\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Marseille"{}}]-\/>blockcade\ =\ \textcolor{keyword}{true};}
 \DoxyCodeLine{00265\ }
-\DoxyCodeLine{00266\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00268\ \ \ \ \ \textcolor{comment}{//-\/\ Init\ Functions}}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}[\textcolor{stringliteral}{"{}Gibraltar"{}}]-\/>ruler\_type\ =\ AXIS;}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2f289a86321f9b674b9bc02053d01a11}{deal}}(\&players[0],\ 11,\ \textcolor{charliteral}{'I'});}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00271\ \ \ \ \ \}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ }
 
 
 
 
 
-\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keywordtype}{bool}\ InitSDL();}
-\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22}{initMap}}(\textcolor{keywordtype}{string}\ map\_file);}
+\DoxyCodeLine{00281\ }
 
 
 
-\DoxyCodeLine{00281\ \ \ \ \ \textcolor{keywordtype}{void}\ ClearScreen();}
-\DoxyCodeLine{00282\ }
 
 
+\DoxyCodeLine{00288\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a8bb31608fccb517fabf91990efa54f80}{initCards}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ invest\_file,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ action\_file);}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{comment}{//\&\ Sequence\ of\ Play}}
+\DoxyCodeLine{00291\ \ \ \ \ \textcolor{comment}{//-\/\ Round\ handler}}
 
-\DoxyCodeLine{00287\ \ \ \ \ \textcolor{keywordtype}{void}\ ShutdownApplication();}
-\DoxyCodeLine{00288\ }
 
 
 
 
+\DoxyCodeLine{00298\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a5fc406cae4aee55ee32026295464b0e1}{run}}();}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00300\ \ \ \ \ \textcolor{comment}{//\&\ New\ Year}}
 
-\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keywordtype}{bool}\ InitApplication();}
-\DoxyCodeLine{00296\ }
-\DoxyCodeLine{00297\ \ \ \ \ \textcolor{comment}{//-\/\ Game\ Displaying}}
 
 
 
-\DoxyCodeLine{00302\ \ \ \ \ void\ (\mbox{\hyperlink{class_runner}{Runner}}::*\ draw\ [8])(\mbox{\hyperlink{class_unit}{Unit}}*,\ int,\ int,\ float)\ const\ =\ \{\&Runner::drawFortress,\ \&Runner::drawAir,\ \&Runner::drawCarrier,\ \&Runner::drawSub,\ \&Runner::drawFleet,\ \&Runner::drawTank,\ \&Runner::drawInfantry,\ \&Runner::drawConvoy\};}
-\DoxyCodeLine{00303\ }
 
 
 
 
-\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keywordtype}{void}\ DrawCity(\mbox{\hyperlink{struct_city}{City}}*\ city);}
-\DoxyCodeLine{00310\ }
 
 
+\DoxyCodeLine{00312\ \ \ \ \ CityType\ \mbox{\hyperlink{class_runner_a4f34c8edcfdc20e2227eb35465f619f2}{newYear}}();}
+\DoxyCodeLine{00313\ }
 
 
 
 
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_ad62bb8027061f8fbd5eced9182ff8db1}{reshuffle}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ animation);}
+\DoxyCodeLine{00320\ \ \ \ \ }
 
-\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keywordtype}{void}\ drawFortress(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00320\ }
 
 
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a38409a814f07a34df8461ae4d33b2af1}{peaceDividends}}();}
+\DoxyCodeLine{00326\ }
 
 
 
+\DoxyCodeLine{00331\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_ad7c5f36273e1ce21040e4f99f9167c55}{decideTurnOrder}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ animation=\textcolor{keyword}{false});}
+\DoxyCodeLine{00332\ }
 
 
-\DoxyCodeLine{00329\ \ \ \ \ \textcolor{keywordtype}{void}\ drawAir(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00330\ }
 
 
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a805a1522e9541c31df3a136d58f99ec2}{newYearRes}}();}
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \ \ \ \ \textcolor{comment}{//-\/\ Production\ Phase}}
 
 
 
+\DoxyCodeLine{00345\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a1d0e5459a22a49dbf34b0d75f6383676}{production}}();}
+\DoxyCodeLine{00346\ }
 
 
-\DoxyCodeLine{00339\ \ \ \ \ \textcolor{keywordtype}{void}\ drawCarrier(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00340\ }
 
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a16088828db0867024b5afe804b3958ce}{drawProductionPhase}}();}
+\DoxyCodeLine{00352\ }
 
 
 
 
 
 
-\DoxyCodeLine{00349\ \ \ \ \ \textcolor{keywordtype}{void}\ drawSub(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00350\ }
 
 
+\DoxyCodeLine{00362\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a2f289a86321f9b674b9bc02053d01a11}{deal}}(\mbox{\hyperlink{class_player}{Player}}*\ player,\ \textcolor{keywordtype}{size\_t}\ amount,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ state=\textcolor{charliteral}{'A'});}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \ \ \ \ \textcolor{comment}{//-\/\ Government\ Phase}}
 
 
 
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a024ca94b6ff3d8213d236d87c0c6abb5}{government}}();}
+\DoxyCodeLine{00370\ }
 
 
-\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keywordtype}{void}\ drawFleet(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\ \textcolor{keyword}{const};}
 
 
+\DoxyCodeLine{00376\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a22b0ff9811693c494fdadd997970819b}{handCheck}}(\mbox{\hyperlink{class_player}{Player}}*\ player);}
+\DoxyCodeLine{00377\ }
+\DoxyCodeLine{00378\ \ \ \ \ \textcolor{comment}{//\&\ Seasons\ of\ War}}
+\DoxyCodeLine{00379\ \ \ \ \ \textcolor{comment}{//-\/\ Spring}}
 
 
 
+\DoxyCodeLine{00384\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a30ca7e5e57561f398bd28810ccb01863}{spring}}();}
+\DoxyCodeLine{00385\ }
+\DoxyCodeLine{00386\ \ \ \ \ \textcolor{comment}{//-\/\ Summer\ Season}}
 
 
-\DoxyCodeLine{00368\ \ \ \ \ \textcolor{keywordtype}{void}\ drawTank(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00369\ }
 
+\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a6b0a121458d71f3fc894a8e2fe1fae53}{summer}}();}
+\DoxyCodeLine{00392\ }
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{comment}{//-\/\ Checking\ Blockades}}
 
 
 
+\DoxyCodeLine{00398\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_ab7a6bc0c912c91b38173765275439a70}{blockade}}();}
+\DoxyCodeLine{00399\ }
+\DoxyCodeLine{00400\ \ \ \ \ \textcolor{comment}{//-\/\ Fall\ Season}}
 
 
 
-\DoxyCodeLine{00378\ \ \ \ \ \textcolor{keywordtype}{void}\ drawInfantry(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00379\ }
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a53d01879c1069eee75648c7c437dda93}{fall}}();}
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \ \ \ \ \textcolor{comment}{//-\/\ Winter\ Season}}
 
 
 
+\DoxyCodeLine{00412\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a2a76c0657f22cc6366131f066f158e17}{winter}}();}
+\DoxyCodeLine{00413\ }
+\DoxyCodeLine{00414\ \ \ \ \ \textcolor{comment}{//\&Checking\ on\ map}}
+\DoxyCodeLine{00415\ }
 
 
 
 
-\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordtype}{void}\ drawConvoy(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00389\ \ \ \ \ }
 
 
+\DoxyCodeLine{00423\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a7da49e43690943e7040d405588d0b793}{mapPlayer}}(\mbox{\hyperlink{class_player}{Player}}\&\ player);}
+\DoxyCodeLine{00424\ }
 
-\DoxyCodeLine{00394\ \ \ \ \ \textcolor{keywordtype}{void}\ DrawConnections();}
-\DoxyCodeLine{00395\ }
 
 
 
-\DoxyCodeLine{00400\ \ \ \ \ \textcolor{keywordtype}{void}\ DrawTimeTrack();}
-\DoxyCodeLine{00401\ }
 
 
 
+\DoxyCodeLine{00433\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a9ed144ab26455935edae9ead1c77cc3c}{checkTradeRoutes}}(\mbox{\hyperlink{class_player}{Player}}\&\ player,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ main\_capital);}
+\DoxyCodeLine{00434\ }
 
 
 
@@ -372,8 +400,560 @@
 
 
 
-\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordtype}{void}\ drawNumber(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ num,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale,\ \textcolor{keyword}{const}\ uint8\_t\ r=255,\ \textcolor{keyword}{const}\ uint8\_t\ g=255,\ \textcolor{keyword}{const}\ uint8\_t\ b=255)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00414\ }
-\DoxyCodeLine{00415\ \};}
+
+\DoxyCodeLine{00444\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a1339ccfbb7f33637f68ab258df440b6e}{isSupllied}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \mbox{\hyperlink{struct_city}{City}}*\ city,\ \textcolor{keyword}{const}\ CityType\ allegiance);}
+\DoxyCodeLine{00445\ }
+\DoxyCodeLine{00446\ \ \ \ \ \textcolor{comment}{//\&\&\&Unit\ Actions}}
+\DoxyCodeLine{00447\ }
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00457\ \ \ \ \ ProductionError\ \mbox{\hyperlink{class_runner_a1c0a70248221bf1496e152a443ccc3a0}{canBuild}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \ \mbox{\hyperlink{struct_city}{City}}*\ city,\ \textcolor{keyword}{const}\ UnitCountry\ nationality,\ \textcolor{keyword}{const}\ UnitType\ unit);}
+\DoxyCodeLine{00458\ }
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00468\ \ \ \ \ ProductionError\ \mbox{\hyperlink{class_runner_a0152b039104c601aa118d049989e60e3}{canUpgrade}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \mbox{\hyperlink{struct_city}{City}}*\ city,\ \textcolor{keyword}{const}\ UnitCountry\ nationality,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_unit}{Unit}}*\ unit);}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00470\ \ \ \ \ \textcolor{comment}{//\&\ Movement\ }}
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00480\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28}{move}}(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ start,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ end);}
+\DoxyCodeLine{00481\ }
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00491\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_abf0b00bafd1b65a660b73d3aa53bfb1c}{canDisengage}}(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ start,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ end);}
+\DoxyCodeLine{00492\ }
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00502\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a38a4e7be3c09505c6d0335872615a4cb}{disengage}}(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ start,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ end);}
+\DoxyCodeLine{00503\ }
+
+
+
+
+
+
+\DoxyCodeLine{00511\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_runner_a6b86ea8f00eff661c9e5b5b32eb9a160}{canMove}}(\mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ start,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ name);}
+\DoxyCodeLine{00512\ }
+\DoxyCodeLine{00513\ \ \ \ \ \textcolor{comment}{//\&\ Combat}}
+
+
+
+\DoxyCodeLine{00518\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a184367c79c742005f743ad1cfca05b2a}{combatRound}}();}
+\DoxyCodeLine{00519\ }
+
+
+
+
+\DoxyCodeLine{00525\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_addda43dfc74c96188a27f35844925760}{landCombat}}(\mbox{\hyperlink{struct_city}{City}}*\ battlefield);}
+\DoxyCodeLine{00526\ }
+
+
+
+
+
+
+\DoxyCodeLine{00534\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a279b91e29a994cf5f93a1d39edf89307}{seaCombat}}(\mbox{\hyperlink{struct_city}{City}}*\ battlefield);}
+\DoxyCodeLine{00535\ }
+\DoxyCodeLine{00536\ \ \ \ \ }
+\DoxyCodeLine{00537\ \ \ \ \ \textcolor{comment}{//-\/check\ which\ cities\ have\ battles\ and\ have\ the}}
+\DoxyCodeLine{00538\ }
+
+
+
+
+
+\DoxyCodeLine{00545\ \ \ \ \ vector<City*>\ \mbox{\hyperlink{class_runner_ae3c41783620e8a41af4f38417ebf2951}{getBattles}}(\textcolor{keyword}{const}\ CityType\ allegiance);\ }
+\DoxyCodeLine{00546\ }
+
+
+
+
+\DoxyCodeLine{00552\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_runner_a5dca1a5476d99423cc792bd95a0a71da}{getNumPlayers}}()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_runner_abcd16a7f36951d76deddf361fc312500}{num\_players}};}
+\DoxyCodeLine{00554\ \ \ \ \ \}}
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00556\ \ \ \ \ \textcolor{comment}{//\&\ Runner\ Getters\ and\ Setters}}
+
+
+
+
+\DoxyCodeLine{00562\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_map}{Map}}\&\ \mbox{\hyperlink{class_runner_adda4105efb5d6f7d92602d9bd5074edf}{getMap}}()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}};}
+\DoxyCodeLine{00564\ \ \ \ \ \}}
+\DoxyCodeLine{00565\ }
+\DoxyCodeLine{00566\ \textcolor{keyword}{private}:}
+
+
+
+\DoxyCodeLine{00571\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a1ce72219d4a739ae2dbc91430502e2dc}{freeMemory}}()\{}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a8254a700f6c57fa8a0b3c2e26fc90963}{freeMemory}}();}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}.freeMemory();}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ map\_sprite.freeMemory();}
+\DoxyCodeLine{00575\ }
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[0].freeMemory();}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[1].freeMemory();}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[2].freeMemory();}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}{powers\_map\_sprite}}[0].freeMemory();}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}{powers\_map\_sprite}}[1].freeMemory();}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}{powers\_map\_sprite}}[2].freeMemory();}
+\DoxyCodeLine{00582\ }
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{struct_action_card}{ActionCard}}*\ ac\ :\ \mbox{\hyperlink{class_runner_af6adae0624ae3bf64c4f50ec518240e2}{action\_deck}})\{}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ac\ !=\ \textcolor{keyword}{nullptr})\ \textcolor{keyword}{delete}\ ac;}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_af6adae0624ae3bf64c4f50ec518240e2}{action\_deck}}.clear();}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{struct_action_card}{ActionCard}}*\ ac\ :\ \mbox{\hyperlink{class_runner_a14e53179374d8a3aa19291ff0f6aa7cc}{action\_discard}})\{}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ac\ !=\ \textcolor{keyword}{nullptr})\ \textcolor{keyword}{delete}\ ac;}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a14e53179374d8a3aa19291ff0f6aa7cc}{action\_discard}}.clear();}
+\DoxyCodeLine{00591\ }
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{struct_investment_card}{InvestmentCard}}*\ ac\ :\ \mbox{\hyperlink{class_runner_a924d837279af06a4b98166919a2595f3}{invest\_deck}})\{}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ac\ !=\ \textcolor{keyword}{nullptr})\ \textcolor{keyword}{delete}\ ac;}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a924d837279af06a4b98166919a2595f3}{invest\_deck}}.clear();}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{struct_investment_card}{InvestmentCard}}*\ ac\ :\ \mbox{\hyperlink{class_runner_a61fb620cbea947593fd37922a3766ae4}{invest\_discard}})\{}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ac\ !=\ \textcolor{keyword}{nullptr})\ \textcolor{keyword}{delete}\ ac;}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a61fb620cbea947593fd37922a3766ae4}{invest\_discard}}.clear();}
+\DoxyCodeLine{00600\ }
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ players[0].\mbox{\hyperlink{class_player_a4dfd1a5edd0bcb551ca6fb0fe57eb0e1}{freeMemory}}();}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ players[1].\mbox{\hyperlink{class_player_a4dfd1a5edd0bcb551ca6fb0fe57eb0e1}{freeMemory}}();}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ players[2].\mbox{\hyperlink{class_player_a4dfd1a5edd0bcb551ca6fb0fe57eb0e1}{freeMemory}}();}
+\DoxyCodeLine{00604\ }
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_ab2fc9bff80730445fab45bb05b23916e}{current\_player}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_adfbbabad3bc215e42cc5484b7c2f7552}{start\_player}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00607\ }
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a3fbb12039477f1bcdb82c58c5320f2d5}{ShutdownApplication}}();}
+\DoxyCodeLine{00609\ \ \ \ \ \}}
+\DoxyCodeLine{00610\ }
+\DoxyCodeLine{00611\ \ \ \ \ \textcolor{keywordtype}{void}\ printMemo(\textcolor{keywordtype}{size\_t}\ memo[][5])\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00612\ }
+\DoxyCodeLine{00613\ \textcolor{keyword}{private}:\ \ }
+\DoxyCodeLine{00614\ \ \ \ \ \textcolor{comment}{//\&\ Sprite\ Maps}}
+\DoxyCodeLine{00615\ \ \ \ \ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}\ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}};\ }
+\DoxyCodeLine{00617\ \ \ \ \ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}\ map\_sprite;}
+\DoxyCodeLine{00618\ }
+\DoxyCodeLine{00619\ \ \ \ \ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}\ \mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\_sprite\_map}}[3];\ \ }
+\DoxyCodeLine{00621\ \ \ \ \ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}\ \mbox{\hyperlink{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}{powers\_map\_sprite}}[3];\ }
+\DoxyCodeLine{00623\ \ \ \ \ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}\ \mbox{\hyperlink{class_runner_a0c016b27536b3fdd68d4f10c2a6a0f5c}{powers\_units\_sprite\_z1}}[3];\ }
+\DoxyCodeLine{00625\ \ \ \ \ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}\ \mbox{\hyperlink{class_runner_a5182c63289259807a2025080cbf6bd46}{powers\_units\_sprite\_z3}}[3];\ }
+\DoxyCodeLine{00627\ \ \ \ \ \textcolor{comment}{//\&\ Controller\ Things}}
+\DoxyCodeLine{00628\ \ \ \ \ SDL\_GameController\ *\mbox{\hyperlink{class_runner_a810404576dd9ef7cde5915ae65ce3cfd}{west\_controller}}=\textcolor{keyword}{nullptr};\ }
+\DoxyCodeLine{00630\ \ \ \ \ SDL\_GameController\ *\mbox{\hyperlink{class_runner_ae07ff0fcbdfdbf3835245a86b7e3833e}{axis\_controller}}=\textcolor{keyword}{nullptr};\ \ }
+\DoxyCodeLine{00632\ \ \ \ \ SDL\_GameController\ *\mbox{\hyperlink{class_runner_a0aab1cc2657ab078bd390d31af68098b}{ussr\_controller}}=\textcolor{keyword}{nullptr};\ \ }
+\DoxyCodeLine{00634\ \ \ \ \ SDL\_GameController*\ \mbox{\hyperlink{class_runner_a9e4926e3e17b5b14568b4262c2201a7b}{controllers}}[3]=\ \{\textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr}\};\ }
+\DoxyCodeLine{00636\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a0d6635da7b0c49c5798e6162a4ae1ddd}{map\_changed}}=\textcolor{keyword}{true};\ }
+\DoxyCodeLine{00638\ \ \ \ \ Uint32\ \mbox{\hyperlink{class_runner_a70dfac5fcbf396c9505474dcc6a3b530}{last\_tick}};\ }
+\DoxyCodeLine{00640\ \ \ \ \ \textcolor{comment}{//\&\ Init\ Functions}}
+
+
+
+
+
+\DoxyCodeLine{00647\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a8b714ecc76891bd5e84cff941c86e511}{InitSDL}}();}
+\DoxyCodeLine{00648\ }
+
+
+
+
+
+\DoxyCodeLine{00655\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_a748b05df92aa9d64bc6288845f51566d}{InitApplication}}();}
+\DoxyCodeLine{00656\ }
+
+
+
+\DoxyCodeLine{00661\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a3fbb12039477f1bcdb82c58c5320f2d5}{ShutdownApplication}}();}
+\DoxyCodeLine{00662\ }
+
+
+
+\DoxyCodeLine{00667\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(SDL\_Renderer*\ renderer);}
+\DoxyCodeLine{00668\ }
+\DoxyCodeLine{00669\ \ \ \ \ \textcolor{comment}{//\&\ Map\ Displaying}}
+
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00680\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a4136cf24a9abfc8282ad29125f42e519}{drawMap}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ cities,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ influence,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ resources,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ connections,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ render=\textcolor{keyword}{true},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ fps=-\/1);}
+\DoxyCodeLine{00681\ }
+
+
+
+
+
+\DoxyCodeLine{00688\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a1679bec0ebffeb405fb263af9d92f2f5}{drawPlayerBoard}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ SDL\_Renderer*\ renderer,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ bought\_action=0,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ bought\_invest=0);}
+\DoxyCodeLine{00689\ }
+
+
+
+
+
+\DoxyCodeLine{00696\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_runner_a1d192f0cb68477269f44ec310b335bf1}{getCitySprite}}(\mbox{\hyperlink{struct_city}{City}}*\ city);}
+\DoxyCodeLine{00697\ }
+
+
+
+
+
+
+\DoxyCodeLine{00705\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a5d52cd35d83ba1b9efb0829716e0833b}{drawCity}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \mbox{\hyperlink{struct_city}{City}}*\ city,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ resources=\textcolor{keyword}{true});}
+\DoxyCodeLine{00706\ }
+
+
+
+
+
+
+\DoxyCodeLine{00714\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a5d52cd35d83ba1b9efb0829716e0833b}{drawCity}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ PopulationType\ population\_type);}
+\DoxyCodeLine{00715\ }
+
+
+
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00728\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a18f5343138ec0a0f147b01f11944fd13}{drawUnit}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_unit}{Unit}}*\ unit,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ zoom,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ secret=\textcolor{keyword}{false});}
+\DoxyCodeLine{00729\ }
+
+
+
+
+
+\DoxyCodeLine{00736\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a2996d3087d986e2cf841b210462296b3}{drawCityUnits}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \mbox{\hyperlink{struct_city}{City}}*\ city);}
+\DoxyCodeLine{00737\ }
+
+
+
+
+
+\DoxyCodeLine{00744\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a3c4e0b26262b401b673d3035e4821fe1}{drawFullCityUnits}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \mbox{\hyperlink{struct_city}{City}}*\ city);}
+\DoxyCodeLine{00745\ }
+
+
+
+
+\DoxyCodeLine{00751\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a614dfd919d1e8e9c34a7a5a9d00c88cf}{drawInfluence}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player);}
+\DoxyCodeLine{00752\ }
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00762\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_ad1093c7a0155bb2b1b57c18788ad0ea9}{drawActionCards}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}*\ player,\ \textcolor{keywordtype}{int}\ start\_x,\ \textcolor{keywordtype}{int}\ start\_y,\ \textcolor{keywordtype}{int}\ count,\ \textcolor{keywordtype}{int}\ scale=1);}
+\DoxyCodeLine{00763\ }
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00773\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a8e24f1914ccb107be28aa45760e0353c}{drawInvestCards}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}*\ player,\ \textcolor{keywordtype}{int}\ start\_x,\ \textcolor{keywordtype}{int}\ start\_y,\ \textcolor{keywordtype}{int}\ count,\ \textcolor{keywordtype}{int}\ scale=1);}
+\DoxyCodeLine{00774\ }
+\DoxyCodeLine{00775\ \ \ \ \ }
+
+
+
+
+
+\DoxyCodeLine{00782\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a056a0393a546065082a821664a40e35e}{drawConnections}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player);}
+\DoxyCodeLine{00783\ }
+
+
+
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00796\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a5b2b1d5425a4646d84a507704fa98b74}{drawNumber}}(SDL\_Renderer*\ renderer,\ \textcolor{keywordtype}{int}\ num,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ scale,\ \textcolor{keyword}{const}\ uint8\_t\ r=255,\ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{class_runner_ab8856030fdc77f8c9522ceb11cde2f21}{g}}=255,\ \textcolor{keyword}{const}\ uint8\_t\ b=255)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00797\ }
+\DoxyCodeLine{00798\ \ \ \ \ \textcolor{comment}{//\&\ Animations}}
+
+
+
+
+
+\DoxyCodeLine{00805\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_abe7acd5992a451b154e957e7cbb4f360}{reshuffleAnimation}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\&\ action\_size,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\&\ invest\_size);}
+\DoxyCodeLine{00806\ }
+
+
+
+
+
+\DoxyCodeLine{00813\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a907d7cff65d53572390c9d7c71be3d15}{drawMemoResolution}}(\textcolor{keyword}{const}\ vector<std::array<size\_t,\ 6>>\&\ memo,\ vector<City*>\ unblocked);}
+\DoxyCodeLine{00814\ }
+
+
+
+
+
+\DoxyCodeLine{00821\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a907d7cff65d53572390c9d7c71be3d15}{drawMemoResolution}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ player,\ \textcolor{keyword}{const}\ vector<std::array<size\_t,\ 4>>\&\ memo);}
+\DoxyCodeLine{00822\ }
+
+
+
+
+\DoxyCodeLine{00828\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a19d3b113b67736ffee2f2fb3674c2e95}{drawTurnRoll}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ result);}
+\DoxyCodeLine{00829\ }
+
+
+
+
+
+
+\DoxyCodeLine{00837\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_abf26bf6823772bfe7c5afe5ab67582f5}{drawPeaceDividends}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ west,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ axis,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ ussr);}
+\DoxyCodeLine{00838\ }
+
+
+
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00851\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_aa42441a87161bb486218ef29fd6bebfe}{inBox}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ target\_x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ target\_y)\{}
+\DoxyCodeLine{00852\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (target\_x\ >=\ x\ \&\&\ target\_x\ <=\ x+width)\ \&\&\ (target\_y\ >=\ y\ \&\&\ target\_y\ <=\ y+height);}
+\DoxyCodeLine{00853\ \ \ \ \ \}}
+\DoxyCodeLine{00854\ }
+\DoxyCodeLine{00855\ \ \ \ \ \textcolor{comment}{//\&\ User\ Input}}
+\DoxyCodeLine{00856\ }
+
+
+
+
+\DoxyCodeLine{00862\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_ad79b06566acb1f70735dea8fa14aeaef}{handleUserInput}}(\textcolor{keywordtype}{bool}\&\ running);}
+\DoxyCodeLine{00863\ }
+
+
+
+
+
+\DoxyCodeLine{00870\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_adcd6dddf89143047d2ecf91911cc83bf}{handleButtonDown}}(\mbox{\hyperlink{class_player}{Player}}\&\ player,\ \textcolor{keyword}{const}\ SDL\_Event\&\ event);}
+\DoxyCodeLine{00871\ }
+
+
+
+
+\DoxyCodeLine{00877\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_ad6258b83739b4b6a526b80894c3fe5b7}{handleJoyStickMovement}}(\mbox{\hyperlink{class_player}{Player}}\&\ player);}
+\DoxyCodeLine{00878\ }
+
+
+
+
+\DoxyCodeLine{00884\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a4fdc26d720545c6fc684be2f09e491d2}{handleTriggerMovement}}(\mbox{\hyperlink{class_player}{Player}}\&\ player);}
+\DoxyCodeLine{00885\ \ \ \ \ }
+\DoxyCodeLine{00886\ \ \ \ \ \textcolor{comment}{//\&\ Dev\ Tools}}
+
+
+
+
+\DoxyCodeLine{00892\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a88cac6fe65fc3f82e918cf5ae751a0f0}{setXY}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ path)\{}
+\DoxyCodeLine{00893\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ path2\ =\ \textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png"{}};}
+\DoxyCodeLine{00894\ \ \ \ \ \ \ \ \ map\_sprite\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path2.c\_str(),\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00895\ \ \ \ \ \ \ \ \ SDL\_Rect\ tar\ =\ \{0,0,1512,982\};}
+\DoxyCodeLine{00896\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ line;}
+\DoxyCodeLine{00897\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00898\ }
+\DoxyCodeLine{00899\ \ \ \ \ \ \ \ \ fstream\ map\_file(path,\ std::ios\_base::in);}
+\DoxyCodeLine{00900\ \ \ \ \ \ \ \ \ fstream\ out\_file(\textcolor{stringliteral}{"{}out.txt"{}});}
+\DoxyCodeLine{00901\ }
+\DoxyCodeLine{00902\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!map\_file.is\_open())\{}
+\DoxyCodeLine{00903\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}failed\ to\ open\ file\ "{}}\ <<\ path\ <<\ endl;}
+\DoxyCodeLine{00904\ \ \ \ \ \ \ \ \ \ \ \ \ exit(1);}
+\DoxyCodeLine{00905\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00906\ }
+\DoxyCodeLine{00907\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!out\_file.is\_open())\{}
+\DoxyCodeLine{00908\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}failed\ to\ open\ file\ out.txt"{}}\ <<\ endl;\ }
+\DoxyCodeLine{00909\ \ \ \ \ \ \ \ \ \ \ \ \ exit(1);}
+\DoxyCodeLine{00910\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00911\ }
+\DoxyCodeLine{00912\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ num\_cities,\ num\_countries;}
+\DoxyCodeLine{00913\ }
+\DoxyCodeLine{00914\ \ \ \ \ \ \ \ \ map\_file\ >>\ num\_cities;}
+\DoxyCodeLine{00915\ \ \ \ \ \ \ \ \ map\_file\ >>\ num\_countries;}
+\DoxyCodeLine{00916\ \ \ \ \ \ \ \ \ getline(map\_file,\ line);\ \textcolor{comment}{//junk\ line}}
+\DoxyCodeLine{00917\ }
+\DoxyCodeLine{00918\ \ \ \ \ \ \ \ \ SDL\_Event\ event;}
+\DoxyCodeLine{00919\ \ \ \ \ \ \ \ \ out\_file\ <<\ num\_cities\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ num\_countries\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00920\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ num\_cities;\ i++)\{}
+\DoxyCodeLine{00921\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ running\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00922\ \ \ \ \ \ \ \ \ \ \ \ \ getline(map\_file,\ line);}
+\DoxyCodeLine{00923\ \ \ \ \ \ \ \ \ \ \ \ \ out\_file\ <<\ line\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
+\DoxyCodeLine{00924\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \ line\ <<\ endl;}
+\DoxyCodeLine{00925\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (running)\{}
+\DoxyCodeLine{00926\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00927\ }
+\DoxyCodeLine{00928\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ map\_sprite.drawSprite(\&tar,\ 0,\ 0,\ 1512,\ 982);}
+\DoxyCodeLine{00929\ }
+\DoxyCodeLine{00930\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_PollEvent(\&event))\{}
+\DoxyCodeLine{00931\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (event.type)\ \{}
+\DoxyCodeLine{00932\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_MOUSEBUTTONDOWN:\{}
+\DoxyCodeLine{00933\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ mouseX,mouseY;}
+\DoxyCodeLine{00934\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_GetMouseState(\&mouseX,\ \&mouseY);}
+\DoxyCodeLine{00935\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_file\ <<\ mouseX-\/16\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ mouseY-\/16\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00936\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ line\ <<\ \textcolor{stringliteral}{"{}\ "{}}<<\ mouseX\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ mouseY\ <<\ endl;}
+\DoxyCodeLine{00937\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ running\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00938\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00939\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00940\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_KEYDOWN:\{}
+\DoxyCodeLine{00941\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ Skip;}
+\DoxyCodeLine{00942\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00943\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00944\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00945\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00946\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00947\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00948\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00949\ }
+\DoxyCodeLine{00950\ \ \ \ \ \ \ \ \ Skip:}
+\DoxyCodeLine{00951\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ num\_cities;\ i\ ++)\{}
+\DoxyCodeLine{00952\ \ \ \ \ \ \ \ \ \ \ \ \ getline(map\_file,\ line);}
+\DoxyCodeLine{00953\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (line[0]\ <=\ \textcolor{charliteral}{'9'})\{}
+\DoxyCodeLine{00954\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i-\/-\/;}
+\DoxyCodeLine{00955\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00956\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00957\ \ \ \ \ \ \ \ \ \ \ \ \ std::istringstream\ iss(line);}
+\DoxyCodeLine{00958\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ starting\_city;}
+\DoxyCodeLine{00959\ \ \ \ \ \ \ \ \ \ \ \ \ iss\ >>\ starting\_city;}
+\DoxyCodeLine{00960\ \ \ \ \ \ \ \ \ \ \ \ \ out\_file\ <<\ starting\_city\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
+\DoxyCodeLine{00961\ }
+\DoxyCodeLine{00962\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ city,\ border;}
+\DoxyCodeLine{00963\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!iss.fail())\{}
+\DoxyCodeLine{00964\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ iss\ >>\ city;}
+\DoxyCodeLine{00965\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ iss\ >>\ border;}
+\DoxyCodeLine{00966\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_file\ <<\ \textcolor{stringliteral}{"{}["{}}\ <<\ city\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ border\ <<\ \textcolor{stringliteral}{"{}]\ "{}};}
+\DoxyCodeLine{00967\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00968\ \ \ \ \ \ \ \ \ \ \ \ \ out\_file\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00969\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00970\ \ \ \ \ \}}
+\DoxyCodeLine{00971\ }
+
+
+
+\DoxyCodeLine{00976\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_runner_a1a3632ffdf69bc9a94506d47ec401d2f}{setResXY}}()\{}
+\DoxyCodeLine{00977\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22}{initMap}}(\textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map"{}});}
+\DoxyCodeLine{00978\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ path\ =\ \textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/sprites/SpriteMap0.png"{}};}
+\DoxyCodeLine{00979\ }
+\DoxyCodeLine{00980\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\_map}}\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path.c\_str(),\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00981\ }
+\DoxyCodeLine{00982\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ path2\ =\ \textcolor{stringliteral}{"{}/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png"{}};}
+\DoxyCodeLine{00983\ \ \ \ \ \ \ \ \ map\_sprite\ =\ \mbox{\hyperlink{class_spritesheet}{Spritesheet}}(path2.c\_str(),\ \mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00984\ }
+\DoxyCodeLine{00985\ \ \ \ \ \ \ \ \ vector<std::pair<int,\ int>>\ coords;}
+\DoxyCodeLine{00986\ \ \ \ \ \ \ \ \ SDL\_Rect\ tar\ =\ \{0,0,1512,982\};}
+\DoxyCodeLine{00987\ \ \ \ \ \ \ \ \ SDL\_Event\ event;}
+\DoxyCodeLine{00988\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 1;\ i\ <\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a63e2c7855bc61a903d6db26c6927a606}{getCities}}().size();\ i++)\{}
+\DoxyCodeLine{00989\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ city\ =\ \mbox{\hyperlink{class_runner_a8d0b15603a3b77337a30993ae740e415}{map}}.\mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(i);}
+\DoxyCodeLine{00990\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ running\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00991\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (city-\/>resource\ >\ 0)\{}
+\DoxyCodeLine{00992\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ city-\/>\mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}\ <<\ \textcolor{stringliteral}{"{}\ has\ "{}}\ <<\ city-\/>resource\ <<\ \textcolor{stringliteral}{"{}\ resources,\ place\ at\ "{}};}
+\DoxyCodeLine{00993\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (running)\{}
+\DoxyCodeLine{00994\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a0293328b045476f6ab1ea47025d1b8dc}{ClearScreen}}(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{00995\ }
+\DoxyCodeLine{00996\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ map\_sprite.drawSprite(\&tar,\ 0,\ 0,\ 1512,\ 982);}
+\DoxyCodeLine{00997\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_runner_a5d52cd35d83ba1b9efb0829716e0833b}{drawCity}}(city-\/>x,\ city-\/>y,\ city-\/>population\_type);}
+\DoxyCodeLine{00998\ }
+\DoxyCodeLine{00999\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_PollEvent(\&event))\{}
+\DoxyCodeLine{01000\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (event.type)\ \{}
+\DoxyCodeLine{01001\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_MOUSEBUTTONDOWN:\{}
+\DoxyCodeLine{01002\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ mouseX,mouseY;}
+\DoxyCodeLine{01003\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_GetMouseState(\&mouseX,\ \&mouseY);}
+\DoxyCodeLine{01004\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coords.push\_back(std::make\_pair(mouseX,\ mouseY));}
+\DoxyCodeLine{01005\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ mouseX\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ mouseY\ <<\ endl;}
+\DoxyCodeLine{01006\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ running\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{01007\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{01008\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01009\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_KEYDOWN:\{}
+\DoxyCodeLine{01010\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ Skip;}
+\DoxyCodeLine{01011\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{01012\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01013\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_RenderPresent(\mbox{\hyperlink{class_runner_ad5048b3491dff98f9a92136e51eee19a}{app}}.renderer);}
+\DoxyCodeLine{01016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01017\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{01019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coords.push\_back(std::make\_pair(0,\ 0));}
+\DoxyCodeLine{01020\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01021\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ a\ :\ coords)\{}
+\DoxyCodeLine{01023\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ a.first\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ a.second\ <<\ endl;}
+\DoxyCodeLine{01024\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01025\ }
+\DoxyCodeLine{01026\ \ \ \ \ \ \ \ \ Skip:}
+\DoxyCodeLine{01027\ \ \ \ \ \ \ \ \ exit(0);}
+\DoxyCodeLine{01028\ \ \ \ \ \}}
+\DoxyCodeLine{01029\ }
+
+
+
+
+
+
+\DoxyCodeLine{01037\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_runner_af0d0353424d3bfe4fef0f121a342df14}{pastDeadZone}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ \mbox{\hyperlink{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28}{move}})\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{01038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !(\mbox{\hyperlink{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28}{move}}\ >\ -\/JOYSTICK\_DEADZONE\ \&\&\ \mbox{\hyperlink{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28}{move}}\ <\ JOYSTICK\_DEADZONE);}
+\DoxyCodeLine{01039\ \ \ \ \ \}}
+\DoxyCodeLine{01040\ }
+
+
+
+
+
+\DoxyCodeLine{01047\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_runner_abda44286231761376689099fcdb9789f}{scaleAxis}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\&\ x)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{01048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2.0\ *\ ((SDL\_clamp(x,\ -\/32000,\ 32000)\ -\/\ -\/32000.f)\ /\ (32000\ -\/\ -\/\ 32000.f))\ -\/\ 1.0;}
+\DoxyCodeLine{01049\ \ \ \ \ }
+\DoxyCodeLine{01050\ \ \ \ \ \}}
+\DoxyCodeLine{01051\ }
+\DoxyCodeLine{01052\ \};}
 
 \end{DoxyCode}

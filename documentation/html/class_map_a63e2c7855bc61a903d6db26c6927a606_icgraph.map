@@ -1,13 +1,35 @@
 <map id="Map::getCities" name="Map::getCities">
-<area shape="rect" id="Node000001" title="Get reference to hash map of cities to reduce calls." alt="" coords="387,55,493,80"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#ae3c41783620e8a41af4f38417ebf2951" title="Check which cities have a current battle happening." alt="" coords="207,5,338,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="379,52,318,34,320,29,380,47"/>
-<area shape="rect" id="Node000004" href="$class_runner.html#a7da49e43690943e7040d405588d0b793" title="Goes over the players holdings over the map and sums up their pop, res, CV." alt="" coords="206,55,339,80"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="371,70,340,70,340,65,371,65"/>
-<area shape="rect" id="Node000006" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title=" " alt="" coords="228,104,317,130"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="380,88,318,106,317,101,379,83"/>
-<area shape="rect" id="Node000003" href="$class_runner.html#a184367c79c742005f743ad1cfca05b2a" title="Executes the current players combat rounds." alt="" coords="5,5,158,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="192,21,158,21,158,16,192,16"/>
-<area shape="rect" id="Node000005" href="$class_runner.html#a0de74fe5b4c57efd12b6f361e134dadb" title="Construct a new Runner object that intializes the map and players." alt="" coords="25,55,138,80"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="190,70,138,70,138,65,190,65"/>
+<area shape="rect" id="Node000001" title="Get reference to hash map of cities to reduce calls." alt="" coords="1174,104,1281,130"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a4136cf24a9abfc8282ad29125f42e519" title="Draw&#39;s the map to the main rendered with different options to control what is shown." alt="" coords="998,55,1122,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1166,102,1105,84,1107,78,1168,97"/>
+<area shape="rect" id="Node000014" href="$class_runner.html#a7da49e43690943e7040d405588d0b793" title="Goes over the players holdings over the map and sums up their pop, res, CV." alt="" coords="993,104,1126,130"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="1159,120,1127,120,1127,114,1159,114"/>
+<area shape="rect" id="Node000016" href="$class_runner.html#a1a3632ffdf69bc9a94506d47ec401d2f" title="Dev tool to Set the resource x and y coords for each city that has a resource." alt="" coords="994,153,1125,179"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="1168,137,1107,155,1105,150,1166,132"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a0f3a9c7f2d0c8fc32b07a88809cbfb5a" title="Draws the memo of the Dijkstra&#39;s knock&#45;off III for supply routes." alt="" coords="748,55,945,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="982,70,945,70,945,65,982,65"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a907d7cff65d53572390c9d7c71be3d15" title="Takes the memo of the Dijkstra&#39;s knock&#45;off II for finding trade routes and highlighting the route it ..." alt="" coords="748,104,945,130"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="987,87,906,106,905,101,985,82"/>
+<area shape="rect" id="Node000012" href="$class_runner.html#a1679bec0ebffeb405fb263af9d92f2f5" title="Draws the private view of the player including cards and VP and production levels and acheived tech." alt="" coords="761,5,932,31"/>
+<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="985,53,905,34,906,29,987,48"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a9ed144ab26455935edae9ead1c77cc3c" title="During the production phase it needs to verify all cities controlled by the player that are blockaded..." alt="" coords="510,55,691,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="763,103,668,84,669,78,764,98"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#a1339ccfbb7f33637f68ab258df440b6e" title="A decider for if the city provided is supplied and can have steps built. All the cities on the route ..." alt="" coords="537,104,664,130"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="732,120,665,120,665,114,732,114"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="317,5,448,31"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="525,53,442,34,443,29,526,48"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,5,264,31"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="301,21,264,21,264,16,301,16"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,5,95,31"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="127,21,95,21,95,16,127,16"/>
+<area shape="rect" id="Node000010" href="$class_runner.html#a1c0a70248221bf1496e152a443ccc3a0" title="Decider for if a new unit of the given type is able to be built in the city provided." alt="" coords="322,104,443,130"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="521,120,444,120,444,114,521,114"/>
+<area shape="rect" id="Node000011" href="$class_runner.html#a0152b039104c601aa118d049989e60e3" title="Decider for if an exisiting unit can be upgraded." alt="" coords="312,55,453,80"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="525,103,442,84,443,78,526,97"/>
+<area shape="rect" id="Node000013" href="$class_runner.html#a16088828db0867024b5afe804b3958ce" title="Handles what to draw during the production phase." alt="" coords="501,5,700,31"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="745,21,700,21,700,16,745,16"/>
+<area shape="poly" id="edge13_Node000013_Node000006" title=" " alt="" coords="486,21,449,21,449,16,486,16"/>
+<area shape="rect" id="Node000015" href="$class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="790,153,903,179"/>
+<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="987,136,904,156,903,151,986,131"/>
+<area shape="poly" id="edge17_Node000016_Node000015" title=" " alt="" coords="978,169,903,169,903,164,978,164"/>
 </map>

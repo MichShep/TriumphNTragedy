@@ -7,34 +7,117 @@ Collaboration diagram for Action\+Card\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=164pt]{struct_action_card__coll__graph}
+\includegraphics[width=176pt]{struct_action_card__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{struct_action_card_a78d980d23870e4e0d98ed42e659f0156}\label{struct_action_card_a78d980d23870e4e0d98ed42e659f0156} 
-{\bfseries Action\+Card} (const string countryA, const string countryB, const Season season, const char letter, const int number)
-\end{DoxyCompactItemize}
+\mbox{\hyperlink{struct_action_card_a359c65e431b98be9b1e2cb76b4217a7f}{Action\+Card}} (const Action\+Type \mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}}, const string \mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}}, const string \mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}}, const Season \mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}}, const char \mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}}, const size\+\_\+t \mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}}, const size\+\_\+t \mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\+\_\+offset\+\_\+left}}, const size\+\_\+t \mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\+\_\+offset\+\_\+right}})
+\begin{DoxyCompactList}\small\item\em Construct a new Action Card. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}\label{struct_action_card_aaf330a7276d50de0ba758fef269cee0c} 
-string {\bfseries countryA}
+Action\+Type \mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}}
 \item 
-\Hypertarget{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}\label{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34} 
-string {\bfseries countryB}
+string \mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}}
 \item 
-\Hypertarget{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}\label{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e} 
-Season {\bfseries season}
+string \mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}}
 \item 
-\Hypertarget{struct_action_card_a8351629c1a47e5366c90d8f315062a27}\label{struct_action_card_a8351629c1a47e5366c90d8f315062a27} 
-char {\bfseries letter}
+Season \mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}}
 \item 
-\Hypertarget{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}\label{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554} 
-int {\bfseries number}
+char \mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}}
+\item 
+int \mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}}
+\item 
+size\+\_\+t \mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\+\_\+offset\+\_\+left}}
+\item 
+size\+\_\+t \mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\+\_\+offset\+\_\+right}}
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_action_card_a359c65e431b98be9b1e2cb76b4217a7f}\label{struct_action_card_a359c65e431b98be9b1e2cb76b4217a7f} 
+\index{ActionCard@{ActionCard}!ActionCard@{ActionCard}}
+\index{ActionCard@{ActionCard}!ActionCard@{ActionCard}}
+\doxysubsubsection{\texorpdfstring{ActionCard()}{ActionCard()}}
+{\footnotesize\ttfamily Action\+Card\+::\+Action\+Card (\begin{DoxyParamCaption}\item[{const Action\+Type}]{type,  }\item[{const string}]{countryA,  }\item[{const string}]{countryB,  }\item[{const Season}]{season,  }\item[{const char}]{letter,  }\item[{const size\+\_\+t}]{number,  }\item[{const size\+\_\+t}]{sprite\+\_\+offset\+\_\+left,  }\item[{const size\+\_\+t}]{sprite\+\_\+offset\+\_\+right }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new Action Card. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & The type of card \\
+\hline
+{\em countryA} & The name of the left side (Either a country or type of wild card) \\
+\hline
+{\em countryB} & The name of the right side (Either a country of blank) \\
+\hline
+{\em season} & The season the card commands in with priority \\
+\hline
+{\em letter} & The letter the card commands in with priority \\
+\hline
+{\em number} & The number the card commands in with priority \\
+\hline
+{\em sprite\+\_\+offset\+\_\+left} & The uncalculated sprite index of the left sprite \\
+\hline
+{\em sprite\+\_\+offset\+\_\+right} & The uncalculated sprite index of the right sprite \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}\label{struct_action_card_aaf330a7276d50de0ba758fef269cee0c} 
+\index{ActionCard@{ActionCard}!countryA@{countryA}}
+\index{countryA@{countryA}!ActionCard@{ActionCard}}
+\doxysubsubsection{\texorpdfstring{countryA}{countryA}}
+{\footnotesize\ttfamily string Action\+Card\+::countryA}
+
+The left country that could be influenced or the name of the wild card \Hypertarget{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}\label{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34} 
+\index{ActionCard@{ActionCard}!countryB@{countryB}}
+\index{countryB@{countryB}!ActionCard@{ActionCard}}
+\doxysubsubsection{\texorpdfstring{countryB}{countryB}}
+{\footnotesize\ttfamily string Action\+Card\+::countryB}
+
+The second country that could be influenced (blank for wild) \Hypertarget{struct_action_card_a8351629c1a47e5366c90d8f315062a27}\label{struct_action_card_a8351629c1a47e5366c90d8f315062a27} 
+\index{ActionCard@{ActionCard}!letter@{letter}}
+\index{letter@{letter}!ActionCard@{ActionCard}}
+\doxysubsubsection{\texorpdfstring{letter}{letter}}
+{\footnotesize\ttfamily char Action\+Card\+::letter}
+
+The command letter for priority (Z\texorpdfstring{$>$}{>}A) \Hypertarget{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}\label{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554} 
+\index{ActionCard@{ActionCard}!number@{number}}
+\index{number@{number}!ActionCard@{ActionCard}}
+\doxysubsubsection{\texorpdfstring{number}{number}}
+{\footnotesize\ttfamily int Action\+Card\+::number}
+
+The number command for priority (9\texorpdfstring{$>$}{>}0) \Hypertarget{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}\label{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e} 
+\index{ActionCard@{ActionCard}!season@{season}}
+\index{season@{season}!ActionCard@{ActionCard}}
+\doxysubsubsection{\texorpdfstring{season}{season}}
+{\footnotesize\ttfamily Season Action\+Card\+::season}
+
+The command season the player has priority for \Hypertarget{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}\label{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c} 
+\index{ActionCard@{ActionCard}!sprite\_offset\_left@{sprite\_offset\_left}}
+\index{sprite\_offset\_left@{sprite\_offset\_left}!ActionCard@{ActionCard}}
+\doxysubsubsection{\texorpdfstring{sprite\_offset\_left}{sprite\_offset\_left}}
+{\footnotesize\ttfamily size\+\_\+t Action\+Card\+::sprite\+\_\+offset\+\_\+left}
+
+The sprite index of the left country \Hypertarget{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}\label{struct_action_card_a5791794f2f913ce918f6e19ec21923bb} 
+\index{ActionCard@{ActionCard}!sprite\_offset\_right@{sprite\_offset\_right}}
+\index{sprite\_offset\_right@{sprite\_offset\_right}!ActionCard@{ActionCard}}
+\doxysubsubsection{\texorpdfstring{sprite\_offset\_right}{sprite\_offset\_right}}
+{\footnotesize\ttfamily size\+\_\+t Action\+Card\+::sprite\+\_\+offset\+\_\+right}
+
+The sprite index of the right country \Hypertarget{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}\label{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd} 
+\index{ActionCard@{ActionCard}!type@{type}}
+\index{type@{type}!ActionCard@{ActionCard}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily Action\+Type Action\+Card\+::type}
+
+The type of Action Card (DIPLOMACY for specific countries or a WILD) 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

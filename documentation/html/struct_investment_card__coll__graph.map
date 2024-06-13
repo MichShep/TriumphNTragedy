@@ -1,5 +1,7 @@
 <map id="InvestmentCard" name="InvestmentCard">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,134,129,239"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="45,5,90,71"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="70,71,70,117,65,117,65,71"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,317,133,462"/>
+<area shape="rect" id="Node000002" href="$struct_technology.html" title=" " alt="" coords="21,134,118,239"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,239,72,300,67,300,67,239"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="47,5,92,71"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="72,71,72,117,67,117,67,71"/>
 </map>

@@ -1,0 +1,25 @@
+<map id="Runner::handleUserInput" name="Runner::handleUserInput">
+<area shape="rect" id="Node000001" title="Main handler for all possible user input." alt="" coords="5,129,172,155"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#adcd6dddf89143047d2ecf91911cc83bf" title="Handels the cases where the player pressed down on a button." alt="" coords="240,68,421,94"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,126,261,95,263,101,143,131"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#ad6258b83739b4b6a526b80894c3fe5b7" title="Handels the players controller joystick movement the dictates cursor movement and is called only ever..." alt="" coords="220,129,441,155"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="172,140,204,140,204,145,172,145"/>
+<area shape="rect" id="Node000012" href="$class_runner.html#a4fdc26d720545c6fc684be2f09e491d2" title="Handels the players controller trigger (L2, R2) movement that dictates zoom and is called only every ..." alt="" coords="225,179,436,204"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="156,153,250,172,249,178,155,158"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a1ce72219d4a739ae2dbc91430502e2dc" title="Free the allocated memory of the whole game." alt="" coords="497,55,637,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="421,73,481,70,481,75,422,78"/>
+<area shape="rect" id="Node000004" href="$class_map.html#a8254a700f6c57fa8a0b3c2e26fc90963" title="Evokes each city to free memory before clearing the hasmap and masterlist." alt="" coords="728,5,852,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="628,51,713,32,715,38,629,57"/>
+<area shape="rect" id="Node000005" href="$class_player.html#a4dfd1a5edd0bcb551ca6fb0fe57eb0e1" title="Frees the memort allocated for the player." alt="" coords="722,55,858,80"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="638,65,707,65,707,70,638,70"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a3fbb12039477f1bcdb82c58c5320f2d5" title="Deletes the windows and frees memory specifically used by SDL." alt="" coords="693,104,887,130"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="629,78,715,97,713,103,628,84"/>
+<area shape="rect" id="Node000008" href="$class_map.html#a3aeac63064fe5032fb6f6548103dddce" title="Gets the city closest to the x,y coords from the mouse position." alt="" coords="497,104,638,130"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="441,128,480,123,481,129,442,133"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#af0d0353424d3bfe4fef0f121a342df14" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="489,153,645,179"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="442,151,474,154,473,159,441,156"/>
+<area shape="rect" id="Node000011" href="$class_runner.html#abda44286231761376689099fcdb9789f" title="Takes a joy axis movement and scales it to be from [0.0, 1.0] bases on a min movement of &#45;32000 and m..." alt="" coords="503,203,631,228"/>
+<area shape="poly" id="edge10_Node000007_Node000011" title=" " alt="" coords="407,153,442,164,466,176,490,189,505,195,503,200,488,194,464,181,440,169,405,158"/>
+<area shape="rect" id="Node000010" href="$class_runner.html#abdfbb9ff4d3924b378cd13c3a2a58c28" title="Checks what type of movement is allowed and if the player is allowed to move there." alt="" coords="738,153,842,179"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="646,164,723,164,723,169,646,169"/>
+</map>

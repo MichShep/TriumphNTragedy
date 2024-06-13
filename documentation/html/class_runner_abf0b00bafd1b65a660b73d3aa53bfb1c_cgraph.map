@@ -1,0 +1,9 @@
+<map id="Runner::canDisengage" name="Runner::canDisengage">
+<area shape="rect" id="Node000001" title="Checks if the player can disengage from the current battle." alt="" coords="5,31,160,56"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a825302e61539b3f1ca4c3e271f89bda1" title="Checks to see if there is a connection between the two named cities." alt="" coords="208,5,363,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,31,192,27,193,32,160,36"/>
+<area shape="rect" id="Node000004" href="$class_map.html#a01a979e1788d8f3df965a298b7ec2c78" title="Works as the [] overload for out of scope." alt="" coords="237,55,334,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="160,50,222,57,222,63,160,55"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a5c633ad5ef3b388b1d13f43023a22909" title="Works as the [] overload for out of scope but gives the ID of the found city." alt="" coords="411,5,510,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="363,16,395,16,395,21,363,21"/>
+</map>

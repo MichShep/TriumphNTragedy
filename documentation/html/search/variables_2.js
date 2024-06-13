@@ -1,4 +1,25 @@
 var searchData=
 [
-  ['height_0',['HEIGHT',['../struct_city.html#a902450ac6f7b561ef6bd5f8efdbea162',1,'City']]]
+  ['capital_0',['capital',['../class_player.html#ada2e68812c4020c31ae1b1c6926bfc36',1,'Player']]],
+  ['card_5fsize_1',['card_size',['../class_player.html#a8b18c202e7705aa44a378caae5fe04ef',1,'Player']]],
+  ['cards_5fspent_2',['cards_spent',['../class_player.html#a3129e81a4196abe8992f0c87329b4409',1,'Player']]],
+  ['cities_3',['cities',['../class_map.html#a250fb3d7242ace8ae005b9ff18e23b16',1,'Map']]],
+  ['cities_5fcontrolled_4',['cities_controlled',['../class_player.html#aeaaf0bb0c4cf646b09fc3db0e65be45b',1,'Player']]],
+  ['city_5fmasterlist_5',['city_masterlist',['../class_map.html#a0406270b1d9ca2985ee3cf076ba3dec3',1,'Map']]],
+  ['city_5ftype_6',['city_type',['../struct_city.html#acb1f4a8e5ec4fff621447b0cea2ae46a',1,'City']]],
+  ['city_5fviewing_7',['city_viewing',['../class_player.html#a9ac3deece990a366477ec153dbcfae63',1,'Player']]],
+  ['class_5ftype_8',['class_type',['../class_unit.html#aad1d4c0d440f93ff6cc023bdf6cd3334',1,'Unit']]],
+  ['closest_5fmap_5fcity_9',['closest_map_city',['../class_player.html#a792f2244364c1206a4ad56b01f0132ac',1,'Player']]],
+  ['combat_5fvalue_10',['combat_value',['../class_unit.html#a8aa0de37a1bf69db93630e9e3e4678ce',1,'Unit']]],
+  ['controlled_5fcities_11',['controlled_cities',['../class_player.html#aecd4b940d71314a8edb0d99139ba9404',1,'Player']]],
+  ['controllers_12',['controllers',['../class_runner.html#a9e4926e3e17b5b14568b4262c2201a7b',1,'Runner']]],
+  ['convoy_13',['convoy',['../class_unit.html#ad8dc3c6ca01813ee3924f0f3381fc05f',1,'Unit']]],
+  ['countries_14',['countries',['../class_map.html#ad86c98af53404629562276d6e15a11c3',1,'Map']]],
+  ['country_15',['country',['../struct_city.html#a6ccc73d89bdc523f1d5acdef6e0633ad',1,'City']]],
+  ['countrya_16',['countryA',['../struct_action_card.html#aaf330a7276d50de0ba758fef269cee0c',1,'ActionCard']]],
+  ['countryb_17',['countryB',['../struct_action_card.html#a0f56874e5b912a3f9b0157b7710aab34',1,'ActionCard']]],
+  ['current_5fplayer_18',['current_player',['../class_runner.html#ab2fc9bff80730445fab45bb05b23916e',1,'Runner']]],
+  ['current_5fproduction_19',['current_production',['../class_player.html#a47334a1f521af1fc51d86e0abd944378',1,'Player']]],
+  ['cursor_5fx_20',['cursor_x',['../class_player.html#a3973c439ed48986ad2b056796ce3b9aa',1,'Player']]],
+  ['cursor_5fy_21',['cursor_y',['../class_player.html#ab931ec5f35eb49859482a0bccce08987',1,'Player']]]
 ];

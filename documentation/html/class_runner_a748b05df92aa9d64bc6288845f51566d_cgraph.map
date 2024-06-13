@@ -1,0 +1,7 @@
+<map id="Runner::InitApplication" name="Runner::InitApplication">
+<area shape="rect" id="Node000001" title="Initalizes the &#39;app&#39;, the struct that hlds the renderer and the window." alt="" coords="5,31,159,56"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a8b714ecc76891bd5e84cff941c86e511" title="Initalizes SDL2 and the window." alt="" coords="246,5,361,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,32,230,24,231,29,160,37"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a3fbb12039477f1bcdb82c58c5320f2d5" title="Deletes the windows and frees memory specifically used by SDL." alt="" coords="207,55,400,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="159,49,191,53,191,58,159,54"/>
+</map>

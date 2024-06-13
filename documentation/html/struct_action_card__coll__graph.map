@@ -1,5 +1,5 @@
 <map id="ActionCard" name="ActionCard">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,149,101,254"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="31,5,76,71"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="56,70,56,132,51,132,51,70"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,149,133,314"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="47,5,92,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,70,72,132,67,132,67,70"/>
 </map>

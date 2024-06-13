@@ -1,0 +1,7 @@
+<map id="Runner::isSupllied" name="Runner::isSupllied">
+<area shape="rect" id="Node000001" title="A decider for if the city provided is supplied and can have steps built. All the cities on the route ..." alt="" coords="195,31,322,56"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a1c0a70248221bf1496e152a443ccc3a0" title="Decider for if a new unit of the given type is able to be built in the city provided." alt="" coords="15,5,137,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,35,136,29,137,24,179,30"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a0152b039104c601aa118d049989e60e3" title="Decider for if an exisiting unit can be upgraded." alt="" coords="5,55,147,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,57,148,61,147,56,179,51"/>
+</map>

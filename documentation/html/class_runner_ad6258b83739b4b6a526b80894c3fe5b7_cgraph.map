@@ -1,0 +1,11 @@
+<map id="Runner::handleJoyStickMovement" name="Runner::handleJoyStickMovement">
+<area shape="rect" id="Node000001" title="Handels the players controller joystick movement the dictates cursor movement and is called only ever..." alt="" coords="5,55,227,80"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a3aeac63064fe5032fb6f6548103dddce" title="Gets the city closest to the x,y coords from the mouse position." alt="" coords="282,5,424,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,51,272,32,273,37,182,57"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#af0d0353424d3bfe4fef0f121a342df14" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="275,55,431,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,65,259,65,259,70,227,70"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#abda44286231761376689099fcdb9789f" title="Takes a joy axis movement and scales it to be from [0.0, 1.0] bases on a min movement of &#45;32000 and m..." alt="" coords="289,104,417,130"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="182,78,274,98,273,103,181,84"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#abdfbb9ff4d3924b378cd13c3a2a58c28" title="Checks what type of movement is allowed and if the player is allowed to move there." alt="" coords="479,55,582,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="432,65,463,65,463,70,432,70"/>
+</map>

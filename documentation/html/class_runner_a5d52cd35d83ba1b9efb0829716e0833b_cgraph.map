@@ -1,0 +1,18 @@
+<map id="Runner::drawCity" name="Runner::drawCity">
+<area shape="rect" id="Node000001" title="Draws a city onto the players renderer and if opted the resources as well." alt="" coords="5,81,129,107"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a2996d3087d986e2cf841b210462296b3" title="Draws 5 units under the city, rotating to the next 5 every 5 seconds." alt="" coords="177,56,331,82"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,83,161,79,162,84,130,88"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a1d192f0cb68477269f44ec310b335bf1" title="Get the index of the sprite needed for the city." alt="" coords="180,105,328,131"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="129,99,165,104,164,109,129,105"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a3c4e0b26262b401b673d3035e4821fe1" title="If the city has full displayed enable, every unit at the city will be displayed in rows of 5 (no rota..." alt="" coords="379,31,554,56"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="331,57,363,53,364,58,332,62"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a18f5343138ec0a0f147b01f11944fd13" title="Draws the unit onto the player&#39;s screen." alt="" coords="613,5,736,31"/>
+<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="279,53,324,32,378,16,435,8,493,4,597,8,597,13,493,10,436,13,380,21,326,37,281,58"/>
+<area shape="rect" id="Node000005" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="602,68,747,94"/>
+<area shape="poly" id="edge7_Node000002_Node000005" title=" " alt="" coords="331,68,587,76,587,81,331,74"/>
+<area shape="rect" id="Node000006" href="$struct_city.html#ad92576a7777d79bff78d720b0ef46dc5" title="If there currently a battle going on (more than one allegiance of troops)" alt="" coords="620,117,729,143"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="332,77,606,118,605,123,331,83"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="554,30,597,25,598,30,555,35"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="543,54,588,63,587,68,542,60"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="495,54,603,104,617,109,616,114,601,109,493,59"/>
+</map>

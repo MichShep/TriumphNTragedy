@@ -1,10 +1,24 @@
 var searchData=
 [
-  ['actioncard_0',['ActionCard',['../struct_action_card.html',1,'']]],
-  ['addcity_1',['addCity',['../class_map.html#a3313ee9e1dc1bc7e8865ab2c64082ca8',1,'Map']]],
-  ['addunit_2',['addUnit',['../struct_city.html#a3994937bd3bc9594597271aec1658ae9',1,'City']]],
-  ['aggresor_3',['aggresor',['../struct_city.html#ad4713ac0f9ffe0c830a69321610b46b8',1,'City']]],
-  ['allegiance_4',['allegiance',['../class_unit.html#af6ab0a5472e0d167c04a7813ade4f175',1,'Unit']]],
-  ['app_5',['App',['../struct_app.html',1,'']]],
-  ['axisinit_6',['axisInit',['../class_player.html#a3dda1040e1618d64e5756c592624e886',1,'Player']]]
+  ['achieved_5ftech_0',['achieved_tech',['../class_player.html#a77a094682e82b1d0c31acc8030d8d765',1,'Player']]],
+  ['action_5fcard_5fstart_1',['action_card_start',['../class_player.html#a99706d1401e1e2fb0f1f16d04713e38f',1,'Player']]],
+  ['action_5fdeck_2',['action_deck',['../class_runner.html#af6adae0624ae3bf64c4f50ec518240e2',1,'Runner']]],
+  ['action_5fdiscard_3',['action_discard',['../class_runner.html#a14e53179374d8a3aa19291ff0f6aa7cc',1,'Runner']]],
+  ['action_5fhand_4',['action_hand',['../class_player.html#ad5288c485522612282617117dcbf9177',1,'Player']]],
+  ['actioncard_5',['actioncard',['../struct_action_card.html',1,'ActionCard'],['../struct_action_card.html#a359c65e431b98be9b1e2cb76b4217a7f',1,'ActionCard::ActionCard()']]],
+  ['add_6',['add',['../class_player.html#a6fb8c6d501a126035bcebdf2dd0b07f2',1,'Player']]],
+  ['addcity_7',['addCity',['../class_map.html#a3313ee9e1dc1bc7e8865ab2c64082ca8',1,'Map']]],
+  ['addcountry_8',['addCountry',['../class_map.html#ad58956e94b551b4c07297995d88951d7',1,'Map']]],
+  ['addunit_9',['addUnit',['../struct_city.html#a3994937bd3bc9594597271aec1658ae9',1,'City']]],
+  ['adjacency_10',['adjacency',['../class_map.html#a7a0cdb6c59c400f6d445ef83d72786a9',1,'Map']]],
+  ['aggresor_11',['aggresor',['../struct_city.html#ad4713ac0f9ffe0c830a69321610b46b8',1,'City']]],
+  ['allegiance_12',['allegiance',['../class_player.html#a4cc23beed82cbe18aa05d14c6eae00a7',1,'Player::allegiance'],['../class_unit.html#af6ab0a5472e0d167c04a7813ade4f175',1,'Unit::allegiance']]],
+  ['allegiance_5fviewing_13',['allegiance_viewing',['../class_player.html#a7a5cab43c2ba4678cbc0f8c4431fb2a8',1,'Player']]],
+  ['amount_14',['amount',['../struct_investment_card.html#a471c7768bf6b37383b219c4a4d0e8909',1,'InvestmentCard']]],
+  ['app_15',['app',['../struct_app.html',1,'App'],['../class_player.html#ab00225c1777a8ecb95db0305055547a9',1,'Player::app'],['../class_runner.html#ad5048b3491dff98f9a92136e51eee19a',1,'Runner::app']]],
+  ['atomic_16',['atomic',['../class_player.html#abe48e13b6b5ecf859b11010e41e62c23',1,'Player']]],
+  ['atwar_17',['atWar',['../class_player.html#aaeb493d0ba358f82e487d8c63a61ef72',1,'Player']]],
+  ['axis_5fcontroller_18',['axis_controller',['../class_runner.html#ae07ff0fcbdfdbf3835245a86b7e3833e',1,'Runner']]],
+  ['axis_5fdow_19',['axis_dow',['../class_player.html#a52d87c324914ea0cc925b387a4c7e94d',1,'Player']]],
+  ['axisinit_20',['axisInit',['../class_player.html#a3dda1040e1618d64e5756c592624e886',1,'Player']]]
 ];

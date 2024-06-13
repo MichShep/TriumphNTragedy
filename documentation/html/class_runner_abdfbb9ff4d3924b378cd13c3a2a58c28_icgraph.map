@@ -1,0 +1,19 @@
+<map id="Runner::move" name="Runner::move">
+<area shape="rect" id="Node000001" title="Checks what type of movement is allowed and if the player is allowed to move there." alt="" coords="1217,31,1321,56"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#abf26bf6823772bfe7c5afe5ab67582f5" title="Animation of the cities who were peacful receiving a peace chit." alt="" coords="975,5,1169,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1202,38,1169,33,1170,28,1203,32"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#af0d0353424d3bfe4fef0f121a342df14" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="994,55,1150,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1203,54,1151,61,1151,55,1202,49"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a38409a814f07a34df8461ae4d33b2af1" title="All players who have been peacful (not DoW&#39;s or VoN in the past year) will recieve a random chit of 0..." alt="" coords="734,5,899,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="959,21,899,21,899,16,959,16"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#ad6258b83739b4b6a526b80894c3fe5b7" title="Handels the players controller joystick movement the dictates cursor movement and is called only ever..." alt="" coords="706,55,927,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="979,70,928,70,928,65,979,65"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#ad79b06566acb1f70735dea8fa14aeaef" title="Main handler for all possible user input." alt="" coords="491,55,658,80"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="690,70,658,70,658,65,690,65"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="312,55,443,80"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="476,70,444,70,444,65,476,65"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,55,264,80"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="296,70,265,70,265,65,296,65"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,55,95,80"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="127,70,95,70,95,65,127,65"/>
+</map>
