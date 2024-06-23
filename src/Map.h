@@ -20,7 +20,7 @@ public:
     int skip_troop[3]   = {0, 0, 0};  /**< When cities are shown the troop to start showing is at the index of the players nationality*/
     Uint32 last_skip[3] = {0, 0, 0,}; /**< Every 10 seconds update the skip units count */
 
-    bool full_display = false;
+    bool full_display[3] = {false, false, false}; /**< Array to hold if the city has been selected by the player (player id doubles as index) to display all units*/
 public:
     //#ID Name            Type    Status  Pop     Muster  Resource    ResourceType
     size_t ID=0; /**< The ID of the city*/
@@ -37,7 +37,9 @@ public:
 
     PopulationType population_type; /**< The type of city population (capital, city, town...)*/
 
-    UnitCountry nationality; /**< The nationality of the city (different from country where non-powers is neutral)*/
+    UnitCountry city_nationality; /**< The starting nationality of the city (different from country where non-powers is neutral)*/
+
+    UnitCountry ruler_nationality; /**< The starting nationality of the city (different from country where non-powers is neutral)*/
     
     size_t population; /**< The population (pop) of the city*/
 
@@ -55,7 +57,7 @@ public:
 
     size_t country_counts[7] = {0, 0, 0, 0, 0, 0, 0}; //BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRAL_U
 
-    size_t num_occupants = 0;
+    size_t num_occupants = 0; /**< Total number of occupants in the city between all  */
 
     //For influence
     uint8_t influence; /**< The amount of influence on this country*/
@@ -65,12 +67,16 @@ public:
     CityType aggresor; /**< The Attacker is the Faction provoking Combat in that Player Turn (the Active player). This is not the same as the Aggressor (the Faction trying to wrest control of a Land Area from the Owner)*/
 
     //For supply lines
-    size_t year_supplied=0;
+    size_t year_supplied=0; /**< The last year checked that this city was supplied */
 
-    Season season_supplied;
+    Season season_supplied; /**< The last season checked that this city was supplied */
 
-    bool supllied=false;
+    bool supllied=false; /**< If the city can be connected to a main capital or sub capital and is supplied */
 
+    /**
+     * @brief Free the memory of the city by deleting the units
+     * 
+     */
     void freeMemory(){
         if (name != ""){
             for (auto& occ : occupants){
@@ -94,8 +100,9 @@ public:
      * @param resource_type The type of resource (N is none as well)
      */
     City(const size_t ID=0, const string name="City", const CityType city_type=WATER, const PowerType power_type=NONE, const PopulationType population_type=EMPTY, const UnitCountry nationality=NEUTRAL_U, const size_t population=0, const size_t muster=0, const size_t resource=0, const ResourceType resource_type=NORMAL):
-    ID(ID), name(name), city_type(city_type), power_type(power_type), population_type(population_type), nationality(nationality), population(population), muster(muster), resource(resource), resource_type(resource_type){
-        ruler_type=city_type; //set it be ruled by who starts with it
+    ID(ID), name(name), city_type(city_type), power_type(power_type), population_type(population_type), city_nationality(nationality), population(population), muster(muster), resource(resource), resource_type(resource_type){
+        ruler_type = city_type; //set it be ruled by who starts with it
+        ruler_nationality = city_nationality;
         influence = 0;
         WIDTH = 32;
         HEIGHT = 32;
@@ -104,6 +111,17 @@ public:
 
     City(const int height, const int width, const int x, const int y, const size_t ID=0, const string name="City"): 
     HEIGHT(height), WIDTH(width), x(x), y(y), ID(ID), name(name){
+    }
+
+    /**
+     * @brief Set the ruler of the city to the new ruler and update the allegiance
+     * 
+     * @param new_ruler The nationality of the new ruler
+     */
+    void setRuler(const UnitCountry new_ruler){
+        constexpr CityType ca[6] = {WEST, WEST, WEST, AXIS, AXIS, USSR};
+        ruler_nationality = new_ruler;
+        ruler_type = ca[new_ruler];
     }
 
     /**
@@ -189,98 +207,14 @@ public:
      */
     void addUnit(Unit* unit);
 
-    void printOccupants() const;
-
-    CityType& getFirst (int& curr, CityType& allegiance_viewing, Unit** selected_unit){
-        if (occupants[WEST].size() != 0){
-            allegiance_viewing = WEST;
-        } 
-        else if (occupants[AXIS].size() != 0){
-            allegiance_viewing = AXIS;
-        }
-        else if (occupants[USSR].size() != 0){
-            allegiance_viewing = USSR;
-        }
-        else if (occupants[NEUTRAL].size() != 0){
-            allegiance_viewing = NEUTRAL;
-        }
-        else{
-            return allegiance_viewing;
-        }
-
-        curr = 0;
-        *selected_unit = occupants[allegiance_viewing][curr];
-
-        return allegiance_viewing;
-    }
-
-    CityType& getLast (int& curr, CityType& allegiance_viewing, Unit** selected_unit){
-        if (occupants[NEUTRAL].size() != 0){
-            curr = occupants[NEUTRAL].size()-1;
-            allegiance_viewing = NEUTRAL;
-        }
-        else if (occupants[USSR].size() != 0){
-            curr = occupants[USSR].size()-1;
-            allegiance_viewing = USSR;
-        }
-        
-        else if (occupants[AXIS].size() != 0){
-            curr = occupants[AXIS].size()-1;
-            allegiance_viewing = AXIS;
-        }
-
-        else if (occupants[WEST].size() != 0){
-            curr = occupants[WEST].size()-1;
-            allegiance_viewing = WEST;
-        }
-
-        *selected_unit = occupants[allegiance_viewing][curr];
-        return allegiance_viewing;
-    }
-
-    void getNext(int& curr, CityType& allegiance_viewing, Unit** selected_unit){
-        //cout << selected_unit << endl;
-        if (curr == -1)
-            return;
-
-        if (curr+1 >= occupants[allegiance_viewing].size()){ //move to next allegiance thats not empty
-            curr = 0;
-            for (int i = (((int)allegiance_viewing+1)%4), count=0; count < 4; i = (i+1)%4, count++){
-                if (occupants[i].size() > 0){
-                    allegiance_viewing = (CityType)i;
-                    *selected_unit = occupants[allegiance_viewing][0];
-                    return;
-                }
-            }
-
-        }
-        else{
-            curr++;
-            *selected_unit = occupants[allegiance_viewing][curr];
-        }
-    }
-
-    void getPrev(int& curr, CityType& allegiance_viewing, Unit** selected_unit){
-        if (curr == -1)
-            return;
-
-        if (curr-1 < 0){ //move to next allegiance
-            for (int i = (((int)allegiance_viewing-1)%4), count=0; count < 4; i = loopVal(i-1, 0, 3), count++){
-                if (occupants[i].size() > 0){
-                    allegiance_viewing = (CityType)i;
-                    curr = occupants[allegiance_viewing].size()-1;
-                    *selected_unit = occupants[allegiance_viewing][curr];
-                    return;
-                }
-            
-            }
-        }
-        else{
-            curr--;
-            *selected_unit = occupants[allegiance_viewing][curr];
-        }
-    }
-
+    /**
+     * @brief Helper for loops where if the provided val will under/over flow into the min and max provided
+     * 
+     * @param val The value provided that will loop
+     * @param min_val The lower limit of the range
+     * @param max_val The upper limit of the range
+     * @return int The (if needed looped) resulting value
+     */
     int loopVal(const int val, const int min_val, const int max_val){
         if (val < min_val)
             return max_val;
@@ -289,13 +223,29 @@ public:
         return val;
     }
 
+    /**
+     * @brief Get the name of the city
+     * 
+     * @return string The cities name
+     */
     string getName() const{
         return name;
     }
 
+    /**
+     * @brief Get the ID of the city
+     * 
+     * @return size_t The ID of the city
+     */
     size_t getID() const{
         return ID;
     }
+
+    /**
+     * @brief Debugg method to print the ID's of the current occupants of the city
+     * 
+     */
+    void printOccupants() const;
 
     /**
      * @brief Prints out all attributes of the city
@@ -306,23 +256,27 @@ public:
 
 struct Country{
 public:
-    size_t id;
+    size_t id; /**< The ID of the country */
 
-    string name="";
+    string name=""; /**< The name of the country */
 
-    string capital="";
+    City* capital= nullptr; /**< The capital city of the country wher influenced is placed */
 
-    CityType allegiance=WATER;
+    CityType allegiance=NEUTRAL; /**< The allegiance (West, Axis, USSR) of the country*/
 
-    InfluenceType influence_level;
+    InfluenceType influence_level=UNALIGNED; /**< The current influence level of the country that decides what benefits the influencer gets and any changes in invatsion from rivals */
     
-    int influence;
+    int influence=0; /**< The current number of influence the country has (0,1,2,3+) */
 
-    int added_influence=0;
+    int added_influence=0; /**< The number of influence added by the `top_card` power in a government phase */
 
-    CityType top_card=WATER;
+    bool armed_minor = false; /**< If the country is an armed minor and in battle */
 
-    vector<City*> cities;
+    CityType invader; /**< The power who invaded the country first and armed it */
+
+    CityType top_card=NEUTRAL; /**< The power who has played the most cards for this country (neutral if none or tied) */
+
+    vector<City*> cities; /**< Vector of cities who are in the country */
 
 public:
     /**
@@ -332,10 +286,15 @@ public:
      * @param influence_level The satelite state of this country (UNALIGNED, ASSOCIATES, PROTECTORATES, SATELLITES)
      * @param influence The current influnce level of the country [0...3]
      */
-    Country(const size_t id, const string name, const string capital, const InfluenceType influence_level=UNALIGNED, const int influence=0):
+    Country(const size_t id, const string name, City* capital, const InfluenceType influence_level=UNALIGNED, const int influence=0):
     id(id), name(name), capital(capital), influence_level(influence_level), influence(influence){
     }
 
+    /**
+     * @brief Add a city to the vector of cities who makeup the country
+     * 
+     * @param city The city thats in the country
+     */
     void pushback(City* city){
         if (allegiance == WATER) //since the 
             allegiance = city->city_type;
@@ -343,7 +302,12 @@ public:
         cities.push_back(city);
     }
 
-    void addCard(const CityType influencer){
+    /**
+     * @brief Resolve the effects of a power playing a card on the country
+     * 
+     * @param influencer The power who is playing a diplomacy on the country
+     */
+    void addCard(const CityType& influencer){
         if (top_card == NEUTRAL){ //neutral means its empty
             top_card = influencer;
             added_influence = 1;
@@ -359,6 +323,10 @@ public:
         }
     }
 
+    /**
+     * @brief At the end of the government phase resolve the cards added and change the number of influence and who the top influencer is
+     * 
+     */
     void resolveCards(){
         if (allegiance == NEUTRAL && added_influence > 0){
             allegiance = top_card;
@@ -380,14 +348,60 @@ public:
                 influence -= added_influence;
             }
         }
-
+        added_influence = 0;
         resolveDiplomacy();
     }
 
+    /**
+     * @brief Change the influence level and the effects after cards have been resolved
+     * 
+     * @see resolveCards
+     * 
+     */
     void resolveDiplomacy(){
-        
+        // now that the influence level has been set change the influence level
+        influence_level = (InfluenceType)SDL_clamp(influence, 0, 3);
+
+        switch (influence_level){
+            case UNALIGNED:{
+                allegiance = NEUTRAL;
+                break;
+            }
+            case ASSOCIATES:{
+                allegiance = top_card;
+                /* code */
+                break;
+            }
+            case PROTECTORATES:{
+                /* code */
+                break;
+            }
+            case SATELLITES:{
+                allegiance = top_card;
+                /* code */
+                break;
+            }
+            
+            default:
+                break;
+        }
     }
 
+    /**
+     * @brief Go through all cities in the country and update them to the new influencer
+     * 
+     */
+    void setCities(){
+        for (auto& city : cities){
+            city->ruler_type = top_card;
+        }
+    }
+
+    /**
+     * @brief Get the name of the country
+     * 
+     * @return string Name of country
+     */
     string getName()const{
         return name;
     }
@@ -461,7 +475,7 @@ public:
      * @param target The name of the city that acts as the key
      * @return City* The city with the given name
      */
-    inline City* operator[](const string target){
+    City* operator[](const string target){
         return cities.at(target);
     }
 
@@ -471,7 +485,7 @@ public:
      * @param id The id of the target city
      * @return City* The city with the given id
      */
-    inline City* operator[](const size_t id){
+    City* operator[](const size_t id){
         return city_masterlist[id];
     }
 
@@ -500,7 +514,7 @@ public:
      * @param name name of the desired city
      * @return City* The desired city obj
      */
-    inline City* getCity(const string name) const;
+     City* getCity(const string name) const;
 
     /**
      * @brief Get the desiured city by id (works like [] overload)
@@ -509,7 +523,7 @@ public:
      * @param id 
      * @return City* 
      */
-    inline City* getCity(const size_t id) const;
+     City* getCity(const size_t id) const;
 
     /**
      * @brief Gets the country of that name
@@ -517,7 +531,7 @@ public:
      * @param name Name of the country
      * @return Country* The country of that name
      */
-    inline Country* getCountry(const string name) const{
+    Country* getCountry(const string name) const{
         return countries.at(name);
     }
 
@@ -527,8 +541,15 @@ public:
      * @param country Name of the country with the desired capital
      * @return City* The capital of the city (where influence is places)
      */
-    inline City* getCapital(const string country) const{
-        return getCity(countries.at(country)->capital);
+    City* getCapital(const string country) const{
+        try{
+            return countries.at(country)->capital;
+        }
+        catch (std::out_of_range){
+            std::cerr << "Country name '" << country << "' was not found as a key" << endl;
+            exit(1);
+            return nullptr;
+        }
     }
 
     /**
@@ -539,7 +560,7 @@ public:
      * @return true The cities share a connection
      * @return false The cities don't share a connection
      */
-    inline bool checkConnection(const string A, const string B){
+    bool checkConnection(const string A, const string B){
         return adjacency[findCity(A)][findCity(B)];
     }
 
@@ -558,7 +579,7 @@ public:
      * 
      * @return const size_t The total number of cities (shouldn't change after initalization)
      */
-    inline const size_t getNumCity() const{
+     const size_t getNumCity() const{
         return cities.size();
     }
 
@@ -567,7 +588,7 @@ public:
      * 
      * @return const unordered_map<string, City*>& The city hashmap reference
      */
-    inline const unordered_map<string, City*>& getCities() const{
+    const unordered_map<string, City*>& getCities() const{
         return cities;
     }
 
@@ -576,7 +597,7 @@ public:
      * 
      * @return const unordered_map<string, Country*>& The city hashmap reference
      */
-    inline const unordered_map<string, Country*>& getCountries() const{
+    const unordered_map<string, Country*>& getCountries() const{
         return countries;
     }
 
@@ -585,7 +606,7 @@ public:
      * 
      * @return const vector<vector<BorderType>>& The adjacency matrix reference
      */
-    inline const vector<vector<BorderType>>& getAdjacency() const{
+    const vector<vector<BorderType>>& getAdjacency() const{
         return adjacency;
     }
 

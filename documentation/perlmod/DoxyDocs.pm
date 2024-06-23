@@ -4,6 +4,13 @@ $doxydocs=
     {
       name => 'ActionCard',
       kind => 'struct',
+      base => [
+        {
+          name => 'Card',
+          virtualness => 'non_virtual',
+          protection => 'public'
+        }
+      ],
       inner => [
       ],
       all_members => [
@@ -33,6 +40,12 @@ $doxydocs=
         },
         {
           name => 'number',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'ActionCard'
+        },
+        {
+          name => 'operator==',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'ActionCard'
@@ -77,7 +90,16 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'Construct a new Action Card. '
+                  content => 'Construct a new Action '
+                },
+                {
+                  type => 'url',
+                  link => 'struct_card',
+                  content => 'Card'
+                },
+                {
+                  type => 'text',
+                  content => '. '
                 }
               ]
             },
@@ -253,6 +275,24 @@ $doxydocs=
                 type => 'const size_t'
               }
             ]
+          },
+          {
+            kind => 'function',
+            name => 'operator==',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'bool',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'card',
+                type => 'ActionCard *'
+              }
+            ]
           }
         ]
       },
@@ -272,7 +312,16 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'The type of Action Card (DIPLOMACY for specific countries or a WILD) '
+                  content => 'The type of Action '
+                },
+                {
+                  type => 'url',
+                  link => 'struct_card',
+                  content => 'Card'
+                },
+                {
+                  type => 'text',
+                  content => ' (DIPLOMACY for specific countries or a WILD) '
                 }
               ]
             },
@@ -486,6 +535,28 @@ $doxydocs=
       detailed => {}
     },
     {
+      name => 'Card',
+      kind => 'struct',
+      derived => [
+        {
+          name => 'ActionCard',
+          virtualness => 'non_virtual',
+          protection => 'public'
+        },
+        {
+          name => 'InvestmentCard',
+          virtualness => 'non_virtual',
+          protection => 'public'
+        }
+      ],
+      inner => [
+      ],
+      all_members => [
+      ],
+      brief => {},
+      detailed => {}
+    },
+    {
       name => 'City',
       kind => 'struct',
       inner => [
@@ -521,6 +592,12 @@ $doxydocs=
         },
         {
           name => 'City',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'City'
+        },
+        {
+          name => 'city_nationality',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'City'
@@ -562,37 +639,13 @@ $doxydocs=
           scope => 'City'
         },
         {
-          name => 'getFirst',
-          virtualness => 'non_virtual',
-          protection => 'public',
-          scope => 'City'
-        },
-        {
           name => 'getID',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'City'
         },
         {
-          name => 'getLast',
-          virtualness => 'non_virtual',
-          protection => 'public',
-          scope => 'City'
-        },
-        {
           name => 'getName',
-          virtualness => 'non_virtual',
-          protection => 'public',
-          scope => 'City'
-        },
-        {
-          name => 'getNext',
-          virtualness => 'non_virtual',
-          protection => 'public',
-          scope => 'City'
-        },
-        {
-          name => 'getPrev',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'City'
@@ -659,12 +712,6 @@ $doxydocs=
         },
         {
           name => 'name',
-          virtualness => 'non_virtual',
-          protection => 'public',
-          scope => 'City'
-        },
-        {
-          name => 'nationality',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'City'
@@ -748,6 +795,12 @@ $doxydocs=
           scope => 'City'
         },
         {
+          name => 'ruler_nationality',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'City'
+        },
+        {
           name => 'ruler_type',
           virtualness => 'non_virtual',
           protection => 'public',
@@ -755,6 +808,12 @@ $doxydocs=
         },
         {
           name => 'season_supplied',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'City'
+        },
+        {
+          name => 'setRuler',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'City'
@@ -804,7 +863,17 @@ $doxydocs=
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
-            brief => {},
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Free the memory of the city by deleting the units. '
+                }
+              ]
+            },
             detailed => {},
             type => 'void',
             const => 'no',
@@ -1065,6 +1134,57 @@ $doxydocs=
                 declaration_name => 'name',
                 type => 'const string',
                 default_value => '"City"'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'setRuler',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Set the ruler of the city to the new ruler and update the allegiance. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'new_ruler'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The nationality of the new ruler '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'new_ruler',
+                type => 'const UnitCountry'
               }
             ]
           },
@@ -1401,130 +1521,85 @@ $doxydocs=
           },
           {
             kind => 'function',
-            name => 'printOccupants',
-            virtualness => 'non_virtual',
-            protection => 'public',
-            static => 'no',
-            brief => {},
-            detailed => {},
-            type => 'void',
-            const => 'yes',
-            volatile => 'no',
-            parameters => [
-            ]
-          },
-          {
-            kind => 'function',
-            name => 'getFirst',
-            virtualness => 'non_virtual',
-            protection => 'public',
-            static => 'no',
-            brief => {},
-            detailed => {},
-            type => 'CityType &',
-            const => 'no',
-            volatile => 'no',
-            parameters => [
-              {
-                declaration_name => 'curr',
-                type => 'int &'
-              },
-              {
-                declaration_name => 'allegiance_viewing',
-                type => 'CityType &'
-              },
-              {
-                declaration_name => 'selected_unit',
-                type => 'Unit **'
-              }
-            ]
-          },
-          {
-            kind => 'function',
-            name => 'getLast',
-            virtualness => 'non_virtual',
-            protection => 'public',
-            static => 'no',
-            brief => {},
-            detailed => {},
-            type => 'CityType &',
-            const => 'no',
-            volatile => 'no',
-            parameters => [
-              {
-                declaration_name => 'curr',
-                type => 'int &'
-              },
-              {
-                declaration_name => 'allegiance_viewing',
-                type => 'CityType &'
-              },
-              {
-                declaration_name => 'selected_unit',
-                type => 'Unit **'
-              }
-            ]
-          },
-          {
-            kind => 'function',
-            name => 'getNext',
-            virtualness => 'non_virtual',
-            protection => 'public',
-            static => 'no',
-            brief => {},
-            detailed => {},
-            type => 'void',
-            const => 'no',
-            volatile => 'no',
-            parameters => [
-              {
-                declaration_name => 'curr',
-                type => 'int &'
-              },
-              {
-                declaration_name => 'allegiance_viewing',
-                type => 'CityType &'
-              },
-              {
-                declaration_name => 'selected_unit',
-                type => 'Unit **'
-              }
-            ]
-          },
-          {
-            kind => 'function',
-            name => 'getPrev',
-            virtualness => 'non_virtual',
-            protection => 'public',
-            static => 'no',
-            brief => {},
-            detailed => {},
-            type => 'void',
-            const => 'no',
-            volatile => 'no',
-            parameters => [
-              {
-                declaration_name => 'curr',
-                type => 'int &'
-              },
-              {
-                declaration_name => 'allegiance_viewing',
-                type => 'CityType &'
-              },
-              {
-                declaration_name => 'selected_unit',
-                type => 'Unit **'
-              }
-            ]
-          },
-          {
-            kind => 'function',
             name => 'loopVal',
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
-            brief => {},
-            detailed => {},
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Helper for loops where if the provided val will under/over flow into the min and max provided. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'val'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The value provided that will loop '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'min_val'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The lower limit of the range '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'max_val'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The upper limit of the range '
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'int The (if needed looped) resulting value '
+                    }
+                  ]
+                }
+              ]
+            },
             type => 'int',
             const => 'no',
             volatile => 'no',
@@ -1549,8 +1624,32 @@ $doxydocs=
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
-            brief => {},
-            detailed => {},
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Get the name of the city. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'string The cities name '
+                    }
+                  ]
+                }
+              ]
+            },
             type => 'string',
             const => 'yes',
             volatile => 'no',
@@ -1563,9 +1662,57 @@ $doxydocs=
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
-            brief => {},
-            detailed => {},
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Get the ID of the city. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'size_t The ID of the city '
+                    }
+                  ]
+                }
+              ]
+            },
             type => 'size_t',
+            const => 'yes',
+            volatile => 'no',
+            parameters => [
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'printOccupants',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Debugg method to print the ID\'s of the current occupants of the city. '
+                }
+              ]
+            },
+            detailed => {},
+            type => 'void',
             const => 'yes',
             volatile => 'no',
             parameters => [
@@ -1780,9 +1927,20 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Array to hold if the city has been selected by the player (player id doubles as index) to display all units '
+                }
+              ]
+            },
             type => 'bool',
-            initializer => '= false'
+            arguments => '[3]',
+            initializer => '= {false, false, false}'
           },
           {
             kind => 'variable',
@@ -1929,7 +2087,7 @@ $doxydocs=
           },
           {
             kind => 'variable',
-            name => 'nationality',
+            name => 'city_nationality',
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
@@ -1941,7 +2099,27 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'The nationality of the city (different from country where non-powers is neutral) '
+                  content => 'The starting nationality of the city (different from country where non-powers is neutral) '
+                }
+              ]
+            },
+            type => 'UnitCountry'
+          },
+          {
+            kind => 'variable',
+            name => 'ruler_nationality',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The starting nationality of the city (different from country where non-powers is neutral) '
                 }
               ]
             },
@@ -2099,7 +2277,24 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Total number of occupants in the city between all '
+                },
+                {
+                  type => 'linebreak'
+                },
+                {
+                  type => 'text',
+                  content => ' '
+                }
+              ]
+            },
             type => 'size_t',
             initializer => '= 0'
           },
@@ -2179,7 +2374,17 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The last year checked that this city was supplied '
+                }
+              ]
+            },
             type => 'size_t',
             initializer => '=0'
           },
@@ -2190,7 +2395,17 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The last season checked that this city was supplied '
+                }
+              ]
+            },
             type => 'Season'
           },
           {
@@ -2200,7 +2415,17 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'If the city can be connected to a main capital or sub capital and is supplied '
+                }
+              ]
+            },
             type => 'bool',
             initializer => '=false'
           }
@@ -2239,6 +2464,12 @@ $doxydocs=
         },
         {
           name => 'allegiance',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Country'
+        },
+        {
+          name => 'armed_minor',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Country'
@@ -2286,6 +2517,12 @@ $doxydocs=
           scope => 'Country'
         },
         {
+          name => 'invader',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Country'
+        },
+        {
           name => 'name',
           virtualness => 'non_virtual',
           protection => 'public',
@@ -2305,6 +2542,12 @@ $doxydocs=
         },
         {
           name => 'resolveDiplomacy',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Country'
+        },
+        {
+          name => 'setCities',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Country'
@@ -2413,7 +2656,7 @@ $doxydocs=
               },
               {
                 declaration_name => 'capital',
-                type => 'const string'
+                type => 'City *'
               },
               {
                 declaration_name => 'influence_level',
@@ -2433,8 +2676,41 @@ $doxydocs=
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
-            brief => {},
-            detailed => {},
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Add a city to the vector of cities who makeup the country. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'city'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The city thats in the country '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             type => 'void',
             const => 'no',
             volatile => 'no',
@@ -2451,15 +2727,48 @@ $doxydocs=
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
-            brief => {},
-            detailed => {},
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Resolve the effects of a power playing a card on the country. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'influencer'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The power who is playing a diplomacy on the country '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             type => 'void',
             const => 'no',
             volatile => 'no',
             parameters => [
               {
                 declaration_name => 'influencer',
-                type => 'const CityType'
+                type => 'const CityType &'
               }
             ]
           },
@@ -2469,7 +2778,17 @@ $doxydocs=
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
-            brief => {},
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'At the end of the government phase resolve the cards added and change the number of influence and who the top influencer is. '
+                }
+              ]
+            },
             detailed => {},
             type => 'void',
             const => 'no',
@@ -2483,7 +2802,60 @@ $doxydocs=
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
-            brief => {},
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Change the influence level and the effects after cards have been resolved. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  see => [
+                    {
+                      type => 'url',
+                      link => 'struct_country_1a48278a0a376bd25cb55d969e1a358692',
+                      content => 'resolveCards'
+                    },
+                    {
+                      type => 'text',
+                      content => ' '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'setCities',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Go through all cities in the country and update them to the new influencer. '
+                }
+              ]
+            },
             detailed => {},
             type => 'void',
             const => 'no',
@@ -2497,8 +2869,32 @@ $doxydocs=
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
-            brief => {},
-            detailed => {},
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Get the name of the country. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'string Name of country '
+                    }
+                  ]
+                }
+              ]
+            },
             type => 'string',
             const => 'yes',
             volatile => 'no',
@@ -2516,7 +2912,17 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The ID of the country '
+                }
+              ]
+            },
             type => 'size_t'
           },
           {
@@ -2526,7 +2932,17 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The name of the country '
+                }
+              ]
+            },
             type => 'string',
             initializer => '=""'
           },
@@ -2537,9 +2953,19 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
-            type => 'string',
-            initializer => '=""'
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The capital city of the country wher influenced is placed '
+                }
+              ]
+            },
+            type => 'City *',
+            initializer => '= nullptr'
           },
           {
             kind => 'variable',
@@ -2548,9 +2974,19 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The allegiance (West, Axis, USSR) of the country '
+                }
+              ]
+            },
             type => 'CityType',
-            initializer => '=WATER'
+            initializer => '=NEUTRAL'
           },
           {
             kind => 'variable',
@@ -2559,8 +2995,19 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
-            type => 'InfluenceType'
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The current influence level of the country that decides what benefits the influencer gets and any changes in invatsion from rivals '
+                }
+              ]
+            },
+            type => 'InfluenceType',
+            initializer => '=UNALIGNED'
           },
           {
             kind => 'variable',
@@ -2569,8 +3016,19 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
-            type => 'int'
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The current number of influence the country has (0,1,2,3+) '
+                }
+              ]
+            },
+            type => 'int',
+            initializer => '=0'
           },
           {
             kind => 'variable',
@@ -2579,9 +3037,78 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The number of influence added by the '
+                },
+                {
+                  type => 'style',
+                  style => 'code',
+                  enable => 'yes'
+                },
+                {
+                  type => 'text',
+                  content => 'top_card'
+                },
+                {
+                  type => 'style',
+                  style => 'code',
+                  enable => 'no'
+                },
+                {
+                  type => 'text',
+                  content => ' power in a government phase '
+                }
+              ]
+            },
             type => 'int',
             initializer => '=0'
+          },
+          {
+            kind => 'variable',
+            name => 'armed_minor',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'If the country is an armed minor and in battle '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= false'
+          },
+          {
+            kind => 'variable',
+            name => 'invader',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The power who invaded the country first and armed it '
+                }
+              ]
+            },
+            type => 'CityType'
           },
           {
             kind => 'variable',
@@ -2590,9 +3117,19 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The power who has played the most cards for this country (neutral if none or tied) '
+                }
+              ]
+            },
             type => 'CityType',
-            initializer => '=WATER'
+            initializer => '=NEUTRAL'
           },
           {
             kind => 'variable',
@@ -2601,7 +3138,17 @@ $doxydocs=
             protection => 'public',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Vector of cities who are in the country '
+                }
+              ]
+            },
             type => 'vector< City * >'
           }
         ]
@@ -2995,6 +3542,13 @@ $doxydocs=
     {
       name => 'InvestmentCard',
       kind => 'struct',
+      base => [
+        {
+          name => 'Card',
+          virtualness => 'non_virtual',
+          protection => 'public'
+        }
+      ],
       inner => [
       ],
       all_members => [
@@ -3006,6 +3560,12 @@ $doxydocs=
         },
         {
           name => 'InvestmentCard',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'InvestmentCard'
+        },
+        {
+          name => 'operator==',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'InvestmentCard'
@@ -3062,7 +3622,16 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'Construct a new Investment Card object. '
+                  content => 'Construct a new Investment '
+                },
+                {
+                  type => 'url',
+                  link => 'struct_card',
+                  content => 'Card'
+                },
+                {
+                  type => 'text',
+                  content => ' object. '
                 }
               ]
             },
@@ -3190,6 +3759,24 @@ $doxydocs=
                 type => 'const size_t'
               }
             ]
+          },
+          {
+            kind => 'function',
+            name => 'operator==',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'bool',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'card',
+                type => 'InvestmentCard *'
+              }
+            ]
           }
         ]
       },
@@ -3209,7 +3796,16 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'The type of invest Card (the basic two sided TECHNOLOGY card, or a wild effect INTELLIGENCE, or a wild YEAR card) '
+                  content => 'The type of invest '
+                },
+                {
+                  type => 'url',
+                  link => 'struct_card',
+                  content => 'Card'
+                },
+                {
+                  type => 'text',
+                  content => ' (the basic two sided TECHNOLOGY card, or a wild effect INTELLIGENCE, or a wild YEAR card) '
                 }
               ]
             },
@@ -4847,6 +5443,12 @@ $doxydocs=
           scope => 'Player'
         },
         {
+          name => 'add',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
           name => 'allegiance',
           virtualness => 'non_virtual',
           protection => 'private',
@@ -4919,6 +5521,12 @@ $doxydocs=
           scope => 'Player'
         },
         {
+          name => 'building_city',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
           name => 'calculateProduction',
           virtualness => 'non_virtual',
           protection => 'public',
@@ -4949,12 +5557,6 @@ $doxydocs=
           scope => 'Player'
         },
         {
-          name => 'city_viewing',
-          virtualness => 'non_virtual',
-          protection => 'public',
-          scope => 'Player'
-        },
-        {
           name => 'closest_map_city',
           virtualness => 'non_virtual',
           protection => 'public',
@@ -4964,6 +5566,12 @@ $doxydocs=
           name => 'controlled_cities',
           virtualness => 'non_virtual',
           protection => 'private',
+          scope => 'Player'
+        },
+        {
+          name => 'controller_button_sprites',
+          virtualness => 'non_virtual',
+          protection => 'public',
           scope => 'Player'
         },
         {
@@ -4985,7 +5593,25 @@ $doxydocs=
           scope => 'Player'
         },
         {
-          name => 'deal',
+          name => 'd_down_held',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'd_left_held',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'd_right_held',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'd_up_held',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Player'
@@ -4997,7 +5623,7 @@ $doxydocs=
           scope => 'Player'
         },
         {
-          name => 'displayed_cities',
+          name => 'deal',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Player'
@@ -5111,6 +5737,18 @@ $doxydocs=
           scope => 'Player'
         },
         {
+          name => 'getName',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'getNextID',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
           name => 'getNumBlockaded',
           virtualness => 'non_virtual',
           protection => 'public',
@@ -5213,6 +5851,12 @@ $doxydocs=
           scope => 'Player'
         },
         {
+          name => 'last_widget',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
           name => 'map_sprite',
           virtualness => 'non_virtual',
           protection => 'public',
@@ -5225,9 +5869,21 @@ $doxydocs=
           scope => 'Player'
         },
         {
+          name => 'message_animation_sheets',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
           name => 'name',
           virtualness => 'non_virtual',
           protection => 'private',
+          scope => 'Player'
+        },
+        {
+          name => 'passed',
+          virtualness => 'non_virtual',
+          protection => 'public',
           scope => 'Player'
         },
         {
@@ -5255,6 +5911,42 @@ $doxydocs=
           scope => 'Player'
         },
         {
+          name => 'popped_action_card',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'popped_action_card_index',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'popped_invest_card_index',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'popped_left_country',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'popped_right_country',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'popped_unit',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
           name => 'population',
           virtualness => 'non_virtual',
           protection => 'private',
@@ -5267,7 +5959,19 @@ $doxydocs=
           scope => 'Player'
         },
         {
-          name => 'production_actions',
+          name => 'remove',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'remove',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'remove',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Player'
@@ -5279,9 +5983,21 @@ $doxydocs=
           scope => 'Player'
         },
         {
+          name => 'right_stick_tick',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
           name => 'rival_capitals',
           virtualness => 'non_virtual',
           protection => 'private',
+          scope => 'Player'
+        },
+        {
+          name => 'selected_country',
+          virtualness => 'non_virtual',
+          protection => 'public',
           scope => 'Player'
         },
         {
@@ -5333,7 +6049,43 @@ $doxydocs=
           scope => 'Player'
         },
         {
+          name => 'show_axis',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
           name => 'show_invest',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'show_left_country',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'show_right_country',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'show_ussr',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'show_west',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'spendProduction',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Player'
@@ -5357,19 +6109,25 @@ $doxydocs=
           scope => 'Player'
         },
         {
+          name => 'unit_buildable',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
           name => 'unit_counts',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Player'
         },
         {
-          name => 'unit_viewing',
+          name => 'units',
           virtualness => 'non_virtual',
-          protection => 'public',
+          protection => 'private',
           scope => 'Player'
         },
         {
-          name => 'units',
+          name => 'units_built',
           virtualness => 'non_virtual',
           protection => 'private',
           scope => 'Player'
@@ -5382,6 +6140,18 @@ $doxydocs=
         },
         {
           name => 'units_sprite_z3',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'units_upgraded',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Player'
+        },
+        {
+          name => 'upgradeUnits',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Player'
@@ -5418,6 +6188,42 @@ $doxydocs=
         },
         {
           name => 'westInit',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'wheel_x',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'wheel_y',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'widget',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'x_held_tick',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'y_held_tick',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Player'
+        },
+        {
+          name => 'y_resolved',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Player'
@@ -5918,6 +6724,196 @@ $doxydocs=
           },
           {
             kind => 'function',
+            name => 'add',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Add a unit to the master list of units and update the unit counts of the player. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'unit'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'Pointer to the unit being created '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'unit',
+                type => 'Unit *'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'remove',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Removes a unit from the master list and updates the unit count of the player. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'unit'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'Pointer to the unit that will be removed '
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  pre => [
+                    {
+                      type => 'text',
+                      content => 'The '
+                    },
+                    {
+                      type => 'style',
+                      style => 'code',
+                      enable => 'yes'
+                    },
+                    {
+                      type => 'text',
+                      content => 'unit'
+                    },
+                    {
+                      type => 'style',
+                      style => 'code',
+                      enable => 'no'
+                    },
+                    {
+                      type => 'text',
+                      content => ' is in the masterlist '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'unit',
+                type => 'Unit *'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'upgradeUnits',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Iterates through the units and if they were marked as upgraded, increases the combat value and resets the upgrade flag. '
+                }
+              ]
+            },
+            detailed => {},
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'getNextID',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Gets the next empty ID in the unit master list to give to a new unit. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'size_t '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'size_t',
+            const => 'yes',
+            volatile => 'no',
+            parameters => [
+            ]
+          },
+          {
+            kind => 'function',
             name => 'getControlledCitiesBegin',
             virtualness => 'non_virtual',
             protection => 'public',
@@ -6233,6 +7229,42 @@ $doxydocs=
               {
                 declaration_name => 'iC',
                 type => 'InvestmentCard *'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'remove',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'action_card',
+                type => 'const ActionCard *'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'remove',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'invest_card',
+                type => 'const InvestmentCard *'
               }
             ]
           },
@@ -7163,7 +8195,16 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'Get the Action Card at the specific index. '
+                  content => 'Get the Action '
+                },
+                {
+                  type => 'url',
+                  link => 'struct_card',
+                  content => 'Card'
+                },
+                {
+                  type => 'text',
+                  content => ' at the specific index. '
                 }
               ]
             },
@@ -7222,7 +8263,16 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'Get the Invest Card at the specific index. '
+                  content => 'Get the Invest '
+                },
+                {
+                  type => 'url',
+                  link => 'struct_card',
+                  content => 'Card'
+                },
+                {
+                  type => 'text',
+                  content => ' at the specific index. '
                 }
               ]
             },
@@ -7406,7 +8456,7 @@ $doxydocs=
                 }
               ]
             },
-            type => 'const size_t',
+            type => 'const int',
             const => 'yes',
             volatile => 'no',
             parameters => [
@@ -7457,6 +8507,29 @@ $doxydocs=
             const => 'yes',
             volatile => 'no',
             parameters => [
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'spendProduction',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'p_act',
+                type => 'const ProductionAction'
+              },
+              {
+                declaration_name => 'undo',
+                type => 'const bool',
+                default_value => 'false'
+              }
             ]
           },
           {
@@ -7697,6 +8770,53 @@ $doxydocs=
           },
           {
             kind => 'function',
+            name => 'getName',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Returns the name of the player. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'const string& Name of the '
+                    },
+                    {
+                      type => 'url',
+                      link => 'class_player',
+                      content => 'Player'
+                    },
+                    {
+                      type => 'text',
+                      content => ' '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'const string &',
+            const => 'yes',
+            volatile => 'no',
+            parameters => [
+            ]
+          },
+          {
+            kind => 'function',
             name => 'print',
             virtualness => 'non_virtual',
             protection => 'public',
@@ -7749,16 +8869,6 @@ $doxydocs=
         members => [
           {
             kind => 'variable',
-            name => 'production_actions',
-            virtualness => 'non_virtual',
-            protection => 'public',
-            static => 'no',
-            brief => {},
-            detailed => {},
-            type => 'stack< ProductionAction >'
-          },
-          {
-            kind => 'variable',
             name => 'unit_counts',
             virtualness => 'non_virtual',
             protection => 'public',
@@ -7776,8 +8886,29 @@ $doxydocs=
               ]
             },
             type => 'int',
-            arguments => '[7]',
-            initializer => '= {0, 0, 0, 0, 0, 0, 0}'
+            arguments => '[7][7]',
+            initializer => '= {{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}}'
+          },
+          {
+            kind => 'variable',
+            name => 'passed',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Flag for if the player has passed int he current phase and forfits any future turns in the phase '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= false'
           },
           {
             kind => 'variable',
@@ -7841,6 +8972,26 @@ $doxydocs=
           },
           {
             kind => 'variable',
+            name => 'message_animation_sheets',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The spirte of the map for the player\'s renderer '
+                }
+              ]
+            },
+            type => 'Spritesheet *'
+          },
+          {
+            kind => 'variable',
             name => 'units_sprite_z1',
             virtualness => 'non_virtual',
             protection => 'public',
@@ -7862,6 +9013,26 @@ $doxydocs=
           {
             kind => 'variable',
             name => 'units_sprite_z3',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The sprite sheet for the units at zoom 3 (the closest) '
+                }
+              ]
+            },
+            type => 'Spritesheet *'
+          },
+          {
+            kind => 'variable',
+            name => 'controller_button_sprites',
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
@@ -7957,13 +9128,6 @@ $doxydocs=
                 {
                   type => 'text',
                   content => 'The current zoom level (1,2,3) of the player\'s screen '
-                },
-                {
-                  type => 'linebreak'
-                },
-                {
-                  type => 'text',
-                  content => ' '
                 }
               ]
             },
@@ -7988,7 +9152,7 @@ $doxydocs=
                 }
               ]
             },
-            type => 'size_t',
+            type => 'int',
             initializer => '= 0'
           },
           {
@@ -8009,7 +9173,7 @@ $doxydocs=
                 }
               ]
             },
-            type => 'size_t',
+            type => 'int',
             initializer => '= 0'
           },
           {
@@ -8047,7 +9211,7 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'Boolean to track if the action hand should be expanded to show all cards '
+                  content => 'Falg to track if the action hand should be expanded to show all cards '
                 }
               ]
             },
@@ -8068,7 +9232,97 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'Boolean to track if the invest hand should be expanded to show all cards '
+                  content => 'Flag to track if the invest hand should be expanded to show all cards '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= false'
+          },
+          {
+            kind => 'variable',
+            name => 'show_west',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Flag to track if the information of the West '
+                },
+                {
+                  type => 'url',
+                  link => 'class_player',
+                  content => 'Player'
+                },
+                {
+                  type => 'text',
+                  content => ' should be shown '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= false'
+          },
+          {
+            kind => 'variable',
+            name => 'show_axis',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Flag to track if the information of the Axis '
+                },
+                {
+                  type => 'url',
+                  link => 'class_player',
+                  content => 'Player'
+                },
+                {
+                  type => 'text',
+                  content => ' should be shown '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= false'
+          },
+          {
+            kind => 'variable',
+            name => 'show_ussr',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Flag to track if the information of the USSR '
+                },
+                {
+                  type => 'url',
+                  link => 'class_player',
+                  content => 'Player'
+                },
+                {
+                  type => 'text',
+                  content => ' should be shown '
                 }
               ]
             },
@@ -8119,7 +9373,7 @@ $doxydocs=
           },
           {
             kind => 'variable',
-            name => 'city_viewing',
+            name => 'wheel_x',
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
@@ -8131,16 +9385,16 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'The ID of the city being view or in focus, meaning all action are set to this '
+                  content => 'The x-coord of a unit circle for the selection wheel '
                 }
               ]
             },
-            type => 'int',
-            initializer => '= -1'
+            type => 'double',
+            initializer => '= 0'
           },
           {
             kind => 'variable',
-            name => 'unit_viewing',
+            name => 'wheel_y',
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
@@ -8152,12 +9406,24 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'The ID of the unit being view or in focus, meaning all action are set to this '
+                  content => 'The y-coord of a unit circle for the selection wheel '
                 }
               ]
             },
-            type => 'int',
-            initializer => '= -1'
+            type => 'double',
+            initializer => '= 0'
+          },
+          {
+            kind => 'variable',
+            name => 'popped_unit',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'double',
+            arguments => '[3]',
+            initializer => '= {-2, -2, -2}'
           },
           {
             kind => 'variable',
@@ -8198,8 +9464,8 @@ $doxydocs=
                 }
               ]
             },
-            type => 'Unit *',
-            initializer => '= nullptr'
+            type => 'pair< City *, Unit * >',
+            initializer => '= {nullptr, nullptr}'
           },
           {
             kind => 'variable',
@@ -8224,7 +9490,7 @@ $doxydocs=
           },
           {
             kind => 'variable',
-            name => 'displayed_cities',
+            name => 'building_city',
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
@@ -8236,11 +9502,430 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'Vector of all cities pinned by the player to show all information '
+                  content => 'Pointer to the city that has been selected to add a unit '
                 }
               ]
             },
-            type => 'vector< City * >'
+            type => 'City *',
+            initializer => '= nullptr'
+          },
+          {
+            kind => 'variable',
+            name => 'unit_buildable',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Array that corresponds to the units to hold flags if the unit is buildable in the current '
+                },
+                {
+                  type => 'style',
+                  style => 'code',
+                  enable => 'yes'
+                },
+                {
+                  type => 'text',
+                  content => 'building_city'
+                },
+                {
+                  type => 'style',
+                  style => 'code',
+                  enable => 'no'
+                },
+                {
+                  type => 'text',
+                  content => ' '
+                }
+              ]
+            },
+            type => 'bool',
+            arguments => '[7]',
+            initializer => '= {false, false, false, false, false, false, false}'
+          },
+          {
+            kind => 'variable',
+            name => 'widget',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Holds which current widget the player is on '
+                }
+              ]
+            },
+            type => 'Widget',
+            initializer => '= MAP'
+          },
+          {
+            kind => 'variable',
+            name => 'd_up_held',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Flag to indicate if the D-PAD Up button is being held by the player '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= false'
+          },
+          {
+            kind => 'variable',
+            name => 'd_down_held',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Flag to indicate if the D-PAD Down button is being held by the player '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= false'
+          },
+          {
+            kind => 'variable',
+            name => 'd_left_held',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Flag to indicate if the D-PAD Left button is being held by the player '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= false'
+          },
+          {
+            kind => 'variable',
+            name => 'd_right_held',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Flag to indicate if the D-PAD Right button is being held by the player '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= false'
+          },
+          {
+            kind => 'variable',
+            name => 'last_widget',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Time to indicate when the player last changed widgets to pace UI change '
+                }
+              ]
+            },
+            type => 'Uint32',
+            initializer => '= 0'
+          },
+          {
+            kind => 'variable',
+            name => 'popped_action_card_index',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The index into the action hand of the action card the player has currently selected '
+                }
+              ]
+            },
+            type => 'int',
+            initializer => '= -1'
+          },
+          {
+            kind => 'variable',
+            name => 'popped_action_card',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Pointer to the action card the player has currently selected in their action hand (nullptr if none selected) '
+                }
+              ]
+            },
+            type => 'ActionCard *',
+            initializer => '= nullptr'
+          },
+          {
+            kind => 'variable',
+            name => 'popped_left_country',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Pointer to the capital of the country on the left hand side of the card (used for drawing) '
+                }
+              ]
+            },
+            type => 'City *',
+            initializer => '= nullptr'
+          },
+          {
+            kind => 'variable',
+            name => 'show_left_country',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Flag to indicate if the capital of the left side country should be drawn '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= false'
+          },
+          {
+            kind => 'variable',
+            name => 'popped_right_country',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Pointer to the capital of the country on the right hand side of the card (used for drawing) '
+                }
+              ]
+            },
+            type => 'City *',
+            initializer => '= nullptr'
+          },
+          {
+            kind => 'variable',
+            name => 'show_right_country',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Flag to indicate if the capital of the left side country should be drawn '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= false'
+          },
+          {
+            kind => 'variable',
+            name => 'selected_country',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Pointer to the country the player has currently selected for card actions (nullptr if none selected) '
+                }
+              ]
+            },
+            type => 'Country *',
+            initializer => '= nullptr'
+          },
+          {
+            kind => 'variable',
+            name => 'popped_invest_card_index',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'The index into the investment hand of the investment card the player has currently selected '
+                }
+              ]
+            },
+            type => 'int',
+            initializer => '= -1'
+          },
+          {
+            kind => 'variable',
+            name => 'x_held_tick',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Tick of when the player most recently pressed down on the X-Button (0 if not held) '
+                }
+              ]
+            },
+            type => 'Uint32',
+            initializer => '= 0'
+          },
+          {
+            kind => 'variable',
+            name => 'y_held_tick',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Tick of when the player most recently pressed down on the Y-Button (0 if not held) '
+                }
+              ]
+            },
+            type => 'Uint32',
+            initializer => '= 0'
+          },
+          {
+            kind => 'variable',
+            name => 'y_resolved',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Flag for if the Y-Button animation has been resolved '
+                }
+              ]
+            },
+            type => 'bool',
+            initializer => '= true'
+          },
+          {
+            kind => 'variable',
+            name => 'right_stick_tick',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Tick of when the player most moved the right joystick '
+                }
+              ]
+            },
+            type => 'Uint32',
+            initializer => '= 0'
           }
         ]
       },
@@ -8507,6 +10192,69 @@ $doxydocs=
                 {
                   type => 'text',
                   content => 'The current production left for the pleyer for the production phase '
+                }
+              ]
+            },
+            type => 'int',
+            initializer => '=0'
+          },
+          {
+            kind => 'variable',
+            name => 'units_upgraded',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Count for the number of units upgraded in the current production phase '
+                }
+              ]
+            },
+            type => 'int',
+            initializer => '=0'
+          },
+          {
+            kind => 'variable',
+            name => 'units_built',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Count for the number of units built (cadres added) in the current production phase '
+                }
+              ]
+            },
+            type => 'int',
+            initializer => '=0'
+          },
+          {
+            kind => 'variable',
+            name => 'total_units',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Current number of units the player has on the board (number in play) '
                 }
               ]
             },
@@ -8782,27 +10530,6 @@ $doxydocs=
           },
           {
             kind => 'variable',
-            name => 'total_units',
-            virtualness => 'non_virtual',
-            protection => 'private',
-            static => 'no',
-            brief => {},
-            detailed => {
-              doc => [
-                {
-                  type => 'parbreak'
-                },
-                {
-                  type => 'text',
-                  content => 'Each index is a specific unit and how much '
-                }
-              ]
-            },
-            type => 'size_t',
-            arguments => '[8]'
-          },
-          {
-            kind => 'variable',
             name => 'cards_spent',
             virtualness => 'non_virtual',
             protection => 'private',
@@ -8866,6 +10593,107 @@ $doxydocs=
       detailed => {}
     },
     {
+      name => 'PublicMessage',
+      kind => 'struct',
+      inner => [
+      ],
+      all_members => [
+        {
+          name => 'message',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'PublicMessage'
+        },
+        {
+          name => 'operator==',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'PublicMessage'
+        },
+        {
+          name => 'PublicMessage',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'PublicMessage'
+        },
+        {
+          name => 'start_tick',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'PublicMessage'
+        }
+      ],
+      public_methods => {
+        members => [
+          {
+            kind => 'function',
+            name => 'PublicMessage',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'message',
+                type => 'const Message'
+              },
+              {
+                declaration_name => 'start_tick',
+                type => 'const unsigned int'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'operator==',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'bool',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'lhs',
+                type => 'const PublicMessage &'
+              }
+            ]
+          }
+        ]
+      },
+      public_members => {
+        members => [
+          {
+            kind => 'variable',
+            name => 'message',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'Message'
+          },
+          {
+            kind => 'variable',
+            name => 'start_tick',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'unsigned int'
+          }
+        ]
+      },
+      brief => {},
+      detailed => {}
+    },
+    {
       name => 'Runner',
       kind => 'class',
       inner => [
@@ -8875,6 +10703,12 @@ $doxydocs=
         name => 'Runner.h'
       },
       all_members => [
+        {
+          name => 'action_bought',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
         {
           name => 'action_deck',
           virtualness => 'non_virtual',
@@ -8888,9 +10722,33 @@ $doxydocs=
           scope => 'Runner'
         },
         {
+          name => 'addDiplomacy',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Runner'
+        },
+        {
+          name => 'animateMessage',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'animateReshuffle',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
           name => 'app',
           virtualness => 'non_virtual',
           protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'applyProduction',
+          virtualness => 'non_virtual',
+          protection => 'public',
           scope => 'Runner'
         },
         {
@@ -8906,7 +10764,25 @@ $doxydocs=
           scope => 'Runner'
         },
         {
+          name => 'buildUnit',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Runner'
+        },
+        {
           name => 'canBuild',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Runner'
+        },
+        {
+          name => 'canBuyAction',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Runner'
+        },
+        {
+          name => 'canBuyInvest',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Runner'
@@ -8933,6 +10809,18 @@ $doxydocs=
           name => 'checkTradeRoutes',
           virtualness => 'non_virtual',
           protection => 'public',
+          scope => 'Runner'
+        },
+        {
+          name => 'clampCursorX',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'clampCursorY',
+          virtualness => 'non_virtual',
+          protection => 'private',
           scope => 'Runner'
         },
         {
@@ -8984,7 +10872,25 @@ $doxydocs=
           scope => 'Runner'
         },
         {
+          name => 'distCursor',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'drawActionButtons',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
           name => 'drawActionCards',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'drawBuild',
           virtualness => 'non_virtual',
           protection => 'private',
           scope => 'Runner'
@@ -9032,6 +10938,18 @@ $doxydocs=
           scope => 'Runner'
         },
         {
+          name => 'drawLine',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'drawLine',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
           name => 'drawMap',
           virtualness => 'non_virtual',
           protection => 'private',
@@ -9062,19 +10980,37 @@ $doxydocs=
           scope => 'Runner'
         },
         {
+          name => 'drawPhase',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
           name => 'drawPlayerBoard',
           virtualness => 'non_virtual',
           protection => 'private',
           scope => 'Runner'
         },
         {
-          name => 'drawProductionPhase',
+          name => 'drawPlayerCards',
           virtualness => 'non_virtual',
-          protection => 'public',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'drawTurnOrder',
+          virtualness => 'non_virtual',
+          protection => 'private',
           scope => 'Runner'
         },
         {
           name => 'drawTurnRoll',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'drawUnit',
           virtualness => 'non_virtual',
           protection => 'private',
           scope => 'Runner'
@@ -9122,6 +11058,12 @@ $doxydocs=
           scope => 'Runner'
         },
         {
+          name => 'getClosestCity',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Runner'
+        },
+        {
           name => 'getMap',
           virtualness => 'non_virtual',
           protection => 'public',
@@ -9152,7 +11094,43 @@ $doxydocs=
           scope => 'Runner'
         },
         {
-          name => 'handleJoyStickMovement',
+          name => 'handleButtonUp',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'handleCardBuying',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Runner'
+        },
+        {
+          name => 'handleCardPlaying',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Runner'
+        },
+        {
+          name => 'handleCursorMovement',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'handleHeldButtons',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'handleJoystickMovement',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'handleTimedJoystick',
           virtualness => 'non_virtual',
           protection => 'private',
           scope => 'Runner'
@@ -9164,7 +11142,25 @@ $doxydocs=
           scope => 'Runner'
         },
         {
+          name => 'handleUnitBuilding',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Runner'
+        },
+        {
+          name => 'handleUserAnimationInput',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
           name => 'handleUserInput',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'handleWidgetMovement',
           virtualness => 'non_virtual',
           protection => 'private',
           scope => 'Runner'
@@ -9200,6 +11196,12 @@ $doxydocs=
           scope => 'Runner'
         },
         {
+          name => 'invest_bought',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
           name => 'invest_deck',
           virtualness => 'non_virtual',
           protection => 'private',
@@ -9230,6 +11232,12 @@ $doxydocs=
           scope => 'Runner'
         },
         {
+          name => 'loopVal',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
           name => 'map',
           virtualness => 'non_virtual',
           protection => 'private',
@@ -9249,6 +11257,12 @@ $doxydocs=
         },
         {
           name => 'mapPlayer',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Runner'
+        },
+        {
+          name => 'mapPlayerResPop',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Runner'
@@ -9308,7 +11322,19 @@ $doxydocs=
           scope => 'Runner'
         },
         {
+          name => 'powers_controller_button_sprite',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
           name => 'powers_map_sprite',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'powers_message_animations',
           virtualness => 'non_virtual',
           protection => 'private',
           scope => 'Runner'
@@ -9344,15 +11370,21 @@ $doxydocs=
           scope => 'Runner'
         },
         {
+          name => 'public_messages',
+          virtualness => 'non_virtual',
+          protection => 'private',
+          scope => 'Runner'
+        },
+        {
           name => 'reshuffle',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Runner'
         },
         {
-          name => 'reshuffleAnimation',
+          name => 'resolveDiplomacy',
           virtualness => 'non_virtual',
-          protection => 'private',
+          protection => 'public',
           scope => 'Runner'
         },
         {
@@ -9389,6 +11421,12 @@ $doxydocs=
           name => 'seed',
           virtualness => 'non_virtual',
           protection => 'private',
+          scope => 'Runner'
+        },
+        {
+          name => 'setBuildable',
+          virtualness => 'non_virtual',
+          protection => 'public',
           scope => 'Runner'
         },
         {
@@ -9942,7 +11980,7 @@ $doxydocs=
           },
           {
             kind => 'function',
-            name => 'drawProductionPhase',
+            name => 'applyProduction',
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
@@ -9953,15 +11991,42 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'Handles what to draw during the production phase. '
+                  content => 'Once a player has passed, their choices in the production phase (card bought, cadres made, units upgraded) is finalized and applied. '
                 }
               ]
             },
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player who has passed and choices are applied '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             type => 'void',
             const => 'no',
             volatile => 'no',
             parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              }
             ]
           },
           {
@@ -10085,6 +12150,116 @@ $doxydocs=
                 {
                   type => 'text',
                   content => 'New Year phase where players play action cards to add influence and play investment cards, goes in turn order until all have passed. '
+                }
+              ]
+            },
+            detailed => {},
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'addDiplomacy',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handler for the player playing an action card to add influence to a country on an action card (assuming the player has a valid card with the country) '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player adding the influence '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'country'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The country thats is having influence added to '
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'true The player was able to add influence to the country and the card was removed '
+                    },
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'false The player was unable to add influence to the country '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'bool',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              },
+              {
+                declaration_name => 'country',
+                type => 'Country *'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'resolveDiplomacy',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Initiates diplomacy resolutions at the end of the goverment phase, changing the influence level of the country and changing the population. '
                 }
               ]
             },
@@ -10334,6 +12509,57 @@ $doxydocs=
           },
           {
             kind => 'function',
+            name => 'mapPlayerResPop',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Goes through each city and country the player owns and set the RES and POP of the player. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose RES and POP are being set '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
             name => 'checkTradeRoutes',
             virtualness => 'non_virtual',
             protection => 'public',
@@ -10526,6 +12752,105 @@ $doxydocs=
           },
           {
             kind => 'function',
+            name => 'getClosestCity',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Get the city closest to the provided coordinates. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose screen is being looked at (since coords can be stretched with zoom) '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'x'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The x-coord of the desired point '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'y'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The y-coord of the desired point '
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'City* The city that is closest to the point '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'City *',
+            const => 'yes',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'const Player &'
+              },
+              {
+                declaration_name => 'x',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'y',
+                type => 'const int'
+              }
+            ]
+          },
+          {
+            kind => 'function',
             name => 'canBuild',
             virtualness => 'non_virtual',
             protection => 'public',
@@ -10585,22 +12910,6 @@ $doxydocs=
                     {
                       parameters => [
                         {
-                          name => 'nationality'
-                        }
-                      ],
-                      doc => [
-                        {
-                          type => 'parbreak'
-                        },
-                        {
-                          type => 'text',
-                          content => 'The nationality (or color) of the unit that wants to be added (used to track limits) '
-                        }
-                      ]
-                    },
-                    {
-                      parameters => [
-                        {
                           name => 'unit'
                         }
                       ],
@@ -10639,8 +12948,176 @@ $doxydocs=
                 type => 'City *'
               },
               {
-                declaration_name => 'nationality',
-                type => 'const UnitCountry'
+                declaration_name => 'unit',
+                type => 'const UnitType'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'setBuildable',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Sets the array of booleans showing which units are buildable at the selected city. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose selected city will be looking at '
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'true At least one unit is buildable '
+                    },
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'false No units are buildable at the selected city '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'bool',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'buildUnit',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Adds a new unit (cadre) to the city of the given type and to the player\'s unit master list. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Logic Checks.'
+                },
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose unit is being built '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'city'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The city where the unit is being built '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'unit'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The type of unit that will be built'
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  pre => [
+                    {
+                      type => 'text',
+                      content => 'The unit follows all restrictions and can be built in the porvided city '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              },
+              {
+                declaration_name => 'city',
+                type => 'City *'
               },
               {
                 declaration_name => 'unit',
@@ -10769,6 +13246,57 @@ $doxydocs=
           },
           {
             kind => 'function',
+            name => 'handleUnitBuilding',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handler for both adding new cadres and upgrading exisiting units when prompt on user input. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player who initiated the building check '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
             name => 'move',
             virtualness => 'non_virtual',
             protection => 'public',
@@ -10892,13 +13420,6 @@ $doxydocs=
             },
             detailed => {
               doc => [
-                {
-                  type => 'parbreak'
-                },
-                {
-                  type => 'text',
-                  content => 'Logic Checks.'
-                },
                 {
                   type => 'parbreak'
                 },
@@ -11429,6 +13950,126 @@ $doxydocs=
           },
           {
             kind => 'function',
+            name => 'handleCardBuying',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handler for checking if the player can buy the preselected card when prompted by user input. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player who prompted card buying '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'handleCardPlaying',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handler for playing card during the '
+                },
+                {
+                  type => 'style',
+                  style => 'code',
+                  enable => 'yes'
+                },
+                {
+                  type => 'text',
+                  content => 'Government'
+                },
+                {
+                  type => 'style',
+                  style => 'code',
+                  enable => 'no'
+                },
+                {
+                  type => 'text',
+                  content => ' phase. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player who is playing a card '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
             name => 'getMap',
             virtualness => 'non_virtual',
             protection => 'public',
@@ -11473,6 +14114,96 @@ $doxydocs=
             volatile => 'no',
             parameters => [
             ]
+          },
+          {
+            kind => 'function',
+            name => 'canBuyAction',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Decider for if a card can be drawn from the action deck. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'true An action card can be bought '
+                    },
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'false There are no more action card to be bought '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'bool',
+            const => 'yes',
+            volatile => 'no',
+            parameters => [
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'canBuyInvest',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Decider for if a card can be drawn from the investment deck. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'true An investment card can be bought '
+                    },
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'false There are no more investment card to be bought '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'bool',
+            const => 'yes',
+            volatile => 'no',
+            parameters => [
+            ]
           }
         ]
       },
@@ -11508,8 +14239,41 @@ $doxydocs=
             virtualness => 'non_virtual',
             protection => 'private',
             static => 'no',
-            brief => {},
-            detailed => {},
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Print out the memo of the trade route algorithm. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'memo'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The completed memo of Dijkras algorithm '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             type => 'void',
             const => 'yes',
             volatile => 'no',
@@ -11790,7 +14554,7 @@ $doxydocs=
             parameters => [
               {
                 declaration_name => 'player',
-                type => 'const Player &'
+                type => 'Player &'
               },
               {
                 declaration_name => 'cities',
@@ -11843,22 +14607,6 @@ $doxydocs=
                   type => 'parbreak'
                 },
                 {
-                  type => 'text',
-                  content => '!! Drawing '
-                },
-                {
-                  type => 'url',
-                  link => 'class_player',
-                  content => 'Player'
-                },
-                {
-                  type => 'text',
-                  content => ' board'
-                },
-                {
-                  type => 'parbreak'
-                },
-                {
                   params => [
                     {
                       parameters => [
@@ -11899,21 +14647,63 @@ $doxydocs=
             parameters => [
               {
                 declaration_name => 'player',
-                type => 'const Player &'
+                type => 'Player &'
               },
               {
-                declaration_name => 'renderer',
-                type => 'SDL_Renderer *'
-              },
-              {
-                declaration_name => 'bought_action',
-                type => 'const int',
+                declaration_name => 'ticks',
+                type => 'const Uint32 &',
                 default_value => '0'
-              },
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'drawPlayerCards',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Draws the action and invest hands of the player on the left and right side of the screen, respectively. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose hand is being drawn '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
               {
-                declaration_name => 'bought_invest',
-                type => 'const int',
-                default_value => '0'
+                declaration_name => 'player',
+                type => 'Player &'
               }
             ]
           },
@@ -12055,7 +14845,7 @@ $doxydocs=
             parameters => [
               {
                 declaration_name => 'player',
-                type => 'const Player &'
+                type => 'Player &'
               },
               {
                 declaration_name => 'city',
@@ -12063,6 +14853,11 @@ $doxydocs=
               },
               {
                 declaration_name => 'resources',
+                type => 'const bool',
+                default_value => 'true'
+              },
+              {
+                declaration_name => 'units',
                 type => 'const bool',
                 default_value => 'true'
               }
@@ -12146,16 +14941,71 @@ $doxydocs=
             volatile => 'no',
             parameters => [
               {
+                declaration_name => 'player',
+                type => 'Player &'
+              },
+              {
                 declaration_name => 'x',
-                type => 'int'
+                type => 'const int &'
               },
               {
                 declaration_name => 'y',
-                type => 'int'
+                type => 'const int &'
               },
               {
                 declaration_name => 'population_type',
-                type => 'PopulationType'
+                type => 'const PopulationType &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'drawBuild',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Draws the unit building UI and the select line and selected unit. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The players who selectedna city to build a unit '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
               }
             ]
           },
@@ -12321,6 +15171,199 @@ $doxydocs=
           },
           {
             kind => 'function',
+            name => 'drawUnit',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Draws a dummy unit onto the screen (not tied to a specific unit objecy) '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose screen will have the unit drawn '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'unit_type'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The type of unit that\'s to be drawn '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'nationality'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The nationality (block color) of the block to be drawn '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'x'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The x-coord of the unit to draw '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'y'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The y-coord of the unit to draw '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'zoom'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The zoom level of the player\'s map to determine units level of detail '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'invalid'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'If true the unit sprite will be a question mark only showing the nationality (for when not in combat and not the player\'s allegiance) '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'scale'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The scale of the unit to enlarge when drawn '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'const Player &'
+              },
+              {
+                declaration_name => 'unit_type',
+                type => 'const UnitType'
+              },
+              {
+                declaration_name => 'nationality',
+                type => 'const UnitCountry'
+              },
+              {
+                declaration_name => 'x',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'y',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'zoom',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'invalid',
+                type => 'const bool',
+                default_value => 'false'
+              },
+              {
+                declaration_name => 'scale',
+                type => 'const int',
+                default_value => '1'
+              }
+            ]
+          },
+          {
+            kind => 'function',
             name => 'drawCityUnits',
             virtualness => 'non_virtual',
             protection => 'private',
@@ -12382,7 +15425,7 @@ $doxydocs=
             parameters => [
               {
                 declaration_name => 'player',
-                type => 'const Player &'
+                type => 'Player &'
               },
               {
                 declaration_name => 'city',
@@ -12453,7 +15496,7 @@ $doxydocs=
             parameters => [
               {
                 declaration_name => 'player',
-                type => 'const Player &'
+                type => 'Player &'
               },
               {
                 declaration_name => 'city',
@@ -12778,6 +15821,84 @@ $doxydocs=
           },
           {
             kind => 'function',
+            name => 'drawActionButtons',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Draw the current actions the player can take on the buttons that would initiate those actions. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'drawing_player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose actions are being drawn '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'ticks'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The current time since SDL was initalized and used to ttime animations '
+                        },
+                        {
+                          type => 'linebreak'
+                        },
+                        {
+                          type => 'text',
+                          content => ' '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'drawing_player',
+                type => 'const Player &'
+              },
+              {
+                declaration_name => 'ticks',
+                type => 'const Uint32 &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
             name => 'drawConnections',
             virtualness => 'non_virtual',
             protection => 'private',
@@ -12810,6 +15931,57 @@ $doxydocs=
                         {
                           type => 'text',
                           content => 'player whose screen will have connections drawn on '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'const Player &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'drawTurnOrder',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Draw the current turn order of the players and who has passed. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose screen will have it drawn '
                         }
                       ]
                     }
@@ -13023,7 +16195,348 @@ $doxydocs=
           },
           {
             kind => 'function',
-            name => 'reshuffleAnimation',
+            name => 'drawLine',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Draws a 3 pixel wide line between the two points. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The players whose screen will have it drawn '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'x1'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The x-coord of the first point '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'y1'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The y-coord of the first point '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'x2'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The x-coord of the second point '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'y2'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The y-coord of the second point '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'const Player &'
+              },
+              {
+                declaration_name => 'x1',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'y1',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'x2',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'y2',
+                type => 'const int'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'drawLine',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Draws a 3-pixel wide line between two cities. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The players whose screen will have it drawn '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'city1'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The city where the line starts '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'city2'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The city where the line ends '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'const Player &'
+              },
+              {
+                declaration_name => 'city1',
+                type => 'const City *'
+              },
+              {
+                declaration_name => 'city2',
+                type => 'const City *'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'drawPhase',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handles what to draw during the production phase. '
+                }
+              ]
+            },
+            detailed => {},
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'ticks',
+                type => 'const Uint32 &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'animateMessage',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Used the current time and the public message origin time to draw the frame the given animation is at. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose screen will be drawn on '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'message'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The message that will be drawn on the screen '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'ticks'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The current time of the frame being drawn '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              },
+              {
+                declaration_name => 'message',
+                type => 'PublicMessage &'
+              },
+              {
+                declaration_name => 'ticks',
+                type => 'const Uint32 &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'animateReshuffle',
             virtualness => 'non_virtual',
             protection => 'private',
             static => 'no',
@@ -13083,12 +16596,20 @@ $doxydocs=
             volatile => 'no',
             parameters => [
               {
+                declaration_name => 'running',
+                type => 'const bool &'
+              },
+              {
                 declaration_name => 'action_size',
                 type => 'const size_t &'
               },
               {
                 declaration_name => 'invest_size',
                 type => 'const size_t &'
+              },
+              {
+                declaration_name => 'ticks',
+                type => 'const Uint32 &'
               }
             ]
           },
@@ -13226,7 +16747,7 @@ $doxydocs=
             parameters => [
               {
                 declaration_name => 'player',
-                type => 'const Player &'
+                type => 'Player &'
               },
               {
                 declaration_name => 'memo',
@@ -13590,6 +17111,81 @@ $doxydocs=
               {
                 declaration_name => 'running',
                 type => 'bool &'
+              },
+              {
+                declaration_name => 'ticks',
+                type => 'const Uint32 &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'handleUserAnimationInput',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handler for when an animation is happening and user input is limited. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'running'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'Condition if the current loop should continue running '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'ticks'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The current time the frame is being drawn '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'running',
+                type => 'bool &'
+              },
+              {
+                declaration_name => 'ticks',
+                type => 'const Uint32 &'
               }
             ]
           },
@@ -13661,12 +17257,16 @@ $doxydocs=
               {
                 declaration_name => 'event',
                 type => 'const SDL_Event &'
+              },
+              {
+                declaration_name => 'ticks',
+                type => 'const Uint32 &'
               }
             ]
           },
           {
             kind => 'function',
-            name => 'handleJoyStickMovement',
+            name => 'handleButtonUp',
             virtualness => 'non_virtual',
             protection => 'private',
             static => 'no',
@@ -13677,7 +17277,82 @@ $doxydocs=
                 },
                 {
                   type => 'text',
-                  content => 'Handels the players controller joystick movement the dictates cursor movement and is called only every frame to make game smoother. '
+                  content => 'Handels the cases where the player lets up on a button (mostly for times events) '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player who commenced the event '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'event'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The button up event by the player '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              },
+              {
+                declaration_name => 'event',
+                type => 'const SDL_Event &'
+              },
+              {
+                declaration_name => 'ticks',
+                type => 'const Uint32 &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'handleCursorMovement',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handels the players controller joystick movement the dictates cursor movement and is called only every frame to make the movement smoother. '
                 }
               ]
             },
@@ -13712,6 +17387,128 @@ $doxydocs=
               {
                 declaration_name => 'player',
                 type => 'Player &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'handleJoystickMovement',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handler for the right joystick (used to select things) thats taken every frame. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose controller will be read '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'handleTimedJoystick',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handler for the right joystick (used to select things) thats taken in set times. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose controller is being read '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'ticks'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The current time of the program used to gauge the delta time '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              },
+              {
+                declaration_name => 'ticks',
+                type => 'const Uint32 &'
               }
             ]
           },
@@ -13763,6 +17560,258 @@ $doxydocs=
               {
                 declaration_name => 'player',
                 type => 'Player &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'handleWidgetMovement',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handles inputs from moving between widgets (action hand, map, invest hand, ect) and is taken in set times to make movement managable. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose buttons will be reaed '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'ticks'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The current time of the program used to gauge the delta time '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              },
+              {
+                declaration_name => 'ticks',
+                type => 'const Uint32 &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'handleHeldButtons',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handler for inputs that rely on buttons being held for a set time. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose buttons will be read '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'ticks'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The current time of the program used to gauge the delta time '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              },
+              {
+                declaration_name => 'ticks',
+                type => 'const Uint32 &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'clampCursorX',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handler for moving the cursor and either moving the screen or the cursor. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose cursor is moving '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              },
+              {
+                declaration_name => 'amount',
+                type => 'const double'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'clampCursorY',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Handler for moving the cursor and either moving the screen or the cursor. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'player'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The player whose cursor is moving '
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'void',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'player',
+                type => 'Player &'
+              },
+              {
+                declaration_name => 'amount',
+                type => 'const double'
               }
             ]
           },
@@ -13905,6 +17954,105 @@ $doxydocs=
           },
           {
             kind => 'function',
+            name => 'loopVal',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Helper for loops where if the provided val will under/over flow into the min and max provided. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'val'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The value provided that will loop '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'min_val'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The lower limit of the range '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'max_val'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The upper limit of the range '
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'int The (if needed looped) resulting value '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'int',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'val',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'min_val',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'max_val',
+                type => 'const int'
+              }
+            ]
+          },
+          {
+            kind => 'function',
             name => 'scaleAxis',
             virtualness => 'non_virtual',
             protection => 'private',
@@ -13959,6 +18107,165 @@ $doxydocs=
               {
                 declaration_name => 'x',
                 type => 'const double &'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'distCursor',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Gives an efficent way to determine the distance between the provided point on the screen and the cursor. '
+                }
+              ]
+            },
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  params => [
+                    {
+                      parameters => [
+                        {
+                          name => 'x1'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'text',
+                          content => 'The unsacled x-coord of the point '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'y1'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The unsacled y-coord of the point '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'x2'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The cursor x-coord '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'y2'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The cursor y-coord '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'zoom_x'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The scale multiplier for x-values '
+                        }
+                      ]
+                    },
+                    {
+                      parameters => [
+                        {
+                          name => 'zoom_y'
+                        }
+                      ],
+                      doc => [
+                        {
+                          type => 'parbreak'
+                        },
+                        {
+                          type => 'text',
+                          content => 'The scale multiplier for y-values '
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  return => [
+                    {
+                      type => 'text',
+                      content => 'int The euclidian distance between the two points '
+                    }
+                  ]
+                }
+              ]
+            },
+            type => 'int',
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'x1',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'y1',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'x2',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'y2',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'zoom_x',
+                type => 'const int'
+              },
+              {
+                declaration_name => 'zoom_y',
+                type => 'const int'
               }
             ]
           }
@@ -14214,6 +18521,48 @@ $doxydocs=
           },
           {
             kind => 'variable',
+            name => 'action_bought',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Number of actions card that have been purchaced by players for the production round '
+                }
+              ]
+            },
+            type => 'int',
+            initializer => '= 0'
+          },
+          {
+            kind => 'variable',
+            name => 'invest_bought',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Number of investment card that have been purchaced by players for the production round '
+                }
+              ]
+            },
+            type => 'int',
+            initializer => '= 0'
+          },
+          {
+            kind => 'variable',
             name => 'start_player',
             virtualness => 'non_virtual',
             protection => 'private',
@@ -14297,7 +18646,7 @@ $doxydocs=
               ]
             },
             type => 'const unsigned int',
-            initializer => '= 100'
+            initializer => '= 872706816'
           },
           {
             kind => 'variable',
@@ -14397,7 +18746,17 @@ $doxydocs=
             protection => 'private',
             static => 'no',
             brief => {},
-            detailed => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'A png of the game map '
+                }
+              ]
+            },
             type => 'Spritesheet'
           },
           {
@@ -14478,6 +18837,48 @@ $doxydocs=
                 {
                   type => 'text',
                   content => 'An array of the spritesheets initaliazed to the powers renderer that has the units at the third zoom level '
+                }
+              ]
+            },
+            type => 'Spritesheet',
+            arguments => '[3]'
+          },
+          {
+            kind => 'variable',
+            name => 'powers_controller_button_sprite',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'An array of the spritesheets initaliazed to the powers renderer that has the button input animations '
+                }
+              ]
+            },
+            type => 'Spritesheet',
+            arguments => '[3]'
+          },
+          {
+            kind => 'variable',
+            name => 'powers_message_animations',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'An array of the spritesheets initaliazed to the powers renderer that has the public messages animations '
                 }
               ]
             },
@@ -14609,6 +19010,26 @@ $doxydocs=
               ]
             },
             type => 'Uint32'
+          },
+          {
+            kind => 'variable',
+            name => 'public_messages',
+            virtualness => 'non_virtual',
+            protection => 'private',
+            static => 'no',
+            brief => {},
+            detailed => {
+              doc => [
+                {
+                  type => 'parbreak'
+                },
+                {
+                  type => 'text',
+                  content => 'Vector of all current public messages that are being animated '
+                }
+              ]
+            },
+            type => 'vector< PublicMessage >'
           }
         ]
       },
@@ -14644,13 +19065,37 @@ $doxydocs=
           scope => 'Graphics::Screen'
         },
         {
-          name => 'getScaleX',
+          name => 'getScaledCenterX',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Graphics::Screen'
         },
         {
-          name => 'getScaleY',
+          name => 'getScaledCenterY',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Graphics::Screen'
+        },
+        {
+          name => 'getX',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Graphics::Screen'
+        },
+        {
+          name => 'getXScale',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Graphics::Screen'
+        },
+        {
+          name => 'getY',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Graphics::Screen'
+        },
+        {
+          name => 'getYScale',
           virtualness => 'non_virtual',
           protection => 'public',
           scope => 'Graphics::Screen'
@@ -14718,7 +19163,35 @@ $doxydocs=
           },
           {
             kind => 'function',
-            name => 'getScaleX',
+            name => 'getScaledCenterX',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'int',
+            const => 'yes',
+            volatile => 'no',
+            parameters => [
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'getScaledCenterY',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'int',
+            const => 'yes',
+            volatile => 'no',
+            parameters => [
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'getXScale',
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
@@ -14732,7 +19205,7 @@ $doxydocs=
           },
           {
             kind => 'function',
-            name => 'getScaleY',
+            name => 'getYScale',
             virtualness => 'non_virtual',
             protection => 'public',
             static => 'no',
@@ -14742,6 +19215,42 @@ $doxydocs=
             const => 'yes',
             volatile => 'no',
             parameters => [
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'getX',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'int',
+            const => 'yes',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'x',
+                type => 'const int'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'getY',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'int',
+            const => 'yes',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'y',
+                type => 'const int'
+              }
             ]
           }
         ]
@@ -15394,6 +19903,12 @@ $doxydocs=
           scope => 'Unit'
         },
         {
+          name => 'Unit',
+          virtualness => 'non_virtual',
+          protection => 'public',
+          scope => 'Unit'
+        },
+        {
           name => 'unit_type',
           virtualness => 'non_virtual',
           protection => 'public',
@@ -15425,11 +19940,40 @@ $doxydocs=
               },
               {
                 declaration_name => 'nationality',
-                type => 'UnitCountry'
+                type => 'const UnitCountry'
               },
               {
                 declaration_name => 'unit_type',
-                type => 'UnitType'
+                type => 'const UnitType'
+              }
+            ]
+          },
+          {
+            kind => 'function',
+            name => 'Unit',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            const => 'no',
+            volatile => 'no',
+            parameters => [
+              {
+                declaration_name => 'id',
+                type => 'const size_t'
+              },
+              {
+                declaration_name => 'nationality',
+                type => 'const UnitCountry'
+              },
+              {
+                declaration_name => 'unit_type',
+                type => 'const UnitType'
+              },
+              {
+                declaration_name => 'combat_value',
+                type => 'uint8_t'
               }
             ]
           },
@@ -16057,10 +20601,16 @@ $doxydocs=
           name => 'cmath'
         },
         {
+          name => 'math.h'
+        },
+        {
           name => 'random'
         },
         {
           name => 'algorithm'
+        },
+        {
+          name => 'utility'
         },
         {
           name => '../include/SDL2/SDL.h'
@@ -16126,32 +20676,92 @@ $doxydocs=
               {
                 name => 'WEST',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Enum for the player who controls the West powers (Britian, France, USA) '
+                    }
+                  ]
+                }
               },
               {
                 name => 'AXIS',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Enum for the player who controls the Axis powers (Germany, Italy) '
+                    }
+                  ]
+                }
               },
               {
                 name => 'USSR',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Enum for the player who controls the USSR power (USSR) '
+                    }
+                  ]
+                }
               },
               {
                 name => 'NEUTRAL',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Enum for the cities who are neutral and not alligned with any powers '
+                    }
+                  ]
+                }
               },
               {
                 name => 'NEUTRAL_AT_WAR',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Enum for the cities who are neutral but have been violated by a power '
+                    }
+                  ]
+                }
               },
               {
                 name => 'WATER',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Enum for the water tiles (or empty cities)r '
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -16167,32 +20777,77 @@ $doxydocs=
               {
                 name => 'GREAT',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Great Powers are the main players and cities of the WEST (Britian), AXIS (Germany), and USSR(USSR) '
+                    }
+                  ]
+                }
               },
               {
                 name => 'MAJOR',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Major Powers are the major allies of the Great powers West:France/USA, Axis:Italy, USSR:n/a '
+                    }
+                  ]
+                }
               },
               {
                 name => 'COLONY',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Colonies are the colonies of both Great and Major powers taht start with extra units. when the major powers are defeated they become armed colonies '
+                    }
+                  ]
+                }
               },
               {
                 name => 'MINOR',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Minor powers are for all neutrals that aren\'t (currently) alligned with a power '
+                    }
+                  ]
+                }
               },
               {
                 name => 'NONE',
                 brief => {},
-                detailed => {}
-              },
-              {
-                name => 'SEA',
-                brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'None is for water places where none rule them '
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -16208,32 +20863,92 @@ $doxydocs=
               {
                 name => 'EMPTY',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'No population for water areas '
+                    }
+                  ]
+                }
               },
               {
                 name => 'TOWN',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'A town gives 0 POP and 1 muster '
+                    }
+                  ]
+                }
               },
               {
                 name => 'CITY',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'A city gives 1 POP and 2 muster '
+                    }
+                  ]
+                }
               },
               {
                 name => 'CAPITAL_CITY',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'A capital city is only for neutral countries and gives 1 POP and 3 muster '
+                    }
+                  ]
+                }
               },
               {
                 name => 'SUB_CAPITAL',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Sub capitals are the capitals of Major powers and when captured give 2 POP and 0 muster '
+                    }
+                  ]
+                }
               },
               {
                 name => 'MAIN_CAPITAL',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'The main capital of powers and when captured will arm colonies and prevent new units from being built and give 3 POP '
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -16249,12 +20964,32 @@ $doxydocs=
               {
                 name => 'NORMAL',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Normal resource that can\'t go around the atlantic '
+                    }
+                  ]
+                }
               },
               {
                 name => 'TRANS_ATLANTIC',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Resources that can go aound the atlantic and half will be counted towards RES '
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -16270,72 +21005,212 @@ $doxydocs=
               {
                 name => 'NA',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'There is no connection between the two cities '
+                    }
+                  ]
+                }
               },
               {
                 name => 'OCEAN',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'The cities are connected by ocean '
+                    }
+                  ]
+                }
               },
               {
                 name => 'DEEP_OCEAN',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'The cities are connected by a depp ocean and costs two movements since they cover so much area '
+                    }
+                  ]
+                }
               },
               {
                 name => 'COAST',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'A coast connection is from a land city to an ocean '
+                    }
+                  ]
+                }
               },
               {
                 name => 'WATER_STRAIT',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Straits can be passed by water or land connections, this specifies it goes from a water into the strait or out '
+                    }
+                  ]
+                }
               },
               {
                 name => 'COAST_MOUNTAIN',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Are two citeis connected by a mountain range but are also on the same coast line (used for sea units moving along coasts) '
+                    }
+                  ]
+                }
               },
               {
                 name => 'COAST_FOREST',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Are two citeis connected by a forest but are also on the same coast line (used for sea units moving along coasts) '
+                    }
+                  ]
+                }
               },
               {
                 name => 'COAST_RIVER',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Are two citeis connected by a river but are also on the same coast line (used for sea units moving along coasts) '
+                    }
+                  ]
+                }
               },
               {
                 name => 'COAST_PLAINS',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Are two citeis connected by a plains but are also on the same coast line (used for sea units moving along coasts) '
+                    }
+                  ]
+                }
               },
               {
                 name => 'MOUNTAIN',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Are two citeis connected by a mountain range '
+                    }
+                  ]
+                }
               },
               {
                 name => 'FOREST',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Are two citeis connected by a forest '
+                    }
+                  ]
+                }
               },
               {
                 name => 'RIVER',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Are two citeis connected by a river '
+                    }
+                  ]
+                }
               },
               {
                 name => 'PLAINS',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Are two citeis connected by a plains '
+                    }
+                  ]
+                }
               },
               {
                 name => 'LAND_STRAIT',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Straits can be passed by water or land connections, this specifies it goes from a land into the strait or out '
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -16351,22 +21226,62 @@ $doxydocs=
               {
                 name => 'CLASS_A',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Class Air that doesn\'t abide by border limtis and can ReBase '
+                    }
+                  ]
+                }
               },
               {
                 name => 'CLASS_N',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Class Naval that doesn\'t abide by border limtis and can ReBase '
+                    }
+                  ]
+                }
               },
               {
                 name => 'CLASS_G',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Class Ground has to abide by border limtis and cannot ReBase '
+                    }
+                  ]
+                }
               },
               {
                 name => 'CLASS_S',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Class Sub that doesn\'t abide by border limtis and can escape '
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -16382,12 +21297,32 @@ $doxydocs=
               {
                 name => 'FORTRESS',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Fortress has the best firing capability and go first in battle but cannot move. They can be build in any friendly territory '
+                    }
+                  ]
+                }
               },
               {
                 name => 'AIR',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Air doesn\'t abide to border limits and do bombing runs on capitals to lower IND, but without ground support they must rebase '
+                    }
+                  ]
+                }
               },
               {
                 name => 'CARRIER',
@@ -16433,37 +21368,107 @@ $doxydocs=
               {
                 name => 'BRITIAN_U',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'British Units '
+                    }
+                  ]
+                }
               },
               {
                 name => 'FRANCE_U',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'French Units '
+                    }
+                  ]
+                }
               },
               {
                 name => 'USA_U',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'USA Units '
+                    }
+                  ]
+                }
               },
               {
                 name => 'GERMANY_U',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'German Troops '
+                    }
+                  ]
+                }
               },
               {
                 name => 'ITALY_U',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Italian Troops '
+                    }
+                  ]
+                }
               },
               {
                 name => 'USSR_U',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'USSR Troops '
+                    }
+                  ]
+                }
               },
               {
                 name => 'NEUTRAL_U',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Neutral Troops (Only fortresses) '
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -16477,29 +21482,174 @@ $doxydocs=
             detailed => {},
             values => [
               {
-                name => 'NEW_YEAR',
-                brief => {},
-                detailed => {}
-              },
-              {
                 name => 'SUMMER',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Summer Season of War Actions '
+                    }
+                  ]
+                }
               },
               {
                 name => 'FALL',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Fall Season of War Actions '
+                    }
+                  ]
+                }
               },
               {
                 name => 'SPRING',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Spring Season of War Actions '
+                    }
+                  ]
+                }
               },
               {
                 name => 'WINTER',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Winter Season of War Actions (only USSR can act) '
+                    }
+                  ]
+                }
+              },
+              {
+                name => 'NEW_YEAR',
+                brief => {},
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'New Year Phase of game loop '
+                    }
+                  ]
+                }
+              },
+              {
+                name => 'RESHUFFLE',
+                brief => {},
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'url',
+                      link => 'struct_card',
+                      content => 'Card'
+                    },
+                    {
+                      type => 'text',
+                      content => ' Shuffling Phase of game loop '
+                    }
+                  ]
+                }
+              },
+              {
+                name => 'TURN_ORDER',
+                brief => {},
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Deciding Turn Order Phase of game loop '
+                    }
+                  ]
+                }
+              },
+              {
+                name => 'PEACE_DIVIDENS',
+                brief => {},
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Giving Peace Dividends of game loop '
+                    }
+                  ]
+                }
+              },
+              {
+                name => 'NEW_YEAR_RES',
+                brief => {},
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'New Year Resolution Phase of game loop '
+                    }
+                  ]
+                }
+              },
+              {
+                name => 'PRODUCTION',
+                brief => {},
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Production Phase of game loop '
+                    }
+                  ]
+                }
+              },
+              {
+                name => 'GOVERNMENT',
+                brief => {},
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Governemtn/Diplomacy Phase of game loop '
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -16515,17 +21665,47 @@ $doxydocs=
               {
                 name => 'PEACE',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Is at peace with other player '
+                    }
+                  ]
+                }
               },
               {
                 name => 'DECLARED',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Declared a DoW on another player '
+                    }
+                  ]
+                }
               },
               {
                 name => 'VICTIM',
                 brief => {},
-                detailed => {}
+                detailed => {
+                  doc => [
+                    {
+                      type => 'parbreak'
+                    },
+                    {
+                      type => 'text',
+                      content => 'Has a DoW declared agasint them '
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -16609,32 +21789,6 @@ $doxydocs=
           },
           {
             kind => 'enum',
-            name => 'BoardState',
-            virtualness => 'non_virtual',
-            protection => 'public',
-            static => 'no',
-            brief => {},
-            detailed => {},
-            values => [
-              {
-                name => 'HOME_BOARD',
-                brief => {},
-                detailed => {}
-              },
-              {
-                name => 'PRODUCTION_BOARD',
-                brief => {},
-                detailed => {}
-              },
-              {
-                name => 'GOVERNMENT_BOARD',
-                brief => {},
-                detailed => {}
-              }
-            ]
-          },
-          {
-            kind => 'enum',
             name => 'ProductionAction',
             virtualness => 'non_virtual',
             protection => 'public',
@@ -16659,6 +21813,52 @@ $doxydocs=
               },
               {
                 name => 'CADRE',
+                brief => {},
+                detailed => {}
+              }
+            ]
+          },
+          {
+            kind => 'enum',
+            name => 'Widget',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            values => [
+              {
+                name => 'ACTION_HAND',
+                brief => {},
+                detailed => {}
+              },
+              {
+                name => 'INVEST_HAND',
+                brief => {},
+                detailed => {}
+              },
+              {
+                name => 'TECH_HAND',
+                brief => {},
+                detailed => {}
+              },
+              {
+                name => 'WEST_WIDGET',
+                brief => {},
+                detailed => {}
+              },
+              {
+                name => 'AXIS_WIDGET',
+                brief => {},
+                detailed => {}
+              },
+              {
+                name => 'USSR_WIDGET',
+                brief => {},
+                detailed => {}
+              },
+              {
+                name => 'MAP',
                 brief => {},
                 detailed => {}
               }
@@ -16858,6 +22058,51 @@ $doxydocs=
                 detailed => {}
               }
             ]
+          },
+          {
+            kind => 'enum',
+            name => 'Message',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            values => [
+              {
+                name => 'WEST_PASSED',
+                initializer => '=0',
+                brief => {},
+                detailed => {}
+              },
+              {
+                name => 'AXIS_PASSED',
+                brief => {},
+                detailed => {}
+              },
+              {
+                name => 'USSR_PASSED',
+                brief => {},
+                detailed => {}
+              },
+              {
+                name => 'PRODUCTION_START',
+                initializer => '=3',
+                brief => {},
+                detailed => {}
+              },
+              {
+                name => 'GOVERNMENT_START',
+                initializer => '=4',
+                brief => {},
+                detailed => {}
+              },
+              {
+                name => 'RESHUFFLE_START',
+                initializer => '=5',
+                brief => {},
+                detailed => {}
+              }
+            ]
           }
         ]
       },
@@ -16916,16 +22161,9 @@ $doxydocs=
             brief => {},
             detailed => {},
             type => 'const int',
-            arguments => '[8][7]',
+            arguments => '[7]',
             initializer => '= { 
-    {4, 3, 4, 4, 3, 3, 3}, 
-    {4, 3, 4, 4, 3, 3, 0}, 
-    {4, 3, 4, 4, 3, 3, 0}, 
-    {4, 3, 4, 4, 3, 3, 0}, 
-    {4, 3, 4, 4, 3, 3, 0}, 
-    {4, 3, 4, 4, 3, 3, 0}, 
-    {4, 3, 4, 4, 3, 3, 0}, 
-    {0, 0, 0, 0, 0, 3, 0}  
+    4, 3, 4, 4, 3, 3, 3
 }'
           },
           {
@@ -16937,16 +22175,17 @@ $doxydocs=
             brief => {},
             detailed => {},
             type => 'const int',
-            arguments => '[7][7]',
+            arguments => '[8][7]',
             initializer => '= {
     
-    {6, 3, 2, 8,  2, 6,  8}, 
-    {4, 3, 4, 8,  3, 6,  0}, 
-    {2, 1, 1, 2,  1, 2,  0}, 
-    {3, 1, 1, 8,  2, 2,  0}, 
-    {6, 4, 4, 6,  4, 4,  0}, 
-    {3, 2, 4, 8,  2, 8,  0}, 
-    {6, 6, 4, 16, 6, 16, 0} 
+    {6,         3,          2,      8,       2,     6,    8}, 
+    {4,         3,          4,      8,       3,     6,    0}, 
+    {2,         1,          1,      2,       1,     2,    0}, 
+    {3,         1,          1,      8,       2,     2,    0}, 
+    {6,         4,          4,      6,       4,     4,    0}, 
+    {3,         2,          4,      8,       2,     8,    0}, 
+    {6,         6,          4,      16,      6,     16,   0}, 
+    {30,        20,         20,     56,     20,     44,   8} 
 }'
           },
           {
@@ -17017,6 +22256,27 @@ $doxydocs=
           },
           {
             kind => 'variable',
+            name => 'WIDGET_ADJACENCY',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'const Widget',
+            arguments => '[7][4]',
+            initializer => '= {
+    
+    {WEST_WIDGET, ACTION_HAND, ACTION_HAND, MAP}, 
+    {USSR_WIDGET, INVEST_HAND, MAP, INVEST_HAND}, 
+    {USSR_WIDGET, TECH_HAND, AXIS_WIDGET, INVEST_HAND}, 
+    {WEST_WIDGET, ACTION_HAND, WEST_WIDGET, USSR_WIDGET}, 
+    {WEST_WIDGET, AXIS_WIDGET, ACTION_HAND, TECH_HAND}, 
+    {USSR_WIDGET, INVEST_HAND, WEST_WIDGET, USSR_WIDGET}, 
+    {WEST_WIDGET, AXIS_WIDGET, ACTION_HAND, INVEST_HAND}  
+}'
+          },
+          {
+            kind => 'variable',
             name => 'UNIT_SPRITE_OFFSET',
             virtualness => 'non_virtual',
             protection => 'public',
@@ -17027,6 +22287,27 @@ $doxydocs=
             arguments => '[7]',
             initializer => '{ 
     0, 5, 9, 14, 19, 23, 27
+}'
+          },
+          {
+            kind => 'variable',
+            name => 'UNIT_CIRCLE_RADIANS',
+            virtualness => 'non_virtual',
+            protection => 'public',
+            static => 'no',
+            brief => {},
+            detailed => {},
+            type => 'const double',
+            arguments => '[8][3]',
+            initializer => '{
+    {-90,  0,  -1.4}, 
+    {-45,  1,  -1}, 
+    {0,    1.4,   0}, 
+    {45,   1,   1}, 
+    {90,   0,   1.4}, 
+    {135, -1,   1}, 
+    {180, -1.4,   0}, 
+    {-135,-1,    -1} 
 }'
           },
           {

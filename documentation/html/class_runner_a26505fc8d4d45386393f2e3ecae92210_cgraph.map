@@ -1,0 +1,11 @@
+<map id="Runner::drawFullCityUnits" name="Runner::drawFullCityUnits">
+<area shape="rect" id="Node000001" title="If the city has full displayed enable, every unit at the city will be displayed in rows of 5 (no rota..." alt="" coords="5,80,181,106"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a18f5343138ec0a0f147b01f11944fd13" title="Draws the unit onto the player&#39;s screen." alt="" coords="239,5,363,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,77,228,40,244,34,246,39,230,45,130,82"/>
+<area shape="rect" id="Node000003" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="229,55,373,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,80,213,76,213,81,181,85"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#aa42441a87161bb486218ef29fd6bebfe" title="Used for button presses where a given mouse clip position will see if its in the rectangle provided." alt="" coords="249,104,353,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="181,100,234,106,233,112,180,106"/>
+<area shape="rect" id="Node000005" href="$struct_city.html#ad92576a7777d79bff78d720b0ef46dc5" title="If there currently a battle going on (more than one allegiance of troops)" alt="" coords="247,153,355,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="131,104,230,140,246,145,244,150,228,145,129,109"/>
+</map>

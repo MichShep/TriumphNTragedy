@@ -1,0 +1,5 @@
+<map id="InvestmentCard" name="InvestmentCard">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,119,133,324"/>
+<area shape="rect" id="Node000002" href="$struct_card.html" title=" " alt="" coords="49,5,90,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,86,72,119,67,119,67,86"/>
+</map>

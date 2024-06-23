@@ -1,0 +1,5 @@
+<map id="Runner::applyProduction" name="Runner::applyProduction">
+<area shape="rect" id="Node000001" title="Once a player has passed, their choices in the production phase (card bought, cadres made,..." alt="" coords="5,5,170,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a2f289a86321f9b674b9bc02053d01a11" title="Deal a set amount of cards to the player of action or invest. Hand limit doesn&#39;t apply to card drawin..." alt="" coords="218,5,313,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,16,202,16,202,21,170,21"/>
+</map>

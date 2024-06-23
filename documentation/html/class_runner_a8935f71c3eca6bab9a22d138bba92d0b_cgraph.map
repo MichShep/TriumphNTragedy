@@ -1,0 +1,17 @@
+<map id="Runner::handleHeldButtons" name="Runner::handleHeldButtons">
+<area shape="rect" id="Node000001" title="Handler for inputs that rely on buttons being held for a set time." alt="" coords="5,31,187,56"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#ab2a07032f0571c8eb36f14c397db2015" title="Once a player has passed, their choices in the production phase (card bought, cadres made,..." alt="" coords="243,5,407,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,31,227,26,227,32,187,36"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a9c76c59c5bedfea1d6c182f426b7167e" title="Handler for playing card during the Government phase." alt="" coords="235,55,415,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="187,50,219,54,219,59,186,56"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a2f289a86321f9b674b9bc02053d01a11" title="Deal a set amount of cards to the player of action or invest. Hand limit doesn&#39;t apply to card drawin..." alt="" coords="493,5,588,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="407,16,477,16,477,21,407,21"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a5ade0e06379cf267f9a0abf65c5ccb82" title="Handler for the player playing an action card to add influence to a country on an action card (assumi..." alt="" coords="463,55,617,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="415,65,447,65,447,70,415,70"/>
+<area shape="rect" id="Node000006" href="$struct_country.html#aa61eebb964ee31d3356fe4b8e4b80f24" title="Resolve the effects of a power playing a card on the country." alt="" coords="665,5,790,31"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="591,51,661,33,662,38,593,57"/>
+<area shape="rect" id="Node000007" href="$class_map.html#a9ed1e789af15eb96bff51d9a0f85a1fe" title="Gets the capital of that country." alt="" coords="671,55,784,80"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="618,65,655,65,655,70,618,70"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a8f42e5cada9553dfeea41d8308d440f8" title="Helper for loops where if the provided val will under/over flow into the min and max provided." alt="" coords="671,104,784,130"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="593,78,662,97,661,102,591,84"/>
+</map>

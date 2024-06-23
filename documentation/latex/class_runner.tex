@@ -49,14 +49,18 @@ void {\bfseries new\+Year\+Res} ()
 \Hypertarget{class_runner_a1d0e5459a22a49dbf34b0d75f6383676}\label{class_runner_a1d0e5459a22a49dbf34b0d75f6383676} 
 void {\bfseries production} ()
 \begin{DoxyCompactList}\small\item\em New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards, building cadres, and upgrading units. Runs on the turn order until all have gone through. \end{DoxyCompactList}\item 
-\Hypertarget{class_runner_a16088828db0867024b5afe804b3958ce}\label{class_runner_a16088828db0867024b5afe804b3958ce} 
-void {\bfseries draw\+Production\+Phase} ()
-\begin{DoxyCompactList}\small\item\em Handles what to draw during the production phase. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_ab2a07032f0571c8eb36f14c397db2015}{apply\+Production}} (\mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Once a player has passed, their choices in the production phase (card bought, cadres made, units upgraded) is finalized and applied. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_runner_a2f289a86321f9b674b9bc02053d01a11}{deal}} (\mbox{\hyperlink{class_player}{Player}} \texorpdfstring{$\ast$}{*}player, size\+\_\+t amount, const char state=\textquotesingle{}A\textquotesingle{})
 \begin{DoxyCompactList}\small\item\em Deal a set amount of cards to the player of action or invest. Hand limit doesn\textquotesingle{}t apply to card drawing. The player will draw up onto the amount or the number of cards remaining in the deck. \end{DoxyCompactList}\item 
 \Hypertarget{class_runner_a024ca94b6ff3d8213d236d87c0c6abb5}\label{class_runner_a024ca94b6ff3d8213d236d87c0c6abb5} 
 void {\bfseries government} ()
 \begin{DoxyCompactList}\small\item\em New Year phase where players play action cards to add influence and play investment cards, goes in turn order until all have passed. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_runner_a5ade0e06379cf267f9a0abf65c5ccb82}{add\+Diplomacy}} (\mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_country}{Country}} \texorpdfstring{$\ast$}{*}country)
+\begin{DoxyCompactList}\small\item\em Handler for the player playing an action card to add influence to a country on an action card (assuming the player has a valid card with the country) \end{DoxyCompactList}\item 
+\Hypertarget{class_runner_a86d33bba95d8d89078635f15e695dd11}\label{class_runner_a86d33bba95d8d89078635f15e695dd11} 
+void {\bfseries resolve\+Diplomacy} ()
+\begin{DoxyCompactList}\small\item\em Initiates diplomacy resolutions at the end of the goverment phase, changing the influence level of the country and changing the population. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_runner_a22b0ff9811693c494fdadd997970819b}{hand\+Check}} (\mbox{\hyperlink{class_player}{Player}} \texorpdfstring{$\ast$}{*}player)
 \begin{DoxyCompactList}\small\item\em Checks the players hand to see if it is over the card limit, and to discard down to the hand limit. \end{DoxyCompactList}\item 
 \Hypertarget{class_runner_a30ca7e5e57561f398bd28810ccb01863}\label{class_runner_a30ca7e5e57561f398bd28810ccb01863} 
@@ -76,14 +80,24 @@ void {\bfseries winter} ()
 \begin{DoxyCompactList}\small\item\em The winter season of war where the USSR player can act inside of the bounds of the USSR. Only the USSR player can act during this turn. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_runner_a7da49e43690943e7040d405588d0b793}{map\+Player}} (\mbox{\hyperlink{class_player}{Player}} \&player)
 \begin{DoxyCompactList}\small\item\em Goes over the players holdings over the map and sums up their pop, res, CV. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a71317c58f874e8521506eb67fb7cfbb0}{map\+Player\+Res\+Pop}} (\mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Goes through each city and country the player owns and set the RES and POP of the player. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_runner_a9ed144ab26455935edae9ead1c77cc3c}{check\+Trade\+Routes}} (\mbox{\hyperlink{class_player}{Player}} \&player, const string \&main\+\_\+capital)
 \begin{DoxyCompactList}\small\item\em During the production phase it needs to verify all cities controlled by the player that are blockaded are still blockaded (route can only include 1 land segment and 1 sea segment) \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_runner_a1339ccfbb7f33637f68ab258df440b6e}{is\+Supllied}} (const \mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city, const City\+Type allegiance)
 \begin{DoxyCompactList}\small\item\em A decider for if the city provided is supplied and can have steps built. All the cities on the route are marked as supplied to decrease redundancy. \end{DoxyCompactList}\item 
-Production\+Error \mbox{\hyperlink{class_runner_a1c0a70248221bf1496e152a443ccc3a0}{can\+Build}} (const \mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city, const Unit\+Country nationality, const Unit\+Type unit)
+\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_runner_ab1a03f1f4b2840db26a279a8731769a7}{get\+Closest\+City}} (const \mbox{\hyperlink{class_player}{Player}} \&player, const int x, const int y) const
+\begin{DoxyCompactList}\small\item\em Get the city closest to the provided coordinates. \end{DoxyCompactList}\item 
+Production\+Error \mbox{\hyperlink{class_runner_aba8f11c2416add1b8b562893eb6c5d4d}{can\+Build}} (const \mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city, const Unit\+Type unit)
 \begin{DoxyCompactList}\small\item\em Decider for if a new unit of the given type is able to be built in the city provided. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_runner_a35d63bdf4fa75ff4f789de2a5b452081}{set\+Buildable}} (\mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Sets the array of booleans showing which units are buildable at the selected city. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a3ec4965d9518a1513fc87bc9acfc3648}{build\+Unit}} (\mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city, const Unit\+Type unit)
+\begin{DoxyCompactList}\small\item\em Adds a new unit (cadre) to the city of the given type and to the player\textquotesingle{}s unit master list. \end{DoxyCompactList}\item 
 Production\+Error \mbox{\hyperlink{class_runner_a0152b039104c601aa118d049989e60e3}{can\+Upgrade}} (const \mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city, const Unit\+Country nationality, const \mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}unit)
 \begin{DoxyCompactList}\small\item\em Decider for if an exisiting unit can be upgraded. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a5ab6ff038189e6558854e3cfd5278c2f}{handle\+Unit\+Building}} (\mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Handler for both adding new cadres and upgrading exisiting units when prompt on user input. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28}{move}} (\mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}unit, const string start, const string end)
 \begin{DoxyCompactList}\small\item\em Checks what type of movement is allowed and if the player is allowed to move there. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_runner_abf0b00bafd1b65a660b73d3aa53bfb1c}{can\+Disengage}} (\mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}unit, const string start, const string end)
@@ -103,17 +117,24 @@ vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ \m
 \begin{DoxyCompactList}\small\item\em Check which cities have a current battle happening. \end{DoxyCompactList}\item 
 size\+\_\+t \mbox{\hyperlink{class_runner_a5dca1a5476d99423cc792bd95a0a71da}{get\+Num\+Players}} () const
 \begin{DoxyCompactList}\small\item\em Get the number of players. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_ae03b59908b5d1921c8cd506afe610cc4}{handle\+Card\+Buying}} (\mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Handler for checking if the player can buy the preselected card when prompted by user input. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a9c76c59c5bedfea1d6c182f426b7167e}{handle\+Card\+Playing}} (\mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Handler for playing card during the {\ttfamily Government} phase. \end{DoxyCompactList}\item 
 const \mbox{\hyperlink{class_map}{Map}} \& \mbox{\hyperlink{class_runner_adda4105efb5d6f7d92602d9bd5074edf}{get\+Map}} () const
-\begin{DoxyCompactList}\small\item\em Get the map of the game. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get the map of the game. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_runner_a94e3b43498b8942400ba4ec5cc2bf420}{can\+Buy\+Action}} () const
+\begin{DoxyCompactList}\small\item\em Decider for if a card can be drawn from the action deck. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_runner_af6bd000f7e6f3ab05aa52a63684e2319}{can\+Buy\+Invest}} () const
+\begin{DoxyCompactList}\small\item\em Decider for if a card can be drawn from the investment deck. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \Hypertarget{class_runner_a1ce72219d4a739ae2dbc91430502e2dc}\label{class_runner_a1ce72219d4a739ae2dbc91430502e2dc} 
 void {\bfseries free\+Memory} ()
 \begin{DoxyCompactList}\small\item\em Free the allocated memory of the whole game. \end{DoxyCompactList}\item 
-\Hypertarget{class_runner_a732eea976cd72ecc403792c4e09f0df7}\label{class_runner_a732eea976cd72ecc403792c4e09f0df7} 
-void {\bfseries print\+Memo} (size\+\_\+t memo\mbox{[}$\,$\mbox{]}\mbox{[}5\mbox{]}) const
-\item 
+void \mbox{\hyperlink{class_runner_a732eea976cd72ecc403792c4e09f0df7}{print\+Memo}} (size\+\_\+t memo\mbox{[}$\,$\mbox{]}\mbox{[}5\mbox{]}) const
+\begin{DoxyCompactList}\small\item\em Print out the memo of the trade route algorithm. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_runner_a8b714ecc76891bd5e84cff941c86e511}{Init\+SDL}} ()
 \begin{DoxyCompactList}\small\item\em Initalizes SDL2 and the window. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_runner_a748b05df92aa9d64bc6288845f51566d}{Init\+Application}} ()
@@ -124,21 +145,27 @@ void {\bfseries Shutdown\+Application} ()
 \Hypertarget{class_runner_a0293328b045476f6ab1ea47025d1b8dc}\label{class_runner_a0293328b045476f6ab1ea47025d1b8dc} 
 void {\bfseries Clear\+Screen} (SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}renderer)
 \begin{DoxyCompactList}\small\item\em Clears the screen so the screen can \textquotesingle{}update\textquotesingle{}. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_runner_a4136cf24a9abfc8282ad29125f42e519}{draw\+Map}} (const \mbox{\hyperlink{class_player}{Player}} \&player, const bool cities, const bool influence, const bool resources, const bool connections, const bool render=true, const int \&fps=-\/1)
+void \mbox{\hyperlink{class_runner_af261e0be2c37e4486b09606ab3b2c0e8}{draw\+Map}} (\mbox{\hyperlink{class_player}{Player}} \&player, const bool cities, const bool influence, const bool resources, const bool connections, const bool render=true, const int \&fps=-\/1)
 \begin{DoxyCompactList}\small\item\em Draw\textquotesingle{}s the map to the main rendered with different options to control what is shown. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_runner_a1679bec0ebffeb405fb263af9d92f2f5}{draw\+Player\+Board}} (const \mbox{\hyperlink{class_player}{Player}} \&player, SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}renderer, const int bought\+\_\+action=0, const int bought\+\_\+invest=0)
+void \mbox{\hyperlink{class_runner_a4a6277b02030c94c118baa5cd0965e20}{draw\+Player\+Board}} (\mbox{\hyperlink{class_player}{Player}} \&player, const Uint32 \&ticks=0)
 \begin{DoxyCompactList}\small\item\em Draws the private view of the player including cards and VP and production levels and acheived tech. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_aedc51d863591c7038e1b326f8797b90e}{draw\+Player\+Cards}} (\mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Draws the action and invest hands of the player on the left and right side of the screen, respectively. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{class_runner_a1d192f0cb68477269f44ec310b335bf1}{get\+City\+Sprite}} (\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city)
 \begin{DoxyCompactList}\small\item\em Get the index of the sprite needed for the city. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_runner_a5d52cd35d83ba1b9efb0829716e0833b}{draw\+City}} (const \mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city, const bool resources=true)
+void \mbox{\hyperlink{class_runner_a68d578b3e729c8c1e49a20241e7efbef}{draw\+City}} (\mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city, const bool resources=true, const bool units=true)
 \begin{DoxyCompactList}\small\item\em Draws a city onto the players renderer and if opted the resources as well. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_runner_aec0fad5eaebebf5eeca75818cac923aa}{draw\+City}} (int x, int y, Population\+Type population\+\_\+type)
+void \mbox{\hyperlink{class_runner_a7b87ada9125b948babcf02d97e510625}{draw\+City}} (\mbox{\hyperlink{class_player}{Player}} \&player, const int \&x, const int \&y, const Population\+Type \&population\+\_\+type)
 \begin{DoxyCompactList}\small\item\em Draw a city marker (not tied to any specific city) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_ac0745e150b0151ba64adac36e8b33ea8}{draw\+Build}} (\mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Draws the unit building UI and the select line and selected unit. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_runner_a18f5343138ec0a0f147b01f11944fd13}{draw\+Unit}} (const \mbox{\hyperlink{class_player}{Player}} \&player, const \mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}unit, const int x, const int y, const int zoom, const bool secret=false)
 \begin{DoxyCompactList}\small\item\em Draws the unit onto the player\textquotesingle{}s screen. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_runner_a2996d3087d986e2cf841b210462296b3}{draw\+City\+Units}} (const \mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city)
+void \mbox{\hyperlink{class_runner_af29dc62bedcfa28f9b4c240c0faeb701}{draw\+Unit}} (const \mbox{\hyperlink{class_player}{Player}} \&player, const Unit\+Type unit\+\_\+type, const Unit\+Country nationality, const int x, const int y, const int zoom, const bool invalid=false, const int scale=1)
+\begin{DoxyCompactList}\small\item\em Draws a dummy unit onto the screen (not tied to a specific unit objecy) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_aff97cea260ba3a5f87e17e4a740934d7}{draw\+City\+Units}} (\mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city)
 \begin{DoxyCompactList}\small\item\em Draws 5 units under the city, rotating to the next 5 every 5 seconds. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_runner_a3c4e0b26262b401b673d3035e4821fe1}{draw\+Full\+City\+Units}} (const \mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city)
+void \mbox{\hyperlink{class_runner_a26505fc8d4d45386393f2e3ecae92210}{draw\+Full\+City\+Units}} (\mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city)
 \begin{DoxyCompactList}\small\item\em If the city has full displayed enable, every unit at the city will be displayed in rows of 5 (no rotation) \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_runner_a614dfd919d1e8e9c34a7a5a9d00c88cf}{draw\+Influence}} (const \mbox{\hyperlink{class_player}{Player}} \&player)
 \begin{DoxyCompactList}\small\item\em Draws the influence tokens onto the map. \end{DoxyCompactList}\item 
@@ -146,15 +173,28 @@ void \mbox{\hyperlink{class_runner_ad1093c7a0155bb2b1b57c18788ad0ea9}{draw\+Acti
 \begin{DoxyCompactList}\small\item\em Draws the players action cards onto their screen starting at the given x and y and decends. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_runner_a8e24f1914ccb107be28aa45760e0353c}{draw\+Invest\+Cards}} (const \mbox{\hyperlink{class_player}{Player}} \texorpdfstring{$\ast$}{*}player, int start\+\_\+x, int start\+\_\+y, int count, int scale=1)
 \begin{DoxyCompactList}\small\item\em Draws the players invest cards onto their screen starting at the given x and y and decends. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a78ff48520ba431bea77ff4640c5b2384}{draw\+Action\+Buttons}} (const \mbox{\hyperlink{class_player}{Player}} \&drawing\+\_\+player, const Uint32 \&ticks)
+\begin{DoxyCompactList}\small\item\em Draw the current actions the player can take on the buttons that would initiate those actions. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_runner_a056a0393a546065082a821664a40e35e}{draw\+Connections}} (const \mbox{\hyperlink{class_player}{Player}} \&player)
 \begin{DoxyCompactList}\small\item\em Draws all the connections between the cities and colors them based on the type of border. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_ae50b3d8e05252c5801f45ff5a1c48fb5}{draw\+Turn\+Order}} (const \mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Draw the current turn order of the players and who has passed. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_runner_a5b2b1d5425a4646d84a507704fa98b74}{draw\+Number}} (SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}renderer, int num, const int x, const int y, const float scale, const uint8\+\_\+t r=255, const uint8\+\_\+t \mbox{\hyperlink{class_runner_ab8856030fdc77f8c9522ceb11cde2f21}{g}}=255, const uint8\+\_\+t b=255) const
 \begin{DoxyCompactList}\small\item\em Takes any length number and draws it as a 7-\/segment at the x,y as the top left. Origional scale is 7\texorpdfstring{$\ast$}{*}13 for one digit. Default color is black. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_runner_abe7acd5992a451b154e957e7cbb4f360}{reshuffle\+Animation}} (const size\+\_\+t \&action\+\_\+size, const size\+\_\+t \&invest\+\_\+size)
+void \mbox{\hyperlink{class_runner_ac54c38b1a35bcbd37adaab4a76fda25c}{draw\+Line}} (const \mbox{\hyperlink{class_player}{Player}} \&player, const int x1, const int y1, const int x2, const int y2)
+\begin{DoxyCompactList}\small\item\em Draws a 3 pixel wide line between the two points. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a4847a56140cfdee6dc639550fca5a80a}{draw\+Line}} (const \mbox{\hyperlink{class_player}{Player}} \&player, const \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city1, const \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city2)
+\begin{DoxyCompactList}\small\item\em Draws a 3-\/pixel wide line between two cities. \end{DoxyCompactList}\item 
+\Hypertarget{class_runner_a9757549546fbf0ccf7b6973f7fd94ad2}\label{class_runner_a9757549546fbf0ccf7b6973f7fd94ad2} 
+void {\bfseries draw\+Phase} (const Uint32 \&ticks)
+\begin{DoxyCompactList}\small\item\em Handles what to draw during the production phase. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_ac3870e25cd9ceb55d46836d9f17c77c5}{animate\+Message}} (\mbox{\hyperlink{class_player}{Player}} \&player, \mbox{\hyperlink{struct_public_message}{Public\+Message}} \&message, const Uint32 \&ticks)
+\begin{DoxyCompactList}\small\item\em Used the current time and the public message origin time to draw the frame the given animation is at. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_ad9bdd36a2c3cf5079e32cd1b45b75b43}{animate\+Reshuffle}} (const bool \&running, const size\+\_\+t \&action\+\_\+size, const size\+\_\+t \&invest\+\_\+size, const Uint32 \&ticks)
 \begin{DoxyCompactList}\small\item\em Animation of the cards from the discard pile being added back. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_runner_a907d7cff65d53572390c9d7c71be3d15}{draw\+Memo\+Resolution}} (const vector$<$ std\+::array$<$ size\+\_\+t, 6 $>$ $>$ \&memo, vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ unblocked)
 \begin{DoxyCompactList}\small\item\em Takes the memo of the Dijkstra\textquotesingle{}s knock-\/off II for finding trade routes and highlighting the route it takes. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_runner_a0f3a9c7f2d0c8fc32b07a88809cbfb5a}{draw\+Memo\+Resolution}} (const \mbox{\hyperlink{class_player}{Player}} \&player, const vector$<$ std\+::array$<$ size\+\_\+t, 4 $>$ $>$ \&memo)
+void \mbox{\hyperlink{class_runner_ae29069c742b755ac5750a8837e8c46c4}{draw\+Memo\+Resolution}} (\mbox{\hyperlink{class_player}{Player}} \&player, const vector$<$ std\+::array$<$ size\+\_\+t, 4 $>$ $>$ \&memo)
 \begin{DoxyCompactList}\small\item\em Draws the memo of the Dijkstra\textquotesingle{}s knock-\/off III for supply routes. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_runner_a19d3b113b67736ffee2f2fb3674c2e95}{draw\+Turn\+Roll}} (const int \&result)
 \begin{DoxyCompactList}\small\item\em Animation for rolling a D6 and form that the turn order that is decided. \end{DoxyCompactList}\item 
@@ -162,14 +202,30 @@ void \mbox{\hyperlink{class_runner_abf26bf6823772bfe7c5afe5ab67582f5}{draw\+Peac
 \begin{DoxyCompactList}\small\item\em Animation of the cities who were peacful receiving a peace chit. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_runner_aa42441a87161bb486218ef29fd6bebfe}{in\+Box}} (const int x, const int y, const int width, const int height, const int target\+\_\+x, const int target\+\_\+y)
 \begin{DoxyCompactList}\small\item\em Used for button presses where a given mouse clip position will see if its in the rectangle provided. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_runner_ad79b06566acb1f70735dea8fa14aeaef}{handle\+User\+Input}} (bool \&running)
+void \mbox{\hyperlink{class_runner_a0d55a7821772b8c96d7186250aba9160}{handle\+User\+Input}} (bool \&running, const Uint32 \&ticks)
 \begin{DoxyCompactList}\small\item\em Main handler for all possible user input. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_runner_adcd6dddf89143047d2ecf91911cc83bf}{handle\+Button\+Down}} (\mbox{\hyperlink{class_player}{Player}} \&player, const SDL\+\_\+\+Event \&event)
+void \mbox{\hyperlink{class_runner_ae2f9ce2a5344415b82024978df6c9b82}{handle\+User\+Animation\+Input}} (bool \&running, const Uint32 \&ticks)
+\begin{DoxyCompactList}\small\item\em Handler for when an animation is happening and user input is limited. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a5be931330660b2980ff77a53b25c9391}{handle\+Button\+Down}} (\mbox{\hyperlink{class_player}{Player}} \&player, const SDL\+\_\+\+Event \&event, const Uint32 \&ticks)
 \begin{DoxyCompactList}\small\item\em Handels the cases where the player pressed down on a button. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_runner_ad6258b83739b4b6a526b80894c3fe5b7}{handle\+Joy\+Stick\+Movement}} (\mbox{\hyperlink{class_player}{Player}} \&player)
-\begin{DoxyCompactList}\small\item\em Handels the players controller joystick movement the dictates cursor movement and is called only every frame to make game smoother. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a92adf5dcc89aa38706e83bbc96a834de}{handle\+Button\+Up}} (\mbox{\hyperlink{class_player}{Player}} \&player, const SDL\+\_\+\+Event \&event, const Uint32 \&ticks)
+\begin{DoxyCompactList}\small\item\em Handels the cases where the player lets up on a button (mostly for times events) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_ab6de20c05424b276db69c4387aa6e594}{handle\+Cursor\+Movement}} (\mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Handels the players controller joystick movement the dictates cursor movement and is called only every frame to make the movement smoother. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_ad6ab8572dd6f9655711a4dbe79c4102c}{handle\+Joystick\+Movement}} (\mbox{\hyperlink{class_player}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em Handler for the right joystick (used to select things) thats taken every frame. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_ace0b3b0d68dd7760753d18db5a2c24a3}{handle\+Timed\+Joystick}} (\mbox{\hyperlink{class_player}{Player}} \&player, const Uint32 \&ticks)
+\begin{DoxyCompactList}\small\item\em Handler for the right joystick (used to select things) thats taken in set times. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_runner_a4fdc26d720545c6fc684be2f09e491d2}{handle\+Trigger\+Movement}} (\mbox{\hyperlink{class_player}{Player}} \&player)
 \begin{DoxyCompactList}\small\item\em Handels the players controller trigger (L2, R2) movement that dictates zoom and is called only every frame to make game smoother. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a7f7fac7fb8d03cfe75b23777cb3fbb60}{handle\+Widget\+Movement}} (\mbox{\hyperlink{class_player}{Player}} \&player, const Uint32 \&ticks)
+\begin{DoxyCompactList}\small\item\em Handles inputs from moving between widgets (action hand, map, invest hand, ect) and is taken in set times to make movement managable. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a8935f71c3eca6bab9a22d138bba92d0b}{handle\+Held\+Buttons}} (\mbox{\hyperlink{class_player}{Player}} \&player, const Uint32 \&ticks)
+\begin{DoxyCompactList}\small\item\em Handler for inputs that rely on buttons being held for a set time. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a6a78283cbe962a4ce7197a7df5c9b43d}{clamp\+CursorX}} (\mbox{\hyperlink{class_player}{Player}} \&player, const double amount)
+\begin{DoxyCompactList}\small\item\em Handler for moving the cursor and either moving the screen or the cursor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_runner_a263012dc08bf73f7d628d0b9a8d0b044}{clamp\+CursorY}} (\mbox{\hyperlink{class_player}{Player}} \&player, const double amount)
+\begin{DoxyCompactList}\small\item\em Handler for moving the cursor and either moving the screen or the cursor. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_runner_a88cac6fe65fc3f82e918cf5ae751a0f0}{set\+XY}} (const string \&path)
 \begin{DoxyCompactList}\small\item\em Dev tool for setup when deciding the X and Y of the city, it\textquotesingle{}ll print which city and then record the clicked X and Y as the location of the city. \end{DoxyCompactList}\item 
 \Hypertarget{class_runner_a1a3632ffdf69bc9a94506d47ec401d2f}\label{class_runner_a1a3632ffdf69bc9a94506d47ec401d2f} 
@@ -177,8 +233,12 @@ void {\bfseries set\+Res\+XY} ()
 \begin{DoxyCompactList}\small\item\em Dev tool to Set the resource x and y coords for each city that has a resource. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_runner_af0d0353424d3bfe4fef0f121a342df14}{past\+Dead\+Zone}} (const int \&\mbox{\hyperlink{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28}{move}}) const
 \begin{DoxyCompactList}\small\item\em Checks if the joy stick movement is within the accepted range of movement (fights stick drift) \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_runner_a8f42e5cada9553dfeea41d8308d440f8}{loop\+Val}} (const int val, const int min\+\_\+val, const int max\+\_\+val)
+\begin{DoxyCompactList}\small\item\em Helper for loops where if the provided val will under/over flow into the min and max provided. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{class_runner_abda44286231761376689099fcdb9789f}{scale\+Axis}} (const double \&x) const
-\begin{DoxyCompactList}\small\item\em Takes a joy axis movement and scales it to be from \mbox{[}0.\+0, 1.\+0\mbox{]} bases on a min movement of -\/32000 and max movement of 32000. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Takes a joy axis movement and scales it to be from \mbox{[}0.\+0, 1.\+0\mbox{]} bases on a min movement of -\/32000 and max movement of 32000. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_runner_aa8bd9fe9b276a9864a80d517294a3975}{dist\+Cursor}} (const int x1, const int y1, const int x2, const int y2, const int zoom\+\_\+x, const int zoom\+\_\+y)
+\begin{DoxyCompactList}\small\item\em Gives an efficent way to determine the distance between the provided point on the screen and the cursor. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -207,13 +267,17 @@ vector$<$ \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfs
 \item 
 vector$<$ \mbox{\hyperlink{struct_peace_chit}{Peace\+Chit}} $>$ \mbox{\hyperlink{class_runner_ab3f6271a464ab649daf62d98d452465a}{peace\+\_\+dividends\+\_\+bag}}
 \item 
+int \mbox{\hyperlink{class_runner_a8e53c8b12d6d71c77ac73d3a79e9eb26}{action\+\_\+bought}} = 0
+\item 
+int \mbox{\hyperlink{class_runner_adbbe7d6ff2ddb86fe34823500c886ba3}{invest\+\_\+bought}} = 0
+\item 
 \mbox{\hyperlink{class_player}{Player}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_runner_adfbbabad3bc215e42cc5484b7c2f7552}{start\+\_\+player}}
 \item 
 \mbox{\hyperlink{class_player}{Player}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_runner_ab2fc9bff80730445fab45bb05b23916e}{current\+\_\+player}}
 \item 
 \mbox{\hyperlink{class_player}{Player}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_runner_a26a0b26116163188d7f6c7dc629496a4}{turn\+\_\+order}} \mbox{[}3\mbox{]}
 \item 
-const unsigned int \mbox{\hyperlink{class_runner_a6c66593b3a3f87e1717ed411fa756964}{seed}} = 100
+const unsigned int \mbox{\hyperlink{class_runner_a6c66593b3a3f87e1717ed411fa756964}{seed}} = 872706816
 \item 
 std\+::mt19937 \mbox{\hyperlink{class_runner_ab8856030fdc77f8c9522ceb11cde2f21}{g}}
 \item 
@@ -223,8 +287,7 @@ std\+::mt19937 \mbox{\hyperlink{class_runner_ab8856030fdc77f8c9522ceb11cde2f21}{
 \item 
 \mbox{\hyperlink{class_spritesheet}{Spritesheet}} \mbox{\hyperlink{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}{sprite\+\_\+map}}
 \begin{DoxyCompactList}\small\item\em !! Graphics things \end{DoxyCompactList}\item 
-\Hypertarget{class_runner_af9fa9a7c8173652cfeb5adc879f39a44}\label{class_runner_af9fa9a7c8173652cfeb5adc879f39a44} 
-\mbox{\hyperlink{class_spritesheet}{Spritesheet}} {\bfseries map\+\_\+sprite}
+\mbox{\hyperlink{class_spritesheet}{Spritesheet}} \mbox{\hyperlink{class_runner_af9fa9a7c8173652cfeb5adc879f39a44}{map\+\_\+sprite}}
 \item 
 \mbox{\hyperlink{class_spritesheet}{Spritesheet}} \mbox{\hyperlink{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}{powers\+\_\+sprite\+\_\+map}} \mbox{[}3\mbox{]}
 \item 
@@ -233,6 +296,10 @@ std\+::mt19937 \mbox{\hyperlink{class_runner_ab8856030fdc77f8c9522ceb11cde2f21}{
 \mbox{\hyperlink{class_spritesheet}{Spritesheet}} \mbox{\hyperlink{class_runner_a0c016b27536b3fdd68d4f10c2a6a0f5c}{powers\+\_\+units\+\_\+sprite\+\_\+z1}} \mbox{[}3\mbox{]}
 \item 
 \mbox{\hyperlink{class_spritesheet}{Spritesheet}} \mbox{\hyperlink{class_runner_a5182c63289259807a2025080cbf6bd46}{powers\+\_\+units\+\_\+sprite\+\_\+z3}} \mbox{[}3\mbox{]}
+\item 
+\mbox{\hyperlink{class_spritesheet}{Spritesheet}} \mbox{\hyperlink{class_runner_a524338927dd5452a46ab0a1cf78f1d88}{powers\+\_\+controller\+\_\+button\+\_\+sprite}} \mbox{[}3\mbox{]}
+\item 
+\mbox{\hyperlink{class_spritesheet}{Spritesheet}} \mbox{\hyperlink{class_runner_a4c2ee6c7734cb202cc492e55689d4024}{powers\+\_\+message\+\_\+animations}} \mbox{[}3\mbox{]}
 \item 
 SDL\+\_\+\+Game\+Controller \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_runner_a810404576dd9ef7cde5915ae65ce3cfd}{west\+\_\+controller}} =nullptr
 \item 
@@ -245,6 +312,8 @@ SDL\+\_\+\+Game\+Controller \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_ru
 bool \mbox{\hyperlink{class_runner_a0d6635da7b0c49c5798e6162a4ae1ddd}{map\+\_\+changed}} =true
 \item 
 Uint32 \mbox{\hyperlink{class_runner_a70dfac5fcbf396c9505474dcc6a3b530}{last\+\_\+tick}}
+\item 
+vector$<$ \mbox{\hyperlink{struct_public_message}{Public\+Message}} $>$ \mbox{\hyperlink{class_runner_aad130d7b70524c31af412198e6c3d709}{public\+\_\+messages}}
 \end{DoxyCompactItemize}
 
 
@@ -278,11 +347,172 @@ Here is the call graph for this function\+:
 
 
 \doxysubsection{Member Function Documentation}
-\Hypertarget{class_runner_a1c0a70248221bf1496e152a443ccc3a0}\label{class_runner_a1c0a70248221bf1496e152a443ccc3a0} 
+\Hypertarget{class_runner_a5ade0e06379cf267f9a0abf65c5ccb82}\label{class_runner_a5ade0e06379cf267f9a0abf65c5ccb82} 
+\index{Runner@{Runner}!addDiplomacy@{addDiplomacy}}
+\index{addDiplomacy@{addDiplomacy}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{addDiplomacy()}{addDiplomacy()}}
+{\footnotesize\ttfamily bool Runner\+::add\+Diplomacy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{\mbox{\hyperlink{struct_country}{Country}} \texorpdfstring{$\ast$}{*}}]{country }\end{DoxyParamCaption})}
+
+
+
+Handler for the player playing an action card to add influence to a country on an action card (assuming the player has a valid card with the country) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player adding the influence \\
+\hline
+{\em country} & The country thats is having influence added to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The player was able to add influence to the country and the card was removed 
+
+false The player was unable to add influence to the country 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=325pt]{class_runner_a5ade0e06379cf267f9a0abf65c5ccb82_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a5ade0e06379cf267f9a0abf65c5ccb82_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ac3870e25cd9ceb55d46836d9f17c77c5}\label{class_runner_ac3870e25cd9ceb55d46836d9f17c77c5} 
+\index{Runner@{Runner}!animateMessage@{animateMessage}}
+\index{animateMessage@{animateMessage}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{animateMessage()}{animateMessage()}}
+{\footnotesize\ttfamily void Runner\+::animate\+Message (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{\mbox{\hyperlink{struct_public_message}{Public\+Message}} \&}]{message,  }\item[{const Uint32 \&}]{ticks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Used the current time and the public message origin time to draw the frame the given animation is at. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose screen will be drawn on \\
+\hline
+{\em message} & The message that will be drawn on the screen \\
+\hline
+{\em ticks} & The current time of the frame being drawn \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ac3870e25cd9ceb55d46836d9f17c77c5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ad9bdd36a2c3cf5079e32cd1b45b75b43}\label{class_runner_ad9bdd36a2c3cf5079e32cd1b45b75b43} 
+\index{Runner@{Runner}!animateReshuffle@{animateReshuffle}}
+\index{animateReshuffle@{animateReshuffle}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{animateReshuffle()}{animateReshuffle()}}
+{\footnotesize\ttfamily void Runner\+::animate\+Reshuffle (\begin{DoxyParamCaption}\item[{const bool \&}]{running,  }\item[{const size\+\_\+t \&}]{action\+\_\+size,  }\item[{const size\+\_\+t \&}]{invest\+\_\+size,  }\item[{const Uint32 \&}]{ticks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Animation of the cards from the discard pile being added back. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action\+\_\+size} & Number of action cards to add back \\
+\hline
+{\em invest\+\_\+size} & Number of invest cards to add back \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ad9bdd36a2c3cf5079e32cd1b45b75b43_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ad9bdd36a2c3cf5079e32cd1b45b75b43_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ab2a07032f0571c8eb36f14c397db2015}\label{class_runner_ab2a07032f0571c8eb36f14c397db2015} 
+\index{Runner@{Runner}!applyProduction@{applyProduction}}
+\index{applyProduction@{applyProduction}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{applyProduction()}{applyProduction()}}
+{\footnotesize\ttfamily void Runner\+::apply\+Production (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})}
+
+
+
+Once a player has passed, their choices in the production phase (card bought, cadres made, units upgraded) is finalized and applied. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player who has passed and choices are applied \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{class_runner_ab2a07032f0571c8eb36f14c397db2015_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ab2a07032f0571c8eb36f14c397db2015_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a3ec4965d9518a1513fc87bc9acfc3648}\label{class_runner_a3ec4965d9518a1513fc87bc9acfc3648} 
+\index{Runner@{Runner}!buildUnit@{buildUnit}}
+\index{buildUnit@{buildUnit}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{buildUnit()}{buildUnit()}}
+{\footnotesize\ttfamily void Runner\+::build\+Unit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city,  }\item[{const Unit\+Type}]{unit }\end{DoxyParamCaption})}
+
+
+
+Adds a new unit (cadre) to the city of the given type and to the player\textquotesingle{}s unit master list. 
+
+Logic Checks.
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose unit is being built \\
+\hline
+{\em city} & The city where the unit is being built \\
+\hline
+{\em unit} & The type of unit that will be built\\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+The unit follows all restrictions and can be built in the porvided city 
+\end{DoxyPrecond}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a3ec4965d9518a1513fc87bc9acfc3648_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_aba8f11c2416add1b8b562893eb6c5d4d}\label{class_runner_aba8f11c2416add1b8b562893eb6c5d4d} 
 \index{Runner@{Runner}!canBuild@{canBuild}}
 \index{canBuild@{canBuild}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{canBuild()}{canBuild()}}
-{\footnotesize\ttfamily Production\+Error Runner\+::can\+Build (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city,  }\item[{const Unit\+Country}]{nationality,  }\item[{const Unit\+Type}]{unit }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Production\+Error Runner\+::can\+Build (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city,  }\item[{const Unit\+Type}]{unit }\end{DoxyParamCaption})}
 
 
 
@@ -294,20 +524,71 @@ Decider for if a new unit of the given type is able to be built in the city prov
 \hline
 {\em city} & The city where the unit wants to be added \\
 \hline
-{\em nationality} & The nationality (or color) of the unit that wants to be added (used to track limits) \\
-\hline
 {\em unit} & The type of unit that wants to be added (used to track limits) \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Production\+Error The error given as to why it can\textquotesingle{}t be built (0 if no error) 
 \end{DoxyReturn}
-Here is the call graph for this function\+:
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_aba8f11c2416add1b8b562893eb6c5d4d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a1c0a70248221bf1496e152a443ccc3a0_cgraph}
+\includegraphics[width=350pt]{class_runner_aba8f11c2416add1b8b562893eb6c5d4d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a94e3b43498b8942400ba4ec5cc2bf420}\label{class_runner_a94e3b43498b8942400ba4ec5cc2bf420} 
+\index{Runner@{Runner}!canBuyAction@{canBuyAction}}
+\index{canBuyAction@{canBuyAction}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{canBuyAction()}{canBuyAction()}}
+{\footnotesize\ttfamily bool Runner\+::can\+Buy\+Action (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if a card can be drawn from the action deck. 
+
+\begin{DoxyReturn}{Returns}
+true An action card can be bought 
+
+false There are no more action card to be bought 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a94e3b43498b8942400ba4ec5cc2bf420_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_af6bd000f7e6f3ab05aa52a63684e2319}\label{class_runner_af6bd000f7e6f3ab05aa52a63684e2319} 
+\index{Runner@{Runner}!canBuyInvest@{canBuyInvest}}
+\index{canBuyInvest@{canBuyInvest}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{canBuyInvest()}{canBuyInvest()}}
+{\footnotesize\ttfamily bool Runner\+::can\+Buy\+Invest (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if a card can be drawn from the investment deck. 
+
+\begin{DoxyReturn}{Returns}
+true An investment card can be bought 
+
+false There are no more investment card to be bought 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_af6bd000f7e6f3ab05aa52a63684e2319_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_abf0b00bafd1b65a660b73d3aa53bfb1c}\label{class_runner_abf0b00bafd1b65a660b73d3aa53bfb1c} 
@@ -319,8 +600,6 @@ Here is the call graph for this function\+:
 
 
 Checks if the player can disengage from the current battle. 
-
-Logic Checks.
 
 
 \begin{DoxyParams}{Parameters}
@@ -336,8 +615,7 @@ true Able to disengage
 
 false Unable to disengage 
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -388,12 +666,19 @@ Decider for if an exisiting unit can be upgraded.
 \begin{DoxyReturn}{Returns}
 Production\+Error The error given as to why it can\textquotesingle{}t be upgrade (0 if no error) 
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_runner_a0152b039104c601aa118d049989e60e3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a0152b039104c601aa118d049989e60e3_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_a9ed144ab26455935edae9ead1c77cc3c}\label{class_runner_a9ed144ab26455935edae9ead1c77cc3c} 
@@ -434,6 +719,52 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{class_runner_a9ed144ab26455935edae9ead1c77cc3c_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{class_runner_a6a78283cbe962a4ce7197a7df5c9b43d}\label{class_runner_a6a78283cbe962a4ce7197a7df5c9b43d} 
+\index{Runner@{Runner}!clampCursorX@{clampCursorX}}
+\index{clampCursorX@{clampCursorX}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{clampCursorX()}{clampCursorX()}}
+{\footnotesize\ttfamily void Runner\+::clamp\+CursorX (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const double}]{amount }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Handler for moving the cursor and either moving the screen or the cursor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose cursor is moving \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a6a78283cbe962a4ce7197a7df5c9b43d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a263012dc08bf73f7d628d0b9a8d0b044}\label{class_runner_a263012dc08bf73f7d628d0b9a8d0b044} 
+\index{Runner@{Runner}!clampCursorY@{clampCursorY}}
+\index{clampCursorY@{clampCursorY}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{clampCursorY()}{clampCursorY()}}
+{\footnotesize\ttfamily void Runner\+::clamp\+CursorY (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const double}]{amount }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Handler for moving the cursor and either moving the screen or the cursor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose cursor is moving \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a263012dc08bf73f7d628d0b9a8d0b044_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_runner_a2f289a86321f9b674b9bc02053d01a11}\label{class_runner_a2f289a86321f9b674b9bc02053d01a11} 
 \index{Runner@{Runner}!deal@{deal}}
 \index{deal@{deal}!Runner@{Runner}}
@@ -463,7 +794,7 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=273pt]{class_runner_a2f289a86321f9b674b9bc02053d01a11_icgraph}
+\includegraphics[width=350pt]{class_runner_a2f289a86321f9b674b9bc02053d01a11_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_a38a4e7be3c09505c6d0335872615a4cb}\label{class_runner_a38a4e7be3c09505c6d0335872615a4cb} 
@@ -490,6 +821,60 @@ true Is able to move to end
 
 false is unable (border limits or out of range or not friendly) 
 \end{DoxyReturn}
+\Hypertarget{class_runner_aa8bd9fe9b276a9864a80d517294a3975}\label{class_runner_aa8bd9fe9b276a9864a80d517294a3975} 
+\index{Runner@{Runner}!distCursor@{distCursor}}
+\index{distCursor@{distCursor}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{distCursor()}{distCursor()}}
+{\footnotesize\ttfamily int Runner\+::dist\+Cursor (\begin{DoxyParamCaption}\item[{const int}]{x1,  }\item[{const int}]{y1,  }\item[{const int}]{x2,  }\item[{const int}]{y2,  }\item[{const int}]{zoom\+\_\+x,  }\item[{const int}]{zoom\+\_\+y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Gives an efficent way to determine the distance between the provided point on the screen and the cursor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x1} & The unsacled x-\/coord of the point \\
+\hline
+{\em y1} & The unsacled y-\/coord of the point \\
+\hline
+{\em x2} & The cursor x-\/coord \\
+\hline
+{\em y2} & The cursor y-\/coord \\
+\hline
+{\em zoom\+\_\+x} & The scale multiplier for x-\/values \\
+\hline
+{\em zoom\+\_\+y} & The scale multiplier for y-\/values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The euclidian distance between the two points 
+\end{DoxyReturn}
+\Hypertarget{class_runner_a78ff48520ba431bea77ff4640c5b2384}\label{class_runner_a78ff48520ba431bea77ff4640c5b2384} 
+\index{Runner@{Runner}!drawActionButtons@{drawActionButtons}}
+\index{drawActionButtons@{drawActionButtons}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{drawActionButtons()}{drawActionButtons()}}
+{\footnotesize\ttfamily void Runner\+::draw\+Action\+Buttons (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{drawing\+\_\+player,  }\item[{const Uint32 \&}]{ticks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Draw the current actions the player can take on the buttons that would initiate those actions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em drawing\+\_\+player} & The player whose actions are being drawn \\
+\hline
+{\em ticks} & The current time since SDL was initalized and used to ttime animations ~\newline
+ \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a78ff48520ba431bea77ff4640c5b2384_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_runner_ad1093c7a0155bb2b1b57c18788ad0ea9}\label{class_runner_ad1093c7a0155bb2b1b57c18788ad0ea9} 
 \index{Runner@{Runner}!drawActionCards@{drawActionCards}}
 \index{drawActionCards@{drawActionCards}!Runner@{Runner}}
@@ -513,8 +898,7 @@ Draws the players action cards onto their screen starting at the given x and y a
 {\em scale} & THe scale of the cards to draw \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -529,11 +913,42 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{class_runner_ad1093c7a0155bb2b1b57c18788ad0ea9_icgraph}
 \end{center}
 \end{figure}
-\Hypertarget{class_runner_a5d52cd35d83ba1b9efb0829716e0833b}\label{class_runner_a5d52cd35d83ba1b9efb0829716e0833b} 
+\Hypertarget{class_runner_ac0745e150b0151ba64adac36e8b33ea8}\label{class_runner_ac0745e150b0151ba64adac36e8b33ea8} 
+\index{Runner@{Runner}!drawBuild@{drawBuild}}
+\index{drawBuild@{drawBuild}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{drawBuild()}{drawBuild()}}
+{\footnotesize\ttfamily void Runner\+::draw\+Build (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Draws the unit building UI and the select line and selected unit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The players who selectedna city to build a unit \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ac0745e150b0151ba64adac36e8b33ea8_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ac0745e150b0151ba64adac36e8b33ea8_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a68d578b3e729c8c1e49a20241e7efbef}\label{class_runner_a68d578b3e729c8c1e49a20241e7efbef} 
 \index{Runner@{Runner}!drawCity@{drawCity}}
 \index{drawCity@{drawCity}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{drawCity()}{drawCity()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void Runner\+::draw\+City (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city,  }\item[{const bool}]{resources = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily void Runner\+::draw\+City (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city,  }\item[{const bool}]{resources = {\ttfamily true},  }\item[{const bool}]{units = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -548,12 +963,11 @@ Draws a city onto the players renderer and if opted the resources as well.
 {\em resources} & If the resources should be drawn or not \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a5d52cd35d83ba1b9efb0829716e0833b_cgraph}
+\includegraphics[width=350pt]{class_runner_a68d578b3e729c8c1e49a20241e7efbef_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -561,14 +975,14 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a5d52cd35d83ba1b9efb0829716e0833b_icgraph}
+\includegraphics[width=350pt]{class_runner_a68d578b3e729c8c1e49a20241e7efbef_icgraph}
 \end{center}
 \end{figure}
-\Hypertarget{class_runner_aec0fad5eaebebf5eeca75818cac923aa}\label{class_runner_aec0fad5eaebebf5eeca75818cac923aa} 
+\Hypertarget{class_runner_a7b87ada9125b948babcf02d97e510625}\label{class_runner_a7b87ada9125b948babcf02d97e510625} 
 \index{Runner@{Runner}!drawCity@{drawCity}}
 \index{drawCity@{drawCity}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{drawCity()}{drawCity()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void Runner\+::draw\+City (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{Population\+Type}]{population\+\_\+type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily void Runner\+::draw\+City (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const int \&}]{x,  }\item[{const int \&}]{y,  }\item[{const Population\+Type \&}]{population\+\_\+type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -583,11 +997,11 @@ Draw a city marker (not tied to any specific city)
 {\em population\+\_\+type} & The type of city to draw \\
 \hline
 \end{DoxyParams}
-\Hypertarget{class_runner_a2996d3087d986e2cf841b210462296b3}\label{class_runner_a2996d3087d986e2cf841b210462296b3} 
+\Hypertarget{class_runner_aff97cea260ba3a5f87e17e4a740934d7}\label{class_runner_aff97cea260ba3a5f87e17e4a740934d7} 
 \index{Runner@{Runner}!drawCityUnits@{drawCityUnits}}
 \index{drawCityUnits@{drawCityUnits}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{drawCityUnits()}{drawCityUnits()}}
-{\footnotesize\ttfamily void Runner\+::draw\+City\+Units (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily void Runner\+::draw\+City\+Units (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -600,12 +1014,11 @@ Draws 5 units under the city, rotating to the next 5 every 5 seconds.
 {\em city} & The city whose occupants will be drawn \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a2996d3087d986e2cf841b210462296b3_cgraph}
+\includegraphics[width=350pt]{class_runner_aff97cea260ba3a5f87e17e4a740934d7_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -613,7 +1026,7 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a2996d3087d986e2cf841b210462296b3_icgraph}
+\includegraphics[width=350pt]{class_runner_aff97cea260ba3a5f87e17e4a740934d7_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_a056a0393a546065082a821664a40e35e}\label{class_runner_a056a0393a546065082a821664a40e35e} 
@@ -631,8 +1044,7 @@ Draws all the connections between the cities and colors them based on the type o
 {\em The} & player whose screen will have connections drawn on \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -647,11 +1059,11 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{class_runner_a056a0393a546065082a821664a40e35e_icgraph}
 \end{center}
 \end{figure}
-\Hypertarget{class_runner_a3c4e0b26262b401b673d3035e4821fe1}\label{class_runner_a3c4e0b26262b401b673d3035e4821fe1} 
+\Hypertarget{class_runner_a26505fc8d4d45386393f2e3ecae92210}\label{class_runner_a26505fc8d4d45386393f2e3ecae92210} 
 \index{Runner@{Runner}!drawFullCityUnits@{drawFullCityUnits}}
 \index{drawFullCityUnits@{drawFullCityUnits}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{drawFullCityUnits()}{drawFullCityUnits()}}
-{\footnotesize\ttfamily void Runner\+::draw\+Full\+City\+Units (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily void Runner\+::draw\+Full\+City\+Units (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -664,12 +1076,11 @@ If the city has full displayed enable, every unit at the city will be displayed 
 {\em city} & The city whose units will all be shown \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a3c4e0b26262b401b673d3035e4821fe1_cgraph}
+\includegraphics[width=350pt]{class_runner_a26505fc8d4d45386393f2e3ecae92210_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -677,7 +1088,7 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a3c4e0b26262b401b673d3035e4821fe1_icgraph}
+\includegraphics[width=350pt]{class_runner_a26505fc8d4d45386393f2e3ecae92210_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_a614dfd919d1e8e9c34a7a5a9d00c88cf}\label{class_runner_a614dfd919d1e8e9c34a7a5a9d00c88cf} 
@@ -734,8 +1145,7 @@ Draws the players invest cards onto their screen starting at the given x and y a
 {\em scale} & THe scale of the cards to draw \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -750,11 +1160,61 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{class_runner_a8e24f1914ccb107be28aa45760e0353c_icgraph}
 \end{center}
 \end{figure}
-\Hypertarget{class_runner_a4136cf24a9abfc8282ad29125f42e519}\label{class_runner_a4136cf24a9abfc8282ad29125f42e519} 
+\Hypertarget{class_runner_a4847a56140cfdee6dc639550fca5a80a}\label{class_runner_a4847a56140cfdee6dc639550fca5a80a} 
+\index{Runner@{Runner}!drawLine@{drawLine}}
+\index{drawLine@{drawLine}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{drawLine()}{drawLine()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Runner\+::draw\+Line (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city1,  }\item[{const \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Draws a 3-\/pixel wide line between two cities. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The players whose screen will have it drawn \\
+\hline
+{\em city1} & The city where the line starts \\
+\hline
+{\em city2} & The city where the line ends \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_runner_ac54c38b1a35bcbd37adaab4a76fda25c}\label{class_runner_ac54c38b1a35bcbd37adaab4a76fda25c} 
+\index{Runner@{Runner}!drawLine@{drawLine}}
+\index{drawLine@{drawLine}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{drawLine()}{drawLine()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Runner\+::draw\+Line (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const int}]{x1,  }\item[{const int}]{y1,  }\item[{const int}]{x2,  }\item[{const int}]{y2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Draws a 3 pixel wide line between the two points. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The players whose screen will have it drawn \\
+\hline
+{\em x1} & The x-\/coord of the first point \\
+\hline
+{\em y1} & The y-\/coord of the first point \\
+\hline
+{\em x2} & The x-\/coord of the second point \\
+\hline
+{\em y2} & The y-\/coord of the second point \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ac54c38b1a35bcbd37adaab4a76fda25c_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_af261e0be2c37e4486b09606ab3b2c0e8}\label{class_runner_af261e0be2c37e4486b09606ab3b2c0e8} 
 \index{Runner@{Runner}!drawMap@{drawMap}}
 \index{drawMap@{drawMap}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{drawMap()}{drawMap()}}
-{\footnotesize\ttfamily void Runner\+::draw\+Map (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const bool}]{cities,  }\item[{const bool}]{influence,  }\item[{const bool}]{resources,  }\item[{const bool}]{connections,  }\item[{const bool}]{render = {\ttfamily true},  }\item[{const int \&}]{fps = {\ttfamily -\/1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily void Runner\+::draw\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const bool}]{cities,  }\item[{const bool}]{influence,  }\item[{const bool}]{resources,  }\item[{const bool}]{connections,  }\item[{const bool}]{render = {\ttfamily true},  }\item[{const int \&}]{fps = {\ttfamily -\/1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -780,7 +1240,7 @@ Here is the call graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a4136cf24a9abfc8282ad29125f42e519_cgraph}
+\includegraphics[width=350pt]{class_runner_af261e0be2c37e4486b09606ab3b2c0e8_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -788,14 +1248,39 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a4136cf24a9abfc8282ad29125f42e519_icgraph}
+\includegraphics[width=350pt]{class_runner_af261e0be2c37e4486b09606ab3b2c0e8_icgraph}
 \end{center}
 \end{figure}
-\Hypertarget{class_runner_a0f3a9c7f2d0c8fc32b07a88809cbfb5a}\label{class_runner_a0f3a9c7f2d0c8fc32b07a88809cbfb5a} 
+\Hypertarget{class_runner_a907d7cff65d53572390c9d7c71be3d15}\label{class_runner_a907d7cff65d53572390c9d7c71be3d15} 
 \index{Runner@{Runner}!drawMemoResolution@{drawMemoResolution}}
 \index{drawMemoResolution@{drawMemoResolution}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{drawMemoResolution()}{drawMemoResolution()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void Runner\+::draw\+Memo\+Resolution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const vector$<$ std\+::array$<$ size\+\_\+t, 4 $>$ $>$ \&}]{memo }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily void Runner\+::draw\+Memo\+Resolution (\begin{DoxyParamCaption}\item[{const vector$<$ std\+::array$<$ size\+\_\+t, 6 $>$ $>$ \&}]{memo,  }\item[{vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$}]{unblocked }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Takes the memo of the Dijkstra\textquotesingle{}s knock-\/off II for finding trade routes and highlighting the route it takes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em memo} & The completed memo \\
+\hline
+{\em unblocked} & The list of cities who were unblockaded and there path will be shown \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a907d7cff65d53572390c9d7c71be3d15_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ae29069c742b755ac5750a8837e8c46c4}\label{class_runner_ae29069c742b755ac5750a8837e8c46c4} 
+\index{Runner@{Runner}!drawMemoResolution@{drawMemoResolution}}
+\index{drawMemoResolution@{drawMemoResolution}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{drawMemoResolution()}{drawMemoResolution()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Runner\+::draw\+Memo\+Resolution (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const vector$<$ std\+::array$<$ size\+\_\+t, 4 $>$ $>$ \&}]{memo }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -813,40 +1298,7 @@ Here is the call graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a0f3a9c7f2d0c8fc32b07a88809cbfb5a_cgraph}
-\end{center}
-\end{figure}
-\Hypertarget{class_runner_a907d7cff65d53572390c9d7c71be3d15}\label{class_runner_a907d7cff65d53572390c9d7c71be3d15} 
-\index{Runner@{Runner}!drawMemoResolution@{drawMemoResolution}}
-\index{drawMemoResolution@{drawMemoResolution}!Runner@{Runner}}
-\doxysubsubsection{\texorpdfstring{drawMemoResolution()}{drawMemoResolution()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void Runner\+::draw\+Memo\+Resolution (\begin{DoxyParamCaption}\item[{const vector$<$ std\+::array$<$ size\+\_\+t, 6 $>$ $>$ \&}]{memo,  }\item[{vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$}]{unblocked }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Takes the memo of the Dijkstra\textquotesingle{}s knock-\/off II for finding trade routes and highlighting the route it takes. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em memo} & The completed memo \\
-\hline
-{\em unblocked} & The list of cities who were unblockaded and there path will be shown \\
-\hline
-\end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{class_runner_a907d7cff65d53572390c9d7c71be3d15_cgraph}
-\end{center}
-\end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{class_runner_a907d7cff65d53572390c9d7c71be3d15_icgraph}
+\includegraphics[width=350pt]{class_runner_ae29069c742b755ac5750a8837e8c46c4_cgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_a5b2b1d5425a4646d84a507704fa98b74}\label{class_runner_a5b2b1d5425a4646d84a507704fa98b74} 
@@ -905,33 +1357,29 @@ Animation of the cities who were peacful receiving a peace chit.
 {\em ussr} & Bool if the USSR player should be shown receiving a peace chit \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_runner_abf26bf6823772bfe7c5afe5ab67582f5_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_runner_abf26bf6823772bfe7c5afe5ab67582f5_icgraph}
 \end{center}
 \end{figure}
-\Hypertarget{class_runner_a1679bec0ebffeb405fb263af9d92f2f5}\label{class_runner_a1679bec0ebffeb405fb263af9d92f2f5} 
+\Hypertarget{class_runner_a4a6277b02030c94c118baa5cd0965e20}\label{class_runner_a4a6277b02030c94c118baa5cd0965e20} 
 \index{Runner@{Runner}!drawPlayerBoard@{drawPlayerBoard}}
 \index{drawPlayerBoard@{drawPlayerBoard}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{drawPlayerBoard()}{drawPlayerBoard()}}
-{\footnotesize\ttfamily void Runner\+::draw\+Player\+Board (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}}]{renderer,  }\item[{const int}]{bought\+\_\+action = {\ttfamily 0},  }\item[{const int}]{bought\+\_\+invest = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily void Runner\+::draw\+Player\+Board (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const Uint32 \&}]{ticks = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Draws the private view of the player including cards and VP and production levels and acheived tech. 
-
-!! Drawing \doxylink{class_player}{Player} board
 
 
 \begin{DoxyParams}{Parameters}
@@ -945,7 +1393,7 @@ Here is the call graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a1679bec0ebffeb405fb263af9d92f2f5_cgraph}
+\includegraphics[width=350pt]{class_runner_a4a6277b02030c94c118baa5cd0965e20_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -953,7 +1401,61 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a1679bec0ebffeb405fb263af9d92f2f5_icgraph}
+\includegraphics[width=350pt]{class_runner_a4a6277b02030c94c118baa5cd0965e20_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_aedc51d863591c7038e1b326f8797b90e}\label{class_runner_aedc51d863591c7038e1b326f8797b90e} 
+\index{Runner@{Runner}!drawPlayerCards@{drawPlayerCards}}
+\index{drawPlayerCards@{drawPlayerCards}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{drawPlayerCards()}{drawPlayerCards()}}
+{\footnotesize\ttfamily void Runner\+::draw\+Player\+Cards (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Draws the action and invest hands of the player on the left and right side of the screen, respectively. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose hand is being drawn \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_aedc51d863591c7038e1b326f8797b90e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_aedc51d863591c7038e1b326f8797b90e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ae50b3d8e05252c5801f45ff5a1c48fb5}\label{class_runner_ae50b3d8e05252c5801f45ff5a1c48fb5} 
+\index{Runner@{Runner}!drawTurnOrder@{drawTurnOrder}}
+\index{drawTurnOrder@{drawTurnOrder}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{drawTurnOrder()}{drawTurnOrder()}}
+{\footnotesize\ttfamily void Runner\+::draw\+Turn\+Order (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Draw the current turn order of the players and who has passed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose screen will have it drawn \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ae50b3d8e05252c5801f45ff5a1c48fb5_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_a19d3b113b67736ffee2f2fb3674c2e95}\label{class_runner_a19d3b113b67736ffee2f2fb3674c2e95} 
@@ -971,16 +1473,14 @@ Animation for rolling a D6 and form that the turn order that is decided.
 {\em result} & The result of the dice roll \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=335pt]{class_runner_a19d3b113b67736ffee2f2fb3674c2e95_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -990,7 +1490,7 @@ Here is the caller graph for this function\+:
 \Hypertarget{class_runner_a18f5343138ec0a0f147b01f11944fd13}\label{class_runner_a18f5343138ec0a0f147b01f11944fd13} 
 \index{Runner@{Runner}!drawUnit@{drawUnit}}
 \index{drawUnit@{drawUnit}!Runner@{Runner}}
-\doxysubsubsection{\texorpdfstring{drawUnit()}{drawUnit()}}
+\doxysubsubsection{\texorpdfstring{drawUnit()}{drawUnit()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily void Runner\+::draw\+Unit (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const \mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}}]{unit,  }\item[{const int}]{x,  }\item[{const int}]{y,  }\item[{const int}]{zoom,  }\item[{const bool}]{secret = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
@@ -1023,6 +1523,35 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{class_runner_a18f5343138ec0a0f147b01f11944fd13_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{class_runner_af29dc62bedcfa28f9b4c240c0faeb701}\label{class_runner_af29dc62bedcfa28f9b4c240c0faeb701} 
+\index{Runner@{Runner}!drawUnit@{drawUnit}}
+\index{drawUnit@{drawUnit}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{drawUnit()}{drawUnit()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Runner\+::draw\+Unit (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const Unit\+Type}]{unit\+\_\+type,  }\item[{const Unit\+Country}]{nationality,  }\item[{const int}]{x,  }\item[{const int}]{y,  }\item[{const int}]{zoom,  }\item[{const bool}]{invalid = {\ttfamily false},  }\item[{const int}]{scale = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Draws a dummy unit onto the screen (not tied to a specific unit objecy) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose screen will have the unit drawn \\
+\hline
+{\em unit\+\_\+type} & The type of unit that\textquotesingle{}s to be drawn \\
+\hline
+{\em nationality} & The nationality (block color) of the block to be drawn \\
+\hline
+{\em x} & The x-\/coord of the unit to draw \\
+\hline
+{\em y} & The y-\/coord of the unit to draw \\
+\hline
+{\em zoom} & The zoom level of the player\textquotesingle{}s map to determine units level of detail \\
+\hline
+{\em invalid} & If true the unit sprite will be a question mark only showing the nationality (for when not in combat and not the player\textquotesingle{}s allegiance) \\
+\hline
+{\em scale} & The scale of the unit to enlarge when drawn \\
+\hline
+\end{DoxyParams}
 \Hypertarget{class_runner_ae3c41783620e8a41af4f38417ebf2951}\label{class_runner_ae3c41783620e8a41af4f38417ebf2951} 
 \index{Runner@{Runner}!getBattles@{getBattles}}
 \index{getBattles@{getBattles}!Runner@{Runner}}
@@ -1065,6 +1594,44 @@ Here is the caller graph for this function\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_runner_a1d192f0cb68477269f44ec310b335bf1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ab1a03f1f4b2840db26a279a8731769a7}\label{class_runner_ab1a03f1f4b2840db26a279a8731769a7} 
+\index{Runner@{Runner}!getClosestCity@{getClosestCity}}
+\index{getClosestCity@{getClosestCity}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{getClosestCity()}{getClosestCity()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} Runner\+::get\+Closest\+City (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const int}]{x,  }\item[{const int}]{y }\end{DoxyParamCaption}) const}
+
+
+
+Get the city closest to the provided coordinates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose screen is being looked at (since coords can be stretched with zoom) \\
+\hline
+{\em x} & The x-\/coord of the desired point \\
+\hline
+{\em y} & The y-\/coord of the desired point \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+City\texorpdfstring{$\ast$}{*} The city that is closest to the point 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=315pt]{class_runner_ab1a03f1f4b2840db26a279a8731769a7_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ab1a03f1f4b2840db26a279a8731769a7_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_adda4105efb5d6f7d92602d9bd5074edf}\label{class_runner_adda4105efb5d6f7d92602d9bd5074edf} 
@@ -1116,19 +1683,18 @@ Checks the players hand to see if it is over the card limit, and to discard down
 {\em player} & The player whose hand will be checked \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_runner_a22b0ff9811693c494fdadd997970819b_icgraph}
 \end{center}
 \end{figure}
-\Hypertarget{class_runner_adcd6dddf89143047d2ecf91911cc83bf}\label{class_runner_adcd6dddf89143047d2ecf91911cc83bf} 
+\Hypertarget{class_runner_a5be931330660b2980ff77a53b25c9391}\label{class_runner_a5be931330660b2980ff77a53b25c9391} 
 \index{Runner@{Runner}!handleButtonDown@{handleButtonDown}}
 \index{handleButtonDown@{handleButtonDown}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{handleButtonDown()}{handleButtonDown()}}
-{\footnotesize\ttfamily void Runner\+::handle\+Button\+Down (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const SDL\+\_\+\+Event \&}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily void Runner\+::handle\+Button\+Down (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const SDL\+\_\+\+Event \&}]{event,  }\item[{const Uint32 \&}]{ticks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -1146,7 +1712,7 @@ Here is the call graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_adcd6dddf89143047d2ecf91911cc83bf_cgraph}
+\includegraphics[width=350pt]{class_runner_a5be931330660b2980ff77a53b25c9391_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -1154,18 +1720,113 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_adcd6dddf89143047d2ecf91911cc83bf_icgraph}
+\includegraphics[width=350pt]{class_runner_a5be931330660b2980ff77a53b25c9391_icgraph}
 \end{center}
 \end{figure}
-\Hypertarget{class_runner_ad6258b83739b4b6a526b80894c3fe5b7}\label{class_runner_ad6258b83739b4b6a526b80894c3fe5b7} 
-\index{Runner@{Runner}!handleJoyStickMovement@{handleJoyStickMovement}}
-\index{handleJoyStickMovement@{handleJoyStickMovement}!Runner@{Runner}}
-\doxysubsubsection{\texorpdfstring{handleJoyStickMovement()}{handleJoyStickMovement()}}
-{\footnotesize\ttfamily void Runner\+::handle\+Joy\+Stick\+Movement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+\Hypertarget{class_runner_a92adf5dcc89aa38706e83bbc96a834de}\label{class_runner_a92adf5dcc89aa38706e83bbc96a834de} 
+\index{Runner@{Runner}!handleButtonUp@{handleButtonUp}}
+\index{handleButtonUp@{handleButtonUp}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{handleButtonUp()}{handleButtonUp()}}
+{\footnotesize\ttfamily void Runner\+::handle\+Button\+Up (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const SDL\+\_\+\+Event \&}]{event,  }\item[{const Uint32 \&}]{ticks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Handels the players controller joystick movement the dictates cursor movement and is called only every frame to make game smoother. 
+Handels the cases where the player lets up on a button (mostly for times events) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player who commenced the event \\
+\hline
+{\em event} & The button up event by the player \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a92adf5dcc89aa38706e83bbc96a834de_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a92adf5dcc89aa38706e83bbc96a834de_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ae03b59908b5d1921c8cd506afe610cc4}\label{class_runner_ae03b59908b5d1921c8cd506afe610cc4} 
+\index{Runner@{Runner}!handleCardBuying@{handleCardBuying}}
+\index{handleCardBuying@{handleCardBuying}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{handleCardBuying()}{handleCardBuying()}}
+{\footnotesize\ttfamily void Runner\+::handle\+Card\+Buying (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})}
+
+
+
+Handler for checking if the player can buy the preselected card when prompted by user input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player who prompted card buying \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ae03b59908b5d1921c8cd506afe610cc4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ae03b59908b5d1921c8cd506afe610cc4_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a9c76c59c5bedfea1d6c182f426b7167e}\label{class_runner_a9c76c59c5bedfea1d6c182f426b7167e} 
+\index{Runner@{Runner}!handleCardPlaying@{handleCardPlaying}}
+\index{handleCardPlaying@{handleCardPlaying}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{handleCardPlaying()}{handleCardPlaying()}}
+{\footnotesize\ttfamily void Runner\+::handle\+Card\+Playing (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})}
+
+
+
+Handler for playing card during the {\ttfamily Government} phase. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player who is playing a card \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a9c76c59c5bedfea1d6c182f426b7167e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a9c76c59c5bedfea1d6c182f426b7167e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ab6de20c05424b276db69c4387aa6e594}\label{class_runner_ab6de20c05424b276db69c4387aa6e594} 
+\index{Runner@{Runner}!handleCursorMovement@{handleCursorMovement}}
+\index{handleCursorMovement@{handleCursorMovement}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{handleCursorMovement()}{handleCursorMovement()}}
+{\footnotesize\ttfamily void Runner\+::handle\+Cursor\+Movement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Handels the players controller joystick movement the dictates cursor movement and is called only every frame to make the movement smoother. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -1177,7 +1838,7 @@ Here is the call graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_ad6258b83739b4b6a526b80894c3fe5b7_cgraph}
+\includegraphics[width=350pt]{class_runner_ab6de20c05424b276db69c4387aa6e594_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -1185,7 +1846,104 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_ad6258b83739b4b6a526b80894c3fe5b7_icgraph}
+\includegraphics[width=350pt]{class_runner_ab6de20c05424b276db69c4387aa6e594_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a8935f71c3eca6bab9a22d138bba92d0b}\label{class_runner_a8935f71c3eca6bab9a22d138bba92d0b} 
+\index{Runner@{Runner}!handleHeldButtons@{handleHeldButtons}}
+\index{handleHeldButtons@{handleHeldButtons}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{handleHeldButtons()}{handleHeldButtons()}}
+{\footnotesize\ttfamily void Runner\+::handle\+Held\+Buttons (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const Uint32 \&}]{ticks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Handler for inputs that rely on buttons being held for a set time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose buttons will be read \\
+\hline
+{\em ticks} & The current time of the program used to gauge the delta time \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a8935f71c3eca6bab9a22d138bba92d0b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a8935f71c3eca6bab9a22d138bba92d0b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ad6ab8572dd6f9655711a4dbe79c4102c}\label{class_runner_ad6ab8572dd6f9655711a4dbe79c4102c} 
+\index{Runner@{Runner}!handleJoystickMovement@{handleJoystickMovement}}
+\index{handleJoystickMovement@{handleJoystickMovement}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{handleJoystickMovement()}{handleJoystickMovement()}}
+{\footnotesize\ttfamily void Runner\+::handle\+Joystick\+Movement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Handler for the right joystick (used to select things) thats taken every frame. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose controller will be read \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ad6ab8572dd6f9655711a4dbe79c4102c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ad6ab8572dd6f9655711a4dbe79c4102c_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ace0b3b0d68dd7760753d18db5a2c24a3}\label{class_runner_ace0b3b0d68dd7760753d18db5a2c24a3} 
+\index{Runner@{Runner}!handleTimedJoystick@{handleTimedJoystick}}
+\index{handleTimedJoystick@{handleTimedJoystick}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{handleTimedJoystick()}{handleTimedJoystick()}}
+{\footnotesize\ttfamily void Runner\+::handle\+Timed\+Joystick (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const Uint32 \&}]{ticks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Handler for the right joystick (used to select things) thats taken in set times. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose controller is being read \\
+\hline
+{\em ticks} & The current time of the program used to gauge the delta time \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ace0b3b0d68dd7760753d18db5a2c24a3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ace0b3b0d68dd7760753d18db5a2c24a3_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_a4fdc26d720545c6fc684be2f09e491d2}\label{class_runner_a4fdc26d720545c6fc684be2f09e491d2} 
@@ -1211,11 +1969,75 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{class_runner_a4fdc26d720545c6fc684be2f09e491d2_icgraph}
 \end{center}
 \end{figure}
-\Hypertarget{class_runner_ad79b06566acb1f70735dea8fa14aeaef}\label{class_runner_ad79b06566acb1f70735dea8fa14aeaef} 
+\Hypertarget{class_runner_a5ab6ff038189e6558854e3cfd5278c2f}\label{class_runner_a5ab6ff038189e6558854e3cfd5278c2f} 
+\index{Runner@{Runner}!handleUnitBuilding@{handleUnitBuilding}}
+\index{handleUnitBuilding@{handleUnitBuilding}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{handleUnitBuilding()}{handleUnitBuilding()}}
+{\footnotesize\ttfamily void Runner\+::handle\+Unit\+Building (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})}
+
+
+
+Handler for both adding new cadres and upgrading exisiting units when prompt on user input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player who initiated the building check \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a5ab6ff038189e6558854e3cfd5278c2f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a5ab6ff038189e6558854e3cfd5278c2f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_ae2f9ce2a5344415b82024978df6c9b82}\label{class_runner_ae2f9ce2a5344415b82024978df6c9b82} 
+\index{Runner@{Runner}!handleUserAnimationInput@{handleUserAnimationInput}}
+\index{handleUserAnimationInput@{handleUserAnimationInput}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{handleUserAnimationInput()}{handleUserAnimationInput()}}
+{\footnotesize\ttfamily void Runner\+::handle\+User\+Animation\+Input (\begin{DoxyParamCaption}\item[{bool \&}]{running,  }\item[{const Uint32 \&}]{ticks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Handler for when an animation is happening and user input is limited. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em running} & Condition if the current loop should continue running \\
+\hline
+{\em ticks} & The current time the frame is being drawn \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ae2f9ce2a5344415b82024978df6c9b82_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_ae2f9ce2a5344415b82024978df6c9b82_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a0d55a7821772b8c96d7186250aba9160}\label{class_runner_a0d55a7821772b8c96d7186250aba9160} 
 \index{Runner@{Runner}!handleUserInput@{handleUserInput}}
 \index{handleUserInput@{handleUserInput}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{handleUserInput()}{handleUserInput()}}
-{\footnotesize\ttfamily void Runner\+::handle\+User\+Input (\begin{DoxyParamCaption}\item[{bool \&}]{running }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily void Runner\+::handle\+User\+Input (\begin{DoxyParamCaption}\item[{bool \&}]{running,  }\item[{const Uint32 \&}]{ticks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -1231,7 +2053,7 @@ Here is the call graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_ad79b06566acb1f70735dea8fa14aeaef_cgraph}
+\includegraphics[width=350pt]{class_runner_a0d55a7821772b8c96d7186250aba9160_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -1239,7 +2061,32 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_ad79b06566acb1f70735dea8fa14aeaef_icgraph}
+\includegraphics[width=350pt]{class_runner_a0d55a7821772b8c96d7186250aba9160_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a7f7fac7fb8d03cfe75b23777cb3fbb60}\label{class_runner_a7f7fac7fb8d03cfe75b23777cb3fbb60} 
+\index{Runner@{Runner}!handleWidgetMovement@{handleWidgetMovement}}
+\index{handleWidgetMovement@{handleWidgetMovement}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{handleWidgetMovement()}{handleWidgetMovement()}}
+{\footnotesize\ttfamily void Runner\+::handle\+Widget\+Movement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player,  }\item[{const Uint32 \&}]{ticks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Handles inputs from moving between widgets (action hand, map, invest hand, ect) and is taken in set times to make movement managable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose buttons will be reaed \\
+\hline
+{\em ticks} & The current time of the program used to gauge the delta time \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a7f7fac7fb8d03cfe75b23777cb3fbb60_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_aa42441a87161bb486218ef29fd6bebfe}\label{class_runner_aa42441a87161bb486218ef29fd6bebfe} 
@@ -1272,6 +2119,14 @@ true The click is in the button
 
 false The click is not in the button 
 \end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_aa42441a87161bb486218ef29fd6bebfe_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_runner_a748b05df92aa9d64bc6288845f51566d}\label{class_runner_a748b05df92aa9d64bc6288845f51566d} 
 \index{Runner@{Runner}!InitApplication@{InitApplication}}
 \index{InitApplication@{InitApplication}!Runner@{Runner}}
@@ -1287,16 +2142,14 @@ true Initalized succesfully
 
 false Failexcd to initalize 
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_runner_a748b05df92aa9d64bc6288845f51566d_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1326,8 +2179,7 @@ Here is the call graph for this function\+:
 \includegraphics[width=350pt]{class_runner_a8bb31608fccb517fabf91990efa54f80_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1354,15 +2206,14 @@ Here is the call graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=292pt]{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22_cgraph}
+\includegraphics[width=350pt]{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22_icgraph}
+\includegraphics[width=300pt]{class_runner_aefd29fbf6627aaf0c89c46b2fe55ea22_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_a8b714ecc76891bd5e84cff941c86e511}\label{class_runner_a8b714ecc76891bd5e84cff941c86e511} 
@@ -1380,8 +2231,7 @@ true Initalized succesfully
 
 false Failexcd to initalize 
 \end{DoxyReturn}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1412,12 +2262,11 @@ true The city is suplliable
 
 false The city is not suplliable 
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_runner_a1339ccfbb7f33637f68ab258df440b6e_cgraph}
+\includegraphics[width=312pt]{class_runner_a1339ccfbb7f33637f68ab258df440b6e_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -1425,7 +2274,7 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=318pt]{class_runner_a1339ccfbb7f33637f68ab258df440b6e_icgraph}
+\includegraphics[width=350pt]{class_runner_a1339ccfbb7f33637f68ab258df440b6e_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_addda43dfc74c96188a27f35844925760}\label{class_runner_addda43dfc74c96188a27f35844925760} 
@@ -1443,6 +2292,36 @@ Executes a land battle at the given city for one combat round.
 {\em battlefield} & The city with the battle taken place \\
 \hline
 \end{DoxyParams}
+\Hypertarget{class_runner_a8f42e5cada9553dfeea41d8308d440f8}\label{class_runner_a8f42e5cada9553dfeea41d8308d440f8} 
+\index{Runner@{Runner}!loopVal@{loopVal}}
+\index{loopVal@{loopVal}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{loopVal()}{loopVal()}}
+{\footnotesize\ttfamily int Runner\+::loop\+Val (\begin{DoxyParamCaption}\item[{const int}]{val,  }\item[{const int}]{min\+\_\+val,  }\item[{const int}]{max\+\_\+val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Helper for loops where if the provided val will under/over flow into the min and max provided. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & The value provided that will loop \\
+\hline
+{\em min\+\_\+val} & The lower limit of the range \\
+\hline
+{\em max\+\_\+val} & The upper limit of the range \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The (if needed looped) resulting value 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a8f42e5cada9553dfeea41d8308d440f8_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_runner_a7da49e43690943e7040d405588d0b793}\label{class_runner_a7da49e43690943e7040d405588d0b793} 
 \index{Runner@{Runner}!mapPlayer@{mapPlayer}}
 \index{mapPlayer@{mapPlayer}!Runner@{Runner}}
@@ -1470,12 +2349,42 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=296pt]{class_runner_a7da49e43690943e7040d405588d0b793_cgraph}
 \end{center}
 \end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=301pt]{class_runner_a7da49e43690943e7040d405588d0b793_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a71317c58f874e8521506eb67fb7cfbb0}\label{class_runner_a71317c58f874e8521506eb67fb7cfbb0} 
+\index{Runner@{Runner}!mapPlayerResPop@{mapPlayerResPop}}
+\index{mapPlayerResPop@{mapPlayerResPop}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{mapPlayerResPop()}{mapPlayerResPop()}}
+{\footnotesize\ttfamily void Runner\+::map\+Player\+Res\+Pop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})}
+
+
+
+Goes through each city and country the player owns and set the RES and POP of the player. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose RES and POP are being set \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{class_runner_a71317c58f874e8521506eb67fb7cfbb0_cgraph}
+\end{center}
+\end{figure}
 Here is the caller graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=301pt]{class_runner_a7da49e43690943e7040d405588d0b793_icgraph}
+\includegraphics[width=350pt]{class_runner_a71317c58f874e8521506eb67fb7cfbb0_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28}\label{class_runner_abdfbb9ff4d3924b378cd13c3a2a58c28} 
@@ -1542,8 +2451,7 @@ Here is the call graph for this function\+:
 \includegraphics[width=350pt]{class_runner_a4f34c8edcfdc20e2227eb35465f619f2_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1570,8 +2478,7 @@ true The movement is acceptable
 
 false The movement is unacceptable (in the dead zone) 
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1584,6 +2491,29 @@ Here is the caller graph for this function\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_runner_af0d0353424d3bfe4fef0f121a342df14_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_runner_a732eea976cd72ecc403792c4e09f0df7}\label{class_runner_a732eea976cd72ecc403792c4e09f0df7} 
+\index{Runner@{Runner}!printMemo@{printMemo}}
+\index{printMemo@{printMemo}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{printMemo()}{printMemo()}}
+{\footnotesize\ttfamily void Runner\+::print\+Memo (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{memo\mbox{[}$\,$\mbox{]}\mbox{[}5\mbox{]} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Print out the memo of the trade route algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em memo} & The completed memo of Dijkras algorithm \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_runner_a732eea976cd72ecc403792c4e09f0df7_cgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_ad62bb8027061f8fbd5eced9182ff8db1}\label{class_runner_ad62bb8027061f8fbd5eced9182ff8db1} 
@@ -1615,39 +2545,6 @@ Here is the caller graph for this function\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_runner_ad62bb8027061f8fbd5eced9182ff8db1_icgraph}
-\end{center}
-\end{figure}
-\Hypertarget{class_runner_abe7acd5992a451b154e957e7cbb4f360}\label{class_runner_abe7acd5992a451b154e957e7cbb4f360} 
-\index{Runner@{Runner}!reshuffleAnimation@{reshuffleAnimation}}
-\index{reshuffleAnimation@{reshuffleAnimation}!Runner@{Runner}}
-\doxysubsubsection{\texorpdfstring{reshuffleAnimation()}{reshuffleAnimation()}}
-{\footnotesize\ttfamily void Runner\+::reshuffle\+Animation (\begin{DoxyParamCaption}\item[{const size\+\_\+t \&}]{action\+\_\+size,  }\item[{const size\+\_\+t \&}]{invest\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Animation of the cards from the discard pile being added back. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em action\+\_\+size} & Number of action cards to add back \\
-\hline
-{\em invest\+\_\+size} & Number of invest cards to add back \\
-\hline
-\end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{class_runner_abe7acd5992a451b154e957e7cbb4f360_cgraph}
-\end{center}
-\end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{class_runner_abe7acd5992a451b154e957e7cbb4f360_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_runner_a5fc406cae4aee55ee32026295464b0e1}\label{class_runner_a5fc406cae4aee55ee32026295464b0e1} 
@@ -1719,6 +2616,42 @@ true if the combat round needs to repeat
 
 false if the battle fininshed 
 \end{DoxyReturn}
+\Hypertarget{class_runner_a35d63bdf4fa75ff4f789de2a5b452081}\label{class_runner_a35d63bdf4fa75ff4f789de2a5b452081} 
+\index{Runner@{Runner}!setBuildable@{setBuildable}}
+\index{setBuildable@{setBuildable}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{setBuildable()}{setBuildable()}}
+{\footnotesize\ttfamily bool Runner\+::set\+Buildable (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption})}
+
+
+
+Sets the array of booleans showing which units are buildable at the selected city. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose selected city will be looking at \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true At least one unit is buildable 
+
+false No units are buildable at the selected city 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a35d63bdf4fa75ff4f789de2a5b452081_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_runner_a35d63bdf4fa75ff4f789de2a5b452081_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_runner_a88cac6fe65fc3f82e918cf5ae751a0f0}\label{class_runner_a88cac6fe65fc3f82e918cf5ae751a0f0} 
 \index{Runner@{Runner}!setXY@{setXY}}
 \index{setXY@{setXY}!Runner@{Runner}}
@@ -1734,18 +2667,30 @@ Dev tool for setup when deciding the X and Y of the city, it\textquotesingle{}ll
 {\em path} & \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=304pt]{class_runner_a88cac6fe65fc3f82e918cf5ae751a0f0_cgraph}
 \end{center}
 \end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{class_runner_a88cac6fe65fc3f82e918cf5ae751a0f0_icgraph}
+\end{center}
+\end{figure}
 
 
 \doxysubsection{Member Data Documentation}
-\Hypertarget{class_runner_af6adae0624ae3bf64c4f50ec518240e2}\label{class_runner_af6adae0624ae3bf64c4f50ec518240e2} 
+\Hypertarget{class_runner_a8e53c8b12d6d71c77ac73d3a79e9eb26}\label{class_runner_a8e53c8b12d6d71c77ac73d3a79e9eb26} 
+\index{Runner@{Runner}!action\_bought@{action\_bought}}
+\index{action\_bought@{action\_bought}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{action\_bought}{action\_bought}}
+{\footnotesize\ttfamily int Runner\+::action\+\_\+bought = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+Number of actions card that have been purchaced by players for the production round \Hypertarget{class_runner_af6adae0624ae3bf64c4f50ec518240e2}\label{class_runner_af6adae0624ae3bf64c4f50ec518240e2} 
 \index{Runner@{Runner}!action\_deck@{action\_deck}}
 \index{action\_deck@{action\_deck}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{action\_deck}{action\_deck}}
@@ -1799,7 +2744,13 @@ Year the game will end (usually 1945) \Hypertarget{class_runner_ab8856030fdc77f8
 \doxysubsubsection{\texorpdfstring{g}{g}}
 {\footnotesize\ttfamily std\+::mt19937 Runner\+::g\hspace{0.3cm}{\ttfamily [private]}}
 
-The random generator for shuffling \Hypertarget{class_runner_a924d837279af06a4b98166919a2595f3}\label{class_runner_a924d837279af06a4b98166919a2595f3} 
+The random generator for shuffling \Hypertarget{class_runner_adbbe7d6ff2ddb86fe34823500c886ba3}\label{class_runner_adbbe7d6ff2ddb86fe34823500c886ba3} 
+\index{Runner@{Runner}!invest\_bought@{invest\_bought}}
+\index{invest\_bought@{invest\_bought}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{invest\_bought}{invest\_bought}}
+{\footnotesize\ttfamily int Runner\+::invest\+\_\+bought = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+Number of investment card that have been purchaced by players for the production round \Hypertarget{class_runner_a924d837279af06a4b98166919a2595f3}\label{class_runner_a924d837279af06a4b98166919a2595f3} 
 \index{Runner@{Runner}!invest\_deck@{invest\_deck}}
 \index{invest\_deck@{invest\_deck}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{invest\_deck}{invest\_deck}}
@@ -1829,7 +2780,13 @@ Holds each playe object with allegiance as index 0\+: West 1\+: Axis 2\+: USSR \
 \doxysubsubsection{\texorpdfstring{map\_changed}{map\_changed}}
 {\footnotesize\ttfamily bool Runner\+::map\+\_\+changed =true\hspace{0.3cm}{\ttfamily [private]}}
 
-Boolean that is true when an update has happened on the main screen and the main screen needs to be re-\/rendered \Hypertarget{class_runner_abcd16a7f36951d76deddf361fc312500}\label{class_runner_abcd16a7f36951d76deddf361fc312500} 
+Boolean that is true when an update has happened on the main screen and the main screen needs to be re-\/rendered \Hypertarget{class_runner_af9fa9a7c8173652cfeb5adc879f39a44}\label{class_runner_af9fa9a7c8173652cfeb5adc879f39a44} 
+\index{Runner@{Runner}!map\_sprite@{map\_sprite}}
+\index{map\_sprite@{map\_sprite}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{map\_sprite}{map\_sprite}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_spritesheet}{Spritesheet}} Runner\+::map\+\_\+sprite\hspace{0.3cm}{\ttfamily [private]}}
+
+A png of the game map \Hypertarget{class_runner_abcd16a7f36951d76deddf361fc312500}\label{class_runner_abcd16a7f36951d76deddf361fc312500} 
 \index{Runner@{Runner}!num\_players@{num\_players}}
 \index{num\_players@{num\_players}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{num\_players}{num\_players}}
@@ -1847,13 +2804,25 @@ Holds all the unpulled peace dividends \Hypertarget{class_runner_a2ff31aa62bfbcc
 \doxysubsubsection{\texorpdfstring{powers\_app}{powers\_app}}
 {\footnotesize\ttfamily \mbox{\hyperlink{struct_app}{App}} Runner\+::powers\+\_\+app\mbox{[}3\mbox{]}\hspace{0.3cm}{\ttfamily [private]}}
 
-The app (window, rendered, ect) of each player and their board \Hypertarget{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}\label{class_runner_a94ae2f1ad84160a9b75c46168154c1f5} 
+The app (window, rendered, ect) of each player and their board \Hypertarget{class_runner_a524338927dd5452a46ab0a1cf78f1d88}\label{class_runner_a524338927dd5452a46ab0a1cf78f1d88} 
+\index{Runner@{Runner}!powers\_controller\_button\_sprite@{powers\_controller\_button\_sprite}}
+\index{powers\_controller\_button\_sprite@{powers\_controller\_button\_sprite}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{powers\_controller\_button\_sprite}{powers\_controller\_button\_sprite}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_spritesheet}{Spritesheet}} Runner\+::powers\+\_\+controller\+\_\+button\+\_\+sprite\mbox{[}3\mbox{]}\hspace{0.3cm}{\ttfamily [private]}}
+
+An array of the spritesheets initaliazed to the powers renderer that has the button input animations \Hypertarget{class_runner_a94ae2f1ad84160a9b75c46168154c1f5}\label{class_runner_a94ae2f1ad84160a9b75c46168154c1f5} 
 \index{Runner@{Runner}!powers\_map\_sprite@{powers\_map\_sprite}}
 \index{powers\_map\_sprite@{powers\_map\_sprite}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{powers\_map\_sprite}{powers\_map\_sprite}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_spritesheet}{Spritesheet}} Runner\+::powers\+\_\+map\+\_\+sprite\mbox{[}3\mbox{]}\hspace{0.3cm}{\ttfamily [private]}}
 
-An array of the spritesheets initaliazed to the powers renderer that has the map \Hypertarget{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}\label{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad} 
+An array of the spritesheets initaliazed to the powers renderer that has the map \Hypertarget{class_runner_a4c2ee6c7734cb202cc492e55689d4024}\label{class_runner_a4c2ee6c7734cb202cc492e55689d4024} 
+\index{Runner@{Runner}!powers\_message\_animations@{powers\_message\_animations}}
+\index{powers\_message\_animations@{powers\_message\_animations}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{powers\_message\_animations}{powers\_message\_animations}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_spritesheet}{Spritesheet}} Runner\+::powers\+\_\+message\+\_\+animations\mbox{[}3\mbox{]}\hspace{0.3cm}{\ttfamily [private]}}
+
+An array of the spritesheets initaliazed to the powers renderer that has the public messages animations \Hypertarget{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad}\label{class_runner_a80521361e9ee5d4fc4b58f3849fb6aad} 
 \index{Runner@{Runner}!powers\_sprite\_map@{powers\_sprite\_map}}
 \index{powers\_sprite\_map@{powers\_sprite\_map}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{powers\_sprite\_map}{powers\_sprite\_map}}
@@ -1871,7 +2840,13 @@ An array of the spritesheets initaliazed to the powers renderer that has the uni
 \doxysubsubsection{\texorpdfstring{powers\_units\_sprite\_z3}{powers\_units\_sprite\_z3}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_spritesheet}{Spritesheet}} Runner\+::powers\+\_\+units\+\_\+sprite\+\_\+z3\mbox{[}3\mbox{]}\hspace{0.3cm}{\ttfamily [private]}}
 
-An array of the spritesheets initaliazed to the powers renderer that has the units at the third zoom level \Hypertarget{class_runner_aee2225c0ffc474b6fdcec6dd1320b649}\label{class_runner_aee2225c0ffc474b6fdcec6dd1320b649} 
+An array of the spritesheets initaliazed to the powers renderer that has the units at the third zoom level \Hypertarget{class_runner_aad130d7b70524c31af412198e6c3d709}\label{class_runner_aad130d7b70524c31af412198e6c3d709} 
+\index{Runner@{Runner}!public\_messages@{public\_messages}}
+\index{public\_messages@{public\_messages}!Runner@{Runner}}
+\doxysubsubsection{\texorpdfstring{public\_messages}{public\_messages}}
+{\footnotesize\ttfamily vector$<$\mbox{\hyperlink{struct_public_message}{Public\+Message}}$>$ Runner\+::public\+\_\+messages\hspace{0.3cm}{\ttfamily [private]}}
+
+Vector of all current public messages that are being animated \Hypertarget{class_runner_aee2225c0ffc474b6fdcec6dd1320b649}\label{class_runner_aee2225c0ffc474b6fdcec6dd1320b649} 
 \index{Runner@{Runner}!season@{season}}
 \index{season@{season}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{season}{season}}
@@ -1881,7 +2856,7 @@ The current season being playes \Hypertarget{class_runner_a6c66593b3a3f87e1717ed
 \index{Runner@{Runner}!seed@{seed}}
 \index{seed@{seed}!Runner@{Runner}}
 \doxysubsubsection{\texorpdfstring{seed}{seed}}
-{\footnotesize\ttfamily const unsigned int Runner\+::seed = 100\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily const unsigned int Runner\+::seed = 872706816\hspace{0.3cm}{\ttfamily [private]}}
 
 The set (or time set seed) for all randomness \Hypertarget{class_runner_a2dd6bcf13543274e97db147f0c2d70d0}\label{class_runner_a2dd6bcf13543274e97db147f0c2d70d0} 
 \index{Runner@{Runner}!sprite\_map@{sprite\_map}}

@@ -1,0 +1,13 @@
+<map id="Runner::handleTimedJoystick" name="Runner::handleTimedJoystick">
+<area shape="rect" id="Node000001" title="Handler for the right joystick (used to select things) thats taken in set times." alt="" coords="5,80,200,106"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a9ed1e789af15eb96bff51d9a0f85a1fe" title="Gets the capital of that country." alt="" coords="269,5,383,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,77,247,40,265,34,267,39,249,45,142,82"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a208489f463ca73dc87510323894ca88d" title="Gets the country of that name." alt="" coords="267,55,385,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,79,251,73,251,79,200,84"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a8f42e5cada9553dfeea41d8308d440f8" title="Helper for loops where if the provided val will under/over flow into the min and max provided." alt="" coords="269,104,383,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="200,101,254,106,253,112,200,106"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#af0d0353424d3bfe4fef0f121a342df14" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="248,153,404,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="143,104,249,140,267,146,265,151,247,145,141,109"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#abdfbb9ff4d3924b378cd13c3a2a58c28" title="Checks what type of movement is allowed and if the player is allowed to move there." alt="" coords="452,153,555,179"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="405,164,436,164,436,169,405,169"/>
+</map>

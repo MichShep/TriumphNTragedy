@@ -24,12 +24,14 @@ Collaboration diagram for City\+:
 \item 
 \Hypertarget{struct_city_a2dd19110d7770d9a1aec9b9647d16657}\label{struct_city_a2dd19110d7770d9a1aec9b9647d16657} 
 void {\bfseries free\+Memory} ()
-\item 
-\mbox{\hyperlink{struct_city_a1b50025c03825ed7a6b9e02e0afabd8e}{City}} (const size\+\_\+t \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}=0, const string \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}="{}City"{}, const City\+Type \mbox{\hyperlink{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}{city\+\_\+type}}=WATER, const Power\+Type \mbox{\hyperlink{struct_city_a84b605a2710a013856c6a0af9cbe3a7c}{power\+\_\+type}}=NONE, const Population\+Type \mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\+\_\+type}}=EMPTY, const Unit\+Country \mbox{\hyperlink{struct_city_a4ebc8212be22bb1e86babee2c3ed2f12}{nationality}}=NEUTRAL\+\_\+U, const size\+\_\+t \mbox{\hyperlink{struct_city_a61a59baa83654c8b782f3240c94dacd2}{population}}=0, const size\+\_\+t \mbox{\hyperlink{struct_city_ad17d6f4d9a637914000b3f49d322b6db}{muster}}=0, const size\+\_\+t \mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}}=0, const Resource\+Type resource\+\_\+type=NORMAL)
+\begin{DoxyCompactList}\small\item\em Free the memory of the city by deleting the units. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_city_a1b50025c03825ed7a6b9e02e0afabd8e}{City}} (const size\+\_\+t \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}=0, const string \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}="{}City"{}, const City\+Type \mbox{\hyperlink{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}{city\+\_\+type}}=WATER, const Power\+Type \mbox{\hyperlink{struct_city_a84b605a2710a013856c6a0af9cbe3a7c}{power\+\_\+type}}=NONE, const Population\+Type \mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\+\_\+type}}=EMPTY, const Unit\+Country nationality=NEUTRAL\+\_\+U, const size\+\_\+t \mbox{\hyperlink{struct_city_a61a59baa83654c8b782f3240c94dacd2}{population}}=0, const size\+\_\+t \mbox{\hyperlink{struct_city_ad17d6f4d9a637914000b3f49d322b6db}{muster}}=0, const size\+\_\+t \mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}}=0, const Resource\+Type resource\+\_\+type=NORMAL)
 \begin{DoxyCompactList}\small\item\em Construct a new \doxylink{struct_city}{City} object. \end{DoxyCompactList}\item 
 \Hypertarget{struct_city_a577b0a4ba6c81902aaa7cd91cc9204d0}\label{struct_city_a577b0a4ba6c81902aaa7cd91cc9204d0} 
 {\bfseries City} (const int height, const int width, const int \mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}, const int \mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}, const size\+\_\+t \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}=0, const string \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}="{}City"{})
 \item 
+void \mbox{\hyperlink{struct_city_a59a6f029f639ed93ef09effd2685d370}{set\+Ruler}} (const Unit\+Country new\+\_\+ruler)
+\begin{DoxyCompactList}\small\item\em Set the ruler of the city to the new ruler and update the allegiance. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{struct_city_ad92576a7777d79bff78d720b0ef46dc5}{is\+Conflict}} ()
 \begin{DoxyCompactList}\small\item\em If there currently a battle going on (more than one allegiance of troops) \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{struct_city_aa9235f7d0d59ee89b966b438c2958080}{is\+Enemy}} (City\+Type allegiance)
@@ -42,30 +44,15 @@ void \mbox{\hyperlink{struct_city_a792bdc0db42861f30ba41515746cf867}{remove\+Uni
 \begin{DoxyCompactList}\small\item\em Removes a unit form this city. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{struct_city_a3994937bd3bc9594597271aec1658ae9}{add\+Unit}} (\mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}unit)
 \begin{DoxyCompactList}\small\item\em Adds a unit to this city. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_city_a8f2f82f3b6f2d3ae9d0e92639b2d1616}{loop\+Val}} (const int val, const int min\+\_\+val, const int max\+\_\+val)
+\begin{DoxyCompactList}\small\item\em Helper for loops where if the provided val will under/over flow into the min and max provided. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{struct_city_a4843313c0238390843ae5760ec5b6561}{get\+Name}} () const
+\begin{DoxyCompactList}\small\item\em Get the name of the city. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{struct_city_a793fdabc488d08e2301094cb4e5a35f8}{get\+ID}} () const
+\begin{DoxyCompactList}\small\item\em Get the ID of the city. \end{DoxyCompactList}\item 
 \Hypertarget{struct_city_a0a7a7144ecd1691203b92ffea4c6926c}\label{struct_city_a0a7a7144ecd1691203b92ffea4c6926c} 
 void {\bfseries print\+Occupants} () const
-\item 
-\Hypertarget{struct_city_a43f7b92af330fe0b3cb8f4801aec73f5}\label{struct_city_a43f7b92af330fe0b3cb8f4801aec73f5} 
-City\+Type \& {\bfseries get\+First} (int \&curr, City\+Type \&allegiance\+\_\+viewing, \mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}selected\+\_\+unit)
-\item 
-\Hypertarget{struct_city_aadd5dbd2208408b5adaca2b86584a248}\label{struct_city_aadd5dbd2208408b5adaca2b86584a248} 
-City\+Type \& {\bfseries get\+Last} (int \&curr, City\+Type \&allegiance\+\_\+viewing, \mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}selected\+\_\+unit)
-\item 
-\Hypertarget{struct_city_a4a921d3099e52f1b4e74754c93083178}\label{struct_city_a4a921d3099e52f1b4e74754c93083178} 
-void {\bfseries get\+Next} (int \&curr, City\+Type \&allegiance\+\_\+viewing, \mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}selected\+\_\+unit)
-\item 
-\Hypertarget{struct_city_a228edb449d200f94c8c657dddf3bad4a}\label{struct_city_a228edb449d200f94c8c657dddf3bad4a} 
-void {\bfseries get\+Prev} (int \&curr, City\+Type \&allegiance\+\_\+viewing, \mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}selected\+\_\+unit)
-\item 
-\Hypertarget{struct_city_a8f2f82f3b6f2d3ae9d0e92639b2d1616}\label{struct_city_a8f2f82f3b6f2d3ae9d0e92639b2d1616} 
-int {\bfseries loop\+Val} (const int val, const int min\+\_\+val, const int max\+\_\+val)
-\item 
-\Hypertarget{struct_city_a4843313c0238390843ae5760ec5b6561}\label{struct_city_a4843313c0238390843ae5760ec5b6561} 
-string {\bfseries get\+Name} () const
-\item 
-\Hypertarget{struct_city_a793fdabc488d08e2301094cb4e5a35f8}\label{struct_city_a793fdabc488d08e2301094cb4e5a35f8} 
-size\+\_\+t {\bfseries get\+ID} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Debugg method to print the ID\textquotesingle{}s of the current occupants of the city. \end{DoxyCompactList}\item 
 \Hypertarget{struct_city_a58e45c2c1f305dfaaaa42a719eb318d8}\label{struct_city_a58e45c2c1f305dfaaaa42a719eb318d8} 
 void {\bfseries print} () const
 \begin{DoxyCompactList}\small\item\em Prints out all attributes of the city. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -88,8 +75,7 @@ int \mbox{\hyperlink{struct_city_a3bf40289c8e14f82d7000a6bea1ef288}{skip\+\_\+tr
 \item 
 Uint32 \mbox{\hyperlink{struct_city_a297d003249ba48a4c9a9c8ce3a8652f5}{last\+\_\+skip}} \mbox{[}3\mbox{]} = \{0, 0, 0,\}
 \item 
-\Hypertarget{struct_city_a5b17560d18c17b0ba580ff8c8a0f6402}\label{struct_city_a5b17560d18c17b0ba580ff8c8a0f6402} 
-bool {\bfseries full\+\_\+display} = false
+bool \mbox{\hyperlink{struct_city_a85cd37ceae19321048dba415ca01b43a}{full\+\_\+display}} \mbox{[}3\mbox{]} = \{false, false, false\}
 \item 
 size\+\_\+t \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}} =0
 \item 
@@ -105,7 +91,9 @@ City\+Type \mbox{\hyperlink{struct_city_acc6a46c106ff550757c05195129a577a}{ruler
 \item 
 Population\+Type \mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\+\_\+type}}
 \item 
-Unit\+Country \mbox{\hyperlink{struct_city_a4ebc8212be22bb1e86babee2c3ed2f12}{nationality}}
+Unit\+Country \mbox{\hyperlink{struct_city_ae033af9876cb68e23e636f6d63ab007a}{city\+\_\+nationality}}
+\item 
+Unit\+Country \mbox{\hyperlink{struct_city_a347f82291c8c7d0d6866985791d0770e}{ruler\+\_\+nationality}}
 \item 
 size\+\_\+t \mbox{\hyperlink{struct_city_a61a59baa83654c8b782f3240c94dacd2}{population}}
 \item 
@@ -125,8 +113,7 @@ vector$<$ \mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*} $>$ \mb
 \Hypertarget{struct_city_a795428f38a7b78e6b56736a4d32ed055}\label{struct_city_a795428f38a7b78e6b56736a4d32ed055} 
 size\+\_\+t {\bfseries country\+\_\+counts} \mbox{[}7\mbox{]} = \{0, 0, 0, 0, 0, 0, 0\}
 \item 
-\Hypertarget{struct_city_a2c166fbf50cdbf40e99ae9c129dfa871}\label{struct_city_a2c166fbf50cdbf40e99ae9c129dfa871} 
-size\+\_\+t {\bfseries num\+\_\+occupants} = 0
+size\+\_\+t \mbox{\hyperlink{struct_city_a2c166fbf50cdbf40e99ae9c129dfa871}{num\+\_\+occupants}} = 0
 \item 
 uint8\+\_\+t \mbox{\hyperlink{struct_city_ad19ae18f9a6826df38a879be50e83ceb}{influence}}
 \item 
@@ -134,14 +121,11 @@ City\+Type \mbox{\hyperlink{struct_city_a2a9470d565edf795a16d1d1cec41ae9d}{influ
 \item 
 City\+Type \mbox{\hyperlink{struct_city_ad4713ac0f9ffe0c830a69321610b46b8}{aggresor}}
 \item 
-\Hypertarget{struct_city_af9878294a49abc2c06bdb3c394b7c3a5}\label{struct_city_af9878294a49abc2c06bdb3c394b7c3a5} 
-size\+\_\+t {\bfseries year\+\_\+supplied} =0
+size\+\_\+t \mbox{\hyperlink{struct_city_af9878294a49abc2c06bdb3c394b7c3a5}{year\+\_\+supplied}} =0
 \item 
-\Hypertarget{struct_city_a1fac92c5fcf7f847c37bd65fb5359ec5}\label{struct_city_a1fac92c5fcf7f847c37bd65fb5359ec5} 
-Season {\bfseries season\+\_\+supplied}
+Season \mbox{\hyperlink{struct_city_a1fac92c5fcf7f847c37bd65fb5359ec5}{season\+\_\+supplied}}
 \item 
-\Hypertarget{struct_city_af8ee6d1c91b32a57d7694d93a0985ebc}\label{struct_city_af8ee6d1c91b32a57d7694d93a0985ebc} 
-bool {\bfseries supllied} =false
+bool \mbox{\hyperlink{struct_city_af8ee6d1c91b32a57d7694d93a0985ebc}{supllied}} =false
 \end{DoxyCompactItemize}
 
 
@@ -214,6 +198,32 @@ In the case where there is only one enemy return the one there.
 \begin{DoxyReturn}{Returns}
 City\+Type The defender 
 \end{DoxyReturn}
+\Hypertarget{struct_city_a793fdabc488d08e2301094cb4e5a35f8}\label{struct_city_a793fdabc488d08e2301094cb4e5a35f8} 
+\index{City@{City}!getID@{getID}}
+\index{getID@{getID}!City@{City}}
+\doxysubsubsection{\texorpdfstring{getID()}{getID()}}
+{\footnotesize\ttfamily size\+\_\+t City\+::get\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the ID of the city. 
+
+\begin{DoxyReturn}{Returns}
+size\+\_\+t The ID of the city 
+\end{DoxyReturn}
+\Hypertarget{struct_city_a4843313c0238390843ae5760ec5b6561}\label{struct_city_a4843313c0238390843ae5760ec5b6561} 
+\index{City@{City}!getName@{getName}}
+\index{getName@{getName}!City@{City}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily string City\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the name of the city. 
+
+\begin{DoxyReturn}{Returns}
+string The cities name 
+\end{DoxyReturn}
 \Hypertarget{struct_city_ad92576a7777d79bff78d720b0ef46dc5}\label{struct_city_ad92576a7777d79bff78d720b0ef46dc5} 
 \index{City@{City}!isConflict@{isConflict}}
 \index{isConflict@{isConflict}!City@{City}}
@@ -257,6 +267,28 @@ true There is enemies
 
 false No enemies 
 \end{DoxyReturn}
+\Hypertarget{struct_city_a8f2f82f3b6f2d3ae9d0e92639b2d1616}\label{struct_city_a8f2f82f3b6f2d3ae9d0e92639b2d1616} 
+\index{City@{City}!loopVal@{loopVal}}
+\index{loopVal@{loopVal}!City@{City}}
+\doxysubsubsection{\texorpdfstring{loopVal()}{loopVal()}}
+{\footnotesize\ttfamily int City\+::loop\+Val (\begin{DoxyParamCaption}\item[{const int}]{val,  }\item[{const int}]{min\+\_\+val,  }\item[{const int}]{max\+\_\+val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Helper for loops where if the provided val will under/over flow into the min and max provided. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & The value provided that will loop \\
+\hline
+{\em min\+\_\+val} & The lower limit of the range \\
+\hline
+{\em max\+\_\+val} & The upper limit of the range \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The (if needed looped) resulting value 
+\end{DoxyReturn}
 \Hypertarget{struct_city_a6fe49e408af85ca3370f95b2be4c9687}\label{struct_city_a6fe49e408af85ca3370f95b2be4c9687} 
 \index{City@{City}!numEnemies@{numEnemies}}
 \index{numEnemies@{numEnemies}!City@{City}}
@@ -290,6 +322,21 @@ Removes a unit form this city.
 {\em unit} & The unit to remove \\
 \hline
 \end{DoxyParams}
+\Hypertarget{struct_city_a59a6f029f639ed93ef09effd2685d370}\label{struct_city_a59a6f029f639ed93ef09effd2685d370} 
+\index{City@{City}!setRuler@{setRuler}}
+\index{setRuler@{setRuler}!City@{City}}
+\doxysubsubsection{\texorpdfstring{setRuler()}{setRuler()}}
+{\footnotesize\ttfamily void City\+::set\+Ruler (\begin{DoxyParamCaption}\item[{const Unit\+Country}]{new\+\_\+ruler }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the ruler of the city to the new ruler and update the allegiance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+\_\+ruler} & The nationality of the new ruler \\
+\hline
+\end{DoxyParams}
 
 
 \doxysubsection{Member Data Documentation}
@@ -305,7 +352,13 @@ The Attacker is the Faction provoking Combat in that \doxylink{class_player}{Pla
 \doxysubsubsection{\texorpdfstring{blockcade}{blockcade}}
 {\footnotesize\ttfamily bool City\+::blockcade =false}
 
-What type of resource is on this city (only matters for blockades and going around Africa) If the city is unable to be traced back to the main capital \Hypertarget{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}\label{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a} 
+What type of resource is on this city (only matters for blockades and going around Africa) If the city is unable to be traced back to the main capital \Hypertarget{struct_city_ae033af9876cb68e23e636f6d63ab007a}\label{struct_city_ae033af9876cb68e23e636f6d63ab007a} 
+\index{City@{City}!city\_nationality@{city\_nationality}}
+\index{city\_nationality@{city\_nationality}!City@{City}}
+\doxysubsubsection{\texorpdfstring{city\_nationality}{city\_nationality}}
+{\footnotesize\ttfamily Unit\+Country City\+::city\+\_\+nationality}
+
+The starting nationality of the city (different from country where non-\/powers is neutral) \Hypertarget{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}\label{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a} 
 \index{City@{City}!city\_type@{city\_type}}
 \index{city\_type@{city\_type}!City@{City}}
 \doxysubsubsection{\texorpdfstring{city\_type}{city\_type}}
@@ -317,7 +370,13 @@ What type of power it starts as (West, Axis, Ussr) \Hypertarget{struct_city_a6cc
 \doxysubsubsection{\texorpdfstring{country}{country}}
 {\footnotesize\ttfamily string City\+::country ="{}"{}}
 
-Which larger country it belongs too \Hypertarget{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}\label{struct_city_a902450ac6f7b561ef6bd5f8efdbea162} 
+Which larger country it belongs too \Hypertarget{struct_city_a85cd37ceae19321048dba415ca01b43a}\label{struct_city_a85cd37ceae19321048dba415ca01b43a} 
+\index{City@{City}!full\_display@{full\_display}}
+\index{full\_display@{full\_display}!City@{City}}
+\doxysubsubsection{\texorpdfstring{full\_display}{full\_display}}
+{\footnotesize\ttfamily bool City\+::full\+\_\+display\mbox{[}3\mbox{]} = \{false, false, false\}}
+
+Array to hold if the city has been selected by the player (player id doubles as index) to display all units \Hypertarget{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}\label{struct_city_a902450ac6f7b561ef6bd5f8efdbea162} 
 \index{City@{City}!HEIGHT@{HEIGHT}}
 \index{HEIGHT@{HEIGHT}!City@{City}}
 \doxysubsubsection{\texorpdfstring{HEIGHT}{HEIGHT}}
@@ -369,13 +428,14 @@ The muster determines how much troops are gained when influnced or strength of n
 \doxysubsubsection{\texorpdfstring{name}{name}}
 {\footnotesize\ttfamily string City\+::name ="{}"{}}
 
-The name of the city \Hypertarget{struct_city_a4ebc8212be22bb1e86babee2c3ed2f12}\label{struct_city_a4ebc8212be22bb1e86babee2c3ed2f12} 
-\index{City@{City}!nationality@{nationality}}
-\index{nationality@{nationality}!City@{City}}
-\doxysubsubsection{\texorpdfstring{nationality}{nationality}}
-{\footnotesize\ttfamily Unit\+Country City\+::nationality}
+The name of the city \Hypertarget{struct_city_a2c166fbf50cdbf40e99ae9c129dfa871}\label{struct_city_a2c166fbf50cdbf40e99ae9c129dfa871} 
+\index{City@{City}!num\_occupants@{num\_occupants}}
+\index{num\_occupants@{num\_occupants}!City@{City}}
+\doxysubsubsection{\texorpdfstring{num\_occupants}{num\_occupants}}
+{\footnotesize\ttfamily size\+\_\+t City\+::num\+\_\+occupants = 0}
 
-The nationality of the city (different from country where non-\/powers is neutral) \Hypertarget{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}\label{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc} 
+Total number of occupants in the city between all ~\newline
+ \Hypertarget{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}\label{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc} 
 \index{City@{City}!occupants@{occupants}}
 \index{occupants@{occupants}!City@{City}}
 \doxysubsubsection{\texorpdfstring{occupants}{occupants}}
@@ -417,19 +477,37 @@ The y origin of the cities resources \Hypertarget{struct_city_a8ec5ff784d9db1fc2
 \doxysubsubsection{\texorpdfstring{resource}{resource}}
 {\footnotesize\ttfamily size\+\_\+t City\+::resource}
 
-The amount of resources this city provides (mixed resources are always halfed so can be stored as one) \Hypertarget{struct_city_acc6a46c106ff550757c05195129a577a}\label{struct_city_acc6a46c106ff550757c05195129a577a} 
+The amount of resources this city provides (mixed resources are always halfed so can be stored as one) \Hypertarget{struct_city_a347f82291c8c7d0d6866985791d0770e}\label{struct_city_a347f82291c8c7d0d6866985791d0770e} 
+\index{City@{City}!ruler\_nationality@{ruler\_nationality}}
+\index{ruler\_nationality@{ruler\_nationality}!City@{City}}
+\doxysubsubsection{\texorpdfstring{ruler\_nationality}{ruler\_nationality}}
+{\footnotesize\ttfamily Unit\+Country City\+::ruler\+\_\+nationality}
+
+The starting nationality of the city (different from country where non-\/powers is neutral) \Hypertarget{struct_city_acc6a46c106ff550757c05195129a577a}\label{struct_city_acc6a46c106ff550757c05195129a577a} 
 \index{City@{City}!ruler\_type@{ruler\_type}}
 \index{ruler\_type@{ruler\_type}!City@{City}}
 \doxysubsubsection{\texorpdfstring{ruler\_type}{ruler\_type}}
 {\footnotesize\ttfamily City\+Type City\+::ruler\+\_\+type}
 
-The current ruler of the city (origionally set to the city\+\_\+type until conquered) \Hypertarget{struct_city_a3bf40289c8e14f82d7000a6bea1ef288}\label{struct_city_a3bf40289c8e14f82d7000a6bea1ef288} 
+The current ruler of the city (origionally set to the city\+\_\+type until conquered) \Hypertarget{struct_city_a1fac92c5fcf7f847c37bd65fb5359ec5}\label{struct_city_a1fac92c5fcf7f847c37bd65fb5359ec5} 
+\index{City@{City}!season\_supplied@{season\_supplied}}
+\index{season\_supplied@{season\_supplied}!City@{City}}
+\doxysubsubsection{\texorpdfstring{season\_supplied}{season\_supplied}}
+{\footnotesize\ttfamily Season City\+::season\+\_\+supplied}
+
+The last season checked that this city was supplied \Hypertarget{struct_city_a3bf40289c8e14f82d7000a6bea1ef288}\label{struct_city_a3bf40289c8e14f82d7000a6bea1ef288} 
 \index{City@{City}!skip\_troop@{skip\_troop}}
 \index{skip\_troop@{skip\_troop}!City@{City}}
 \doxysubsubsection{\texorpdfstring{skip\_troop}{skip\_troop}}
 {\footnotesize\ttfamily int City\+::skip\+\_\+troop\mbox{[}3\mbox{]} = \{0, 0, 0\}}
 
-When cities are shown the troop to start showing is at the index of the players nationality \Hypertarget{struct_city_a36c50ec3c253541d2a433adff796b2e9}\label{struct_city_a36c50ec3c253541d2a433adff796b2e9} 
+When cities are shown the troop to start showing is at the index of the players nationality \Hypertarget{struct_city_af8ee6d1c91b32a57d7694d93a0985ebc}\label{struct_city_af8ee6d1c91b32a57d7694d93a0985ebc} 
+\index{City@{City}!supllied@{supllied}}
+\index{supllied@{supllied}!City@{City}}
+\doxysubsubsection{\texorpdfstring{supllied}{supllied}}
+{\footnotesize\ttfamily bool City\+::supllied =false}
+
+If the city can be connected to a main capital or sub capital and is supplied \Hypertarget{struct_city_a36c50ec3c253541d2a433adff796b2e9}\label{struct_city_a36c50ec3c253541d2a433adff796b2e9} 
 \index{City@{City}!WIDTH@{WIDTH}}
 \index{WIDTH@{WIDTH}!City@{City}}
 \doxysubsubsection{\texorpdfstring{WIDTH}{WIDTH}}
@@ -447,7 +525,13 @@ The x origin of the city shape \Hypertarget{struct_city_a0db4f89473b24aa4b2735be
 \doxysubsubsection{\texorpdfstring{y}{y}}
 {\footnotesize\ttfamily int City\+::y}
 
-The y origin of the city shape 
+The y origin of the city shape \Hypertarget{struct_city_af9878294a49abc2c06bdb3c394b7c3a5}\label{struct_city_af9878294a49abc2c06bdb3c394b7c3a5} 
+\index{City@{City}!year\_supplied@{year\_supplied}}
+\index{year\_supplied@{year\_supplied}!City@{City}}
+\doxysubsubsection{\texorpdfstring{year\_supplied}{year\_supplied}}
+{\footnotesize\ttfamily size\+\_\+t City\+::year\+\_\+supplied =0}
+
+The last year checked that this city was supplied 
 
 The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

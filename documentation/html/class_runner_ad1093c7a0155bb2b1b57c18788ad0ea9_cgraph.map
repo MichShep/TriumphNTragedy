@@ -1,9 +1,7 @@
 <map id="Runner::drawActionCards" name="Runner::drawActionCards">
-<area shape="rect" id="Node000001" title="Draws the players action cards onto their screen starting at the given x and y and decends." alt="" coords="5,55,177,80"/>
+<area shape="rect" id="Node000001" title="Draws the players action cards onto their screen starting at the given x and y and decends." alt="" coords="5,31,177,56"/>
 <area shape="rect" id="Node000002" href="$class_player.html#a3d15440c59291506f3f0e5c8d6a76a8c" title="Get the Action Card at the specific index." alt="" coords="225,5,374,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,51,227,33,228,38,149,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,30,209,26,210,32,177,36"/>
 <area shape="rect" id="Node000003" href="$class_player.html#ad21151ebd80ff1990e9d530f3188f505" title="Get the number of action cards the player has." alt="" coords="226,55,373,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,65,210,65,210,70,177,70"/>
-<area shape="rect" id="Node000004" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="227,104,372,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="149,78,228,97,227,102,148,84"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,51,210,55,210,60,177,56"/>
 </map>

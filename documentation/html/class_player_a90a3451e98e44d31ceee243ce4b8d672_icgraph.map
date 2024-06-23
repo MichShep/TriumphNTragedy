@@ -1,0 +1,9 @@
+<map id="Player::getName" name="Player::getName">
+<area shape="rect" id="Node000001" title="Returns the name of the player." alt="" coords="499,5,619,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a024ca94b6ff3d8213d236d87c0c6abb5" title="New Year phase where players play action cards to add influence and play investment cards,..." alt="" coords="312,5,451,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="484,21,451,21,451,16,484,16"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,5,264,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="296,21,264,21,264,16,296,16"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,5,95,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="127,21,95,21,95,16,127,16"/>
+</map>

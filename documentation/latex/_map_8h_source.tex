@@ -18,7 +18,7 @@
 \DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_city_a6304a296746cf15cf30b84c0f01512af}{res\_y}};\ }
 \DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_city_a3bf40289c8e14f82d7000a6bea1ef288}{skip\_troop}}[3]\ \ \ =\ \{0,\ 0,\ 0\};\ \ }
 \DoxyCodeLine{00021\ \ \ \ \ Uint32\ \mbox{\hyperlink{struct_city_a297d003249ba48a4c9a9c8ce3a8652f5}{last\_skip}}[3]\ =\ \{0,\ 0,\ 0,\};\ }
-\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{bool}\ full\_display\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_city_a85cd37ceae19321048dba415ca01b43a}{full\_display}}[3]\ =\ \{\textcolor{keyword}{false},\ \textcolor{keyword}{false},\ \textcolor{keyword}{false}\};\ }
 \DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00025\ \ \ \ \ \textcolor{comment}{//\#ID\ Name\ \ \ \ \ \ \ \ \ \ \ \ Type\ \ \ \ Status\ \ Pop\ \ \ \ \ Muster\ \ Resource\ \ \ \ ResourceType}}
 \DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}=0;\ }
@@ -28,39 +28,39 @@
 \DoxyCodeLine{00034\ \ \ \ \ PowerType\ \mbox{\hyperlink{struct_city_a84b605a2710a013856c6a0af9cbe3a7c}{power\_type}};\ }
 \DoxyCodeLine{00036\ \ \ \ \ CityType\ \mbox{\hyperlink{struct_city_acc6a46c106ff550757c05195129a577a}{ruler\_type}};\ }
 \DoxyCodeLine{00038\ \ \ \ \ PopulationType\ \mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\_type}};\ }
-\DoxyCodeLine{00040\ \ \ \ \ UnitCountry\ \mbox{\hyperlink{struct_city_a4ebc8212be22bb1e86babee2c3ed2f12}{nationality}};\ }
-\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a61a59baa83654c8b782f3240c94dacd2}{population}};\ }
-\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_ad17d6f4d9a637914000b3f49d322b6db}{muster}};\ }
-\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}};\ }
-\DoxyCodeLine{00048\ \ \ \ \ ResourceType\ resource\_type;\ }
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_city_ad72d77fa3b1d67ad7855cf167636aff5}{blockcade}}=\textcolor{keyword}{false};\ }
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_city_a429a1c112d38fff6971d1ee5e30d1b69}{med\_blockcade}}=\textcolor{keyword}{false};\ }
-\DoxyCodeLine{00054\ \ \ \ \ vector<Unit*>\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[4];\ }
-\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ country\_counts[7]\ =\ \{0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0\};\ \textcolor{comment}{//BRITIAN\_U,\ FRANCE\_U,\ USA\_U,\ GERMANY\_U,\ ITALY\_U,\ USSR\_U,\ NEUTRAL\_U}}
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ num\_occupants\ =\ 0;}
+\DoxyCodeLine{00040\ \ \ \ \ UnitCountry\ \mbox{\hyperlink{struct_city_ae033af9876cb68e23e636f6d63ab007a}{city\_nationality}};\ }
+\DoxyCodeLine{00042\ \ \ \ \ UnitCountry\ \mbox{\hyperlink{struct_city_a347f82291c8c7d0d6866985791d0770e}{ruler\_nationality}};\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a61a59baa83654c8b782f3240c94dacd2}{population}};\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_ad17d6f4d9a637914000b3f49d322b6db}{muster}};\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}};\ }
+\DoxyCodeLine{00050\ \ \ \ \ ResourceType\ resource\_type;\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_city_ad72d77fa3b1d67ad7855cf167636aff5}{blockcade}}=\textcolor{keyword}{false};\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_city_a429a1c112d38fff6971d1ee5e30d1b69}{med\_blockcade}}=\textcolor{keyword}{false};\ }
+\DoxyCodeLine{00056\ \ \ \ \ vector<Unit*>\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[4];\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ country\_counts[7]\ =\ \{0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0\};\ \textcolor{comment}{//BRITIAN\_U,\ FRANCE\_U,\ USA\_U,\ GERMANY\_U,\ ITALY\_U,\ USSR\_U,\ NEUTRAL\_U}}
 \DoxyCodeLine{00059\ }
-\DoxyCodeLine{00060\ \ \ \ \ \textcolor{comment}{//For\ influence}}
-\DoxyCodeLine{00061\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_city_ad19ae18f9a6826df38a879be50e83ceb}{influence}};\ }
-\DoxyCodeLine{00063\ \ \ \ \ CityType\ \mbox{\hyperlink{struct_city_a2a9470d565edf795a16d1d1cec41ae9d}{influencer}};\ }
-\DoxyCodeLine{00065\ \ \ \ \ CityType\ \mbox{\hyperlink{struct_city_ad4713ac0f9ffe0c830a69321610b46b8}{aggresor}};\ }
-\DoxyCodeLine{00067\ \ \ \ \ \textcolor{comment}{//For\ supply\ lines}}
-\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ year\_supplied=0;}
-\DoxyCodeLine{00069\ }
-\DoxyCodeLine{00070\ \ \ \ \ Season\ season\_supplied;}
-\DoxyCodeLine{00071\ }
-\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{bool}\ supllied=\textcolor{keyword}{false};}
-\DoxyCodeLine{00073\ }
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ freeMemory()\{}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}\ !=\ \textcolor{stringliteral}{"{}"{}})\{}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ occ\ :\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}})\{}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\&\ un\ :\ occ)}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ un;}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ occ.clear();}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ }
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00082\ \ \ \ \ \}}
-\DoxyCodeLine{00083\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a2c166fbf50cdbf40e99ae9c129dfa871}{num\_occupants}}\ =\ 0;\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{comment}{//For\ influence}}
+\DoxyCodeLine{00063\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_city_ad19ae18f9a6826df38a879be50e83ceb}{influence}};\ }
+\DoxyCodeLine{00065\ \ \ \ \ CityType\ \mbox{\hyperlink{struct_city_a2a9470d565edf795a16d1d1cec41ae9d}{influencer}};\ }
+\DoxyCodeLine{00067\ \ \ \ \ CityType\ \mbox{\hyperlink{struct_city_ad4713ac0f9ffe0c830a69321610b46b8}{aggresor}};\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{comment}{//For\ supply\ lines}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_af9878294a49abc2c06bdb3c394b7c3a5}{year\_supplied}}=0;\ }
+\DoxyCodeLine{00072\ \ \ \ \ Season\ \mbox{\hyperlink{struct_city_a1fac92c5fcf7f847c37bd65fb5359ec5}{season\_supplied}};\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_city_af8ee6d1c91b32a57d7694d93a0985ebc}{supllied}}=\textcolor{keyword}{false};\ }
+
+
+
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_city_a2dd19110d7770d9a1aec9b9647d16657}{freeMemory}}()\{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}\ !=\ \textcolor{stringliteral}{"{}"{}})\{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ occ\ :\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}})\{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\&\ un\ :\ occ)}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ un;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ occ.clear();}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ \textcolor{keyword}{public}:}
 
 
 
@@ -72,494 +72,487 @@
 
 
 
-\DoxyCodeLine{00096\ \ \ \ \ \mbox{\hyperlink{struct_city_a1b50025c03825ed7a6b9e02e0afabd8e}{City}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}=0,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}=\textcolor{stringliteral}{"{}City"{}},\ \textcolor{keyword}{const}\ CityType\ \mbox{\hyperlink{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}{city\_type}}=WATER,\ \textcolor{keyword}{const}\ PowerType\ \mbox{\hyperlink{struct_city_a84b605a2710a013856c6a0af9cbe3a7c}{power\_type}}=NONE,\ \textcolor{keyword}{const}\ PopulationType\ \mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\_type}}=EMPTY,\ \textcolor{keyword}{const}\ UnitCountry\ \mbox{\hyperlink{struct_city_a4ebc8212be22bb1e86babee2c3ed2f12}{nationality}}=NEUTRAL\_U,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a61a59baa83654c8b782f3240c94dacd2}{population}}=0,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_ad17d6f4d9a637914000b3f49d322b6db}{muster}}=0,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}}=0,\ \textcolor{keyword}{const}\ ResourceType\ resource\_type=NORMAL):}
-\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}(\mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}),\ \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}(\mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}),\ \mbox{\hyperlink{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}{city\_type}}(\mbox{\hyperlink{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}{city\_type}}),\ \mbox{\hyperlink{struct_city_a84b605a2710a013856c6a0af9cbe3a7c}{power\_type}}(\mbox{\hyperlink{struct_city_a84b605a2710a013856c6a0af9cbe3a7c}{power\_type}}),\ \mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\_type}}(\mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\_type}}),\ \mbox{\hyperlink{struct_city_a4ebc8212be22bb1e86babee2c3ed2f12}{nationality}}(\mbox{\hyperlink{struct_city_a4ebc8212be22bb1e86babee2c3ed2f12}{nationality}}),\ \mbox{\hyperlink{struct_city_a61a59baa83654c8b782f3240c94dacd2}{population}}(\mbox{\hyperlink{struct_city_a61a59baa83654c8b782f3240c94dacd2}{population}}),\ \mbox{\hyperlink{struct_city_ad17d6f4d9a637914000b3f49d322b6db}{muster}}(\mbox{\hyperlink{struct_city_ad17d6f4d9a637914000b3f49d322b6db}{muster}}),\ \mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}}(\mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}}),\ resource\_type(resource\_type)\{}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city_acc6a46c106ff550757c05195129a577a}{ruler\_type}}=\mbox{\hyperlink{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}{city\_type}};\ \textcolor{comment}{//set\ it\ be\ ruled\ by\ who\ starts\ with\ it}}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city_ad19ae18f9a6826df38a879be50e83ceb}{influence}}\ =\ 0;}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}\ =\ 32;}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}\ =\ 32;}
-\DoxyCodeLine{00102\ }
-\DoxyCodeLine{00103\ \ \ \ \ \}}
-\DoxyCodeLine{00104\ }
-\DoxyCodeLine{00105\ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}=0,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}=\textcolor{stringliteral}{"{}City"{}}):\ }
-\DoxyCodeLine{00106\ \ \ \ \ \mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}(height),\ \mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}(width),\ \mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}(\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}),\ \mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}(\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}),\ \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}(\mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}),\ \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}(\mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}})\{}
-\DoxyCodeLine{00107\ \ \ \ \ \}}
-\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{struct_city_a1b50025c03825ed7a6b9e02e0afabd8e}{City}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}=0,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}=\textcolor{stringliteral}{"{}City"{}},\ \textcolor{keyword}{const}\ CityType\ \mbox{\hyperlink{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}{city\_type}}=WATER,\ \textcolor{keyword}{const}\ PowerType\ \mbox{\hyperlink{struct_city_a84b605a2710a013856c6a0af9cbe3a7c}{power\_type}}=NONE,\ \textcolor{keyword}{const}\ PopulationType\ \mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\_type}}=EMPTY,\ \textcolor{keyword}{const}\ UnitCountry\ nationality=NEUTRAL\_U,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a61a59baa83654c8b782f3240c94dacd2}{population}}=0,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_ad17d6f4d9a637914000b3f49d322b6db}{muster}}=0,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}}=0,\ \textcolor{keyword}{const}\ ResourceType\ resource\_type=NORMAL):}
+\DoxyCodeLine{00103\ \ \ \ \ \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}(\mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}),\ \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}(\mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}),\ \mbox{\hyperlink{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}{city\_type}}(\mbox{\hyperlink{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}{city\_type}}),\ \mbox{\hyperlink{struct_city_a84b605a2710a013856c6a0af9cbe3a7c}{power\_type}}(\mbox{\hyperlink{struct_city_a84b605a2710a013856c6a0af9cbe3a7c}{power\_type}}),\ \mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\_type}}(\mbox{\hyperlink{struct_city_a074fb8b418a64db3ceac4806e579dc4f}{population\_type}}),\ \mbox{\hyperlink{struct_city_ae033af9876cb68e23e636f6d63ab007a}{city\_nationality}}(nationality),\ \mbox{\hyperlink{struct_city_a61a59baa83654c8b782f3240c94dacd2}{population}}(\mbox{\hyperlink{struct_city_a61a59baa83654c8b782f3240c94dacd2}{population}}),\ \mbox{\hyperlink{struct_city_ad17d6f4d9a637914000b3f49d322b6db}{muster}}(\mbox{\hyperlink{struct_city_ad17d6f4d9a637914000b3f49d322b6db}{muster}}),\ \mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}}(\mbox{\hyperlink{struct_city_a8ec5ff784d9db1fc27d9ce9c171c15ce}{resource}}),\ resource\_type(resource\_type)\{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city_acc6a46c106ff550757c05195129a577a}{ruler\_type}}\ =\ \mbox{\hyperlink{struct_city_acb1f4a8e5ec4fff621447b0cea2ae46a}{city\_type}};\ \textcolor{comment}{//set\ it\ be\ ruled\ by\ who\ starts\ with\ it}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city_a347f82291c8c7d0d6866985791d0770e}{ruler\_nationality}}\ =\ \mbox{\hyperlink{struct_city_ae033af9876cb68e23e636f6d63ab007a}{city\_nationality}};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city_ad19ae18f9a6826df38a879be50e83ceb}{influence}}\ =\ 0;}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}\ =\ 32;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}\ =\ 32;}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}=0,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}=\textcolor{stringliteral}{"{}City"{}}):\ }
+\DoxyCodeLine{00113\ \ \ \ \ \mbox{\hyperlink{struct_city_a902450ac6f7b561ef6bd5f8efdbea162}{HEIGHT}}(height),\ \mbox{\hyperlink{struct_city_a36c50ec3c253541d2a433adff796b2e9}{WIDTH}}(width),\ \mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}(\mbox{\hyperlink{struct_city_a218327398be6b6cee514df3513eb9ad4}{x}}),\ \mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}(\mbox{\hyperlink{struct_city_a0db4f89473b24aa4b2735be106588b6d}{y}}),\ \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}(\mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}}),\ \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}}(\mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}})\{}
+\DoxyCodeLine{00114\ \ \ \ \ \}}
+\DoxyCodeLine{00115\ }
+
+
+
+
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_city_a59a6f029f639ed93ef09effd2685d370}{setRuler}}(\textcolor{keyword}{const}\ UnitCountry\ new\_ruler)\{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ CityType\ ca[6]\ =\ \{WEST,\ WEST,\ WEST,\ AXIS,\ AXIS,\ USSR\};}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city_a347f82291c8c7d0d6866985791d0770e}{ruler\_nationality}}\ =\ new\_ruler;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_city_acc6a46c106ff550757c05195129a577a}{ruler\_type}}\ =\ ca[new\_ruler];}
+\DoxyCodeLine{00125\ \ \ \ \ \}}
+\DoxyCodeLine{00126\ }
 
 
 
 
 
-\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_city_ad92576a7777d79bff78d720b0ef46dc5}{isConflict}}()\{}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ((\textcolor{keywordtype}{bool})\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[0].size()\ +\ (\textcolor{keywordtype}{bool})\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[1].size()\ +\ (\textcolor{keywordtype}{bool})\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[2].size()\ +\ (\textcolor{keywordtype}{bool})\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[3].size())\ >\ 1;}
-\DoxyCodeLine{00117\ \ \ \ \ \}}
-\DoxyCodeLine{00118\ }
-
-
-
-
-
-
-\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_city_aa9235f7d0d59ee89b966b438c2958080}{isEnemy}}(CityType\ allegiance)\{}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (allegiance)\{}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ WEST:}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)USSR].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)AXIS].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size();}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AXIS:}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)USSR].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)WEST].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size();}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ USSR:}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)WEST].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)AXIS].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size();}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00137\ \ \ \ \ \}}
-\DoxyCodeLine{00138\ \ \ \ \ }
-\DoxyCodeLine{00139\ }
-
-
-
-
-
-\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a6fe49e408af85ca3370f95b2be4c9687}{numEnemies}}(CityType\ allegiance)\{}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (allegiance)\{}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ WEST:}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)USSR].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)AXIS].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size()!=0;}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AXIS:}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)USSR].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)WEST].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size()!=0;}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ USSR:}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)WEST].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)AXIS].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size()!=0;}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00157\ \ \ \ \ \}}
-\DoxyCodeLine{00158\ }
-
-
-
-
-
-\DoxyCodeLine{00165\ \ \ \ \ CityType\ \mbox{\hyperlink{struct_city_abd69946330598fff82449e2bda8f3b61}{getEnemy}}(CityType\ allegiance)\{}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (allegiance)\{}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ WEST:}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[USSR].size()\ ==0\ )?\ AXIS:\ USSR;}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AXIS:}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[WEST].size()\ ==0\ )?\ USSR:\ WEST;}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ USSR:}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[AXIS].size()\ ==0\ )?\ WEST:\ AXIS;}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ WATER;}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00176\ \ \ \ \ \}}
-\DoxyCodeLine{00177\ }
-
-
-
-
-\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_city_a792bdc0db42861f30ba41515746cf867}{removeUnit}}(\mbox{\hyperlink{class_unit}{Unit}}*\ unit);}
-\DoxyCodeLine{00184\ }
-
-
-
-
-\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_city_a3994937bd3bc9594597271aec1658ae9}{addUnit}}(\mbox{\hyperlink{class_unit}{Unit}}*\ unit);}
-\DoxyCodeLine{00191\ }
-\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordtype}{void}\ printOccupants()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00193\ }
-\DoxyCodeLine{00194\ \ \ \ \ CityType\&\ getFirst\ (\textcolor{keywordtype}{int}\&\ curr,\ CityType\&\ allegiance\_viewing,\ \mbox{\hyperlink{class_unit}{Unit}}**\ selected\_unit)\{}
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[WEST].size()\ !=\ 0)\{}
-\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\_viewing\ =\ WEST;}
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \}\ }
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[AXIS].size()\ !=\ 0)\{}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\_viewing\ =\ AXIS;}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[USSR].size()\ !=\ 0)\{}
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\_viewing\ =\ USSR;}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[NEUTRAL].size()\ !=\ 0)\{}
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\_viewing\ =\ NEUTRAL;}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ allegiance\_viewing;}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00210\ }
-\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ curr\ =\ 0;}
-\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ *selected\_unit\ =\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[allegiance\_viewing][curr];}
-\DoxyCodeLine{00213\ }
-\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ allegiance\_viewing;}
-\DoxyCodeLine{00215\ \ \ \ \ \}}
-\DoxyCodeLine{00216\ }
-\DoxyCodeLine{00217\ \ \ \ \ CityType\&\ getLast\ (\textcolor{keywordtype}{int}\&\ curr,\ CityType\&\ allegiance\_viewing,\ \mbox{\hyperlink{class_unit}{Unit}}**\ selected\_unit)\{}
-\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[NEUTRAL].size()\ !=\ 0)\{}
-\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ curr\ =\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[NEUTRAL].size()-\/1;}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\_viewing\ =\ NEUTRAL;}
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[USSR].size()\ !=\ 0)\{}
-\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ curr\ =\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[USSR].size()-\/1;}
-\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\_viewing\ =\ USSR;}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[AXIS].size()\ !=\ 0)\{}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ curr\ =\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[AXIS].size()-\/1;}
-\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\_viewing\ =\ AXIS;}
-\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00231\ }
-\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[WEST].size()\ !=\ 0)\{}
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ curr\ =\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[WEST].size()-\/1;}
-\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\_viewing\ =\ WEST;}
-\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00236\ }
-\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ *selected\_unit\ =\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[allegiance\_viewing][curr];}
-\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ allegiance\_viewing;}
-\DoxyCodeLine{00239\ \ \ \ \ \}}
-\DoxyCodeLine{00240\ }
-\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordtype}{void}\ getNext(\textcolor{keywordtype}{int}\&\ curr,\ CityType\&\ allegiance\_viewing,\ \mbox{\hyperlink{class_unit}{Unit}}**\ selected\_unit)\{}
-\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{comment}{//cout\ <<\ selected\_unit\ <<\ endl;}}
-\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (curr\ ==\ -\/1)}
-\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00245\ }
-\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (curr+1\ >=\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[allegiance\_viewing].size())\{\ \textcolor{comment}{//move\ to\ next\ allegiance\ thats\ not\ empty}}
-\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ curr\ =\ 0;}
-\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ (((\textcolor{keywordtype}{int})allegiance\_viewing+1)\%4),\ count=0;\ count\ <\ 4;\ i\ =\ (i+1)\%4,\ count++)\{}
-\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[i].size()\ >\ 0)\{}
-\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\_viewing\ =\ (CityType)i;}
-\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *selected\_unit\ =\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[allegiance\_viewing][0];}
-\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00255\ }
-\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
-\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ curr++;}
-\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ *selected\_unit\ =\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[allegiance\_viewing][curr];}
-\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00261\ \ \ \ \ \}}
-\DoxyCodeLine{00262\ }
-\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keywordtype}{void}\ getPrev(\textcolor{keywordtype}{int}\&\ curr,\ CityType\&\ allegiance\_viewing,\ \mbox{\hyperlink{class_unit}{Unit}}**\ selected\_unit)\{}
-\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (curr\ ==\ -\/1)}
-\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00266\ }
-\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (curr-\/1\ <\ 0)\{\ \textcolor{comment}{//move\ to\ next\ allegiance}}
-\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ (((\textcolor{keywordtype}{int})allegiance\_viewing-\/1)\%4),\ count=0;\ count\ <\ 4;\ i\ =\ loopVal(i-\/1,\ 0,\ 3),\ count++)\{}
-\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[i].size()\ >\ 0)\{}
-\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\_viewing\ =\ (CityType)i;}
-\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ curr\ =\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[allegiance\_viewing].size()-\/1;}
-\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *selected\_unit\ =\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[allegiance\_viewing][curr];}
-\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
-\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ curr-\/-\/;}
-\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ *selected\_unit\ =\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[allegiance\_viewing][curr];}
-\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00282\ \ \ \ \ \}}
-\DoxyCodeLine{00283\ }
-\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordtype}{int}\ loopVal(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ val,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ min\_val,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ max\_val)\{}
-\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (val\ <\ min\_val)}
-\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ max\_val;}
-\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (val\ >\ max\_val)}
-\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ min\_val;}
-\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ val;}
-\DoxyCodeLine{00290\ \ \ \ \ \}}
-\DoxyCodeLine{00291\ }
-\DoxyCodeLine{00292\ \ \ \ \ \textcolor{keywordtype}{string}\ getName()\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}};}
-\DoxyCodeLine{00294\ \ \ \ \ \}}
-\DoxyCodeLine{00295\ }
-\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ getID()\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}};}
-\DoxyCodeLine{00298\ \ \ \ \ \}}
-\DoxyCodeLine{00299\ }
-
-
-
-\DoxyCodeLine{00304\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_city_a58e45c2c1f305dfaaaa42a719eb318d8}{print}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00305\ \};}
-\DoxyCodeLine{00306\ }
-\DoxyCodeLine{00307\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_country}{Country}}\{}
-\DoxyCodeLine{00308\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ id;}
-\DoxyCodeLine{00310\ }
-\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keywordtype}{string}\ name=\textcolor{stringliteral}{"{}"{}};}
-\DoxyCodeLine{00312\ }
-\DoxyCodeLine{00313\ \ \ \ \ \textcolor{keywordtype}{string}\ capital=\textcolor{stringliteral}{"{}"{}};}
-\DoxyCodeLine{00314\ }
-\DoxyCodeLine{00315\ \ \ \ \ CityType\ allegiance=WATER;}
-\DoxyCodeLine{00316\ }
-\DoxyCodeLine{00317\ \ \ \ \ InfluenceType\ influence\_level;}
-\DoxyCodeLine{00318\ \ \ \ \ }
-\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keywordtype}{int}\ influence;}
-\DoxyCodeLine{00320\ }
-\DoxyCodeLine{00321\ \ \ \ \ \textcolor{keywordtype}{int}\ added\_influence=0;}
-\DoxyCodeLine{00322\ }
-\DoxyCodeLine{00323\ \ \ \ \ CityType\ top\_card=WATER;}
-\DoxyCodeLine{00324\ }
-\DoxyCodeLine{00325\ \ \ \ \ vector<City*>\ cities;}
-\DoxyCodeLine{00326\ }
-\DoxyCodeLine{00327\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_city_ad92576a7777d79bff78d720b0ef46dc5}{isConflict}}()\{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ((\textcolor{keywordtype}{bool})\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[0].size()\ +\ (\textcolor{keywordtype}{bool})\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[1].size()\ +\ (\textcolor{keywordtype}{bool})\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[2].size()\ +\ (\textcolor{keywordtype}{bool})\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[3].size())\ >\ 1;}
+\DoxyCodeLine{00135\ \ \ \ \ \}}
+\DoxyCodeLine{00136\ }
 
 
 
 
 
 
-\DoxyCodeLine{00335\ \ \ \ \ \mbox{\hyperlink{struct_country_afbade6c463c8ed732cd627d04c976c33}{Country}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ capital,\ \textcolor{keyword}{const}\ InfluenceType\ influence\_level=UNALIGNED,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ influence=0):}
-\DoxyCodeLine{00336\ \ \ \ \ id(id),\ name(name),\ capital(capital),\ influence\_level(influence\_level),\ influence(influence)\{}
-\DoxyCodeLine{00337\ \ \ \ \ \}}
-\DoxyCodeLine{00338\ }
-\DoxyCodeLine{00339\ \ \ \ \ \textcolor{keywordtype}{void}\ pushback(\mbox{\hyperlink{struct_city}{City}}*\ city)\{}
-\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (allegiance\ ==\ WATER)\ \textcolor{comment}{//since\ the\ }}
-\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\ =\ city-\/>city\_type;}
-\DoxyCodeLine{00342\ }
-\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ cities.push\_back(city);}
-\DoxyCodeLine{00344\ \ \ \ \ \}}
-\DoxyCodeLine{00345\ }
-\DoxyCodeLine{00346\ \ \ \ \ \textcolor{keywordtype}{void}\ addCard(\textcolor{keyword}{const}\ CityType\ influencer)\{}
-\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (top\_card\ ==\ NEUTRAL)\{\ \textcolor{comment}{//neutral\ means\ its\ empty}}
-\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ top\_card\ =\ influencer;}
-\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ added\_influence\ =\ 1;}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_city_aa9235f7d0d59ee89b966b438c2958080}{isEnemy}}(CityType\ allegiance)\{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (allegiance)\{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ WEST:}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)USSR].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)AXIS].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size();}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AXIS:}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)USSR].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)WEST].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size();}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ USSR:}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)WEST].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)AXIS].size()\ ||\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size();}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00155\ \ \ \ \ \}}
+\DoxyCodeLine{00156\ \ \ \ \ }
+\DoxyCodeLine{00157\ }
+
+
+
+
+
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a6fe49e408af85ca3370f95b2be4c9687}{numEnemies}}(CityType\ allegiance)\{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (allegiance)\{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ WEST:}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)USSR].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)AXIS].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size()!=0;}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AXIS:}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)USSR].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)WEST].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size()!=0;}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ USSR:}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)WEST].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)AXIS].size()!=0\ +\ \mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[(size\_t)NEUTRAL].size()!=0;}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00175\ \ \ \ \ \}}
+\DoxyCodeLine{00176\ }
+
+
+
+
+
+\DoxyCodeLine{00183\ \ \ \ \ CityType\ \mbox{\hyperlink{struct_city_abd69946330598fff82449e2bda8f3b61}{getEnemy}}(CityType\ allegiance)\{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (allegiance)\{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ WEST:}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[USSR].size()\ ==0\ )?\ AXIS:\ USSR;}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AXIS:}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[WEST].size()\ ==0\ )?\ USSR:\ WEST;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ USSR:}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{struct_city_aba46e60eb67a357fa1754c4ebf20f1fc}{occupants}}[AXIS].size()\ ==0\ )?\ WEST:\ AXIS;}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ WATER;}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00194\ \ \ \ \ \}}
+\DoxyCodeLine{00195\ }
+
+
+
+
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_city_a792bdc0db42861f30ba41515746cf867}{removeUnit}}(\mbox{\hyperlink{class_unit}{Unit}}*\ unit);}
+\DoxyCodeLine{00202\ }
+
+
+
+
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_city_a3994937bd3bc9594597271aec1658ae9}{addUnit}}(\mbox{\hyperlink{class_unit}{Unit}}*\ unit);}
+\DoxyCodeLine{00209\ }
+
+
+
+
+
+
+
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_city_a8f2f82f3b6f2d3ae9d0e92639b2d1616}{loopVal}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ val,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ min\_val,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ max\_val)\{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (val\ <\ min\_val)}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ max\_val;}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (val\ >\ max\_val)}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ min\_val;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ val;}
+\DoxyCodeLine{00224\ \ \ \ \ \}}
+\DoxyCodeLine{00225\ }
+
+
+
+
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_city_a4843313c0238390843ae5760ec5b6561}{getName}}()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_a38b5e8b9bd4e263434eae0344913d341}{name}};}
+\DoxyCodeLine{00233\ \ \ \ \ \}}
+\DoxyCodeLine{00234\ }
+
+
+
+
+\DoxyCodeLine{00240\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_city_a793fdabc488d08e2301094cb4e5a35f8}{getID}}()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_city_a1c6a9ff05aeac23e11147c726b980661}{ID}};}
+\DoxyCodeLine{00242\ \ \ \ \ \}}
+\DoxyCodeLine{00243\ }
+
+
+
+\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_city_a0a7a7144ecd1691203b92ffea4c6926c}{printOccupants}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00249\ }
+
+
+
+\DoxyCodeLine{00254\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_city_a58e45c2c1f305dfaaaa42a719eb318d8}{print}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00255\ \};}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_country}{Country}}\{}
+\DoxyCodeLine{00258\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_country_ad7fba8f21310bc034785bb68f40c670e}{id}};\ }
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_country_a4b51ef0ea54d74f9debaf596e4276f05}{name}}=\textcolor{stringliteral}{"{}"{}};\ }
+\DoxyCodeLine{00263\ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105}{capital}}=\ \textcolor{keyword}{nullptr};\ }
+\DoxyCodeLine{00265\ \ \ \ \ CityType\ \mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}=NEUTRAL;\ }
+\DoxyCodeLine{00267\ \ \ \ \ InfluenceType\ \mbox{\hyperlink{struct_country_a43888bdcc402526f590dc8671a761fa8}{influence\_level}}=UNALIGNED;\ }
+\DoxyCodeLine{00269\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}}=0;\ }
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}}=0;\ }
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_country_aa070dfaf3f72b20659f4ce6d9a70d636}{armed\_minor}}\ =\ \textcolor{keyword}{false};\ }
+\DoxyCodeLine{00275\ \ \ \ \ CityType\ \mbox{\hyperlink{struct_country_aeb271b84b56d95af5ccbf344eb41775b}{invader}};\ }
+\DoxyCodeLine{00277\ \ \ \ \ CityType\ \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}}=NEUTRAL;\ }
+\DoxyCodeLine{00279\ \ \ \ \ vector<City*>\ \mbox{\hyperlink{struct_country_acee45b9a81b107276eb4c6f2bd162d34}{cities}};\ }
+\DoxyCodeLine{00281\ \textcolor{keyword}{public}:}
+
+
+
+
+
+
+\DoxyCodeLine{00289\ \ \ \ \ \mbox{\hyperlink{struct_country_ab3d7e3baad77bca1854262e65ae1eb67}{Country}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_country_a4b51ef0ea54d74f9debaf596e4276f05}{name}},\ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105}{capital}},\ \textcolor{keyword}{const}\ InfluenceType\ \mbox{\hyperlink{struct_country_a43888bdcc402526f590dc8671a761fa8}{influence\_level}}=UNALIGNED,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}}=0):}
+\DoxyCodeLine{00290\ \ \ \ \ \mbox{\hyperlink{struct_country_ad7fba8f21310bc034785bb68f40c670e}{id}}(\mbox{\hyperlink{struct_country_ad7fba8f21310bc034785bb68f40c670e}{id}}),\ \mbox{\hyperlink{struct_country_a4b51ef0ea54d74f9debaf596e4276f05}{name}}(\mbox{\hyperlink{struct_country_a4b51ef0ea54d74f9debaf596e4276f05}{name}}),\ \mbox{\hyperlink{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105}{capital}}(\mbox{\hyperlink{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105}{capital}}),\ \mbox{\hyperlink{struct_country_a43888bdcc402526f590dc8671a761fa8}{influence\_level}}(\mbox{\hyperlink{struct_country_a43888bdcc402526f590dc8671a761fa8}{influence\_level}}),\ \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}}(\mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}})\{}
+\DoxyCodeLine{00291\ \ \ \ \ \}}
+\DoxyCodeLine{00292\ }
+
+
+
+
+\DoxyCodeLine{00298\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_country_a322dd44a9991d099df590e5691c493e5}{pushback}}(\mbox{\hyperlink{struct_city}{City}}*\ city)\{}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}\ ==\ WATER)\ \textcolor{comment}{//since\ the\ }}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}\ =\ city-\/>city\_type;}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_acee45b9a81b107276eb4c6f2bd162d34}{cities}}.push\_back(city);}
+\DoxyCodeLine{00303\ \ \ \ \ \}}
+\DoxyCodeLine{00304\ }
+
+
+
+
+\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_country_aa61eebb964ee31d3356fe4b8e4b80f24}{addCard}}(\textcolor{keyword}{const}\ CityType\&\ influencer)\{}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}}\ ==\ NEUTRAL)\{\ \textcolor{comment}{//neutral\ means\ its\ empty}}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}}\ =\ influencer;}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}}\ =\ 1;}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}}\ !=\ influencer)\{\ \textcolor{comment}{//if\ its\ not\ the\ influencer\ then\ cancel\ one\ card}}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}}\ ==\ 1)\{}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}}\ =\ NEUTRAL;}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}}-\/-\/;}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}}\ ==\ influencer)\{\ \textcolor{comment}{//if\ its\ the\ influencer\ then\ add\ onto\ the\ influence\ being\ added}}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}}++;}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00324\ \ \ \ \ \}}
+\DoxyCodeLine{00325\ }
+
+
+
+\DoxyCodeLine{00330\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_country_a48278a0a376bd25cb55d969e1a358692}{resolveCards}}()\{}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}\ ==\ NEUTRAL\ \&\&\ \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}}\ >\ 0)\{}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}\ =\ \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}};}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}}\ =\ \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}};}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}\ ==\ \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}})\{}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}}\ +=\ \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}};}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}\ !=\ \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}})\{}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}}\ >\ \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}})\{\ \textcolor{comment}{//if\ the\ added\ influence\ is\ from\ a\ rival\ and\ greater\ than\ the\ difference\ is\ for\ the\ new\ allegiance}}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}\ =\ \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}};}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}}\ =\ \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}}-\/\mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}};}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}}\ ==\ \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}})\{\ \textcolor{comment}{//if\ its\ equal\ then\ they\ all\ cancel\ out\ and\ goes\ back\ to\ neutal}}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}\ =\ NEUTRAL;}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}}\ =\ 0;}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{\ \textcolor{comment}{//if\ it\ wasn't\ more\ than\ the\ current\ it\ just\ decreases\ it}}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}}\ -\/=\ \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}};}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (top\_card\ !=\ influencer)\{\ \textcolor{comment}{//if\ its\ not\ the\ influencer\ then\ cancel\ one\ card}}
-\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (added\_influence\ ==\ 1)\{}
-\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ top\_card\ =\ NEUTRAL;}
-\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ added\_influence-\/-\/;}
-\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (top\_card\ ==\ influencer)\{\ \textcolor{comment}{//if\ its\ the\ influencer\ then\ add\ onto\ the\ influence\ being\ added}}
-\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ added\_influence++;}
-\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00360\ \ \ \ \ \}}
-\DoxyCodeLine{00361\ }
-\DoxyCodeLine{00362\ \ \ \ \ \textcolor{keywordtype}{void}\ resolveCards()\{}
-\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (allegiance\ ==\ NEUTRAL\ \&\&\ added\_influence\ >\ 0)\{}
-\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\ =\ top\_card;}
-\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ influence\ =\ added\_influence;}
-\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (allegiance\ ==\ top\_card)\{}
-\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ influence\ +=\ added\_influence;}
-\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (allegiance\ !=\ top\_card)\{}
-\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (added\_influence\ >\ influence)\{\ \textcolor{comment}{//if\ the\ added\ influence\ is\ from\ a\ rival\ and\ greater\ than\ the\ difference\ is\ for\ the\ new\ allegiance}}
-\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\ =\ top\_card;}
-\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ influence\ =\ added\_influence-\/influence;}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\_influence}}\ =\ 0;}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_a6a1ee4db727200c3c7c299634a5557a6}{resolveDiplomacy}}();}
+\DoxyCodeLine{00353\ \ \ \ \ \}}
+\DoxyCodeLine{00354\ }
+
+
+
+
+
+\DoxyCodeLine{00361\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_country_a6a1ee4db727200c3c7c299634a5557a6}{resolveDiplomacy}}()\{}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ now\ that\ the\ influence\ level\ has\ been\ set\ change\ the\ influence\ level}}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_a43888bdcc402526f590dc8671a761fa8}{influence\_level}}\ =\ (InfluenceType)SDL\_clamp(\mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}},\ 0,\ 3);}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{struct_country_a43888bdcc402526f590dc8671a761fa8}{influence\_level}})\{}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UNALIGNED:\{}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}\ =\ NEUTRAL;}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ASSOCIATES:\{}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}\ =\ \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}};}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ code\ */}}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (added\_influence\ ==\ influence)\{\ \textcolor{comment}{//if\ its\ equal\ then\ they\ all\ cancel\ out\ and\ goes\ back\ to\ neutal}}
-\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ allegiance\ =\ NEUTRAL;}
-\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ influence\ =\ 0;}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ PROTECTORATES:\{}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ code\ */}}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{\ \textcolor{comment}{//if\ it\ wasn't\ more\ than\ the\ current\ it\ just\ decreases\ it}}
-\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ influence\ -\/=\ added\_influence;}
-\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00383\ }
-\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ resolveDiplomacy();}
-\DoxyCodeLine{00385\ \ \ \ \ \}}
-\DoxyCodeLine{00386\ }
-\DoxyCodeLine{00387\ \ \ \ \ \textcolor{keywordtype}{void}\ resolveDiplomacy()\{}
-\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00389\ \ \ \ \ \}}
-\DoxyCodeLine{00390\ }
-\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keywordtype}{string}\ getName()\textcolor{keyword}{const}\{}
-\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ name;}
-\DoxyCodeLine{00393\ \ \ \ \ \}}
-\DoxyCodeLine{00394\ \};}
-\DoxyCodeLine{00395\ }
-\DoxyCodeLine{00396\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_map}{Map}}\{}
-\DoxyCodeLine{00397\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00398\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_map_a9b2dab45aa46613ccf3648d46b7c08d9}{list\_size}};\ }
-\DoxyCodeLine{00400\ \ \ \ \ unordered\_map<string,\ Country*>\ \mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}};\ }
-\DoxyCodeLine{00402\ \ \ \ \ unordered\_map<string,\ City*>\ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}};\ }
-\DoxyCodeLine{00404\ \ \ \ \ vector<City*>\ \mbox{\hyperlink{class_map_a0406270b1d9ca2985ee3cf076ba3dec3}{city\_masterlist}};\ }
-\DoxyCodeLine{00406\ \ \ \ \ vector<vector<BorderType>>\ \mbox{\hyperlink{class_map_a7a0cdb6c59c400f6d445ef83d72786a9}{adjacency}}\ ;}
-\DoxyCodeLine{00407\ }
-\DoxyCodeLine{00408\ \ \ \ \ vector<City*>\ \mbox{\hyperlink{class_map_a77f430d36ec080c48a9f4c7b4d9eb64c}{sortedX}};\ }
-\DoxyCodeLine{00410\ \ \ \ \ vector<City*>\ \mbox{\hyperlink{class_map_a83a6f70c25e34c5b4a3737c36962e614}{sortedY}};\ }
-\DoxyCodeLine{00412\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SATELLITES:\{}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}}\ =\ \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}};}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ code\ */}}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00388\ \ \ \ \ \}}
+\DoxyCodeLine{00389\ }
+
+
+
+\DoxyCodeLine{00394\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_country_a4958d531f4eb78fcc3ce6525760e01ae}{setCities}}()\{}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ city\ :\ \mbox{\hyperlink{struct_country_acee45b9a81b107276eb4c6f2bd162d34}{cities}})\{}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ city-\/>ruler\_type\ =\ \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\_card}};}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00398\ \ \ \ \ \}}
+\DoxyCodeLine{00399\ }
 
 
 
 
-\DoxyCodeLine{00418\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_afd91fda8a0e0ec2b4070e477d89f587b}{initLists}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ size);}
-\DoxyCodeLine{00419\ }
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_country_af86e64cecec9c266dbf284329ab072f3}{getName}}()\textcolor{keyword}{const}\{}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_country_a4b51ef0ea54d74f9debaf596e4276f05}{name}};}
+\DoxyCodeLine{00407\ \ \ \ \ \}}
+\DoxyCodeLine{00408\ \};}
+\DoxyCodeLine{00409\ }
+\DoxyCodeLine{00410\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_map}{Map}}\{}
+\DoxyCodeLine{00411\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00412\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_map_a9b2dab45aa46613ccf3648d46b7c08d9}{list\_size}};\ }
+\DoxyCodeLine{00414\ \ \ \ \ unordered\_map<string,\ Country*>\ \mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}};\ }
+\DoxyCodeLine{00416\ \ \ \ \ unordered\_map<string,\ City*>\ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}};\ }
+\DoxyCodeLine{00418\ \ \ \ \ vector<City*>\ \mbox{\hyperlink{class_map_a0406270b1d9ca2985ee3cf076ba3dec3}{city\_masterlist}};\ }
+\DoxyCodeLine{00420\ \ \ \ \ vector<vector<BorderType>>\ \mbox{\hyperlink{class_map_a7a0cdb6c59c400f6d445ef83d72786a9}{adjacency}}\ ;}
+\DoxyCodeLine{00421\ }
+\DoxyCodeLine{00422\ \ \ \ \ vector<City*>\ \mbox{\hyperlink{class_map_a77f430d36ec080c48a9f4c7b4d9eb64c}{sortedX}};\ }
+\DoxyCodeLine{00424\ \ \ \ \ vector<City*>\ \mbox{\hyperlink{class_map_a83a6f70c25e34c5b4a3737c36962e614}{sortedY}};\ }
+\DoxyCodeLine{00426\ \textcolor{keyword}{public}:}
 
 
 
 
-\DoxyCodeLine{00425\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_ad58956e94b551b4c07297995d88951d7}{addCountry}}(\mbox{\hyperlink{struct_country}{Country}}*\ country)\{}
-\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}}.insert(std::make\_pair(country-\/>getName(),\ country));}
-\DoxyCodeLine{00427\ \ \ \ \ \}}
-\DoxyCodeLine{00428\ }
+\DoxyCodeLine{00432\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_afd91fda8a0e0ec2b4070e477d89f587b}{initLists}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00433\ }
 
 
 
 
-\DoxyCodeLine{00434\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_a3313ee9e1dc1bc7e8865ab2c64082ca8}{addCity}}(\mbox{\hyperlink{struct_city}{City}}*\ city)\{}
-\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Add\ to\ hashmap}}
-\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}}.insert(std::make\_pair(city-\/>getName(),\ city));}
-\DoxyCodeLine{00437\ }
-\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Add\ to\ sorted\ x}}
-\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ i\ =\ 0;}
-\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ i\ <\ \mbox{\hyperlink{class_map_a9b2dab45aa46613ccf3648d46b7c08d9}{list\_size}};\ i++)\{}
-\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_map_a77f430d36ec080c48a9f4c7b4d9eb64c}{sortedX}}[i]\ ==\ NULL\ ||\ \mbox{\hyperlink{class_map_a77f430d36ec080c48a9f4c7b4d9eb64c}{sortedX}}[i]-\/>x\ >\ city-\/>x)}
-\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a77f430d36ec080c48a9f4c7b4d9eb64c}{sortedX}}[i]\ =\ city;}
-\DoxyCodeLine{00445\ }
-\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Add\ to\ sorted\ y}}
-\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ i\ =\ 0;}
-\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ i\ <\ \mbox{\hyperlink{class_map_a9b2dab45aa46613ccf3648d46b7c08d9}{list\_size}};\ i++)\{}
-\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_map_a83a6f70c25e34c5b4a3737c36962e614}{sortedY}}[i]\ ==\ NULL\ ||\ \mbox{\hyperlink{class_map_a83a6f70c25e34c5b4a3737c36962e614}{sortedY}}[i]-\/>y\ >\ city-\/>y)}
-\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a83a6f70c25e34c5b4a3737c36962e614}{sortedY}}[i]=\ city;}
-\DoxyCodeLine{00453\ }
-\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Add\ to\ masterlist}}
-\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a0406270b1d9ca2985ee3cf076ba3dec3}{city\_masterlist}}[+city-\/>getID()]\ =\ city;}
-\DoxyCodeLine{00456\ \ \ \ \ \}}
-\DoxyCodeLine{00457\ \ \ \ \ }
+\DoxyCodeLine{00439\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_ad58956e94b551b4c07297995d88951d7}{addCountry}}(\mbox{\hyperlink{struct_country}{Country}}*\ country)\{}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}}.insert(std::make\_pair(country-\/>\mbox{\hyperlink{struct_country_af86e64cecec9c266dbf284329ab072f3}{getName}}(),\ country));}
+\DoxyCodeLine{00441\ \ \ \ \ \}}
+\DoxyCodeLine{00442\ }
 
 
 
 
-
-\DoxyCodeLine{00464\ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_ae1d96a7ee2becdc089361ea6d1403960}{operator[]}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ target)\{}
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}}.at(target);}
-\DoxyCodeLine{00466\ \ \ \ \ \}}
+\DoxyCodeLine{00448\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_a3313ee9e1dc1bc7e8865ab2c64082ca8}{addCity}}(\mbox{\hyperlink{struct_city}{City}}*\ city)\{}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Add\ to\ hashmap}}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}}.insert(std::make\_pair(city-\/>getName(),\ city));}
+\DoxyCodeLine{00451\ }
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Add\ to\ sorted\ x}}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ i\ =\ 0;}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ i\ <\ \mbox{\hyperlink{class_map_a9b2dab45aa46613ccf3648d46b7c08d9}{list\_size}};\ i++)\{}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_map_a77f430d36ec080c48a9f4c7b4d9eb64c}{sortedX}}[i]\ ==\ NULL\ ||\ \mbox{\hyperlink{class_map_a77f430d36ec080c48a9f4c7b4d9eb64c}{sortedX}}[i]-\/>x\ >\ city-\/>x)}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a77f430d36ec080c48a9f4c7b4d9eb64c}{sortedX}}[i]\ =\ city;}
+\DoxyCodeLine{00459\ }
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Add\ to\ sorted\ y}}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ i\ =\ 0;}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ i\ <\ \mbox{\hyperlink{class_map_a9b2dab45aa46613ccf3648d46b7c08d9}{list\_size}};\ i++)\{}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_map_a83a6f70c25e34c5b4a3737c36962e614}{sortedY}}[i]\ ==\ NULL\ ||\ \mbox{\hyperlink{class_map_a83a6f70c25e34c5b4a3737c36962e614}{sortedY}}[i]-\/>y\ >\ city-\/>y)}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a83a6f70c25e34c5b4a3737c36962e614}{sortedY}}[i]=\ city;}
 \DoxyCodeLine{00467\ }
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/\ Add\ to\ masterlist}}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a0406270b1d9ca2985ee3cf076ba3dec3}{city\_masterlist}}[+city-\/>getID()]\ =\ city;}
+\DoxyCodeLine{00470\ \ \ \ \ \}}
+\DoxyCodeLine{00471\ \ \ \ \ }
 
 
 
 
 
-\DoxyCodeLine{00474\ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_acc63b666965ca2606df11b94121aadfa}{operator[]}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id})\{}
-\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a0406270b1d9ca2985ee3cf076ba3dec3}{city\_masterlist}}[id];}
-\DoxyCodeLine{00476\ \ \ \ \ \}}
-\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00478\ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_ae1d96a7ee2becdc089361ea6d1403960}{operator[]}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ target)\{}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}}.at(target);}
+\DoxyCodeLine{00480\ \ \ \ \ \}}
+\DoxyCodeLine{00481\ }
 
 
 
 
 
+\DoxyCodeLine{00488\ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_acc63b666965ca2606df11b94121aadfa}{operator[]}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id})\{}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a0406270b1d9ca2985ee3cf076ba3dec3}{city\_masterlist}}[id];}
+\DoxyCodeLine{00490\ \ \ \ \ \}}
+\DoxyCodeLine{00491\ }
 
-\DoxyCodeLine{00485\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_a05500fa50c9527e23c0b976f72063ee8}{connect}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\&\ idx1,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\&\ idx2,\ \textcolor{keyword}{const}\ BorderType\ border);}
-\DoxyCodeLine{00486\ }
 
 
 
 
 
+\DoxyCodeLine{00499\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_a05500fa50c9527e23c0b976f72063ee8}{connect}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\&\ idx1,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\&\ idx2,\ \textcolor{keyword}{const}\ BorderType\ border);}
+\DoxyCodeLine{00500\ }
 
-\DoxyCodeLine{00494\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_map_a5c633ad5ef3b388b1d13f43023a22909}{findCity}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ name)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00495\ }
 
 
 
 
 
+\DoxyCodeLine{00508\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_map_a5c633ad5ef3b388b1d13f43023a22909}{findCity}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ name)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00509\ }
 
-\DoxyCodeLine{00503\ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ name)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00504\ }
 
 
 
 
 
+\DoxyCodeLine{00517\ \ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ name)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00518\ }
 
-\DoxyCodeLine{00512\ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id})\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00513\ }
 
 
 
 
 
-\DoxyCodeLine{00520\ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{struct_country}{Country}}*\ \mbox{\hyperlink{class_map_a208489f463ca73dc87510323894ca88d}{getCountry}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ name)\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}}.at(name);}
-\DoxyCodeLine{00522\ \ \ \ \ \}}
-\DoxyCodeLine{00523\ }
+\DoxyCodeLine{00526\ \ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00527\ }
 
 
 
 
 
-\DoxyCodeLine{00530\ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_a9ed1e789af15eb96bff51d9a0f85a1fe}{getCapital}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ country)\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a01a979e1788d8f3df965a298b7ec2c78}{getCity}}(\mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}}.at(country)-\/>capital);}
-\DoxyCodeLine{00532\ \ \ \ \ \}}
-\DoxyCodeLine{00533\ }
+\DoxyCodeLine{00534\ \ \ \ \ \mbox{\hyperlink{struct_country}{Country}}*\ \mbox{\hyperlink{class_map_a208489f463ca73dc87510323894ca88d}{getCountry}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ name)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}}.at(name);}
+\DoxyCodeLine{00536\ \ \ \ \ \}}
+\DoxyCodeLine{00537\ }
 
 
 
 
 
+\DoxyCodeLine{00544\ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_a9ed1e789af15eb96bff51d9a0f85a1fe}{getCapital}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ country)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\{}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}}.at(country)-\/>capital;}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (std::out\_of\_range)\{}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}Country\ name\ '"{}}\ <<\ country\ <<\ \textcolor{stringliteral}{"{}'\ was\ not\ found\ as\ a\ key"{}}\ <<\ endl;}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ exit(1);}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00553\ \ \ \ \ \}}
+\DoxyCodeLine{00554\ }
 
 
-\DoxyCodeLine{00542\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_map_a825302e61539b3f1ca4c3e271f89bda1}{checkConnection}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ A,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ B)\{}
-\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a7a0cdb6c59c400f6d445ef83d72786a9}{adjacency}}[\mbox{\hyperlink{class_map_a5c633ad5ef3b388b1d13f43023a22909}{findCity}}(A)][\mbox{\hyperlink{class_map_a5c633ad5ef3b388b1d13f43023a22909}{findCity}}(B)];}
-\DoxyCodeLine{00544\ \ \ \ \ \}}
-\DoxyCodeLine{00545\ }
 
 
 
 
 
+\DoxyCodeLine{00563\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_map_a825302e61539b3f1ca4c3e271f89bda1}{checkConnection}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ A,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ B)\{}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a7a0cdb6c59c400f6d445ef83d72786a9}{adjacency}}[\mbox{\hyperlink{class_map_a5c633ad5ef3b388b1d13f43023a22909}{findCity}}(A)][\mbox{\hyperlink{class_map_a5c633ad5ef3b388b1d13f43023a22909}{findCity}}(B)];}
+\DoxyCodeLine{00565\ \ \ \ \ \}}
+\DoxyCodeLine{00566\ }
 
 
-\DoxyCodeLine{00554\ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_a3aeac63064fe5032fb6f6548103dddce}{getClosestCity}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ zoom\_x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ zoom\_y)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00555\ }
 
 
 
 
-\DoxyCodeLine{00561\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_map_aec078176c2dc99ab8f77753942fdb081}{getNumCity}}()\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}}.size();}
-\DoxyCodeLine{00563\ \ \ \ \ \}}
-\DoxyCodeLine{00564\ }
 
+\DoxyCodeLine{00575\ \ \ \ \ \mbox{\hyperlink{struct_city}{City}}*\ \mbox{\hyperlink{class_map_a3aeac63064fe5032fb6f6548103dddce}{getClosestCity}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ zoom\_x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ zoom\_y)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00576\ }
 
 
 
-\DoxyCodeLine{00570\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{const}\ unordered\_map<string,\ City*>\&\ \mbox{\hyperlink{class_map_a63e2c7855bc61a903d6db26c6927a606}{getCities}}()\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}};}
-\DoxyCodeLine{00572\ \ \ \ \ \}}
-\DoxyCodeLine{00573\ }
 
+\DoxyCodeLine{00582\ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_map_aec078176c2dc99ab8f77753942fdb081}{getNumCity}}()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}}.size();}
+\DoxyCodeLine{00584\ \ \ \ \ \}}
+\DoxyCodeLine{00585\ }
 
 
 
-\DoxyCodeLine{00579\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{const}\ unordered\_map<string,\ Country*>\&\ \mbox{\hyperlink{class_map_adc8cd4da1c2a901ca059f1c0a5be3f2c}{getCountries}}()\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}};}
-\DoxyCodeLine{00581\ \ \ \ \ \}}
-\DoxyCodeLine{00582\ }
 
+\DoxyCodeLine{00591\ \ \ \ \ \textcolor{keyword}{const}\ unordered\_map<string,\ City*>\&\ \mbox{\hyperlink{class_map_a63e2c7855bc61a903d6db26c6927a606}{getCities}}()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}};}
+\DoxyCodeLine{00593\ \ \ \ \ \}}
+\DoxyCodeLine{00594\ }
 
 
 
-\DoxyCodeLine{00588\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{const}\ vector<vector<BorderType>>\&\ \mbox{\hyperlink{class_map_a31afbd5f99cc78254121b203564f557c}{getAdjacency}}()\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a7a0cdb6c59c400f6d445ef83d72786a9}{adjacency}};}
-\DoxyCodeLine{00590\ \ \ \ \ \}}
-\DoxyCodeLine{00591\ }
 
+\DoxyCodeLine{00600\ \ \ \ \ \textcolor{keyword}{const}\ unordered\_map<string,\ Country*>\&\ \mbox{\hyperlink{class_map_adc8cd4da1c2a901ca059f1c0a5be3f2c}{getCountries}}()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}};}
+\DoxyCodeLine{00602\ \ \ \ \ \}}
+\DoxyCodeLine{00603\ }
 
 
-\DoxyCodeLine{00596\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_ae2ca3cf38d86f86a0ac819db71fd3354}{print}}()\ \textcolor{keyword}{const};\ \textcolor{comment}{//\ prints\ all\ cities}}
-\DoxyCodeLine{00597\ }
 
 
+\DoxyCodeLine{00609\ \ \ \ \ \textcolor{keyword}{const}\ vector<vector<BorderType>>\&\ \mbox{\hyperlink{class_map_a31afbd5f99cc78254121b203564f557c}{getAdjacency}}()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_map_a7a0cdb6c59c400f6d445ef83d72786a9}{adjacency}};}
+\DoxyCodeLine{00611\ \ \ \ \ \}}
+\DoxyCodeLine{00612\ }
 
-\DoxyCodeLine{00602\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_a8254a700f6c57fa8a0b3c2e26fc90963}{freeMemory}}()\{}
-\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ city\ :\ \mbox{\hyperlink{class_map_a0406270b1d9ca2985ee3cf076ba3dec3}{city\_masterlist}})\{}
-\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (city\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \ \ \ \ city-\/>freeMemory();}
-\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ city;}
-\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a0406270b1d9ca2985ee3cf076ba3dec3}{city\_masterlist}}.clear();}
-\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}}.clear();}
-\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a77f430d36ec080c48a9f4c7b4d9eb64c}{sortedX}}.clear();}
-\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a83a6f70c25e34c5b4a3737c36962e614}{sortedY}}.clear();}
-\DoxyCodeLine{00613\ }
-\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}}.clear();}
-\DoxyCodeLine{00615\ \ \ \ \ \}}
-\DoxyCodeLine{00616\ }
-\DoxyCodeLine{00617\ \};}
+
+
+\DoxyCodeLine{00617\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_ae2ca3cf38d86f86a0ac819db71fd3354}{print}}()\ \textcolor{keyword}{const};\ \textcolor{comment}{//\ prints\ all\ cities}}
+\DoxyCodeLine{00618\ }
+
+
+
+\DoxyCodeLine{00623\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_map_a8254a700f6c57fa8a0b3c2e26fc90963}{freeMemory}}()\{}
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ city\ :\ \mbox{\hyperlink{class_map_a0406270b1d9ca2985ee3cf076ba3dec3}{city\_masterlist}})\{}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (city\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \ \ \ \ city-\/>freeMemory();}
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ city;}
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a0406270b1d9ca2985ee3cf076ba3dec3}{city\_masterlist}}.clear();}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a250fb3d7242ace8ae005b9ff18e23b16}{cities}}.clear();}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a77f430d36ec080c48a9f4c7b4d9eb64c}{sortedX}}.clear();}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_a83a6f70c25e34c5b4a3737c36962e614}{sortedY}}.clear();}
+\DoxyCodeLine{00634\ }
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_map_ad86c98af53404629562276d6e15a11c3}{countries}}.clear();}
+\DoxyCodeLine{00636\ \ \ \ \ \}}
+\DoxyCodeLine{00637\ }
+\DoxyCodeLine{00638\ \};}
 
 \end{DoxyCode}

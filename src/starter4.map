@@ -64,7 +64,7 @@
 63	Suez	West	Colony	B	City	0	N	978	855	0	0
 64	Sudan	West	Colony	B	Empty	0	N	1035	937	0	0
 65	Red_Sea	Water	None	N	Empty	0	N	1052	909	0	0
-66	Damascus	West	Colony	N	Town	0	N	1084	758	0	0
+66	Damascus	West	Colony	F	Town	0	N	1084	758	0	0
 67	Adana	Neutral	Minor	N	Empty	0	N	1022	698	0	0
 68	Izmir	Neutral	Minor	N	Town	0	N	865	701	0	0
 69	Sinope	Neutral	Minor	N	Empty	0	N	1052	615	0	0

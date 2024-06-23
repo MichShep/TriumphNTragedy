@@ -7,67 +7,61 @@ Collaboration diagram for Country\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=222pt]{struct_country__coll__graph}
+\includegraphics[height=550pt]{struct_country__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{struct_country_afbade6c463c8ed732cd627d04c976c33}{Country}} (const size\+\_\+t id, const string name, const string capital, const Influence\+Type influence\+\_\+level=UNALIGNED, const int influence=0)
+\mbox{\hyperlink{struct_country_ab3d7e3baad77bca1854262e65ae1eb67}{Country}} (const size\+\_\+t \mbox{\hyperlink{struct_country_ad7fba8f21310bc034785bb68f40c670e}{id}}, const string \mbox{\hyperlink{struct_country_a4b51ef0ea54d74f9debaf596e4276f05}{name}}, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105}{capital}}, const Influence\+Type \mbox{\hyperlink{struct_country_a43888bdcc402526f590dc8671a761fa8}{influence\+\_\+level}}=UNALIGNED, const int \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}}=0)
 \begin{DoxyCompactList}\small\item\em Construct a new \doxylink{struct_country}{Country}. \end{DoxyCompactList}\item 
-\Hypertarget{struct_country_a322dd44a9991d099df590e5691c493e5}\label{struct_country_a322dd44a9991d099df590e5691c493e5} 
-void {\bfseries pushback} (\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city)
-\item 
-\Hypertarget{struct_country_a5aca5908eb8dc63883ea34b7cd652c1a}\label{struct_country_a5aca5908eb8dc63883ea34b7cd652c1a} 
-void {\bfseries add\+Card} (const City\+Type influencer)
-\item 
+void \mbox{\hyperlink{struct_country_a322dd44a9991d099df590e5691c493e5}{pushback}} (\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}city)
+\begin{DoxyCompactList}\small\item\em Add a city to the vector of cities who makeup the country. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_country_aa61eebb964ee31d3356fe4b8e4b80f24}{add\+Card}} (const City\+Type \&influencer)
+\begin{DoxyCompactList}\small\item\em Resolve the effects of a power playing a card on the country. \end{DoxyCompactList}\item 
 \Hypertarget{struct_country_a48278a0a376bd25cb55d969e1a358692}\label{struct_country_a48278a0a376bd25cb55d969e1a358692} 
 void {\bfseries resolve\+Cards} ()
-\item 
-\Hypertarget{struct_country_a6a1ee4db727200c3c7c299634a5557a6}\label{struct_country_a6a1ee4db727200c3c7c299634a5557a6} 
-void {\bfseries resolve\+Diplomacy} ()
-\item 
-\Hypertarget{struct_country_af86e64cecec9c266dbf284329ab072f3}\label{struct_country_af86e64cecec9c266dbf284329ab072f3} 
-string {\bfseries get\+Name} () const
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em At the end of the government phase resolve the cards added and change the number of influence and who the top influencer is. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_country_a6a1ee4db727200c3c7c299634a5557a6}{resolve\+Diplomacy}} ()
+\begin{DoxyCompactList}\small\item\em Change the influence level and the effects after cards have been resolved. \end{DoxyCompactList}\item 
+\Hypertarget{struct_country_a4958d531f4eb78fcc3ce6525760e01ae}\label{struct_country_a4958d531f4eb78fcc3ce6525760e01ae} 
+void {\bfseries set\+Cities} ()
+\begin{DoxyCompactList}\small\item\em Go through all cities in the country and update them to the new influencer. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{struct_country_af86e64cecec9c266dbf284329ab072f3}{get\+Name}} () const
+\begin{DoxyCompactList}\small\item\em Get the name of the country. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{struct_country_ad7fba8f21310bc034785bb68f40c670e}\label{struct_country_ad7fba8f21310bc034785bb68f40c670e} 
-size\+\_\+t {\bfseries id}
+size\+\_\+t \mbox{\hyperlink{struct_country_ad7fba8f21310bc034785bb68f40c670e}{id}}
 \item 
-\Hypertarget{struct_country_a4b51ef0ea54d74f9debaf596e4276f05}\label{struct_country_a4b51ef0ea54d74f9debaf596e4276f05} 
-string {\bfseries name} ="{}"{}
+string \mbox{\hyperlink{struct_country_a4b51ef0ea54d74f9debaf596e4276f05}{name}} ="{}"{}
 \item 
-\Hypertarget{struct_country_a3f1e0c6e819c3683411c57677f4f712d}\label{struct_country_a3f1e0c6e819c3683411c57677f4f712d} 
-string {\bfseries capital} ="{}"{}
+\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105}{capital}} = nullptr
 \item 
-\Hypertarget{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}\label{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1} 
-City\+Type {\bfseries allegiance} =WATER
+City\+Type \mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}} =NEUTRAL
 \item 
-\Hypertarget{struct_country_a43888bdcc402526f590dc8671a761fa8}\label{struct_country_a43888bdcc402526f590dc8671a761fa8} 
-Influence\+Type {\bfseries influence\+\_\+level}
+Influence\+Type \mbox{\hyperlink{struct_country_a43888bdcc402526f590dc8671a761fa8}{influence\+\_\+level}} =UNALIGNED
 \item 
-\Hypertarget{struct_country_ac2a4867b4fe307847ecac957016c92ec}\label{struct_country_ac2a4867b4fe307847ecac957016c92ec} 
-int {\bfseries influence}
+int \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}} =0
 \item 
-\Hypertarget{struct_country_ad66f5ded040e3002ff9de573c714cbdf}\label{struct_country_ad66f5ded040e3002ff9de573c714cbdf} 
-int {\bfseries added\+\_\+influence} =0
+int \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\+\_\+influence}} =0
 \item 
-\Hypertarget{struct_country_a03b399412a79a9bcfddd634c4061dc65}\label{struct_country_a03b399412a79a9bcfddd634c4061dc65} 
-City\+Type {\bfseries top\+\_\+card} =WATER
+bool \mbox{\hyperlink{struct_country_aa070dfaf3f72b20659f4ce6d9a70d636}{armed\+\_\+minor}} = false
 \item 
-\Hypertarget{struct_country_acee45b9a81b107276eb4c6f2bd162d34}\label{struct_country_acee45b9a81b107276eb4c6f2bd162d34} 
-vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries cities}
+City\+Type \mbox{\hyperlink{struct_country_aeb271b84b56d95af5ccbf344eb41775b}{invader}}
+\item 
+City\+Type \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\+\_\+card}} =NEUTRAL
+\item 
+vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{struct_country_acee45b9a81b107276eb4c6f2bd162d34}{cities}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{struct_country_afbade6c463c8ed732cd627d04c976c33}\label{struct_country_afbade6c463c8ed732cd627d04c976c33} 
+\Hypertarget{struct_country_ab3d7e3baad77bca1854262e65ae1eb67}\label{struct_country_ab3d7e3baad77bca1854262e65ae1eb67} 
 \index{Country@{Country}!Country@{Country}}
 \index{Country@{Country}!Country@{Country}}
 \doxysubsubsection{\texorpdfstring{Country()}{Country()}}
-{\footnotesize\ttfamily Country\+::\+Country (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{id,  }\item[{const string}]{name,  }\item[{const string}]{capital,  }\item[{const Influence\+Type}]{influence\+\_\+level = {\ttfamily UNALIGNED},  }\item[{const int}]{influence = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily Country\+::\+Country (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{id,  }\item[{const string}]{name,  }\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{capital,  }\item[{const Influence\+Type}]{influence\+\_\+level = {\ttfamily UNALIGNED},  }\item[{const int}]{influence = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -83,6 +77,166 @@ Construct a new \doxylink{struct_country}{Country}.
 \hline
 \end{DoxyParams}
 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_country_aa61eebb964ee31d3356fe4b8e4b80f24}\label{struct_country_aa61eebb964ee31d3356fe4b8e4b80f24} 
+\index{Country@{Country}!addCard@{addCard}}
+\index{addCard@{addCard}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{addCard()}{addCard()}}
+{\footnotesize\ttfamily void Country\+::add\+Card (\begin{DoxyParamCaption}\item[{const City\+Type \&}]{influencer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Resolve the effects of a power playing a card on the country. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em influencer} & The power who is playing a diplomacy on the country \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{struct_country_aa61eebb964ee31d3356fe4b8e4b80f24_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{struct_country_af86e64cecec9c266dbf284329ab072f3}\label{struct_country_af86e64cecec9c266dbf284329ab072f3} 
+\index{Country@{Country}!getName@{getName}}
+\index{getName@{getName}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily string Country\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the name of the country. 
+
+\begin{DoxyReturn}{Returns}
+string Name of country 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{struct_country_af86e64cecec9c266dbf284329ab072f3_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{struct_country_a322dd44a9991d099df590e5691c493e5}\label{struct_country_a322dd44a9991d099df590e5691c493e5} 
+\index{Country@{Country}!pushback@{pushback}}
+\index{pushback@{pushback}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{pushback()}{pushback()}}
+{\footnotesize\ttfamily void Country\+::pushback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}}]{city }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Add a city to the vector of cities who makeup the country. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em city} & The city thats in the country \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{struct_country_a322dd44a9991d099df590e5691c493e5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{struct_country_a6a1ee4db727200c3c7c299634a5557a6}\label{struct_country_a6a1ee4db727200c3c7c299634a5557a6} 
+\index{Country@{Country}!resolveDiplomacy@{resolveDiplomacy}}
+\index{resolveDiplomacy@{resolveDiplomacy}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{resolveDiplomacy()}{resolveDiplomacy()}}
+{\footnotesize\ttfamily void Country\+::resolve\+Diplomacy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Change the influence level and the effects after cards have been resolved. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{struct_country_a48278a0a376bd25cb55d969e1a358692}{resolve\+Cards} 
+\end{DoxySeeAlso}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{struct_country_a6a1ee4db727200c3c7c299634a5557a6_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_country_ad66f5ded040e3002ff9de573c714cbdf}\label{struct_country_ad66f5ded040e3002ff9de573c714cbdf} 
+\index{Country@{Country}!added\_influence@{added\_influence}}
+\index{added\_influence@{added\_influence}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{added\_influence}{added\_influence}}
+{\footnotesize\ttfamily int Country\+::added\+\_\+influence =0}
+
+The number of influence added by the {\ttfamily top\+\_\+card} power in a government phase \Hypertarget{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}\label{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1} 
+\index{Country@{Country}!allegiance@{allegiance}}
+\index{allegiance@{allegiance}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{allegiance}{allegiance}}
+{\footnotesize\ttfamily City\+Type Country\+::allegiance =NEUTRAL}
+
+The allegiance (West, Axis, USSR) of the country \Hypertarget{struct_country_aa070dfaf3f72b20659f4ce6d9a70d636}\label{struct_country_aa070dfaf3f72b20659f4ce6d9a70d636} 
+\index{Country@{Country}!armed\_minor@{armed\_minor}}
+\index{armed\_minor@{armed\_minor}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{armed\_minor}{armed\_minor}}
+{\footnotesize\ttfamily bool Country\+::armed\+\_\+minor = false}
+
+If the country is an armed minor and in battle \Hypertarget{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105}\label{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105} 
+\index{Country@{Country}!capital@{capital}}
+\index{capital@{capital}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{capital}{capital}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*} Country\+::capital = nullptr}
+
+The capital city of the country wher influenced is placed \Hypertarget{struct_country_acee45b9a81b107276eb4c6f2bd162d34}\label{struct_country_acee45b9a81b107276eb4c6f2bd162d34} 
+\index{Country@{Country}!cities@{cities}}
+\index{cities@{cities}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{cities}{cities}}
+{\footnotesize\ttfamily vector$<$\mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*}$>$ Country\+::cities}
+
+Vector of cities who are in the country \Hypertarget{struct_country_ad7fba8f21310bc034785bb68f40c670e}\label{struct_country_ad7fba8f21310bc034785bb68f40c670e} 
+\index{Country@{Country}!id@{id}}
+\index{id@{id}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily size\+\_\+t Country\+::id}
+
+The ID of the country \Hypertarget{struct_country_ac2a4867b4fe307847ecac957016c92ec}\label{struct_country_ac2a4867b4fe307847ecac957016c92ec} 
+\index{Country@{Country}!influence@{influence}}
+\index{influence@{influence}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{influence}{influence}}
+{\footnotesize\ttfamily int Country\+::influence =0}
+
+The current number of influence the country has (0,1,2,3+) \Hypertarget{struct_country_a43888bdcc402526f590dc8671a761fa8}\label{struct_country_a43888bdcc402526f590dc8671a761fa8} 
+\index{Country@{Country}!influence\_level@{influence\_level}}
+\index{influence\_level@{influence\_level}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{influence\_level}{influence\_level}}
+{\footnotesize\ttfamily Influence\+Type Country\+::influence\+\_\+level =UNALIGNED}
+
+The current influence level of the country that decides what benefits the influencer gets and any changes in invatsion from rivals \Hypertarget{struct_country_aeb271b84b56d95af5ccbf344eb41775b}\label{struct_country_aeb271b84b56d95af5ccbf344eb41775b} 
+\index{Country@{Country}!invader@{invader}}
+\index{invader@{invader}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{invader}{invader}}
+{\footnotesize\ttfamily City\+Type Country\+::invader}
+
+The power who invaded the country first and armed it \Hypertarget{struct_country_a4b51ef0ea54d74f9debaf596e4276f05}\label{struct_country_a4b51ef0ea54d74f9debaf596e4276f05} 
+\index{Country@{Country}!name@{name}}
+\index{name@{name}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily string Country\+::name ="{}"{}}
+
+The name of the country \Hypertarget{struct_country_a03b399412a79a9bcfddd634c4061dc65}\label{struct_country_a03b399412a79a9bcfddd634c4061dc65} 
+\index{Country@{Country}!top\_card@{top\_card}}
+\index{top\_card@{top\_card}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{top\_card}{top\_card}}
+{\footnotesize\ttfamily City\+Type Country\+::top\+\_\+card =NEUTRAL}
+
+The power who has played the most cards for this country (neutral if none or tied) 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

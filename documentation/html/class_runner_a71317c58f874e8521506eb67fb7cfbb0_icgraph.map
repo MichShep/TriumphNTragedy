@@ -1,0 +1,16 @@
+<map id="Runner::mapPlayerResPop" name="Runner::mapPlayerResPop">
+<area shape="rect" id="Node000001" title="Goes through each city and country the player owns and set the RES and POP of the player." alt="" coords="937,29,1117,55"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a86d33bba95d8d89078635f15e695dd11" title="Initiates diplomacy resolutions at the end of the goverment phase, changing the influence level of th..." alt="" coords="714,29,889,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="921,45,890,45,890,40,921,40"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a024ca94b6ff3d8213d236d87c0c6abb5" title="New Year phase where players play action cards to add influence and play investment cards,..." alt="" coords="312,5,451,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="698,39,452,25,452,19,698,34"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a0d55a7821772b8c96d7186250aba9160" title="Main handler for all possible user input." alt="" coords="499,55,666,80"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="699,57,667,60,666,55,698,51"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,5,264,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="296,21,264,21,264,16,296,16"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,5,95,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="127,21,95,21,95,16,127,16"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="511,53,436,34,438,29,513,48"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="316,55,447,80"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="484,70,448,70,448,65,484,65"/>
+</map>

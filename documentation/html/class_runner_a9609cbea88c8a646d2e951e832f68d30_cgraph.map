@@ -1,0 +1,42 @@
+<map id="Runner::handleUserInput" name="Runner::handleUserInput">
+<area shape="rect" id="Node000001" title="Main handler for all possible user input." alt="" coords="5,176,172,202"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a1ce72219d4a739ae2dbc91430502e2dc" title="Free the allocated memory of the whole game." alt="" coords="486,55,626,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,173,152,135,184,116,219,100,283,81,350,70,414,64,471,62,471,68,414,70,350,75,284,87,221,105,187,120,155,140,106,178"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a5be931330660b2980ff77a53b25c9391" title="Handels the cases where the player pressed down on a button." alt="" coords="234,115,416,140"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="140,173,257,142,258,147,142,178"/>
+<area shape="rect" id="Node000013" href="$class_runner.html#a92adf5dcc89aa38706e83bbc96a834de" title="Handels the cases where the player lets up on a button (mostly for times events)" alt="" coords="243,176,407,202"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="172,186,227,186,227,192,172,192"/>
+<area shape="rect" id="Node000014" href="$class_runner.html#ab6de20c05424b276db69c4387aa6e594" title="Handels the players controller joystick movement the dictates cursor movement and is called only ever..." alt="" coords="220,249,430,275"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="133,200,267,242,265,247,132,205"/>
+<area shape="rect" id="Node000020" href="$class_runner.html#a4fdc26d720545c6fc684be2f09e491d2" title="Handels the players controller trigger (L2, R2) movement that dictates zoom and is called only every ..." alt="" coords="220,299,430,324"/>
+<area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="105,200,154,242,186,266,221,285,235,291,232,296,219,290,183,270,150,247,102,204"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a8254a700f6c57fa8a0b3c2e26fc90963" title="Evokes each city to free memory before clearing the hasmap and masterlist." alt="" coords="717,5,841,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="617,51,702,32,704,38,618,57"/>
+<area shape="rect" id="Node000004" href="$class_player.html#a4dfd1a5edd0bcb551ca6fb0fe57eb0e1" title="Frees the memort allocated for the player." alt="" coords="711,55,847,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="627,65,696,65,696,70,627,70"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a3fbb12039477f1bcdb82c58c5320f2d5" title="Deletes the windows and frees memory specifically used by SDL." alt="" coords="682,104,876,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="618,78,704,97,702,103,617,84"/>
+<area shape="poly" id="edge12_Node000006_Node000002" title=" " alt="" coords="377,111,488,82,490,87,378,117"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a3ec4965d9518a1513fc87bc9acfc3648" title="Logic Checks." alt="" coords="495,104,617,130"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="416,121,479,118,480,123,416,126"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a0152b039104c601aa118d049989e60e3" title="Decider for if an exisiting unit can be upgraded." alt="" coords="486,153,627,179"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="406,138,471,149,470,154,405,144"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#a1339ccfbb7f33637f68ab258df440b6e" title="A decider for if the city provided is supplied and can have steps built. All the cities on the route ..." alt="" coords="715,153,843,179"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="627,164,700,164,700,169,627,169"/>
+<area shape="rect" id="Node000010" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="924,104,1057,130"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="837,150,917,131,918,136,838,155"/>
+<area shape="rect" id="Node000011" href="$class_map.html#a01a979e1788d8f3df965a298b7ec2c78" title="Works as the [] overload for out of scope." alt="" coords="942,153,1039,179"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="843,164,927,164,927,169,843,169"/>
+<area shape="rect" id="Node000012" href="$class_map.html#aec078176c2dc99ab8f77753942fdb081" title="Get the total number of cities." alt="" coords="928,203,1053,228"/>
+<area shape="poly" id="edge11_Node000009_Node000012" title=" " alt="" coords="838,177,918,196,917,201,837,182"/>
+<area shape="rect" id="Node000015" href="$class_runner.html#a6a78283cbe962a4ce7197a7df5c9b43d" title="Handler for moving the cursor and either moving the screen or the cursor." alt="" coords="479,203,633,228"/>
+<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="392,246,473,229,474,235,393,251"/>
+<area shape="rect" id="Node000016" href="$class_runner.html#a263012dc08bf73f7d628d0b9a8d0b044" title="Handler for moving the cursor and either moving the screen or the cursor." alt="" coords="479,252,633,278"/>
+<area shape="poly" id="edge16_Node000014_Node000016" title=" " alt="" coords="430,261,463,261,463,266,430,266"/>
+<area shape="rect" id="Node000017" href="$class_runner.html#af0d0353424d3bfe4fef0f121a342df14" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="478,301,634,327"/>
+<area shape="poly" id="edge17_Node000014_Node000017" title=" " alt="" coords="386,273,482,295,480,300,384,278"/>
+<area shape="rect" id="Node000019" href="$class_runner.html#abda44286231761376689099fcdb9789f" title="Takes a joy axis movement and scales it to be from [0.0, 1.0] bases on a min movement of &#45;32000 and m..." alt="" coords="492,351,620,376"/>
+<area shape="poly" id="edge19_Node000014_Node000019" title=" " alt="" coords="408,273,431,284,447,297,456,311,465,324,480,337,487,342,484,346,476,342,461,328,452,314,443,301,429,288,406,278"/>
+<area shape="rect" id="Node000018" href="$class_runner.html#abdfbb9ff4d3924b378cd13c3a2a58c28" title="Checks what type of movement is allowed and if the player is allowed to move there." alt="" coords="727,301,831,327"/>
+<area shape="poly" id="edge18_Node000017_Node000018" title=" " alt="" coords="635,312,712,312,712,317,635,317"/>
+</map>

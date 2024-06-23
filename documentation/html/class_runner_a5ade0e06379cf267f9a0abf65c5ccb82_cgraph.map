@@ -1,0 +1,9 @@
+<map id="Runner::addDiplomacy" name="Runner::addDiplomacy">
+<area shape="rect" id="Node000001" title="Handler for the player playing an action card to add influence to a country on an action card (assumi..." alt="" coords="5,55,160,80"/>
+<area shape="rect" id="Node000002" href="$struct_country.html#aa61eebb964ee31d3356fe4b8e4b80f24" title="Resolve the effects of a power playing a card on the country." alt="" coords="208,5,332,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,51,203,33,204,38,135,57"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a9ed1e789af15eb96bff51d9a0f85a1fe" title="Gets the capital of that country." alt="" coords="213,55,327,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,65,198,65,198,70,160,70"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a8f42e5cada9553dfeea41d8308d440f8" title="Helper for loops where if the provided val will under/over flow into the min and max provided." alt="" coords="213,104,327,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="135,78,204,97,203,102,134,84"/>
+</map>

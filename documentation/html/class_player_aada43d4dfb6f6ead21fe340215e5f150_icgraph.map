@@ -1,5 +1,7 @@
 <map id="Player::calculateProduction" name="Player::calculateProduction">
-<area shape="rect" id="Node000001" title="Get the min production of the player min(pop, res, ind). If not at war then dont look at res." alt="" coords="167,5,347,31"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="5,5,119,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,21,119,21,119,16,151,16"/>
+<area shape="rect" id="Node000001" title="Get the min production of the player min(pop, res, ind). If not at war then dont look at res." alt="" coords="185,31,365,56"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="5,5,137,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,33,137,29,138,24,169,28"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="14,55,128,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,59,128,64,128,58,169,53"/>
 </map>

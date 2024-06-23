@@ -1,43 +1,45 @@
 <map id="Runner::drawMemoResolution" name="Runner::drawMemoResolution">
-<area shape="rect" id="Node000001" title="Takes the memo of the Dijkstra&#39;s knock&#45;off II for finding trade routes and highlighting the route it ..." alt="" coords="5,277,203,303"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#a5d52cd35d83ba1b9efb0829716e0833b" title="Draws a city onto the players renderer and if opted the resources as well." alt="" coords="448,129,571,155"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,274,456,158,458,163,143,279"/>
-<area shape="rect" id="Node000009" href="$class_runner.html#a4136cf24a9abfc8282ad29125f42e519" title="Draw&#39;s the map to the main rendered with different options to control what is shown." alt="" coords="251,277,375,303"/>
-<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="203,288,235,288,235,293,203,293"/>
-<area shape="rect" id="Node000013" href="$class_map.html#a01a979e1788d8f3df965a298b7ec2c78" title="Works as the [] overload for out of scope." alt="" coords="672,265,769,291"/>
-<area shape="poly" id="edge23_Node000001_Node000013" title=" " alt="" coords="127,301,177,332,249,370,334,408,424,436,473,449,514,458,533,459,552,457,572,449,594,436,608,422,616,407,619,373,621,336,628,318,641,300,656,290,660,294,645,304,633,321,626,338,624,373,621,408,613,425,597,440,574,454,553,462,533,465,513,464,472,454,422,441,332,413,247,375,175,336,124,306"/>
-<area shape="rect" id="Node000003" href="$class_runner.html#a2996d3087d986e2cf841b210462296b3" title="Draws 5 units under the city, rotating to the next 5 every 5 seconds." alt="" coords="643,68,798,94"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="556,126,658,96,660,101,557,131"/>
-<area shape="rect" id="Node000008" href="$class_runner.html#a1d192f0cb68477269f44ec310b335bf1" title="Get the index of the sprite needed for the city." alt="" coords="647,117,794,143"/>
-<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="571,136,631,133,631,138,572,141"/>
-<area shape="rect" id="Node000004" href="$class_runner.html#a3c4e0b26262b401b673d3035e4821fe1" title="If the city has full displayed enable, every unit at the city will be displayed in rows of 5 (no rota..." alt="" coords="846,93,1021,119"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="799,87,830,91,830,97,798,93"/>
-<area shape="rect" id="Node000005" href="$class_runner.html#a18f5343138ec0a0f147b01f11944fd13" title="Draws the unit onto the player&#39;s screen." alt="" coords="1080,5,1203,31"/>
-<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="797,66,845,58,1064,26,1064,31,846,63,798,71"/>
-<area shape="rect" id="Node000006" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="1069,80,1213,106"/>
-<area shape="poly" id="edge8_Node000003_Node000006" title=" " alt="" coords="798,76,904,75,1021,78,1054,80,1054,86,1021,83,904,81,798,81"/>
-<area shape="rect" id="Node000007" href="$struct_city.html#ad92576a7777d79bff78d720b0ef46dc5" title="If there currently a battle going on (more than one allegiance of troops)" alt="" coords="1087,129,1195,155"/>
-<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="770,92,799,102,823,117,847,129,905,141,964,147,1072,146,1072,151,964,152,904,146,845,134,820,122,796,107,768,97"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="965,90,1093,35,1095,40,967,95"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="1021,98,1053,96,1053,101,1021,103"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="1012,117,1072,128,1071,133,1011,122"/>
-<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="325,275,366,234,421,188,466,160,469,165,425,192,370,238,329,279"/>
-<area shape="rect" id="Node000010" href="$class_runner.html#a0293328b045476f6ab1ea47025d1b8dc" title="Clears the screen so the screen can &#39;update&#39;." alt="" coords="438,400,581,426"/>
-<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="327,302,367,344,394,367,424,387,434,392,432,396,422,391,391,371,364,347,323,305"/>
-<area shape="rect" id="Node000011" href="$class_runner.html#a056a0393a546065082a821664a40e35e" title="Draws all the connections between the cities and colors them based on the type of border." alt="" coords="423,203,595,228"/>
-<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="339,274,422,237,440,231,442,236,424,242,341,279"/>
-<area shape="rect" id="Node000015" href="$class_runner.html#a614dfd919d1e8e9c34a7a5a9d00c88cf" title="Draws the influence tokens onto the map." alt="" coords="433,252,585,278"/>
-<area shape="poly" id="edge18_Node000009_Node000015" title=" " alt="" coords="375,280,417,274,418,279,376,285"/>
-<area shape="rect" id="Node000017" href="$class_runner.html#a5b2b1d5425a4646d84a507704fa98b74" title="Takes any length number and draws it as a 7&#45;segment at the x,y as the top left. Origional scale is 7*..." alt="" coords="437,301,582,327"/>
-<area shape="poly" id="edge21_Node000009_Node000017" title=" " alt="" coords="376,295,421,301,421,306,375,300"/>
-<area shape="rect" id="Node000018" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Get reference to hash map of cities to reduce calls." alt="" coords="456,351,562,376"/>
-<area shape="poly" id="edge22_Node000009_Node000018" title=" " alt="" coords="342,301,424,337,442,343,440,348,422,342,339,306"/>
-<area shape="rect" id="Node000012" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="654,167,787,192"/>
-<area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="588,199,638,191,639,196,589,205"/>
-<area shape="poly" id="edge16_Node000011_Node000013" title=" " alt="" coords="560,226,596,237,663,258,661,263,595,242,558,232"/>
-<area shape="rect" id="Node000014" href="$class_runner.html#adda4105efb5d6f7d92602d9bd5074edf" title="Get the map of the game." alt="" coords="663,216,778,242"/>
-<area shape="poly" id="edge17_Node000011_Node000014" title=" " alt="" coords="596,218,648,222,648,227,596,224"/>
-<area shape="poly" id="edge19_Node000015_Node000013" title=" " alt="" coords="586,267,657,272,657,277,586,272"/>
-<area shape="rect" id="Node000016" href="$class_map.html#adc8cd4da1c2a901ca059f1c0a5be3f2c" title="Get reference to hash map of countries to reduce calls." alt="" coords="656,315,785,340"/>
-<area shape="poly" id="edge20_Node000015_Node000016" title=" " alt="" coords="560,276,596,286,663,307,661,312,595,291,558,281"/>
+<area shape="rect" id="Node000001" title="Takes the memo of the Dijkstra&#39;s knock&#45;off II for finding trade routes and highlighting the route it ..." alt="" coords="5,267,203,292"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#af261e0be2c37e4486b09606ab3b2c0e8" title="Draw&#39;s the map to the main rendered with different options to control what is shown." alt="" coords="251,216,375,242"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,263,241,243,243,248,161,269"/>
+<area shape="rect" id="Node000014" href="$class_map.html#a01a979e1788d8f3df965a298b7ec2c78" title="Works as the [] overload for out of scope." alt="" coords="672,316,769,342"/>
+<area shape="poly" id="edge24_Node000001_Node000014" title=" " alt="" coords="203,285,657,321,657,327,203,290"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a0293328b045476f6ab1ea47025d1b8dc" title="Clears the screen so the screen can &#39;update&#39;." alt="" coords="438,167,581,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,213,440,194,441,199,368,218"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a68d578b3e729c8c1e49a20241e7efbef" title="Draws a city onto the players renderer and if opted the resources as well." alt="" coords="448,68,571,94"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="320,214,359,160,388,129,422,103,432,97,434,102,424,107,392,133,363,163,324,217"/>
+<area shape="rect" id="Node000012" href="$class_runner.html#a056a0393a546065082a821664a40e35e" title="Draws all the connections between the cities and colors them based on the type of border." alt="" coords="423,367,595,392"/>
+<area shape="poly" id="edge15_Node000002_Node000012" title=" " alt="" coords="333,240,481,355,477,359,330,244"/>
+<area shape="rect" id="Node000016" href="$class_runner.html#a614dfd919d1e8e9c34a7a5a9d00c88cf" title="Draws the influence tokens onto the map." alt="" coords="433,216,585,242"/>
+<area shape="poly" id="edge19_Node000002_Node000016" title=" " alt="" coords="375,226,417,226,417,232,375,232"/>
+<area shape="rect" id="Node000018" href="$class_runner.html#a5b2b1d5425a4646d84a507704fa98b74" title="Takes any length number and draws it as a 7&#45;segment at the x,y as the top left. Origional scale is 7*..." alt="" coords="437,265,582,291"/>
+<area shape="poly" id="edge22_Node000002_Node000018" title=" " alt="" coords="368,240,441,258,440,264,366,245"/>
+<area shape="rect" id="Node000019" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Get reference to hash map of cities to reduce calls." alt="" coords="456,117,562,143"/>
+<area shape="poly" id="edge23_Node000002_Node000019" title=" " alt="" coords="329,213,369,183,422,152,440,144,442,149,424,157,372,187,332,218"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#aff97cea260ba3a5f87e17e4a740934d7" title="Draws 5 units under the city, rotating to the next 5 every 5 seconds." alt="" coords="643,93,798,119"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="572,86,628,92,628,98,571,91"/>
+<area shape="rect" id="Node000011" href="$class_runner.html#a1d192f0cb68477269f44ec310b335bf1" title="Get the index of the sprite needed for the city." alt="" coords="647,44,794,70"/>
+<area shape="poly" id="edge14_Node000004_Node000011" title=" " alt="" coords="571,71,631,64,631,70,572,76"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a26505fc8d4d45386393f2e3ecae92210" title="If the city has full displayed enable, every unit at the city will be displayed in rows of 5 (no rota..." alt="" coords="846,93,1021,119"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="798,104,830,104,830,109,798,109"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a18f5343138ec0a0f147b01f11944fd13" title="Draws the unit onto the player&#39;s screen." alt="" coords="1080,5,1203,31"/>
+<area shape="poly" id="edge10_Node000005_Node000007" title=" " alt="" coords="766,90,797,80,820,68,845,58,959,34,1064,21,1064,26,960,39,846,63,823,73,799,85,768,95"/>
+<area shape="rect" id="Node000008" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="1069,80,1213,106"/>
+<area shape="poly" id="edge11_Node000005_Node000008" title=" " alt="" coords="775,90,845,78,954,75,1054,80,1054,86,954,80,846,83,776,95"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#aa42441a87161bb486218ef29fd6bebfe" title="Used for button presses where a given mouse clip position will see if its in the rectangle provided." alt="" coords="1089,137,1193,163"/>
+<area shape="poly" id="edge12_Node000005_Node000009" title=" " alt="" coords="779,117,846,129,966,140,1073,146,1073,151,966,146,845,134,778,122"/>
+<area shape="rect" id="Node000010" href="$struct_city.html#ad92576a7777d79bff78d720b0ef46dc5" title="If there currently a battle going on (more than one allegiance of troops)" alt="" coords="1087,187,1195,212"/>
+<area shape="poly" id="edge13_Node000005_Node000010" title=" " alt="" coords="753,117,797,134,846,150,965,175,1072,190,1071,195,964,180,845,155,795,139,751,122"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="965,90,1093,35,1095,40,967,95"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="1021,98,1053,96,1053,101,1021,103"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="998,117,1074,133,1073,139,997,122"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="959,117,1010,144,1070,173,1084,179,1082,183,1068,178,1007,149,957,122"/>
+<area shape="rect" id="Node000013" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="654,415,787,440"/>
+<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="570,390,646,408,645,413,569,396"/>
+<area shape="poly" id="edge17_Node000012_Node000014" title=" " alt="" coords="565,363,656,341,658,346,567,369"/>
+<area shape="rect" id="Node000015" href="$class_runner.html#adda4105efb5d6f7d92602d9bd5074edf" title="Get the map of the game." alt="" coords="663,365,778,391"/>
+<area shape="poly" id="edge18_Node000012_Node000015" title=" " alt="" coords="596,376,648,376,648,381,596,382"/>
+<area shape="poly" id="edge20_Node000016_Node000014" title=" " alt="" coords="567,240,596,250,647,277,690,305,687,309,644,281,594,255,566,245"/>
+<area shape="rect" id="Node000017" href="$class_map.html#adc8cd4da1c2a901ca059f1c0a5be3f2c" title="Get reference to hash map of countries to reduce calls." alt="" coords="656,216,785,242"/>
+<area shape="poly" id="edge21_Node000016_Node000017" title=" " alt="" coords="586,226,641,226,641,232,586,232"/>
 </map>

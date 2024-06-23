@@ -1,0 +1,229 @@
+100 28
+1	London	West	Great	B	MainCapital	1	N	375	399	367	380
+2	Glasgow	West	Great	B	City	1	N	340	275	374	267
+3	English_Channel	Water	None	N	Empty	0	N	328	438	0	0
+4	North_Sea	Water	None	N	Empty	0	N	450	311	0	0
+5	Paris	West	Major	F	SubCapital	0	N	392	477	0	0
+6	Gascony	West	Major	F	Empty	0	N	350	600	0	0
+7	Lorraine	West	Major	F	Empty	2	N	453	512	438	546
+8	Marseille	West	Major	F	City	0	N	425	631	0	0
+9	Amsterdam	Neutral	Minor	N	City	0	N	463	406	0	0
+10	Ruhr	Axis	Great	G	SubCapital	3	N	523	406	519	436
+11	Munich	Axis	Great	G	City	0	N	565	497	0	0
+12	Berlin	Axis	Great	G	MainCapital	1	N	586	389	599	428
+13	Milan	Axis	Major	I	City	1	N	503	589	532	612
+14	Venice	Axis	Major	I	Empty	1	N	546	576	570	612
+15	Adriatic_Sea	Water	None	N	Empty	0	N	626	630	0	0
+16	Copenhagen	Neutral	Minor	N	Town	1	N	573	320	544	312
+17	Oslo	Netural	Minor	N	Town	1	N	567	232	557	216
+18	Stockholm	Neutral	Minor	N	City	1	N	640	249	628	203
+19	Baltic_Sea	Water	None	N	Empty	0	N	661	300	0	0
+20	Gulf_Of_Bothnia	Water	None	N	Empty	0	N	709	237	0	0
+21	Warsaw	Netural	Minor	N	CapitalCity	1	N	709	403	672	402
+22	Könisberg	Axis	Great	G	City	0	N	698	335	0	0
+23	Riga	Neutral	Minor	N	Town	0	N	750	282	0	0
+24	Lvov	Neutral	Minor	N	City	0	N	778	450	0	0
+25	Vilna	Neutral	Minor	N	Town	0	N	784	322	0	0
+26	Leningrad	USSR	Great	S	SubCapital	0	N	820	225	0	0
+27	Belorussia	USSR	Great	S	Empty	0	N	835	299	0	0
+28	Kiev	USSR	Great	S	City	1	N	876	420	858	425
+29	Odessa	USSR	Great	S	City	2	N	881	496	872	483
+30	Moscow	USSR	Great	S	MainCapital	0	N	976	239	0	0
+31	Bryansk	USSR	Great	S	Empty	0	N	926	335	0	0
+32	Kharkov	USSR	Great	S	City	1	N	1026	357	1002	388
+33	Sevastopol	USSR	Great	S	Empty	0	N	966	507	0	0
+34	Prague	Neutral	Minor	N	City	0	N	633	456	0	0
+35	Vienna	Neutral	Minor	N	City	0	N	641	511	0	0
+36	Croatia	Neutral	Minor	N	Empty	1	N	649	589	645	581
+37	Budapest	Neutral	Minor	N	City	1	N	697	524	741	521
+38	Belgrade	Neutral	Minor	N	Town	0	N	722	589	0	0
+39	Sofia	Neutral	Minor	N	Town	1	N	782	621	830	621
+40	Bucharest	Neutral	Minor	N	City	2	N	837	560	781	566
+41	Western_Black_Sea	Water	None	N	Empty	0	N	930	560	0	0
+42	Istanbul	Neutral	Minor	N	City	0	N	884	635	0	0
+43	Ankara	Neutral	Minor	N	CapitalCity	0	N	981	632	0	0
+44	Washington	Neutral	Major	U	SubCapital	2	N	30	267	12	261
+45	New_York	Neutral	Major	U	City	1	N	59	246	11	210
+46	Dublin	Neutral	Minor	N	Town	0	N	290	334	0	0
+47	Irish_Sea	Water	None	N	Empty	0	N	222	395	0	0
+48	Bay_Of_Biscay	Water	None	N	Empty	0	N	239	525	0	0
+49	Leon	Neutral	Minor	N	Empty	0	N	271	624	0	0
+50	Barcelona	Neutral	Minor	N	City	0	N	348	673	0	0
+51	Madrid	Neutral	Minor	N	CapitalCity	0	N	267	675	0	0
+52	Lisbon	Neutral	Minor	N	Town	0	N	178	700	0	0
+53	Gibraltar	West	Colony	B	Town	0	N	219	773	0	0
+54	Morocco	West	Colony	F	Empty	0	N	209	859	0	0
+55	Dakar	West	Colony	F	Empty	0	N	178	920	0	0
+56	Algiers	West	Colony	F	City	0	N	324	819	0	0
+57	Tunisia	West	Colony	F	Empty	0	N	468	806	0	0
+58	Sfax	West	Colony	F	Empty	0	N	506	854	0	0
+59	Malta	West	Colony	B	Town	0	N	561	800	0	0
+60	Tripoli	Neutral	None	N	City	0	N	573	848	0	0
+61	Cyrenaica	Neutral	None	N	Empty	0	N	774	886	0	0
+62	Egypt	West	Colony	B	Empty	0	N	900	885	0	0
+63	Suez	West	Colony	B	City	0	N	978	855	0	0
+64	Sudan	West	Colony	B	Empty	0	N	1035	937	0	0
+65	Red_Sea	Water	None	N	Empty	0	N	1052	909	0	0
+66	Damascus	West	Colony	F	Town	0	N	1084	758	0	0
+67	Adana	Neutral	Minor	N	Empty	0	N	1022	698	0	0
+68	Izmir	Neutral	Minor	N	Town	0	N	865	701	0	0
+69	Sinope	Neutral	Minor	N	Empty	0	N	1052	615	0	0
+70	Kars	Neutral	Minor	N	Empty	0	N	1111	601	0	0
+71	Rome	Axis	Major	I	SubCapital	0	N	568	662	0	0
+72	Taranto	Axis	Major	I	Empty	0	N	638	678	0	0
+73	Sicily	Axis	Major	I	Empty	0	N	597	762	0	0
+74	Sardinia	Axis	Major	I	Empty	0	N	497	713	0	0
+75	Athens	Neutral	Minor	N	Town	1	N	783	726	756	709
+76	Crete	Neutral	Minor	N	Empty	0	N	831	797	0	0
+77	Albania	Neutral	Minor	N	Empty	0	N	711	673	0	0
+78	Penza	USSR	Great	S	Empty	0	N	1095	242	0	0
+79	Voronezh USSR	Great	S	Empty	0	N	1063	306	0	0
+80	Kuban	USSR	Great	S	Empty	0	N	1082	444	0	0
+81	Georgia	USSR	Great	S	Empty	0	N	1169	491	0	0
+82	Grozny	USSR	Great	S	Empty	0	N	1179	418	0	0
+83	Stalingrad USSR	Great	S	City	0	N	1136	347	0	0
+84	Sea_Of_Azov	Water None	N	Empty	0	N	1022	453	0	0
+85	Eastern_Black_Sea Water	None	N	Empty	0	N	1060	531	0	0
+86	Eastern_Mediterranean	Water	None	N	Empty	0	N	937	779	0	0
+87	Aegean_Sea	Water	None	N	Empty	0	N	822	730	0	0
+88	Central_Mediterranean	Water	None	N	Empty	0	N	706	786	0	0
+89	Tyrrhenian_Sea	Water	None	N	Empty	0	N	547	696	0	0
+90	Western_Mediterranean	Water	None	N	Empty	0	N	396	721	0	0
+92	Jordan	West	Colony	B	Empty	0	N	1122	806	0	0
+91	Madeira_Sea	Water	None	N	Empty	0	N	142	684	0	0
+93	Iraq	West	Colony	B	Empty	2	T	1224	702	1199	675
+94  Rio_De_Janeiro Neutral	Minor	N	Town	2	N	85 812	65 780
+95 Helsinki Neutral	Minor	N	Town	0	N	783	206	0 0
+96 Narvik Neutral	Minor	N	Empty	0	N	0	0	0	0
+97 Gallivare Neutral Minor	N	Empty	1	N	0	0	0	0
+98 Petsamo Neutral Minor	N	Empty	1	N	0	0	0	0
+99 Tehran Netural Minor     N   City    0	N	0	0	0	0
+100 Kabul Neutral Minor     N   Town    0	N	0	0	0	0
+London [Glasgow CMount] [Glasgow CMount] 
+Glasgow
+English_Channel [London Coast] [Paris Coast] [Irish_Sea Ocean] [Bay_Of_Biscay Ocean] [North_Sea Ocean] [North_Sea Ocean] 
+North_Sea [London Coast] [Paris Coast] [Glasgow Coast] [Amsterdam Coast] [Copenhagen WStrait] [Ruhr Coast] [Oslo Coast] [Oslo Coast] 
+Paris [Gascony CPlain] [Lorraine Plain] [Amsterdam CPlain] [Amsterdam CPlain] 
+Gascony [Leon CMount] [Barcelona CMount] [Marseille Plain] [Lorraine Plain] [Lorraine Plain] 
+Lorraine [Munich River] [Marseille Plain] [Amsterdam Forest] [Amsterdam Forest] 
+Marseille [Barcelona CMount] [Milan CMount] [Milan CMount] 
+Amsterdam [Ruhr CRiver] [Munich River] [Munich River] 
+Ruhr [Berlin CPlain] [Munich Plain] [Copenhagen LStrait] [Copenhagen LStrait] 
+Munich [Vienna Plain] [Prague Forest] [Prague Forest] 
+Berlin [Prague Forest] [Warsaw CRiver] [Munich Plain] 
+Milan [Venice Plain] [Rome CMount] [Rome CMount] 
+Venice [Rome Mount] [Taranto CMount] [Croatia CMount] [Vienna Mount] [Vienna Mount] 
+Adriatic_Sea [Venice Coast] [Croatia Coast] [Taranto Coast] [Albania Coast] [Central_Mediterranean Ocean] 
+Copenhagen [Oslo LStrait] [Stockholm LStrait] [Stockholm LStrait] 
+Oslo [Stockholm CForest] [Stockholm CForest] 
+Stockholm
+Baltic_Sea [Copenhagen WStrait] [Berlin Coast] [Warsaw Coast] [Könisberg Coast] [Riga Coast] [Stockholm Coast] [Gulf_Of_Bothnia Ocean] [Ruhr Coast] [Ruhr Coast] 
+Gulf_Of_Bothnia [Stockholm Coast] [Riga Coast] [Leningrad Coast] [Leningrad Coast] 
+Warsaw [Prague Forest] [Könisberg CRiver] [Vilna River] [Lvov River] [Lvov River] 
+Könisberg [Riga CPlain] [Vilna Forest] [Vilna Forest] 
+Riga [Leningrad CForest] [Vilna Plain] [Belorussia Plain] [Belorussia Plain] 
+Lvov [Prague Mount] [Budapest Mount] [Vilna Plain] [Kiev Plain] [Odessa Plain] [Bucharest River] [Bucharest River] 
+Vilna [Belorussia Plain] [Belorussia Plain] 
+Leningrad [Belorussia Forest] [Moscow Forest] [Bryansk Forest] [Bryansk Forest] 
+Belorussia [Bryansk Plain] [Bryansk Plain] 
+Kiev [Odessa Plain] [Kharkov River] [Bryansk River] [Bryansk River] 
+Odessa [Bucharest CRiver] [Sevastopol LStrait] [Sevastopol LStrait] 
+Moscow [Penza Plain] [Voronezh Plain] [Voronezh Plain] 
+Bryansk [Voronezh Plain] [Kharkov Plain] [Kharkov Plain] 
+Kharkov [Kuban CRiver] [Voronezh River] [Stalingrad River] [Stalingrad River] 
+Sevastopol [Kuban LStrait] [Kuban LStrait] [Kharkov LStrait]
+Prague [Vienna Plain] [Budapest Mount] [Budapest Mount] 
+Vienna [Budapest Plain] [Croatia Mount] [Croatia Mount] 
+Croatia [Budapest Plain] [Belgrade Forest] [Albania CPlain] [Albania CPlain] 
+Budapest [Belgrade Plain] [Bucharest Mount] [Bucharest Mount] 
+Belgrade [Albania Mount] [Athens Mount] [Sofia Mount] [Bucharest River] [Bucharest River] 
+Sofia [Athens Mount] [Istanbul LStrait] [Bucharest CRiver] [Bucharest CRiver] 
+Bucharest
+Western_Black_Sea [Istanbul WStrait] [Bucharest Coast] [Odessa Coast] [Sevastopol WStrait] [Ankara Coast] [Sofia Coast] [Eastern_Black_Sea Ocean] [Eastern_Black_Sea Ocean] 
+Istanbul [Izmir LStrait] [Ankara LStrait] [Athens LStrait] [Athens LStrait] 
+Ankara [Izmir Mount] [Sinope CMount] [Adana Mount] [Adana Mount] 
+Washington [New_York CPlain] [New_York CPlain] 
+New_York
+Dublin 
+Irish_Sea [Dublin Coast] [London Coast] [Glasgow Coast] [Bay_Of_Biscay Ocean] [Bay_Of_Biscay Ocean] 
+Bay_Of_Biscay [Paris Coast] [Gascony Coast] [Leon Coast] [Madeira_Sea Ocean] [Madeira_Sea Ocean] 
+Leon [Barcelona Plain] [Madrid Plain] [Lisbon CPlain] [Lisbon CPlain] 
+Barcelona [Madrid Plain] [Gibraltar LStrait] [Gibraltar LStrait] 
+Madrid [Lisbon CPlain] [Gibraltar LStrait] [Gibraltar LStrait] 
+Lisbon
+Gibraltar [Morocco LStrait] [Algiers LStrait] [Algiers LStrait] 
+Morocco [Dakar CPlain] [Algiers Mount] [Algiers Mount] 
+Dakar
+Algiers [Tunisia CMount] [Tunisia CMount] 
+Tunisia [Malta LStrait] [Sfax Mount] [Sfax Mount] 
+Sfax [Malta LStrait] [Tripoli CMount] [Tripoli CMount] 
+Tripoli [Cyrenaica CPlain] [Cyrenaica CPlain] 
+Cyrenaica [Egypt CPlain] [Egypt CPlain] 
+Egypt [Suez LStrait] [Suez LStrait] 
+Suez [Sudan LStrait] [Jordan LStrait] [Jordan LStrait] 
+Sudan
+Red_Sea [Suez WStrait] [Sudan Coast] [Sudan Coast] 
+Damascus [Jordan CPlain] [Iraq Plain] [Iraq Plain] 
+Adana [Izmir CMountw] [Damascus CPlain] [Sinope Mount] [Kars Mount] [Kars Mount] 
+Izmir
+Sinope [Kars CMount] [Kars CMount] 
+Kars [Georgia CMount] [Georgia CMount] 
+Rome [Taranto Mount] [Sicily LStrait] [Sicily LStrait] 
+Taranto [Sicily LStrait] [Sicily LStrait] 
+Sicily [Malta LStrait] [Malta LStrait] 
+Sardinia
+Athens [Albania CMount] [Albania CMount] 
+Crete
+Albania
+Penza [Voronezh Forest] [Voronezh Forest] 
+Voronezh [Stalingrad Plain] [Stalingrad Plain] 
+Kuban [Georgia CMount] [Grozny Plain] [Stalingrad Plain] [Stalingrad Plain] 
+Georgia [Grozny Mount] [Grozny Mount] 
+Grozny [Stalingrad Plain] [Stalingrad Plain] 
+Stalingrad
+Sea_Of_Azov [Kharkov Coast] [Kuban Coast] [Sevastopol WStrait] [Sevastopol WStrait] 
+Eastern_Black_Sea [Sinope Coast] [Kars Coast] [Georgia Coast] [Kuban Coast] [Sevastopol WStrait] [Sevastopol WStrait] 
+Eastern_Mediterranean [Izmir Coast] [Jordan Coast] [Damascus Coast] [Jordan Coast] [Egypt Coast] [Suez WStrait] [Crete Coast] [Aegean_Sea Ocean] [Central_Mediterranean Ocean] [Cyrenaica Coast] 
+Aegean_Sea [Crete Coast] [Athens Coast] [Izmir Coast] [Istanbul WStrait] [Central_Mediterranean Ocean] [Central_Mediterranean Ocean] 
+Central_Mediterranean [Cyrenaica Coast] [Tripoli Coast] [Athens Coast] [Albania Coast] [Taranto Coast] [Crete Coast] [Sicily WStrait] [Malta WStrait] [Malta WStrait] 
+Tyrrhenian_Sea [Rome Coast] [Milan Coast] [Sardinia Coast] [Tunisia Coast] [Sicily WStrait] [Malta WStrait] [Western_Mediterranean Ocean] [Western_Mediterranean Ocean] 
+Western_Mediterranean [Barcelona Coast] [Algiers Coast] [Tunisia Coast] [Sardinia Coast] [Milan Coast] [Marseille Coast] [Gibraltar WStrait] [Gibraltar WStrait] 
+Jordan [Iraq Plain]
+Iraq
+Malta
+Madeira_Sea [Lisbon Coast] [Leon Coast] [Gibraltar WStrait] [Gibraltar WStrait] 		
+Rio_De_Janeiro
+Helsinki [Gulf_Of_Bothnia Coast] [Leningrad CPlain]		
+Narvik					
+Gallivare	
+Petsamo
+Tehran
+Kabul
+Britian:        London Glasgow
+France:         Paris Lorraine Gascony Marseille
+Low_Countries:  Amsterdam
+Germany:        Berlin Ruhr Munich Könisberg
+Austria:        Vienna
+Czechoslovakia: Prague
+Hungary:        Budapest
+Italy:          Milan Venice
+Denmark:        Copenhagen
+Norway:         Oslo Narvik
+Sweden:         Stockholm Gallivare
+Poland:         Warsaw Lvov Vilna
+Baltic_States:  Riga
+Yugoslavia:     Belgrade Croatia
+Rumania:        Bucharest
+Bulgaria:       Sofia
+Turkey:         Ankara Istanbul
+USSR:           Moscow Leningrad Belorussia Bryansk Kharkov Kiev Odessa Sevastopol
+USA:            Washington New_York
+Latin_America:  Rio_De_Janeiro
+Finland:        Helsinki Petsamo
+Greece:         Athens Crete
+Portugal:       Lisbon
+Hungary:        Budapest
+Persia:         Tehran
+Afghanistan:    Kabul
+Libya:          Tripoli Cyrenaica
+Spain:          Madrid Barcelona Leon

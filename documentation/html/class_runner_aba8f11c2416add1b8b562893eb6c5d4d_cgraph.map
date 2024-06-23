@@ -1,0 +1,11 @@
+<map id="Runner::canBuild" name="Runner::canBuild">
+<area shape="rect" id="Node000001" title="Decider for if a new unit of the given type is able to be built in the city provided." alt="" coords="5,55,127,80"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a1339ccfbb7f33637f68ab258df440b6e" title="A decider for if the city provided is supplied and can have steps built. All the cities on the route ..." alt="" coords="175,55,302,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,65,159,65,159,70,127,70"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="350,5,483,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="287,51,352,33,354,38,288,57"/>
+<area shape="rect" id="Node000004" href="$class_map.html#a01a979e1788d8f3df965a298b7ec2c78" title="Works as the [] overload for out of scope." alt="" coords="369,55,465,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="303,65,353,65,353,70,303,70"/>
+<area shape="rect" id="Node000005" href="$class_map.html#aec078176c2dc99ab8f77753942fdb081" title="Get the total number of cities." alt="" coords="355,104,479,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="288,78,354,97,352,102,287,84"/>
+</map>

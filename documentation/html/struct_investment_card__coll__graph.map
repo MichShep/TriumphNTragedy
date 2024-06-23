@@ -1,7 +1,9 @@
 <map id="InvestmentCard" name="InvestmentCard">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,317,133,462"/>
-<area shape="rect" id="Node000002" href="$struct_technology.html" title=" " alt="" coords="21,134,118,239"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,239,72,300,67,300,67,239"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="47,5,92,71"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="72,71,72,117,67,117,67,71"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,317,133,482"/>
+<area shape="rect" id="Node000002" href="$struct_card.html" title=" " alt="" coords="15,154,57,219"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="46,233,59,317,54,317,41,234"/>
+<area shape="rect" id="Node000003" href="$struct_technology.html" title=" " alt="" coords="81,134,178,239"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="117,239,100,302,94,300,112,238"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="107,5,152,71"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="132,71,132,117,127,117,127,71"/>
 </map>

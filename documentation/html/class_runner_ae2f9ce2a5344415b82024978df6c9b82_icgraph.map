@@ -1,0 +1,14 @@
+<map id="Runner::handleUserAnimationInput" name="Runner::handleUserAnimationInput">
+<area shape="rect" id="Node000001" title="Handler for when an animation is happening and user input is limited." alt="" coords="507,47,703,88"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#ad62bb8027061f8fbd5eced9182ff8db1" title="New Year phase where Cards in the discard piles will be added to both draw decks and then the whole d..." alt="" coords="338,55,459,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="492,70,460,70,460,65,492,65"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a8bb31608fccb517fabf91990efa54f80" title="Creates the decks of cards." alt="" coords="167,5,290,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,52,275,34,276,29,338,47"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="168,55,289,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="322,70,290,70,290,65,322,65"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="17,80,107,106"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="337,87,290,95,192,101,107,98,107,93,192,95,290,90,336,82"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="5,5,119,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="151,21,119,21,119,16,151,16"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="153,82,108,89,107,83,152,76"/>
+</map>

@@ -79,17 +79,21 @@
 \DoxyCodeLine{00088\ \ \ \ \ \}}
 \DoxyCodeLine{00089\ \};}
 \DoxyCodeLine{00090\ }
-\DoxyCodeLine{00091\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_action_card}{ActionCard}}\{}
-\DoxyCodeLine{00092\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00093\ \ \ \ \ ActionType\ \mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}};\ }
-\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}};\ }
-\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}};\ }
-\DoxyCodeLine{00098\ \ \ \ \ \textcolor{comment}{//For\ Priority}}
-\DoxyCodeLine{00099\ \ \ \ \ Season\ \mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}};\ }
-\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}};\ }
-\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}};\ }
-\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\_offset\_left}};\ }
-\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\_offset\_right}};\ }
+\DoxyCodeLine{00091\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_card}{Card}}\{}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_action_card}{ActionCard}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_card}{Card}}\{}
+\DoxyCodeLine{00096\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00097\ \ \ \ \ ActionType\ \mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}};\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}};\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}};\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{comment}{//For\ Priority}}
+\DoxyCodeLine{00103\ \ \ \ \ Season\ \mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}};\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}};\ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}};\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\_offset\_left}};\ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\_offset\_right}};\ }
 
 
 
@@ -101,23 +105,26 @@
 
 
 
-\DoxyCodeLine{00118\ \ \ \ \ \mbox{\hyperlink{struct_action_card_a359c65e431b98be9b1e2cb76b4217a7f}{ActionCard}}(\textcolor{keyword}{const}\ ActionType\ \mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}},\ \textcolor{keyword}{const}\ Season\ \mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\_offset\_left}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\_offset\_right}}):}
-\DoxyCodeLine{00119\ \ \ \ \ \mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}}(\mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}}),\ \mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}}(\mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}}),\ \mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}}(\mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}}),\ \mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}}(\mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}}),\ \mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}}(\mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}}),\ \mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}}(\mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}}),\ \mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\_offset\_left}}(\mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\_offset\_left}}*2),\ \mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\_offset\_right}}(\mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\_offset\_right}}*2+1)\{}
-\DoxyCodeLine{00120\ }
-\DoxyCodeLine{00121\ \ \ \ \ \}}
-\DoxyCodeLine{00122\ \};}
-\DoxyCodeLine{00123\ }
-\DoxyCodeLine{00124\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_investment_card}{InvestmentCard}}\{}
-\DoxyCodeLine{00125\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00126\ \ \ \ \ InvestType\ \mbox{\hyperlink{struct_investment_card_af8fd989dc535c131130726a849ecdb71}{type}};\ }
-\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{struct_technology}{Technology}}\ \mbox{\hyperlink{struct_investment_card_aebd4bc849c69c8af6f7c36aa79543106}{tech1}}\ ;}
-\DoxyCodeLine{00129\ }
-\DoxyCodeLine{00130\ \ \ \ \ \mbox{\hyperlink{struct_technology}{Technology}}\ \mbox{\hyperlink{struct_investment_card_a44a0a94b46c68f7d7d1b565ffc97d0db}{tech2}};\ }
-\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}{amount}};\ }
-\DoxyCodeLine{00134\ \ \ \ \ \textcolor{comment}{//for\ science\ cards}}
-\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}{year}};\ }
-\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\_offset\_left}};\ }
-\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\_offset\_right}};\ }
+\DoxyCodeLine{00122\ \ \ \ \ \mbox{\hyperlink{struct_action_card_a359c65e431b98be9b1e2cb76b4217a7f}{ActionCard}}(\textcolor{keyword}{const}\ ActionType\ \mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}},\ \textcolor{keyword}{const}\ Season\ \mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\_offset\_left}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\_offset\_right}}):}
+\DoxyCodeLine{00123\ \ \ \ \ \mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}}(\mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}}),\ \mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}}(\mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}}),\ \mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}}(\mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}}),\ \mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}}(\mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}}),\ \mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}}(\mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}}),\ \mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}}(\mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}}),\ \mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\_offset\_left}}(\mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\_offset\_left}}*2),\ \mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\_offset\_right}}(\mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\_offset\_right}}*2+1)\{}
+\DoxyCodeLine{00124\ \ \ \ \ \}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\mbox{\hyperlink{struct_action_card}{ActionCard}}*\ card)\{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ card-\/>countryA\ ==\ this-\/>countryA\ \&\&\ card-\/>countryB\ ==\ this-\/>countryB\ \&\&\ this-\/>number\ ==\ card-\/>number\ \&\&\ this-\/>season\ ==\ card-\/>season;}
+\DoxyCodeLine{00128\ \ \ \ \ \}}
+\DoxyCodeLine{00129\ \};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_investment_card}{InvestmentCard}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_card}{Card}}\{}
+\DoxyCodeLine{00132\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00133\ \ \ \ \ InvestType\ \mbox{\hyperlink{struct_investment_card_af8fd989dc535c131130726a849ecdb71}{type}};\ }
+\DoxyCodeLine{00135\ \ \ \ \ \mbox{\hyperlink{struct_technology}{Technology}}\ \mbox{\hyperlink{struct_investment_card_aebd4bc849c69c8af6f7c36aa79543106}{tech1}}\ ;}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \ \ \mbox{\hyperlink{struct_technology}{Technology}}\ \mbox{\hyperlink{struct_investment_card_a44a0a94b46c68f7d7d1b565ffc97d0db}{tech2}};\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}{amount}};\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{comment}{//for\ science\ cards}}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}{year}};\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\_offset\_left}};\ }
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\_offset\_right}};\ }
 
 
 
@@ -128,206 +135,356 @@
 
 
 
-\DoxyCodeLine{00151\ \ \ \ \ \mbox{\hyperlink{struct_investment_card_a9ed5ef1292ed0c827c345ed295539007}{InvestmentCard}}(\textcolor{keyword}{const}\ InvestType\ \mbox{\hyperlink{struct_investment_card_af8fd989dc535c131130726a849ecdb71}{type}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ tech1\_name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ tech2\_name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}{amount}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}{year}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\_offset\_left}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\_offset\_right}}):\ }
-\DoxyCodeLine{00152\ \ \ \ \ \mbox{\hyperlink{struct_investment_card_af8fd989dc535c131130726a849ecdb71}{type}}(\mbox{\hyperlink{struct_investment_card_af8fd989dc535c131130726a849ecdb71}{type}}),\ \mbox{\hyperlink{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}{amount}}(\mbox{\hyperlink{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}{amount}}),\ \mbox{\hyperlink{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}{year}}(\mbox{\hyperlink{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}{year}}),\ \mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\_offset\_left}}(\mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\_offset\_left}}),\ \mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\_offset\_right}}(\mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\_offset\_right}})\ \{}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_investment_card_aebd4bc849c69c8af6f7c36aa79543106}{tech1}}\ =\ \mbox{\hyperlink{struct_technology}{Technology}}(tech1\_name,\ (Tech)\mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\_offset\_left}},\ \textcolor{keyword}{false});}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_investment_card_a44a0a94b46c68f7d7d1b565ffc97d0db}{tech2}}\ =\ \mbox{\hyperlink{struct_technology}{Technology}}(tech2\_name,\ (Tech)\mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\_offset\_right}},\ \textcolor{keyword}{false});}
-\DoxyCodeLine{00155\ \ \ \ \ \}}
-\DoxyCodeLine{00156\ \};}
-\DoxyCodeLine{00157\ }
-\DoxyCodeLine{00158\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_unit}{Unit}}\{}
-\DoxyCodeLine{00159\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}};\ }
-\DoxyCodeLine{00162\ \ \ \ \ CityType\ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}};\ }
-\DoxyCodeLine{00164\ \ \ \ \ UnitCountry\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}};\ }
-\DoxyCodeLine{00166\ \ \ \ \ UnitClass\ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}};\ }
-\DoxyCodeLine{00168\ \ \ \ \ UnitType\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}};\ }
-\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_ae358211f79a79fa45867464123fa3607}{birth\_year}};\ }
-\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_a83d70dd6eb277b62e929900a8662465d}{upgrading}};\ }
-\DoxyCodeLine{00174\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}};\ }
-\DoxyCodeLine{00176\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}};\ }
-\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}};\ }
-\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}=\textcolor{keyword}{false};\ }
-\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}=0;\ }
-\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_ad8dc3c6ca01813ee3924f0f3381fc05f}{convoy}}=\textcolor{keyword}{false};\ }
-\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_a2d0fa7089b943e97916576ce3df53485}{escaped}}=\textcolor{keyword}{false};\ }
-\DoxyCodeLine{00188\ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id},\ UnitCountry\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}},\ UnitType\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}):\ \mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}}(\mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}}),\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}(\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}),\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}(\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}})\{\ \textcolor{comment}{//for\ making\ cadres}}
-\DoxyCodeLine{00189\ }
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}}\ =\ 1;\ \textcolor{comment}{//1\ for\ all\ cadres}}
-\DoxyCodeLine{00191\ }
-\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}})\{\ \textcolor{comment}{//BRITIAN\_U,\ FRANCE\_U,\ USA\_U,\ GERMANY\_U,\ ITALY\_U,\ USSR\_U,\ NEUTRAL\_U}}
-\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (BRITIAN\_U):}
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ WEST;}
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00196\ }
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (FRANCE\_U):}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ WEST;}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (USA\_U):}
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ WEST;}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00204\ }
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (GERMANY\_U):}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ AXIS;}
+\DoxyCodeLine{00158\ \ \ \ \ \mbox{\hyperlink{struct_investment_card_a9ed5ef1292ed0c827c345ed295539007}{InvestmentCard}}(\textcolor{keyword}{const}\ InvestType\ \mbox{\hyperlink{struct_investment_card_af8fd989dc535c131130726a849ecdb71}{type}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ tech1\_name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ tech2\_name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}{amount}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}{year}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\_offset\_left}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\_offset\_right}}):\ }
+\DoxyCodeLine{00159\ \ \ \ \ \mbox{\hyperlink{struct_investment_card_af8fd989dc535c131130726a849ecdb71}{type}}(\mbox{\hyperlink{struct_investment_card_af8fd989dc535c131130726a849ecdb71}{type}}),\ \mbox{\hyperlink{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}{amount}}(\mbox{\hyperlink{struct_investment_card_a471c7768bf6b37383b219c4a4d0e8909}{amount}}),\ \mbox{\hyperlink{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}{year}}(\mbox{\hyperlink{struct_investment_card_aa679d0cc3b02b5dba9b089a7d8e0e0a8}{year}}),\ \mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\_offset\_left}}(\mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\_offset\_left}}),\ \mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\_offset\_right}}(\mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\_offset\_right}})\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_investment_card_aebd4bc849c69c8af6f7c36aa79543106}{tech1}}\ =\ \mbox{\hyperlink{struct_technology}{Technology}}(tech1\_name,\ (Tech)\mbox{\hyperlink{struct_investment_card_a8f8da98265a2152abb74a5d259d348b3}{sprite\_offset\_left}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_investment_card_a44a0a94b46c68f7d7d1b565ffc97d0db}{tech2}}\ =\ \mbox{\hyperlink{struct_technology}{Technology}}(tech2\_name,\ (Tech)\mbox{\hyperlink{struct_investment_card_aa2991c89aa1ca38c3e63034c7d558d40}{sprite\_offset\_right}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00162\ \ \ \ \ \}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\mbox{\hyperlink{struct_investment_card}{InvestmentCard}}*\ card)\{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ card-\/>tech1.name\ ==\ this-\/>tech1.\mbox{\hyperlink{struct_technology_aa8525067739e8a9595097a6630e11dce}{name}}\ \&\&\ card-\/>tech2.name\ ==\ this-\/>tech2.\mbox{\hyperlink{struct_technology_aa8525067739e8a9595097a6630e11dce}{name}}\ \&\&\ this-\/>amount\ ==\ card-\/>amount;}
+\DoxyCodeLine{00166\ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \};}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_unit}{Unit}}\{}
+\DoxyCodeLine{00170\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}};\ }
+\DoxyCodeLine{00173\ \ \ \ \ CityType\ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}};\ }
+\DoxyCodeLine{00175\ \ \ \ \ UnitCountry\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}};\ }
+\DoxyCodeLine{00177\ \ \ \ \ UnitClass\ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}};\ }
+\DoxyCodeLine{00179\ \ \ \ \ UnitType\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}};\ }
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_ae358211f79a79fa45867464123fa3607}{birth\_year}};\ }
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_a83d70dd6eb277b62e929900a8662465d}{upgrading}};\ }
+\DoxyCodeLine{00185\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}};\ }
+\DoxyCodeLine{00187\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}};\ }
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}};\ }
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}=\textcolor{keyword}{false};\ }
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}=0;\ }
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_ad8dc3c6ca01813ee3924f0f3381fc05f}{convoy}}=\textcolor{keyword}{false};\ }
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_a2d0fa7089b943e97916576ce3df53485}{escaped}}=\textcolor{keyword}{false};\ }
+\DoxyCodeLine{00199\ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id},\ \textcolor{keyword}{const}\ UnitCountry\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}},\ \textcolor{keyword}{const}\ UnitType\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}):\ \mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}}(\mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}}),\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}(\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}),\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}(\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}})\{\ \textcolor{comment}{//for\ making\ cadres}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}}\ =\ 0;\ \textcolor{comment}{//1\ for\ all\ cadres\ }}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a83d70dd6eb277b62e929900a8662465d}{upgrading}}\ =\ \textcolor{keyword}{true};\ \textcolor{comment}{//since\ a\ cadre\ is\ basically\ upgrading\ nothing\ to\ the\ unit\ type}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}})\{\ \textcolor{comment}{//BRITIAN\_U,\ FRANCE\_U,\ USA\_U,\ GERMANY\_U,\ ITALY\_U,\ USSR\_U,\ NEUTRAL\_U}}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (BRITIAN\_U):}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ WEST;}
 \DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{00208\ }
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (ITALY\_U):}
-\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ AXIS;}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (FRANCE\_U):}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ WEST;}
 \DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00212\ }
-\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (USSR\_U):}
-\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ USSR;}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (USA\_U):}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ WEST;}
 \DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{00216\ }
-\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (NEUTRAL\_U):}
-\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ NEUTRAL;}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (GERMANY\_U):}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ AXIS;}
 \DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
-\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (ITALY\_U):}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ AXIS;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{00224\ }
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}})\{\ \ \textcolor{comment}{//AIR,\ CARRIER,\ FLEETS,\ SUBS,\ FORTRESS,\ TANKS,\ INFANTRY,\ CONVOYS}}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (FORTRESS):\{}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_G;}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (USSR\_U):}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ USSR;}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{00228\ }
-\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 0;}
-\DoxyCodeLine{00230\ }
-\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}][\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
-\DoxyCodeLine{00232\ }
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00234\ }
-\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (NEUTRAL\_U):}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ NEUTRAL;}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00236\ }
-\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (AIR):\{}
-\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_A;}
-\DoxyCodeLine{00241\ }
-\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
-\DoxyCodeLine{00243\ }
-\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}][\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
-\DoxyCodeLine{00245\ }
-\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00247\ }
-\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00249\ }
-\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (CARRIER):\{}
-\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_N;}
-\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 3;}
-\DoxyCodeLine{00256\ }
-\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}][\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
-\DoxyCodeLine{00258\ }
-\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00260\ }
-\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}})\{\ \ \textcolor{comment}{//AIR,\ CARRIER,\ FLEETS,\ SUBS,\ FORTRESS,\ TANKS,\ INFANTRY,\ CONVOYS}}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (FORTRESS):\{}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_G;}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 0;}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (AIR):\{}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_A;}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00261\ }
 \DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (SUB):\{}
-\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_S;}
-\DoxyCodeLine{00266\ }
-\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
-\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}][\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
-\DoxyCodeLine{00270\ }
-\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00272\ }
-\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (FLEET):\{}
-\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_N;}
-\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 3;}
-\DoxyCodeLine{00280\ }
-\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}][\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
-\DoxyCodeLine{00282\ }
-\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00284\ }
-\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00286\ }
-\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (TANK):\{}
-\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_G;}
-\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 3;}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (CARRIER):\{}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_N;}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 3;}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (SUB):\{}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_S;}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (FLEET):\{}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_N;}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 3;}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
 \DoxyCodeLine{00293\ }
-\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}][\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
 \DoxyCodeLine{00295\ }
-\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
 \DoxyCodeLine{00297\ }
-\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00299\ }
-\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (INFANTRY):\{}
-\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_G;}
-\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (TANK):\{}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_G;}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 3;}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
 \DoxyCodeLine{00306\ }
-\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}][\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00308\ }
-\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00310\ }
-\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00312\ }
-\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (CONVOY):\{}
-\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_N;}
-\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (INFANTRY):\{}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_G;}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
 \DoxyCodeLine{00319\ }
-\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}][\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00321\ }
-\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00323\ }
-\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00325\ }
-\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
-\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (CONVOY):\{}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_N;}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
 \DoxyCodeLine{00332\ }
-\DoxyCodeLine{00333\ \ \ \ \ \}}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00334\ }
-
-
-
-
-
-
-
-
-
-
-
-\DoxyCodeLine{00347\ \ \ \ \ \mbox{\hyperlink{class_unit_acad90d9f5717f2df5442324170ff9d3c}{Unit}}(\textcolor{keyword}{const}\ UnitCountry\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}},\ \textcolor{keyword}{const}\ CityType\ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}},\ \textcolor{keyword}{const}\ UnitClass\ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}},\ \textcolor{keyword}{const}\ UnitType\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}},\ \textcolor{keyword}{const}\ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}=\textcolor{keyword}{false}):\ }
-\DoxyCodeLine{00348\ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}(\mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}),\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}(\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}),\ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}(\mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}),\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}(\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}),\ \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}}(\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}}),\ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}(\mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}),\ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}(\mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}),\ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}(\mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}})\{\ \textcolor{comment}{//for\ making\ custom\ units\ or\ US\ delivery}}
-\DoxyCodeLine{00349\ }
-\DoxyCodeLine{00350\ \ \ \ \ \}}
-\DoxyCodeLine{00351\ }
-
-
-
-
-\DoxyCodeLine{00357\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_unit_a4bb9013a7375ea641def03705d2bb58f}{setMovement}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ mov)\{\ \textcolor{comment}{//just\ for\ testing}}
-\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ mov;}
-\DoxyCodeLine{00359\ \ \ \ \ \}}
-\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00343\ }
+\DoxyCodeLine{00344\ \ \ \ \ \}}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00346\ \ \ \ \ \mbox{\hyperlink{class_unit}{Unit}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id},\ \textcolor{keyword}{const}\ UnitCountry\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}},\ \textcolor{keyword}{const}\ UnitType\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}},\ uint8\_t\ \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}}):\ \mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}}(\mbox{\hyperlink{class_unit_a4095688cb400304ab585177f84ac94f1}{id}}),\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}(\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}),\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}(\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}),\ \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}}(\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}})\{\ \textcolor{comment}{//for\ making\ cadres}}
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}})\{\ \textcolor{comment}{//BRITIAN\_U,\ FRANCE\_U,\ USA\_U,\ GERMANY\_U,\ ITALY\_U,\ USSR\_U,\ NEUTRAL\_U}}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (BRITIAN\_U):}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ WEST;}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (FRANCE\_U):}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ WEST;}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (USA\_U):}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ WEST;}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{00361\ }
-\DoxyCodeLine{00362\ }
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (GERMANY\_U):}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ AXIS;}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (ITALY\_U):}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ AXIS;}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00369\ }
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (USSR\_U):}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ USSR;}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (NEUTRAL\_U):}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}\ =\ NEUTRAL;}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00381\ }
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}})\{\ \ \textcolor{comment}{//AIR,\ CARRIER,\ FLEETS,\ SUBS,\ FORTRESS,\ TANKS,\ INFANTRY,\ CONVOYS}}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (FORTRESS):\{}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_G;}
+\DoxyCodeLine{00385\ }
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 0;}
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00391\ }
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00393\ }
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (AIR):\{}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_A;}
+\DoxyCodeLine{00398\ }
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
+\DoxyCodeLine{00400\ }
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00402\ }
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00404\ }
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (CARRIER):\{}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_N;}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 3;}
+\DoxyCodeLine{00413\ }
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00415\ }
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00417\ }
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (SUB):\{}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_S;}
+\DoxyCodeLine{00423\ }
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00427\ }
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00429\ }
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (FLEET):\{}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_N;}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 3;}
+\DoxyCodeLine{00437\ }
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00443\ }
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (TANK):\{}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_G;}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 3;}
+\DoxyCodeLine{00450\ }
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00452\ }
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00454\ }
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00456\ }
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (INFANTRY):\{}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_G;}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
+\DoxyCodeLine{00463\ }
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00465\ }
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00467\ }
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (CONVOY):\{}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}\ =\ CLASS\_N;}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ 2;}
+\DoxyCodeLine{00476\ }
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ac74a304146ccb68a0aad61ba983c2a0b}{max\_combat\_value}}\ =\ MAX\_CV\_TABLE[\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}];}
+\DoxyCodeLine{00478\ }
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00480\ }
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00482\ }
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00489\ }
+\DoxyCodeLine{00490\ \ \ \ \ \}}
+\DoxyCodeLine{00491\ }
 
 
 
-\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_unit_ae00d9e82c3260903f2f5a9d67e93dbc4}{print}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00368\ \};}
+
+
+
+
+
+
+
+
+\DoxyCodeLine{00504\ \ \ \ \ \mbox{\hyperlink{class_unit_acad90d9f5717f2df5442324170ff9d3c}{Unit}}(\textcolor{keyword}{const}\ UnitCountry\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}},\ \textcolor{keyword}{const}\ CityType\ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}},\ \textcolor{keyword}{const}\ UnitClass\ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}},\ \textcolor{keyword}{const}\ UnitType\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}},\ \textcolor{keyword}{const}\ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}=\textcolor{keyword}{false}):\ }
+\DoxyCodeLine{00505\ \ \ \ \ \mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}(\mbox{\hyperlink{class_unit_af6ab0a5472e0d167c04a7813ade4f175}{allegiance}}),\ \mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}(\mbox{\hyperlink{class_unit_ae1c31473ba1995100763d9d0a8d9aaba}{nationality}}),\ \mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}(\mbox{\hyperlink{class_unit_aad1d4c0d440f93ff6cc023bdf6cd3334}{class\_type}}),\ \mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}(\mbox{\hyperlink{class_unit_a60283283866df57b43649417eaa57014}{unit\_type}}),\ \mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}}(\mbox{\hyperlink{class_unit_a8aa0de37a1bf69db93630e9e3e4678ce}{combat\_value}}),\ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}(\mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}),\ \mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}(\mbox{\hyperlink{class_unit_a4b734abe04dacb29ee9cdfb93dce021e}{rebase}}),\ \mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}}(\mbox{\hyperlink{class_unit_a82a0f0846b9d87ac2a3918065f85ffbe}{landing}})\{\ \textcolor{comment}{//for\ making\ custom\ units\ or\ US\ delivery}}
+\DoxyCodeLine{00506\ }
+\DoxyCodeLine{00507\ \ \ \ \ \}}
+\DoxyCodeLine{00508\ }
+
+
+
+
+\DoxyCodeLine{00514\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_unit_a4bb9013a7375ea641def03705d2bb58f}{setMovement}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ mov)\{\ \textcolor{comment}{//just\ for\ testing}}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_unit_ab3610b61133bb4c605ad9e627dff8607}{movement}}\ =\ mov;}
+\DoxyCodeLine{00516\ \ \ \ \ \}}
+\DoxyCodeLine{00517\ }
+\DoxyCodeLine{00518\ }
+\DoxyCodeLine{00519\ }
+
+
+
+\DoxyCodeLine{00524\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_unit_ae00d9e82c3260903f2f5a9d67e93dbc4}{print}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00525\ \};}
 
 \end{DoxyCode}

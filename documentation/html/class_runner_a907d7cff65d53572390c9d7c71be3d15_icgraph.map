@@ -1,17 +1,7 @@
 <map id="Runner::drawMemoResolution" name="Runner::drawMemoResolution">
-<area shape="rect" id="Node000001" title="Takes the memo of the Dijkstra&#39;s knock&#45;off II for finding trade routes and highlighting the route it ..." alt="" coords="731,31,928,56"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#a9ed144ab26455935edae9ead1c77cc3c" title="During the production phase it needs to verify all cities controlled by the player that are blockaded..." alt="" coords="501,5,683,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="715,34,683,31,683,25,715,29"/>
-<area shape="rect" id="Node000006" href="$class_runner.html#a1339ccfbb7f33637f68ab258df440b6e" title="A decider for if the city provided is supplied and can have steps built. All the cities on the route ..." alt="" coords="528,55,656,80"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="716,58,656,64,656,58,715,52"/>
-<area shape="rect" id="Node000003" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="317,5,448,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="486,21,449,21,449,16,486,16"/>
-<area shape="rect" id="Node000004" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,5,264,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="301,21,264,21,264,16,301,16"/>
-<area shape="rect" id="Node000005" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,5,95,31"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="127,21,95,21,95,16,127,16"/>
-<area shape="rect" id="Node000007" href="$class_runner.html#a1c0a70248221bf1496e152a443ccc3a0" title="Decider for if a new unit of the given type is able to be built in the city provided." alt="" coords="322,55,443,80"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="513,70,444,70,444,65,513,65"/>
-<area shape="rect" id="Node000008" href="$class_runner.html#a0152b039104c601aa118d049989e60e3" title="Decider for if an exisiting unit can be upgraded." alt="" coords="312,104,453,130"/>
-<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="520,87,441,106,440,101,519,82"/>
+<area shape="rect" id="Node000001" title="Takes the memo of the Dijkstra&#39;s knock&#45;off II for finding trade routes and highlighting the route it ..." alt="" coords="414,5,611,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a9ed144ab26455935edae9ead1c77cc3c" title="During the production phase it needs to verify all cities controlled by the player that are blockaded..." alt="" coords="185,5,366,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="398,21,366,21,366,16,398,16"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="5,5,137,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="169,21,137,21,137,16,169,16"/>
 </map>

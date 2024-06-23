@@ -88,7 +88,11 @@ struct Dice{
     }
 };
 
-struct ActionCard{
+struct Card{
+
+};
+
+struct ActionCard : public Card{
 public:
     ActionType type; /**< The type of Action Card (DIPLOMACY for specific countries or a WILD)*/
 
@@ -117,11 +121,14 @@ public:
      */
     ActionCard(const ActionType type, const string countryA, const string countryB, const Season season, const char letter, const size_t number, const size_t sprite_offset_left, const size_t sprite_offset_right):
     type(type), countryA(countryA), countryB(countryB), season(season), letter(letter), number(number), sprite_offset_left(sprite_offset_left*2), sprite_offset_right(sprite_offset_right*2+1){
+    }
 
+    bool operator==(ActionCard* card){
+        return card->countryA == this->countryA && card->countryB == this->countryB && this->number == card->number && this->season == card->season;
     }
 };
 
-struct InvestmentCard{
+struct InvestmentCard : public Card{
 public:
     InvestType type; /**< The type of invest Card (the basic two sided TECHNOLOGY card, or a wild effect INTELLIGENCE, or a wild YEAR card)*/
 
@@ -152,6 +159,10 @@ public:
     type(type), amount(amount), year(year), sprite_offset_left(sprite_offset_left), sprite_offset_right(sprite_offset_right) {
         tech1 = Technology(tech1_name, (Tech)sprite_offset_left, false);
         tech2 = Technology(tech2_name, (Tech)sprite_offset_right, false);
+    }
+
+    bool operator==(InvestmentCard* card){
+        return card->tech1.name == this->tech1.name && card->tech2.name == this->tech2.name && this->amount == card->amount;
     }
 };
 
@@ -185,9 +196,10 @@ public:
 
     bool escaped=false; /**< Used for subs and if they have 'escaped' and can block trade routes */
 
-    Unit(const size_t id, UnitCountry nationality, UnitType unit_type): id(id), nationality(nationality), unit_type(unit_type){ //for making cadres
+    Unit(const size_t id, const UnitCountry nationality, const UnitType unit_type): id(id), nationality(nationality), unit_type(unit_type){ //for making cadres
 
-        combat_value = 1; //1 for all cadres
+        combat_value = 0; //1 for all cadres 
+        upgrading = true; //since a cadre is basically upgrading nothing to the unit type
 
         switch (nationality){ //BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRAL_U
             case (BRITIAN_U):
@@ -228,7 +240,7 @@ public:
 
                 movement = 0;
 
-                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
+                max_combat_value = MAX_CV_TABLE[nationality];
 
                 rebase = false;
 
@@ -241,7 +253,7 @@ public:
 
                 movement = 2;
 
-                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
+                max_combat_value = MAX_CV_TABLE[nationality];
 
                 rebase = true;
 
@@ -254,8 +266,7 @@ public:
                 
                 movement = 3;
 
-                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
-
+                max_combat_value = MAX_CV_TABLE[nationality];
                 rebase = true;
 
                 landing = true;
@@ -266,7 +277,7 @@ public:
 
                 movement = 2;
                 
-                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
+                max_combat_value = MAX_CV_TABLE[nationality];
 
                 rebase = true;
 
@@ -278,7 +289,7 @@ public:
                 
                 movement = 3;
 
-                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
+                max_combat_value = MAX_CV_TABLE[nationality];
 
                 rebase = true;
 
@@ -291,7 +302,7 @@ public:
                 
                 movement = 3;
 
-                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
+                max_combat_value = MAX_CV_TABLE[nationality];
 
                 rebase = false;
 
@@ -304,7 +315,7 @@ public:
                 
                 movement = 2;
 
-                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
+                max_combat_value = MAX_CV_TABLE[nationality];
 
                 rebase = false;
 
@@ -317,7 +328,153 @@ public:
                 
                 movement = 2;
 
-                max_combat_value = MAX_CV_TABLE[unit_type][nationality];
+                max_combat_value = MAX_CV_TABLE[nationality];
+
+                rebase = false;
+
+                landing = true;
+
+                break;
+            }
+            
+            default:
+                break;
+        }
+
+    }
+
+    Unit(const size_t id, const UnitCountry nationality, const UnitType unit_type, uint8_t combat_value): id(id), nationality(nationality), unit_type(unit_type), combat_value(combat_value){ //for making cadres
+
+
+        switch (nationality){ //BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRAL_U
+            case (BRITIAN_U):
+                allegiance = WEST;
+                break;
+
+            case (FRANCE_U):
+                allegiance = WEST;
+                break;
+            
+            case (USA_U):
+                allegiance = WEST;
+                break;
+
+            case (GERMANY_U):
+                allegiance = AXIS;
+                break;
+
+            case (ITALY_U):
+                allegiance = AXIS;
+                break;
+
+            case (USSR_U):
+                allegiance = USSR;
+                break;
+
+            case (NEUTRAL_U):
+                allegiance = NEUTRAL;
+                break;
+            
+            default:
+                break;
+        }
+
+        switch (unit_type){  //AIR, CARRIER, FLEETS, SUBS, FORTRESS, TANKS, INFANTRY, CONVOYS
+            case (FORTRESS):{
+                class_type = CLASS_G;
+
+                movement = 0;
+
+                max_combat_value = MAX_CV_TABLE[nationality];
+
+                rebase = false;
+
+                landing = false;
+
+                break;
+            }
+            case (AIR):{
+                class_type = CLASS_A;
+
+                movement = 2;
+
+                max_combat_value = MAX_CV_TABLE[nationality];
+
+                rebase = true;
+
+                landing = false;
+
+                break;
+            }
+            case (CARRIER):{
+                class_type = CLASS_N;
+                
+                movement = 3;
+
+                max_combat_value = MAX_CV_TABLE[nationality];
+
+                rebase = true;
+
+                landing = true;
+                break;
+            }
+            case (SUB):{
+                class_type = CLASS_S;
+
+                movement = 2;
+                
+                max_combat_value = MAX_CV_TABLE[nationality];
+
+                rebase = true;
+
+                landing = true;
+                break;
+            }
+            case (FLEET):{
+                class_type = CLASS_N;
+                
+                movement = 3;
+
+                max_combat_value = MAX_CV_TABLE[nationality];
+
+                rebase = true;
+
+                landing = true;
+
+                break;
+            }
+            case (TANK):{
+                class_type = CLASS_G;
+                
+                movement = 3;
+
+                max_combat_value = MAX_CV_TABLE[nationality];
+
+                rebase = false;
+
+                landing = false;
+
+                break;
+            }
+            case (INFANTRY):{
+                class_type = CLASS_G;
+                
+                movement = 2;
+
+                max_combat_value = MAX_CV_TABLE[nationality];
+
+                rebase = false;
+
+                landing = false;
+
+                break;
+            }
+            case (CONVOY):{
+                class_type = CLASS_N;
+                
+                movement = 2;
+
+                max_combat_value = MAX_CV_TABLE[nationality];
 
                 rebase = false;
 

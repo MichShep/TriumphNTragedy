@@ -19,18 +19,7 @@ void City::removeUnit(Unit* unit){
 
 void City::addUnit(Unit* unit){
     occupants[(size_t)unit->allegiance].push_back(unit);
-
-    //- Check for aggresiveness 
-    if (unit->allegiance != ruler_type && city_type != WATER){
-        aggresor = unit->allegiance;
-    }
-
-    country_counts[unit->nationality]++;
     num_occupants++;
-
-    //- If undefended then take 
-    //TODO Add conquering method
-
 }
 
 void Map::initLists(const size_t size){
@@ -65,16 +54,17 @@ size_t Map::findCity(const string name) const{
 City* Map::getClosestCity(const int x, const int y, const double zoom_x, const double zoom_y) const{
     City* closest;
     size_t dist = INFI;
+    const int limit = 1000*zoom_x;
     for (int i = 1; i <= list_size; i++){
         size_t possible_dist = (zoom_x*city_masterlist[i]->x - x)*(zoom_x*city_masterlist[i]->x - x) + (zoom_y*city_masterlist[i]->y - y)*(zoom_y*city_masterlist[i]->y - y);
-        if (possible_dist < dist){
+        if (possible_dist < dist && possible_dist <= limit){
             dist = possible_dist;
             closest = city_masterlist[i];
         }
 
     }
 
-    return closest;
+    return (dist == 18446744073709551615UL)? nullptr : closest;
 }
 
 //&^ City Dev tools

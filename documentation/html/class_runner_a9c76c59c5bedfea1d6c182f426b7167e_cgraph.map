@@ -1,0 +1,11 @@
+<map id="Runner::handleCardPlaying" name="Runner::handleCardPlaying">
+<area shape="rect" id="Node000001" title="Handler for playing card during the Government phase." alt="" coords="5,55,186,80"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a5ade0e06379cf267f9a0abf65c5ccb82" title="Handler for the player playing an action card to add influence to a country on an action card (assumi..." alt="" coords="234,55,388,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,65,218,65,218,70,186,70"/>
+<area shape="rect" id="Node000003" href="$struct_country.html#aa61eebb964ee31d3356fe4b8e4b80f24" title="Resolve the effects of a power playing a card on the country." alt="" coords="436,5,560,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="362,51,431,33,433,38,363,57"/>
+<area shape="rect" id="Node000004" href="$class_map.html#a9ed1e789af15eb96bff51d9a0f85a1fe" title="Gets the capital of that country." alt="" coords="442,55,555,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="388,65,426,65,426,70,388,70"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a8f42e5cada9553dfeea41d8308d440f8" title="Helper for loops where if the provided val will under/over flow into the min and max provided." alt="" coords="442,104,555,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="363,78,433,97,431,102,362,84"/>
+</map>

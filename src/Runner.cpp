@@ -66,7 +66,7 @@ bool Runner::initMap(string map_name){
 
         PowerType power_type;
         map_file >> tempS;
-        switch (tempS[0]+tempS[1]){ // {GREAT, MAJOR, COLONIES, MINOR, NONE, SEA}
+        switch (tempS[0]+tempS[1]){ // {GREAT, MAJOR, COLONIES, MINOR, NONE}
             case 'G' + 'r': //great
                 power_type = GREAT;
                 break;
@@ -304,7 +304,7 @@ bool Runner::initMap(string map_name){
         name.pop_back();
 
         //Construct incomplete country
-        Country* country = new Country(curr_country, name, capital);
+        Country* country = new Country(curr_country, name, map.getCity(capital));
 
         country->pushback(map[capital]);
 
@@ -453,15 +453,16 @@ bool Runner::initCards(const string invest_name, const string action_name){
 }
 
 bool Runner::mapPlayer(Player& player){
-    auto temp_map = map.getCities();
+    const auto& temp_map = map.getCities();
+    const auto& allegiance = player.getAllegiance();
 
     size_t temp_resources = 0;
     size_t temp_population = 0;
 
-    //- Go through each city
+    //- Go through each city thats owned by the city
     for (auto& city : temp_map){
         //- If it belongs to the player
-        if (city.second->ruler_type == player.getAllegiance() && !city.second->blockcade){ 
+        if (city.second->ruler_type == allegiance && !city.second->blockcade){ 
             //- Add to temp variables
             temp_resources += city.second->resource;
             temp_population += city.second->population;
@@ -482,7 +483,65 @@ bool Runner::mapPlayer(Player& player){
     return check;
 }
 
+void Runner::mapPlayerResPop(Player& player){
+    const auto& temp_map = map.getCities();
+    const auto& temp_countries = map.getCountries();
+    const auto& allegiance = player.getAllegiance();
+
+    size_t temp_resources = 0;
+    size_t temp_population = 0;
+
+    //- Go through each city thats owned by the city
+    for (auto& city : temp_map){
+        //- If it belongs to the player
+        if (city.second->ruler_type == allegiance && !city.second->blockcade){ 
+            //- Add to player
+            temp_resources += city.second->resource;
+            temp_population += city.second->population;
+        }
+    }
+
+    //- Go through each influenced country 
+    for (const auto& country : temp_countries){
+        if (country.second->influence_level <= PROTECTORATES){
+            for (const auto& city : country.second->cities){
+                temp_resources += city->resource;
+                temp_population += city->population;
+            }
+        }
+    }
+
+    player.setPopulation(temp_population);
+    player.setResource(temp_resources);
+}
+
 //! Logic Checks
+//& Unit Actions
+
+void Runner::buildUnit(Player&player, City* city, const UnitType unit){
+    Unit* cadre = new Unit(player.getNextID(), city->ruler_nationality, unit); //build new unit
+    city->addUnit(cadre); //add the unit to the city it was built in
+    player.add(cadre); //add is to the players ML of all of its units
+}
+
+//& Deciders
+
+City* Runner::getClosestCity(const Player& player, const int x, const int y) const{
+    City* closest = nullptr;
+    size_t dist = INFI;
+    const auto& cities = map.getCities();
+    for (const auto& city : cities){
+        size_t possible_dist = (player.app->screen.getX(city.second->x+city.second->WIDTH/2) - x)*(player.app->screen.getX(city.second->x+city.second->WIDTH/2) - x) + 
+            (player.app->screen.getY(city.second->y+city.second->HEIGHT/2) - y)*(player.app->screen.getY(city.second->y+city.second->HEIGHT/2) - y);
+        if (possible_dist < dist){ // && possible_dist <= limit){
+            dist = possible_dist;
+            closest = city.second;
+        }
+
+    }
+
+    return closest;
+}
 
 bool Runner::canDisengage(Unit* unit, const string start, const string end){
     //- Check if you the two are connected (0 means they aren't)
@@ -499,7 +558,7 @@ bool Runner::canDisengage(Unit* unit, const string start, const string end){
 
 bool Runner::checkTradeRoutes(Player& player, const string& main_capital){
     const auto& adjacency = map.getAdjacency();
-    const size_t num_city = adjacency.size();
+    const size_t num_city = adjacency.size()-1;
     vector<City*> freed_cities;
     size_t num_blockaded = player.getNumBlockaded();
     const size_t check = num_blockaded;
@@ -654,44 +713,70 @@ bool Runner::checkTradeRoutes(Player& player, const string& main_capital){
     return num_blockaded == check; //if the starting equals the end
 }
 
-ProductionError Runner::canBuild(const Player& player,  City* city, const UnitCountry nationality, const UnitType unit){
-    cout << city->name << " ";
+ProductionError Runner::canBuild(const Player& player,  City* city, const UnitType unit){
+    const CityType allegiance = player.getAllegiance();
     //? 7.231 Building Fortresses Fortress Cadres/steps can be built anywhere in undisputed Friendly Territory, even where Unsupplied
     if (unit == FORTRESS){
-        if (city->ruler_type != player.getAllegiance() && nationality != city->nationality){ 
+        if (city->ruler_type != allegiance){ 
+            //cout << "enemy fort" << endl;
             return ENEMY_FORTRESS;
         }
     }
     else{
         //? 2.3 Home Territory Land Areas within the national boundaries of a Great or Major Power (colorcoded) are termed its Home Territory. Except for Fortresses (3.241) all new units (Cadres) must be built within Home Territory.
-        if (city->power_type > MAJOR || city->city_type != player.getAllegiance() || city->ruler_type != player.getAllegiance() || nationality != city->nationality){ 
+        if (city->power_type > MAJOR || city->city_type != allegiance || city->ruler_type != allegiance){ 
+            //cout << "outside home" << endl;
             return OUTSIDE_HOME;
         }
     }
     //? 7.231 Building Fortresses ... Only one Fortress is allowed per Land Area
     if (unit == FORTRESS){
-        for (const auto& city_units : city->occupants[player.getAllegiance()]){
-            if (city_units->unit_type == FORTRESS)
+        for (const auto& city_units : city->occupants[allegiance]){
+            if (city_units->unit_type == FORTRESS){
+                //cout << "pre_fort" << endl;
                 return PRE_FORTRESS;
+            }
         }
     }
 
     //? 7.23 Building Unit Steps Units cannot be built if they are Unsupplied (14.1), but see 7.231
     if (city->year_supplied == year && city->season_supplied == season && !city->supllied){ //if it was already checked this season for supply lines then use result
+        //cout << "unsupplied1" << endl;
         return UNSUPPLIED;
     }
 
-    if ((city->year_supplied != year || city->season_supplied != season) && !isSupllied(player, city, player.getAllegiance())){ //if it hasn't been checked this season then need to run check
+    if ((city->year_supplied != year || city->season_supplied != season) && !isSupllied(player, city, allegiance)){ //if it hasn't been checked this season then need to run check
+        //cout << "unsupplied2" << endl;
         return UNSUPPLIED;
     }
 
     //? Can't use more blocks then you have
-    if (player.unit_counts[unit]+1 > UNIT_COUNTS[nationality][unit]){
+    if (player.unit_counts[city->ruler_nationality][unit]+1 > UNIT_COUNTS[unit][city->ruler_nationality]){
+        //cout << "unit maxed" << endl;
         return UNIT_MAXED;
     }
 
     return ABLE;
 
+}
+
+bool Runner::setBuildable(Player& player){
+    const auto& city = player.building_city;
+    player.unit_buildable[FORTRESS] = (canBuild(player, city, FORTRESS) == ABLE); //top
+
+    player.unit_buildable[AIR] = (canBuild(player, city, AIR) == ABLE); //top right
+
+    player.unit_buildable[CARRIER] = (canBuild(player, city, CARRIER) == ABLE); //right
+
+    player.unit_buildable[SUB] = (canBuild(player, city, SUB) == ABLE); //bottom right
+
+    player.unit_buildable[FLEET] = (canBuild(player, city, FLEET) == ABLE); //bottom
+
+    player.unit_buildable[TANK] = (canBuild(player, city, TANK) == ABLE); //bottom left
+
+    player.unit_buildable[INFANTRY] = (canBuild(player, city, INFANTRY) == ABLE); //left*/
+
+    return player.unit_buildable[FORTRESS] || player.unit_buildable[AIR] || player.unit_buildable[CARRIER] || player.unit_buildable[SUB] || player.unit_buildable[FLEET] || player.unit_buildable[TANK] || player.unit_buildable[INFANTRY];
 }
 
 ProductionError Runner::canUpgrade(const Player& player, City* city, const UnitCountry nationality, const Unit* unit){
@@ -725,7 +810,7 @@ bool Runner::isSupllied(const Player& player, City* city, const CityType allegia
     //? 14.11 Supply Lines Supply Lines can only pass through Friendly Territory (including Disputed Areas that are Friendly-controlled) and Open Seas.
     //? They cannot pass through Enemy-controlled areas or Rival/Neutral Territory (except Straits, 1.3).
     const auto& adjacency = map.getAdjacency();
-    const size_t num_city = adjacency.size();
+    const size_t num_city = adjacency.size()-1;
 
     constexpr size_t VISITED = 0, PREVIOUS = 1, DISTANCE = 2, STRAIT = 3, infi = INFI;
 
@@ -738,7 +823,7 @@ bool Runner::isSupllied(const Player& player, City* city, const CityType allegia
     queue<size_t> index_to_go;
     index_to_go.push(city_index);
 
-    City* supplier=nullptr; //will get set to true if an adjacent city is found
+    City* supplier= (city->population_type  >= SUB_CAPITAL)? city : nullptr; //will get set to true if an adjacent city is found
 
     //Basically, since the supply lines can go to a Capital OR Subcapital, it has more freedom as a trade route, but it can only go through friendly (ruler_type==allegiance) or
     // water areas. Finding the route will be easy since run it until it hits either, but also it can have that all cities on the route to that subcapital or captial can be set as supplied
@@ -810,8 +895,6 @@ bool Runner::isSupllied(const Player& player, City* city, const CityType allegia
             lucky_one->supllied = supplied;
         }
     }
-
-    drawMemoResolution(player, memo);
 
     return supplied;
 }

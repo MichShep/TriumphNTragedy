@@ -33,7 +33,13 @@ private:
 
     size_t max_production=0; /**< Max production level of the player for the current production phase*/
 
-    size_t current_production=0; /**< The current production left for the pleyer for the production phase */
+    int current_production=0; /**< The current production left for the pleyer for the production phase */
+
+    int units_upgraded=0; /**< Count for the number of units upgraded in the current production phase */
+
+    int units_built=0; /**< Count for the number of units built (cadres added) in the current production phase*/
+
+    size_t total_units=0; /**< Current number of units the player has on the board (number in play) */
 
     vector<Unit*> units; /**< Masterlist of all units the player controls*/
 
@@ -63,15 +69,13 @@ private:
 
     size_t battles_lost[3]; /**<A llies:0 Axis:1 USSR:2 where each index specifies against who*/
 
-    size_t total_units[8]; /**< Each index is a specific unit and how much*/
-
     size_t cards_spent; /**< Number of cards the player has spent this game*/
 
     size_t cities_controlled; /**< Number of cities the player controls*/
 public:
-    stack<ProductionAction> production_actions;
-
-    int unit_counts[7] = {0, 0, 0, 0, 0, 0, 0}; /**< An array of the count of how many units on the board this player has made*/
+    int unit_counts[7][7] = {{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}}; /**< An array of the count of how many units on the board this player has made*/
+    
+    bool passed = false; /**< Flag for if the player has passed int he current phase and forfits any future turns in the phase */
 
     //& Graphics things
     App* app; /**< Container for the attributes of the player's window/screen and renderer*/
@@ -80,36 +84,69 @@ public:
 
     Spritesheet* map_sprite; /**< The spirte of the map for the player's renderer */
 
+    Spritesheet* message_animation_sheets; /**< The spirte of the map for the player's renderer */
+
     Spritesheet* units_sprite_z1; /**< The sprite sheet for units at zoom 1 (the broadest) */
 
     Spritesheet* units_sprite_z3; /**< The sprite sheet for the units at zoom 3 (the closest) */
+
+    Spritesheet* controller_button_sprites; /**< The sprite sheet for the units at zoom 3 (the closest) */
 
     int action_card_start=0; /**< Which action card to start displaying on the main home screen*/
     int invest_card_start=0; /**< Which invest card to start displaying on the main home screen*/
     int tech_card_start=0; /**< Which discovered tech card to start displaying on the main home screen*/
 
-    int zoom = 1; /**< The current zoom level (1,2,3) of the player's screen  */
+    int zoom = 1; /**< The current zoom level (1,2,3) of the player's screen*/
 
-    size_t bought_action = 0; /**< The current number of action cards the player intends to buy*/
-    size_t bought_invest = 0; /**< The current number of invest cards the player intends to buy */
+    int bought_action = 0; /**< The current number of action cards the player intends to buy*/
+    int bought_invest = 0; /**< The current number of invest cards the player intends to buy*/
 
     bool board_change=true; /**< Boolen to track wether the player's board/view has changed and needs to be redrawn*/
 
-    bool show_action = false; /**< Boolean to track if the action hand should be expanded to show all cards*/
-    bool show_invest = false; /**< Boolean to track if the invest hand should be expanded to show all cards*/
+    bool show_action = false; /**< Falg to track if the action hand should be expanded to show all cards*/
+    bool show_invest = false; /**< Flag to track if the invest hand should be expanded to show all cards*/
+    bool show_west = false; /**< Flag to track if the information of the West Player should be shown */
+    bool show_axis = false; /**< Flag to track if the information of the Axis Player should be shown */
+    bool show_ussr = false; /**< Flag to track if the information of the USSR Player should be shown */
     
     double cursor_x = 0;  /**< The current x coord of the player's cursor on the screen*/
     double cursor_y = 0;  /**< The current y coord of the player's cursor on the screen*/
 
-    int city_viewing = -1; /**< The ID of the city being view or in focus, meaning all action are set to this */
+    double wheel_x = 0; /**< The x-coord of a unit circle for the selection wheel */
+    double wheel_y = 0; /**< The y-coord of a unit circle for the selection wheel */
+    double popped_unit[3] = {-2, -2, -2};
 
-    int unit_viewing = -1; /**< The ID of the unit being view or in focus, meaning all action are set to this */
     CityType allegiance_viewing = NEUTRAL;  /**< The allegiance of the unit being view or in focus*/
-    Unit* selected_unit = nullptr; /**< The unit thats under focus and all actions pertaining to*/
+    pair<City*, Unit*> selected_unit = {nullptr, nullptr}; /**< The unit thats under focus and all actions pertaining to*/
 
     City* closest_map_city = nullptr; /**< The city that is closest to the player's cursor (updated when cursor stops moving) */
 
-    vector<City*> displayed_cities; /**< Vector of all cities pinned by the player to show all information */
+    City* building_city = nullptr; /**< Pointer to the city that has been selected to add a unit */
+    bool unit_buildable[7]= {false, false, false, false, false, false, false}; /**< Array that corresponds to the units to hold flags if the unit is buildable in the current `building_city`*/
+
+    Widget widget = MAP; /**< Holds which current widget the player is on */
+
+    bool d_up_held = false; /**< Flag to indicate if the D-PAD Up button is being held by the player */
+    bool d_down_held = false; /**< Flag to indicate if the D-PAD Down button is being held by the player */
+    bool d_left_held = false; /**< Flag to indicate if the D-PAD Left button is being held by the player */
+    bool d_right_held = false; /**< Flag to indicate if the D-PAD Right button is being held by the player */
+    Uint32 last_widget = 0; /**< Time to indicate when the player last changed widgets to pace UI change */
+
+
+    int popped_action_card_index = -1; /**< The index into the action hand of the action card the player has currently selected */
+    ActionCard* popped_action_card = nullptr; /**< Pointer to the action card the player has currently selected in their action hand (nullptr if none selected) */
+    City* popped_left_country = nullptr; /**< Pointer to the capital of the country on the left hand side of the card (used for drawing) */
+    bool show_left_country = false; /**< Flag to indicate if the capital of the left side country should be drawn */
+    City* popped_right_country = nullptr; /**< Pointer to the capital of the country on the right hand side of the card (used for drawing) */
+    bool show_right_country = false; /**< Flag to indicate if the capital of the left side country should be drawn */
+    Country* selected_country = nullptr; /**< Pointer to the country the player has currently selected for card actions (nullptr if none selected) */
+
+    int popped_invest_card_index = -1; /**< The index into the investment hand of the investment card the player has currently selected */
+
+    Uint32 x_held_tick = 0; /**< Tick of when the player most recently pressed down on the X-Button (0 if not held) */
+    Uint32 y_held_tick = 0; /**< Tick of when the player most recently pressed down on the Y-Button (0 if not held) */
+    bool y_resolved = true; /**< Flag for if the Y-Button animation has been resolved */
+    Uint32 right_stick_tick = 0; /**< Tick of when the player most moved the right joystick */
 
     /**
      * @brief Construct a blank default Player object
@@ -196,6 +233,56 @@ public:
     }
 
     /**
+     * @brief Add a unit to the master list of units and update the unit counts of the player
+     * 
+     * @param unit Pointer to the unit being created 
+     */
+    void add(Unit* unit){
+        units[unit->id] = unit;
+        total_units++;
+        unit_counts[unit->nationality][unit->unit_type]++;
+    }
+
+    /**
+     * @brief Removes a unit from the master list and updates the unit count of the player
+     * 
+     * @param unit Pointer to the unit that will be removed
+     * @pre The @p unit is in the masterlist
+     */
+    void remove(Unit* unit){
+        units[unit->id] = nullptr;
+        total_units--;
+        unit_counts[unit->nationality][unit->unit_type]--;
+    }
+
+    /**
+     * @brief Iterates through the units and if they were marked as upgraded, increases the combat value and resets the upgrade flag
+     * 
+     */
+    void upgradeUnits(){
+        for (auto& unit : units){
+            if (unit != nullptr && unit->upgrading){
+                unit->upgrading = false;
+                unit->combat_value++;
+            }
+        }
+    }
+
+    /**
+     * @brief Gets the next empty ID in the unit master list to give to a new unit
+     * 
+     * @return size_t 
+     */
+    size_t getNextID() const{
+        for (size_t i = 0; i < units.size(); i++){
+            if (units[i] == nullptr)
+                return i;
+        }
+
+        return -1;
+    }
+
+    /**
      * @brief Get the begin iterator of the controlled cities hashmap to iteratre through
      * 
      * @return unordered_map<string,City*>::const_iterator 
@@ -278,6 +365,14 @@ public:
      */
     void deal(InvestmentCard* iC){
         invest_hand.push_back(iC);
+    }
+
+    void remove(const ActionCard* action_card){
+        action_hand.erase(std::find(action_hand.begin(), action_hand.end(), action_card));
+    }
+
+    void remove(const InvestmentCard* invest_card){
+        invest_hand.erase(std::find(invest_hand.begin(), invest_hand.end(), invest_card));
     }
 
     //& Getters and Setters
@@ -512,6 +607,7 @@ public:
         return achieved_tech[indx];
     }
 
+    //& Production
     /**
      * @brief Get the min production of the player min(pop, res, ind). If not at war then dont look at res
      * 
@@ -528,8 +624,8 @@ public:
      * 
      * @return const size_t The current production (or how much they have left to spend)
      */
-    const size_t getCurrentProduction() const{
-        return current_production;
+    const int getCurrentProduction() const{
+        return current_production-units_built-units_upgraded-bought_action-bought_invest;
     }
 
     /**
@@ -541,6 +637,25 @@ public:
     const size_t getMaxProduction() const{
         return max_production;
     }
+
+    void spendProduction(const ProductionAction p_act, const bool undo=false){ //BUY_AC, BUY_IC, UNIT_UP, CADRE}
+        switch (p_act){
+            case BUY_AC:
+                bought_action += (undo)? -1 : 1;
+                break;
+            case BUY_IC:
+                bought_invest += (undo)? -1 : 1;
+                break;
+            case UNIT_UP:
+                units_upgraded += (undo)? -1 : 1;
+                break;
+            case CADRE:
+                units_built += (undo)? -1 : 1;
+                break;
+            default:
+                break;
+        }
+    }   
 
     /**
      * @brief Gets if the player is at war with any other player
@@ -589,6 +704,15 @@ public:
     }
 
     /**
+     * @brief Returns the name of the player
+     * 
+     * @return const string& Name of the Player
+     */
+    const string& getName() const{
+        return name;
+    }
+
+    /**
      * @brief Prints out all stats of the player
      * 
      */
@@ -607,9 +731,9 @@ public:
             if (ac != nullptr) delete ac;
         }
         invest_hand.clear();
-        for (Unit* unit: units){
+        /*for (Unit* unit: units){
             if (unit != nullptr) delete unit;
-        }
+        }*/
         units.clear();
         controlled_cities.clear();
 

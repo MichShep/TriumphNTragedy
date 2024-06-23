@@ -1,16 +1,20 @@
 var searchData=
 [
   ['rebase_0',['rebase',['../class_unit.html#a4b734abe04dacb29ee9cdfb93dce021e',1,'Unit']]],
-  ['removeunit_1',['removeUnit',['../struct_city.html#a792bdc0db42861f30ba41515746cf867',1,'City']]],
-  ['res_5fx_2',['res_x',['../struct_city.html#aaaa09c62c58699f0cfbeba173be1331b',1,'City']]],
-  ['res_5fy_3',['res_y',['../struct_city.html#a6304a296746cf15cf30b84c0f01512af',1,'City']]],
-  ['reshuffle_4',['reshuffle',['../class_runner.html#ad62bb8027061f8fbd5eced9182ff8db1',1,'Runner']]],
-  ['reshuffleanimation_5',['reshuffleAnimation',['../class_runner.html#abe7acd5992a451b154e957e7cbb4f360',1,'Runner']]],
-  ['resource_6',['resource',['../struct_city.html#a8ec5ff784d9db1fc27d9ce9c171c15ce',1,'City']]],
-  ['resources_7',['resources',['../class_player.html#a5c4da754060ca1cfedc8e845433c648c',1,'Player']]],
-  ['rival_5fcapitals_8',['rival_capitals',['../class_player.html#ab5215fe1d27d1762ca01b7d0cc1b7157',1,'Player']]],
-  ['roll_9',['roll',['../struct_dice.html#a612a16c434160895563d19099ca0b33b',1,'Dice']]],
-  ['ruler_5ftype_10',['ruler_type',['../struct_city.html#acc6a46c106ff550757c05195129a577a',1,'City']]],
-  ['run_11',['run',['../class_runner.html#a5fc406cae4aee55ee32026295464b0e1',1,'Runner']]],
-  ['runner_12',['runner',['../class_runner.html',1,'Runner'],['../class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4',1,'Runner::Runner()']]]
+  ['remove_1',['remove',['../class_player.html#a06b633b842cbed111f637299a023fb72',1,'Player']]],
+  ['removeunit_2',['removeUnit',['../struct_city.html#a792bdc0db42861f30ba41515746cf867',1,'City']]],
+  ['res_5fx_3',['res_x',['../struct_city.html#aaaa09c62c58699f0cfbeba173be1331b',1,'City']]],
+  ['res_5fy_4',['res_y',['../struct_city.html#a6304a296746cf15cf30b84c0f01512af',1,'City']]],
+  ['reshuffle_5',['reshuffle',['../class_runner.html#ad62bb8027061f8fbd5eced9182ff8db1',1,'Runner']]],
+  ['resolvecards_6',['resolveCards',['../struct_country.html#a48278a0a376bd25cb55d969e1a358692',1,'Country']]],
+  ['resolvediplomacy_7',['resolvediplomacy',['../class_runner.html#a86d33bba95d8d89078635f15e695dd11',1,'Runner::resolveDiplomacy()'],['../struct_country.html#a6a1ee4db727200c3c7c299634a5557a6',1,'Country::resolveDiplomacy()']]],
+  ['resource_8',['resource',['../struct_city.html#a8ec5ff784d9db1fc27d9ce9c171c15ce',1,'City']]],
+  ['resources_9',['resources',['../class_player.html#a5c4da754060ca1cfedc8e845433c648c',1,'Player']]],
+  ['right_5fstick_5ftick_10',['right_stick_tick',['../class_player.html#a9e93fddf36bc33573f5b6c545e99b795',1,'Player']]],
+  ['rival_5fcapitals_11',['rival_capitals',['../class_player.html#ab5215fe1d27d1762ca01b7d0cc1b7157',1,'Player']]],
+  ['roll_12',['roll',['../struct_dice.html#a612a16c434160895563d19099ca0b33b',1,'Dice']]],
+  ['ruler_5fnationality_13',['ruler_nationality',['../struct_city.html#a347f82291c8c7d0d6866985791d0770e',1,'City']]],
+  ['ruler_5ftype_14',['ruler_type',['../struct_city.html#acc6a46c106ff550757c05195129a577a',1,'City']]],
+  ['run_15',['run',['../class_runner.html#a5fc406cae4aee55ee32026295464b0e1',1,'Runner']]],
+  ['runner_16',['runner',['../class_runner.html',1,'Runner'],['../class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4',1,'Runner::Runner()']]]
 ];

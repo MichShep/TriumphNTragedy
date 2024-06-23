@@ -1,9 +1,15 @@
 <map id="Country" name="Country">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,277,141,542"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="11,134,56,199"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="40,199,47,253,48,260,43,260,42,253,34,199"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="81,134,186,199"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="128,199,113,261,108,260,123,198"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="109,5,158,71"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="136,86,136,134,131,134,131,86"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="84,921,220,1246"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="21,134,66,199"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="40,199,24,309,10,473,8,566,11,664,20,762,38,857,55,909,78,960,73,962,50,911,33,858,15,763,5,664,3,566,5,472,19,308,35,199"/>
+<area shape="rect" id="Node000003" href="$struct_city.html" title="Each segment of the map where troops can be stationed." alt="" coords="92,312,212,858"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="54,198,90,335,85,337,49,200"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,857,154,904,149,904,149,857"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="106,134,211,199"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="154,199,150,223,149,256,150,288,150,295,145,295,145,288,144,256,145,223,149,198"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="199,5,248,71"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="198,85,192,96,173,135,169,133,187,93,193,82"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="232,223,338,288"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="249,83,253,94,272,162,283,223,278,224,266,164,248,95,244,85"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="287,288,282,385,272,526,254,691,226,858,215,905,210,904,221,857,249,690,267,525,277,384,281,288"/>
 </map>

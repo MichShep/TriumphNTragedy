@@ -6,134 +6,9 @@ bool Runner::run(){
     reshuffle(false);
 
     //& Draw the initial Board
-    //drawMap(WEST, true, false, false, true);
-
-    /*SDL_Event event;
-    while (running){
-        if (player_board_changed[WEST]){
-            drawPlayerBoard(players[WEST], powers_app[WEST].renderer);
-            player_board_changed[WEST] = false;
-        }
-        if (player_board_changed[AXIS]){
-            drawPlayerBoard(players[AXIS], powers_app[AXIS].renderer);
-            player_board_changed[AXIS] = false;
-        }
-        if (player_board_changed[USSR]){
-            drawPlayerBoard(players[USSR], powers_app[USSR].renderer);
-            player_board_changed[USSR] = false;
-        }
- 
-        if (SDL_PollEvent(&event)){
-            switch (event.type) {
-                case SDL_MOUSEBUTTONDOWN:{
-                    int mouseX,mouseY;
-                    SDL_GetMouseState(&mouseX, &mouseY);
-                    const auto& allegiance = event.window.windowID-2;
-                    if (event.window.windowID > 1){ //is a player window //TODO Optomize
-                        if (mouseY > 40*3){
-                            if (inBox(53*3, 47*3, 27, 51, mouseX, mouseY)){ // is button #1
-                                player_board_changed[allegiance] = true;
-                                if ((players[allegiance].action_card_start-=2) < 0)
-                                    players[allegiance].action_card_start = players[allegiance].getActionSize()-2;
-                            }
-                            else if (inBox(262*3, 47*3, 27, 51, mouseX, mouseY)){ // is button #2
-                                player_board_changed[allegiance] = true;
-                                if ((players[allegiance].action_card_start+= 2) >= players[allegiance].getActionSize())
-                                    players[allegiance].action_card_start = 0;
-                            }
-
-                            else if (inBox(53*3, 86*3, 27, 51, mouseX, mouseY)){ // is button #3
-                                player_board_changed[allegiance] = true;
-                                if ((players[allegiance].invest_card_start-=2) < 0)
-                                    players[allegiance].invest_card_start = players[allegiance].getInvestSize()-2;
-                            }
-                            else if (inBox(262*3, 86*3, 27, 51, mouseX, mouseY)){ // is button #4
-                                player_board_changed[allegiance] = true;
-                                if ((players[allegiance].invest_card_start+= 2) >= players[allegiance].getInvestSize())
-                                    players[allegiance].invest_card_start = 0;
-                            }
-
-                            else if (inBox(70*3, 128*3, 27, 51, mouseX, mouseY)){ // is button #5
-                                player_board_changed[allegiance] = true;
-                                if ((players[allegiance].tech_card_start-=5) < 0)
-                                    players[allegiance].tech_card_start = players[allegiance].getTechSize()-2;
-                            }
-                            else if (inBox(245*3, 128*3, 27, 51, mouseX, mouseY)){ // is button #6
-                                player_board_changed[allegiance] = true;
-                                if ((players[allegiance].tech_card_start+= 5) >= players[allegiance].getTechSize()){
-                                    players[allegiance].tech_card_start = 0;
-                                }
-                            }
-                        }
-                        else if (inBox(9*3, 8*3, 81*3, 23*3, mouseX, mouseY)){ //is a change screen button
-                            if (mouseX >= 35*3 && players[allegiance].state != PRODUCTION_BOARD){ //production button
-                                players[allegiance].state = PRODUCTION_BOARD;
-                                player_board_changed[allegiance] = true;
-                            }
-
-                            else if (mouseX <= 30*3 && mouseX >= 10*3 && players[allegiance].state != HOME_BOARD){ //home button
-                                players[allegiance].state = HOME_BOARD;
-                                player_board_changed[allegiance] = true;
-                            }
-                        }
-                    }
-                }
-                break;
-
-                case SDL_CONTROLLERBUTTONDOWN:{
-                    if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A){
-                        cout << "A was mapped!" << endl;
-                    }
-                    if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A){
-                        cout << "B was mapped!" << endl;
-                    }
-                }
-
-                case SDL_KEYDOWN:{
-                    running = event.key.keysym.scancode != SDL_SCANCODE_ESCAPE;
-                    switch(event.key.keysym.scancode){
-                        case SDL_SCANCODE_RIGHT:{
-                            players[WEST].mapX += 6;
-                            player_board_changed[WEST] = true;
-                            break;
-
-                        }
-
-                        case SDL_SCANCODE_LEFT:{
-                            players[WEST].mapX -= 6;
-                            player_board_changed[WEST] = true;
-                            break;
-                        }
-
-                        case SDL_SCANCODE_UP:{
-                            players[WEST].mapY -= 6;
-                            player_board_changed[WEST] = true;
-                            break;
-                        }
-
-                        case SDL_SCANCODE_DOWN:{
-                            players[WEST].mapY += 6;
-                            player_board_changed[WEST] = true;
-                            break;
-                        }
-                        default:{
-                            break;
-                        }
-                    }
-                    break;
-                }
-
-                case SDL_QUIT:{
-                    running = false;
-                    break;
-                }
-
-                default: {
-                    break;
-                }
-            }
-        }
-    }*/
+    drawPlayerBoard(players[WEST]);
+    drawPlayerBoard(players[AXIS]);
+    drawPlayerBoard(players[USSR]);
     
     //& Main game Loop
     CityType winner;
@@ -145,13 +20,14 @@ bool Runner::run(){
     freeMemory();
     printf("Memory was deleted\n");
 
-
     return EXIT_SUCCESS;
 }
 
 //&^ New Year
 
 CityType Runner::newYear(){
+    season = NEW_YEAR;
+    
     //- Advance Year
     year++;
 
@@ -163,7 +39,7 @@ CityType Runner::newYear(){
     }
 
     //- Reshuffle..
-    //reshuffle(true);
+    reshuffle(true);
 
     //- Peace Dividends.
     //peaceDividends();
@@ -174,8 +50,8 @@ CityType Runner::newYear(){
     //- New Year Resolution.
     newYearRes();
 
-    //- Production Phase
-    production();
+    //- Production Phase..
+    //production();
     
     //- Government Phase
     government();
@@ -192,41 +68,54 @@ CityType Runner::newYear(){
 
 //- Production Phase
 void Runner::production(){
-    season = NEW_YEAR;
+    season = PRODUCTION;
     // Used to calculate fps
     unsigned int a = SDL_GetTicks();
     unsigned int b = SDL_GetTicks();
     double delta = 0;
 
-    //1:add invest card 1:add action card
-    stack<int> actions;
+    //- Get the production for all players so they can plan ahead
+    players[WEST].calculateProduction();
+    players[AXIS].calculateProduction();
+    players[USSR].calculateProduction();
 
+    //- Initial draw
+    drawPhase(0);
+
+    public_messages.push_back(PublicMessage(PRODUCTION_START, b));
     //- Go through each player in turn order
-    bool running=true;
     for (auto& player : turn_order){
+        bool running=true;
+        current_player = player;
+
         //- Check trade routes
+        //TODO fix animation
         checkTradeRoutes(*player, player->getCapital());
 
-        //- Get the production for this round
-        player->calculateProduction();
-
-        while (running){
+        while (running || !public_messages.empty()){
             a = SDL_GetTicks();
             delta = a - b;
-            //ensures framerate of 30fps
+
+            //ensures framerate of 60fps
             if (delta > 1000/60.0){
                 b = a;  
                 //- Player input
-                handleUserInput(running);
+                handleUserInput(running, b);
 
                 //- Render
-                drawProductionPhase();
+                drawPhase(b);
+
+                //- Check if player has passed
+                running = !player->passed;
             }
         }
-    }
+        //- Set production things to null
+        player->selected_unit = {nullptr, nullptr};
+        player->building_city = nullptr;
+    }    
 }
 
-void Runner::drawProductionPhase(){
+void Runner::drawPhase(const Uint32& delta){
     //- Check if things have changed and need to be redrawn
 
     if (map_changed){
@@ -234,21 +123,64 @@ void Runner::drawProductionPhase(){
     }
     
     if (players[WEST].board_change){
-        drawPlayerBoard(players[WEST], powers_app[WEST].renderer, players[WEST].bought_action, players[WEST].bought_invest);
+        drawPlayerBoard(players[WEST], delta);
         players[WEST].board_change = false;
     }
     if (players[AXIS].board_change){
-        drawPlayerBoard(players[AXIS], powers_app[AXIS].renderer, players[AXIS].bought_action, players[AXIS].bought_invest);
+        drawPlayerBoard(players[AXIS], delta);
         players[AXIS].board_change = false;
     }
     if (players[USSR].board_change){
-        drawPlayerBoard(players[USSR], powers_app[USSR].renderer, players[USSR].bought_action, players[USSR].bought_invest);
+        drawPlayerBoard(players[USSR], delta);
         players[USSR].board_change = false;
     }
 }
 
 //- Government Phase
+
 void Runner::government(){
+    season = GOVERNMENT;
+
+    players[WEST].passed = false;
+    players[AXIS].passed = false;
+    players[USSR].passed = false;
+
+
+    unsigned int a = SDL_GetTicks();
+    unsigned int b = SDL_GetTicks();
+    double delta = 0;
+
+    //- Initial draw
+    drawPhase(0);
+
+    public_messages.push_back(PublicMessage(GOVERNMENT_START, b));
+
+    //- Go through each player in turn order but it can loop so it will be an inner loop
+    bool running=true;
+    current_player = turn_order[0];
+    cout << current_player->getName() << endl;
+
+    while (running || !public_messages.empty()){
+        a = SDL_GetTicks();
+        delta = a - b;
+
+        //ensures framerate of 60fps
+        if (delta > 1000/60.0){
+            b = a;  
+            //- Player input
+            handleUserInput(running, b);
+
+            //- Render
+            drawPhase(b);
+
+            //- Check if player has passed
+            running = !turn_order[0]->passed || !turn_order[1]->passed ||  !turn_order[2]->passed;
+        }
+    }
+
+    //- Diplomacy Resolution
+    resolveDiplomacy();
+    
         //- Diplomacy
 
         //- Industry
@@ -258,11 +190,50 @@ void Runner::government(){
         //- Intelligence
 
         //- Pass
-
-    //- Diplomacy Resolution
-
 }
 
+bool Runner::addDiplomacy(Player& player, Country* country){
+    //- if there is a selected value and it can be influenced (less than a satellite)
+    if (country == nullptr || country->influence_level == SATELLITES){
+        return false;
+    }
+
+    //TODO add error messages
+    if (country->armed_minor){
+        return false;
+    }
+
+    //- if can add card remove fram hand
+    ActionCard* used_card = player.popped_action_card;
+    player.remove(used_card);
+
+    player.popped_action_card_index = loopVal(player.popped_action_card_index, 0 , player.getActionSize()-1);
+    player.selected_country = nullptr;
+    player.show_left_country = true;
+    player.show_right_country = true;
+    player.popped_action_card = player.getActionCard(player.popped_action_card_index);
+    if (player.popped_action_card->type == DIPLOMACY){
+            player.popped_left_country = map.getCapital(player.popped_action_card->countryA);
+            player.popped_right_country =  map.getCapital(player.popped_action_card->countryB);
+    }
+
+    //- add it to discard pile
+    action_discard.push_back(used_card);
+
+    country->addCard(player.getAllegiance());
+    
+    return true;
+}
+
+void Runner::resolveDiplomacy(){
+    for (auto& country : map.getCountries()){
+        country.second->resolveCards();
+        cout << country.second->name << " " << country.second->influence << endl;
+    }
+    mapPlayerResPop(players[WEST]);
+    mapPlayerResPop(players[AXIS]);
+    mapPlayerResPop(players[USSR]);
+}
 //- Spring Season
 void Runner::spring(){
     season = SPRING;
@@ -330,8 +301,21 @@ void Runner::winter(){
 //&^^ New Year Helpers
 
 void Runner::reshuffle(const bool animation){
+    season = RESHUFFLE;
     if (year == 1936)
         return;
+
+    unsigned int a = SDL_GetTicks();
+    unsigned int b = SDL_GetTicks();
+    double delta = 0;
+
+    //- Initial draw
+    if (animation){
+        drawPhase(0);
+        public_messages.push_back(PublicMessage(RESHUFFLE_START, b));
+    }
+
+    //- Actual reshuffle
     //- Add action discard and shuffle
     action_deck.insert(action_deck.end(), action_discard.begin(), action_discard.end());
     shuffle(action_deck.begin(), action_deck.end(), g);
@@ -340,10 +324,29 @@ void Runner::reshuffle(const bool animation){
     invest_deck.insert(invest_deck.end(), invest_discard.begin(), invest_discard.end());
     shuffle(invest_deck.begin(), invest_deck.end(), g);
 
-    if (animation)
-        reshuffleAnimation(action_discard.size(), invest_discard.size());
+    //- Go through each player in turn order
+    if (animation){
+        bool running=true;
 
-    //- Clear discard pile
+        while (running){
+            a = SDL_GetTicks();
+            delta = a - b;
+
+            //ensures framerate of 60fps
+            if (delta > 1000/60.0){
+                b = a;  
+                //- Player input
+                handleUserAnimationInput(running, b);
+
+                //- Render
+                animateReshuffle(running, action_discard.size(), invest_discard.size(), b);
+
+
+            }
+        }
+    }
+
+    //- Clear discard piles
     action_discard.clear();
     invest_discard.clear();
 }
@@ -377,6 +380,8 @@ bool Runner::deal(Player* player, size_t amount, const char state){
 void Runner::decideTurnOrder(const bool animation){
     //- Determine starting player and the rotation of turns (roll dice)
     int result = die.roll();
+    cout << "Set turn order of WEST AXIS USSR loaded" << endl;
+    result = 3;
     switch (result){
     case 1:
         start_player = &players[AXIS];
@@ -467,6 +472,15 @@ void Runner::newYearRes(){
     }
 
 
+}
+
+void Runner::applyProduction(Player& player){
+    player.upgradeUnits();
+    deal(&player, player.bought_action, 'A');
+    deal(&player, player.bought_invest, 'I');
+    player.bought_action=0;
+    player.bought_invest=0;
+    player.passed = true;
 }
 
 void Runner::handCheck(Player* player){

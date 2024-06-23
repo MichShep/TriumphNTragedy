@@ -1,0 +1,5 @@
+<map id="Country::resolveDiplomacy" name="Country::resolveDiplomacy">
+<area shape="rect" id="Node000001" title="Change the influence level and the effects after cards have been resolved." alt="" coords="206,5,385,31"/>
+<area shape="rect" id="Node000002" href="$struct_country.html#a48278a0a376bd25cb55d969e1a358692" title="At the end of the government phase resolve the cards added and change the number of influence and who..." alt="" coords="5,5,158,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,21,158,21,158,16,190,16"/>
+</map>

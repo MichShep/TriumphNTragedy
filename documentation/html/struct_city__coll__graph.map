@@ -1,9 +1,9 @@
 <map id="City" name="City">
-<area shape="rect" id="Node000001" title="Each segment of the map where troops can be stationed." alt="" coords="11,277,131,742"/>
+<area shape="rect" id="Node000001" title="Each segment of the map where troops can be stationed." alt="" coords="11,277,131,822"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,134,51,199"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="33,199,38,253,39,260,34,260,33,253,28,199"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="75,134,181,199"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="125,199,115,261,110,260,120,198"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="126,199,117,261,111,260,121,198"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="103,5,153,71"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="131,86,131,134,125,134,125,86"/>
 </map>
