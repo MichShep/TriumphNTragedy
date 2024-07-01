@@ -182,7 +182,7 @@ bool Runner::initMap(string map_name){
         map_file >> y;
 
         c->x = x;
-        c->y = y;
+        c->y = y+20;
 
         map_file >> x;
         map_file >> y;
@@ -307,11 +307,13 @@ bool Runner::initMap(string map_name){
         Country* country = new Country(curr_country, name, map.getCity(capital));
 
         country->pushback(map[capital]);
+        map[capital]->country = name;
 
         getline(map_file, country_line);
         std::istringstream ss(country_line);
         while (ss >> city){
             country->pushback(map[city]);
+            map[city]->country = name;
         }
 
         map.addCountry(country);
@@ -348,33 +350,33 @@ bool Runner::initCards(const string invest_name, const string action_name){
     sprite_offsets["Portugal"] = 20;
     sprite_offsets["Empty_Action"] = 21;
 
-    sprite_offsets["LSTs"] = 0;
-    sprite_offsets["Motorized_Infantry"] = 1;
-    sprite_offsets["AirDefense_Radar"] = 9;
-    sprite_offsets["Naval_Radar"] = 2;
-    sprite_offsets["Rocket_Artillery"] = 3;
-    sprite_offsets["Heavy_Tanks"] = 4;
-    sprite_offsets["Heavy_Bombers"] = 5;
-    sprite_offsets["Percision_Bombsight"] = 6;
-    sprite_offsets["Spy_Ring"] = 15;
-    sprite_offsets["Code_Breaker"] = 11;
-    sprite_offsets["Agent"] = 12;
-    sprite_offsets["Jets"] = 7;
-    sprite_offsets["Double_Agent"] = 16;
-    sprite_offsets["Mole"] = 13;
-    sprite_offsets["1944"] = 24;
-    sprite_offsets["Sonar"] = 8;
-    sprite_offsets["Atomic_Research_1"] = 17;
-    sprite_offsets["Industrial_Espionage"] = 0;
-    sprite_offsets["Atomic_Research_2"] = 18;
-    sprite_offsets["Atomic_Research_3"] = 19;
-    sprite_offsets["Atomic_Research_4"] = 20;
-    sprite_offsets["1938"] = 21;
-    sprite_offsets["Sabotage"] = 14;
-    sprite_offsets["Coup"] = 10;
-    sprite_offsets["1942"] = 23;
-    sprite_offsets["1940"] = 22;
-    sprite_offsets["Empty_Invest"] = 29;
+    sprite_offsets["LSTs"] = LSTs;
+    sprite_offsets["Motorized_Infantry"] = MOTORIZED_INFANTRY;
+    sprite_offsets["AirDefense_Radar"] = AIRDEFENCE_RADAR;
+    sprite_offsets["Naval_Radar"] = NAVAL_RADAR;
+    sprite_offsets["Rocket_Artillery"] = ROCKET_ARTILLERY;
+    sprite_offsets["Heavy_Tanks"] = HEAVY_TANKS;
+    sprite_offsets["Heavy_Bombers"] = HEAVY_BOMBERS;
+    sprite_offsets["Percision_Bombsight"] = PERCISION_BOMBERS;
+    sprite_offsets["Spy_Ring"] = SPY_RING;
+    sprite_offsets["Code_Breaker"] = CODE_BREAKER;
+    sprite_offsets["Agent"] = AGENT;
+    sprite_offsets["Jets"] = JETs;
+    sprite_offsets["Double_Agent"] = DOUBLE_AGENT;
+    sprite_offsets["Mole"] = MOLE;
+    sprite_offsets["1944"] = Y_1944;
+    sprite_offsets["Sonar"] = SONAR;
+    sprite_offsets["Atomic_Research_1"] = ATOMIC_ONE;
+    sprite_offsets["Industrial_Espionage"] = INDUSTRIAL_ESPIONAGE;
+    sprite_offsets["Atomic_Research_2"] = ATOMIC_TWO;
+    sprite_offsets["Atomic_Research_3"] = ATOMIC_THREE;
+    sprite_offsets["Atomic_Research_4"] = ATOMIC_FOUR;
+    sprite_offsets["1938"] = Y_1938;
+    sprite_offsets["Sabotage"] = SABOTAGE;
+    sprite_offsets["Coup"] = COUP;
+    sprite_offsets["1942"] = Y_1942;
+    sprite_offsets["1940"] = Y_1940;
+    sprite_offsets["Empty_Invest"] = FACT_BLANK;
     
 
     if (!invest_file.is_open()){
@@ -497,19 +499,24 @@ void Runner::mapPlayerResPop(Player& player){
         if (city.second->ruler_type == allegiance && !city.second->blockcade){ 
             //- Add to player
             temp_resources += city.second->resource;
+            //if (city.second->resource>0) cout << city.first << " adds " << city.second->resource <<"R" << endl;
             temp_population += city.second->population;
+            //if (city.second->population>0) cout << city.first << " adds " << city.second->population <<"P" << endl;
         }
     }
 
     //- Go through each influenced country 
     for (const auto& country : temp_countries){
-        if (country.second->influence_level <= PROTECTORATES){
+        if (player == country.second->allegiance &&country.second->influence_level <= PROTECTORATES){
             for (const auto& city : country.second->cities){
                 temp_resources += city->resource;
+                //if (city->resource>0) cout << city->name << " adds " << city->resource <<"R" << endl;
                 temp_population += city->population;
+                //if (city->population>0) cout << city->name << " adds " << city->population <<"P" << endl;
             }
         }
     }
+    //cout << endl;
 
     player.setPopulation(temp_population);
     player.setResource(temp_resources);
@@ -781,7 +788,7 @@ bool Runner::setBuildable(Player& player){
 
 ProductionError Runner::canUpgrade(const Player& player, City* city, const UnitCountry nationality, const Unit* unit){
     //? 7.23 Building Unit Steps Units cannot be built if they are at Sea
-    if (city->city_type == WATER){
+    if (city->city_type == WATER || player.getAllegiance() != unit->allegiance){
         return AT_SEA;
     }
 

@@ -48,6 +48,8 @@ using std::pair;
 
 #include "../include/SDL2/SDL_gamecontroller.h"
 
+typedef Uint32 tick_t;
+
 #define END_YEAR 1945;
 
 #define START_YEAR 1936;
@@ -55,6 +57,11 @@ using std::pair;
 #define INFI SIZE_MAX;
 
 const int JOYSTICK_DEADZONE = 16000;
+
+#define loopVal(v, i, a) ((v < i)? (a) : ((v>a)? (i) : (v)))
+
+//held tick, tick, wait_time
+#define pastWait(h, t, w)( h? (t - h > w) : (false))
 
 /**
  * @enum The Type of City Allegiance
@@ -211,6 +218,13 @@ enum InvestType {
     YEAR
 };
 
+enum GovernmentAction{
+    INFLUENCE,
+    ACHIEVE,
+    INDUSTRY,
+    INTELLIGENCE_FUCNTION
+};
+
 enum ActionType {
     DIPLOMACY, 
     WILD
@@ -231,13 +245,16 @@ enum ProductionAction {
 };
 
 enum Widget {
-    ACTION_HAND, 
-    INVEST_HAND, 
-    TECH_HAND, 
-    WEST_WIDGET, 
-    AXIS_WIDGET, 
-    USSR_WIDGET, 
-    MAP
+    ACTION_HAND, /**< Player's hand of Action Cards */
+    INVEST_HAND, /**< Player's hand of Investment Cards */
+    TECH_HAND, /**< Player's list of achieved technology */
+    STAT_WIDGET, 
+    MAP, /**< The map with units and cities */
+
+    //Used for Intelligence Cards
+    SELECT_RIVAL,
+    SELECT_CITY,
+    SELECT_UNIT,
 };
 
 enum ProductionError{
@@ -254,32 +271,47 @@ enum ProductionError{
     MAX_CV
 };
 
-enum Tech   {
-    LSTs, 
-    MOTORIZED_INFANTRY, 
-    NAVAL_RADAR, 
-    ROCKET_ARTILLERY, 
-    HEAVY_TANKS, 
-    HEAVY_BOMBERS, 
-    PERCISION_BOMBERS, 
-    JETs, 
-    SONAR, 
-    AIRDEFENCE_RADAR, 
-    COUP, 
-    CODE_BREAKER, 
-    AGENT, 
-    MOLE, 
-    SABOTAGE, 
-    SPY_RING, 
-    DOUBLE_AGENT,
-    ATOMIC_ONE, 
-    ATOMIC_TWO, 
-    ATOMIC_THREE, 
-    ATOMIC_FOUR, 
-    Y_1938, 
-    Y_1940, 
-    Y_1942, 
-    Y_1944
+/**
+ * @enum Technological Achievements 
+ * @brief The wartime technological advancements the player can achieve to boost their efforts (also doubles as sprite offset)
+ * 
+ */
+enum Tech{
+    LSTs, /**< Can Sea Invade two Ground units/border */
+    MOTORIZED_INFANTRY, /**< Infantry moves 3*/
+    NAVAL_RADAR, /**< Fleets have FirstFire */
+    ROCKET_ARTILLERY, /**< Infantry has FirstFire */
+    HEAVY_TANKS, /**< Tanks have FirstFire */
+    HEAVY_BOMBERS, /**< Air Force move 3 */
+    PERCISION_BOMBERS, /**< AFs can bomb industry at I1 */
+    JETs, /**< Air Forces have FirstFire */
+    SONAR, /**< Fleets Fire S3 */
+    AIRDEFENCE_RADAR, /**< AFs in Friendly Territory Fire 2A3 */
+    ATOMIC_ONE, /**< ATOMIC PILE. */
+    ATOMIC_TWO, /**< Breeder Reactors. */
+    ATOMIC_THREE, /**< Plutonium. */
+    ATOMIC_FOUR, /**< Implosion Trigger. */
+    Y_1938, /**< Pair with: SONAR, NAVAL_RADAR, HEAVY_TANKS, AIRDEFENCE_RADAR, MOTORIZED_INFANTRY, ATOMIC_ONE. */
+    Y_1940, /**< Pair with: SONAR, NAVAL_RADAR, HEAVY_BOMBERS, ROCKET_ARTILLERY, PERCISION_BOMBERS, ATOMIC_TWO. */
+    Y_1942, /**< Pair with: LSTs, HEAVY_TANKS, ROCKET_ARTILLERY, AIRDEFENCE_RADAR, PERCISION_BOMBERS, ATOMIC_THREE. */
+    Y_1944, /**< Pair with: LSTs, JETs, HEAVY_BOMBERS, PERCISION_BOMBERS, ATOMIC_THREE, ATOMIC_FOUR. */
+    INDUSTRIAL_ESPIONAGE, /**< Pair with any Revealed Tech */
+    // offsets for intel cards
+    COUP, /**< Remove all Rival Influence from one Minor Nation. */
+    CODE_BREAKER, /**< Inspect a Rival's Hand. */
+    AGENT, /**< Insepct a Rival's blocks in any one area. */
+    MOLE, /**< Inspect a Rival's Secret Vault. Pair this card with any Tech in your hand that matches a Tech found there to Achieve that Tech (show Rival). If not, discard */
+    SABOTAGE, /**< Reduce a Rival's Industry by one. */
+    SPY_RING, /**< Blindly take one card from a Rival's Hand. */
+    DOUBLE_AGENT, /**< Reverse the effects of an Intel card just played against you back on the Rival the played it [immediate reaction]*/
+    //Not techs just used for offsets
+    FACT_ONE, /**< Contribute one (1) factory towards raising industry*/
+    FACT_TWO, /**< Contribute two (2) factory towards raising industry*/
+    FACT_THREE, /**< Contribute three (3) factory towards raising industry*/
+    FACT_FOUR, /**< Contribute four (4) factory towards raising industry*/
+    FACT_BLANK, /**< Blank tile for one sided cards */
+    SECRET_OUTLINE, /**< Outline to show the player their tech is in the archive */
+    SECRET_FULL, /**< Full hidden sprite to show other players there are vaulted tech */
 };
 
 enum Message{
@@ -291,24 +323,35 @@ enum Message{
 
     GOVERNMENT_START=4,
 
-    RESHUFFLE_START=5
-};
+    RESHUFFLE_START=5,
 
-struct PublicMessage{
-    Message message;
-    unsigned int start_tick;
+    WEST_TECH_REVEALED = 6,
+    AXIS_TECH_REVEALED,
+    USSR_TECH_REVEALED,
 
-    PublicMessage(const Message message, const unsigned int start_tick): message(message), start_tick(start_tick){
-    }
+    WEST_CARD_PEAKING = 9,
+    AXIS_CARD_PEAKING,
+    USSR_CARD_PEAKING,
 
-    bool operator==(const PublicMessage& lhs){ 
-    return this->message == lhs.message && this->start_tick == lhs.start_tick;
-    }
+    WEST_UNIT_PEAKING = 12,
+    AXIS_UNIT_PEAKING,
+    USSR_UNIT_PEAKING,
+
+    WEST_SABOTAGE = 18,
+    AXIS_SABOTAGE,
+    USSR_SABOTAGE
 };
 
 //enum State {ADVANCE_YEAR, VICTORY_CHECK, RESHUFFLE, PEACE_DIVIDENDS, TURN_ORDER, NEW_YEAR_RES, PRODUCTION, GOVERNMENT, HAND_CHECK};
 
 const string NATIONALITY_STRING[7] = {"BRITISH", "FRANCE", "USA", "GERMAN", "ITALY", "USSR", "NEUTRAL"};
+
+const Tech YEAR_TECHS[4][6] = {
+    {SONAR, NAVAL_RADAR, HEAVY_TANKS, AIRDEFENCE_RADAR, MOTORIZED_INFANTRY, ATOMIC_ONE}, //1938
+    {SONAR, NAVAL_RADAR, HEAVY_BOMBERS, ROCKET_ARTILLERY, PERCISION_BOMBERS, ATOMIC_TWO}, //1940
+    {LSTs, HEAVY_TANKS, ROCKET_ARTILLERY, AIRDEFENCE_RADAR, PERCISION_BOMBERS, ATOMIC_THREE}, //1942
+    {LSTs, JETs, HEAVY_BOMBERS, PERCISION_BOMBERS, ATOMIC_THREE, ATOMIC_FOUR}  //1944
+};
 
 const int FIREPOWER_TABLE[8][4] = { // Damage against {A N G S}
     {2, 3, 4, 3}, //Fort
@@ -374,15 +417,13 @@ const int ZOOM_DIMENSIONS[3][2] = {
 };
 
 //[button][direction]
-const Widget WIDGET_ADJACENCY[7][4] = {
-    //up down left right
-    {WEST_WIDGET, ACTION_HAND, ACTION_HAND, MAP}, //ACTION_HAND
-    {USSR_WIDGET, INVEST_HAND, MAP, INVEST_HAND}, //INVEST_HAND
-    {USSR_WIDGET, TECH_HAND, AXIS_WIDGET, INVEST_HAND}, //TECH_HAND
-    {WEST_WIDGET, ACTION_HAND, WEST_WIDGET, USSR_WIDGET}, //WEST_WIDGET
-    {WEST_WIDGET, AXIS_WIDGET, ACTION_HAND, TECH_HAND}, //AXIS_WIDGET
-    {USSR_WIDGET, INVEST_HAND, WEST_WIDGET, USSR_WIDGET}, //USSR_WIDGET
-    {WEST_WIDGET, AXIS_WIDGET, ACTION_HAND, INVEST_HAND}  //MAP
+const Widget WIDGET_ADJACENCY[5][4] = {
+    //up down               left            right
+    {MAP, ACTION_HAND,      ACTION_HAND,    STAT_WIDGET}, //ACTION_HAND
+    {MAP, INVEST_HAND,      TECH_HAND,      INVEST_HAND}, //INVEST_HAND
+    {MAP, TECH_HAND,        MAP,            INVEST_HAND}, //TECH_HAND
+    {MAP, MAP,              ACTION_HAND,    MAP}, //STAT_WIDGET
+    {MAP, MAP,              STAT_WIDGET,    TECH_HAND}  //MAP
 };
 
 const int UNIT_SPRITE_OFFSET[7]{ //"BRITISH", "FRANCE", "USA", "GERMAN", "ITALY", "USSR", "NEUTRAL"
@@ -451,6 +492,38 @@ namespace Graphics{
    
 };
 
+struct PublicMessage{
+    Message message;
+    Uint32 start_tick;
+    Uint32 life_time=-1;
+    Uint32 tpf;
+
+    int width;
+    int height;
+
+    unsigned int frames;
+
+    int offset;
+
+    bool flicker;
+
+    bool beside_action;
+
+
+    PublicMessage(const Message message, const Uint32 start_tick, const Uint32 tpf, const int width, const int height, const unsigned int frames, const int offset = 0, const bool flicker=false, const bool beside_action=false): 
+    message(message), start_tick(start_tick), tpf(tpf), width(width), height(height), frames(frames), offset(offset), flicker(flicker), beside_action(beside_action){
+    }
+
+    PublicMessage(const Message message, const Uint32 start_tick, const Uint32 tpf, const Uint32 life_time, const int width, const int height, const int offset, const bool beside_action):
+    message(message), start_tick(start_tick), life_time(life_time), tpf(tpf), width(width), height(height), offset(offset), beside_action(beside_action){
+        flicker = true;
+    }
+
+    bool operator==(const PublicMessage& lhs){ 
+    return this->message == lhs.message && this->start_tick == lhs.start_tick;
+    }
+};
+
 class Spritesheet{
 private:
     SDL_Rect clip;
@@ -468,6 +541,9 @@ public:
         if (!(spritesheet_image = SDL_CreateTextureFromSurface(renderer, spritesheet_surface))){
             cout << "Creating spritesheet failed with error: " << SDL_GetError() << endl;
         }
+        SDL_SetTextureBlendMode(spritesheet_image, SDL_BLENDMODE_BLEND);
+
+        SDL_FreeSurface(spritesheet_surface);
 
         clip.w = width;
         clip.h = height;
@@ -494,16 +570,29 @@ public:
         }
     }
 
-    void drawSprite(SDL_Rect* position, int row, int pos, int size_x=32, int size_y=32, int offset=0, int unscaledX=0, int unscaledY=0){
+    void drawSprite(SDL_Rect* position, const int row, const int pos, const int size_x=32, const int size_y=32, const int offset=0, const int unscaledX=0, const int unscaledY=0){
         position->x += offset;
         clip.x = pos * size_x + unscaledX;
         clip.y = row * size_y + unscaledY;
         clip.w = size_x;
         clip.h = size_y;
 
+        
         if (SDL_RenderCopy(renderer, spritesheet_image, &clip, position) < 0){ //was an error
             cout << "Drawing sprite failed with error: " << SDL_GetError() << endl;
         }
+    }
+
+    void drawArea(SDL_Rect* position, const int x, const int y, const int w, const int h,  const Uint8 alpha=255){
+        clip = {x, y, w, h};
+
+        SDL_SetTextureAlphaMod(spritesheet_image, alpha);
+        if (SDL_RenderCopy(renderer, spritesheet_image, &clip, position) < 0){ //was an error
+            cout << "Drawing transparent area failed with error: " << SDL_GetError() << endl;
+        }
+
+        //- Reset transparency
+        SDL_SetTextureAlphaMod(spritesheet_image, 255);
     }
 };
 

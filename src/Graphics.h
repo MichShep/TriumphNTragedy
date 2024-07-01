@@ -23,7 +23,7 @@ bool Runner::InitSDL(){
     }
     if (controllers[0] == nullptr){
         cout << "West controller not connected" << endl;
-        exit(1);
+        //exit(1);
     }
     west_controller = controllers[0];
     if (controllers[1] == nullptr){
@@ -167,26 +167,50 @@ void Runner::ClearScreen(SDL_Renderer* renderer){
 //& Graphics
 //&^ Drawing Player board
 
-void Runner::drawPlayerBoard(Player& player, const Uint32& ticks){
+void Runner::drawPlayerBoard(Player& player, const tick_t& ticks, const bool render){
+    //- check limited time things
+    for (auto& peak_tick : player.peak_ticks){
+        if (ticks-peak_tick > 25000U){
+            peak_tick = 0;
+        }
+    }
+
+    if (ticks - player.unit_peak_tick > 15000U){
+        player.unit_peak_tick = 0;
+        player.peaked_unit = {nullptr, nullptr};
+    }
+
     //- Draw the map and the cities
     drawMap(player, true, true, true, false, false);
 
     auto& sprite_sheet = player.sprite_sheet;
     
     //- Draw the current state of the cards
-    drawPlayerCards(player);
+    //- Draw the current state of the action cards
+    drawActionWidget(player, players[player.action_view]);
+    
+    //- Draw the current state of the invest cards
+    drawInvestWidget(player, players[player.invest_view]);
+ 
+    //- Draw the techs
+    drawTechWidget(player, players[player.tech_view]);
+
+    //- Draw the player stats
+    drawStatWidget(player, players[player.stat_view]);
 
     //- Draw the current actions avialable
     drawActionButtons(player, ticks);
-
-    //- Draw the production left
-    drawNumber(player.app->renderer, player.getCurrentProduction(), 50, 0, 5, 255, 255, 255);
 
     //- Draw the build UI
     drawBuild(player);
 
     //- Draw Turn Order
     drawTurnOrder(player);
+
+    //- Draw the production left
+    drawNumber(player.app->renderer, player.getCurrentProduction(), 50, 100, 5, 255, 255, 255);
+    //- Draw the industry left
+    drawNumber(player.app->renderer, player.getIndustry(), 50, 155, 5, 255, 255, 255);
 
     //- Draw the selected cards
     if (player.popped_action_card != nullptr && player.popped_action_card->type == DIPLOMACY){
@@ -195,9 +219,11 @@ void Runner::drawPlayerBoard(Player& player, const Uint32& ticks){
     }
 
     //- Update Public Animations
-   for (auto& message : public_messages){
+    for (auto& message : public_messages){
         animateMessage(player, message, ticks);
-   }
+    }
+
+    //-Draw Peaked Units
 
     //- Draw all cursor's
     //for (const auto& cursor : players){
@@ -205,11 +231,22 @@ void Runner::drawPlayerBoard(Player& player, const Uint32& ticks){
         sprite_sheet->drawSprite(&cursor_target, 0, 11+player.getAllegiance(), 32, 32);
     //}
 
-    SDL_RenderPresent(player.app->renderer);
+    //TODO DEV
+    if (player.selected_tech1 != nullptr){
+        SDL_Rect target = {0, 0, 32, 32};
+        player.sprite_sheet->drawSprite(&target, 14, *player.selected_tech1);
+    }
+
+    if (player.selected_tech2 != nullptr){
+        SDL_Rect target = {0, 32, 32, 32};
+        player.sprite_sheet->drawSprite(&target, 14, *player.selected_tech2);
+    }
+
+    if (render)
+        SDL_RenderPresent(player.app->renderer);
 }
 
 void Runner::drawMap(Player& player, const bool cities, const bool influence, const bool resources, const bool connections, const bool clear, const int& fps){
-    ClearScreen(player.app->renderer);
     int width, height;
     SDL_GetWindowSize(player.app->window, &width, &height);
     SDL_Rect tar = {0, 0, width, height};
@@ -222,6 +259,8 @@ void Runner::drawMap(Player& player, const bool cities, const bool influence, co
         auto& cities = map.getCities();
         for (auto city : cities)
             drawCity(player, city.second, resources);
+
+        //draw peaked unit if there is one
     }
 
     if (influence){
@@ -235,11 +274,6 @@ void Runner::drawMap(Player& player, const bool cities, const bool influence, co
         drawNumber(player.app->renderer, (1000 / fps), 100, 100, 10, 0,0,0);
     }
 
-    //TODO remove later
-    for (const auto& country : map.getCountries()){
-        if (country.second->added_influence != 0)
-            drawNumber(player.app->renderer, country.second->added_influence, player.app->screen.getX(map.getCapital(country.first)->x), player.app->screen.getY(map.getCapital(country.first)->y), 1, BORDER_COLOR[country.second->top_card][0],  BORDER_COLOR[country.second->top_card][1],  BORDER_COLOR[country.second->top_card][2]);
-    }
 }
 
 void Runner::drawBuild(Player& player){
@@ -307,81 +341,204 @@ void Runner::drawBuild(Player& player){
     }
 }
 
-void Runner::drawPlayerCards(Player& player){
-    //- Draw the current state of the action cards
-    const int y = player.app->screen.HEIGHT-105;
-    auto& sprite_sheet = player.sprite_sheet;
-    SDL_Rect target = {3, y, 102, 102};
-    if (player.show_action){ //draw all the action cards
-        if (player.getActionSize() > 0){
-            const int holder_size = SDL_clamp(player.getActionSize()+player.bought_action, 0, 15)*32;
-            //- Draw the opening icon
-            sprite_sheet->drawSprite(&target, 6, 1, 102, 102);
+void Runner::drawActionWidget(Player& drawing_player, Player& target_player){
+    //for sprite sheet
+    auto& sprite_sheet = drawing_player.sprite_sheet;
+    constexpr int row = 7;
+    const int start_pos = target_player.getAllegiance()*6;
 
-            //- calcualte how many cards need to be shown and draw background (max amount will be 12)
+    const int y = drawing_player.app->screen.HEIGHT-105;
+    
+    SDL_Rect target = {3, y, 102, 102};
+    if (drawing_player.show_action){ //draw all the action cards
+        if (drawing_player.getActionSize()+drawing_player.bought_action > 0){
+
+            //- calcualte how many cards need to be shown and draw background (max amount will be 15)
+            const int num_card = SDL_clamp(target_player.getActionSize()+ (&target_player == &drawing_player? target_player.bought_action : 0), 0, 15);
+            const int holder_size = num_card*32;
+
+            //- Draw the opening icon
+            sprite_sheet->drawSprite(&target, row, start_pos+1, 102, 102);
+
+            //- Draw outline
             target = {3, y-holder_size, 102, holder_size};
-            sprite_sheet->drawSprite(&target, 6, 2, 102, 102);
+            sprite_sheet->drawSprite(&target, row, start_pos+2, 102, 102);
             target = {3, y-holder_size, 102, 102};
-            sprite_sheet->drawSprite(&target, 6, 2, 102, 102);
+            sprite_sheet->drawSprite(&target, row, start_pos+2, 102, 102);
 
             //- Draw the cards
-            drawActionCards(&player, 6, y-holder_size+3, 15);
+            if (&target_player == &drawing_player || drawing_player.peak_ticks[target_player.getAllegiance()]){ //if the target player is the target player 
+                drawActionCards(&drawing_player, &target_player, 6, y-holder_size+3, 15);
+            }
+            else{
+                target = {6, y-holder_size+3, 96, 32};
+                for (int i = 0; i < num_card; i++){
+                    sprite_sheet->drawSprite(&target, 15, 15, 96, 32, 0, -32, 0);
+                    if (drawing_player.popped_action_card_index == i){
+                        SDL_Rect target2 = {target.x + 99, target.y, 32,32};
+                        sprite_sheet->drawSprite(&target2, drawing_player.widget != ACTION_HAND, 0);
+                    }   
+                    target.y += 32;
+                }
+            }   
+            
         }
         else{
-            target.y = 875-102/2;
-            sprite_sheet->drawSprite(&target, 6, 2, 102, 102);
+            target.y = drawing_player.app->screen.HEIGHT-204;
+            sprite_sheet->drawSprite(&target, row, start_pos+2, 102, 102, 0, 0, -50);
 
-            target.y = 875;
-            sprite_sheet->drawSprite(&target, 6, 1, 102, 102);
-        }
-
-        
+            target.y = y;
+            sprite_sheet->drawSprite(&target, row, start_pos+1, 102, 102);
+        }        
     }
     else{ //draw just the icon
-        sprite_sheet->drawSprite(&target, 6, 0, 102, 102);
+        sprite_sheet->drawSprite(&target, row, start_pos+0, 102, 102);
     }
+
     //if cards aren't selected yet then show arrow pointing to the base if its selected
-    if (player.widget == ACTION_HAND && player.popped_action_card_index == -1){
+    if (drawing_player.widget == ACTION_HAND && drawing_player.popped_action_card_index == -1){
         target = {105, y+32, 32, 32};
         sprite_sheet->drawSprite(&target,0,0);
     }
 
-    //- Draw the current state of the invest cards
-    target = {player.app->screen.WIDTH-105, y, 102, 102};
-    const int x = target.x;
-    if (player.show_invest){ //draw all the invest cards
-        if (player.getInvestSize() > 0){
-            const int holder_size = SDL_clamp(player.getInvestSize()+player.bought_invest, 0, 15)*32;
-            //- Draw the opening icon
-            sprite_sheet->drawSprite(&target, 6, 4, 102, 102);
+}
 
-            //- calcualte how many cards need to be shown and draw background (max amount will be 12)
+void Runner::drawInvestWidget(Player& drawing_player, Player& target_player){
+    const int y = drawing_player.app->screen.HEIGHT-105;
+
+    auto& sprite_sheet = drawing_player.sprite_sheet;
+    constexpr int row = 7;
+    const int start_pos = target_player.getAllegiance()*6;
+
+    SDL_Rect target = {drawing_player.app->screen.WIDTH-105, y, 102, 102};
+    const int x = target.x;
+    if (drawing_player.show_invest){ //draw all the invest cards
+        if (target_player.getInvestSize()+target_player.bought_invest > 0){
+            //- calcualte how many cards need to be shown and draw background (max amount will be 15)
+            const int num_card = SDL_clamp(target_player.getInvestSize()+(&target_player == &drawing_player? target_player.bought_invest : 0), 0, 15);
+            const int holder_size = num_card*32;
+            
+            //- Draw the opening icon
+            sprite_sheet->drawSprite(&target, row, start_pos+4, 102, 102);
+
+            //- draw the outline
             target = {x, y-holder_size, 102, holder_size};
-            sprite_sheet->drawSprite(&target, 6, 5, 102, 102);
+            sprite_sheet->drawSprite(&target, row, start_pos+5, 102, 102);
             target = {x, y-holder_size, 102, 102};
-            sprite_sheet->drawSprite(&target, 6, 5, 102, 102);
+            sprite_sheet->drawSprite(&target, row, start_pos+5, 102, 102);
 
             //- Draw the cards
-            drawInvestCards(&player, x+3, y-holder_size+3, 15);
+            if (&target_player == &drawing_player){ //the player IS that player or they are peaking at the target players hand
+                drawInvestCards(&target_player, x+3, y-holder_size+3, 15);
+            }
+            else{
+                target = { x+3, y-holder_size+3, 96, 32};
+                for (int i = 0; i < num_card; i++){
+                    sprite_sheet->drawSprite(&target, 15, 15, 96, 32, 0, -32, 0);
+
+                    if (drawing_player.popped_invest_card_index == i){
+                        SDL_Rect target2 = {target.x -35, target.y, 32,32};
+                        sprite_sheet->drawSprite(&target2, drawing_player.widget != INVEST_HAND, 1);
+                    }   
+                    target.y += 32;
+                }
+            }
         }
         else{
-            target.y = 875-102/2;
-            sprite_sheet->drawSprite(&target, 6, 5, 102, 102);
+            target.y = drawing_player.app->screen.HEIGHT-204;
+            sprite_sheet->drawSprite(&target, row, start_pos+5, 102, 102, 0, 0, -50);
 
-            target.y = 875;
-            sprite_sheet->drawSprite(&target, 6, 4, 102, 102);
+            target.y = y;
+            sprite_sheet->drawSprite(&target, row, start_pos+4, 102, 102);
         }
     }
     else{
-        sprite_sheet->drawSprite(&target, 6, 3, 102, 102);
+        sprite_sheet->drawSprite(&target, row, start_pos+3, 102, 102);
     }
-    if (player.widget == INVEST_HAND && player.popped_invest_card_index == -1){
-        target = {player.app->screen.WIDTH-137, y+32, 32, 32};
+    if (drawing_player.widget == INVEST_HAND && drawing_player.popped_invest_card_index == -1){
+        target = {drawing_player.app->screen.WIDTH-137, y+32, 32, 32};
         sprite_sheet->drawSprite(&target,0,1);
     }
 }
 
-void Runner::drawActionButtons(const Player& player, const Uint32& ticks){
+void Runner::drawTechWidget(Player& drawing_player, Player& target_player){
+    auto& sprite_sheet = drawing_player.sprite_sheet;
+
+    const int y2 = drawing_player.app->screen.HEIGHT - 41;
+    SDL_Rect target = {drawing_player.app->screen.WIDTH-167, y2, 38, 38};
+    const int viewed_allegiance = drawing_player.tech_view;
+    
+    if (drawing_player.show_tech){//(player.show_tech){
+        if (players[viewed_allegiance].getTechSize() > 0){
+            sprite_sheet->drawSprite(&target, 16, 18+viewed_allegiance*3, 38, 38); //- Draw opening button icon
+
+            const int holder_size = std::min(players[viewed_allegiance].getTechSize(), 7)*32; //-draw holding area
+            target = {target.x, y2-holder_size, 38, holder_size};
+            sprite_sheet->drawSprite(&target, 16, 19+viewed_allegiance*3, 38, 38);
+
+            target = {target.x, y2-holder_size, 38, 38}; //-draw the top
+            sprite_sheet->drawSprite(&target, 16, 19+viewed_allegiance*3, 38, 38);
+
+            drawAchievedTech(&drawing_player, &target_player, target.x+3, y2-29); //- draw techs
+        }
+        else{
+            sprite_sheet->drawSprite(&target, 16, 18+viewed_allegiance*3, 38, 38); //- Draw opening button icon
+            target = {target.x, y2-30, 38, 38}; //-draw the top
+            sprite_sheet->drawSprite(&target, 16, 19+viewed_allegiance*3, 38, 38);
+        }
+        
+    }
+    else{
+        sprite_sheet->drawSprite(&target, 16, 17+viewed_allegiance*3, 38, 38); //- Draw closed button icon
+    }
+    if (drawing_player.widget == TECH_HAND && drawing_player.popped_tech_index == -1){
+        target = {drawing_player.app->screen.WIDTH-167-32, y2+3, 32, 32};
+        sprite_sheet->drawSprite(&target,0,1);
+    }
+}
+
+void Runner::drawStatWidget(Player& drawing_player, Player& target_player){
+    auto& sprite_sheet = drawing_player.sprite_sheet;
+
+    const int x = 140;
+    const int y = drawing_player.app->screen.HEIGHT-73;
+
+    const int viewed_allegiance = target_player.getAllegiance();
+    
+    SDL_Rect target;
+    if (drawing_player.show_stat){
+        target = {x , y, 307, 70};
+        //- Draw the whole icon
+        sprite_sheet->drawArea(&target, 70+410*viewed_allegiance, 840, 307, 70); 
+
+        //- Draw pop number
+        drawNumber(drawing_player.app->renderer, target_player.getPopulation(), x+77, y+24, 2);
+
+        //- Draw ind number
+        drawNumber(drawing_player.app->renderer, target_player.getIndustry(), x+126, y+24, 2);
+
+        //- Draw Res
+        drawNumber(drawing_player.app->renderer, target_player.getResource(), x+173, y+24, 2);
+
+        //- draw cursor
+        if (drawing_player.widget == STAT_WIDGET){
+            target = {x+((target_player == WEST)? 307 : 270),y+19, 32, 32};
+            sprite_sheet->drawSprite(&target,0,0);  
+        }
+    }
+    else{
+        target = {x, y, 70, 70};
+        sprite_sheet->drawSprite(&target, 12, 0, 70, 70, 0, 410*viewed_allegiance); //- Draw closed button icon
+
+        //- draw cursor
+        if (drawing_player.widget == STAT_WIDGET){
+            target = {x+70,y+19, 32, 32};
+            sprite_sheet->drawSprite(&target,0,0);  
+        }
+    }  
+}
+
+void Runner::drawActionButtons(const Player& player, const tick_t& ticks){
     //  X
     // Y B
     //  A
@@ -489,6 +646,11 @@ void Runner::drawTurnOrder(const Player& player){
         sprite_sheet->drawSprite(&turn_order_target, 2, turn_order[1]->getAllegiance()*2+turn_order[1]->passed);
         turn_order_target = {92, 6, 32, 32};
         sprite_sheet->drawSprite(&turn_order_target, 2, turn_order[2]->getAllegiance()*2+turn_order[2]->passed);
+    }
+    //- highlight current acting player
+    if (season == GOVERNMENT){
+        turn_order_target = {6+current_index*43,6 ,32,32};
+        sprite_sheet->drawSprite(&turn_order_target, 2, 7);
     }
     //- draw which phase in game
     turn_order_target = {3, 44, 124, 38};
@@ -600,7 +762,7 @@ void Runner::drawCityUnits(Player& player, City* city){
             skipped++;
             continue;
         }
-        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals);
+        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals&& unit != player.peaked_unit.second);
         if (!found && inBox(target.x+offset, target.y, width, width, cursor_x, cursor_y)){
             found = true;
             player.selected_unit = {city, unit};
@@ -617,7 +779,7 @@ void Runner::drawCityUnits(Player& player, City* city){
             skipped++;
             continue;
         }
-        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals);
+        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals&& unit != player.peaked_unit.second);
         if (!found && inBox(target.x+offset, target.y, width, width, cursor_x, cursor_y)){
             found = true;
             player.selected_unit = {city, unit};
@@ -634,7 +796,7 @@ void Runner::drawCityUnits(Player& player, City* city){
             skipped++;
             continue;
         }
-        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals);
+        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals&& unit != player.peaked_unit.second);
         if (!found && inBox(target.x+offset, target.y, width, width, cursor_x, cursor_y)){
             found = true;
             player.selected_unit = {city, unit};
@@ -660,7 +822,7 @@ void Runner::drawCityUnits(Player& player, City* city){
     }
 
     //- Cycling to next 5 troops
-    Uint32 res = SDL_GetTicks();
+    tick_t res = SDL_GetTicks();
     if (res - city->last_skip[allegiance] >= 2500 && city->num_occupants > 5){
         city->skip_troop[allegiance] = ((city->skip_troop[allegiance]+5 >= (((city->num_occupants / 5) + 1)) * 5) || city->num_occupants == city->skip_troop[allegiance]+5 )? 0 : city->skip_troop[allegiance]+5;
         city->last_skip[allegiance] = res;
@@ -693,7 +855,7 @@ void Runner::drawFullCityUnits(Player& player, City* city){
             target.y += off;
             offset = og_offset;
         }
-        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals);
+        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals && unit != player.peaked_unit.second);
         if (!found && inBox(target.x+offset, target.y, width, width, cursor_x, cursor_y)){
             found = true;
             player.selected_unit = {city, unit};
@@ -721,7 +883,11 @@ void Runner::drawFullCityUnits(Player& player, City* city){
             target.y += off;
             offset = og_offset;
         }
-        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals);
+        drawUnit(player, unit, target.x+offset, target.y, zoom, hide_rivals && unit != player.peaked_unit.second);
+        if (!found && inBox(target.x+offset, target.y, width, width, cursor_x, cursor_y)){
+            found = true;
+            player.selected_unit = {city, unit};
+        }
         offset += off; unit_count++;
     }
 
@@ -757,9 +923,19 @@ void Runner::drawInfluence(const Player& player){
     //- Draw influence at the capitals
     SDL_Rect target;
     const int& zoom = player.app->screen.zoom_factor;
+    const auto& countries = map.getCountries();
+    for (const auto& country : countries){
+        target = {player.app->screen.getX(country.second->capital->x), player.app->screen.getY(country.second->capital->y), 23*zoom, 23*zoom};
+        if (country.second->top_card != NEUTRAL){
+            for (int i = 0; i < country.second->added_influence; i++){
+                player.sprite_sheet->drawSprite(&target, 0, 33+country.second->top_card, 23, 23);
+                target.y += target.h/2;
+            }
+        }
 
-    for (const auto& country : map.getCountries()){
-        target = {player.app->screen.getX(country.second->capital->x), player.app->screen.getY(country.second->capital->y), 32*zoom, 32*zoom};
+        target.y = player.app->screen.getY(country.second->capital->y);
+        target.w = 32*zoom;
+        target.h = target.w;
 
         if (country.second->influence_level == SATELLITES){ //draw one big token
             player.sprite_sheet->drawSprite(&target, 13, country.second->allegiance*2);
@@ -883,15 +1059,15 @@ void Runner::drawNumber(SDL_Renderer* renderer, int num, const int x, const int 
 
 //&^ Cards
 
-void Runner::drawActionCards(const Player* player, int start_x, int start_y, int count, int scale){
+void Runner::drawActionCards(const Player* draw_player, const Player* target_player, int start_x, int start_y, int count, int scale){
     int scaled_size = 32*scale;
     SDL_Rect target = {start_x,start_y,scaled_size,scaled_size};
 
-    auto& sprite_sheet = player->sprite_sheet;
+    auto& sprite_sheet = draw_player->sprite_sheet;
 
     size_t i;
-    for (i = player->action_card_start; i < count && i < player->getActionSize(); i++){
-        const auto& card = player->getActionCard(i);
+    for (i = draw_player->action_card_start; i < count && i < target_player->getActionSize(); i++){
+        const auto& card = target_player->getActionCard(i);
         //- draw left
         sprite_sheet->drawSprite(&target, 15, card->sprite_offset_left, 32, 32, 0);
 
@@ -911,10 +1087,9 @@ void Runner::drawActionCards(const Player* player, int start_x, int start_y, int
         sprite_sheet->drawSprite( &target, 15, card->sprite_offset_right, 32, 32, scaled_size);
 
         //is the popped card then draw select icon to the right of it
-        if (player->popped_action_card_index == i){
+        if (draw_player->popped_action_card_index == i){
             SDL_Rect target2 = {target.x + scaled_size + 3, target.y, 32,32};
-            sprite_sheet->drawSprite(&target2, player->widget != ACTION_HAND, 0);
-            
+            sprite_sheet->drawSprite(&target2, draw_player->widget != ACTION_HAND, 0); 
         }
 
         target.y += scaled_size;
@@ -922,8 +1097,11 @@ void Runner::drawActionCards(const Player* player, int start_x, int start_y, int
     }
 
     //- Draw bought cards
+    if (target_player != draw_player)
+        return;
+
     target.w=96;
-    for (size_t j = 0; j < (count-i) && j < player->bought_action; j++){
+    for (size_t j = 0; j < (count-i) && j < draw_player->bought_action; j++){
         //- draw left
         sprite_sheet->drawSprite(&target, 15, 15, 96, 32, 0, -32, 0);
 
@@ -940,21 +1118,28 @@ void Runner::drawInvestCards(const Player* player, int start_x, int start_y, int
 
     //- Draw known cards in hands
     size_t i;
-    for (i = player->invest_card_start; i < count && i < player->getInvestSize(); i++){ //TODO have it so the seasons are already imprinted on the back for one less call
+    for (i = player->invest_card_start; i < count && i < player->getInvestSize(); i++){
         const auto& card = player->getInvestCard(i);
         //- draw left
-        sprite_sheet->drawSprite(&target, 14, card->sprite_offset_left, 32, 32, 0);
+        sprite_sheet->drawSprite(&target, 14, card->tech1, 32, 32, 0);
 
         //- draw base factory cost
-        sprite_sheet->drawSprite(&target, 14, 24+card->amount, 32, 32, scaled_size);
+        sprite_sheet->drawSprite(&target, 14, FACT_ONE-1+card->amount, 32, 32, scaled_size);
 
         //- draw right
-        sprite_sheet->drawSprite(&target, 14, card->sprite_offset_right, 32, 32, scaled_size);
+        sprite_sheet->drawSprite(&target, 14, card->tech2, 32, 32, scaled_size);
 
         //is the popped card then draw select icon to the right of it
         if (player->popped_invest_card_index == i){
             SDL_Rect target2 = {target.x - 99, target.y, 32,32};
             sprite_sheet->drawSprite(&target2, player->widget != INVEST_HAND, 1);
+        }
+
+        if (player->hasSelected(card)){
+            SDL_SetRenderDrawColor(player->app->renderer, 0, 255, 255, 125);
+            SDL_Rect target2 = {target.x-64, target.y, 96,32};
+            SDL_RenderDrawRect(player->app->renderer, &target2);
+
         }
 
         target.y += scaled_size;
@@ -964,7 +1149,7 @@ void Runner::drawInvestCards(const Player* player, int start_x, int start_y, int
     //- Draw bought cards
     target.w=96;
     for (size_t j = 0; j < (count-i) && j < player->bought_invest; j++){
-        //- draw left
+        //- draw the whole card
         sprite_sheet->drawSprite(&target, 15, 15, 96, 32, 0, -32, 0);
 
         target.y += scaled_size;
@@ -972,42 +1157,86 @@ void Runner::drawInvestCards(const Player* player, int start_x, int start_y, int
     }
 }
 
-//&&& Animations
+void Runner::drawAchievedTech(Player* player, const Player* target_player, int start_x, int start_y){
+    if (target_player->getTechSize() == 0)
+        return;
 
-void Runner::animateMessage(Player& player, PublicMessage& message, const Uint32& ticks){
-    if (message.message <= USSR_PASSED){ //for passed messages there ar 10 frame that are to be done in 5000 ticks (500 ticks per frame)
-        constexpr int ticks_per_frame = 250;
-        SDL_Rect target = {player.app->screen.getCenterX()-50, 3, 100, 32};
-        player.message_animation_sheets->drawSprite(&target, message.message, (ticks-message.start_tick)/ticks_per_frame, 100, 32);
-        if ((ticks-message.start_tick)/ticks_per_frame >= 10) //if animation is done remove from vector
-            public_messages.erase(std::find(public_messages.begin(), public_messages.end(), message));
+    SDL_Rect target = {start_x,start_y, 32, 32};
+    auto& sprite_sheet = player->sprite_sheet;
+
+    //- draw all secret cards (if the player == target_player then just draw an outline)
+    int num_secret = target_player->getSecretCount();
+    size_t i, count = 0;
+    for (i = target_player->start_tech; i <= Y_1944 && num_secret; i++){
+        if (target_player->getTech(i) != nullptr && target_player->getTech(i)->secret){ //if NOT null ptr then player does have this tech
+            if (player == target_player){
+                sprite_sheet->drawSprite(&target, 14, i); //draw tech and then secret outline
+                sprite_sheet->drawSprite(&target, 14, SECRET_OUTLINE);
+            }
+            else{
+                sprite_sheet->drawSprite(&target, 14, SECRET_FULL);
+            }
+            target.y -= 32;
+            num_secret--;
+
+            if (count++ == player->popped_tech_index){
+                SDL_Rect target2 = {target.x-35, target.y+32, 32, 32};
+                sprite_sheet->drawSprite(&target2, player->widget != TECH_HAND, 1);
+                player->popped_tech = (player == target_player)? &target_player->getTech(i)->tech : nullptr;
+            }
+        }
     }
-    else if (message.message == PRODUCTION_START){ //for production start there are 20 frames to be in 5000 ticks (250 ticks per frame)
-        constexpr int ticks_per_frame = 500;
-        SDL_Rect target = {player.app->screen.getCenterX()-80, 3, 160, 32};
-        player.message_animation_sheets->drawSprite(&target, PRODUCTION_START, (ticks-message.start_tick)/ticks_per_frame, 160, 32);
-        if ((ticks-message.start_tick)/ticks_per_frame >= 20) //if animation is done remove from vector
-            public_messages.erase(std::find(public_messages.begin(), public_messages.end(), message));
-    }
-    else if (message.message == GOVERNMENT_START){ //for government start there are 25 frames to be in 7500 ticks (250 ticks per frame)
-        constexpr int ticks_per_frame = 300;
-        SDL_Rect target = {player.app->screen.getCenterX()-80, 3, 160, 32};
-        player.message_animation_sheets->drawSprite(&target, GOVERNMENT_START, (ticks-message.start_tick)/ticks_per_frame, 160, 32);
-        if ((ticks-message.start_tick)/ticks_per_frame >= 25) //if animation is done remove from vector
-            public_messages.erase(std::find(public_messages.begin(), public_messages.end(), message));
-    }
-    else if (message.message == RESHUFFLE_START){ //for government start there are 27 frames to be in 7500 ticks (250 ticks per frame)
-        constexpr int ticks_per_frame = 150;
-        SDL_Rect target = {player.app->screen.getCenterX()-75, 3, 150, 32};
-        player.message_animation_sheets->drawSprite(&target, RESHUFFLE_START, (ticks-message.start_tick)/ticks_per_frame, 150, 32);
-        if ((ticks-message.start_tick)/ticks_per_frame >= 27) //if animation is done remove from vector
-            public_messages.erase(std::find(public_messages.begin(), public_messages.end(), message));
+
+    //- draw all public cards
+    int num_public = target_player->getTechSize() - target_player->getSecretCount();
+    for (i = target_player->start_tech; i <= Y_1944 && num_public; i++){
+        if (target_player->getTech(i) != nullptr && !target_player->getTech(i)->secret){ //if NOT null ptr then player does have this tech
+            sprite_sheet->drawSprite(&target, 14, i);
+            target.y -= 32;
+            num_public--;
+            
+            if (count++ == player->popped_tech_index){
+                SDL_Rect target2 = {target.x-35, target.y+32, 32, 32};
+                sprite_sheet->drawSprite(&target2, player->widget != TECH_HAND, 1);
+                player->popped_tech = &target_player->getTech(i)->tech;
+            }
+        }
     }
 }
 
-void Runner::animateReshuffle(const bool& running, const size_t& action_size, const size_t& invest_size, const Uint32& ticks){
+//&&& Animations
+
+void Runner::animateMessage(Player& player, PublicMessage& message, const tick_t& ticks){
+    SDL_Rect target;
+    if (message.beside_action)
+        target = {108, player.app->screen.HEIGHT-35, message.width, message.height};
+    else
+        target = {player.app->screen.getCenterX()-(message.width/2), 3, message.width, message.height};
+
+    const int current_frame = (message.flicker)? (ticks-message.start_tick)%message.tpf >= message.tpf/(2.0*((ticks-message.start_tick)/(double)message.life_time))
+    
+    
+    : (ticks-message.start_tick)/message.tpf;
+    player.message_animation_sheets->drawSprite(&target, message.message, current_frame, message.width, message.height, 0, message.offset);
+
+    if (message.flicker? ticks-message.start_tick > message.life_time : current_frame >= message.frames){ //if animation is done remove from vector
+        cout << "removed animation" << message.message << endl;
+        public_messages.erase(std::find(public_messages.begin(), public_messages.end(), message));
+    }
+}
+
+void Runner::animateReshuffle(bool& running, const size_t& action_size, const size_t& invest_size, const tick_t& ticks){
     //- Draw all boards (will draw things over it)
-    drawPhase(ticks);
+    for (auto& player : players){
+        ClearScreen(player.app->renderer);
+        drawPlayerBoard(player, ticks, false);
+        
+        SDL_Rect target = {0, 0, player.app->screen.WIDTH, player.app->screen.HEIGHT};
+        player.sprite_sheet->drawArea(&target, 0, 288, 1, 1, 180);
+
+        SDL_RenderPresent(player.app->renderer);
+    }
+    running = false;
 }
 
 void Runner::drawMemoResolution(const vector<std::array<size_t, 6>>& memo, vector<City*> unblocked){    
@@ -1028,7 +1257,7 @@ void Runner::drawMemoResolution(const vector<std::array<size_t, 6>>& memo, vecto
         SDL_Delay(1600);
 
     }*/
-    
+
 }
 
 void Runner::drawMemoResolution(Player& player, const vector<std::array<size_t, 4>>& memo){
@@ -1055,6 +1284,7 @@ void Runner::drawMemoResolution(Player& player, const vector<std::array<size_t, 
     SDL_RenderPresent(player.app->renderer);
     SDL_Delay(1600);
 }
+
 void Runner::drawTurnRoll(const int& result){
     int scale = 5;
     int scaled_size = scale*32;
@@ -1143,6 +1373,7 @@ void Runner::drawTurnRoll(const int& result){
     ClearScreen(app.renderer);
 
 }
+
 void Runner::drawPeaceDividends(const bool west, const bool axis, const bool ussr){
     int scale = 6;
     int scaled_size = scale*32/2;

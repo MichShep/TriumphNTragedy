@@ -37,7 +37,13 @@ void Map::initLists(const size_t size){
 //&^ City Getters
 
 City* Map::getCity(const string name) const{
-    return cities.at(name);
+    try{
+        return cities.at(name);
+    }
+    catch (std::out_of_range){
+        std::cerr << "City key '" << name << "' was not found as a key for pointer" << endl;
+        exit(1);
+    }
 }
 
 City* Map::getCity(const size_t id) const{
@@ -48,7 +54,14 @@ size_t Map::findCity(const string name) const{
     if (atoi(name.c_str()) != 0)
         return atoi(name.c_str());
 
-    return cities.at(name)->getID();
+    try{
+        return cities.at(name)->getID();
+    }
+    catch (std::out_of_range){
+        std::cerr << "City key '" << name << "' was not found as a key for ID" << endl;
+        exit(1);
+    }
+
 }
 
 City* Map::getClosestCity(const int x, const int y, const double zoom_x, const double zoom_y) const{

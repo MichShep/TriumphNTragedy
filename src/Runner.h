@@ -32,6 +32,12 @@ class Runner{
 private:
     int num_players; /**< Number of player in game (3 but hopefully can make a 1)*/
 
+    Player* west_player;
+
+    Player* axis_player;
+
+    Player* ussr_player;
+
     Player players[3]; /**Holds each playe object with allegiance as index 0: West 1: Axis 2: USSR*/ 
 
     Map map; /**< Map of the game and nations/waters*/
@@ -63,6 +69,8 @@ private:
     Player* current_player; /**< The player's who current turn it is*/
 
     Player* turn_order[3]; /**< Array with the first player at 0 and the last player in the loop at 2*/
+
+    int current_index = 0;
 
     const unsigned int seed = 872706816; /**< The set (or time set seed) for all randomness*/
     
@@ -100,7 +108,7 @@ public:
 
         if (!default_mode){
             //setXY("/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map");
-            setXY("/Users/michshep/Desktop/TriumphNTragedy/src/starter5.map");
+            setResXY();
             exit(EXIT_SUCCESS);
         }
 
@@ -185,56 +193,44 @@ public:
         powers_message_animations[2] = Spritesheet(path7.c_str(), powers_app[2].renderer);
         players[USSR].message_animation_sheets = &powers_message_animations[2];
 
-        
+
+        west_player = &players[WEST];
+        axis_player = &players[AXIS];
+        ussr_player = &players[USSR];
 
         players[WEST].app = &powers_app[0];
         players[AXIS].app = &powers_app[1];
         players[USSR].app = &powers_app[2];
-
-
-        test();
 
         //for handling stick drift
         SDL_SetEventFilter(event_filter, NULL);
 
         last_tick = SDL_GetTicks();
 
-        players[0].cursor_x = map.getCapital("Britian")->x;
-        players[0].cursor_y = map.getCapital("Britian")->y;
+        players[0].cursor_x = players[0].app->screen.getX(map.getCapital("Britian")->x);
+        players[0].cursor_y = players[0].app->screen.getY(map.getCapital("Britian")->y);
         players[0].closest_map_city = map.getCapital("Britian");
 
-        players[2].cursor_x = map.getCapital("USSR")->x;
-        players[2].cursor_y = map.getCapital("USSR")->y;
+        players[2].cursor_x = players[2].app->screen.getX(map.getCapital("USSR")->x);
+        players[2].cursor_y = players[2].app->screen.getY(map.getCapital("USSR")->y);
         players[2].closest_map_city = map.getCapital("USSR");
 
-        players[1].cursor_x = map.getCapital("Germany")->x;
-        players[1].cursor_y = map.getCapital("Germany")->y;
+        players[1].cursor_x = players[1].app->screen.getX(map.getCapital("Germany")->x);
+        players[1].cursor_y = players[1].app->screen.getX(map.getCapital("Germany")->y);
         players[1].closest_map_city = map.getCapital("Germany");
 
         players[0].calculateProduction();
         players[1].calculateProduction();
         players[2].calculateProduction();
+
+        //test();
+
+        mapPlayerResPop(players[WEST]);
+        mapPlayerResPop(players[AXIS]);
+        mapPlayerResPop(players[USSR]);
     }
 
-    size_t test(){
-        /*map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, AIR, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, TANK, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, INFANTRY, 2));
-        map["Paris"]->occupants[0].push_back(new Unit(1, FRANCE_U, FORTRESS, 2));
-        map["Paris"]->num_occupants = 15;*/
-    
-        
+    size_t test(){        
         buildUnit(players[WEST], map["London"], FLEET);
         buildUnit(players[WEST], map["London"], FORTRESS);
         
@@ -273,17 +269,44 @@ public:
 
         map["Ankara"]->setRuler(USA_U);
         players[0].add(map.getCity("Ankara"));
-        map["Ankara"]->blockcade = true;
         buildUnit(players[WEST], map["Ankara"], AIR);
-
-        map["Iraq"]->blockcade = true;
-        map["Marseille"]->blockcade = true;
-
+       
+        deal(&players[2], 11, 'I');
         deal(&players[0], 11, 'I');
+        deal(&players[1], 11, 'I');
 
-        map["Munich"]->blockcade = true;
-        map["Odessa"]->blockcade = true;
-        
+        applyProduction(players[WEST]);
+        applyProduction(players[AXIS]);
+        applyProduction(players[USSR]);
+        players[WEST].passed = false;
+        players[AXIS].passed = false;
+        players[USSR].passed = false;
+
+
+        players[WEST].achieveTech(LSTs);
+        players[WEST].achieveTech(ROCKET_ARTILLERY);
+        players[WEST].achieveTech(SONAR);
+        players[WEST].achieveTech(PERCISION_BOMBERS);
+        players[WEST].setTechPublic(PERCISION_BOMBERS);
+        players[WEST].achieveTech(JETs);
+        players[WEST].setTechPublic(JETs);
+        players[WEST].achieveTech(ATOMIC_ONE);
+        players[WEST].setTechPublic(ATOMIC_ONE);
+
+        players[AXIS].achieveTech(AIRDEFENCE_RADAR);
+        players[AXIS].achieveTech(JETs);
+        players[AXIS].achieveTech(ATOMIC_ONE);
+        players[AXIS].setTechPublic(ATOMIC_ONE);
+        players[AXIS].achieveTech(ATOMIC_TWO);
+        players[AXIS].setTechPublic(ATOMIC_TWO);
+
+        players[USSR].achieveTech(HEAVY_BOMBERS);
+        players[USSR].achieveTech(HEAVY_TANKS);
+        players[USSR].achieveTech(ATOMIC_ONE);
+
+        map.getCountry("Greece")->added_influence = 2;
+        map.getCountry("Greece")->top_card = USSR;
+        map.getCountry("Greece")->resolveCards();        
         return 0;
     }
 
@@ -401,6 +424,57 @@ public:
      * 
      */
     void resolveDiplomacy();
+
+    bool increaseIndustry(Player& player);
+
+    bool canPair(const Player& player, const Tech* tech1, const Tech* tech2) const;
+
+    bool canCoup(Player& player){
+        return player.selected_tech1 != nullptr && *player.selected_tech1 == COUP 
+            && player.closest_map_city != nullptr && map.getCapital(player.closest_map_city->country) == player.closest_map_city
+            && player != map.getCountry(player.closest_map_city->country)->allegiance  &&   map.getCountry(player.closest_map_city->country)->influence > 0;
+    }
+
+    void coup(Player& player){
+        if (--map.getCountry(player.closest_map_city->country)->influence == 0)
+            map.getCountry(player.closest_map_city->country)->allegiance = NEUTRAL;
+        player.remove(player.popped_invest_card);
+        player.updatePoppedInvestCard();
+    }
+
+    inline bool canSabotage(Player& player){
+        return player.selected_tech1 != nullptr && *player.selected_tech1 == SABOTAGE &&
+               player != player.stat_view && players[player.stat_view].getIndustry() > 0;
+    }
+
+    void sabotage(Player& player){
+        players[player.stat_view].lowerIND();
+        player.remove(player.popped_invest_card);
+        player.updatePoppedInvestCard();
+    }
+
+    inline bool canSpyRing(Player& player){
+        return player.selected_tech1 != nullptr && *player.selected_tech1 == SPY_RING &&
+               player != player.stat_view && players[player.stat_view].getActionSize()+players[player.stat_view].getInvestSize() > 0;
+    }
+
+    void spyRing(Player& player){
+        //Random as either an industry card or action card
+        auto& target = players[player.stat_view];
+        if (rand()%2){ //invest
+            InvestmentCard* stolen = target.getInvestCard(rand()%target.getInvestSize());
+            player.deal(stolen);
+            target.remove(stolen);
+        }
+        else{ // action
+            ActionCard* stolen = target.getActionCard(rand()%target.getActionSize());
+            player.deal(stolen);
+            target.remove(stolen);
+        }
+
+        player.remove(player.popped_invest_card);
+        player.updatePoppedInvestCard();
+    }
 
     /**
      * @brief Checks the players hand to see if it is over the card limit, and to discard down to the hand limit
@@ -646,6 +720,8 @@ public:
      */
     void handleCardPlaying(Player& player);
 
+    bool achieveTechnology(Player&player);
+
     //& Runner Getters and Setters
     /**
      * @brief Get the map of the game
@@ -757,7 +833,7 @@ private:  //!!! Graphics things
 
     bool map_changed=true; /**< Boolean that is true when an update has happened on the main screen and the main screen needs to be re-rendered */
 
-    Uint32 last_tick; /**< Used by animations to see how long has elapsed since the last render */
+    tick_t last_tick; /**< Used by animations to see how long has elapsed since the last render */
 
     vector<PublicMessage> public_messages; /**< Vector of all current public messages that are being animated */
 
@@ -809,14 +885,23 @@ private:  //!!! Graphics things
      * @param player The player whose card is being drawn
      * @param renderer The player's renderer
      */
-    void drawPlayerBoard(Player& player, const Uint32& ticks=0);
+    void drawPlayerBoard(Player& player, const tick_t& ticks=0, const bool render=true);
 
     /**
      * @brief Draws the action and invest hands of the player on the left and right side of the screen, respectively
-     * 
+     * TODO
      * @param player The player whose hand is being drawn
      */
-    void drawPlayerCards(Player& player);
+    void drawPlayerCards(Player& drawing_player);
+
+    void drawInvestWidget(Player& drawing_player, Player& target_player);
+
+    void drawActionWidget(Player& drawing_player, Player& target_player);
+
+    void drawTechWidget(Player& drawing_player, Player& target_player);
+
+    void drawStatWidget(Player& drawing_player, Player& target_player);
+
 
     /**
      * @brief Get the index of the sprite needed for the city
@@ -902,16 +987,7 @@ private:  //!!! Graphics things
      */
     void drawInfluence(const Player& player);
 
-    /**
-     * @brief Draws the players action cards onto their screen starting at the given x and y and decends
-     * 
-     * @param player The player's cards to draw
-     * @param start_x The top right x-coord corner of where cards should be drawn
-     * @param start_y The top right y-coord corner of where cards should be drawn
-     * @param count  The amount of cards to be drawn (max amount drawn will be XX)
-     * @param scale THe scale of the cards to draw
-     */
-    void drawActionCards(const Player* player, int start_x, int start_y, int count, int scale=1);
+    void drawActionCards(const Player* draw_player, const Player* target_player, int start_x, int start_y, int count, int scale=1);
 
     /**
      * @brief Draws the players invest cards onto their screen starting at the given x and y and decends
@@ -920,9 +996,11 @@ private:  //!!! Graphics things
      * @param start_x The top right x-coord corner of where cards should be drawn
      * @param start_y The top right y-coord corner of where cards should be drawn
      * @param count  The amount of cards to be drawn (max amount drawn will be XX)
-     * @param scale THe scale of the cards to draw
+     * @param scale The scale of the cards to draw
      */
     void drawInvestCards(const Player* player, int start_x, int start_y, int count, int scale=1);
+
+    void drawAchievedTech(Player* player, const Player* target_player, int start_x, int start_y);
 
     /**
      * @brief Draw the current actions the player can take on the buttons that would initiate those actions
@@ -930,7 +1008,7 @@ private:  //!!! Graphics things
      * @param drawing_player The player whose actions are being drawn
      * @param ticks The current time since SDL was initalized and used to ttime animations  
      */
-    void drawActionButtons(const Player& drawing_player, const Uint32& ticks);
+    void drawActionButtons(const Player& drawing_player, const tick_t& ticks); 
 
     /**
      * @brief Draws all the connections between the cities and colors them based on the type of border 
@@ -1002,7 +1080,7 @@ private:  //!!! Graphics things
      * @brief Handles what to draw during the production phase
      * 
      */
-    void drawPhase(const Uint32& ticks);
+    void drawPhase(const tick_t& ticks);
 
     //& Animations
 
@@ -1013,7 +1091,7 @@ private:  //!!! Graphics things
      * @param message The message that will be drawn on the screen
      * @param ticks The current time of the frame being drawn
      */
-    void animateMessage(Player& player, PublicMessage& message, const Uint32& ticks);
+    void animateMessage(Player& player, PublicMessage& message, const tick_t& ticks);
     
     /**
      * @brief Animation of the cards from the discard pile being added back
@@ -1021,7 +1099,7 @@ private:  //!!! Graphics things
      * @param action_size Number of action cards to add back
      * @param invest_size Number of invest cards to add back
      */
-    void animateReshuffle(const bool& running, const size_t& action_size, const size_t& invest_size, const Uint32& ticks);
+    void animateReshuffle(bool& running, const size_t& action_size, const size_t& invest_size, const tick_t& ticks);
 
     /**
      * @brief Takes the memo of the Dijkstra's knock-off II for finding trade routes and highlighting the route it takes
@@ -1078,7 +1156,7 @@ private:  //!!! Graphics things
      * 
      * @param running Reference to the check if the game loop should continue running and can be changed if player inputs it so
      */
-    void handleUserInput(bool& running, const Uint32& ticks);
+    void handleUserInput(bool& running, const tick_t& ticks);
 
     /**
      * @brief Handler for when an animation is happening and user input is limited
@@ -1086,7 +1164,7 @@ private:  //!!! Graphics things
      * @param running Condition if the current loop should continue running
      * @param ticks The current time the frame is being drawn
      */
-    void handleUserAnimationInput(bool& running, const Uint32& ticks);
+    void handleUserAnimationInput(bool& running, const tick_t& ticks);
 
     /**
      * @brief Handels the cases where the player pressed down on a button
@@ -1094,7 +1172,7 @@ private:  //!!! Graphics things
      * @param player The player who commenced the event
      * @param event The button down event by the player
      */
-    void handleButtonDown(Player& player, const SDL_Event& event, const Uint32& ticks);
+    void handleButtonDown(Player& player, const SDL_Event& event, const tick_t& ticks);
 
     /**
      * @brief Handels the cases where the player lets up on a button (mostly for times events)
@@ -1102,7 +1180,7 @@ private:  //!!! Graphics things
      * @param player The player who commenced the event
      * @param event The button up event by the player
      */
-    void handleButtonUp(Player& player, const SDL_Event& event, const Uint32& ticks);
+    void handleButtonUp(Player& player, const SDL_Event& event, const tick_t& ticks);
 
     /**
      * @brief Handels the players controller joystick movement the dictates cursor movement and is called only every frame to make the movement smoother
@@ -1118,13 +1196,19 @@ private:  //!!! Graphics things
      */
     void handleJoystickMovement(Player& player);
 
+    void handleActionHandMovement(Player& player, const bool& x_move,  const bool& y_move);
+
+    void handleInvestHandMovement(Player& player, const bool& x_move,  const bool& y_move);
+
+    void handleTechMovement(Player& player, const bool& y_move);
+
     /**
      * @brief Handler for the right joystick (used to select things) thats taken in set times
      * 
      * @param player The player whose controller is being read
      * @param ticks The current time of the program used to gauge the delta time
      */
-    void handleTimedJoystick(Player& player, const Uint32& ticks);
+    void handleTimedJoystick(Player& player, const tick_t& ticks);
 
     /**
      * @brief Handels the players controller trigger (L2, R2) movement that dictates zoom and is called only every frame to make game smoother
@@ -1139,7 +1223,7 @@ private:  //!!! Graphics things
      * @param player The player whose buttons will be reaed
      * @param ticks The current time of the program used to gauge the delta time
      */
-    void handleWidgetMovement(Player& player, const Uint32& ticks);
+    void handleWidgetMovement(Player& player, const tick_t& ticks);
 
     /**
      * @brief Handler for inputs that rely on buttons being held for a set time
@@ -1147,7 +1231,7 @@ private:  //!!! Graphics things
      * @param player The player whose buttons will be read
      * @param ticks The current time of the program used to gauge the delta time
      */
-    void handleHeldButtons(Player& player, const Uint32& ticks);
+    void handleHeldButtons(Player& player, const tick_t& ticks);
 
     /**
      * @brief Handler for moving the cursor and either moving the screen or the cursor
@@ -1165,6 +1249,14 @@ private:  //!!! Graphics things
     
     //& Dev Tools
 private:
+    void playerActed(){
+        if (west_player->passed && axis_player->passed && ussr_player->passed)
+            return;
+        while (turn_order[current_index = loopVal(current_index+1, 0, 2)]->passed);
+
+        current_player = turn_order[current_index];
+    }
+
     /**
      * @brief Dev tool for setup when deciding the X and Y of the city, it'll print which city and then record the clicked X and Y as the location of the city
      * 
@@ -1173,11 +1265,12 @@ private:
     void setXY(const string& path){
         string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png";
         map_sprite = Spritesheet(path2.c_str(), app.renderer);
-        SDL_Rect tar = {0,0,1512,982};
+        int width, height;
+        SDL_GetWindowSize(app.window, &width, &height);
+        SDL_Rect tar = {0,0,width,height};
         string line;
         
-
-        fstream map_file(path, std::ios_base::in);
+        fstream map_file("/Users/michshep/Desktop/TriumphNTragedy/src/starter5.map", std::ios_base::in);
         fstream out_file("out.txt");
 
         if (!map_file.is_open()){
@@ -1255,16 +1348,21 @@ private:
      * 
      */
     void setResXY(){
-        initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map");
-        string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/SpriteMap0.png";
-
-        sprite_map = Spritesheet(path.c_str(), app.renderer);
-
-        string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png";
-        map_sprite = Spritesheet(path2.c_str(), app.renderer);
+        InitApplication();
+        players[0] = Player("Michael", WEST); 
+        players[WEST].app = &powers_app[0];
+        string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/SpriteSheet0.png";
+        const string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png";
+        powers_sprite_map[0] = Spritesheet(path.c_str(), powers_app[0].renderer);
+        players[WEST].sprite_sheet = &powers_sprite_map[0];
+        powers_map_sprite[0] = Spritesheet(path2.c_str(), powers_app[0].renderer);
+        players[WEST].map_sprite = &powers_map_sprite[0];
+        initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter5.map");
 
         vector<std::pair<int, int>> coords;
-        SDL_Rect tar = {0,0,1512,982};
+        int width, height;
+        SDL_GetWindowSize(players[WEST].app->window, &width, &height);
+        SDL_Rect tar = {0,0,width,height};
         SDL_Event event;
         for (int i = 1; i < map.getCities().size(); i++){
             const auto& city = map.getCity(i);
@@ -1272,9 +1370,9 @@ private:
             if (city->resource > 0){
                 cout << city->name << " has " << city->resource << " resources, place at ";
                 while (running){
-                    ClearScreen(app.renderer);
+                    ClearScreen(players[WEST].app->renderer);
 
-                    map_sprite.drawSprite(&tar, 0, 0, 1512, 982);
+                    players[WEST].map_sprite->drawSprite(&tar, 0, 0, 1512, 982);
                     drawCity(players[WEST], city->x, city->y, city->population_type);
 
                     if (SDL_PollEvent(&event)){
@@ -1293,7 +1391,7 @@ private:
                             }
                         }
                     }
-                    SDL_RenderPresent(app.renderer);
+                    SDL_RenderPresent(players[WEST].app->renderer);
                 }            
             }
             else{
@@ -1318,23 +1416,7 @@ private:
     bool pastDeadZone(const int& move) const{
         return !(move > -JOYSTICK_DEADZONE && move < JOYSTICK_DEADZONE);
     }
-
-    /**
-     * @brief Helper for loops where if the provided val will under/over flow into the min and max provided
-     * 
-     * @param val The value provided that will loop
-     * @param min_val The lower limit of the range
-     * @param max_val The upper limit of the range
-     * @return int The (if needed looped) resulting value
-     */
-    int loopVal(const int val, const int min_val, const int max_val){
-        if (val < min_val)
-            return max_val;
-        if (val > max_val)
-            return min_val;
-        return val;
-    }
-
+    
     /**
      * @brief Takes a joy axis movement and scales it to be from [0.0, 1.0] bases on a min movement of -32000 and max movement of 32000
      * 

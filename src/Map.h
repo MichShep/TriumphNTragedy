@@ -208,22 +208,6 @@ public:
     void addUnit(Unit* unit);
 
     /**
-     * @brief Helper for loops where if the provided val will under/over flow into the min and max provided
-     * 
-     * @param val The value provided that will loop
-     * @param min_val The lower limit of the range
-     * @param max_val The upper limit of the range
-     * @return int The (if needed looped) resulting value
-     */
-    int loopVal(const int val, const int min_val, const int max_val){
-        if (val < min_val)
-            return max_val;
-        if (val > max_val)
-            return min_val;
-        return val;
-    }
-
-    /**
      * @brief Get the name of the city
      * 
      * @return string The cities name
@@ -328,6 +312,9 @@ public:
      * 
      */
     void resolveCards(){
+        if (added_influence == 0 && top_card == NEUTRAL) //no cards currently on
+            return;
+
         if (allegiance == NEUTRAL && added_influence > 0){
             allegiance = top_card;
             influence = added_influence;
@@ -358,9 +345,10 @@ public:
      * @see resolveCards
      * 
      */
+    //TODO add full functionality
     void resolveDiplomacy(){
         // now that the influence level has been set change the influence level
-        influence_level = (InfluenceType)SDL_clamp(influence, 0, 3);
+        influence_level = (InfluenceType)std::min(influence, 3);
 
         switch (influence_level){
             case UNALIGNED:{
@@ -373,6 +361,7 @@ public:
                 break;
             }
             case PROTECTORATES:{
+                allegiance = top_card;
                 /* code */
                 break;
             }
@@ -385,6 +374,7 @@ public:
             default:
                 break;
         }
+        top_card=NEUTRAL;
     }
 
     /**
@@ -476,7 +466,13 @@ public:
      * @return City* The city with the given name
      */
     City* operator[](const string target){
-        return cities.at(target);
+        try{
+            return cities.at(target);
+        }
+        catch (std::out_of_range){
+            std::cerr << "Country key '" << target << "' was not found as a key" << endl;
+            exit(1);
+        }
     }
 
     /**
@@ -532,7 +528,13 @@ public:
      * @return Country* The country of that name
      */
     Country* getCountry(const string name) const{
-        return countries.at(name);
+        try{
+            return countries.at(name);
+        }
+        catch (std::out_of_range){
+            std::cerr << "Country key '" << name << "' was not found as a key" << endl;
+            exit(1);
+        }
     }
 
     /**

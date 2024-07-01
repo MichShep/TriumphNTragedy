@@ -35,6 +35,8 @@ private:
 
     int current_production=0; /**< The current production left for the pleyer for the production phase */
 
+    int industry_raised=0; /**< The number of times the player has raised their industry for the government phase */
+
     int units_upgraded=0; /**< Count for the number of units upgraded in the current production phase */
 
     int units_built=0; /**< Count for the number of units built (cadres added) in the current production phase*/
@@ -43,7 +45,11 @@ private:
 
     vector<Unit*> units; /**< Masterlist of all units the player controls*/
 
-    vector<Technology> achieved_tech; /**< List of all technologies that the player has discovered*/
+    AchievedTechnology* achieved_tech[25]; /**< List of all technologies that the player has discovered*/
+
+    int technology_count = 0;
+
+    int secret_count = 0;
 
     unordered_map<string, City*> controlled_cities; /**< Masterlist of all cites the player controls*/
 
@@ -103,11 +109,21 @@ public:
 
     bool board_change=true; /**< Boolen to track wether the player's board/view has changed and needs to be redrawn*/
 
-    bool show_action = false; /**< Falg to track if the action hand should be expanded to show all cards*/
-    bool show_invest = false; /**< Flag to track if the invest hand should be expanded to show all cards*/
+    //TODO change to false
+    bool show_action = true; /**< Flag to track if the action hand should be expanded to show all cards*/
+    bool show_invest = true; /**< Flag to track if the invest hand should be expanded to show all cards*/
+    bool show_tech = true;
+    bool show_stat = true;
+
     bool show_west = false; /**< Flag to track if the information of the West Player should be shown */
     bool show_axis = false; /**< Flag to track if the information of the Axis Player should be shown */
     bool show_ussr = false; /**< Flag to track if the information of the USSR Player should be shown */
+
+    int start_tech = 0;
+    int tech_view = 0;
+    int action_view = 0;
+    int invest_view = 0;
+    int stat_view = 0;
     
     double cursor_x = 0;  /**< The current x coord of the player's cursor on the screen*/
     double cursor_y = 0;  /**< The current y coord of the player's cursor on the screen*/
@@ -130,7 +146,7 @@ public:
     bool d_down_held = false; /**< Flag to indicate if the D-PAD Down button is being held by the player */
     bool d_left_held = false; /**< Flag to indicate if the D-PAD Left button is being held by the player */
     bool d_right_held = false; /**< Flag to indicate if the D-PAD Right button is being held by the player */
-    Uint32 last_widget = 0; /**< Time to indicate when the player last changed widgets to pace UI change */
+    tick_t last_widget = 0; /**< Time to indicate when the player last changed widgets to pace UI change */
 
 
     int popped_action_card_index = -1; /**< The index into the action hand of the action card the player has currently selected */
@@ -142,11 +158,28 @@ public:
     Country* selected_country = nullptr; /**< Pointer to the country the player has currently selected for card actions (nullptr if none selected) */
 
     int popped_invest_card_index = -1; /**< The index into the investment hand of the investment card the player has currently selected */
+    InvestmentCard* popped_invest_card = nullptr;
+    vector<InvestmentCard*> selected_invest_cards;
+    Tech* selected_tech1 = nullptr;
+    InvestmentCard* selected_tech1_card = nullptr;
+    Tech* selected_tech2 = nullptr; 
+    InvestmentCard* selected_tech2_card = nullptr;
+    bool tech_select_flip = true;
 
-    Uint32 x_held_tick = 0; /**< Tick of when the player most recently pressed down on the X-Button (0 if not held) */
-    Uint32 y_held_tick = 0; /**< Tick of when the player most recently pressed down on the Y-Button (0 if not held) */
+    int popped_tech_index = -1;
+    Tech* popped_tech = nullptr;
+
+    tick_t peak_ticks[3] = {0, 0, 0};
+    pair<City*, Unit*> peaked_unit = {nullptr, nullptr};
+    tick_t unit_peak_tick;
+
+    tick_t x_held_tick = 0; /**< Tick of when the player most recently pressed down on the X-Button (0 if not held) */
+    tick_t y_held_tick = 0; /**< Tick of when the player most recently pressed down on the Y-Button (0 if not held) */
+    tick_t a_held_tick = 0; /**< Tick of when the player most recently pressed down on the A-Button (0 if not held) */
+
     bool y_resolved = true; /**< Flag for if the Y-Button animation has been resolved */
-    Uint32 right_stick_tick = 0; /**< Tick of when the player most moved the right joystick */
+    tick_t right_stick_y_tick = 0; /**< Tick of when the player most moved the right joystick along the y axis */
+    tick_t right_stick_x_tick = 0; /**< Tick of when the player most moved the right joystick along the x axis */
 
     /**
      * @brief Construct a blank default Player object
@@ -179,6 +212,14 @@ public:
             break;
         }
         year_at_peace = START_YEAR;
+
+        tech_view = allegiance;
+        invest_view = allegiance;
+        action_view = allegiance;
+        stat_view = allegiance;
+
+        for (auto& d : achieved_tech)
+            d = nullptr;
     }
 
     /**
@@ -282,6 +323,23 @@ public:
         return -1;
     }
 
+    bool canIncreaseIND() const{
+        int sum = 0;
+        for (const auto& card : selected_invest_cards)
+            sum += card->amount;
+
+        return sum >= factory_cost && industry_raised < 2;
+    }
+
+    inline void raiseIND(){
+        industry++;
+        industry_raised++;
+    }
+
+    inline void lowerIND(){
+        industry--;
+    }
+
     /**
      * @brief Get the begin iterator of the controlled cities hashmap to iteratre through
      * 
@@ -375,6 +433,42 @@ public:
         invest_hand.erase(std::find(invest_hand.begin(), invest_hand.end(), invest_card));
     }
 
+    inline const bool hasSelected(const InvestmentCard* card) const{
+        return std::find(selected_invest_cards.begin(), selected_invest_cards.end(), card) != selected_invest_cards.end();
+    }
+
+    inline void deselect(const InvestmentCard* card){
+        selected_invest_cards.erase(std::find(selected_invest_cards.begin(), selected_invest_cards.end(), card));
+    }
+
+    inline bool hasTech(const Tech* tech) const{
+        return achieved_tech[*tech] != nullptr;
+    }
+
+    inline void achieveTech(const Tech& tech){
+        achieved_tech[tech] = new AchievedTechnology("TODO ADD NAME", tech, false);
+        technology_count++;
+        setTechSecret(tech);
+        if (tech == ATOMIC_FOUR)
+            atomic = true;
+    }
+
+    void updatePoppedInvestCard(){
+        if (getInvestSize() > 0){
+            popped_invest_card_index = loopVal(popped_invest_card_index, 0,  getInvestSize()-1);
+            popped_invest_card = getInvestCard(popped_invest_card_index);
+        }
+        else{
+            popped_invest_card_index = -1;
+            popped_invest_card = nullptr;
+        }
+
+        selected_tech1 = nullptr;
+        selected_tech1_card = nullptr;
+        selected_tech2 = nullptr;
+        selected_tech2_card = nullptr;
+    }
+
     //& Getters and Setters
     /**
      * @brief Gets which power the player is
@@ -417,10 +511,10 @@ public:
      * 
      * @return size_t number of achieved tech
      */
-    size_t getTechSize() const{
-        return achieved_tech.size();
+    int getTechSize() const{
+        return technology_count;
     }
-
+    
     /**
      * @brief Get the number of resources owned
      * 
@@ -472,10 +566,7 @@ public:
      * @return size_t 
      */
     size_t getHandSize() const{
-        int num_secret=0;
-        for(const auto& t : achieved_tech)
-            num_secret += t.secret;
-        return action_hand.size() + invest_hand.size() + num_secret;
+        return action_hand.size() + invest_hand.size() + secret_count;
     }
 
     /**
@@ -544,7 +635,7 @@ public:
     /**
      * @brief Set the WEST DoW state
      * 
-     * @param ds The new state of the USSR DoW
+     * @param ds The new state of the WEST DoW
      */
     void setWestDow(const DowState ds) {
         west_dow = ds;
@@ -553,7 +644,7 @@ public:
     /**
      * @brief Set the AXIS DoW state
      * 
-     * @param ds The new state of the USSR DoW
+     * @param ds The new state of the AXIS DoW
      */
     void setAxisDow(const DowState ds) {
         axis_dow = ds;
@@ -562,7 +653,7 @@ public:
     /**
      * @brief Set the USA DoW state
      * 
-     * @param ds The new state of the USSR DoW
+     * @param ds The new state of the USA DoW
      */
     void setUsaDow(const DowState ds) {
         usa_dow = ds;
@@ -601,15 +692,60 @@ public:
      * @brief Get the acheived tech at the specific index
      * 
      * @param indx the desired index of the tech
-     * @return const Technology& The tech at the index
+     * @return Technology& The tech at the index
      */
-    const Technology& getTech(const size_t indx) const{
+    AchievedTechnology* getTech(const size_t indx) const{
         return achieved_tech[indx];
     }
 
+    const int getSecretCount() const{
+        return secret_count;
+    }
+
+    void setTechSecret(const Tech indx){
+        achieved_tech[indx]->secret = true;
+        secret_count++;
+    }
+
+    bool setTechPublic(const Tech indx){
+        if (achieved_tech[indx]->secret){
+            achieved_tech[indx]->secret = false;
+            secret_count--;
+            return true;
+        }
+        return false;
+    }
+
+    inline void makeAtomic(){
+        atomic = true;
+    }
+
+    inline bool canPeakAction(){
+        return popped_invest_card != nullptr && selected_tech1 != nullptr && *selected_tech1 == CODE_BREAKER && action_view != allegiance;
+    }
+
+    void peakAction(const tick_t& tick){
+        peak_ticks[action_view] = tick;
+        remove(popped_invest_card);
+        updatePoppedInvestCard();
+    }
+
+    inline bool canPeakUnit(){
+        return selected_unit.first != nullptr && selected_tech1 != nullptr && *selected_tech1 == AGENT && selected_unit.second->allegiance != allegiance;
+    }
+
+    void peakUnit(const tick_t& tick){
+        unit_peak_tick = tick;
+        peaked_unit = selected_unit;
+        remove(popped_invest_card);
+        updatePoppedInvestCard();
+    }
+
+    
+
     //& Production
     /**
-     * @brief Get the min production of the player min(pop, res, ind). If not at war then dont look at res
+     * @brief Get the min production of the player min(pop, res, ind). If not at war then ignore res
      * 
      * @return size_t The production of the player for the phase
      */
@@ -639,22 +775,26 @@ public:
     }
 
     void spendProduction(const ProductionAction p_act, const bool undo=false){ //BUY_AC, BUY_IC, UNIT_UP, CADRE}
-        switch (p_act){
+        int* target = nullptr;
+
+        switch (p_act) {
             case BUY_AC:
-                bought_action += (undo)? -1 : 1;
+                target = &bought_action;
                 break;
             case BUY_IC:
-                bought_invest += (undo)? -1 : 1;
+                target = &bought_invest;
                 break;
             case UNIT_UP:
-                units_upgraded += (undo)? -1 : 1;
+                target = &units_upgraded;
                 break;
             case CADRE:
-                units_built += (undo)? -1 : 1;
+                target = &units_built;
                 break;
             default:
-                break;
+                return;
         }
+
+        *target += (undo) ? -1 : 1;
     }   
 
     /**
@@ -738,5 +878,12 @@ public:
         controlled_cities.clear();
 
         name = "DELETED";
+    }
+
+    bool operator==(int city_type){
+        return allegiance == city_type;
+    }
+    bool operator!=(int city_type){
+        return allegiance != city_type;
     }
 };

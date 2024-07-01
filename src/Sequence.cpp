@@ -37,6 +37,8 @@ CityType Runner::newYear(){
             return player.getAllegiance();
         }
     }
+    cout << players[WEST].app->screen.getXScale() << endl;
+    cout << players[WEST].app->screen.getYScale() << endl;
 
     //- Reshuffle..
     reshuffle(true);
@@ -82,7 +84,7 @@ void Runner::production(){
     //- Initial draw
     drawPhase(0);
 
-    public_messages.push_back(PublicMessage(PRODUCTION_START, b));
+    public_messages.push_back(PublicMessage(PRODUCTION_START, b, 500, 160, 32, 20));
     //- Go through each player in turn order
     for (auto& player : turn_order){
         bool running=true;
@@ -115,22 +117,20 @@ void Runner::production(){
     }    
 }
 
-void Runner::drawPhase(const Uint32& delta){
-    //- Check if things have changed and need to be redrawn
-
-    if (map_changed){
-        //drawMap(WEST, true, true, true, false, true);
-    }
-    
+void Runner::drawPhase(const tick_t& delta){
+    //- Check if things have changed and need to be redrawn    
     if (players[WEST].board_change){
+        ClearScreen(players[WEST].app->renderer);
         drawPlayerBoard(players[WEST], delta);
         players[WEST].board_change = false;
     }
     if (players[AXIS].board_change){
+        ClearScreen(players[AXIS].app->renderer);
         drawPlayerBoard(players[AXIS], delta);
         players[AXIS].board_change = false;
     }
     if (players[USSR].board_change){
+        ClearScreen(players[USSR].app->renderer);
         drawPlayerBoard(players[USSR], delta);
         players[USSR].board_change = false;
     }
@@ -153,7 +153,7 @@ void Runner::government(){
     //- Initial draw
     drawPhase(0);
 
-    public_messages.push_back(PublicMessage(GOVERNMENT_START, b));
+    public_messages.push_back(PublicMessage(GOVERNMENT_START, b, 300, 160, 32, 25));
 
     //- Go through each player in turn order but it can loop so it will be an inner loop
     bool running=true;
@@ -166,6 +166,7 @@ void Runner::government(){
 
         //ensures framerate of 60fps
         if (delta > 1000/60.0){
+            
             b = a;  
             //- Player input
             handleUserInput(running, b);
@@ -179,15 +180,14 @@ void Runner::government(){
     }
 
     //- Diplomacy Resolution
-    resolveDiplomacy();
-    
-        //- Diplomacy
+    resolveDiplomacy();    
+        //- Diplomacy.
 
-        //- Industry
+        //- Industry.
 
-        //- Technology
+        //- Technology.
 
-        //- Intelligence
+        //TODO - Intelligence
 
         //- Pass
 }
@@ -225,15 +225,6 @@ bool Runner::addDiplomacy(Player& player, Country* country){
     return true;
 }
 
-void Runner::resolveDiplomacy(){
-    for (auto& country : map.getCountries()){
-        country.second->resolveCards();
-        cout << country.second->name << " " << country.second->influence << endl;
-    }
-    mapPlayerResPop(players[WEST]);
-    mapPlayerResPop(players[AXIS]);
-    mapPlayerResPop(players[USSR]);
-}
 //- Spring Season
 void Runner::spring(){
     season = SPRING;
@@ -302,7 +293,7 @@ void Runner::winter(){
 
 void Runner::reshuffle(const bool animation){
     season = RESHUFFLE;
-    if (year == 1936)
+    if (year == 1937)
         return;
 
     unsigned int a = SDL_GetTicks();
@@ -312,7 +303,7 @@ void Runner::reshuffle(const bool animation){
     //- Initial draw
     if (animation){
         drawPhase(0);
-        public_messages.push_back(PublicMessage(RESHUFFLE_START, b));
+        public_messages.push_back(PublicMessage(RESHUFFLE_START, b,  150, 150, 32, 27));
     }
 
     //- Actual reshuffle
@@ -340,8 +331,6 @@ void Runner::reshuffle(const bool animation){
 
                 //- Render
                 animateReshuffle(running, action_discard.size(), invest_discard.size(), b);
-
-
             }
         }
     }
@@ -382,43 +371,32 @@ void Runner::decideTurnOrder(const bool animation){
     int result = die.roll();
     cout << "Set turn order of WEST AXIS USSR loaded" << endl;
     result = 3;
+
+    auto setOrder = [&](const CityType first, const CityType second, const CityType third){
+        start_player = &players[first];
+        turn_order[0] = start_player;
+        turn_order[1] = &players[second];
+        turn_order[2] = &players[third];
+    };
+
     switch (result){
     case 1:
-        start_player = &players[AXIS];
-        turn_order[0] = &players[AXIS];
-        turn_order[1] = &players[USSR];
-        turn_order[2] = &players[WEST];
+        setOrder(AXIS, USSR, WEST);
         break;
     case 2:
-        start_player = &players[AXIS];
-        turn_order[0] = &players[AXIS];
-        turn_order[1] = &players[WEST];
-        turn_order[2] = &players[USSR];
+        setOrder(AXIS, WEST, USSR);
         break;
     case 3:
-        start_player = &players[WEST];
-        turn_order[0] = &players[WEST];
-        turn_order[1] = &players[AXIS];
-        turn_order[2] = &players[USSR];
+        setOrder(WEST, AXIS, USSR);
         break;
     case 4:
-        start_player = &players[WEST];
-        turn_order[0] = &players[WEST];
-        turn_order[1] = &players[USSR];
-        turn_order[2] = &players[AXIS];
+        setOrder(WEST, USSR, AXIS);
         break;
     case 5:
-        start_player = &players[USSR];
-        turn_order[0] = &players[USSR];
-        turn_order[1] = &players[WEST];
-        turn_order[2] = &players[AXIS];
+        setOrder(USSR, WEST, AXIS);
         break;
     case 6:
-        start_player = &players[USSR];
-        turn_order[0] = &players[USSR];
-        turn_order[1] = &players[AXIS];
-        turn_order[2] = &players[WEST];
-        break;
+        setOrder(USSR, AXIS, WEST);
     default:
         printf("Uh this dice need to be fixed");
         exit(1);
@@ -428,28 +406,29 @@ void Runner::decideTurnOrder(const bool animation){
         drawTurnRoll(result);
 }
 
+
 void Runner::peaceDividends(){
     bool animates1=false, animates2=false, animates3=false;
     if (peace_dividends_bag.size() == 0) //in game its impossible to runnout of chits so this is for testing
         return;
 
     //- Check for West
-    if (players[0].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
-        players[0].givePeaceDividend(peace_dividends_bag.back());
+    if (players[WEST].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
+        players[WEST].givePeaceDividend(peace_dividends_bag.back());
         peace_dividends_bag.pop_back();
         animates1 = true;
     }
 
     //- Axis
-    if (players[1].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
-        players[1].givePeaceDividend(peace_dividends_bag.back());
+    if (players[AXIS].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
+        players[AXIS].givePeaceDividend(peace_dividends_bag.back());
         peace_dividends_bag.pop_back();
         animates2 = true;
     }
 
     //-USSR
-    if (players[2].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
-        players[2].givePeaceDividend(peace_dividends_bag.back());
+    if (players[USSR].getYearAtPeace() == (year)){ //if the year at peace is this year then draw chit
+        players[USSR].givePeaceDividend(peace_dividends_bag.back());
         peace_dividends_bag.pop_back();
         animates3 = true;
     }
@@ -464,14 +443,13 @@ void Runner::newYearRes(){
         usa->resolveDiplomacy(); //? 8.44 Becomes a satellite immediately
         
         if (year != 1941 && usa->influence_level == SATELLITES){ //? 8.54 during 1942 to 1944 USA forces [AF/Fleet/Infantry/Tank] arrive with 1 CV up to 3 CV depending on the year
-            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_A, AIR, year-1941, 2, true));
-            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_N, FLEET, year-1941, 3, true, true));
-            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_G, INFANTRY, year-1941, 2, true));
-            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_A, TANK, year-1941, 3, true));
+            const int cv = year-1941;
+            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_A, AIR, cv, 2, true));
+            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_N, FLEET, cv, 3, true, true));
+            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_G, INFANTRY, cv, 2, true));
+            map["Washington"]->addUnit(new Unit(USA_U, WEST, CLASS_A, TANK, cv, 3, true));
         }
     }
-
-
 }
 
 void Runner::applyProduction(Player& player){
@@ -481,6 +459,89 @@ void Runner::applyProduction(Player& player){
     player.bought_action=0;
     player.bought_invest=0;
     player.passed = true;
+}
+
+void Runner::resolveDiplomacy(){
+    for (auto& country : map.getCountries()){
+        country.second->resolveCards();
+    }
+    mapPlayerResPop(players[WEST]);
+    mapPlayerResPop(players[AXIS]);
+    mapPlayerResPop(players[USSR]);
+}
+
+bool Runner::increaseIndustry(Player& player){
+    //- If cannot raise IND (already did twice this year or not enough cost)
+    if (!player.canIncreaseIND()){
+        return false;
+    }
+
+    //- Increase IND
+    player.raiseIND();
+
+    //- Remove cards from player hand and add to discard to raise IND
+
+    for (auto& card : player.selected_invest_cards){
+        player.remove(card);
+        invest_discard.push_back(card);
+    }
+    player.selected_invest_cards.clear();
+
+    player.updatePoppedInvestCard();
+
+    return true;
+}
+
+bool Runner::canPair(const Player& player, const Tech* tech1, const Tech* tech2) const{
+    if ((tech1 == nullptr || tech2 == nullptr)){
+        return false;
+    }
+
+    if (*tech1 >= Y_1938 && *tech2 >= Y_1938 ){ //cannot pair year with year
+        return false;
+    }
+    if (*tech2 >= Y_1938){ //is a year card but in the second spot then flip so code doesn't need to be copy and pasted 
+        return canPair(player, tech2, tech1);
+    }
+
+    if (ATOMIC_TWO <= *tech1 && *tech1 <= ATOMIC_FOUR && player.getTech(*tech1-1) == nullptr){ //if its atomic but doesn't have the previous atomic level then reject
+        return false;
+    }   
+
+    if (ATOMIC_TWO <= *tech2 && *tech2 <= ATOMIC_FOUR && player.getTech(*tech2-1) == nullptr){ //if its atomic but doesn't have the previous atomic level then reject
+        return false;
+    }
+    
+    if (*tech1 >= Y_1938){ // is a year card then make sure tech2 is in the pairable list
+        if (*tech1-Y_1938 + 1938 > year) //todo change back after testing
+            return false;
+        const auto& pairable_techs = YEAR_TECHS[*tech1 - Y_1938];
+        for (const Tech& t : pairable_techs){
+            if (*tech2 == t)
+                return true;
+        }
+
+        return false;
+    }
+
+    return *tech1 == *tech2;
+
+}
+
+bool Runner::achieveTechnology(Player&player){
+    //- Check that two techs are selected, that they are the same, and player doens't already have the tech
+    if (!canPair(player, player.selected_tech1, player.selected_tech2) || player.hasTech((*player.selected_tech1 >= Y_1938)? player.selected_tech2 : player.selected_tech1))
+        return false;
+
+    //- If passed all checks then add tech to player hand
+    player.achieveTech((*player.selected_tech1 >= Y_1938)? *player.selected_tech2 : *player.selected_tech1);
+
+    //- Remove the two cards
+    player.remove(player.selected_tech1_card);
+    player.remove(player.selected_tech2_card);
+    player.updatePoppedInvestCard();
+
+    return true;
 }
 
 void Runner::handCheck(Player* player){

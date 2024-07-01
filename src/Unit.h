@@ -9,7 +9,7 @@ struct PeaceChit{
     int y;
 };
 
-struct Technology{
+struct AchievedTechnology{
     string name; /**< The name of the technology*/
 
     Tech tech; /** The type of technology corresponding to its name*/
@@ -20,7 +20,7 @@ struct Technology{
      * @brief Construct a default technology
      * 
      */
-    Technology(){
+    AchievedTechnology(){
         name=""; tech=LSTs; secret=false;
     }
 
@@ -31,7 +31,15 @@ struct Technology{
      * @param tech The enum for the tech
      * @param secret If the tech is a secret or not
      */
-    Technology(const string name, const Tech tech, bool secret=false): name(name), tech(tech), secret(secret){
+    AchievedTechnology(const string name, const Tech tech, bool secret=false): name(name), tech(tech), secret(secret){
+    }
+
+    bool operator==(const AchievedTechnology* rhs) const{
+        return this->name == rhs->name && this->tech == rhs->tech;
+    }
+
+    bool operator==(const Tech* rhs) const{
+        return this->tech == *rhs;
     }
 };
 
@@ -123,7 +131,7 @@ public:
     type(type), countryA(countryA), countryB(countryB), season(season), letter(letter), number(number), sprite_offset_left(sprite_offset_left*2), sprite_offset_right(sprite_offset_right*2+1){
     }
 
-    bool operator==(ActionCard* card){
+    bool operator==(const ActionCard* card) const{
         return card->countryA == this->countryA && card->countryB == this->countryB && this->number == card->number && this->season == card->season;
     }
 };
@@ -132,17 +140,14 @@ struct InvestmentCard : public Card{
 public:
     InvestType type; /**< The type of invest Card (the basic two sided TECHNOLOGY card, or a wild effect INTELLIGENCE, or a wild YEAR card)*/
 
-    Technology tech1 /**< The name of the left side of the tech (or the year it's usable)*/;
+    Tech tech1 /**< The name of the left side of the tech (or the year it's usable)*/;
 
-    Technology tech2; /**< The name of the right side of the tech (blank for INTELLIGENCE cards)*/
+    Tech tech2; /**< The name of the right side of the tech (blank for INTELLIGENCE cards)*/
 
     size_t amount; /**< The value the card contributes to raising the industry*/
 
     //for science cards
     size_t year; /**< The year of the YEAR card it applies too*/
-
-    size_t sprite_offset_left; /**< The sprite index of the left tech*/
-    size_t sprite_offset_right; /**< The sprite index of the right tech*/
 
     /**
      * @brief Construct a new Investment Card object
@@ -156,13 +161,13 @@ public:
      * @param sprite_offset_right 
      */
     InvestmentCard(const InvestType type, const string tech1_name, const string tech2_name, const int amount, const size_t year, const size_t sprite_offset_left, const size_t sprite_offset_right): 
-    type(type), amount(amount), year(year), sprite_offset_left(sprite_offset_left), sprite_offset_right(sprite_offset_right) {
-        tech1 = Technology(tech1_name, (Tech)sprite_offset_left, false);
-        tech2 = Technology(tech2_name, (Tech)sprite_offset_right, false);
+    type(type), amount(amount), year(year){
+        tech1 = (Tech)sprite_offset_left;
+        tech2 = (Tech)sprite_offset_right;
     }
 
-    bool operator==(InvestmentCard* card){
-        return card->tech1.name == this->tech1.name && card->tech2.name == this->tech2.name && this->amount == card->amount;
+    bool operator==(const InvestmentCard* card) const{
+        return card->tech1 == this->tech1 && card->tech2 == this->tech2 && this->amount == card->amount;
     }
 };
 
