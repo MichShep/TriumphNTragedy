@@ -69,6 +69,7 @@ private:
     Player* current_player; /**< The player's who current turn it is*/
 
     Player* turn_order[3]; /**< Array with the first player at 0 and the last player in the loop at 2*/
+    Player* temp_order[3];
 
     int current_index = 0;
 
@@ -206,6 +207,7 @@ public:
         SDL_SetEventFilter(event_filter, NULL);
 
         last_tick = SDL_GetTicks();
+        
 
         players[0].cursor_x = players[0].app->screen.getX(map.getCapital("Britian")->x);
         players[0].cursor_y = players[0].app->screen.getY(map.getCapital("Britian")->y);
@@ -223,91 +225,109 @@ public:
         players[1].calculateProduction();
         players[2].calculateProduction();
 
-        //test();
+        test();
 
         mapPlayerResPop(players[WEST]);
         mapPlayerResPop(players[AXIS]);
         mapPlayerResPop(players[USSR]);
     }
 
-    size_t test(){        
-        buildUnit(players[WEST], map["London"], FLEET);
-        buildUnit(players[WEST], map["London"], FORTRESS);
-        
-        buildUnit(players[WEST], map["Washington"], FLEET);
-        buildUnit(players[WEST], map["Washington"], FORTRESS);
-        buildUnit(players[WEST], map["Washington"], SUB);
-        buildUnit(players[WEST], map["Washington"], CARRIER);
-        buildUnit(players[WEST], map["Washington"], AIR);
-        buildUnit(players[WEST], map["Washington"], TANK);
-        buildUnit(players[WEST], map["Washington"], INFANTRY);
+    size_t test(){
+        //- Axis Setup
+        buildUnit(players[AXIS], map["Berlin"], AIR);
+        buildUnit(players[AXIS], map["Berlin"], INFANTRY);
+        buildUnit(players[AXIS], map["Berlin"], INFANTRY);
+        buildUnit(players[AXIS], map["Berlin"], FORTRESS);
+        buildUnit(players[AXIS], map["Berlin"], TANK);
+        buildUnit(players[AXIS], map["Berlin"], TANK);
 
-        buildUnit(players[AXIS], map["Ruhr"], AIR);
-        buildUnit(players[AXIS], map["Ruhr"], AIR);
-        buildUnit(players[AXIS], map["Ruhr"], AIR);
+        buildUnit(players[AXIS], map["Ruhr"], FLEET);
         buildUnit(players[AXIS], map["Ruhr"], INFANTRY);
+        buildUnit(players[AXIS], map["Ruhr"], FORTRESS);
+        buildUnit(players[AXIS], map["Ruhr"], FLEET);
 
-        buildUnit(players[USSR], map["Moscow"], TANK);
-        buildUnit(players[USSR], map["Moscow"], INFANTRY);
-        buildUnit(players[USSR], map["Moscow"], AIR);
-        buildUnit(players[USSR], map["Moscow"], AIR);
-        buildUnit(players[USSR], map["Moscow"], INFANTRY);
-        buildUnit(players[USSR], map["Moscow"], TANK);
+        buildUnit(players[AXIS], map["Munich"], INFANTRY);
+        buildUnit(players[AXIS], map["Munich"], TANK);
 
-        map["Warsaw"]->occupants[3].push_back(new Unit(1, NEUTRAL_U, FORTRESS, 2));
-        map["Warsaw"]->occupants[3][0]->combat_value = 3;
-        map["Warsaw"]->num_occupants = 1;
+        buildUnit(players[AXIS], map["Könisberg"], TANK);
+        buildUnit(players[AXIS], map["Könisberg"], AIR);
 
-        buildUnit(players[AXIS], map["Rome"], AIR);
-        buildUnit(players[AXIS], map["Rome"], SUB);
+        buildUnit(players[AXIS], map["Rome"], FORTRESS);
+        buildUnit(players[AXIS], map["Rome"], INFANTRY);
+        buildUnit(players[AXIS], map["Rome"], FLEET);
+        buildUnit(players[AXIS], map["Rome"], FLEET);
 
-        map["Croatia"]->setRuler(GERMANY_U);
-        players[0].add(map.getCity("Croatia"));
-        buildUnit(players[AXIS], map["Croatia"], AIR);
-        map["Croatia"]->num_occupants = 1;
+        buildUnit(players[AXIS], map["Milan"], FLEET);
+        buildUnit(players[AXIS], map["Milan"], INFANTRY);
 
+        buildUnit(players[AXIS], map["Tripoli"], TANK);
+        buildUnit(players[AXIS], map["Tripoli"], TANK);
 
-        map["Ankara"]->setRuler(USA_U);
-        players[0].add(map.getCity("Ankara"));
-        buildUnit(players[WEST], map["Ankara"], AIR);
-       
-        deal(&players[2], 11, 'I');
-        deal(&players[0], 11, 'I');
-        deal(&players[1], 11, 'I');
+        applyProduction(players[AXIS]);
+        players[AXIS].passed = false;
+
+        //- West Setup
+
+        buildUnit(players[WEST], map["London"], TANK);
+        buildUnit(players[WEST], map["London"], INFANTRY);
+        buildUnit(players[WEST], map["London"], FORTRESS);
+        buildUnit(players[WEST], map["London"], FLEET, 4);
+
+        buildUnit(players[WEST], map["Delhi"], FORTRESS);
+        buildUnit(players[WEST], map["Delhi"], TANK);
+
+        buildUnit(players[WEST], map["Glasgow"], INFANTRY);
+
+        buildUnit(players[WEST], map["Bombay"], FLEET);
+
+        buildUnit(players[WEST], map["Suez"], CARRIER);
+
+        buildUnit(players[WEST], map["Gibraltar"], FORTRESS);
+
+        buildUnit(players[WEST], map["Karachi"], INFANTRY);
+
+        buildUnit(players[WEST], map["Paris"], FORTRESS);
+        buildUnit(players[WEST], map["Paris"], AIR);
+
+        buildUnit(players[WEST], map["Marseille"], INFANTRY);
+
+        buildUnit(players[WEST], map["Algiers"], FLEET);
+
+        buildUnit(players[WEST], map["Lorraine"], FORTRESS, 3);
 
         applyProduction(players[WEST]);
-        applyProduction(players[AXIS]);
-        applyProduction(players[USSR]);
         players[WEST].passed = false;
-        players[AXIS].passed = false;
+
+        //- USSR Setup
+        buildUnit(players[USSR], map["Moscow"], FORTRESS);
+        buildUnit(players[USSR], map["Moscow"], INFANTRY);
+        buildUnit(players[USSR], map["Moscow"], AIR);
+
+        buildUnit(players[USSR], map["Leningrad"], FLEET);
+        buildUnit(players[USSR], map["Leningrad"], FLEET);
+
+        buildUnit(players[USSR], map["Baku"], FORTRESS);
+        buildUnit(players[USSR], map["Baku"], INFANTRY);
+
+        buildUnit(players[USSR], map["Kiev"], INFANTRY);
+
+        buildUnit(players[USSR], map["Odessa"], INFANTRY);
+
+        buildUnit(players[USSR], map["Kharkov"], TANK);
+
+        buildUnit(players[USSR], map["Stalingrad"], TANK);
+
+        buildUnit(players[USSR], map["Urals"], AIR);
+
+        applyProduction(players[USSR]);
         players[USSR].passed = false;
 
+        deal(west_player, 4, 'I');
+        deal(axis_player, 4, 'I');
+        deal(ussr_player, 4, 'I');
 
-        players[WEST].achieveTech(LSTs);
-        players[WEST].achieveTech(ROCKET_ARTILLERY);
-        players[WEST].achieveTech(SONAR);
-        players[WEST].achieveTech(PERCISION_BOMBERS);
-        players[WEST].setTechPublic(PERCISION_BOMBERS);
-        players[WEST].achieveTech(JETs);
-        players[WEST].setTechPublic(JETs);
-        players[WEST].achieveTech(ATOMIC_ONE);
-        players[WEST].setTechPublic(ATOMIC_ONE);
-
-        players[AXIS].achieveTech(AIRDEFENCE_RADAR);
-        players[AXIS].achieveTech(JETs);
-        players[AXIS].achieveTech(ATOMIC_ONE);
-        players[AXIS].setTechPublic(ATOMIC_ONE);
-        players[AXIS].achieveTech(ATOMIC_TWO);
-        players[AXIS].setTechPublic(ATOMIC_TWO);
-
-        players[USSR].achieveTech(HEAVY_BOMBERS);
-        players[USSR].achieveTech(HEAVY_TANKS);
-        players[USSR].achieveTech(ATOMIC_ONE);
-
-        map.getCountry("Greece")->added_influence = 2;
-        map.getCountry("Greece")->top_card = USSR;
-        map.getCountry("Greece")->resolveCards();        
         return 0;
+
     }
 
 
@@ -379,7 +399,7 @@ public:
 
     //- Production Phase
     /**
-     * @brief New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards, building cadres, and upgrading units. Runs on the turn order until all have gone through
+     * @brief Phase where players can spend there production (lowest of pop/res/ind) on buying cards, building cadres, and upgrading units. Runs on the turn order until all have gone through
      * 
      */
     void production();
@@ -404,7 +424,7 @@ public:
 
     //- Government Phase
     /**
-     * @brief New Year phase where players play action cards to add influence and play investment cards, goes in turn order until all have passed
+     * @brief Phase where players play action cards to add influence and play investment cards, goes in turn order until all have passed
      * 
      */
     void government();
@@ -476,14 +496,22 @@ public:
         player.updatePoppedInvestCard();
     }
 
-    /**
-     * @brief Checks the players hand to see if it is over the card limit, and to discard down to the hand limit
-     * 
-     * @param player The player whose hand will be checked
-     */
-    void handCheck(Player* player);
+    void checkHands();
 
     //& Seasons of War
+
+    void sortCommand();
+
+    /**
+     * @brief 
+     * 
+     * @param lhs 
+     * @param rhs 
+     * @return true LHS has a higher priority
+     * @return false RHS has a higher priority
+     */
+    bool compareCards(const ActionCard* lhs, const ActionCard* rhs);
+
     //- Spring
     /**
      * @brief Spring season of war where players will commence the war. Action cards with spring will have priority
@@ -598,7 +626,7 @@ public:
      * 
      * @pre The unit follows all restrictions and can be built in the porvided city
      */
-    void buildUnit(Player&player, City* city, const UnitType unit);
+    void buildUnit(Player&player, City* city, const UnitType unit, const int cv=1);
 
     /**
      * @brief Decider for if an exisiting unit can be upgraded
@@ -619,16 +647,10 @@ public:
     void handleUnitBuilding(Player& player);
 
     //& Movement 
-    /**
-     * @brief Checks what type of movement is allowed and if the player is allowed to move there
-     * 
-     * @param unit The unit being moved
-     * @param start The Starting city being left
-     * @param end The destination of the unit
-     * @return true The unit was able to move
-     * @return false The unit was unable to move
-     */
-    bool move(Unit* unit, const string start, const string end);
+    
+    void addStop(Player& player, City* city);
+
+    bool checkRoute(Player& player);
 
     /**
      * @brief Checks if the player can disengage from the current battle
@@ -652,14 +674,13 @@ public:
      */
     bool disengage(Unit* unit, const string start, const string end);
 
-    /**
-     * @brief Checks if that unit is able to move into that city
-     * 
-     * @param unit The unit moving
-     * @param name The target City
-     * @return size_t How much movement would be left (returns INFI if it can't)
-     */
-    size_t canMove(Unit* unit,  const string start, const string name);
+    bool canLandMove(const Player& player, const Unit* unit) const;
+
+    bool canSeaMove(const Player& player, const Unit* unit) const;
+
+    bool canAirMove(const Player& player, const Unit* unit) const;
+
+    bool canDisengage(const Player& player, const Unit* unit) const;
 
     //& Combat
     /**
@@ -833,7 +854,8 @@ private:  //!!! Graphics things
 
     bool map_changed=true; /**< Boolean that is true when an update has happened on the main screen and the main screen needs to be re-rendered */
 
-    tick_t last_tick; /**< Used by animations to see how long has elapsed since the last render */
+    tick_t last_tick; /**< Used by animations to see how long has elapsed since started */
+    int phase = 0;
 
     vector<PublicMessage> public_messages; /**< Vector of all current public messages that are being animated */
 
@@ -887,13 +909,6 @@ private:  //!!! Graphics things
      */
     void drawPlayerBoard(Player& player, const tick_t& ticks=0, const bool render=true);
 
-    /**
-     * @brief Draws the action and invest hands of the player on the left and right side of the screen, respectively
-     * TODO
-     * @param player The player whose hand is being drawn
-     */
-    void drawPlayerCards(Player& drawing_player);
-
     void drawInvestWidget(Player& drawing_player, Player& target_player);
 
     void drawActionWidget(Player& drawing_player, Player& target_player);
@@ -901,6 +916,8 @@ private:  //!!! Graphics things
     void drawTechWidget(Player& drawing_player, Player& target_player);
 
     void drawStatWidget(Player& drawing_player, Player& target_player);
+
+    void drawSeasonSpecific(Player& drawing_player);
 
 
     /**
@@ -987,6 +1004,10 @@ private:  //!!! Graphics things
      */
     void drawInfluence(const Player& player);
 
+    void drawActionCard(const Player* draw_player, const ActionCard* card, const int start_x, const int start_y, const int scaled_size, const uint8_t alpha=255);
+
+    void drawInvestCard(const Player* draw_player, const InvestmentCard* card, const int start_x, const int start_y, const int scaled_size, const uint8_t alpha=255);
+
     void drawActionCards(const Player* draw_player, const Player* target_player, int start_x, int start_y, int count, int scale=1);
 
     /**
@@ -1065,12 +1086,13 @@ private:  //!!! Graphics things
      */
     void drawLine(const Player& player, const City* city1, const City* city2){
         auto& renderer = player.app->renderer;
+        const auto& temp = map.getBorder(city1, city2);
         const auto& x1 = player.app->screen.getX(city1->x+city1->WIDTH/2);
         const auto& y1 = player.app->screen.getY(city1->y+city1->HEIGHT/2);
 
         const auto& x2 = player.app->screen.getX(city2->x+city2->WIDTH/2);
         const auto& y2 = player.app->screen.getY(city2->y+city2->HEIGHT/2);
-        SDL_SetRenderDrawColor(renderer, 255, 193, 7, 255);
+        SDL_SetRenderDrawColor(renderer, BORDER_COLOR[temp][0], BORDER_COLOR[temp][1], BORDER_COLOR[temp][2], 255);
         SDL_RenderDrawLine(renderer, x1,    y1,     x2,     y2);
         SDL_RenderDrawLine(renderer, x1-1,  y1+1,   x2-1,   y2+1);
         SDL_RenderDrawLine(renderer, x1,    y1+1,   x2,     y2+1);
@@ -1083,6 +1105,8 @@ private:  //!!! Graphics things
     void drawPhase(const tick_t& ticks);
 
     //& Animations
+
+    void animateCommandOrder(bool& running, const tick_t& ticks, const int west_start,  const int axis_start,  const int ussr_start, const int west_end,  const int axis_end,  const int ussr_end);
 
     /**
      * @brief Used the current time and the public message origin time to draw the frame the given animation is at
@@ -1145,8 +1169,12 @@ private:  //!!! Graphics things
      * @return true The click is in the button
      * @return false The click is not in the button
      */
-    bool inBox(const int x, const int y, const int width, const int height, const int target_x, const int target_y){
+    bool inBox(const int x, const int y, const int width, const int height, const int target_x, const int target_y) const{
         return (target_x >= x && target_x <= x+width) && (target_y >= y && target_y <= y+height);
+    }
+
+    bool inBox(const int x, const int y, const SDL_Rect* area) const{
+        return (x >= area->x && x <= area->x+area->w) && (y >= area->y && y <= area->y+area->h);
     }
 
     //& User Input
@@ -1256,6 +1284,67 @@ private:
 
         current_player = turn_order[current_index];
     }
+
+    void passedCommand(const bool passed){
+        if (west_player->passed && axis_player->passed && ussr_player->passed) //if all have already passed then don't move anymore
+            return;
+
+        if (!passed){ //if the current player did not pass then need to get confirmation from all other players again
+            west_player->passed = false;
+            axis_player->passed = false;
+            ussr_player->passed = false;
+        }
+        else
+            current_player->passed = true;
+
+        current_index = loopVal(current_index+1, 0, 2);
+        current_player = turn_order[current_index];
+
+        cout << turn_order[current_index]->getName() << endl;
+
+        if (current_player->getCommandNumber() != -1){
+            passedCommand(true);
+        }
+    }
+
+    int getDoWOffset(Player& player, const bool second){
+        if (second){
+            switch (player.getAllegiance()){ //bottom dow
+                case WEST:
+                    return 3*player.getUssrDow()+1;
+                    break;
+                case AXIS:
+                    return 3*player.getUssrDow()+1;
+                    break;
+                case USSR:
+                    return 3*player.getWestDow();
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+
+        else{
+            switch (player.getAllegiance()){ //top dow
+                case WEST:
+                    return 3*player.getAxisDow()+2;
+                    break;
+                case AXIS:
+                    return 3*player.getWestDow();
+                    break;
+                case USSR:
+                    return 3*player.getAxisDow();
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+
+        return -1;   
+    }
+
 
     /**
      * @brief Dev tool for setup when deciding the X and Y of the city, it'll print which city and then record the clicked X and Y as the location of the city

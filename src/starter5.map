@@ -1,140 +1,140 @@
 136	34								
-1	London	West	Great	B	MainCapital	1	N	375	374
-2	Glasgow	West	Great	B	City	1	N	344	257
-3	English_Channel	Water	None	N	Empty	0	N	328	422
-4	North_Sea	Water	None	N	Empty	0	N	444	298
-5	Paris	West	Major	F	SubCapital	0	N	390	456
-6	Gascony	West	Major	F	Empty	0	N	354	566
-7	Lorraine	West	Major	F	Empty	2	N	441	500
-8	Marseille	West	Major	F	City	0	N	419	606
-9	Amsterdam	Neutral	Minor	N	City	0	N	459	384
-10	Ruhr	Axis	Great	G	SubCapital	3	N	517	383
-11	Munich	Axis	Great	G	City	0	N	560	480
-12	Berlin	Axis	Great	G	MainCapital	1	N	590	381
-13	Milan	Axis	Major	I	City	1	N	504	569
-14	Venice	Axis	Major	I	Empty	1	N	557	545
-15	Adriatic_Sea	Water	None	N	Empty	0	N	630	609
-16	Copenhagen	Neutral	Minor	N	Town	1	N	573	307
-17	Oslo	Neutral	Minor	N	Town	1	N	564	220
-18	Stockholm	Neutral	Minor	N	City	1	N	632	244
-19	Baltic_Sea	Water	None	N	Empty	0	N	659	290
-20	Gulf_Of_Bothnia	Water	None	N	Empty	0	N	712	230
-21	Warsaw	Neutral	Minor	N	CapitalCity	1	N	698	385
-22	Könisberg	Axis	Great	G	City	0	N	698	323
-23	Riga	Neutral	Minor	N	Town	0	N	746	271
-24	Lvov	Neutral	Minor	N	City	0	N	775	425
-25	Vilna	Neutral	Minor	N	Town	0	N	782	314
-26	Leningrad	USSR	Great	S	SubCapital	0	N	821	219
-27	Belorussia	USSR	Great	S	Empty	0	N	843	294
-28	Kiev	USSR	Great	S	City	1	N	869	401
-29	Odessa	USSR	Great	S	City	2	N	885	478
-30	Moscow	USSR	Great	S	MainCapital	0	N	963	232
-31	Bryansk	USSR	Great	S	Empty	0	N	919	312
-32	Kharkov	USSR	Great	S	City	1	N	1013	354
-33	Sevastopol	USSR	Great	S	Empty	0	N	971	484
-34	Prague	Neutral	Minor	N	City	0	N	639	438
-35	Vienna	Neutral	Minor	N	City	0	N	631	493
-36	Croatia	Neutral	Minor	N	Empty	1	N	652	564
-37	Budapest	Neutral	Minor	N	City	1	N	692	506
-38	Belgrade	Neutral	Minor	N	Town	0	N	726	574
-39	Sofia	Neutral	Minor	N	Town	1	N	781	600
-40	Bucharest	Neutral	Minor	N	City	2	N	823	541
-41	Western_Black_Sea	Water	None	N	Empty	0	N	927	540
-42	Istanbul	Neutral	Minor	N	City	0	N	887	612
-43	Ankara	Neutral	Minor	N	CapitalCity	0	N	976	605
-44	Washington	Neutral	Major	U	SubCapital	2	N	28	250
-45	New_York	Neutral	Major	U	City	1	N	60	231
-46	Dublin	Neutral	Minor	N	Town	0	N	284	323
-47	Irish_Sea	Water	None	N	Empty	0	N	221	380
-48	Bay_Of_Biscay	Water	None	N	Empty	0	N	237	505
-49	Leon	Neutral	Minor	N	Empty	0	N	267	600
-50	Barcelona	Neutral	Minor	N	City	0	N	342	650
-51	Madrid	Neutral	Minor	N	CapitalCity	0	N	243	673
-52	Lisbon	Neutral	Minor	N	Town	0	N	182	674
-53	Gibraltar	West	Colony	B	Town	0	N	219	745
-54	Morocco	West	Colony	F	Empty	0	N	218	839
-55	Dakar	West	Colony	F	Empty	0	N	188	885
-56	Algiers	West	Colony	F	City	0	N	326	780
-57	Tunisia	West	Colony	F	Empty	0	N	451	778
-58	Sfax	West	Colony	F	Empty	0	N	505	822
-59	Malta	West	Colony	B	Town	0	N	561	768
-60	Tripoli	Neutral	None	N	City	0	N	586	830
-61	Cyrenaica	Neutral	None	N	Empty	0	N	770	858
-62	Egypt	West	Colony	B	Empty	0	N	902	849
-63	Suez	West	Colony	B	City	0	N	975	821
-64	Sudan	West	Colony	B	Empty	0	N	1010	887
-65	Red_Sea	Water	None	N	Empty	0	N	1041	878
-66	Damascus	West	Colony	F	Town	0	N	1077	735
-67	Adana	Neutral	Minor	N	Empty	0	N	1037	664
-68	Izmir	Neutral	Minor	N	Town	0	N	860	667
-69	Sinope	Neutral	Minor	N	Empty	0	N	1049	588
-70	Kars	Neutral	Minor	N	Empty	0	N	1124	565
-71	Rome	Axis	Major	I	SubCapital	0	N	574	638
-72	Taranto	Axis	Major	I	Empty	0	N	638	652
-73	Sicily	Axis	Major	I	Empty	0	N	597	751
-74	Sardinia	Axis	Major	I	Empty	0	N	496	688
-75	Athens	Neutral	Minor	N	Town	1	N	780	696
-76	Crete	Neutral	Minor	N	Empty	0	N	829	768
-77	Albania	Neutral	Minor	N	Empty	0	N	708	647
-78	Penza	USSR	Great	S	Empty	0	N	1093	214
-79	Voronezh	USSR	Great	S	Empty	0	N	1058	289
-80	Kuban	USSR	Great	S	Empty	0	N	1080	429
-81	Georgia	USSR	Great	S	Empty	0	N	1180	396
-82	Grozny	USSR	Great	S	Empty	0	N	1172	467
-83	Stalingrad	USSR	Great	S	City	0	N	1133	330
-84	Sea_Of_Azov	Water	None	N	Empty	0	N	1017	437
-85	Eastern_Black_Sea	Water	None	N	Empty	0	N	1055	510
-86	Eastern_Mediterranean	Water	None	N	Empty	0	N	947	751
-87	Aegean_Sea	Water	None	N	Empty	0	N	821	711
-88	Central_Mediterranean	Water	None	N	Empty	0	N	691	756
-89	Tyrrhenian_Sea	Water	None	N	Empty	0	N	549	674
-90	Western_Mediterranean	Water	None	N	Empty	0	N	413	681
-91	Jordan	West	Colony	B	Empty	0	N	1120	781
-92	Madeira_Sea	Water	None	N	Empty	0	N	134	665
-93	Iraq	West	Colony	B	Empty	2	T	1209	675
-94	Rio_De_Janeiro	Neutral	Minor	N	Town	2	N	78	752
-95	Helsinki	Neutral	Minor	N	Town	0	N	729	193
-96	Narvik	Neutral	Minor	N	Empty	0	N	657	47
-97	Gallivare	Neutral	Minor	N	Empty	1	N	674	101
-98	Petsamo	Neutral	Minor	N	Empty	1	N	755	64
-99	Tehran	Neutral	Minor	N	City	0	N	1314	554
-100	Kabul	Neutral	Minor	N	Town	0	N	1385	617
-101	Murmansk	USSR	Great	S	Empty	0	N	846	58
-102	Archangel	USSR	Great	S	Empty	0	N	907	108
-103	Vologda	USSR	Great	S	Empty	0	N	935	163
-104	Gorky	USSR	Great	S	Empty	0	N	1059	119
-105	Perm	USSR	Great	S	Empty	0	N	1173	106
-106	Ufa	USSR	Great	S	Empty	1	N	1228	247
-107	Urals	USSR	Great	S	City	1	N	1419	89
-108	Western_Siberia	USSR	Great	S	Empty	1	N	1446	197
-109	Kazakhstan	USSR	Great	S	Empty	0	N	1382	318
-110	Turkmenistan	USSR	Great	S	Empty	0	N	1423	449
-111	Baku	USSR	Great	S	SubCapital	4	T	1247	459
-112	North_Caspian_Sea	Water	None	N	Empty	0	N	1259	389
-113	Southern_Caspian_Sea	Water	None	N	Empty	0	N	1300	485
-114	Tabriz	Neutral	Minor	N	Empty	0	N	1233	547
-115	Shiraz	Neutral	Minor	N	Empty	0	N	1326	677
-116	Abadan	Neutral	Minor	N	Empty	4	T	1267	614
-117	Karachi	West	Colony	N	Empty	0	N	1401	677
-118	Delhi	West	Colony	B	SubCapital	2	T	1465	650
-119	Bombay	West	Colony	B	City	2	T	1425	747
-120	Persian_Gulf	Water	None	N	Empty	0	N	1289	716
-121	Arabian_Sea	Water	None	N	Empty	0	N	1363	782
-122	East_Indian_Ocean	Water	None	N	Empty	0	N	1461	844
-123	West_Indian_Ocean	Water	None	N	Empty	0	N	1361	879
-124	Gulf_Of_Aden	Water	None	N	Empty	0	N	1194	915
-125	South_Atlantic_Ocean	Water	None	N	Empty	0	N	90	871
-126	Mid_Atlantic_Ocean	Water	None	N	Empty	0	N	46	617
-127	North_Atlantic_Ocean	Water	None	N	Empty	0	N	74	367
-128	Ottawa	West	Colony	B	Town	1	N	58	202
-129	Irminger_Sea	Water	None	N	Empty	0	N	215	151
-130	Greenland_Ocean	Water	None	N	Empty	0	N	388	48
-131	Norwegian_Ocean	Water	None	N	Empty	0	N	433	152
-132	Nordkapp_Ocean	Water	None	N	Empty	0	N	585	35
-133	Barents_Sea	Water	None	N	Empty	0	N	782	5
-134	White_Sea	Water	None	N	Empty	0	N	891	9
-135	Iceland	Neutral	Minor	N	Empty	0	N	293	135
-136	Azores	Neutral	Minor	N	Empty	0	N	124	536		
+1	London	West	Great	B	MainCapital	1	N	375	374	0	0
+2	Glasgow	West	Great	B	City	1	N	344	257	0	0
+3	English_Channel	Water	None	N	Empty	0	N	328	422	0	0
+4	North_Sea	Water	None	N	Empty	0	N	444	298	0	0
+5	Paris	West	Major	F	SubCapital	0	N	390	456	0	0
+6	Gascony	West	Major	F	Empty	0	N	354	566	0	0
+7	Lorraine	West	Major	F	Empty	2	N	441	500	0	0
+8	Marseille	West	Major	F	City	0	N	419	606	0	0
+9	Amsterdam	Neutral	Minor	N	City	0	N	459	384	0	0
+10	Ruhr	Axis	Great	G	SubCapital	3	N	517	383	0	0
+11	Munich	Axis	Great	G	City	0	N	560	480	0	0
+12	Berlin	Axis	Great	G	MainCapital	1	N	590	361	0	0
+13	Milan	Axis	Major	I	City	1	N	504	569	0	0
+14	Venice	Axis	Major	I	Empty	1	N	557	545	0	0
+15	Adriatic_Sea	Water	None	N	Empty	0	N	630	609	0	0
+16	Copenhagen	Neutral	Minor	N	Town	1	N	573	307	0	0
+17	Oslo	Neutral	Minor	N	Town	1	N	564	220	0	0
+18	Stockholm	Neutral	Minor	N	City	1	N	632	244	0	0
+19	Baltic_Sea	Water	None	N	Empty	0	N	659	290	0	0
+20	Gulf_Of_Bothnia	Water	None	N	Empty	0	N	712	230	0	0
+21	Warsaw	Neutral	Minor	N	CapitalCity	1	N	698	385	0	0
+22	Könisberg	Axis	Great	G	City	0	N	698	323	0	0
+23	Riga	Neutral	Minor	N	Town	0	N	746	271	0	0
+24	Lvov	Neutral	Minor	N	City	0	N	775	425	0	0
+25	Vilna	Neutral	Minor	N	Town	0	N	782	314	0	0
+26	Leningrad	USSR	Great	S	SubCapital	0	N	821	219	0	0
+27	Belorussia	USSR	Great	S	Empty	0	N	843	294	0	0
+28	Kiev	USSR	Great	S	City	1	N	869	401	0	0
+29	Odessa	USSR	Great	S	City	2	N	885	478	0	0
+30	Moscow	USSR	Great	S	MainCapital	0	N	963	232	0	0
+31	Bryansk	USSR	Great	S	Empty	0	N	919	312	0	0
+32	Kharkov	USSR	Great	S	City	1	N	1013	354	0	0
+33	Sevastopol	USSR	Great	S	Empty	0	N	971	484	0	0
+34	Prague	Neutral	Minor	N	City	0	N	639	438	0	0
+35	Vienna	Neutral	Minor	N	City	0	N	631	493	0	0
+36	Croatia	Neutral	Minor	N	Empty	1	N	652	564	0	0
+37	Budapest	Neutral	Minor	N	City	1	N	692	506	0	0
+38	Belgrade	Neutral	Minor	N	Town	0	N	726	574	0	0
+39	Sofia	Neutral	Minor	N	Town	1	N	781	600	0	0
+40	Bucharest	Neutral	Minor	N	City	2	N	823	541	0	0
+41	Western_Black_Sea	Water	None	N	Empty	0	N	927	540	0	0
+42	Istanbul	Neutral	Minor	N	City	0	N	887	612	0	0
+43	Ankara	Neutral	Minor	N	CapitalCity	0	N	976	605	0	0
+44	Washington	Neutral	Major	U	SubCapital	2	N	28	250	0	0
+45	New_York	Neutral	Major	U	City	1	N	60	231	0	0
+46	Dublin	Neutral	Minor	N	Town	0	N	284	323	0	0
+47	Irish_Sea	Water	None	N	Empty	0	N	221	380	0	0
+48	Bay_Of_Biscay	Water	None	N	Empty	0	N	237	505	0	0
+49	Leon	Neutral	Minor	N	Empty	0	N	267	600	0	0
+50	Barcelona	Neutral	Minor	N	City	0	N	342	650	0	0
+51	Madrid	Neutral	Minor	N	CapitalCity	0	N	243	673	0	0
+52	Lisbon	Neutral	Minor	N	Town	0	N	182	674	0	0
+53	Gibraltar	West	Colony	B	Town	0	N	219	745	0	0
+54	Morocco	West	Colony	F	Empty	0	N	218	839	0	0
+55	Dakar	West	Colony	F	Empty	0	N	188	885	0	0
+56	Algiers	West	Colony	F	City	0	N	326	780	0	0
+57	Tunisia	West	Colony	F	Empty	0	N	451	778	0	0
+58	Sfax	West	Colony	F	Empty	0	N	505	822	0	0
+59	Malta	West	Colony	B	Town	0	N	561	778	0	0
+60	Tripoli	Axis	None	I	City	0	N	586	830	0	0
+61	Cyrenaica	Axis	None	I	Empty	0	N	770	858	0	0
+62	Egypt	West	Colony	B	Empty	0	N	902	849	0	0
+63	Suez	West	Colony	B	City	0	N	975	821	0	0
+64	Sudan	West	Colony	B	Empty	0	N	1010	887	0	0
+65	Red_Sea	Water	None	N	Empty	0	N	1041	878	0	0
+66	Damascus	West	Colony	F	Town	0	N	1077	735	0	0
+67	Adana	Neutral	Minor	N	Empty	0	N	1037	664	0	0
+68	Izmir	Neutral	Minor	N	Town	0	N	860	667	0	0
+69	Sinope	Neutral	Minor	N	Empty	0	N	1049	588	0	0
+70	Kars	Neutral	Minor	N	Empty	0	N	1124	565	0	0
+71	Rome	Axis	Major	I	SubCapital	0	N	574	638	0	0
+72	Taranto	Axis	Major	I	Empty	0	N	638	652	0	0
+73	Sicily	Axis	Major	I	Empty	0	N	597	741	0	0
+74	Sardinia	Axis	Major	I	Empty	0	N	496	688	0	0
+75	Athens	Neutral	Minor	N	Town	1	N	780	696	0	0
+76	Crete	Neutral	Minor	N	Empty	0	N	829	768	0	0
+77	Albania	Neutral	Minor	N	Empty	0	N	708	647	0	0
+78	Penza	USSR	Great	S	Empty	0	N	1093	214	0	0
+79	Voronezh	USSR	Great	S	Empty	0	N	1058	289	0	0
+80	Kuban	USSR	Great	S	Empty	0	N	1080	429	0	0
+81	Georgia	USSR	Great	S	Empty	0	N	1172	467	0	0
+82	Grozny	USSR	Great	S	Empty	0	N	1180	396	0	0
+83	Stalingrad	USSR	Great	S	City	0	N	1133	330	0	0
+84	Sea_Of_Azov	Water	None	N	Empty	0	N	1017	437	0	0
+85	Eastern_Black_Sea	Water	None	N	Empty	0	N	1055	510	0	0
+86	Eastern_Mediterranean	Water	None	N	Empty	0	N	947	751	0	0
+87	Aegean_Sea	Water	None	N	Empty	0	N	821	711	0	0
+88	Central_Mediterranean	Water	None	N	Empty	0	N	691	756	0	0
+89	Tyrrhenian_Sea	Water	None	N	Empty	0	N	549	674	0	0
+90	Western_Mediterranean	Water	None	N	Empty	0	N	413	681	0	0
+91	Jordan	West	Colony	B	Empty	0	N	1120	781	0	0
+92	Madeira_Sea	Water	None	N	Empty	0	N	134	665	0	0
+93	Iraq	West	Colony	B	Empty	2	T	1209	675	0	0
+94	Rio_De_Janeiro	Neutral	Minor	N	Town	2	N	78	752	0	0
+95	Helsinki	Neutral	Minor	N	Town	0	N	729	193	0	0
+96	Narvik	Neutral	Minor	N	Empty	0	N	657	47	0	0
+97	Gallivare	Neutral	Minor	N	Empty	1	N	674	101	0	0
+98	Petsamo	Neutral	Minor	N	Empty	1	N	755	64	0	0
+99	Tehran	Neutral	Minor	N	City	0	N	1314	554	0	0
+100	Kabul	Neutral	Minor	N	Town	0	N	1385	617	0	0
+101	Murmansk	USSR	Great	S	Empty	0	N	846	58	0	0
+102	Archangel	USSR	Great	S	Empty	0	N	907	108	0	0
+103	Vologda	USSR	Great	S	Empty	0	N	935	163	0	0
+104	Gorky	USSR	Great	S	Empty	0	N	1059	119	0	0
+105	Perm	USSR	Great	S	Empty	0	N	1173	106	0	0
+106	Ufa	USSR	Great	S	Empty	1	N	1228	247	0	0
+107	Urals	USSR	Great	S	City	1	N	1319	89	0	0
+108	Western_Siberia	USSR	Great	S	Empty	1	N	1446	197	0	0
+109	Kazakhstan	USSR	Great	S	Empty	0	N	1382	318	0	0
+110	Turkmenistan	USSR	Great	S	Empty	0	N	1423	449	0	0
+111	Baku	USSR	Great	S	SubCapital	4	T	1247	459	0	0
+112	North_Caspian_Sea	Water	None	N	Empty	0	N	1259	389	0	0
+113	Southern_Caspian_Sea	Water	None	N	Empty	0	N	1300	485	0	0
+114	Tabriz	Neutral	Minor	N	Empty	0	N	1233	547	0	0
+115	Shiraz	Neutral	Minor	N	Empty	0	N	1326	677	0	0
+116	Abadan	Neutral	Minor	N	Empty	4	T	1267	614	0	0
+117	Karachi	West	Colony	B	Empty	0	N	1401	677	0	0
+118	Delhi	West	Colony	B	SubCapital	2	T	1465	650	0	0
+119	Bombay	West	Colony	B	City	2	T	1425	747	0	0
+120	Persian_Gulf	Water	None	N	Empty	0	N	1289	716	0	0
+121	Arabian_Sea	Water	None	N	Empty	0	N	1363	782	0	0
+122	East_Indian_Ocean	Water	None	N	Empty	0	N	1461	844	0	0
+123	West_Indian_Ocean	Water	None	N	Empty	0	N	1361	879	0	0
+124	Gulf_Of_Aden	Water	None	N	Empty	0	N	1194	915	0	0
+125	South_Atlantic_Ocean	Water	None	N	Empty	0	N	90	871	0	0
+126	Mid_Atlantic_Ocean	Water	None	N	Empty	0	N	46	617	0	0
+127	North_Atlantic_Ocean	Water	None	N	Empty	0	N	74	367	0	0
+128	Ottawa	West	Colony	B	Town	1	N	58	202	0	0
+129	Irminger_Sea	Water	None	N	Empty	0	N	215	151	0	0
+130	Greenland_Ocean	Water	None	N	Empty	0	N	388	48	0	0
+131	Norwegian_Ocean	Water	None	N	Empty	0	N	433	152	0	0
+132	Nordkapp_Ocean	Water	None	N	Empty	0	N	585	35	0	0
+133	Barents_Sea	Water	None	N	Empty	0	N	782	5	0	0
+134	White_Sea	Water	None	N	Empty	0	N	891	9	0	0
+135	Iceland	Neutral	Minor	N	Empty	0	N	293	135	0	0
+136	Azores	Neutral	Minor	N	Empty	0	N	124	536	0	0
 London	[Glasgow CMount]	[Glasgow CMount]																							
 Glasgow																									
 English_Channel	[London Coast]	[Paris Coast]	[Irish_Sea Ocean]	[Bay_Of_Biscay Ocean]	[North_Sea Ocean]	[North_Sea Ocean]																			
@@ -252,8 +252,8 @@ Tabriz
 Shiraz																									
 Abadan																									
 Karachi																									
-Delhi																									
-Bombay																									
+Delhi   [Karachi Plain] [Bombay CPlain]																							
+Bombay	[Karachi CPlain]																			
 Persian_Gulf																									
 Arabian_Sea																									
 East_Indian_Ocean																									
@@ -298,7 +298,7 @@ Poland:	Warsaw	Lvov	Vilna
 Baltic_States:	Riga																								
 Norway:	Oslo	Narvik																							
 Sweden:	Stockholm	Gallivare																							
-Finalnd:	Helsinki	Petsamo																							
+Finland:	Helsinki	Petsamo																							
 Syria:	Damascus																								
 Persia:	Tehran	Abadan	Tabriz	Shiraz																					
 Afghanistan:	Kabul																								

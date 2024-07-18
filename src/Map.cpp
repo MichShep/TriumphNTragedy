@@ -25,11 +25,20 @@ void City::addUnit(Unit* unit){
 void Map::initLists(const size_t size){
     //- Resize adjacency list
     adjacency.resize(size);
+    border_limit.resize(size);
     sortedX.resize(size-1);
     sortedY.resize(size-1);
     city_masterlist.resize(size);
     for (auto& v : adjacency)
         v.resize(size);
+
+    for (auto& v : border_limit){
+        v.resize(size);
+        for (auto& b : v){
+            b.resize(3);
+        }
+    }
+
 
     list_size = size-1;
 }

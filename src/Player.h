@@ -63,6 +63,17 @@ private:
 
     string capital=""; /**< The capital city of the player (either London, Berlin, or Moscow)*/
 
+    //&Command
+    Season command_season;
+
+    char command_priority;
+
+    int command_value=-1;
+
+    int emergency_command;
+
+    bool used_emergency = false;
+
     //&Hands
     vector<ActionCard*> action_hand; /**< Hand of all action cards (used in command and government)*/
 
@@ -82,6 +93,12 @@ public:
     int unit_counts[7][7] = {{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}}; /**< An array of the count of how many units on the board this player has made*/
     
     bool passed = false; /**< Flag for if the player has passed int he current phase and forfits any future turns in the phase */
+
+    ActionPhase current_phase = OBSERVING;
+    pair<City*, Unit*> moving_unit = {nullptr, nullptr};
+
+    //& Movement
+    vector<City*> movement_memo;
 
     //& Graphics things
     App* app; /**< Container for the attributes of the player's window/screen and renderer*/
@@ -110,10 +127,10 @@ public:
     bool board_change=true; /**< Boolen to track wether the player's board/view has changed and needs to be redrawn*/
 
     //TODO change to false
-    bool show_action = true; /**< Flag to track if the action hand should be expanded to show all cards*/
-    bool show_invest = true; /**< Flag to track if the invest hand should be expanded to show all cards*/
-    bool show_tech = true;
-    bool show_stat = true;
+    bool show_action = false; /**< Flag to track if the action hand should be expanded to show all cards*/
+    bool show_invest = false; /**< Flag to track if the invest hand should be expanded to show all cards*/
+    bool show_tech = false;
+    bool show_stat = false;
 
     bool show_west = false; /**< Flag to track if the information of the West Player should be shown */
     bool show_axis = false; /**< Flag to track if the information of the Axis Player should be shown */
@@ -147,6 +164,9 @@ public:
     bool d_left_held = false; /**< Flag to indicate if the D-PAD Left button is being held by the player */
     bool d_right_held = false; /**< Flag to indicate if the D-PAD Right button is being held by the player */
     tick_t last_widget = 0; /**< Time to indicate when the player last changed widgets to pace UI change */
+
+    InvestmentCard* command_fake = nullptr;
+    ActionCard* command_card = nullptr;
 
 
     int popped_action_card_index = -1; /**< The index into the action hand of the action card the player has currently selected */
@@ -445,6 +465,29 @@ public:
         return achieved_tech[*tech] != nullptr;
     }
 
+    void setCommand(ActionCard* selected_card, const Season season){
+        command_card = selected_card;
+        command_season = selected_card->season;
+        command_priority = selected_card->command_priority;
+        command_value = selected_card->command_value;
+
+        if (season != command_season){
+            command_value = emergency_command;
+            used_emergency = true;
+        }
+    }
+
+    void setCommand(InvestmentCard* selected_card){
+        command_fake = selected_card;
+        command_value = 0;
+    }
+
+    void resetCommand(){
+        command_value = -1;
+        command_card = nullptr;
+        command_fake = nullptr;
+    }
+
     inline void achieveTech(const Tech& tech){
         achieved_tech[tech] = new AchievedTechnology("TODO ADD NAME", tech, false);
         technology_count++;
@@ -467,6 +510,23 @@ public:
         selected_tech1_card = nullptr;
         selected_tech2 = nullptr;
         selected_tech2_card = nullptr;
+    }
+
+    void updatePoppedActionCard(const unordered_map<string, Country*> map){
+        if (getActionSize() > 0){
+            popped_action_card_index = loopVal(popped_action_card_index, 0,  getInvestSize()-1);
+            popped_action_card = getActionCard(popped_action_card_index);
+            if (popped_action_card->type == DIPLOMACY){
+                popped_left_country = map.at(popped_action_card->countryA)->capital;
+                popped_right_country = map.at(popped_action_card->countryB)->capital;
+            }
+        }
+        else{
+            popped_action_card_index = -1;
+            popped_action_card = nullptr;
+            popped_left_country = nullptr;
+            popped_right_country = nullptr;
+        }
     }
 
     //& Getters and Setters
@@ -614,6 +674,10 @@ public:
         return year_at_peace;
     }
 
+    bool usedEmergency() const{
+        return used_emergency;
+    }
+
     /**
      * @brief Get the capital of the player that the traderoutes need to be traced to
      * 
@@ -621,6 +685,18 @@ public:
      */
     string getCapital() const{
         return capital;
+    }
+
+    int getCommandNumber() const{
+        return command_value;
+    }
+
+    void setCommandNumber(const int& new_num){
+        command_value = new_num;
+    }
+
+    char getCommandLetter() const{
+        return command_priority;
     }
 
     /**
@@ -658,6 +734,8 @@ public:
     void setUsaDow(const DowState ds) {
         usa_dow = ds;
     }
+
+
 
     /**
      * @brief gets the player's card limit
@@ -714,6 +792,14 @@ public:
             return true;
         }
         return false;
+    }
+
+    void setMovingUnit(){
+        moving_unit = selected_unit;
+    }
+
+    void resetMovingUnit(){
+        moving_unit = {nullptr, nullptr};
     }
 
     inline void makeAtomic(){
@@ -806,6 +892,26 @@ public:
     bool atWar() const{
         return ussr_dow != PEACE || west_dow != PEACE || axis_dow != PEACE;
     }
+
+    bool atWar(const CityType rival) const{
+        switch (rival){
+            case WEST:
+                return west_dow != PEACE;
+                break;
+            case AXIS:
+                return axis_dow != PEACE;
+                break;
+            case USSR:
+                return ussr_dow != PEACE;
+                break;
+            
+            default:
+                break;
+        }
+
+        return false;    
+    }
+
     /**
      * @brief Get the current VP of player
      * 
@@ -880,10 +986,10 @@ public:
         name = "DELETED";
     }
 
-    bool operator==(int city_type){
+    bool operator==(const int city_type) const{
         return allegiance == city_type;
     }
-    bool operator!=(int city_type){
+    bool operator!=(const int city_type) const{
         return allegiance != city_type;
     }
 };

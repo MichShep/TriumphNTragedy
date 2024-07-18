@@ -109,8 +109,8 @@ public:
 
     //For Priority
     Season season; /**< The command season the player has priority for*/
-    char letter; /**< The command letter for priority (Z>A)*/
-    int number; /**< The number command for priority (9>0)*/
+    char command_priority; /**< The command letter for priority (Z<A)*/
+    int command_value; /**< The number representing how many actions the player can do in a season*/
 
     size_t sprite_offset_left; /**< The sprite index of the left country*/
     size_t sprite_offset_right; /**< The sprite index of the right country*/
@@ -128,11 +128,11 @@ public:
      * @param sprite_offset_right The uncalculated sprite index of the right sprite
      */
     ActionCard(const ActionType type, const string countryA, const string countryB, const Season season, const char letter, const size_t number, const size_t sprite_offset_left, const size_t sprite_offset_right):
-    type(type), countryA(countryA), countryB(countryB), season(season), letter(letter), number(number), sprite_offset_left(sprite_offset_left*2), sprite_offset_right(sprite_offset_right*2+1){
+    type(type), countryA(countryA), countryB(countryB), season(season), command_priority(letter), command_value(number), sprite_offset_left(sprite_offset_left*2), sprite_offset_right(sprite_offset_right*2+1){
     }
 
     bool operator==(const ActionCard* card) const{
-        return card->countryA == this->countryA && card->countryB == this->countryB && this->number == card->number && this->season == card->season;
+        return this == card;
     }
 };
 
@@ -183,19 +183,25 @@ public:
 
     UnitType unit_type; /**< Which type of unit that decied attack and movement (Fortress, Infantry, Air...)*/
 
-    size_t birth_year; /**< The year that the unit was created in*/
+    year_t birth_year=NULL_YEAR; /**< The year that the unit was created in*/
 
     bool upgrading; /**< The year after the year which the unit was upgraded in*/
 
     uint8_t combat_value; /**< Functions as how many forces are in the one unit and how many it fires in battle*/
 
-    uint8_t max_combat_value; /**< Limits the max amount of forces can be in the unit*/
+    int8_t max_combat_value; /**< Limits the max amount of forces can be in the unit*/
 
-    size_t movement; /**< The max amount of cities it can move in one turn*/
+    uint8_t movement; /**< The max amount of cities it can move in one turn*/
+
+    pair<year_t, int8_t> current_movement;
 
     bool rebase=false; /**< If this unit can ReBase (move freely to ground force)*/
 
-    size_t landing=0; /**< The year the unit landed from water this turn (therefore it can't attack)*/
+    bool strategic=true;
+
+    year_t disengage=NULL_YEAR;
+
+    year_t landing=NULL_YEAR; /**< The year the unit landed from water this turn (therefore it can't attack)*/
 
     bool convoy=false; /**< If the ground unit is a convoy its an infantry in the water and can't attack*/
 

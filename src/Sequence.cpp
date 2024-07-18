@@ -12,11 +12,25 @@ bool Runner::run(){
     
     //& Main game Loop
     CityType winner;
-    while ((winner=newYear()) != WATER && year <= end_year){ //run the game unitl a winner is found
+    while ((winner=newYear()) == WATER && year <= end_year){ //run the game unitl a winner is found
+        //production(); //- Production Phase
+        
+        //government(); //- Government Phase  
 
+        checkHands(); //- Check Hand Size
+
+        spring(); //- Spring season of fighting
+
+        summer(); //- Summer season of fighting
+
+        blockade(); //- Add new blockades
+
+        fall(); //- Fall season of fighting
+
+        winter(); //- Winter season of fighting (only USSR)
     }
-    
-    
+
+     
     freeMemory();
     printf("Memory was deleted\n");
 
@@ -28,8 +42,7 @@ bool Runner::run(){
 CityType Runner::newYear(){
     season = NEW_YEAR;
     
-    //- Advance Year
-    year++;
+    year++; //- Advance Year
 
     //- Victroy Check 
     for (Player player : players){
@@ -37,38 +50,20 @@ CityType Runner::newYear(){
             return player.getAllegiance();
         }
     }
-    cout << players[WEST].app->screen.getXScale() << endl;
-    cout << players[WEST].app->screen.getYScale() << endl;
 
-    //- Reshuffle..
-    reshuffle(true);
+    reshuffle(false); //- Reshuffle..
 
-    //- Peace Dividends.
-    //peaceDividends();
+    peaceDividends(); //- Peace Dividends.
 
-    //- Turn Order..
-    decideTurnOrder();
+    decideTurnOrder(); //- Turn Order..
 
-    //- New Year Resolution.
-    newYearRes();
-
-    //- Production Phase..
-    //production();
-    
-    //- Government Phase
-    government();
-
-    //- Hand Size Compliance
-    for (auto& player : players){
-        if (player.getHandSize() > player.getMaxCard()){
-            handCheck(&player);
-        }
-    }
+    newYearRes(); //- New Year Resolution.
 
     return CityType::WATER;
 }
 
-//- Production Phase
+//&^^ Production Phase
+
 void Runner::production(){
     season = PRODUCTION;
     // Used to calculate fps
@@ -136,7 +131,7 @@ void Runner::drawPhase(const tick_t& delta){
     }
 }
 
-//- Government Phase
+//&^^ Government Phase
 
 void Runner::government(){
     season = GOVERNMENT;
@@ -158,7 +153,6 @@ void Runner::government(){
     //- Go through each player in turn order but it can loop so it will be an inner loop
     bool running=true;
     current_player = turn_order[0];
-    cout << current_player->getName() << endl;
 
     while (running || !public_messages.empty()){
         a = SDL_GetTicks();
@@ -180,16 +174,13 @@ void Runner::government(){
     }
 
     //- Diplomacy Resolution
-    resolveDiplomacy();    
-        //- Diplomacy.
+    resolveDiplomacy();
 
-        //- Industry.
+    players[WEST].passed = false;
+    players[AXIS].passed = false;
+    players[USSR].passed = false;
 
-        //- Technology.
-
-        //TODO - Intelligence
-
-        //- Pass
+    current_index = 0;
 }
 
 bool Runner::addDiplomacy(Player& player, Country* country){
@@ -225,10 +216,140 @@ bool Runner::addDiplomacy(Player& player, Country* country){
     return true;
 }
 
-//- Spring Season
+void Runner::checkHands(){
+    for (auto& player: turn_order){
+        (void)player;
+    }
+}
+
+//& General Wartime 
+
+void Runner::sortCommand(){
+    temp_order[0] = turn_order[0];
+    temp_order[1] = turn_order[1];
+    temp_order[2] = turn_order[2];
+    // current season then earlier letter then random on tie
+    if (compareCards(temp_order[0]->command_card, temp_order[1]->command_card))
+        std::swap(temp_order[0], temp_order[1]);
+    if (compareCards(temp_order[0]->command_card, temp_order[2]->command_card))
+        std::swap(temp_order[0], temp_order[2]);
+    if (compareCards(temp_order[1]->command_card, temp_order[2]->command_card))
+        std::swap(temp_order[1], temp_order[2]);
+
+}
+
+bool Runner::compareCards(const ActionCard* lhs, const ActionCard* rhs){
+    if (!rhs && !lhs)
+        return true;
+
+    if (lhs == nullptr)
+        return true;
+
+    if (rhs == nullptr)
+        return false;        
+
+    // the one with the correct season has priority
+    if (lhs->season == season-SPRING_COMMAND && rhs->season != season-SPRING_COMMAND)
+        return false;
+
+    if (rhs->season == season-SPRING_COMMAND && lhs->season != season-SPRING_COMMAND)
+        return true;
+
+    // if either both have the priority season or both dont then compare priority letter
+    if (lhs->command_priority == rhs->command_priority) //if the priorities are tied then randomize 
+        return rand()%2;
+
+    return lhs->command_priority > rhs->command_priority;
+}
+
+//&^ Spring Season
+
 void Runner::spring(){
     season = SPRING;
+
+    tick_t a = SDL_GetTicks();
+    tick_t b = SDL_GetTicks();
+    double delta = 0;
+
+    drawPhase(0); //- Initial draw
+
+    bool running=true;
+    current_index = 0;
+    current_player = turn_order[0];
+
+    season = SPRING_COMMAND;
     //- Command Phase
+    while (running || !public_messages.empty()){
+        a = SDL_GetTicks();
+        delta = a - b;
+
+        //ensures framerate of 60fps
+        if (delta > 1000/60.0){
+            b = a;
+        
+            //- Player input
+            handleUserInput(running, b);
+
+            //- Render
+            drawPhase(b);
+
+            running = !west_player->passed || !axis_player->passed ||  !ussr_player->passed;
+        }
+    }
+    sortCommand();
+
+    //- Animate Command Phase Change
+    running = true;
+
+    const int west_start = west_player->getCommandNumber() == -1 ? -1 : (turn_order[0] == west_player? 0 : (turn_order[1] == west_player? 1 : (turn_order[2] == west_player? 2: -1)));
+    const int axis_start = axis_player->getCommandNumber() == -1 ? -1 :  (turn_order[0] == axis_player? 0 : (turn_order[1] == axis_player? 1 : (turn_order[2] == axis_player? 2: -1)));
+    const int ussr_start = ussr_player->getCommandNumber() == -1 ? -1 :  (turn_order[0] == ussr_player? 0 : (turn_order[1] == ussr_player? 1 : (turn_order[2] == ussr_player? 2: -1)));
+    const int west_end  = west_player->getCommandNumber() == -1 || west_player->getCommandNumber() == 0? -1 : (temp_order[0] == west_player? 0 : (temp_order[1] == west_player? 1 : (temp_order[2] == west_player? 2: -1)));
+    const int axis_end  = axis_player->getCommandNumber() == -1 || axis_player->getCommandNumber() == 0? -1 :  (temp_order[0] == axis_player? 0 : (temp_order[1] == axis_player? 1 : (temp_order[2] == axis_player? 2: -1)));
+    const int ussr_end  = ussr_player->getCommandNumber() == -1 || ussr_player->getCommandNumber() == 0? -1 :  (temp_order[0] == ussr_player? 0 : (temp_order[1] == ussr_player? 1 : (temp_order[2] == ussr_player? 2: -1)));
+    cout << west_start << " " << axis_start << " " << ussr_start << endl;
+    cout << west_end << " " << axis_end << " " << ussr_end << endl;
+
+    last_tick = b;
+
+    while (running){
+        a = SDL_GetTicks();
+        delta = a - b;
+
+        if (delta > 1000/60.0){
+            b = a;
+
+            running = !pastWait(last_tick,b, 10000);
+
+            //- Player input
+            handleUserAnimationInput(running, b);
+
+            animateCommandOrder(running, b, west_start, axis_start, ussr_start, west_end, axis_end, ussr_end);
+        } 
+    }
+    phase = 0;
+    last_tick = 0;
+
+    season = SPRING;
+
+    running = true;
+    current_player = turn_order[0];
+    west_player->current_phase = MOVEMENT; //TODO change to current player
+    while (running){
+        a = SDL_GetTicks();
+        delta = a - b;
+
+        if (delta > 1000/60.0){
+            b = a;
+
+            handleUserInput(running, b);
+
+            drawPhase(b);
+
+        } 
+    }
+
+
 
     //- Player Turns
         //- Movement
@@ -238,9 +359,13 @@ void Runner::spring(){
     //- Supply Phase
         //- Supply
 
+    west_player->resetCommand();
+    axis_player->resetCommand();
+    ussr_player->resetCommand();
 }
 
 //- Summer Season
+
 void Runner::summer(){
     season = SUMMER;
     //- Command Phase
@@ -257,11 +382,13 @@ void Runner::summer(){
 }
 
 //- Check Blockades
+
 void Runner::blockade(){
 
 }
 
 //- Fall Season
+
 void Runner::fall(){
     season = FALL;
     //- Command Phase
@@ -276,6 +403,7 @@ void Runner::fall(){
 }
 
 //- Winter Season
+
 void Runner::winter(){
     season = WINTER;
     //- USSR plays one card
@@ -369,8 +497,6 @@ bool Runner::deal(Player* player, size_t amount, const char state){
 void Runner::decideTurnOrder(const bool animation){
     //- Determine starting player and the rotation of turns (roll dice)
     int result = die.roll();
-    cout << "Set turn order of WEST AXIS USSR loaded" << endl;
-    result = 3;
 
     auto setOrder = [&](const CityType first, const CityType second, const CityType third){
         start_player = &players[first];
@@ -397,6 +523,7 @@ void Runner::decideTurnOrder(const bool animation){
         break;
     case 6:
         setOrder(USSR, AXIS, WEST);
+        break;
     default:
         printf("Uh this dice need to be fixed");
         exit(1);
@@ -405,7 +532,6 @@ void Runner::decideTurnOrder(const bool animation){
     if (animation)
         drawTurnRoll(result);
 }
-
 
 void Runner::peaceDividends(){
     bool animates1=false, animates2=false, animates3=false;
@@ -542,8 +668,4 @@ bool Runner::achieveTechnology(Player&player){
     player.updatePoppedInvestCard();
 
     return true;
-}
-
-void Runner::handCheck(Player* player){
-
 }

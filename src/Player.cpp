@@ -1,15 +1,13 @@
 #include "Player.h"
 
 void Player::westInit(){
-    //- Place cadres in Britain
-
-    //- Place cadres in France
-
     factory_cost = 6;
 
     card_size = 8;
 
     industry = 7;
+
+    emergency_command = 2;
 
     capital = "London";
 
@@ -23,20 +21,21 @@ void Player::axisInit(){
 
     industry = 12;
 
+    emergency_command = 4;
+
     capital = "Berlin";
 
     units.resize(UNIT_COUNTS[7][GERMANY_U]+UNIT_COUNTS[7][ITALY_U]);
 }
 
 void Player::ussrInit(){
-    //- Place cadres in USSR
-
-    //- Draw 6 cards
     factory_cost = 7;
 
     card_size = 6;
 
     industry = 9;
+
+    emergency_command = 2;
 
     capital = "Moscow";
 

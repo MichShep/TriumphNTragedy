@@ -50,9 +50,13 @@ using std::pair;
 
 typedef Uint32 tick_t;
 
+typedef Uint32 year_t;
+
 #define END_YEAR 1945;
 
 #define START_YEAR 1936;
+
+#define NULL_YEAR 0;
 
 #define INFI SIZE_MAX;
 
@@ -62,6 +66,8 @@ const int JOYSTICK_DEADZONE = 16000;
 
 //held tick, tick, wait_time
 #define pastWait(h, t, w)( h? (t - h > w) : (false))
+
+#define isLand(b)(COAST_MOUNTAIN <= b && b <= LAND_STRAIT)
 
 /**
  * @enum The Type of City Allegiance
@@ -184,17 +190,23 @@ enum UnitCountry {
  * 
  */
 enum Season {
+    SPRING, /**< Spring Season of War Actions */
     SUMMER, /**< Summer Season of War Actions */
-    FALL,  /**< Fall Season of War Actions */
-    SPRING,  /**< Spring Season of War Actions */
+    FALL,   /**< Fall Season of War Actions */
     WINTER,  /**< Winter Season of War Actions (only USSR can act)*/
+
     NEW_YEAR, /**< New Year Phase of game loop */
     RESHUFFLE,  /**< Card Shuffling Phase of game loop */
     TURN_ORDER, /**< Deciding Turn Order Phase of game loop */
     PEACE_DIVIDENS, /**< Giving Peace Dividends of game loop */
     NEW_YEAR_RES,   /**< New Year Resolution Phase of game loop */
     PRODUCTION, /**< Production Phase of game loop */
-    GOVERNMENT /**< Governemtn/Diplomacy Phase of game loop */
+    GOVERNMENT, /**< Government/Diplomacy Phase of game loop */
+
+    SPRING_COMMAND,
+    SUMMER_COMMAND,
+    FALL_COMMAND,
+    WINTER_COMMAND
 };
 
 /**
@@ -264,6 +276,7 @@ enum ProductionError{
     PRE_FORTRESS,
     UNIT_MAXED,
     ENEMY_FORTRESS,
+    NAVAL_INLAND,
 
     AT_SEA = 10,
     ENGAGED,
@@ -312,6 +325,18 @@ enum Tech{
     FACT_BLANK, /**< Blank tile for one sided cards */
     SECRET_OUTLINE, /**< Outline to show the player their tech is in the archive */
     SECRET_FULL, /**< Full hidden sprite to show other players there are vaulted tech */
+};
+
+enum MovementType{
+    LAND_MOVEMENT,
+    SEA_MOVEMENT,
+    AIR_MOVEMENT
+};
+
+enum ActionPhase{
+    MOVEMENT,
+    COMBAT,
+    OBSERVING
 };
 
 enum Message{
@@ -379,6 +404,8 @@ const int UNIT_COUNTS[8][7] = {
     {6,         6,          4,      16,      6,     16,   0}, //Infantry
     {30,        20,         20,     56,     20,     44,   8} //TOTAL
 };
+                                //NA, OCEAN, DEEP_OCEAN, COAST, WATER_STRAIT, COAST_MOUNTAIN, COAST_FOREST, COAST_RIVER, COAST_PLAINS, MOUNTAIN, FOREST, RIVER, PLAINS,  LAND_STRAIT
+const int BORDER_LIMITS[15] = {0,     100,   100,        1,     100,          1,              2,            2,           3,            1,        2,      2,     3,       1};
 
 const int BORDER_COLOR[14][3]{ // NA, OCEAN, DEEP_OCEAN, STRAIT, COAST, COAST_MOUNTAIN, COAST_FOREST, COAST_RIVER, COAST_PLAINS, MOUNTAIN, FOREST, RIVER, PLAINS
     {0,0,0},            //NA

@@ -53,6 +53,10 @@ public:
 
     bool med_blockcade=false; /**< If the city is unable to be traced back to the main capital, BUT the red resource is able to go around africa*/
 
+    bool armed=false;
+
+    CityType voilation_of_neutrality = NEUTRAL;
+
     vector<Unit*> occupants[4]; /**< Hold the current units and sperates them by their power 0:West, 1:Axis 2:USSR: 3:Neutral */
 
     size_t country_counts[7] = {0, 0, 0, 0, 0, 0, 0}; //BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRAL_U
@@ -130,7 +134,7 @@ public:
      * @return true There is a battle
      * @return false There is no battle (friendly troops or empty)
      */
-    bool isConflict(){
+    bool isConflict() const {
         return ((bool)occupants[0].size() + (bool)occupants[1].size() + (bool)occupants[2].size() + (bool)occupants[3].size()) > 1;
     }
 
@@ -141,7 +145,7 @@ public:
      * @return true There is enemies
      * @return false No enemies
      */
-    bool isEnemy(CityType allegiance){
+    bool hasEnemy(const CityType allegiance) const{
         switch (allegiance){
         case WEST:
             return occupants[(size_t)USSR].size() || occupants[(size_t)AXIS].size() || occupants[(size_t)NEUTRAL].size();
@@ -153,15 +157,18 @@ public:
             return false;
         }
     }
-    
 
+    bool isFighting(const CityType allegiance) const{
+        return isConflict() && occupants[allegiance].size();
+    }
+    
     /**
      * @brief Gives the number of enemies (not the number of units) in the current city
      * 
      * @param allegiance The allegiance of the unit
      * @return size_t how many enemeis in the city depending on the unit's allegiance
      */
-    size_t numEnemies(CityType allegiance){
+    size_t numEnemies(const CityType allegiance) const{
         switch (allegiance){
         case WEST:
             return occupants[(size_t)USSR].size()!=0 + occupants[(size_t)AXIS].size()!=0 + occupants[(size_t)NEUTRAL].size()!=0;
@@ -171,25 +178,6 @@ public:
             return occupants[(size_t)WEST].size()!=0 + occupants[(size_t)AXIS].size()!=0 + occupants[(size_t)NEUTRAL].size()!=0;
         default:
             return 0;
-        }
-    }
-
-    /**
-     * @brief In the case where there is only one enemy return the one there
-     * 
-     * @param allegiance The allegiance of the attacker
-     * @return CityType The defender
-     */
-    CityType getEnemy(CityType allegiance){
-        switch (allegiance){
-        case WEST:
-            return (occupants[USSR].size() ==0 )? AXIS: USSR;
-        case AXIS:
-            return (occupants[WEST].size() ==0 )? USSR: WEST;
-        case USSR:
-            return (occupants[AXIS].size() ==0 )? WEST: AXIS;
-        default:
-            return WATER;
         }
     }
 
@@ -407,7 +395,9 @@ private:
 
     vector<City*> city_masterlist; /**< Masterlist of all cities*/
 
-    vector<vector<BorderType>> adjacency /**< Is an adjacency matrix of the cities where the connection of cities is reresented by as nonzero value (0 is an offset city)*/;
+    vector<vector<BorderType>> adjacency; /**< Is an adjacency matrix of the cities where the connection of cities is reresented by as nonzero value (0 is an offset city)*/
+
+    vector<vector<vector<int>>> border_limit;
 
     vector<City*> sortedX; /**< Sorts all cities by their x value (left...right)*/
 
@@ -581,8 +571,16 @@ public:
      * 
      * @return const size_t The total number of cities (shouldn't change after initalization)
      */
-     const size_t getNumCity() const{
+    const size_t getNumCity() const{
         return cities.size();
+    }
+
+    const BorderType getBorder(const City* lhs, const City* rhs){
+        return adjacency[lhs->getID()][rhs->getID()];
+    }
+
+    const int8_t getBorderLimit(const City* lhs, const City* rhs, const CityType& mover){
+        return border_limit[lhs->getID()][rhs->getID()][mover];
     }
 
     /**

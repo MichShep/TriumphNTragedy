@@ -525,10 +525,12 @@ void Runner::mapPlayerResPop(Player& player){
 //! Logic Checks
 //& Unit Actions
 
-void Runner::buildUnit(Player&player, City* city, const UnitType unit){
+void Runner::buildUnit(Player&player, City* city, const UnitType unit, const int cv){
     Unit* cadre = new Unit(player.getNextID(), city->ruler_nationality, unit); //build new unit
     city->addUnit(cadre); //add the unit to the city it was built in
     player.add(cadre); //add is to the players ML of all of its units
+    cadre->combat_value = cv-1;
+
 }
 
 //& Deciders
@@ -537,10 +539,11 @@ City* Runner::getClosestCity(const Player& player, const int x, const int y) con
     City* closest = nullptr;
     size_t dist = INFI;
     const auto& cities = map.getCities();
+    constexpr int limit = 7500;
     for (const auto& city : cities){
         size_t possible_dist = (player.app->screen.getX(city.second->x+city.second->WIDTH/2) - x)*(player.app->screen.getX(city.second->x+city.second->WIDTH/2) - x) + 
             (player.app->screen.getY(city.second->y+city.second->HEIGHT/2) - y)*(player.app->screen.getY(city.second->y+city.second->HEIGHT/2) - y);
-        if (possible_dist < dist){ // && possible_dist <= limit){
+        if (possible_dist < dist && possible_dist <= limit){
             dist = possible_dist;
             closest = city.second;
         }
@@ -556,7 +559,7 @@ bool Runner::canDisengage(Unit* unit, const string start, const string end){
     return map.checkConnection(start, end) &&
 
     //- Check if end is friendly or open sea
-    (unit->allegiance == city->ruler_type || (city->city_type == WATER && !city->isEnemy((unit->allegiance)))) && 
+    (unit->allegiance == city->ruler_type || (city->city_type == WATER && !city->hasEnemy((unit->allegiance)))) && 
 
     //- Cant go into map with friendly units if in combat
     !city->isConflict()
@@ -746,6 +749,15 @@ ProductionError Runner::canBuild(const Player& player,  City* city, const UnitTy
         }
     }
 
+    //*https://boardgamegeek.com/thread/2974529/article/41205622#41205622 (CARRIER, SUB, FLEET must be build on shores)
+    if (unit >= CARRIER && unit <= FLEET){
+        const auto& adjacecny = map.getAdjacency()[city->getID()]; //todo optomize
+        for (const auto& border : adjacecny){
+            if (border > COAST_PLAINS && border != LAND_STRAIT)
+                return NAVAL_INLAND;
+        }
+    } 
+
     //? 7.23 Building Unit Steps Units cannot be built if they are Unsupplied (14.1), but see 7.231
     if (city->year_supplied == year && city->season_supplied == season && !city->supllied){ //if it was already checked this season for supply lines then use result
         //cout << "unsupplied1" << endl;
@@ -904,6 +916,139 @@ bool Runner::isSupllied(const Player& player, City* city, const CityType allegia
     }
 
     return supplied;
+}
+
+void Runner::addStop(Player& player, City* city){
+    //check for connection and if it hasn't been added before
+    const auto& index = std::find(player.movement_memo.begin(), player.movement_memo.end(), city);
+
+    if (index == player.movement_memo.end()){ //if not in then check if its added
+        if (canLandMove(player, player.moving_unit.second, player.movement_memo.back(), player.closest_map_city)){
+            player.movement_memo.push_back(player.closest_map_city);
+        } 
+    }
+    else{ //if its already in the memo then truncate everything past 
+        player.movement_memo.erase(index, player.movement_memo.end());
+    }
+}
+
+bool Runner::checkRoute(Player& player){ 
+    const Unit* moving_unit = player.moving_unit.second;
+    
+    if (player.movement_memo[0]->isConflict()){ //can disengage
+        return canDisengage(player, player.moving_unit.second);
+    }
+
+    switch (moving_unit->class_type){
+        case CLASS_A:
+            return canAirMove(player, moving_unit);
+            break;
+        case CLASS_G:
+            return canLandMove(player, moving_unit);
+            break;
+        case CLASS_S:
+            return canSeaMove(player, moving_unit);
+            break;
+        case CLASS_N:
+            return canSeaMove(player, moving_unit);
+            break;
+
+        default:
+            exit(1);
+    }
+
+    return true;  
+}
+
+bool Runner::canLandMove(const Player& player, const Unit* unit) const{
+    //- Check if the unit is able to move
+    if (unit->current_movement.first == year && unit->current_movement.second > 0 && unit->movement > 0)
+        return false;
+
+    //- Check if they are even connected
+    if (!isLand(map.getAdjacency()[start->ID][end->ID]))
+        return false;
+
+    auto checkBorderLimits = [&]() {
+        return BORDER_LIMITS[map.getBorder(start, end)] > map.getBorderLimit(start, end, player.getAllegiance());
+    };
+
+    if (player == end->ruler_type) { // Player owned
+        return !end->isConflict() || checkBorderLimits();
+    }
+
+    if (end->ruler_type != NEUTRAL) { // Rival owned
+        if (player.isEnemy(end->ruler_type)) {
+            if (end->hasEnemy(player.getAllegiance())) {
+                if (end->isFighting(player.getAllegiance())) { //old engagement
+                    return checkBorderLimits();
+                } 
+                else { //new engagement
+                    return !player.usedEmergency() && checkBorderLimits();
+                }
+            } 
+            else {
+                return true;
+            }
+        } 
+        else {
+            return false;
+        }
+    }
+
+    if (end->ruler_type == NEUTRAL) { // NEUTRAL owned
+        if (end->voilation_of_neutrality != NEUTRAL) { // VoN
+            if (end->hasEnemy(player.getAllegiance())) {
+                if (end->isFighting(player.getAllegiance())) { // Old engagement
+                    return checkBorderLimits();
+                } 
+                else { // New engagement
+                    return !player.usedEmergency() && checkBorderLimits();
+                }
+            } 
+            else {
+                return true;
+            }
+        } 
+        else { //!VoN
+            if (end->armed) {
+                if (end->hasEnemy(player.getAllegiance())) {
+                    if (end->isFighting(player.getAllegiance())) { // Old engagement
+                        return checkBorderLimits();
+                    } 
+                    else { // New engagement
+                        return !player.usedEmergency() && checkBorderLimits();
+                    }
+                } 
+                else {
+                    return true;
+                }
+            } 
+            else {
+                return false;
+            }
+        }
+    }
+
+    std::cerr << "Escaped if-chain somehow" << endl;
+    exit(1);
+    return true;
+
+}
+
+bool Runner::canSeaMove(const Player& player, const Unit* unit) const{
+
+    return false;
+}
+
+bool Runner::canAirMove(const Player& player, const Unit* unit) const{
+
+    return false;
+}
+
+bool Runner::canDisengage(const Player& player, const Unit* unit) const{
+    
+    return false;
 }
 
 //& Dev tools

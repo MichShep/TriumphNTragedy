@@ -15,8 +15,9 @@ void Runner::handleUserInput(bool& running, const tick_t& delta){
                 }
                 //TODO delete keys for full release
                 else if (event.key.keysym.scancode == SDL_SCANCODE_S){
-                    public_messages.push_back(PublicMessage((Message)current_player->getAllegiance(), ticks, 250, 100, 32, 10));
-                    applyProduction(*current_player);
+                    players[0].passed = true;
+                    players[1].passed = true;
+                    players[2].passed = true;
                 }
                 else if (event.key.keysym.scancode == SDL_SCANCODE_C){
                     std::swap(players[WEST], players[USSR]);
@@ -26,11 +27,22 @@ void Runner::handleUserInput(bool& running, const tick_t& delta){
                     std::swap(players[WEST], players[AXIS]);
                     std::swap(controllers[WEST], controllers[AXIS]);
                 }
-                else if (event.key.keysym.scancode == SDL_SCANCODE_F){
-                    playerActed();
+                else if (event.key.keysym.scancode == SDL_SCANCODE_L){
+                    west_player->setAxisDow(DECLARED);
+                    west_player->setUssrDow(DECLARED);
+                    ussr_player->setWestDow(VICTIM);
+                    axis_player->setWestDow(VICTIM);
                 }
-                else if (event.key.keysym.scancode == SDL_SCANCODE_R){
-                    resolveDiplomacy();
+                
+                else if (event.key.keysym.scancode == SDL_SCANCODE_Y){
+                    current_player->popped_action_card = current_player->getActionCard(rand()%current_player->getActionSize());
+                    current_player->setCommand(current_player->popped_action_card, (Season)(season-SPRING_COMMAND));
+                    current_player->remove(current_player->popped_action_card);
+                    current_player->updatePoppedActionCard(map.getCountries());
+                    passedCommand(false);
+                }
+                else if (event.key.keysym.scancode == SDL_SCANCODE_X){
+                    passedCommand(true);
                 }
                 break;
             }
@@ -90,13 +102,13 @@ void Runner::handleHeldButtons(Player& player, const tick_t& ticks){
     //pass button
 
     //! Actions that can happen any time
-    constexpr unsigned int a_wait_time = 2000;
+    constexpr tick_t a_wait_time = 2000;
     if (player.widget == TECH_HAND && player.tech_view == player.getAllegiance() && pastWait(player.a_held_tick, ticks, a_wait_time) && player.setTechPublic(*player.popped_tech)){
         public_messages.push_back(PublicMessage((Message)(WEST_TECH_REVEALED+player.getAllegiance()), SDL_GetTicks(), 150, 197, 32, 14));
         player.a_held_tick = 0;
-    }
+    }    
 
-    constexpr unsigned int x_wait_time = 3500;
+    constexpr tick_t x_wait_time = 3500;
     if (pastWait(player.x_held_tick, ticks, x_wait_time)){
         if (season == PRODUCTION && player.getCurrentProduction() >= 0 && current_player == &player){
             //- Make the changes from the production
@@ -112,6 +124,11 @@ void Runner::handleHeldButtons(Player& player, const tick_t& ticks){
             //- Add the message to be seen by all that the player passed
             public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
             playerActed();
+        }
+        else if (season >= SPRING_COMMAND && current_player == &player){
+            player.passed = true;
+            public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
+            passedCommand(true);
         }
         player.x_held_tick = 0;
     }
@@ -138,14 +155,14 @@ void Runner::handleHeldButtons(Player& player, const tick_t& ticks){
         case (PRODUCTION):{
             switch (player.widget){
                 case ACTION_HAND:{
-                    constexpr unsigned int y_wait_time = 1200;
+                    constexpr tick_t y_wait_time = 1200;
                     if (pastWait(player.y_held_tick, ticks, y_wait_time)){
                         processReturn(player.show_action, BUY_AC, action_bought);
                     }
                     break;
                 }
                 case INVEST_HAND:{
-                    constexpr unsigned int y_wait_time = 1200;
+                    constexpr tick_t y_wait_time = 1200;
                     if (pastWait(player.y_held_tick, ticks, y_wait_time)){
                         processReturn(player.show_invest, BUY_IC, invest_bought);
                     }
@@ -156,18 +173,21 @@ void Runner::handleHeldButtons(Player& player, const tick_t& ticks){
             }
             break;
         }
+        
         case (GOVERNMENT):{
             //Y is for moving things from your hand to the board
-            constexpr unsigned int y_wait_time = 3000;
+            constexpr tick_t y_wait_time = 3000;
             if (pastWait(player.y_held_tick, ticks, y_wait_time)){
                 handleCardPlaying(player);
                 player.y_held_tick = 0;
             }
 
             //A if for changing things in your hands
-            constexpr unsigned int a_wait_time = 2500;
+            constexpr tick_t a_wait_time = 2500;
             if (pastWait(player.a_held_tick, ticks, a_wait_time)){
-                if (player.show_invest && player == player.invest_view && increaseIndustry(player)){
+                if (current_player != &player);
+
+                else if (player.show_invest && player == player.invest_view && increaseIndustry(player)){
                     playerActed();
                 }
 
@@ -216,6 +236,31 @@ void Runner::handleHeldButtons(Player& player, const tick_t& ticks){
             }
             break;
         }
+        
+        case (FALL_COMMAND):{}
+        case (SUMMER_COMMAND):{}
+        case (SPRING_COMMAND):{
+            constexpr tick_t y_wait_time = 4500;
+            if (pastWait(player.y_held_tick, ticks, y_wait_time) && current_player == &player){
+                // Using a action card
+                if (player.widget == ACTION_HAND && player.popped_action_card != nullptr){
+                    player.setCommand(player.popped_action_card, (Season)(season-SPRING_COMMAND));
+                    player.remove(player.popped_action_card);
+                    player.updatePoppedActionCard(map.getCountries());
+                    passedCommand(false);
+                }
+                // Using a decoy investment card
+                else if (player.widget == INVEST_HAND && player.popped_invest_card != nullptr){
+                    player.setCommand(player.popped_invest_card);
+                    player.remove(player.popped_invest_card);
+                    player.updatePoppedInvestCard();
+                    passedCommand(false);
+                }
+                player.y_held_tick = 0;
+            }
+
+            break;
+        }
         default:
             break;
     }
@@ -229,7 +274,7 @@ void Runner::handleButtonUp(Player& player, const SDL_Event& event, const tick_t
         }
         case (SDL_CONTROLLER_BUTTON_A):{
             switch (season){
-                case GOVERNMENT:
+                case GOVERNMENT:{
                     if (player.widget == INVEST_HAND && player == player.invest_view && player.popped_invest_card != nullptr && player.a_held_tick != 0){
                         if (!player.hasSelected(player.popped_invest_card)){
                             player.selected_invest_cards.push_back(player.popped_invest_card);
@@ -242,10 +287,37 @@ void Runner::handleButtonUp(Player& player, const SDL_Event& event, const tick_t
 
                     }
                     break;
+                }
+                
+                case SPRING:
+                case SUMMER:
+                case FALL:{
+                    switch (player.current_phase){
+                        case MOVEMENT:{
+                            //if there is a selected unit that isn't selected and is the players then select it for movement
+                            if (player.selected_unit.second != nullptr && player.moving_unit != player.selected_unit && player == player.selected_unit.second->allegiance){ 
+                                player.setMovingUnit(); //make it the unit to be moved
+                                player.movement_memo.push_back(player.selected_unit.first);
+
+                            }
+                            //adding another stop
+                            else if (player.moving_unit.second != nullptr && player.closest_map_city != nullptr){
+                                addStop(player, player.closest_map_city);
+                            }
+                            break;
+                        }
+                        case COMBAT:{
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                    break;
+                }
                 
                 default:
                     break;
-            }
+            }     
             player.a_held_tick = 0;
             break;
         }
