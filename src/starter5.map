@@ -120,12 +120,12 @@
 119	Bombay	West	Colony	B	City	2	T	1425	747	0	0
 120	Persian_Gulf	Water	None	N	Empty	0	N	1289	716	0	0
 121	Arabian_Sea	Water	None	N	Empty	0	N	1363	782	0	0
-122	East_Indian_Ocean	Water	None	N	Empty	0	N	1461	844	0	0
-123	West_Indian_Ocean	Water	None	N	Empty	0	N	1361	879	0	0
+122	East_Indian_Ocean	DWater	None	N	Empty	0	N	1461	844	0	0
+123	West_Indian_Ocean	DWater	None	N	Empty	0	N	1361	879	0	0
 124	Gulf_Of_Aden	Water	None	N	Empty	0	N	1194	915	0	0
-125	South_Atlantic_Ocean	Water	None	N	Empty	0	N	90	871	0	0
-126	Mid_Atlantic_Ocean	Water	None	N	Empty	0	N	46	617	0	0
-127	North_Atlantic_Ocean	Water	None	N	Empty	0	N	74	367	0	0
+125	South_Atlantic_Ocean	DWater	None	N	Empty	0	N	90	871	0	0
+126	Mid_Atlantic_Ocean	DWater	None	N	Empty	0	N	46	617	0	0
+127	North_Atlantic_Ocean	DWater	None	N	Empty	0	N	74	367	0	0
 128	Ottawa	West	Colony	B	Town	1	N	58	202	0	0
 129	Irminger_Sea	Water	None	N	Empty	0	N	215	151	0	0
 130	Greenland_Ocean	Water	None	N	Empty	0	N	388	48	0	0
@@ -164,7 +164,7 @@ Leningrad	[Belorussia Forest]	[Moscow Forest]	[Bryansk Forest]	[Bryansk Forest]
 Belorussia	[Bryansk Plain]	[Bryansk Plain]																							
 Kiev	[Odessa Plain]	[Kharkov River]	[Bryansk River]	[Bryansk River]																					
 Odessa	[Bucharest CRiver]	[Sevastopol LStrait]	[Sevastopol LStrait]																						
-Moscow	[Penza Plain]	[Voronezh Plain]	[Voronezh Plain]																						
+Moscow	[Penza Plain]	[Voronezh Plain]	[Voronezh Plain]    [Bryansk Forest]																			
 Bryansk	[Voronezh Plain]	[Kharkov Plain]	[Kharkov Plain]																						
 Kharkov	[Kuban CRiver]	[Voronezh River]	[Stalingrad River]	[Stalingrad River]																					
 Sevastopol	[Kuban LStrait]	[Kuban LStrait]	[Kharkov LStrait]																						
@@ -179,7 +179,7 @@ Western_Black_Sea	[Istanbul WStrait]	[Bucharest Coast]	[Odessa Coast]	[Sevastopo
 Istanbul	[Izmir LStrait]	[Ankara LStrait]	[Athens LStrait]	[Athens LStrait]																					
 Ankara	[Izmir Mount]	[Sinope CMount]	[Adana Mount]	[Adana Mount]																					
 Washington	[New_York CPlain]	[New_York CPlain]																							
-New_York																									
+New_York    [Ottawa CForest]																								
 Dublin																									
 Irish_Sea	[Dublin Coast]	[London Coast]	[Glasgow Coast]	[Bay_Of_Biscay Ocean]	[Bay_Of_Biscay Ocean]																				
 Bay_Of_Biscay	[Paris Coast]	[Gascony Coast]	[Leon Coast]	[Madeira_Sea Ocean]	[Madeira_Sea Ocean]																				
@@ -204,7 +204,7 @@ Adana	[Izmir CMountw]	[Damascus CPlain]	[Sinope Mount]	[Kars Mount]	[Kars Mount]
 Izmir																									
 Sinope	[Kars CMount]	[Kars CMount]																							
 Kars	[Georgia CMount]	[Georgia CMount]																							
-Rome	[Taranto Mount]	[Sicily LStrait]	[Sicily LStrait]																						
+Rome	[Taranto CMount]	[Sicily LStrait]	[Sicily LStrait]																						
 Taranto	[Sicily LStrait]	[Sicily LStrait]																							
 Sicily	[Malta LStrait]	[Malta LStrait]																							
 Sardinia																									
@@ -259,9 +259,9 @@ Arabian_Sea
 East_Indian_Ocean																									
 West_Indian_Ocean																									
 Gulf_Of_Aden																									
-South_Atlantic_Ocean																									
-Mid_Atlantic_Ocean																									
-North_Atlantic_Ocean																									
+South_Atlantic_Ocean	[Rio_De_Janeiro Coast] [Dakar Coast]																							
+Mid_Atlantic_Ocean		[Rio_De_Janeiro Coast] [Azores WStrait] [Madeira_Sea Ocean]   [Morocco Coast] [Dakar Coast]     [North_Atlantic_Ocean Ocean]   [South_Atlantic_Ocean Ocean]															
+North_Atlantic_Ocean    [New_York Coast] [Washington Coast] [Ottawa Coast] [Azores WStrait]	[Irminger_Sea Ocean]	[Irish_Sea Ocean] [Bay_Of_Biscay Ocean]																						
 Ottawa																									
 Irminger_Sea																									
 Greenland_Ocean																									

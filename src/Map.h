@@ -55,7 +55,11 @@ public:
 
     bool armed=false;
 
-    CityType voilation_of_neutrality = NEUTRAL;
+    bool capital=false;
+
+    bool deep=false;
+
+    bool voilation_of_neutrality[3] = {false, false, false};
 
     vector<Unit*> occupants[4]; /**< Hold the current units and sperates them by their power 0:West, 1:Axis 2:USSR: 3:Neutral */
 
@@ -145,17 +149,34 @@ public:
      * @return true There is enemies
      * @return false No enemies
      */
-    bool hasEnemy(const CityType allegiance) const{
+    bool hasRival(const CityType allegiance) const{
         switch (allegiance){
         case WEST:
-            return occupants[(size_t)USSR].size() || occupants[(size_t)AXIS].size() || occupants[(size_t)NEUTRAL].size();
+            return occupants[USSR].size() || occupants[AXIS].size();
         case AXIS:
-            return occupants[(size_t)USSR].size() || occupants[(size_t)WEST].size() || occupants[(size_t)NEUTRAL].size();
+            return occupants[USSR].size() || occupants[WEST].size();
         case USSR:
-            return occupants[(size_t)WEST].size() || occupants[(size_t)AXIS].size() || occupants[(size_t)NEUTRAL].size();
+            return occupants[WEST].size() || occupants[AXIS].size();
         default:
             return false;
         }
+    }
+
+    bool hasOther(const CityType allegiance) const{
+        switch (allegiance){
+        case WEST:
+            return occupants[USSR].size() || occupants[AXIS].size() || occupants[NEUTRAL].size();
+        case AXIS:
+            return occupants[USSR].size() || occupants[WEST].size() || occupants[NEUTRAL].size();
+        case USSR:
+            return occupants[WEST].size() || occupants[AXIS].size() || occupants[NEUTRAL].size();
+        default:
+            return false;
+        }
+    }
+
+    inline bool hasEnemy(const DowState& west_dow, const DowState& axis_dow, const DowState& ussr_dow) const{
+        return (west_dow != PEACE && occupants[WEST].size()) || (axis_dow != PEACE && occupants[AXIS].size()) || (ussr_dow != PEACE && occupants[USSR].size());
     }
 
     bool isFighting(const CityType allegiance) const{
@@ -397,7 +418,7 @@ private:
 
     vector<vector<BorderType>> adjacency; /**< Is an adjacency matrix of the cities where the connection of cities is reresented by as nonzero value (0 is an offset city)*/
 
-    vector<vector<vector<int>>> border_limit;
+    vector<vector<vector<int8_t>>> border_limit;
 
     vector<City*> sortedX; /**< Sorts all cities by their x value (left...right)*/
 
@@ -517,7 +538,7 @@ public:
      * @param name Name of the country
      * @return Country* The country of that name
      */
-    Country* getCountry(const string name) const{
+    Country* getCountry(const string& name) const{
         try{
             return countries.at(name);
         }
@@ -575,12 +596,25 @@ public:
         return cities.size();
     }
 
-    const BorderType getBorder(const City* lhs, const City* rhs){
+    const BorderType getBorder(const City* lhs, const City* rhs) const{
         return adjacency[lhs->getID()][rhs->getID()];
     }
 
-    const int8_t getBorderLimit(const City* lhs, const City* rhs, const CityType& mover){
+    const int8_t getBorderLimit(const City* lhs, const City* rhs, const CityType& mover) const{
         return border_limit[lhs->getID()][rhs->getID()][mover];
+    }
+
+    void increaseBorderLimit(const City* lhs, const City* rhs, const CityType& mover) {
+        border_limit[lhs->getID()][rhs->getID()][mover]++;
+    }
+
+    void resetBorderLimits(){
+        for (auto& row : border_limit){
+            for (auto& col : row){
+                for (auto& mover : col)
+                    mover = 0;
+            }
+        }
     }
 
     /**

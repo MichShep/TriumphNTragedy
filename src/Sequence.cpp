@@ -238,6 +238,69 @@ void Runner::sortCommand(){
 
 }
 
+bool Runner::declareDoW(Player& declarer, Player& victim){
+    const CityType& rival_all = victim.getAllegiance();
+    //* Check that they aren't declaring on themselves
+    if (declarer == victim)
+        return false;
+
+    //* Check that they don't already have a DoW
+    if (declarer.getDoW(rival_all) != PEACE)
+        return false;
+
+    //* Apply DoW
+    declarer.setDoW(rival_all, DECLARED);
+    victim.setDoW(declarer.getAllegiance(), VICTIM);
+    declarer.setWartime();
+    victim.setWartime();
+
+    return true;
+}
+
+bool Runner::declareVoN(Player& declarer){
+    const auto& allegiance = declarer.getAllegiance();
+
+    const auto& city = declarer.closest_map_city;
+
+    if (city == nullptr)
+        return false;
+
+    //* Closest city must be a NEUTRAL capital
+    if (!city->capital || city->ruler_type != NEUTRAL){
+        return false;
+    }
+
+    //* Check if its been VoNed already
+    if (city->voilation_of_neutrality[0] || city->voilation_of_neutrality[1] || city->voilation_of_neutrality[2]){
+        return false;
+    }
+
+    // Set VoN
+    city->voilation_of_neutrality[allegiance] = true;
+
+    //Put out forts
+    Country* country = map.getCountry(city->country);
+
+    for (auto& c : country->cities){
+        if (c->muster > 0){
+            c->addUnit(new Unit(0, NEUTRAL_U, FORTRESS, c->muster, year));
+        }
+    }
+
+    country->influence = 0;
+    country->armed_minor = true;
+    country->allegiance = NEUTRAL;
+
+    //World Reaction
+    for (auto& p : players){
+        if (declarer != p){
+            deal(&p, city->muster, 'A');
+        }
+    }
+
+    return true;
+}
+
 bool Runner::compareCards(const ActionCard* lhs, const ActionCard* rhs){
     if (!rhs && !lhs)
         return true;
@@ -262,6 +325,97 @@ bool Runner::compareCards(const ActionCard* lhs, const ActionCard* rhs){
     return lhs->command_priority > rhs->command_priority;
 }
 
+bool Runner::flipConvoy(Player& player,  City* city, Unit* unit){
+    if (unit->class_type == CLASS_G && unit->unit_type != FORTRESS){
+        const auto& adj = map.getAdjacency()[city->ID];
+
+        bool able = false;
+        for (const auto& border : adj) //check if the unit is even around water to turn into a convo
+            able = able || border==COAST;
+
+        if (!able)
+            return false;
+
+        unit->convoy = !unit->convoy;
+
+        return true;
+    }
+
+    return false;
+}
+
+void Runner::moveUnit(Player& player){
+    MovementMessage res;
+    auto& unit = player.moving_unit.second;
+
+    switch (unit->class_type){
+        case CLASS_A:
+            res = canAirMove(player, unit);
+            break;
+        case CLASS_G:
+            res = (unit->convoy)? canSeaMove(player, unit) : canLandMove(player, unit);
+            break;
+        case CLASS_S:
+            res = canSeaMove(player, unit);
+            break;
+        case CLASS_N:
+            res = canSeaMove(player, unit);
+            break;
+
+        default:
+            exit(1);
+    }
+
+    //TODO add private message feature
+    if (res < 0 ){ //negative means there was an error
+        cout << "error moving: " << res << endl;
+    }
+
+    else if (res == DOWED){ //need to get confirmation that its okay to DoW
+        cout << "need a dow to enter " << player.movement_memo.back()->name << endl; 
+    }
+
+    else if (res == VONED){ //need to get confirmation that its okay to VoN
+        cout << "need a von to enter " << player.movement_memo.back()->name << endl; 
+    }
+
+    else if (res == NO_EFFECT){ //No effect means it can move simply
+        auto& memo =  player.movement_memo;
+        memo.back()->addUnit(unit);
+        player.moving_unit.first->removeUnit(unit);
+
+        unit->moved = true;
+
+        //if engaged must stop all movement and increase limit
+        if (unit->class_type == CLASS_G && memo.back()->hasOther(player.getAllegiance())){
+            map.increaseBorderLimit(memo[memo.size()-2], memo[memo.size()-1], player.getAllegiance());
+            cout << "upped" << endl;
+        }
+
+        memo.clear();
+        player.useCommand();
+        player.resetMovingUnit();
+    }
+
+    else if (res == LANDFALL){ //When a unit made landfall on a coast it needs to lose all movement
+        auto& memo =  player.movement_memo;
+        memo.back()->addUnit(unit);
+        player.moving_unit.first->removeUnit(unit);
+
+        unit->moved = true;
+        unit->convoy = false;
+
+        if (unit->class_type == CLASS_G && memo.back()->hasOther(player.getAllegiance())){
+            map.increaseBorderLimit(memo[memo.size()-2], memo[memo.size()-1], player.getAllegiance());
+            unit->landing = true;
+        }
+
+        memo.clear();
+        player.useCommand();
+        player.resetMovingUnit();
+    }
+}
+
 //&^ Spring Season
 
 void Runner::spring(){
@@ -277,7 +431,7 @@ void Runner::spring(){
     current_index = 0;
     current_player = turn_order[0];
 
-    season = SPRING_COMMAND;
+    /*season = SPRING_COMMAND;
     //- Command Phase
     while (running || !public_messages.empty()){
         a = SDL_GetTicks();
@@ -307,8 +461,11 @@ void Runner::spring(){
     const int west_end  = west_player->getCommandNumber() == -1 || west_player->getCommandNumber() == 0? -1 : (temp_order[0] == west_player? 0 : (temp_order[1] == west_player? 1 : (temp_order[2] == west_player? 2: -1)));
     const int axis_end  = axis_player->getCommandNumber() == -1 || axis_player->getCommandNumber() == 0? -1 :  (temp_order[0] == axis_player? 0 : (temp_order[1] == axis_player? 1 : (temp_order[2] == axis_player? 2: -1)));
     const int ussr_end  = ussr_player->getCommandNumber() == -1 || ussr_player->getCommandNumber() == 0? -1 :  (temp_order[0] == ussr_player? 0 : (temp_order[1] == ussr_player? 1 : (temp_order[2] == ussr_player? 2: -1)));
-    cout << west_start << " " << axis_start << " " << ussr_start << endl;
-    cout << west_end << " " << axis_end << " " << ussr_end << endl;
+    //cout << west_start << " " << axis_start << " " << ussr_start << endl;
+    //cout << west_end << " " << axis_end << " " << ussr_end << endl;
+
+    
+
 
     last_tick = b;
 
@@ -328,13 +485,20 @@ void Runner::spring(){
         } 
     }
     phase = 0;
-    last_tick = 0;
+    last_tick = 0;*/
 
     season = SPRING;
 
+    turn_order[0] = west_player;
+    turn_order[1] = axis_player;
+    turn_order[2] = ussr_player;
+    turn_order[0]->setCommandNumber(5); //todo remove for full
+    turn_order[1]->setCommandNumber(2);
+    turn_order[2]->setCommandNumber(-1);
+
     running = true;
     current_player = turn_order[0];
-    west_player->current_phase = MOVEMENT; //TODO change to current player
+    current_player->current_phase = MOVEMENT; //TODO change to current player
     while (running){
         a = SDL_GetTicks();
         delta = a - b;
@@ -345,6 +509,8 @@ void Runner::spring(){
             handleUserInput(running, b);
 
             drawPhase(b);
+
+            running = !west_player->passed || !axis_player->passed || !ussr_player->passed;
 
         } 
     }
@@ -362,6 +528,10 @@ void Runner::spring(){
     west_player->resetCommand();
     axis_player->resetCommand();
     ussr_player->resetCommand();
+
+    west_player->resetUnits();
+    axis_player->resetUnits();
+    ussr_player->resetUnits();
 }
 
 //- Summer Season

@@ -7,15 +7,13 @@ bool Runner::InitSDL(){
     if (SDL_Init(SDL_INIT_EVERYTHING) > 0){
         cout << "SDL_Init failed with error: " << SDL_GetError() << endl;
         return false;
-
-    
     }
-    SDL_GameControllerEventState(SDL_ENABLE);
-    const char* mapping_string = "030000000d0f0000f600000001000000,Lic Pro Controller,a:b0,b:b1,x:b2,y:b3,back:b8,guide:b12,start:b9,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,lefttrigger:b6,righttrigger:b7,platform:Mac OS X";
 
-    cout << SDL_GameControllerAddMapping(mapping_string) << endl;
+    SDL_GameControllerEventState(SDL_ENABLE);
+    
     //030000000d0f0000f600000001000000,Lic Pro Controller,a:b0,b:b1,x:b2,y:b3,back:b8,guide:b12,start:b9,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,lefttrigger:b6,righttrigger:b7,platform:Mac OS X
-    int joysticks_found=0;
+    
+    int joysticks_found=offset;
     for (int i = 0; i < SDL_NumJoysticks() && joysticks_found != 3; i++){
         if (SDL_IsGameController(i)){
             controllers[joysticks_found++] = SDL_GameControllerOpen(i);
@@ -181,7 +179,7 @@ void Runner::drawPlayerBoard(Player& player, const tick_t& ticks, const bool ren
     }
 
     //- Draw the map and the cities
-    drawMap(player, true, true, true, false, false);
+    drawMap(player, true, true, true, true, false);
 
     auto& sprite_sheet = player.sprite_sheet;
     
@@ -204,7 +202,7 @@ void Runner::drawPlayerBoard(Player& player, const tick_t& ticks, const bool ren
     //- Draw movement trail
     if (player.current_phase == MOVEMENT && player.movement_memo.size() > 1){
         for (int i = 1; i < player.movement_memo.size(); i++){
-            drawLine(player, player.movement_memo[i-1], player.movement_memo[i]);
+            drawLine(player, player.movement_memo[i-1], player.movement_memo[i], false);
         }
     }
 
@@ -304,19 +302,19 @@ void Runner::drawBuild(Player& player){
         //- Draw the building UI if selected
         //FORTRESS, AIR, CARRIER, SUB, FLEET, TANK, INFANTRY
         //- Draw units around
-        if (player.unit_buildable[0]) drawUnit(player, FORTRESS, city->ruler_nationality, center_x, center_y-radius, zoom); //top
+        if (player.unit_available[0]) drawUnit(player, FORTRESS, city->ruler_nationality, center_x, center_y-radius, zoom); //top
 
-        if (player.unit_buildable[1]) drawUnit(player, AIR, city->ruler_nationality, center_x+sqrt_radius, center_y-sqrt_radius, zoom); //top right
+        if (player.unit_available[1]) drawUnit(player, AIR, city->ruler_nationality, center_x+sqrt_radius, center_y-sqrt_radius, zoom); //top right
 
-        if (player.unit_buildable[2]) drawUnit(player, CARRIER, city->ruler_nationality, center_x+radius, center_y, zoom); //right
+        if (player.unit_available[2]) drawUnit(player, CARRIER, city->ruler_nationality, center_x+radius, center_y, zoom); //right
 
-        if (player.unit_buildable[3]) drawUnit(player, SUB, city->ruler_nationality, center_x+sqrt_radius, center_y+sqrt_radius, zoom); //bottom right
+        if (player.unit_available[3]) drawUnit(player, SUB, city->ruler_nationality, center_x+sqrt_radius, center_y+sqrt_radius, zoom); //bottom right
 
-        if (player.unit_buildable[4]) drawUnit(player, FLEET, city->ruler_nationality, center_x, center_y+radius, zoom); //bottom
+        if (player.unit_available[4]) drawUnit(player, FLEET, city->ruler_nationality, center_x, center_y+radius, zoom); //bottom
 
-        if (player.unit_buildable[5]) drawUnit(player, TANK, city->ruler_nationality, center_x-sqrt_radius, center_y+sqrt_radius, zoom); //bottom left
+        if (player.unit_available[5]) drawUnit(player, TANK, city->ruler_nationality, center_x-sqrt_radius, center_y+sqrt_radius, zoom); //bottom left
 
-        if (player.unit_buildable[6]) drawUnit(player, INFANTRY, city->ruler_nationality, center_x-radius, center_y, zoom); //left
+        if (player.unit_available[6]) drawUnit(player, INFANTRY, city->ruler_nationality, center_x-radius, center_y, zoom); //left
 
         //always draw the exit button
         SDL_Rect target = {(int)(center_x-sqrt_radius), (int)(center_y-sqrt_radius), ZOOM_DIMENSIONS[zoom-1][0], ZOOM_DIMENSIONS[zoom-1][0]}; //top left
@@ -330,7 +328,7 @@ void Runner::drawBuild(Player& player){
         //- Draw the closest or 'popped unit'
         if (player.wheel_x != 0 && player.wheel_y != 0){
             if (player.popped_unit[0] != 7)
-                drawUnit(player, (UnitType)(player.popped_unit[0]+7), city->ruler_nationality, center_x+sqrt_radius*player.popped_unit[1], center_y+sqrt_radius*player.popped_unit[2], zoom, !player.unit_buildable[(int)player.popped_unit[0]]); //left
+                drawUnit(player, (UnitType)(player.popped_unit[0]+7), city->ruler_nationality, center_x+sqrt_radius*player.popped_unit[1], center_y+sqrt_radius*player.popped_unit[2], zoom, !player.unit_available[(int)player.popped_unit[0]]); //left
             else{
                 target = {(int)(center_x+sqrt_radius*player.popped_unit[1]), (int)(center_y+sqrt_radius*player.popped_unit[2]), ZOOM_DIMENSIONS[zoom-1][0], ZOOM_DIMENSIONS[zoom-1][0]};
                 if (zoom <= 2){
@@ -564,6 +562,8 @@ void Runner::drawActionButtons(const Player& player, const tick_t& ticks){
     SDL_Rect target_y = {top_left_x, top_left_y+32, 45, 48};
     SDL_Rect target_a = {top_left_x+64, top_left_y+32, 45, 48};
     SDL_Rect target_b = {top_left_x+32, top_left_y+64, 45, 48};
+    
+
     //total area should be 104 x 110
     if (season == PRODUCTION){
         //- Draw options for X
@@ -631,7 +631,7 @@ void Runner::drawActionButtons(const Player& player, const tick_t& ticks){
 
         }
         
-        else if (player.popped_unit[0] != 7 && player.unit_buildable[(int)player.popped_unit[0]]){ //if a unit is popped and is buildable show option to build
+        else if (player.popped_unit[0] != 7 && player.unit_available[(int)player.popped_unit[0]]){ //if a unit is popped and is buildable show option to build
             player.controller_button_sprites->drawSprite(&target_b, 2, 1, 45, 48);
         }
 
@@ -641,11 +641,20 @@ void Runner::drawActionButtons(const Player& player, const tick_t& ticks){
 
     }
     else{
-        player.controller_button_sprites->drawSprite(&target_x, 0, 0, 45, 48); //x
-        player.controller_button_sprites->drawSprite(&target_y, 1, 0, 45, 48); //y
-        player.controller_button_sprites->drawSprite(&target_a, 3, 0, 45, 48); //a
-        player.controller_button_sprites->drawSprite(&target_b, 2, 0, 45, 48); //b
+        const uint8_t alpha = inBox(top_left_x, top_left_y, 104, 110, player.cursor_x, player.cursor_y)? 200: 255;
+        target_x.w = 40;
+        target_y.w = 40;
+        target_a.w = 40;
+        target_b.w = 40;
 
+        player.sprite_sheet->drawArea(&target_x, 40*(player.x_held_tick>0), 190, 40, 48, alpha); //x
+
+        player.sprite_sheet->drawArea(&target_y, 80+40*(player.y_held_tick>0), 190, 40, 48, alpha); //y
+        
+        player.sprite_sheet->drawArea(&target_a, 160+40*(player.a_held_tick>0), 190, 40, 48, alpha); //a
+
+        player.sprite_sheet->drawArea(&target_b, 240+40*(player.b_held_tick>0), 190, 40, 48, alpha); //b
+        
     }
 
 }
@@ -805,7 +814,7 @@ void Runner::drawUnit(const Player& player, const Unit* unit, const int x, const
         if (secret)
             player.units_sprite_z1->drawSprite(&target, 0+unit->upgrading+(unit->combat_value == 0), 35+unit->nationality, 20, 20);
         else
-            player.units_sprite_z1->drawSprite(&target, unit->unit_type+7*unit->upgrading, 5*unit->nationality+unit->combat_value+unit->upgrading, 20, 20);
+            player.units_sprite_z1->drawSprite(&target, unit->unit_type+7*unit->upgrading+14*unit->convoy, 5*unit->nationality+unit->combat_value+unit->upgrading, 20, 20);
     } 
     if (zoom == 3){
         if (secret)
@@ -1452,15 +1461,15 @@ void Runner::animateCommandOrder(bool& running, const tick_t& ticks, const int w
 
             // calculate its current pos to its determined one 0->where_ever
             if (west_end != -1){
-                drawActionCard(&player, west_player->command_card, start_x[west_start] + (start_x[west_end] - start_x[west_start])*progress, y, 64, alpha);
+                drawActionCard(&player, west_player->command_card, start_x[0] + (start_x[west_end] - start_x[0])*progress, y, 64, alpha);
             }
 
             if (axis_end != -1){
-                drawActionCard(&player, axis_player->command_card, start_x[axis_start] + (start_x[axis_end] - start_x[axis_start])*progress, y, 64, alpha);
+                drawActionCard(&player, axis_player->command_card, start_x[1] + (start_x[axis_end] - start_x[1])*progress, y, 64, alpha);
             }
 
             if (ussr_end != -1){
-                drawActionCard(&player, ussr_player->command_card, start_x[ussr_start] + (start_x[ussr_end] - start_x[ussr_start])*progress, y, 64, alpha);
+                drawActionCard(&player, ussr_player->command_card, start_x[2] + (start_x[ussr_end] - start_x[2])*progress, y, 64, alpha);
             }
         }
         //cout << start_x[ussr_start] + (start_x[ussr_end] - start_x[ussr_start])/((ticks-last_tick)/(double)total_time) << endl;

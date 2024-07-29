@@ -62,12 +62,24 @@ typedef Uint32 year_t;
 
 const int JOYSTICK_DEADZONE = 16000;
 
+const int CONVOY_MOVEMENT = 2;
+
+constexpr int CURSOR_SPEED = 5;
+
 #define loopVal(v, i, a) ((v < i)? (a) : ((v>a)? (i) : (v)))
 
 //held tick, tick, wait_time
-#define pastWait(h, t, w)( h? (t - h > w) : (false))
+#define pastWait(h, t, w)(h? (t - h > w) : (false))
 
 #define isLand(b)(COAST_MOUNTAIN <= b && b <= LAND_STRAIT)
+
+#define isNaval(b)((NA < b && b <= COAST_PLAINS) || b == LAND_STRAIT)
+
+#define isAir(b)(b != NA)
+
+#define isCoastal(b)((WATER_STRAIT <= b && b <= COAST_PLAINS) || b == LAND_STRAIT)
+
+#define isStrait(b)(b == WATER_STRAIT || b == LAND_STRAIT || b == DEEP_STRAIT)
 
 /**
  * @enum The Type of City Allegiance
@@ -282,6 +294,28 @@ enum ProductionError{
     ENGAGED,
     UNSUPPLIED,
     MAX_CV
+};
+
+enum MovementMessage{
+    EMPTY_MEMO = -12,
+    EMERGENCY_ENGAGE,
+    BORDER_LIMIT,
+    TIRED,
+    TOO_FARR,
+    ENGAGE_NOT_LAST,
+    NOT_CONNECTED,
+    WILL_BE_NEUT,
+    NO_COMMAND,
+    PAST_COAST,
+    AIR_OVER_WATER,
+    CONVOY_ENGAGE_AT_SEA,
+    // ^ Error 
+    // v Effects
+    NO_EFFECT = 0,
+    DOWED,
+    VONED,
+    LANDFALL,
+    INVASION
 };
 
 /**
@@ -610,7 +644,15 @@ public:
         }
     }
 
-    void drawArea(SDL_Rect* position, const int x, const int y, const int w, const int h,  const Uint8 alpha=255){
+    void drawArea(SDL_Rect* position, const int x, const int y, const int w, const int h){
+        clip = {x, y, w, h};
+
+        if (SDL_RenderCopy(renderer, spritesheet_image, &clip, position) < 0){ //was an error
+            cout << "Drawing transparent area failed with error: " << SDL_GetError() << endl;
+        }
+    }
+
+    void drawArea(SDL_Rect* position, const int x, const int y, const int w, const int h,  const Uint8 alpha){
         clip = {x, y, w, h};
 
         SDL_SetTextureAlphaMod(spritesheet_image, alpha);
@@ -630,3 +672,5 @@ struct App{
 
     Graphics::Screen screen;
 };
+
+constexpr int offset=0;

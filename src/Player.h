@@ -27,6 +27,8 @@ private:
 
     size_t industry=0; /**< Total number of industry the player has*/
 
+    bool at_war=false;
+
     size_t card_size; /**< Hand size of the player they must discard to at the end of government*/
 
     size_t factory_cost=0; /**< The cost to upgrade the industry*/
@@ -155,7 +157,7 @@ public:
     City* closest_map_city = nullptr; /**< The city that is closest to the player's cursor (updated when cursor stops moving) */
 
     City* building_city = nullptr; /**< Pointer to the city that has been selected to add a unit */
-    bool unit_buildable[7]= {false, false, false, false, false, false, false}; /**< Array that corresponds to the units to hold flags if the unit is buildable in the current `building_city`*/
+    bool unit_available[7]= {false, false, false, false, false, false, false}; /**< Array that corresponds to the units to hold flags if the unit is buildable in the current `building_city`*/
 
     Widget widget = MAP; /**< Holds which current widget the player is on */
 
@@ -196,6 +198,7 @@ public:
     tick_t x_held_tick = 0; /**< Tick of when the player most recently pressed down on the X-Button (0 if not held) */
     tick_t y_held_tick = 0; /**< Tick of when the player most recently pressed down on the Y-Button (0 if not held) */
     tick_t a_held_tick = 0; /**< Tick of when the player most recently pressed down on the A-Button (0 if not held) */
+    tick_t b_held_tick = 0; /**< Tick of when the player most recently pressed down on the B-Button (0 if not held) */
 
     bool y_resolved = true; /**< Flag for if the Y-Button animation has been resolved */
     tick_t right_stick_y_tick = 0; /**< Tick of when the player most moved the right joystick along the y axis */
@@ -419,11 +422,62 @@ public:
         case USSR:
             return ussr_dow != PEACE;
             break;
+        case NEUTRAL:
+            return true;
+            break;
+        case WATER:
+            return true;
+            break;
         
         default:
             return false;
             break;
         }
+    }
+
+    //& Button Things
+
+    inline bool XHeld(const tick_t& ticks, const tick_t timer){
+        return pastWait(x_held_tick, ticks, timer) && !a_held_tick && !y_held_tick && !b_held_tick;
+    }
+
+    inline bool YHeld(const tick_t& ticks, const tick_t timer){
+        return pastWait(y_held_tick, ticks, timer) && !a_held_tick && !x_held_tick && !b_held_tick;
+    }
+
+    inline bool AHeld(const tick_t& ticks, const tick_t timer){
+        return pastWait(a_held_tick, ticks, timer) && !x_held_tick && !y_held_tick && !b_held_tick;
+    }
+
+    inline bool BHeld(const tick_t& ticks, const tick_t timer){
+        return pastWait(b_held_tick, ticks, timer) && !a_held_tick && !y_held_tick && !x_held_tick;
+    }
+
+    inline bool XPressed(){
+        return x_held_tick;
+    }
+
+    inline bool YPressed(){
+        return y_held_tick;
+    }
+
+    inline bool APressed(){
+        return a_held_tick;
+    }
+
+    inline bool BPressed(){
+        return b_held_tick;
+    }
+
+    inline bool multiHeld(const bool x, const bool y, const bool a, const bool b, const tick_t& ticks, const tick_t timer){
+        return (x==pastWait(x_held_tick, ticks, timer)) && (y==pastWait(y_held_tick, ticks, timer)) && (a==pastWait(a_held_tick, ticks, timer)) && (b==pastWait(b_held_tick, ticks, timer));
+    }
+
+    inline void resetButtons(){
+        a_held_tick = 0;
+        b_held_tick = 0;
+        x_held_tick = 0;
+        y_held_tick = 0;
     }
     
     //& Card Things
@@ -486,6 +540,10 @@ public:
         command_value = -1;
         command_card = nullptr;
         command_fake = nullptr;
+    }
+
+    void useCommand(){
+        command_value--;
     }
 
     inline void achieveTech(const Tech& tech){
@@ -665,6 +723,45 @@ public:
         return usa_dow;
     }
 
+    DowState getDoW(const CityType rival) const{
+        switch (rival){
+            case WEST:
+                return west_dow;
+                break;
+            case AXIS:
+                return axis_dow;
+                break;
+            case USSR:
+                return ussr_dow;
+                break;
+            default:
+                break;
+        }
+
+        std::cerr << "Unkown rival DoW requested" << endl;
+        exit(1);
+
+        return PEACE;
+    }
+
+    void setDoW(const CityType& rival, const DowState rival_state){
+        switch (rival){
+            case WEST:
+                west_dow = rival_state;
+                break;
+            case AXIS:
+                axis_dow = rival_state;
+                break;
+            case USSR:
+                ussr_dow = rival_state;
+                break;
+            default:
+                break;
+        }
+
+
+    }
+
     /**
      * @brief Get the last year the player was peaceful
      * 
@@ -676,6 +773,10 @@ public:
 
     bool usedEmergency() const{
         return used_emergency;
+    }
+
+    void setEmergency(){
+        used_emergency = true;
     }
 
     /**
@@ -827,6 +928,12 @@ public:
         updatePoppedInvestCard();
     }
 
+    void resetUnits(){
+        for (auto& unit : units){
+            unit->moved = false;
+        }
+    }
+
     
 
     //& Production
@@ -890,7 +997,11 @@ public:
      * @return false Is not at war (not neccisarily peaceful if the VoN)
      */
     bool atWar() const{
-        return ussr_dow != PEACE || west_dow != PEACE || axis_dow != PEACE;
+        return at_war;
+    }
+
+    void setWartime(){
+        at_war = true;
     }
 
     bool atWar(const CityType rival) const{
@@ -986,10 +1097,27 @@ public:
         name = "DELETED";
     }
 
-    bool operator==(const int city_type) const{
+    bool operator==(const int& city_type) const{
         return allegiance == city_type;
     }
-    bool operator!=(const int city_type) const{
+
+    bool operator!=(const int& city_type) const{
         return allegiance != city_type;
+    }
+
+    bool operator==(const Player* player) const{
+        return this == player;
+    }
+
+    bool operator==(const Player& player) const{
+        return this == &player;
+    }
+
+    bool operator!=(const Player* player) const{
+        return this != player;
+    }
+
+    bool operator!=(const Player& player) const{
+        return this != &player;
     }
 };

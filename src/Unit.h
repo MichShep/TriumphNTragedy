@@ -193,7 +193,7 @@ public:
 
     uint8_t movement; /**< The max amount of cities it can move in one turn*/
 
-    pair<year_t, int8_t> current_movement;
+    bool moved=false;
 
     bool rebase=false; /**< If this unit can ReBase (move freely to ground force)*/
 
@@ -207,10 +207,10 @@ public:
 
     bool escaped=false; /**< Used for subs and if they have 'escaped' and can block trade routes */
 
-    Unit(const size_t id, const UnitCountry nationality, const UnitType unit_type): id(id), nationality(nationality), unit_type(unit_type){ //for making cadres
-
+    Unit(const size_t id, const UnitCountry nationality, const UnitType unit_type, const year_t& curr_year): id(id), nationality(nationality), unit_type(unit_type){ //for making cadres
         combat_value = 0; //1 for all cadres 
         upgrading = true; //since a cadre is basically upgrading nothing to the unit type
+        birth_year = curr_year;
 
         switch (nationality){ //BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRAL_U
             case (BRITIAN_U):
@@ -354,9 +354,9 @@ public:
 
     }
 
-    Unit(const size_t id, const UnitCountry nationality, const UnitType unit_type, uint8_t combat_value): id(id), nationality(nationality), unit_type(unit_type), combat_value(combat_value){ //for making cadres
-
-
+    Unit(const size_t id, const UnitCountry nationality, const UnitType unit_type, uint8_t combat_value, const year_t& curr_year): id(id), nationality(nationality), unit_type(unit_type), combat_value(combat_value){ //for making cadres
+        birth_year = curr_year;
+        
         switch (nationality){ //BRITIAN_U, FRANCE_U, USA_U, GERMANY_U, ITALY_U, USSR_U, NEUTRAL_U
             case (BRITIAN_U):
                 allegiance = WEST;
@@ -525,8 +525,6 @@ public:
     void setMovement(const size_t mov){ //just for testing
         movement = mov;
     }
-
-
 
     /**
      * @brief Print out the data of the unit

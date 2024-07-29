@@ -244,16 +244,26 @@ public:
         buildUnit(players[AXIS], map["Ruhr"], FLEET);
         buildUnit(players[AXIS], map["Ruhr"], INFANTRY);
         buildUnit(players[AXIS], map["Ruhr"], FORTRESS);
-        buildUnit(players[AXIS], map["Ruhr"], FLEET);
+        buildUnit(players[AXIS], map["Ruhr"], AIR);
 
         buildUnit(players[AXIS], map["Munich"], INFANTRY);
         buildUnit(players[AXIS], map["Munich"], TANK);
+
+        auto u = buildUnit(players[AXIS], map["Munich"], CARRIER, 3);
+
+        map["Munich"]->removeUnit(u);
+        map["North_Sea"]->addUnit(u);
+
+        //for testing air movement
+        //auto temp = new Unit(3, GERMANY_U, AIR, year);
+        //axis_player->add(temp);
+        //map["North_Sea"]->addUnit(temp);
 
         buildUnit(players[AXIS], map["Könisberg"], TANK);
         buildUnit(players[AXIS], map["Könisberg"], AIR);
 
         buildUnit(players[AXIS], map["Rome"], FORTRESS);
-        buildUnit(players[AXIS], map["Rome"], INFANTRY);
+        buildUnit(players[AXIS], map["Rome"], TANK);
         buildUnit(players[AXIS], map["Rome"], FLEET);
         buildUnit(players[AXIS], map["Rome"], FLEET);
 
@@ -287,13 +297,21 @@ public:
         buildUnit(players[WEST], map["Karachi"], INFANTRY);
 
         buildUnit(players[WEST], map["Paris"], FORTRESS);
-        buildUnit(players[WEST], map["Paris"], AIR);
+        buildUnit(players[WEST], map["Paris"], TANK);
 
         buildUnit(players[WEST], map["Marseille"], INFANTRY);
 
         buildUnit(players[WEST], map["Algiers"], FLEET);
 
         buildUnit(players[WEST], map["Lorraine"], FORTRESS, 3);
+
+
+        //todo us troops
+        buildUnit(players[WEST], map["Washington"], FLEET, 3);
+        buildUnit(players[WEST], map["New_York"], TANK, 3);
+        buildUnit(players[WEST], map["New_York"], AIR, 3);
+        buildUnit(players[WEST], map["Washington"], CARRIER, 3);
+
 
         applyProduction(players[WEST]);
         players[WEST].passed = false;
@@ -329,7 +347,6 @@ public:
         return 0;
 
     }
-
 
     /**
      * @brief Creates the game map including nations and cities and connections
@@ -512,6 +529,8 @@ public:
      */
     bool compareCards(const ActionCard* lhs, const ActionCard* rhs);
 
+    void addMovement(Player& player);
+
     //- Spring
     /**
      * @brief Spring season of war where players will commence the war. Action cards with spring will have priority
@@ -624,9 +643,11 @@ public:
      * @param city The city where the unit is being built
      * @param unit The type of unit that will be built
      * 
+     * @return Unit* The unit created
+     * 
      * @pre The unit follows all restrictions and can be built in the porvided city
      */
-    void buildUnit(Player&player, City* city, const UnitType unit, const int cv=1);
+    Unit* buildUnit(Player&player, City* city, const UnitType unit, const int cv=1);
 
     /**
      * @brief Decider for if an exisiting unit can be upgraded
@@ -646,11 +667,13 @@ public:
      */
     void handleUnitBuilding(Player& player);
 
+    bool flipConvoy(Player& player, City* city, Unit* unit);
+
     //& Movement 
     
-    void addStop(Player& player, City* city);
-
     bool checkRoute(Player& player);
+
+    void moveUnit(Player& player);
 
     /**
      * @brief Checks if the player can disengage from the current battle
@@ -674,15 +697,20 @@ public:
      */
     bool disengage(Unit* unit, const string start, const string end);
 
-    bool canLandMove(const Player& player, const Unit* unit) const;
+    MovementMessage canLandMove(const Player& player, const Unit* unit) const;
 
-    bool canSeaMove(const Player& player, const Unit* unit) const;
+    MovementMessage canSeaMove(const Player& player, const Unit* unit) const;
 
-    bool canAirMove(const Player& player, const Unit* unit) const;
+    MovementMessage canAirMove(const Player& player, const Unit* unit) const;
 
     bool canDisengage(const Player& player, const Unit* unit) const;
 
     //& Combat
+
+    bool declareDoW(Player& declarer, Player& victim);
+
+    bool declareVoN(Player& aggresor);
+
     /**
      * @brief Executes the current players combat rounds
      * 
@@ -742,6 +770,20 @@ public:
     void handleCardPlaying(Player& player);
 
     bool achieveTechnology(Player&player);
+
+    //&^ Card Actions
+
+    void selectTechCard(Player& player);
+
+    void peakRivalAction(Player& player, const tick_t& ticks);
+
+    void peakRivalUnit(Player& player, const tick_t& ticks);
+
+    void coupRival(Player& player, const tick_t& ticks);
+
+    void sabotageRival(Player& player, const tick_t& ticks);
+
+    void spyRingRival(Player& player, const tick_t& ticks);
 
     //& Runner Getters and Setters
     /**
@@ -1084,7 +1126,7 @@ private:  //!!! Graphics things
      * @param city1 The city where the line starts
      * @param city2 The city where the line ends
      */
-    void drawLine(const Player& player, const City* city1, const City* city2){
+    void drawLine(const Player& player, const City* city1, const City* city2, const bool border=true){
         auto& renderer = player.app->renderer;
         const auto& temp = map.getBorder(city1, city2);
         const auto& x1 = player.app->screen.getX(city1->x+city1->WIDTH/2);
@@ -1092,7 +1134,10 @@ private:  //!!! Graphics things
 
         const auto& x2 = player.app->screen.getX(city2->x+city2->WIDTH/2);
         const auto& y2 = player.app->screen.getY(city2->y+city2->HEIGHT/2);
-        SDL_SetRenderDrawColor(renderer, BORDER_COLOR[temp][0], BORDER_COLOR[temp][1], BORDER_COLOR[temp][2], 255);
+        if (border)
+            SDL_SetRenderDrawColor(renderer, BORDER_COLOR[temp][0], BORDER_COLOR[temp][1], BORDER_COLOR[temp][2], 255);
+        else
+            SDL_SetRenderDrawColor(renderer, 255, 193, 7, 255);
         SDL_RenderDrawLine(renderer, x1,    y1,     x2,     y2);
         SDL_RenderDrawLine(renderer, x1-1,  y1+1,   x2-1,   y2+1);
         SDL_RenderDrawLine(renderer, x1,    y1+1,   x2,     y2+1);
@@ -1186,6 +1231,50 @@ private:  //!!! Graphics things
      */
     void handleUserInput(bool& running, const tick_t& ticks);
 
+    void handleXHeld(Player& player, const tick_t& ticks);
+
+    void handleProductionSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time);
+
+    void handleGovernmentSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time, const tick_t& a_wait_time);
+
+    void handleCommandSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time);
+
+    void handleRegularSeason(Player& player, const tick_t& ticks, const tick_t& a_wait_time, const tick_t& y_wait_time);
+
+    void performTech(Player& player, const tick_t& ticks, Message message_type, void (Runner::*espionageAction)(Player&, const tick_t&));
+
+    void pinCity(Player& player){
+        if (player.closest_map_city != nullptr){
+                player.closest_map_city->full_display[player.getAllegiance()] = ! player.closest_map_city->full_display[player.getAllegiance()];
+                player.widget = MAP;
+        }
+    }
+
+    void toggleView(Player& player){
+        if (player.widget <= STAT_WIDGET){
+            switch (player.widget){
+                case ACTION_HAND:
+                    player.show_action = !player.show_action;
+                    player.popped_action_card_index = -1;
+                    break;
+                case INVEST_HAND:
+                    player.show_invest = !player.show_invest;
+                    player.popped_invest_card_index = -1;
+                    break;
+                case TECH_HAND:
+                    player.show_tech = !player.show_tech;
+                    player.popped_tech_index = -1;
+                    break;
+                case STAT_WIDGET:
+                    player.show_stat = !player.show_stat;
+                    break;
+                
+                default:
+                    break;
+            }
+            player.board_change = true;
+        }
+    }
     /**
      * @brief Handler for when an animation is happening and user input is limited
      * 
@@ -1285,6 +1374,21 @@ private:
         current_player = turn_order[current_index];
     }
 
+    void seasonActed(){
+        auto& curr = current_player->current_phase;
+        if (curr == MOVEMENT)
+            curr = COMBAT;
+        else if (curr == COMBAT){
+            current_player->passed = true;
+            curr = OBSERVING;
+
+            if (++current_index > 3 || turn_order[current_index]->getCommandNumber() == -1)
+                return;
+
+            current_player = turn_order[current_index];
+        }
+    }
+
     void passedCommand(const bool passed){
         if (west_player->passed && axis_player->passed && ussr_player->passed) //if all have already passed then don't move anymore
             return;
@@ -1334,7 +1438,7 @@ private:
                     return 3*player.getWestDow();
                     break;
                 case USSR:
-                    return 3*player.getAxisDow();
+                    return 3*player.getAxisDow()+2;
                     break;
                 
                 default:

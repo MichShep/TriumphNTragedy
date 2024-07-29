@@ -5,6 +5,7 @@
 void Runner::handleUserInput(bool& running, const tick_t& delta){
     SDL_Event event;
     const tick_t ticks = SDL_GetTicks();
+
     if (SDL_PollEvent(&event)){
         switch (event.type){
             case SDL_KEYDOWN:{
@@ -19,12 +20,19 @@ void Runner::handleUserInput(bool& running, const tick_t& delta){
                     players[1].passed = true;
                     players[2].passed = true;
                 }
+                else if (event.key.keysym.scancode == SDL_SCANCODE_1){
+                    applyProduction(*current_player);
+                    public_messages.push_back(PublicMessage((Message)current_player->getAllegiance(), ticks, 250, 100, 32, 10));
+                }
+                else if (event.key.keysym.scancode == SDL_SCANCODE_2){
+                    current_player->passed = true;
+                    public_messages.push_back(PublicMessage((Message)current_player->getAllegiance(), ticks, 250, 100, 32, 10));
+                    playerActed();
+                }
                 else if (event.key.keysym.scancode == SDL_SCANCODE_C){
-                    std::swap(players[WEST], players[USSR]);
                     std::swap(controllers[WEST], controllers[USSR]);
                 }
                 else if (event.key.keysym.scancode == SDL_SCANCODE_D){
-                    std::swap(players[WEST], players[AXIS]);
                     std::swap(controllers[WEST], controllers[AXIS]);
                 }
                 else if (event.key.keysym.scancode == SDL_SCANCODE_L){
@@ -32,6 +40,9 @@ void Runner::handleUserInput(bool& running, const tick_t& delta){
                     west_player->setUssrDow(DECLARED);
                     ussr_player->setWestDow(VICTIM);
                     axis_player->setWestDow(VICTIM);
+                }
+                else if (event.key.keysym.scancode == SDL_SCANCODE_E){
+                    axis_player->setEmergency();
                 }
                 
                 else if (event.key.keysym.scancode == SDL_SCANCODE_Y){
@@ -47,11 +58,11 @@ void Runner::handleUserInput(bool& running, const tick_t& delta){
                 break;
             }
             case SDL_CONTROLLERBUTTONDOWN:{
-                handleButtonDown(players[event.cbutton.which], event, ticks);
+                handleButtonDown(players[event.cbutton.which+offset], event, ticks);
                 break;
             }
             case SDL_CONTROLLERBUTTONUP:{
-                handleButtonUp(players[event.cbutton.which], event, ticks);
+                handleButtonUp(players[event.cbutton.which+offset], event, ticks);
                 break;
             }
             default:
@@ -98,172 +109,193 @@ void Runner::handleUserAnimationInput(bool& running, const tick_t& delta){
 
 //&^ Buttons
 
-void Runner::handleHeldButtons(Player& player, const tick_t& ticks){
-    //pass button
-
-    //! Actions that can happen any time
+void Runner::handleHeldButtons(Player& player, const tick_t& ticks) {
     constexpr tick_t a_wait_time = 2000;
-    if (player.widget == TECH_HAND && player.tech_view == player.getAllegiance() && pastWait(player.a_held_tick, ticks, a_wait_time) && player.setTechPublic(*player.popped_tech)){
-        public_messages.push_back(PublicMessage((Message)(WEST_TECH_REVEALED+player.getAllegiance()), SDL_GetTicks(), 150, 197, 32, 14));
-        player.a_held_tick = 0;
-    }    
-
+    constexpr tick_t dow_wait_time = 3500;
     constexpr tick_t x_wait_time = 3500;
-    if (pastWait(player.x_held_tick, ticks, x_wait_time)){
-        if (season == PRODUCTION && player.getCurrentProduction() >= 0 && current_player == &player){
-            //- Make the changes from the production
-            applyProduction(player);
+    constexpr tick_t y_wait_time_short = 1200;
+    constexpr tick_t y_wait_time_long = 3000;
+    constexpr tick_t y_wait_time_very_long = 4500;
 
-            //- Add the message to be seen by all that the player passed
-            public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
-        }
-        else if (season == GOVERNMENT && current_player == &player){ //- if the player whose turn it is is passing
-            //- Set to passed (government changes are applied at the end)
-            player.passed = true;
-            
-            //- Add the message to be seen by all that the player passed
-            public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
-            playerActed();
-        }
-        else if (season >= SPRING_COMMAND && current_player == &player){
-            player.passed = true;
-            public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
-            passedCommand(true);
+    // Pass button actions
+    if (player.widget == TECH_HAND && player.tech_view == player.getAllegiance() &&
+        player.AHeld(ticks, a_wait_time) && player.setTechPublic(*player.popped_tech)) {
+        public_messages.push_back(PublicMessage((Message)(WEST_TECH_REVEALED + player.getAllegiance()), SDL_GetTicks(), 150, 197, 32, 14));
+        player.a_held_tick = 0;
+    }
+
+    if (player.multiHeld(true, true, false, false, ticks, dow_wait_time)) {
+        if (player.widget == STAT_WIDGET) {
+            declareDoW(player, players[player.stat_view]);
         }
         player.x_held_tick = 0;
+        player.y_held_tick = 0;
     }
-    
-    if (player.passed){
+
+    if (player.XHeld(ticks, x_wait_time)) {
+        handleXHeld(player, ticks);
+    }
+
+    if (player.passed) {
         return;
     }
 
-    // lambda function
-    auto processReturn = [&](const bool show_hand, const ProductionAction buy_action, int& num_bought){
-        if (num_bought > 0 && show_hand) {
-            player.spendProduction(buy_action, true);
-            num_bought--;
-            player.board_change = true;
-            player.y_resolved = false;
-            player.y_held_tick = ticks;
-        }
-        else{
-            player.y_held_tick = 0;
-        }
-    };
-
-    switch (season){
-        case (PRODUCTION):{
-            switch (player.widget){
-                case ACTION_HAND:{
-                    constexpr tick_t y_wait_time = 1200;
-                    if (pastWait(player.y_held_tick, ticks, y_wait_time)){
-                        processReturn(player.show_action, BUY_AC, action_bought);
-                    }
-                    break;
-                }
-                case INVEST_HAND:{
-                    constexpr tick_t y_wait_time = 1200;
-                    if (pastWait(player.y_held_tick, ticks, y_wait_time)){
-                        processReturn(player.show_invest, BUY_IC, invest_bought);
-                    }
-                    break;
-                }
-                default:
-                    break;
-            }
+    switch (season) {
+        case PRODUCTION: {
+            handleProductionSeason(player, ticks, y_wait_time_short);
             break;
         }
-        
-        case (GOVERNMENT):{
-            //Y is for moving things from your hand to the board
-            constexpr tick_t y_wait_time = 3000;
-            if (pastWait(player.y_held_tick, ticks, y_wait_time)){
-                handleCardPlaying(player);
-                player.y_held_tick = 0;
-            }
-
-            //A if for changing things in your hands
-            constexpr tick_t a_wait_time = 2500;
-            if (pastWait(player.a_held_tick, ticks, a_wait_time)){
-                if (current_player != &player);
-
-                else if (player.show_invest && player == player.invest_view && increaseIndustry(player)){
-                    playerActed();
-                }
-
-                //! Espionage actions !//
-                else if (player.show_action && player.canPeakAction()){
-                    invest_discard.push_back(player.popped_invest_card); //discard card
-                    player.peakAction(ticks); //set player able to peak and remove card
-                    public_messages.push_back(PublicMessage(
-                        (Message)(WEST_CARD_PEAKING+player.getAllegiance()), ticks, 250U, 25000U, 64, 32, 128*player.action_view, true)
-                    );
-                    playerActed();
-                }
-
-                else if (player.canPeakUnit()){
-                    invest_discard.push_back(player.popped_invest_card);
-                    player.peakUnit(ticks);
-                    public_messages.push_back(PublicMessage(
-                        (Message)(WEST_UNIT_PEAKING+player.getAllegiance()), ticks, 250U, 15000U, 64, 32, 128*player.peaked_unit.second->allegiance, true)
-                    );
-                    playerActed();
-
-                }
-
-                else if (canCoup(player)){
-                    invest_discard.push_back(player.popped_invest_card);
-                    coup(player);
-                    playerActed();
-                }
-
-                else if (canSabotage(player)){
-                    invest_discard.push_back(player.popped_invest_card);
-                    sabotage(player);
-                    public_messages.push_back(PublicMessage(
-                        (Message)(WEST_SABOTAGE+player.getAllegiance()), ticks, 250U, 7500U, 32, 32, 64*player.stat_view, false)
-                    );
-                    playerActed();
-                }
-
-                else if (canSpyRing(player)){
-                    invest_discard.push_back(player.popped_invest_card);
-                    spyRing(player);
-                    playerActed();
-                }
-
-                player.a_held_tick = 0;
-            }
+        case GOVERNMENT: {
+            handleGovernmentSeason(player, ticks, y_wait_time_long, a_wait_time);
             break;
         }
-        
-        case (FALL_COMMAND):{}
-        case (SUMMER_COMMAND):{}
-        case (SPRING_COMMAND):{
-            constexpr tick_t y_wait_time = 4500;
-            if (pastWait(player.y_held_tick, ticks, y_wait_time) && current_player == &player){
-                // Using a action card
-                if (player.widget == ACTION_HAND && player.popped_action_card != nullptr){
-                    player.setCommand(player.popped_action_card, (Season)(season-SPRING_COMMAND));
-                    player.remove(player.popped_action_card);
-                    player.updatePoppedActionCard(map.getCountries());
-                    passedCommand(false);
-                }
-                // Using a decoy investment card
-                else if (player.widget == INVEST_HAND && player.popped_invest_card != nullptr){
-                    player.setCommand(player.popped_invest_card);
-                    player.remove(player.popped_invest_card);
-                    player.updatePoppedInvestCard();
-                    passedCommand(false);
-                }
-                player.y_held_tick = 0;
-            }
-
+        case FALL_COMMAND:
+        case SUMMER_COMMAND:
+        case SPRING_COMMAND: {
+            handleCommandSeason(player, ticks, y_wait_time_very_long);
+            break;
+        }
+        case FALL:
+        case SUMMER:
+        case SPRING: {
+            handleRegularSeason(player, ticks, a_wait_time, y_wait_time_long);
             break;
         }
         default:
             break;
     }
+}
+
+void Runner::handleXHeld(Player& player, const tick_t& ticks) {
+    if (season == PRODUCTION && player.getCurrentProduction() >= 0 && current_player == &player){
+        applyProduction(player);
+        public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
+    } 
+    else if (season == GOVERNMENT && current_player == &player){
+        player.passed = true;
+        public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
+        playerActed();
+    } 
+    else if (season >= SPRING_COMMAND && current_player == &player){
+        player.passed = true;
+        public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
+        passedCommand(true);
+    } 
+    else if (season <= WINTER){
+        player.passed = true;
+        seasonActed();
+    }
+    
+    player.x_held_tick = 0;
+}
+
+void Runner::handleProductionSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time) {
+    auto processReturn = [&](const bool show_hand, const ProductionAction buy_action, int& num_bought) {
+        if (num_bought > 0 && show_hand){
+            player.spendProduction(buy_action, true);
+            num_bought--;
+            player.board_change = true;
+            player.y_resolved = false;
+            player.y_held_tick = ticks;
+        } 
+        else{
+            player.y_held_tick = 0;
+        }
+    };
+
+    switch (player.widget) {
+        case ACTION_HAND:{
+            if (player.YHeld(ticks, y_wait_time)){
+                processReturn(player.show_action, BUY_AC, action_bought);
+            }
+            break;
+        }
+        case INVEST_HAND:{
+            if (player.YHeld(ticks, y_wait_time)){
+                processReturn(player.show_invest, BUY_IC, invest_bought);
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+void Runner::handleGovernmentSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time, const tick_t& a_wait_time) {
+    if (player.YHeld(ticks, y_wait_time)) {
+        handleCardPlaying(player);
+        player.y_held_tick = 0;
+    }
+
+    if (player.AHeld(ticks, a_wait_time)) {
+        if (current_player != &player){
+            return;
+        }
+        if (player.show_invest && player == player.invest_view && increaseIndustry(player)) {
+            playerActed();
+        } 
+        else if (player.show_action && player.canPeakAction()) {
+            performTech(player, ticks, WEST_CARD_PEAKING, &Runner::peakRivalAction);
+        }
+        else if (player.canPeakUnit()){
+            performTech(player, ticks, WEST_UNIT_PEAKING, &Runner::peakRivalUnit);
+        } 
+        else if (canCoup(player)){
+            performTech(player, ticks, WEST_SABOTAGE, &Runner::coupRival);
+        } 
+        else if (canSabotage(player)){
+            performTech(player, ticks, WEST_SABOTAGE, &Runner::sabotageRival);
+        } 
+        else if (canSpyRing(player)){
+            performTech(player, ticks, WEST_SABOTAGE, &Runner::spyRingRival);
+        }
+        player.a_held_tick = 0;
+    }
+}
+
+void Runner::handleCommandSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time) {
+    if (player.YHeld(ticks, y_wait_time) && current_player == &player) {
+        if (player.widget == ACTION_HAND && player.popped_action_card != nullptr) {
+            player.setCommand(player.popped_action_card, (Season)(season - SPRING_COMMAND));
+            player.remove(player.popped_action_card);
+            player.updatePoppedActionCard(map.getCountries());
+            passedCommand(false);
+        } 
+        else if (player.widget == INVEST_HAND && player.popped_invest_card != nullptr) {
+            player.setCommand(player.popped_invest_card);
+            player.remove(player.popped_invest_card);
+            player.updatePoppedInvestCard();
+            passedCommand(false);
+        }
+        player.y_held_tick = 0;
+    }
+}
+
+void Runner::handleRegularSeason(Player& player, const tick_t& ticks, const tick_t& a_wait_time, const tick_t& y_wait_time) {
+    if (player.current_phase == MOVEMENT && player == current_player && player.AHeld(ticks, a_wait_time)) {
+        moveUnit(player);
+        player.a_held_tick = 0;
+    }
+
+    if (player.YHeld(ticks, y_wait_time)) {
+        if (player.current_phase == MOVEMENT && player.selected_unit.second != nullptr) {
+            flipConvoy(player, player.selected_unit.first, player.selected_unit.second);
+        }
+        else if (player == current_player) {
+            declareVoN(player);
+        }
+        player.y_held_tick = 0;
+    }
+}
+
+void Runner::performTech(Player& player, const tick_t& ticks, Message message_type, void (Runner::*espionageAction)(Player&, const tick_t&)) {
+    invest_discard.push_back(player.popped_invest_card);
+
+    (this->*espionageAction)(player,ticks);
+
+    public_messages.push_back(PublicMessage((Message)(message_type + player.getAllegiance()), ticks, 250U, 25000U, 64, 32, 128 * player.action_view, true));
+
+    playerActed();
 }
 
 void Runner::handleButtonUp(Player& player, const SDL_Event& event, const tick_t& ticks){
@@ -275,17 +307,7 @@ void Runner::handleButtonUp(Player& player, const SDL_Event& event, const tick_t
         case (SDL_CONTROLLER_BUTTON_A):{
             switch (season){
                 case GOVERNMENT:{
-                    if (player.widget == INVEST_HAND && player == player.invest_view && player.popped_invest_card != nullptr && player.a_held_tick != 0){
-                        if (!player.hasSelected(player.popped_invest_card)){
-                            player.selected_invest_cards.push_back(player.popped_invest_card);
-                        }
-                        else{
-                            player.deselect(player.popped_invest_card);
-                        }
-                    }
-                    else if (player.widget == SELECT_CITY){
-
-                    }
+                    selectTechCard(player);
                     break;
                 }
                 
@@ -294,16 +316,7 @@ void Runner::handleButtonUp(Player& player, const SDL_Event& event, const tick_t
                 case FALL:{
                     switch (player.current_phase){
                         case MOVEMENT:{
-                            //if there is a selected unit that isn't selected and is the players then select it for movement
-                            if (player.selected_unit.second != nullptr && player.moving_unit != player.selected_unit && player == player.selected_unit.second->allegiance){ 
-                                player.setMovingUnit(); //make it the unit to be moved
-                                player.movement_memo.push_back(player.selected_unit.first);
-
-                            }
-                            //adding another stop
-                            else if (player.moving_unit.second != nullptr && player.closest_map_city != nullptr){
-                                addStop(player, player.closest_map_city);
-                            }
+                            addMovement(player);
                             break;
                         }
                         case COMBAT:{
@@ -337,6 +350,11 @@ void Runner::handleButtonUp(Player& player, const SDL_Event& event, const tick_t
                     break;
             }
             player.y_held_tick = 0;
+            break;
+        }
+
+        case (SDL_CONTROLLER_BUTTON_B):{
+            player.b_held_tick = 0;
             break;
         }
         
@@ -377,29 +395,7 @@ void Runner::handleButtonDown(Player& player, const SDL_Event& event, const tick
         //-Shoulders
         //Toggle view on card widgets
         case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:{
-            if (player.widget <= STAT_WIDGET){
-                switch (player.widget){
-                    case ACTION_HAND:
-                        player.show_action = !player.show_action;
-                        player.popped_action_card_index = -1;
-                        break;
-                    case INVEST_HAND:
-                        player.show_invest = !player.show_invest;
-                        player.popped_invest_card_index = -1;
-                        break;
-                    case TECH_HAND:
-                        player.show_tech = !player.show_tech;
-                        player.popped_tech_index = -1;
-                        break;
-                    case STAT_WIDGET:
-                        player.show_stat = !player.show_stat;
-                        break;
-                    
-                    default:
-                        break;
-                }
-                player.board_change = true;
-            }
+            toggleView(player);
             break;
         }
 
@@ -435,10 +431,8 @@ void Runner::handleButtonDown(Player& player, const SDL_Event& event, const tick
 
         //Expand city display
         case SDL_CONTROLLER_BUTTON_B:{ //O
-            if (player.closest_map_city != nullptr){
-                player.closest_map_city->full_display[player.getAllegiance()] = ! player.closest_map_city->full_display[player.getAllegiance()];
-                player.widget = MAP;
-            }
+            player.b_held_tick = ticks;
+            pinCity(player); 
             break;
         }
         // Upgrading unit Unit
@@ -453,7 +447,9 @@ void Runner::handleButtonDown(Player& player, const SDL_Event& event, const tick
     
         case SDL_CONTROLLER_BUTTON_Y:{
             player.y_held_tick = ticks;
+            break;
         }
+
     }
 }
 
@@ -483,7 +479,7 @@ void Runner::handleUnitBuilding(Player& player){
     }
     else if (player.closest_map_city != nullptr){
         if (player.closest_map_city == player.building_city){ //adding unit
-            if (player.popped_unit[0] != 7 && player.unit_buildable[(int)player.popped_unit[0]]){ //cancel
+            if (player.popped_unit[0] != 7 && player.unit_available[(int)player.popped_unit[0]]){ //cancel
                 buildUnit(player, player.building_city, (UnitType)player.popped_unit[0]);
                 player.spendProduction(CADRE);
             }
@@ -566,11 +562,11 @@ void Runner::handleCursorMovement(Player& player){
 
     if (x_moving || y_moving){
         if (x_moving){
-            clampCursorX(player, 5 * scaleAxis(x_move));
+            clampCursorX(player, CURSOR_SPEED * scaleAxis(x_move));
             player.cursor_x = SDL_clamp(player.cursor_x, -16, powers_app[player.getAllegiance()].screen.WIDTH - 16);
         }
         if (y_moving){
-            clampCursorY(player, 5 * scaleAxis(y_move));
+            clampCursorY(player, CURSOR_SPEED * scaleAxis(y_move));
             player.cursor_y = SDL_clamp(player.cursor_y, -16, powers_app[player.getAllegiance()].screen.HEIGHT - 16);
         }
         player.selected_unit = {nullptr, nullptr};
