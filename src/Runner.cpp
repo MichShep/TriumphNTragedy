@@ -573,7 +573,31 @@ void Runner::spyRingRival(Player& player, const tick_t& ticks){
     spyRing(player);
 }
 
-//& Map Actions
+//& Battle Actions
+
+bool Runner::addBattle(const Player& player, const CityType& defender){
+    if (player != current_player || player.a_held_tick == 0)
+        return false;
+
+    //if there is a selected unit that isn't selected and is the players then select it for movement
+    City* target = player.closest_map_city;
+
+    if (target == nullptr)
+        return false;
+
+    const auto& index = std::find_if(battles.begin(), battles.end(), [&target](const pair<City*, CityType> p1){ return p1.first == target;});;
+
+    if (index == battles.end() && target->isFighting(player.getAllegiance())){ //not in
+        battles.push_back({target, defender}); //todo
+
+        return true;
+    }
+    else if (index != battles.end()){ //if in then remove
+        battles.erase(index);
+    }
+
+    return false;
+}
 
 //& Deciders
 
@@ -765,6 +789,8 @@ bool Runner::checkTradeRoutes(Player& player, const string& main_capital){
     return num_blockaded == check; //if the starting equals the end
 }
 
+//&^ Production
+
 ProductionError Runner::canBuild(const Player& player,  City* city, const UnitType unit){
     const CityType allegiance = player.getAllegiance();
     //? 7.231 Building Fortresses Fortress Cadres/steps can be built anywhere in undisputed Friendly Territory, even where Unsupplied
@@ -822,7 +848,7 @@ ProductionError Runner::canBuild(const Player& player,  City* city, const UnitTy
 }
 
 bool Runner::setBuildable(Player& player){
-    const auto& city = player.building_city;
+    const auto& city = player.selecting_city;
     player.unit_available[FORTRESS] = (canBuild(player, city, FORTRESS) == ABLE); //top
 
     player.unit_available[AIR] = (canBuild(player, city, AIR) == ABLE); //top right
@@ -960,6 +986,19 @@ bool Runner::isSupllied(const Player& player, City* city, const CityType allegia
     return supplied;
 }
 
+//&^ Battle
+
+void Runner::setLandBattleable(Player& attacker, Player& defender){
+    const auto& city = battles.front();
+    const int defend_allegiance = defender;
+
+    for (const auto& unit : city.first->occupants[defend_allegiance]){
+        attacker.unit_available[unit->class_type] = true;
+    }
+}
+
+//&^ Movement
+
 void Runner::addMovement(Player& player){
     if (player.a_held_tick == 0)
         ;
@@ -991,8 +1030,6 @@ void Runner::addMovement(Player& player){
         player.resetMovingUnit();
     }
 }
-
-//&^ Movement
 
 MovementMessage Runner::canLandMove(const Player& player, const Unit* unit) const{
     if (player.getCommandNumber() <= 0){
@@ -1165,12 +1202,12 @@ MovementMessage Runner::canSeaMove(const Player& player, const Unit* unit) const
                 return PAST_COAST;
             
             if (player != ruler_type && ruler_type != NEUTRAL && !player.isEnemy(ruler_type)) {
-                m_m = DOWED;
+                return DOWED;
             }
 
             // If end is neutral owned then check if they are armed and if VoN is needed
             if (NEUTRAL == ruler_type && !map.getCountry(end->country)->armed_minor) {
-                m_m = VONED;
+                return VONED;
             }
                 
             m_m = LANDFALL;

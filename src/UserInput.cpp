@@ -182,10 +182,9 @@ void Runner::handleXHeld(Player& player, const tick_t& ticks) {
         passedCommand(true);
     } 
     else if (season <= WINTER){
-        player.passed = true;
         seasonActed();
     }
-    
+
     player.x_held_tick = 0;
 }
 
@@ -319,7 +318,8 @@ void Runner::handleButtonUp(Player& player, const SDL_Event& event, const tick_t
                             addMovement(player);
                             break;
                         }
-                        case COMBAT:{
+                        case COMBAT_SELECT:{
+                            handleBattleSelect(player);
                             break;
                         }
                         default:
@@ -453,6 +453,25 @@ void Runner::handleButtonDown(Player& player, const SDL_Event& event, const tick
     }
 }
 
+void Runner::handleBattleSelect(Player& player){
+    if (player.passed)
+        return;
+
+    if (player.closest_map_city != nullptr){
+        if (player.closest_map_city == player.selecting_city && (player.popped_option[0] == 0 ||  player.popped_option[0] == 2 || player.popped_option[0] == 4 || player.popped_option[0] == 6)){ //selecting target
+            if (!player.unit_available[(int)(player.popped_option[0]/2)]) //check that the popped unit is available
+                return;
+
+            addBattle(player, (CityType)(int)(player.popped_option[0]/2));
+            player.selecting_city = nullptr;
+        }
+        else{
+            player.selecting_city = player.closest_map_city;
+            setDefenders(player);
+        }
+    }
+}
+
 void Runner::handleUnitBuilding(Player& player){
     //- Check that if they passed they can't do any more
     if (player.passed)
@@ -468,7 +487,7 @@ void Runner::handleUnitBuilding(Player& player){
                 player.selected_unit.first->removeUnit(player.selected_unit.second);
                 player.remove(player.selected_unit.second);
                 //need to recheck if counts were redone
-                if (player.building_city != nullptr)
+                if (player.selecting_city != nullptr)
                     setBuildable(player);
                 player.spendProduction(CADRE, true);
                 delete player.selected_unit.second;
@@ -478,15 +497,15 @@ void Runner::handleUnitBuilding(Player& player){
         player.board_change = true;
     }
     else if (player.closest_map_city != nullptr){
-        if (player.closest_map_city == player.building_city){ //adding unit
-            if (player.popped_unit[0] != 7 && player.unit_available[(int)player.popped_unit[0]]){ //cancel
-                buildUnit(player, player.building_city, (UnitType)player.popped_unit[0]);
+        if (player.closest_map_city == player.selecting_city){ //adding unit
+            if (player.popped_option[0] != 7 && player.unit_available[(int)player.popped_option[0]]){ //cancel
+                buildUnit(player, player.selecting_city, (UnitType)player.popped_option[0]);
                 player.spendProduction(CADRE);
             }
-            player.building_city = nullptr;
+            player.selecting_city = nullptr;
         }
         else{
-            player.building_city = player.closest_map_city;
+            player.selecting_city = player.closest_map_city;
             setBuildable(player);
         }
         player.board_change = true;
@@ -579,7 +598,7 @@ void Runner::handleCursorMovement(Player& player){
 }
 
 void Runner::handleJoystickMovement(Player& player){
-    if (player.widget == MAP && player.building_city != nullptr){ //if there is a city where there is going to be something built then use the right joy stick to select
+    if (player.widget == MAP && player.selecting_city != nullptr){ //if there is a city where there is going to be something built then use the right joy stick to select
         int x_move = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_RIGHTX);
         int y_move = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_RIGHTY);
 
@@ -596,16 +615,16 @@ void Runner::handleJoystickMovement(Player& player){
                 const int pot = (UNIT_CIRCLE_RADIANS[i][0] - angle)*(UNIT_CIRCLE_RADIANS[i][0] - angle);
                 if (pot < min_dist){
                     min_dist = pot;
-                    player.popped_unit[0] = i;
-                    player.popped_unit[1] = UNIT_CIRCLE_RADIANS[i][1]; 
-                    player.popped_unit[2] = UNIT_CIRCLE_RADIANS[i][2];
+                    player.popped_option[0] = i;
+                    player.popped_option[1] = UNIT_CIRCLE_RADIANS[i][1]; 
+                    player.popped_option[2] = UNIT_CIRCLE_RADIANS[i][2];
                 }
             }
             //- Snap it to the closest
 
         }
         else{
-            player.popped_unit[0] = 7;
+            player.popped_option[0] = 7;
             player.wheel_x = 0;
             player.wheel_y = 0;
         }

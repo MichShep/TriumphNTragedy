@@ -240,6 +240,10 @@ public:
      */
     void printOccupants() const;
 
+    bool operator==(const City* city) const{
+        return this->ID == city->ID;
+    }
+
     /**
      * @brief Prints out all attributes of the city
      * 

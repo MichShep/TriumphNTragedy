@@ -149,14 +149,14 @@ public:
 
     double wheel_x = 0; /**< The x-coord of a unit circle for the selection wheel */
     double wheel_y = 0; /**< The y-coord of a unit circle for the selection wheel */
-    double popped_unit[3] = {-2, -2, -2};
+    double popped_option[3] = {-2, -2, -2};
 
     CityType allegiance_viewing = NEUTRAL;  /**< The allegiance of the unit being view or in focus*/
     pair<City*, Unit*> selected_unit = {nullptr, nullptr}; /**< The unit thats under focus and all actions pertaining to*/
 
     City* closest_map_city = nullptr; /**< The city that is closest to the player's cursor (updated when cursor stops moving) */
 
-    City* building_city = nullptr; /**< Pointer to the city that has been selected to add a unit */
+    City* selecting_city = nullptr; /**< Pointer to the city that has been selected to add a unit */
     bool unit_available[7]= {false, false, false, false, false, false, false}; /**< Array that corresponds to the units to hold flags if the unit is buildable in the current `building_city`*/
 
     Widget widget = MAP; /**< Holds which current widget the player is on */
@@ -1105,6 +1105,14 @@ public:
         return allegiance != city_type;
     }
 
+    bool operator==(const CityType& city_type) const{
+        return allegiance == city_type;
+    }
+
+    bool operator!=(const CityType& city_type) const{
+        return allegiance != city_type;
+    }
+
     bool operator==(const Player* player) const{
         return this == player;
     }
@@ -1119,5 +1127,13 @@ public:
 
     bool operator!=(const Player& player) const{
         return this != &player;
+    }
+
+    operator int() const{
+        return allegiance;
+    }
+
+    operator CityType() const{
+        return allegiance;
     }
 };

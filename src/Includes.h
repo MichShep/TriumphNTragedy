@@ -52,6 +52,8 @@ typedef Uint32 tick_t;
 
 typedef Uint32 year_t;
 
+typedef SDL_Rect TargetArea;
+
 #define END_YEAR 1945;
 
 #define START_YEAR 1936;
@@ -369,7 +371,9 @@ enum MovementType{
 
 enum ActionPhase{
     MOVEMENT,
-    COMBAT,
+    COMBAT_SELECT,
+    COMBAT_ATTACKER,
+    COMBAT_DEFENDER,
     OBSERVING
 };
 

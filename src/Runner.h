@@ -60,6 +60,10 @@ private:
 
     vector<PeaceChit> peace_dividends_bag; /**< Holds all the unpulled peace dividends*/
 
+    vector<pair<City*, CityType>> battles;
+
+    pair<City*, CityType> current_battle;
+
     int action_bought = 0; /**< Number of actions card that have been purchaced by players for the production round*/
 
     int invest_bought = 0; /**< Number of investment card that have been purchaced by players for the production round*/
@@ -252,7 +256,7 @@ public:
         auto u = buildUnit(players[AXIS], map["Munich"], CARRIER, 3);
 
         map["Munich"]->removeUnit(u);
-        map["North_Sea"]->addUnit(u);
+        map["Paris"]->addUnit(u);
 
         //for testing air movement
         //auto temp = new Unit(3, GERMANY_U, AIR, year);
@@ -336,6 +340,11 @@ public:
         buildUnit(players[USSR], map["Stalingrad"], TANK);
 
         buildUnit(players[USSR], map["Urals"], AIR);
+
+        auto u2 = buildUnit(players[USSR], map["Moscow"], TANK, 3);
+
+        map["Moscow"]->removeUnit(u2);
+        map["Paris"]->addUnit(u2);
 
         applyProduction(players[USSR]);
         players[USSR].passed = false;
@@ -469,7 +478,7 @@ public:
     bool canCoup(Player& player){
         return player.selected_tech1 != nullptr && *player.selected_tech1 == COUP 
             && player.closest_map_city != nullptr && map.getCapital(player.closest_map_city->country) == player.closest_map_city
-            && player != map.getCountry(player.closest_map_city->country)->allegiance  &&   map.getCountry(player.closest_map_city->country)->influence > 0;
+            && player != (int)map.getCountry(player.closest_map_city->country)->allegiance  &&   map.getCountry(player.closest_map_city->country)->influence > 0;
     }
 
     void coup(Player& player){
@@ -530,6 +539,24 @@ public:
     bool compareCards(const ActionCard* lhs, const ActionCard* rhs);
 
     void addMovement(Player& player);
+
+    void setDefenders(Player& attacker){
+        auto& memo = attacker.unit_available;
+        const auto& target_city = attacker.selecting_city;
+        const CityType& allegiance = attacker;
+
+        memo[WEST] = target_city->occupants[WEST].size() && WEST!=allegiance; 
+
+        memo[AXIS] = target_city->occupants[AXIS].size() && AXIS!=allegiance; 
+
+        memo[USSR] = target_city->occupants[USSR].size() && USSR!=allegiance; 
+
+        memo[NEUTRAL] = target_city->occupants[NEUTRAL].size() && NEUTRAL!=allegiance; 
+    }
+
+    void handleBattleSelect(Player& player);
+
+    void setLandBattleable(Player& attacker, Player& player);
 
     //- Spring
     /**
@@ -995,6 +1022,8 @@ private:  //!!! Graphics things
      */
     void drawBuild(Player& player);
 
+    void drawBattleSelect(Player& player);
+
     /**
      * @brief Draws the unit onto the player's screen
      * 
@@ -1275,6 +1304,10 @@ private:  //!!! Graphics things
             player.board_change = true;
         }
     }
+    
+    bool addBattle(const Player& player, const CityType& defender);
+    
+    
     /**
      * @brief Handler for when an animation is happening and user input is limited
      * 
@@ -1364,8 +1397,9 @@ private:  //!!! Graphics things
      */
     void clampCursorY(Player& player, const double amount);
     
-    //& Dev Tools
 private:
+
+    //& Passing 
     void playerActed(){
         if (west_player->passed && axis_player->passed && ussr_player->passed)
             return;
@@ -1376,8 +1410,17 @@ private:
 
     void seasonActed(){
         auto& curr = current_player->current_phase;
-        if (curr == MOVEMENT)
+        if (curr == MOVEMENT){
+            curr = COMBAT_SELECT;
+        }
+        else if (curr == COMBAT_SELECT){
             curr = COMBAT;
+            if (battles.empty())
+                return;
+            current_battle = battles.front();
+
+            battles.erase(battles.begin());
+        }
         else if (curr == COMBAT){
             current_player->passed = true;
             curr = OBSERVING;
@@ -1410,6 +1453,8 @@ private:
             passedCommand(true);
         }
     }
+
+    //& Dev Tools
 
     int getDoWOffset(Player& player, const bool second){
         if (second){
@@ -1632,7 +1677,7 @@ private:
      * @param zoom_y The scale multiplier for y-values
      * @return int The euclidian distance between the two points
      */
-    int distCursor(const int x1, const int y1, const int x2, const int y2, const int zoom_x, const int zoom_y){
+    int distCursor(const int& x1, const int& y1, const int& x2, const int& y2, const int& zoom_x, const int& zoom_y){
         return (zoom_x*x1 - x2)*(zoom_x*x1 - x2) + (zoom_y*y1 - y2)*(zoom_y*y1 - y2);
     }
 };

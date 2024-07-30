@@ -207,7 +207,11 @@ void Runner::drawPlayerBoard(Player& player, const tick_t& ticks, const bool ren
     }
 
     //- Draw the build UI
-    drawBuild(player);
+    if (season == PRODUCTION)
+        drawBuild(player);
+
+    if (player.current_phase == COMBAT_SELECT)
+        drawBattleSelect(player);
 
     //- Draw Turn Order
     drawTurnOrder(player);
@@ -263,8 +267,18 @@ void Runner::drawMap(Player& player, const bool cities, const bool influence, co
 
     if (cities){
         auto& cities = map.getCities();
-        for (auto city : cities)
+        for (auto& city : cities)
             drawCity(player, city.second, resources);
+
+        //draw all current battles
+        int i = 0;
+        TargetArea target = {0, 0, 23*player.zoom, 23*player.zoom};
+        for (auto& city : battles){
+            target.x = player.app->screen.getX(city.first->x);
+            target.y = player.app->screen.getY(city.first->y);
+            player.sprite_sheet->drawSprite(&target, 0, 21+city.second, 23, 23);
+            drawNumber(player.app->renderer, ++i, target.x, target.y, 3, 0, 0, 0);
+        }
 
         //draw peaked unit if there is one
     }
@@ -284,8 +298,8 @@ void Runner::drawMap(Player& player, const bool cities, const bool influence, co
 
 void Runner::drawBuild(Player& player){
     //- If one is selected
-    if (nullptr != player.building_city){
-        const auto& city = player.building_city;
+    if (nullptr != player.selecting_city){
+        const auto& city = player.selecting_city;
         const int& zoom = player.zoom;
         const int center_x = player.app->screen.getX(city->x+(city->WIDTH/2))-ZOOM_DIMENSIONS[zoom-1][0]/2;
         const int center_y = player.app->screen.getY(city->y+((city->HEIGHT/2)))-ZOOM_DIMENSIONS[zoom-1][0]/2;
@@ -327,10 +341,10 @@ void Runner::drawBuild(Player& player){
 
         //- Draw the closest or 'popped unit'
         if (player.wheel_x != 0 && player.wheel_y != 0){
-            if (player.popped_unit[0] != 7)
-                drawUnit(player, (UnitType)(player.popped_unit[0]+7), city->ruler_nationality, center_x+sqrt_radius*player.popped_unit[1], center_y+sqrt_radius*player.popped_unit[2], zoom, !player.unit_available[(int)player.popped_unit[0]]); //left
+            if (player.popped_option[0] != 7)
+                drawUnit(player, (UnitType)(player.popped_option[0]+7), city->ruler_nationality, center_x+sqrt_radius*player.popped_option[1], center_y+sqrt_radius*player.popped_option[2], zoom, !player.unit_available[(int)player.popped_option[0]]); //left
             else{
-                target = {(int)(center_x+sqrt_radius*player.popped_unit[1]), (int)(center_y+sqrt_radius*player.popped_unit[2]), ZOOM_DIMENSIONS[zoom-1][0], ZOOM_DIMENSIONS[zoom-1][0]};
+                target = {(int)(center_x+sqrt_radius*player.popped_option[1]), (int)(center_y+sqrt_radius*player.popped_option[2]), ZOOM_DIMENSIONS[zoom-1][0], ZOOM_DIMENSIONS[zoom-1][0]};
                 if (zoom <= 2){
                     player.units_sprite_z1->drawSprite(&target, 1, 42, 20, 20);
                 } 
@@ -343,7 +357,60 @@ void Runner::drawBuild(Player& player){
             //player.units_sprite_z1->drawSprite(&target, 0, 42, 20, 20) ;//(UnitType)player.popped_unit[0], city->nationality, center_x+radius*player.popped_unit[1], center_y+radius*player.popped_unit[2]);
         }
         //-Redraw city for overlap
-        drawCity(player, player.building_city, true, false);
+        drawCity(player, player.selecting_city, true, false);
+    }
+}
+
+void Runner::drawBattleSelect(Player& player){
+    if (nullptr != player.selecting_city){
+        const auto& city = player.selecting_city;
+        const auto& targets = player.unit_available;
+        //const auto& sprite_sheet = player.sprite_sheet;
+        const int& zoom = player.zoom;
+        const int center_x = player.app->screen.getX(city->x+(city->WIDTH/2))-ZOOM_DIMENSIONS[zoom-1][0]/2;
+        const int center_y = player.app->screen.getY(city->y+((city->HEIGHT/2)))-ZOOM_DIMENSIONS[zoom-1][0]/2;
+        const int real_center_x = player.app->screen.getX(city->x+(city->WIDTH/2));
+        const int real_center_y = player.app->screen.getY(city->y+(city->HEIGHT/2));
+        const int radius = 40*zoom;
+
+        //-Draw the selection line if there is one
+        if (player.wheel_x != 0 && player.wheel_y != 0){
+            drawLine(player, real_center_x, real_center_y, real_center_x+player.wheel_x*radius, real_center_y+player.wheel_y*radius); //city middle to the wheel coords
+        }
+
+        TargetArea target = {0, 0, 23*player.zoom, 23*player.zoom};
+        if (targets[WEST]){
+            target.x = center_x;
+            target.y = center_y-radius;
+            player.sprite_sheet->drawSprite(&target, 0, 21, 23, 23);
+        }
+
+        if (targets[AXIS]){
+            target.x = center_x+radius;
+            target.y = center_y;
+            player.sprite_sheet->drawSprite(&target, 0, 22, 23, 23);
+        }
+
+        if (targets[USSR]){
+            target.x = center_x;
+            target.y = center_y+radius;
+            player.sprite_sheet->drawSprite(&target, 0, 23, 23, 23);
+        }
+
+        if (targets[NEUTRAL]){
+            target.x = center_x-radius;
+            target.y = center_y;
+            player.sprite_sheet->drawSprite(&target, 0, 24, 23, 23);
+        }
+
+        //- Draw the closest or 'popped country(under unit)'
+        if (player.wheel_x != 0 && player.wheel_y != 0){
+            if (player.unit_available[(int)(player.popped_option[0]/2)] && (player.popped_option[0] == 0 ||  player.popped_option[0] == 2 || player.popped_option[0] == 4 || player.popped_option[0] == 6)){
+                target.x = center_x+player.popped_option[1]*radius/1.4;
+                target.y = center_y+player.popped_option[2]*radius/1.4;
+                player.sprite_sheet->drawSprite(&target, 1, 21+player.popped_option[0]/2, 23, 23);
+            }
+        }
     }
 }
 
@@ -631,7 +698,7 @@ void Runner::drawActionButtons(const Player& player, const tick_t& ticks){
 
         }
         
-        else if (player.popped_unit[0] != 7 && player.unit_available[(int)player.popped_unit[0]]){ //if a unit is popped and is buildable show option to build
+        else if (player.popped_option[0] != 7 && player.unit_available[(int)player.popped_option[0]]){ //if a unit is popped and is buildable show option to build
             player.controller_button_sprites->drawSprite(&target_b, 2, 1, 45, 48);
         }
 

@@ -108,7 +108,7 @@ void Runner::production(){
         }
         //- Set production things to null
         player->selected_unit = {nullptr, nullptr};
-        player->building_city = nullptr;
+        player->selecting_city = nullptr;
     }    
 }
 
@@ -389,7 +389,6 @@ void Runner::moveUnit(Player& player){
         //if engaged must stop all movement and increase limit
         if (unit->class_type == CLASS_G && memo.back()->hasOther(player.getAllegiance())){
             map.increaseBorderLimit(memo[memo.size()-2], memo[memo.size()-1], player.getAllegiance());
-            cout << "upped" << endl;
         }
 
         memo.clear();
