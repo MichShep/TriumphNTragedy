@@ -13,8 +13,11 @@ Collaboration diagram for Public\+Message\+:
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{struct_public_message_a0aa4b317af8bd3db38da0fb675ca9f37}\label{struct_public_message_a0aa4b317af8bd3db38da0fb675ca9f37} 
-{\bfseries Public\+Message} (const Message message, const unsigned int start\+\_\+tick)
+\Hypertarget{struct_public_message_aa48a9adc087991f5ec2944ea86ce84e1}\label{struct_public_message_aa48a9adc087991f5ec2944ea86ce84e1} 
+{\bfseries Public\+Message} (const Message message, const Uint32 start\+\_\+tick, const Uint32 tpf, const int width, const int height, const unsigned int frames, const int offset=0, const bool flicker=false, const bool beside\+\_\+action=false)
+\item 
+\Hypertarget{struct_public_message_aa82c595cc162c9944c7ead5e57a15bda}\label{struct_public_message_aa82c595cc162c9944c7ead5e57a15bda} 
+{\bfseries Public\+Message} (const Message message, const Uint32 start\+\_\+tick, const Uint32 tpf, const Uint32 life\+\_\+time, const int width, const int height, const int offset, const bool beside\+\_\+action)
 \item 
 \Hypertarget{struct_public_message_a1a629d838f0802778f8208127dbe59ee}\label{struct_public_message_a1a629d838f0802778f8208127dbe59ee} 
 bool {\bfseries operator==} (const \mbox{\hyperlink{struct_public_message}{Public\+Message}} \&lhs)
@@ -25,8 +28,32 @@ bool {\bfseries operator==} (const \mbox{\hyperlink{struct_public_message}{Publi
 \Hypertarget{struct_public_message_a03e329919293fc73896f16a64cda6466}\label{struct_public_message_a03e329919293fc73896f16a64cda6466} 
 Message {\bfseries message}
 \item 
-\Hypertarget{struct_public_message_a3d0c3a9b6e6ca6925f14f945c819bee7}\label{struct_public_message_a3d0c3a9b6e6ca6925f14f945c819bee7} 
-unsigned int {\bfseries start\+\_\+tick}
+\Hypertarget{struct_public_message_a985da725d41e231557716124dd305262}\label{struct_public_message_a985da725d41e231557716124dd305262} 
+Uint32 {\bfseries start\+\_\+tick}
+\item 
+\Hypertarget{struct_public_message_a34562b792e4290a79856fb275ee10160}\label{struct_public_message_a34562b792e4290a79856fb275ee10160} 
+Uint32 {\bfseries life\+\_\+time} =-\/1
+\item 
+\Hypertarget{struct_public_message_aa037fe37895b91941860a0b5cfe493ff}\label{struct_public_message_aa037fe37895b91941860a0b5cfe493ff} 
+Uint32 {\bfseries tpf}
+\item 
+\Hypertarget{struct_public_message_a068cc7b0303b51aeec631e284d812207}\label{struct_public_message_a068cc7b0303b51aeec631e284d812207} 
+int {\bfseries width}
+\item 
+\Hypertarget{struct_public_message_aff8fce8a8a1b9a8d3312a30c7221db56}\label{struct_public_message_aff8fce8a8a1b9a8d3312a30c7221db56} 
+int {\bfseries height}
+\item 
+\Hypertarget{struct_public_message_a47ba88f41e85cbf9d87d942bd54c84e1}\label{struct_public_message_a47ba88f41e85cbf9d87d942bd54c84e1} 
+unsigned int {\bfseries frames}
+\item 
+\Hypertarget{struct_public_message_a51ea3143a6cc6199958e3c3e58bdfb85}\label{struct_public_message_a51ea3143a6cc6199958e3c3e58bdfb85} 
+int {\bfseries offset}
+\item 
+\Hypertarget{struct_public_message_a17e7a3f6fe3b5379bd9d4ef3af6f94cb}\label{struct_public_message_a17e7a3f6fe3b5379bd9d4ef3af6f94cb} 
+bool {\bfseries flicker}
+\item 
+\Hypertarget{struct_public_message_acada7fd1b7ddc6f6a6a51de0f936242e}\label{struct_public_message_acada7fd1b7ddc6f6a6a51de0f936242e} 
+bool {\bfseries beside\+\_\+action}
 \end{DoxyCompactItemize}
 
 

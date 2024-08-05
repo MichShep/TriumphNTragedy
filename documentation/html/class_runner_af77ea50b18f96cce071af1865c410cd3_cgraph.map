@@ -1,0 +1,5 @@
+<map id="Runner::performIntel" name="Runner::performIntel">
+<area shape="rect" id="Node000001" title="Handler for preforming Intel related actions." alt="" coords="5,5,146,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a7a510675decaddd7c617720fb82d896d" title="Handler for when player&#39;s act during the government phase and to loop to the next non&#45;passed player u..." alt="" coords="194,5,334,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,16,178,16,178,21,146,21"/>
+</map>

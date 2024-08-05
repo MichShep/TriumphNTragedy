@@ -1,0 +1,18 @@
+<map id="Runner::handleXHeld" name="Runner::handleXHeld">
+<area shape="rect" id="Node000001" title="Handler for all actions which have the X Button (only) held." alt="" coords="5,104,151,130"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#ab2a07032f0571c8eb36f14c397db2015" title="Once a player has passed, their choices in the production phase (card bought, cadres made,..." alt="" coords="203,5,368,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,101,140,71,198,40,212,34,214,39,200,45,143,75,99,106"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#abf44d89668744d64b826e18902a965e7" title="Handler for the playing command cards and turn order (all must be passed for it to end and will loop ..." alt="" coords="199,79,372,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="151,105,183,101,183,107,151,111"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a7a510675decaddd7c617720fb82d896d" title="Handler for when player&#39;s act during the government phase and to loop to the next non&#45;passed player u..." alt="" coords="215,128,356,154"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="151,123,200,128,199,134,151,128"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a87f285fdffa2980d523fa26e635b4bef" title="Handler for when player&#39;s pass during the Action Seasons and which stage of Movement/Combat they move..." alt="" coords="212,177,359,203"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="110,128,200,164,219,170,217,175,198,169,108,133"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a2f289a86321f9b674b9bc02053d01a11" title="Deal a set amount of cards to the player of action or invest. Hand limit doesn&#39;t apply to card drawin..." alt="" coords="468,5,563,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="368,16,452,16,452,21,368,21"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="251,80,244,70,248,60,262,54,285,52,311,55,324,62,321,66,309,60,285,57,263,59,252,64,249,69,255,77"/>
+<area shape="rect" id="Node000005" href="$class_player.html#aabb69239a3ec5b9d9ac4f21c7d99973f" title="Get the current command value (or the number) for the player&#39;s command card." alt="" coords="420,67,610,92"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="372,84,404,83,405,88,373,90"/>
+<area shape="rect" id="Node000006" href="$class_player.html#a90a3451e98e44d31ceee243ce4b8d672" title="Returns the name of the player." alt="" coords="456,116,575,142"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="369,102,441,114,440,119,368,108"/>
+</map>

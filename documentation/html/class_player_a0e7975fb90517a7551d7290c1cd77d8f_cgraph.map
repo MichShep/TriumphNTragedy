@@ -1,0 +1,11 @@
+<map id="Player::peakUnit" name="Player::peakUnit">
+<area shape="rect" id="Node000001" title="Setup the player to be able to view the selected rival unit for a limited time and remove the card us..." alt="" coords="5,31,124,56"/>
+<area shape="rect" id="Node000002" href="$class_player.html#a06b633b842cbed111f637299a023fb72" title="Removes a unit from the master list and updates the unit count of the player." alt="" coords="224,5,333,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,34,208,24,209,29,124,39"/>
+<area shape="rect" id="Node000003" href="$class_player.html#a831088966d789de971e8409545a94842" title="Update the currently viewed investment card based on what the previous viewed index was (for when car..." alt="" coords="172,55,385,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="124,47,156,51,156,56,124,53"/>
+<area shape="rect" id="Node000004" href="$class_player.html#ab0133c5fd6cb026c3c910aaa5888e7a4" title="Get the Invest Card at the specific index." alt="" coords="433,29,581,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="385,53,417,49,418,55,386,58"/>
+<area shape="rect" id="Node000005" href="$class_player.html#ab3c69056b6dae04e42ce9e1a70d76882" title="Get the number of invest cards the player has." alt="" coords="434,79,580,104"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="386,76,419,80,418,85,385,81"/>
+</map>

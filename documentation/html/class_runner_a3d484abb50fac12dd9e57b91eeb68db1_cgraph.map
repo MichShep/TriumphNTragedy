@@ -1,0 +1,5 @@
+<map id="Runner::canSabotage" name="Runner::canSabotage">
+<area shape="rect" id="Node000001" title="Decider for if the play can sabotage (lower a rival&#39;s IND) the current selected rival." alt="" coords="5,5,153,31"/>
+<area shape="rect" id="Node000002" href="$class_player.html#af2d3f30e6f220071833dc808826a29c2" title="Get the current industry (ind) of the player." alt="" coords="201,5,332,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,16,185,16,185,21,153,21"/>
+</map>

@@ -1,0 +1,52 @@
+<map id="Map::getCountry" name="Map::getCountry">
+<area shape="rect" id="Node000001" title="Returns a pointer to the Country with the given name." alt="" coords="1423,205,1541,231"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#af060365413eb2a94d1cef96f5d2efc54" title="Decider for if the unit is able to move through the current movement memo (no restrictions on border ..." alt="" coords="1216,5,1356,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1468,192,1432,122,1405,85,1373,52,1340,34,1342,29,1376,48,1409,81,1437,120,1472,190"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a70a25e54309c97e88ed0a99581b8788b" title="Decider for if the player is able to coup on the current country selected." alt="" coords="1023,104,1146,130"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1465,193,1429,141,1403,116,1373,97,1341,85,1307,79,1238,80,1173,91,1122,106,1121,101,1172,86,1237,74,1308,74,1343,80,1376,92,1407,111,1433,137,1469,190"/>
+<area shape="rect" id="Node000013" href="$class_runner.html#aed1bdcea5ddb10e24b37986e49e86b00" title="Decider for if the unit is able to move through the current movement memo with land movement (cannot ..." alt="" coords="1210,107,1362,132"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="1452,198,1416,171,1374,146,1346,135,1348,130,1376,141,1419,166,1456,193"/>
+<area shape="rect" id="Node000014" href="$class_runner.html#ab2baf8d4305c5f076929e5b8a1a0fba8" title="Decider for if the unit is able to move through the current movement memo with sea movement (can ente..." alt="" coords="1212,156,1360,182"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="1412,203,1339,185,1341,180,1414,198"/>
+<area shape="rect" id="Node000015" href="$class_runner.html#af3bd881e72650819c3b44790a2864fd7" title="Handler for couping (removing a rival&#39;s influence)" alt="" coords="1236,205,1336,231"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="1407,221,1336,221,1336,216,1407,216"/>
+<area shape="rect" id="Node000017" href="$class_runner.html#a794ecf61701845fa35144e4ee9173142" title="Decider and Handler for when a Player delcares a VoB on a Neutral unarmed Minor and handles World Rea..." alt="" coords="1216,255,1356,280"/>
+<area shape="poly" id="edge18_Node000001_Node000017" title=" " alt="" coords="1414,238,1341,257,1339,251,1412,233"/>
+<area shape="rect" id="Node000019" href="$class_runner.html#a6b144d523e8f8213cba82e0a86090c7c" title="Handler for scrolling on the Action Hand widget and updating the popped action card and selected coun..." alt="" coords="1197,305,1375,345"/>
+<area shape="poly" id="edge21_Node000001_Node000019" title=" " alt="" coords="1454,243,1418,269,1376,295,1352,306,1350,301,1373,290,1415,265,1451,239"/>
+<area shape="rect" id="Node000021" href="$class_runner.html#ac2e34d1730c2da5ba7b12aa629ed2a2b" title="Handler for all actions which have the Y Button (only) held." alt="" coords="1213,369,1359,395"/>
+<area shape="poly" id="edge24_Node000001_Node000021" title=" " alt="" coords="1469,246,1433,303,1406,333,1376,359,1353,371,1350,366,1373,355,1403,330,1428,300,1465,243"/>
+<area shape="rect" id="Node000022" href="$class_runner.html#a805a1522e9541c31df3a136d58f99ec2" title="In specific years 1 WEST influence will be added to the USA and if the USA is already a satellite the..." alt="" coords="1213,419,1359,444"/>
+<area shape="poly" id="edge25_Node000001_Node000022" title=" " alt="" coords="1475,247,1462,284,1441,328,1413,372,1376,410,1358,420,1355,416,1373,405,1409,369,1437,325,1457,282,1470,245"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a7d2e10b47d84d533e897460933d4ecae" title="Handler for all actions that occur during the Government Phase with the A&#45;Button." alt="" coords="783,190,963,231"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1041,139,922,192,920,187,1038,134"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a4acb0f36907d88cdf8dc60905d9262c8" title="Handler for inputs that rely on buttons being held for a set time." alt="" coords="544,237,726,263"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="768,231,716,239,715,234,767,225"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#ae39b0bf39d8bfcb9549b9140f7b6beb6" title="Handler for when at the title screen and user input is limited." alt="" coords="332,229,495,255"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="529,249,495,248,495,242,529,244"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#aa657e90f46ab42e4f3a79b371cf4db0d" title="Main handler for all possible user input." alt="" coords="330,312,496,338"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="581,271,455,314,453,309,579,266"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a7e0d381c389b5efed301fa00a9ab7b90" title="The runner and handler for the title screen." alt="" coords="155,220,270,246"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="316,240,270,238,270,233,316,235"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#a024ca94b6ff3d8213d236d87c0c6abb5" title="Phase where players play action cards to add influence and play investment cards, goes in turn order ..." alt="" coords="143,269,282,295"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="334,311,276,298,277,293,335,306"/>
+<area shape="rect" id="Node000011" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="Phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="147,319,278,344"/>
+<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="314,331,279,332,278,327,314,325"/>
+<area shape="rect" id="Node000012" href="$class_runner.html#a30ca7e5e57561f398bd28810ccb01863" title="Spring season of war where players will commence the war. Action cards with spring will have priority..." alt="" coords="159,368,266,394"/>
+<area shape="poly" id="edge11_Node000008_Node000012" title=" " alt="" coords="351,345,262,370,261,365,349,340"/>
+<area shape="rect" id="Node000010" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,368,95,394"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="153,304,144,308,100,339,66,370,63,366,97,335,141,304,150,299"/>
+<area shape="poly" id="edge12_Node000012_Node000010" title=" " alt="" coords="143,384,95,384,95,378,143,378"/>
+<area shape="rect" id="Node000016" href="$class_runner.html#ad71e40c7d46238b9c96f82e31932ec9b" title="Handler for Player couping against a rival." alt="" coords="1020,201,1149,227"/>
+<area shape="poly" id="edge16_Node000015_Node000016" title=" " alt="" coords="1221,220,1150,218,1150,213,1221,214"/>
+<area shape="poly" id="edge17_Node000016_Node000004" title=" " alt="" coords="1004,215,963,215,964,209,1004,210"/>
+<area shape="rect" id="Node000018" href="$class_runner.html#aa604229ef18799d69198a1347576435b" title="Handler for all actions that occur during the Action Seasons with the Y&#45;Button and A&#45;Button." alt="" coords="774,255,972,280"/>
+<area shape="poly" id="edge19_Node000017_Node000018" title=" " alt="" coords="1201,270,972,270,972,265,1201,265"/>
+<area shape="poly" id="edge20_Node000018_Node000005" title=" " alt="" coords="758,262,726,259,726,254,758,256"/>
+<area shape="rect" id="Node000020" href="$class_runner.html#a78833b102ac13e6ff4bfd1da98ce8256" title="Handler for the right joystick (used to select things) thats taken in set times." alt="" coords="776,312,970,338"/>
+<area shape="poly" id="edge22_Node000019_Node000020" title=" " alt="" coords="1182,328,971,328,971,322,1182,322"/>
+<area shape="poly" id="edge23_Node000020_Node000008" title=" " alt="" coords="760,328,497,328,497,322,760,322"/>
+<area shape="rect" id="Node000023" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="574,419,696,444"/>
+<area shape="poly" id="edge26_Node000022_Node000023" title=" " alt="" coords="1197,434,696,434,696,429,1197,429"/>
+<area shape="poly" id="edge27_Node000023_Node000010" title=" " alt="" coords="559,435,369,431,256,423,142,409,92,397,93,392,143,404,256,418,370,426,559,430"/>
+</map>

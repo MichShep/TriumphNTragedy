@@ -1,0 +1,11 @@
+<map id="Runner::canSeaMove" name="Runner::canSeaMove">
+<area shape="rect" id="Node000001" title="Decider for if the unit is able to move through the current movement memo with sea movement (can ente..." alt="" coords="5,80,153,106"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="203,5,337,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,77,200,40,214,34,216,39,202,45,112,82"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a1a29e6e93c94d676447319535a1a9ab8" title="Returns the border between the two provided cities (Mirrored on both sides to the arguments flipped g..." alt="" coords="215,55,325,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="153,80,199,74,199,80,153,86"/>
+<area shape="rect" id="Node000004" href="$class_map.html#a6ea47f5a5ff2c3436d5d3c3f7e7f2f88" title="Get the current border limit of the player for a border that joins each city (used to limit how many ..." alt="" coords="201,104,339,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="153,99,186,104,185,109,153,105"/>
+<area shape="rect" id="Node000005" href="$class_map.html#a4c0150673e8ac5baeccee79716b01bc2" title="Returns a pointer to the Country with the given name." alt="" coords="211,153,329,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="113,104,202,140,216,145,215,150,200,145,111,109"/>
+</map>

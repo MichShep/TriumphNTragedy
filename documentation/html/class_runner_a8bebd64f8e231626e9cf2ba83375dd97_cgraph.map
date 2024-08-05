@@ -1,0 +1,5 @@
+<map id="Runner::handleControllerSwitch" name="Runner::handleControllerSwitch">
+<area shape="rect" id="Node000001" title="Handles player swapping controllers but need to make it so it actually works." alt="" coords="5,5,171,46"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a7b57549ac8ea87baf0e5eb79eba3f5a4" title="Used for button presses where a given mouse clip position will see if its in the rectangle provided." alt="" coords="219,13,323,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,23,203,23,203,28,171,28"/>
+</map>

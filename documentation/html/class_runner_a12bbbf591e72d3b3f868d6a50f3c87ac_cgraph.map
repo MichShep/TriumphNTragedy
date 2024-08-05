@@ -1,0 +1,5 @@
+<map id="Runner::spyRingRival" name="Runner::spyRingRival">
+<area shape="rect" id="Node000001" title="Handler for Player using Spy Ring against a rival." alt="" coords="5,5,155,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a1d89b2c81f51b01068eacfd0e1d45136" title="Handler for using Spy Ring (take a random card from a rival)and removing the card responsible." alt="" coords="203,5,322,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,16,187,16,187,21,155,21"/>
+</map>

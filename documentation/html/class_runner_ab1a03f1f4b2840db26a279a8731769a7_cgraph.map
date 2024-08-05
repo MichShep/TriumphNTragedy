@@ -1,5 +1,5 @@
 <map id="Runner::getClosestCity" name="Runner::getClosestCity">
 <area shape="rect" id="Node000001" title="Get the city closest to the provided coordinates." alt="" coords="5,5,164,31"/>
-<area shape="rect" id="Node000002" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Get reference to hash map of cities to reduce calls." alt="" coords="212,5,318,31"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Returns a reference to the hashmap of cities." alt="" coords="212,5,318,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,16,196,16,196,21,164,21"/>
 </map>

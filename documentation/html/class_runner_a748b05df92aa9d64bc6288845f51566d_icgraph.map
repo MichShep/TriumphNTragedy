@@ -1,5 +1,8 @@
 <map id="Runner::InitApplication" name="Runner::InitApplication">
-<area shape="rect" id="Node000001" title="Initalizes the &#39;app&#39;, the struct that hlds the renderer and the window." alt="" coords="167,5,320,31"/>
+<area shape="rect" id="Node000001" title="Initalizes the &#39;app&#39;, the struct that hlds the renderer and the window." alt="" coords="346,5,499,31"/>
 <area shape="rect" id="Node000002" href="$class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="5,5,119,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,21,119,21,119,16,151,16"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="330,21,119,21,119,16,330,16"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a1a3632ffdf69bc9a94506d47ec401d2f" title="Dev tool to Set the resource x and y coords for each city that has a resource." alt="" coords="167,31,298,56"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="331,33,299,37,298,32,330,28"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="151,34,119,29,120,24,151,29"/>
 </map>

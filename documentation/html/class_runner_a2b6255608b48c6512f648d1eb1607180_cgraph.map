@@ -1,0 +1,119 @@
+<map id="Runner::animateCommandOrder" name="Runner::animateCommandOrder">
+<area shape="rect" id="Node000001" title="Animation for showing the command cards played and the new order." alt="" coords="5,579,215,605"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a0293328b045476f6ab1ea47025d1b8dc" title="Clears the screen so the screen can &#39;update&#39;." alt="" coords="276,215,420,241"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,578,124,521,151,436,171,388,196,342,226,297,261,258,278,246,281,250,264,262,230,301,200,344,176,391,156,437,129,522,116,579"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a5e3ccc0a56f6a231beae8dab8daa01ff" title="Draws the provided action card with the top&#45;left corner being at the provided X and Y coords." alt="" coords="958,667,1122,693"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="125,577,172,539,244,485,338,425,446,367,504,343,563,322,623,307,683,298,743,297,801,305,858,323,911,353,946,383,974,419,996,460,1012,503,1032,586,1040,651,1035,652,1027,587,1007,505,991,463,969,422,942,386,908,357,856,328,800,310,743,303,684,304,624,312,564,327,505,348,448,372,340,429,247,489,175,543,128,581"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a6f02ca71b16028b4880e5baa56b721ed" title="Draws the provided investment card with the top&#45;left corner being at the provided X and Y coords." alt="" coords="958,278,1122,304"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="117,577,171,498,213,449,261,405,316,365,364,340,414,323,480,307,604,286,729,277,845,276,943,280,942,286,845,282,729,283,605,292,482,312,416,328,366,345,319,370,264,409,217,452,175,501,121,580"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a1ee81c1b2dca02f6714995f05afcf271" title="Draws the private view of the player including cards and VP and production levels and acheived tech." alt="" coords="263,945,433,970"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="122,604,265,835,330,930,326,933,260,838,117,607"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a7b57549ac8ea87baf0e5eb79eba3f5a4" title="Used for button presses where a given mouse clip position will see if its in the rectangle provided." alt="" coords="1190,1047,1294,1073"/>
+<area shape="poly" id="edge69_Node000001_Node000008" title=" " alt="" coords="114,605,118,675,130,789,153,932,170,1009,192,1086,218,1162,249,1235,287,1302,330,1362,380,1412,437,1450,469,1464,502,1474,537,1481,575,1483,816,1483,864,1485,908,1492,983,1505,1017,1506,1050,1501,1084,1485,1120,1458,1148,1425,1161,1392,1165,1359,1161,1324,1153,1249,1155,1207,1168,1162,1190,1119,1217,1083,1221,1087,1195,1122,1172,1164,1160,1208,1158,1249,1167,1324,1170,1359,1167,1393,1153,1428,1124,1462,1087,1490,1052,1506,1017,1511,982,1510,907,1497,864,1491,816,1488,575,1488,537,1486,501,1479,467,1469,435,1454,377,1416,326,1365,282,1305,245,1237,213,1164,187,1088,165,1010,148,933,125,790,113,675,109,606"/>
+<area shape="rect" id="Node000037" href="$class_player.html#aabb69239a3ec5b9d9ac4f21c7d99973f" title="Get the current command value (or the number) for the player&#39;s command card." alt="" coords="719,818,910,844"/>
+<area shape="poly" id="edge68_Node000001_Node000037" title=" " alt="" coords="135,603,278,680,378,726,482,766,596,795,704,815,703,820,594,801,480,771,375,731,276,684,133,608"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a345ffcfd469548ce8e27e4f91af4bc88" title="Used the current time and the public message origin time to draw the frame the given animation is at." alt="" coords="491,870,661,896"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="380,942,480,904,503,897,504,903,482,909,382,947"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a2c69269d4b514f204ba748f9c83fdd8d" title="Draw the current actions the player can take on the buttons that would initiate those actions." alt="" coords="486,969,667,994"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="433,964,470,968,470,973,433,969"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#a57498086d4a236be00676aa075abda79" title="Draws the Action Card hand of the currently viewed allegiance (either the icon or all the cards)" alt="" coords="488,1019,665,1045"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="383,968,482,1004,508,1012,506,1017,480,1009,382,973"/>
+<area shape="rect" id="Node000014" href="$class_runner.html#a754e0ba35a8ee15fb14fc533ea0dd660" title="Draws all the currently selected battles onto the cities selected." alt="" coords="491,1171,661,1197"/>
+<area shape="poly" id="edge15_Node000005_Node000014" title=" " alt="" coords="357,969,373,1005,400,1054,437,1105,483,1150,504,1163,501,1167,479,1154,433,1109,396,1056,369,1007,352,972"/>
+<area shape="rect" id="Node000015" href="$class_runner.html#ac54c38b1a35bcbd37adaab4a76fda25c" title="Draws a 3 pixel wide line between the two points." alt="" coords="978,1274,1102,1300"/>
+<area shape="poly" id="edge36_Node000005_Node000015" title=" " alt="" coords="365,969,414,1011,447,1035,482,1055,545,1079,601,1092,654,1096,704,1098,753,1101,803,1111,856,1132,911,1169,930,1192,936,1216,943,1239,960,1261,966,1265,962,1270,956,1265,938,1241,931,1217,925,1194,908,1173,853,1136,802,1116,753,1106,704,1103,654,1101,601,1097,543,1085,480,1060,444,1039,411,1015,361,973"/>
+<area shape="rect" id="Node000016" href="$class_runner.html#ac0745e150b0151ba64adac36e8b33ea8" title="Draws the unit building UI and the select line and selected unit." alt="" coords="512,1359,640,1385"/>
+<area shape="poly" id="edge17_Node000005_Node000016" title=" " alt="" coords="353,970,360,1034,380,1130,397,1183,419,1236,448,1287,483,1331,509,1350,506,1355,479,1335,443,1290,414,1239,392,1185,375,1131,355,1035,347,971"/>
+<area shape="rect" id="Node000017" href="$class_runner.html#a68d578b3e729c8c1e49a20241e7efbef" title="Draws a city onto the players renderer and if opted the resources as well." alt="" coords="753,1321,876,1346"/>
+<area shape="poly" id="edge27_Node000005_Node000017" title=" " alt="" coords="353,970,362,1025,384,1105,400,1148,422,1191,449,1230,483,1263,511,1283,542,1299,610,1321,677,1331,738,1334,738,1340,677,1337,608,1326,540,1304,509,1288,479,1267,445,1233,418,1194,396,1151,379,1107,357,1026,348,971"/>
+<area shape="rect" id="Node000022" href="$class_runner.html#a3a4bf512b3256946dc0770dbf65849e9" title="Draws the Investment Card hand of the currently viewed allegiance (either the icon or all the cards)" alt="" coords="488,190,664,216"/>
+<area shape="poly" id="edge28_Node000005_Node000022" title=" " alt="" coords="350,943,478,502,563,229,569,231,484,503,356,945"/>
+<area shape="rect" id="Node000027" href="$class_runner.html#af261e0be2c37e4486b09606ab3b2c0e8" title="Draws the map to the main rendered with different options to control what is shown." alt="" coords="514,1227,638,1253"/>
+<area shape="poly" id="edge37_Node000005_Node000027" title=" " alt="" coords="355,970,368,1015,393,1079,431,1148,455,1180,483,1207,501,1219,498,1224,479,1211,451,1183,426,1151,388,1081,363,1017,350,971"/>
+<area shape="rect" id="Node000036" href="$class_runner.html#a8bf7d96f80e5dcbace5d9d398caa6139" title="Draws any season specific sprites onto the screen." alt="" coords="481,730,671,756"/>
+<area shape="poly" id="edge48_Node000005_Node000036" title=" " alt="" coords="361,942,548,764,552,768,365,946"/>
+<area shape="rect" id="Node000038" href="$class_runner.html#a4b63b0f930ba630d386c5ca52bb7134f" title="Draws the Player Stats hand of the currently viewed allegiance (either the icon or the POP,..." alt="" coords="494,515,658,541"/>
+<area shape="poly" id="edge54_Node000005_Node000038" title=" " alt="" coords="354,943,559,553,563,556,359,945"/>
+<area shape="rect" id="Node000043" href="$class_runner.html#a30968392778a6e7924090bbe1c27add8" title="Draws the Achieved Tech hand of the currently viewed allegiance (either the icon or all the cards)" alt="" coords="492,919,660,945"/>
+<area shape="poly" id="edge61_Node000005_Node000043" title=" " alt="" coords="433,945,476,940,477,946,433,951"/>
+<area shape="rect" id="Node000048" href="$class_runner.html#ae50b3d8e05252c5801f45ff5a1c48fb5" title="Draw the current turn order of the players and who has passed." alt="" coords="498,90,655,116"/>
+<area shape="poly" id="edge66_Node000005_Node000048" title=" " alt="" coords="347,944,359,805,385,578,403,456,424,342,450,246,464,207,479,176,504,145,534,122,538,126,508,149,483,179,469,209,455,247,430,343,408,457,390,579,365,806,353,944"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="667,973,762,970,877,973,1000,983,1123,1004,1167,1019,1206,1037,1204,1042,1165,1024,1121,1009,1000,988,877,978,762,976,667,978"/>
+<area shape="rect" id="Node000010" href="$class_runner.html#a77f80cc5a5e88ff613b4e12d0a6470eb" title="Draws the action cards of the current viewed allegiance onto the players screen starting at the given..." alt="" coords="729,1019,900,1045"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="665,1029,713,1029,713,1035,665,1035"/>
+<area shape="rect" id="Node000012" href="$class_player.html#ad21151ebd80ff1990e9d530f3188f505" title="Get the number of action cards the player has." alt="" coords="966,1069,1114,1094"/>
+<area shape="poly" id="edge13_Node000009_Node000012" title=" " alt="" coords="645,1043,720,1055,841,1067,951,1075,951,1080,840,1072,719,1060,644,1048"/>
+<area shape="rect" id="Node000013" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="1170,617,1314,642"/>
+<area shape="poly" id="edge14_Node000009_Node000013" title=" " alt="" coords="652,1016,926,961,1052,930,1096,915,1120,903,1147,877,1169,846,1188,812,1203,777,1224,711,1234,657,1240,658,1229,712,1208,779,1193,814,1174,849,1151,880,1124,908,1098,920,1054,935,927,966,653,1021"/>
+<area shape="poly" id="edge10_Node000010_Node000003" title=" " alt="" coords="826,1017,865,969,907,904,923,863,929,829,936,795,955,755,979,725,1006,700,1010,704,983,728,960,757,941,796,934,830,928,865,912,907,870,972,830,1020"/>
+<area shape="rect" id="Node000011" href="$class_player.html#a3d15440c59291506f3f0e5c8d6a76a8c" title="Get the Action Card at the specific index." alt="" coords="965,1019,1115,1045"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="901,1029,950,1029,950,1035,901,1035"/>
+<area shape="poly" id="edge12_Node000010_Node000012" title=" " alt="" coords="877,1043,964,1062,962,1067,876,1048"/>
+<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="662,1171,719,1169,783,1173,849,1184,911,1207,927,1219,937,1234,945,1247,959,1261,967,1265,964,1269,956,1265,941,1251,932,1236,923,1223,908,1212,847,1190,783,1178,719,1175,662,1176"/>
+<area shape="poly" id="edge25_Node000016_Node000015" title=" " alt="" coords="641,1380,700,1385,768,1386,840,1377,875,1369,908,1356,923,1346,932,1334,941,1321,956,1309,965,1304,968,1308,959,1313,945,1325,936,1338,927,1350,911,1361,877,1374,841,1382,768,1391,699,1391,640,1385"/>
+<area shape="poly" id="edge18_Node000016_Node000017" title=" " alt="" coords="640,1359,737,1343,738,1348,641,1364"/>
+<area shape="rect" id="Node000019" href="$class_runner.html#a693825012a69e80c92d2b0c6967f650f" title="Draws the unit onto the player&#39;s screen." alt="" coords="1181,1374,1304,1400"/>
+<area shape="poly" id="edge26_Node000016_Node000019" title=" " alt="" coords="594,1383,647,1423,683,1443,720,1458,831,1485,877,1492,921,1494,964,1492,1010,1485,1121,1458,1171,1435,1213,1407,1216,1411,1174,1440,1123,1463,1011,1490,965,1497,921,1499,877,1497,830,1490,719,1463,680,1448,645,1427,591,1388"/>
+<area shape="rect" id="Node000018" href="$class_runner.html#aff97cea260ba3a5f87e17e4a740934d7" title="Draws 5 units under the city, rotating to the next 5 every 5 seconds." alt="" coords="963,1175,1117,1201"/>
+<area shape="poly" id="edge19_Node000017_Node000018" title=" " alt="" coords="875,1324,908,1307,919,1296,925,1285,931,1260,937,1235,944,1222,956,1210,960,1207,963,1211,959,1214,949,1225,942,1237,936,1262,930,1287,923,1299,911,1312,878,1328"/>
+<area shape="rect" id="Node000021" href="$class_runner.html#a1d192f0cb68477269f44ec310b335bf1" title="Get the index of the sprite needed for the city." alt="" coords="966,1225,1114,1250"/>
+<area shape="poly" id="edge24_Node000017_Node000021" title=" " alt="" coords="876,1320,908,1307,923,1296,932,1284,941,1271,956,1259,965,1254,968,1259,959,1264,945,1275,936,1287,926,1300,911,1312,878,1325"/>
+<area shape="poly" id="edge23_Node000018_Node000008" title=" " alt="" coords="1097,1172,1121,1162,1175,1123,1217,1082,1221,1086,1178,1127,1123,1166,1099,1177"/>
+<area shape="poly" id="edge21_Node000018_Node000013" title=" " alt="" coords="1107,1172,1120,1162,1134,1135,1150,1083,1183,935,1234,657,1239,658,1189,936,1155,1084,1139,1137,1124,1166,1110,1177"/>
+<area shape="poly" id="edge20_Node000018_Node000019" title=" " alt="" coords="1104,1199,1124,1210,1161,1244,1191,1284,1215,1324,1232,1358,1227,1361,1210,1327,1187,1287,1157,1248,1120,1214,1102,1204"/>
+<area shape="rect" id="Node000020" href="$struct_city.html#ac725c4e61f5ba09c104812c263a0bc4d" title="Get a combined vector of every unit in the city." alt="" coords="1175,1175,1309,1201"/>
+<area shape="poly" id="edge22_Node000018_Node000020" title=" " alt="" coords="1117,1185,1160,1185,1160,1191,1117,1191"/>
+<area shape="poly" id="edge34_Node000022_Node000013" title=" " alt="" coords="665,205,935,227,1057,243,1099,253,1124,263,1159,300,1187,343,1208,390,1223,438,1239,531,1244,601,1238,601,1234,531,1218,440,1203,392,1182,345,1155,303,1120,268,1097,258,1056,248,934,232,664,210"/>
+<area shape="rect" id="Node000023" href="$class_runner.html#a59a33a9934e4dfbdbe5e1b3fcee80198" title="Draws the invesetment cards of the current viewed allegiance onto the players screen starting at the ..." alt="" coords="729,165,900,190"/>
+<area shape="poly" id="edge29_Node000022_Node000023" title=" " alt="" coords="665,191,714,185,714,191,665,196"/>
+<area shape="rect" id="Node000025" href="$class_player.html#ab3c69056b6dae04e42ce9e1a70d76882" title="Get the number of invest cards the player has." alt="" coords="967,78,1113,104"/>
+<area shape="poly" id="edge35_Node000022_Node000025" title=" " alt="" coords="609,187,719,149,839,121,951,101,952,106,841,127,720,155,611,192"/>
+<area shape="poly" id="edge30_Node000023_Node000004" title=" " alt="" coords="843,188,1000,268,997,273,841,193"/>
+<area shape="rect" id="Node000024" href="$class_player.html#ab0133c5fd6cb026c3c910aaa5888e7a4" title="Get the Invest Card at the specific index." alt="" coords="966,177,1114,202"/>
+<area shape="poly" id="edge31_Node000023_Node000024" title=" " alt="" coords="900,179,950,182,950,187,900,185"/>
+<area shape="poly" id="edge32_Node000023_Node000025" title=" " alt="" coords="842,162,957,112,974,106,976,111,959,117,844,167"/>
+<area shape="rect" id="Node000026" href="$class_player.html#ada64ae0a4ced56417da1e7b41c48a666" title="Decider if the Investment Card provided is a card the player has selected to up IND." alt="" coords="971,127,1109,153"/>
+<area shape="poly" id="edge33_Node000023_Node000026" title=" " alt="" coords="896,161,955,151,956,157,897,167"/>
+<area shape="poly" id="edge38_Node000027_Node000017" title=" " alt="" coords="602,1251,655,1279,720,1307,739,1313,738,1318,718,1312,653,1284,600,1256"/>
+<area shape="rect" id="Node000028" href="$class_runner.html#a056a0393a546065082a821664a40e35e" title="Draws all the connections between the cities and colors them based on the type of border." alt="" coords="728,1422,901,1448"/>
+<area shape="poly" id="edge39_Node000027_Node000028" title=" " alt="" coords="595,1251,721,1357,786,1410,783,1414,718,1361,591,1255"/>
+<area shape="rect" id="Node000032" href="$class_runner.html#a614dfd919d1e8e9c34a7a5a9d00c88cf" title="Draws the influence tokens onto the map." alt="" coords="738,1271,891,1297"/>
+<area shape="poly" id="edge44_Node000027_Node000032" title=" " alt="" coords="639,1249,726,1265,726,1270,638,1254"/>
+<area shape="rect" id="Node000034" href="$class_runner.html#a0b8f928c88cda5a78e86be08e1a8b0db" title="Takes any length number and draws it as a 7&#45;segment at the x,y as the top left. Origional scale is 7*..." alt="" coords="742,769,887,794"/>
+<area shape="poly" id="edge46_Node000027_Node000034" title=" " alt="" coords="638,1229,655,1220,669,1208,687,1182,699,1157,705,1131,708,1106,703,1056,691,1007,679,957,675,906,678,881,685,855,698,829,717,804,726,795,730,799,721,807,703,832,690,857,683,882,680,906,685,956,696,1005,708,1056,713,1106,711,1132,704,1158,692,1185,673,1211,658,1225,640,1233"/>
+<area shape="rect" id="Node000035" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Returns a reference to the hashmap of cities." alt="" coords="761,1222,868,1248"/>
+<area shape="poly" id="edge47_Node000027_Node000035" title=" " alt="" coords="639,1236,746,1234,746,1239,639,1241"/>
+<area shape="poly" id="edge40_Node000028_Node000015" title=" " alt="" coords="876,1419,908,1401,925,1379,931,1356,938,1332,956,1309,962,1304,966,1308,960,1313,942,1334,936,1357,929,1381,911,1405,878,1424"/>
+<area shape="rect" id="Node000029" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="973,1373,1107,1398"/>
+<area shape="poly" id="edge41_Node000028_Node000029" title=" " alt="" coords="876,1419,962,1400,964,1405,877,1424"/>
+<area shape="rect" id="Node000030" href="$class_map.html#a70c8b9a0545e47dbd8a0e781d1f56db1" title="Works as the [] overload for out of scope." alt="" coords="992,1422,1088,1448"/>
+<area shape="poly" id="edge42_Node000028_Node000030" title=" " alt="" coords="901,1432,977,1432,977,1437,901,1437"/>
+<area shape="rect" id="Node000031" href="$class_runner.html#adda4105efb5d6f7d92602d9bd5074edf" title="Get the map of the game." alt="" coords="983,1323,1097,1349"/>
+<area shape="poly" id="edge43_Node000028_Node000031" title=" " alt="" coords="866,1419,908,1400,922,1390,932,1379,941,1369,956,1358,967,1352,969,1357,959,1362,945,1373,936,1383,926,1394,911,1405,868,1424"/>
+<area shape="rect" id="Node000033" href="$class_map.html#adc8cd4da1c2a901ca059f1c0a5be3f2c" title="Returns a reference to the hashmap of countries." alt="" coords="976,1126,1104,1152"/>
+<area shape="poly" id="edge45_Node000032_Node000033" title=" " alt="" coords="890,1269,908,1258,919,1247,925,1235,931,1211,937,1186,944,1173,956,1161,961,1157,964,1161,959,1165,949,1176,942,1188,936,1212,930,1237,923,1250,911,1262,892,1274"/>
+<area shape="poly" id="edge49_Node000036_Node000003" title=" " alt="" coords="632,727,719,709,835,694,942,684,942,690,835,700,720,715,633,732"/>
+<area shape="poly" id="edge50_Node000036_Node000004" title=" " alt="" coords="605,727,766,645,851,595,884,572,908,552,952,492,987,427,1012,366,1028,317,1033,319,1017,368,992,430,957,495,912,555,888,576,854,599,768,649,607,732"/>
+<area shape="poly" id="edge53_Node000036_Node000008" title=" " alt="" coords="672,730,790,722,922,719,985,721,1042,727,1089,738,1123,754,1155,782,1181,816,1201,854,1216,894,1235,971,1242,1031,1237,1032,1230,972,1211,895,1196,856,1176,819,1151,786,1121,758,1087,743,1041,733,984,727,922,724,790,727,672,736"/>
+<area shape="poly" id="edge51_Node000036_Node000034" title=" " alt="" coords="660,753,727,765,726,770,659,759"/>
+<area shape="poly" id="edge52_Node000036_Node000037" title=" " alt="" coords="605,754,657,779,720,804,741,811,739,816,718,809,655,784,602,759"/>
+<area shape="poly" id="edge56_Node000038_Node000013" title=" " alt="" coords="651,539,720,551,1155,615,1154,620,719,556,650,544"/>
+<area shape="poly" id="edge55_Node000038_Node000034" title=" " alt="" coords="592,539,792,755,789,759,588,543"/>
+<area shape="rect" id="Node000039" href="$class_runner.html#afba425bd0bc4bfa2b0d83dd089733da2" title="Get the sprite offset for the player&#39;s stat widget DoW." alt="" coords="737,367,892,393"/>
+<area shape="poly" id="edge57_Node000038_Node000039" title=" " alt="" coords="587,513,640,459,677,428,718,402,730,396,732,401,721,406,680,432,643,463,591,516"/>
+<area shape="rect" id="Node000040" href="$class_player.html#af2d3f30e6f220071833dc808826a29c2" title="Get the current industry (ind) of the player." alt="" coords="749,417,880,442"/>
+<area shape="poly" id="edge58_Node000038_Node000040" title=" " alt="" coords="598,512,651,482,718,451,737,445,738,450,720,456,654,487,600,517"/>
+<area shape="rect" id="Node000041" href="$class_player.html#af9a51c3a3439852ee2723bb4347731c4" title="Get how much population the player controls." alt="" coords="742,466,887,492"/>
+<area shape="poly" id="edge59_Node000038_Node000041" title=" " alt="" coords="641,512,733,493,735,498,642,517"/>
+<area shape="rect" id="Node000042" href="$class_player.html#a5a1c78affbbec12b76ee5db75d75b120" title="Get the number of resources owned." alt="" coords="744,515,885,541"/>
+<area shape="poly" id="edge60_Node000038_Node000042" title=" " alt="" coords="659,525,729,525,729,531,659,531"/>
+<area shape="rect" id="Node000044" href="$class_runner.html#a054e040d2e62be76bd5f58cf60cdf4b6" title="Draws the tech of the current viewed allegiance onto the players screen starting at the given x and y..." alt="" coords="724,867,905,893"/>
+<area shape="poly" id="edge62_Node000043_Node000044" title=" " alt="" coords="638,916,737,894,738,899,639,921"/>
+<area shape="rect" id="Node000045" href="$class_player.html#a66b80d482e8840fc09c74e373c11f579" title="Get the number of technologies the player has achieved but kept secret since it contributes to the ha..." alt="" coords="961,769,1119,794"/>
+<area shape="poly" id="edge63_Node000044_Node000045" title=" " alt="" coords="885,864,908,854,923,842,932,829,941,816,956,803,965,798,967,803,959,808,945,820,936,832,927,846,911,858,887,869"/>
+<area shape="rect" id="Node000046" href="$class_player.html#aef2ea82ecb9107ec3c9ab7f92de9299e" title="Get the acheived tech at the specific index." alt="" coords="984,818,1096,844"/>
+<area shape="poly" id="edge64_Node000044_Node000046" title=" " alt="" coords="876,864,968,844,969,849,877,869"/>
+<area shape="rect" id="Node000047" href="$class_player.html#a0dc151820b5f19e55e95b3e29b02e4f4" title="Get the number of achieved tech the player has." alt="" coords="971,867,1109,893"/>
+<area shape="poly" id="edge65_Node000044_Node000047" title=" " alt="" coords="906,877,955,877,955,883,906,883"/>
+<area shape="poly" id="edge67_Node000048_Node000013" title=" " alt="" coords="604,87,699,48,764,28,836,12,912,4,987,7,1024,14,1059,26,1093,42,1124,63,1139,80,1154,103,1178,163,1198,237,1213,320,1233,483,1242,601,1237,602,1228,484,1208,321,1192,238,1173,164,1149,105,1135,83,1120,67,1090,47,1057,31,1023,19,987,12,912,9,837,17,766,33,701,53,606,92"/>
+</map>

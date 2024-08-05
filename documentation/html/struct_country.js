@@ -6,7 +6,7 @@ var struct_country =
     [ "pushback", "struct_country.html#a322dd44a9991d099df590e5691c493e5", null ],
     [ "resolveCards", "struct_country.html#a48278a0a376bd25cb55d969e1a358692", null ],
     [ "resolveDiplomacy", "struct_country.html#a6a1ee4db727200c3c7c299634a5557a6", null ],
-    [ "setCities", "struct_country.html#a4958d531f4eb78fcc3ce6525760e01ae", null ],
+    [ "setTest", "struct_country.html#a06da7b5f8ed206c44900fa367683d020", null ],
     [ "added_influence", "struct_country.html#ad66f5ded040e3002ff9de573c714cbdf", null ],
     [ "allegiance", "struct_country.html#a3b0a2f93ff8dcf094286822060a2e7c1", null ],
     [ "armed_minor", "struct_country.html#aa070dfaf3f72b20659f4ce6d9a70d636", null ],

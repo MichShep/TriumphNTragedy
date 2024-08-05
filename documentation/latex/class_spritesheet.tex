@@ -2,7 +2,8 @@
 \hypertarget{class_spritesheet}{}\label{class_spritesheet}\index{Spritesheet@{Spritesheet}}
 
 
-Collaboration diagram for Spritesheet\+:\nopagebreak
+Collaboration diagram for Spritesheet\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -24,8 +25,14 @@ void {\bfseries select\+Sprite} (int x, int y=0, int clip\+\_\+x=-\/1, int clip\
 \Hypertarget{class_spritesheet_ab9733766b7345ab854beb3bddfc311c5}\label{class_spritesheet_ab9733766b7345ab854beb3bddfc311c5} 
 void {\bfseries draw\+Selected\+Sprite} (SDL\+\_\+\+Rect \texorpdfstring{$\ast$}{*}position)
 \item 
-\Hypertarget{class_spritesheet_afd34ac6c2a5c23663fef2b1faf2bf1b8}\label{class_spritesheet_afd34ac6c2a5c23663fef2b1faf2bf1b8} 
-void {\bfseries draw\+Sprite} (SDL\+\_\+\+Rect \texorpdfstring{$\ast$}{*}position, int row, int pos, int size\+\_\+x=32, int size\+\_\+y=32, int offset=0, int unscaledX=0, int unscaledY=0)
+\Hypertarget{class_spritesheet_a2fdfa61ed5bbbcab416540db215cf723}\label{class_spritesheet_a2fdfa61ed5bbbcab416540db215cf723} 
+void {\bfseries draw\+Sprite} (SDL\+\_\+\+Rect \texorpdfstring{$\ast$}{*}position, const int row, const int pos, const int size\+\_\+x=32, const int size\+\_\+y=32, const int offset=0, const int unscaledX=0, const int unscaledY=0)
+\item 
+\Hypertarget{class_spritesheet_a3ea91c280c63db4bfa5a60d5aabf3814}\label{class_spritesheet_a3ea91c280c63db4bfa5a60d5aabf3814} 
+void {\bfseries draw\+Area} (SDL\+\_\+\+Rect \texorpdfstring{$\ast$}{*}position, const int x, const int y, const int w, const int h)
+\item 
+\Hypertarget{class_spritesheet_a0347a29d9492733e1accd8c5ccdabdac}\label{class_spritesheet_a0347a29d9492733e1accd8c5ccdabdac} 
+void {\bfseries draw\+Area} (SDL\+\_\+\+Rect \texorpdfstring{$\ast$}{*}position, const int x, const int y, const int w, const int h, const Uint8 alpha)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}

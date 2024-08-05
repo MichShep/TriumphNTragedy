@@ -1,0 +1,11 @@
+<map id="Runner::handleRegularSeason" name="Runner::handleRegularSeason">
+<area shape="rect" id="Node000001" title="Handler for all actions that occur during the Action Seasons with the Y&#45;Button and A&#45;Button." alt="" coords="5,31,204,56"/>
+<area shape="rect" id="Node000002" href="$class_player.html#a0213b7f95e3337de2f3a503d1a6a2483" title="Decider for if the player has held the A button (only) for the given duration." alt="" coords="270,5,373,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,29,254,23,255,29,204,35"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a794ecf61701845fa35144e4ee9173142" title="Decider and Handler for when a Player delcares a VoB on a Neutral unarmed Minor and handles World Rea..." alt="" coords="252,55,391,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="204,52,236,55,236,61,204,57"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a2f289a86321f9b674b9bc02053d01a11" title="Deal a set amount of cards to the player of action or invest. Hand limit doesn&#39;t apply to card drawin..." alt="" coords="451,29,546,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="391,55,435,49,435,54,392,60"/>
+<area shape="rect" id="Node000005" href="$class_map.html#a4c0150673e8ac5baeccee79716b01bc2" title="Returns a pointer to the Country with the given name." alt="" coords="439,79,557,104"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="392,74,424,79,423,84,391,80"/>
+</map>

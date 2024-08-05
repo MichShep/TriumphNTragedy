@@ -1,0 +1,7 @@
+<map id="Runner::declareVoN" name="Runner::declareVoN">
+<area shape="rect" id="Node000001" title="Decider and Handler for when a Player delcares a VoB on a Neutral unarmed Minor and handles World Rea..." alt="" coords="5,31,145,56"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a2f289a86321f9b674b9bc02053d01a11" title="Deal a set amount of cards to the player of action or invest. Hand limit doesn&#39;t apply to card drawin..." alt="" coords="204,5,300,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,31,188,25,189,30,146,36"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a4c0150673e8ac5baeccee79716b01bc2" title="Returns a pointer to the Country with the given name." alt="" coords="193,55,311,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="146,50,178,55,177,60,145,56"/>
+</map>

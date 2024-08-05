@@ -1,20 +1,21 @@
 <map id="Runner::handleUnitBuilding" name="Runner::handleUnitBuilding">
 <area shape="rect" id="Node000001" title="Handler for both adding new cadres and upgrading exisiting units when prompt on user input." alt="" coords="5,56,185,82"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#a3ec4965d9518a1513fc87bc9acfc3648" title="Adds a new unit (cadre) to the city of the given type and to the player&#39;s unit master list." alt="" coords="243,5,365,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a0c2d7c5549d09a0995d385e9e8fbb3cb" title="Adds a new unit (cadre) to the city of the given type and to the player&#39;s unit master list." alt="" coords="243,5,365,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,53,232,33,234,38,152,58"/>
-<area shape="rect" id="Node000003" href="$class_runner.html#a0152b039104c601aa118d049989e60e3" title="Decider for if an exisiting unit can be upgraded." alt="" coords="423,57,564,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,66,408,67,408,73,185,72"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a0152b039104c601aa118d049989e60e3" title="Decider for if an exisiting unit can be upgraded." alt="" coords="423,56,564,82"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,66,408,66,408,72,185,72"/>
 <area shape="rect" id="Node000008" href="$class_runner.html#a35d63bdf4fa75ff4f789de2a5b452081" title="Sets the array of booleans showing which units are buildable at the selected city." alt="" coords="233,107,375,132"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="152,80,234,100,232,105,150,85"/>
-<area shape="rect" id="Node000004" href="$class_runner.html#a1339ccfbb7f33637f68ab258df440b6e" title="A decider for if the city provided is supplied and can have steps built. All the cities on the route ..." alt="" coords="612,83,740,108"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="565,77,598,82,597,87,565,83"/>
-<area shape="rect" id="Node000005" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="788,33,921,59"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="725,79,790,61,791,66,726,85"/>
-<area shape="rect" id="Node000006" href="$class_map.html#a01a979e1788d8f3df965a298b7ec2c78" title="Works as the [] overload for out of scope." alt="" coords="806,83,903,108"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="740,93,791,93,791,98,740,98"/>
-<area shape="rect" id="Node000007" href="$class_map.html#aec078176c2dc99ab8f77753942fdb081" title="Get the total number of cities." alt="" coords="792,132,917,158"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="726,106,791,125,790,130,725,112"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a1339ccfbb7f33637f68ab258df440b6e" title="A decider for if the city provided is supplied and can have steps built. All the cities on the route ..." alt="" coords="612,56,740,82"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="565,66,597,66,597,72,565,72"/>
+<area shape="rect" id="Node000005" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="788,107,921,132"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="725,80,793,99,792,105,723,85"/>
+<area shape="rect" id="Node000006" href="$class_map.html#a70c8b9a0545e47dbd8a0e781d1f56db1" title="Works as the [] overload for out of scope." alt="" coords="806,57,903,83"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="740,67,791,67,791,72,740,72"/>
+<area shape="rect" id="Node000007" href="$class_map.html#aec078176c2dc99ab8f77753942fdb081" title="Get the total number of cities in the game." alt="" coords="792,8,917,34"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="726,53,789,36,790,41,727,58"/>
 <area shape="rect" id="Node000009" href="$class_runner.html#aba8f11c2416add1b8b562893eb6c5d4d" title="Decider for if a new unit of the given type is able to be built in the city provided." alt="" coords="433,107,554,132"/>
 <area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="375,117,417,117,417,122,375,122"/>
-<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="554,109,597,103,597,109,555,114"/>
+<area shape="poly" id="edge10_Node000009_Node000004" title=" " alt="" coords="542,103,612,84,613,89,543,109"/>
+<area shape="poly" id="edge9_Node000009_Node000005" title=" " alt="" coords="555,117,772,117,772,122,555,122"/>
 </map>

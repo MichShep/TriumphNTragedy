@@ -1,0 +1,78 @@
+\doxysection{Achieved\+Technology Struct Reference}
+\hypertarget{struct_achieved_technology}{}\label{struct_achieved_technology}\index{AchievedTechnology@{AchievedTechnology}}
+
+
+Collaboration diagram for Achieved\+Technology\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=194pt]{struct_achieved_technology__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_achieved_technology_a84c06cf0e882a6137ae65a5859495055}\label{struct_achieved_technology_a84c06cf0e882a6137ae65a5859495055} 
+{\bfseries Achieved\+Technology} ()
+\begin{DoxyCompactList}\small\item\em Construct a default technology. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_achieved_technology_af6d2edbed12f0d14bcaf42fdcfc04ead}{Achieved\+Technology}} (const string \mbox{\hyperlink{struct_achieved_technology_a78b00023dc226360b2c0f37df226886e}{name}}, const Tech tech, bool \mbox{\hyperlink{struct_achieved_technology_a7da2c1dc897f0f1c873d64707f551f78}{secret}}=false)
+\begin{DoxyCompactList}\small\item\em Construct a new Technology. \end{DoxyCompactList}\item 
+\Hypertarget{struct_achieved_technology_a9f64e4063ed633909eeb33fa818b86c8}\label{struct_achieved_technology_a9f64e4063ed633909eeb33fa818b86c8} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{struct_achieved_technology}{Achieved\+Technology}} \texorpdfstring{$\ast$}{*}rhs) const
+\item 
+\Hypertarget{struct_achieved_technology_a80d681557c2cf1f5c67afb54a547a8b2}\label{struct_achieved_technology_a80d681557c2cf1f5c67afb54a547a8b2} 
+bool {\bfseries operator==} (const Tech \texorpdfstring{$\ast$}{*}rhs) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{struct_achieved_technology_a78b00023dc226360b2c0f37df226886e}{name}}
+\item 
+\Hypertarget{struct_achieved_technology_a3d665d7a4973a3b9abe9760720dbbf4e}\label{struct_achieved_technology_a3d665d7a4973a3b9abe9760720dbbf4e} 
+Tech {\bfseries tech}
+\item 
+bool \mbox{\hyperlink{struct_achieved_technology_a7da2c1dc897f0f1c873d64707f551f78}{secret}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_achieved_technology_af6d2edbed12f0d14bcaf42fdcfc04ead}\label{struct_achieved_technology_af6d2edbed12f0d14bcaf42fdcfc04ead} 
+\index{AchievedTechnology@{AchievedTechnology}!AchievedTechnology@{AchievedTechnology}}
+\index{AchievedTechnology@{AchievedTechnology}!AchievedTechnology@{AchievedTechnology}}
+\doxysubsubsection{\texorpdfstring{AchievedTechnology()}{AchievedTechnology()}}
+{\footnotesize\ttfamily Achieved\+Technology\+::\+Achieved\+Technology (\begin{DoxyParamCaption}\item[{const string}]{name,  }\item[{const Tech}]{tech,  }\item[{bool}]{secret = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new Technology. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of the tech \\
+\hline
+{\em tech} & The enum for the tech \\
+\hline
+{\em secret} & If the tech is a secret or not \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_achieved_technology_a78b00023dc226360b2c0f37df226886e}\label{struct_achieved_technology_a78b00023dc226360b2c0f37df226886e} 
+\index{AchievedTechnology@{AchievedTechnology}!name@{name}}
+\index{name@{name}!AchievedTechnology@{AchievedTechnology}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily string Achieved\+Technology\+::name}
+
+The name of the technology \Hypertarget{struct_achieved_technology_a7da2c1dc897f0f1c873d64707f551f78}\label{struct_achieved_technology_a7da2c1dc897f0f1c873d64707f551f78} 
+\index{AchievedTechnology@{AchievedTechnology}!secret@{secret}}
+\index{secret@{secret}!AchievedTechnology@{AchievedTechnology}}
+\doxysubsubsection{\texorpdfstring{secret}{secret}}
+{\footnotesize\ttfamily bool Achieved\+Technology\+::secret}
+
+The type of technology corresponding to its name If the technology is secret from other players and the effects aren\textquotesingle{}t appliable 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Unit.\+h\end{DoxyCompactItemize}

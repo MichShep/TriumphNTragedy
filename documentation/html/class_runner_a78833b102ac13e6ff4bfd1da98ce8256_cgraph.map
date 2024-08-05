@@ -1,0 +1,23 @@
+<map id="Runner::handleTimedJoystick" name="Runner::handleTimedJoystick">
+<area shape="rect" id="Node000001" title="Handler for the right joystick (used to select things) thats taken in set times." alt="" coords="5,161,200,187"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a6b144d523e8f8213cba82e0a86090c7c" title="Handler for scrolling on the Action Hand widget and updating the popped action card and selected coun..." alt="" coords="258,89,436,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,158,253,131,254,136,154,163"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a2fc77967bf8e4b6474649d57a398ad85" title="Handler for scrolling on the Invesement Hand widget and updating the popped invest card and selected ..." alt="" coords="259,154,435,195"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="200,172,243,172,243,177,200,177"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#a49300aeb2b113e87994c99f555bdf579" title="Handler for scrolling on the tech widget and updating the popped tech." alt="" coords="248,219,446,244"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="161,185,275,212,274,217,160,190"/>
+<area shape="rect" id="Node000003" href="$class_player.html#ad21151ebd80ff1990e9d530f3188f505" title="Get the number of action cards the player has." alt="" coords="499,5,646,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="389,85,493,40,509,34,511,39,495,45,391,90"/>
+<area shape="rect" id="Node000004" href="$class_map.html#ab5897443f49bbbc5d964b9e574af40d6" title="Returns a pointer to the City that acts as the capital for the given country." alt="" coords="516,55,629,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="435,90,500,78,501,83,436,95"/>
+<area shape="rect" id="Node000005" href="$class_map.html#a4c0150673e8ac5baeccee79716b01bc2" title="Returns a pointer to the Country with the given name." alt="" coords="513,104,631,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="436,109,498,112,498,117,435,115"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#af0d0353424d3bfe4fef0f121a342df14" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="494,153,650,179"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="430,127,505,146,503,152,429,132"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="435,168,478,167,478,172,436,174"/>
+<area shape="rect" id="Node000008" href="$class_player.html#ab3c69056b6dae04e42ce9e1a70d76882" title="Get the number of invest cards the player has." alt="" coords="499,203,645,228"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="436,188,484,197,483,202,435,193"/>
+<area shape="poly" id="edge11_Node000009_Node000006" title=" " alt="" coords="402,216,445,204,493,188,512,182,514,187,495,193,447,209,403,221"/>
+<area shape="rect" id="Node000010" href="$class_player.html#a0dc151820b5f19e55e95b3e29b02e4f4" title="Get the number of achieved tech the player has." alt="" coords="503,252,641,278"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="438,242,488,250,487,255,438,248"/>
+</map>

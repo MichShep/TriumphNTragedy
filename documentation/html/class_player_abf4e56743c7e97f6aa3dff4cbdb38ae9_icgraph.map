@@ -1,0 +1,5 @@
+<map id="Player::setTechSecret" name="Player::setTechSecret">
+<area shape="rect" id="Node000001" title="Set the provided tech to be secret (achieved but rivals cannot see)" alt="" coords="193,5,343,31"/>
+<area shape="rect" id="Node000002" href="$class_player.html#ad2bd16f6298ea6c96a6cfe40d1f3e1fc" title="Acheive (set as true in achieved_tech) the tech given and set to secret by default." alt="" coords="5,5,145,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,21,145,21,145,16,177,16"/>
+</map>

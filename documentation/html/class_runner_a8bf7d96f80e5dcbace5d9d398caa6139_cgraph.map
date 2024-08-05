@@ -1,0 +1,13 @@
+<map id="Runner::drawSeasonSpecific" name="Runner::drawSeasonSpecific">
+<area shape="rect" id="Node000001" title="Draws any season specific sprites onto the screen." alt="" coords="5,104,196,130"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a5e3ccc0a56f6a231beae8dab8daa01ff" title="Draws the provided action card with the top&#45;left corner being at the provided X and Y coords." alt="" coords="257,5,421,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,101,176,71,243,40,261,33,263,38,245,45,178,76,125,106"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a6f02ca71b16028b4880e5baa56b721ed" title="Draws the provided investment card with the top&#45;left corner being at the provided X and Y coords." alt="" coords="257,55,421,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,101,258,81,259,87,167,106"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a0b8f928c88cda5a78e86be08e1a8b0db" title="Takes any length number and draws it as a 7&#45;segment at the x,y as the top left. Origional scale is 7*..." alt="" coords="266,104,412,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="196,114,251,114,251,120,196,120"/>
+<area shape="rect" id="Node000005" href="$class_player.html#aabb69239a3ec5b9d9ac4f21c7d99973f" title="Get the current command value (or the number) for the player&#39;s command card." alt="" coords="244,153,434,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="167,128,259,147,258,152,166,133"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a7b57549ac8ea87baf0e5eb79eba3f5a4" title="Used for button presses where a given mouse clip position will see if its in the rectangle provided." alt="" coords="287,203,391,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="125,128,178,158,245,189,272,198,271,203,243,194,176,163,122,132"/>
+</map>

@@ -1,0 +1,27 @@
+<map id="Runner::handleUserAnimationInput" name="Runner::handleUserAnimationInput">
+<area shape="rect" id="Node000001" title="Handler for when an animation is happening and user input is limited." alt="" coords="5,219,201,260"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a1ce72219d4a739ae2dbc91430502e2dc" title="Free the allocated memory of the whole game." alt="" coords="284,80,424,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,217,316,112,318,116,141,221"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#ab6de20c05424b276db69c4387aa6e594" title="Handels the players controller joystick movement the dictates cursor movement and is called only ever..." alt="" coords="249,227,459,252"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="201,237,233,237,233,242,201,242"/>
+<area shape="rect" id="Node000013" href="$class_runner.html#a4fdc26d720545c6fc684be2f09e491d2" title="Handels the players controller trigger (L2, R2) movement that dictates zoom and is called only every ..." alt="" coords="249,276,459,302"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="202,256,270,270,269,275,200,261"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a8254a700f6c57fa8a0b3c2e26fc90963" title="Evokes each city to free memory before clearing the hasmap and masterlist." alt="" coords="542,5,665,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="392,77,506,40,531,33,532,38,508,45,393,82"/>
+<area shape="rect" id="Node000004" href="$class_player.html#a4dfd1a5edd0bcb551ca6fb0fe57eb0e1" title="Frees the memort allocated for the player." alt="" coords="536,55,671,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="424,83,520,73,521,79,424,88"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a3fbb12039477f1bcdb82c58c5320f2d5" title="Deletes the windows and frees memory specifically used by SDL." alt="" coords="507,104,700,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="424,97,492,103,491,109,424,102"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a6a78283cbe962a4ce7197a7df5c9b43d" title="Handler for moving the cursor and either moving the screen or the cursor." alt="" coords="527,153,681,179"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="393,224,506,188,531,181,532,186,508,193,394,229"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a263012dc08bf73f7d628d0b9a8d0b044" title="Handler for moving the cursor and either moving the screen or the cursor." alt="" coords="527,203,681,228"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="459,227,510,222,511,227,459,232"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#ab1a03f1f4b2840db26a279a8731769a7" title="Get the city closest to the provided coordinates." alt="" coords="525,252,683,278"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="459,247,509,253,509,258,459,253"/>
+<area shape="rect" id="Node000011" href="$class_runner.html#af0d0353424d3bfe4fef0f121a342df14" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="526,301,682,327"/>
+<area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="426,250,460,261,484,274,508,288,526,294,524,299,506,293,482,279,458,266,424,255"/>
+<area shape="rect" id="Node000012" href="$class_runner.html#abda44286231761376689099fcdb9789f" title="Takes a joy axis movement and scales it to be from [0.0, 1.0] bases on a min movement of &#45;32000 and m..." alt="" coords="540,351,668,376"/>
+<area shape="poly" id="edge11_Node000006_Node000012" title=" " alt="" coords="441,251,461,261,478,280,486,300,493,320,509,337,526,347,524,352,505,342,488,322,481,302,473,283,457,266,439,255"/>
+<area shape="rect" id="Node000010" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Returns a reference to the hashmap of cities." alt="" coords="748,252,855,278"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="683,262,733,262,733,268,683,268"/>
+</map>

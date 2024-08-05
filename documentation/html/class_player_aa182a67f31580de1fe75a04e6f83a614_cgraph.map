@@ -1,0 +1,9 @@
+<map id="Player::updatePoppedActionCard" name="Player::updatePoppedActionCard">
+<area shape="rect" id="Node000001" title="Update the currently viewed action card based on what the previous viewed index was (for when cards a..." alt="" coords="5,55,220,80"/>
+<area shape="rect" id="Node000002" href="$class_player.html#a3d15440c59291506f3f0e5c8d6a76a8c" title="Get the Action Card at the specific index." alt="" coords="268,5,417,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,51,264,32,265,37,176,57"/>
+<area shape="rect" id="Node000003" href="$class_player.html#ad21151ebd80ff1990e9d530f3188f505" title="Get the number of action cards the player has." alt="" coords="269,55,416,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="220,65,253,65,253,70,220,70"/>
+<area shape="rect" id="Node000004" href="$class_player.html#ab3c69056b6dae04e42ce9e1a70d76882" title="Get the number of invest cards the player has." alt="" coords="269,104,416,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="176,78,265,98,264,103,175,84"/>
+</map>

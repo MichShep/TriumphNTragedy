@@ -1,0 +1,45 @@
+<map id="Player::getTechSize" name="Player::getTechSize">
+<area shape="rect" id="Node000001" title="Get the number of achieved tech the player has." alt="" coords="1490,184,1628,210"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a054e040d2e62be76bd5f58cf60cdf4b6" title="Draws the tech of the current viewed allegiance onto the players screen starting at the given x and y..." alt="" coords="1252,159,1433,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1474,190,1433,185,1434,179,1475,184"/>
+<area shape="rect" id="Node000016" href="$class_runner.html#a49300aeb2b113e87994c99f555bdf579" title="Handler for scrolling on the tech widget and updating the popped tech." alt="" coords="1243,208,1442,234"/>
+<area shape="poly" id="edge20_Node000001_Node000016" title=" " alt="" coords="1474,209,1442,212,1442,207,1474,204"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a30968392778a6e7924090bbe1c27add8" title="Draws the Achieved Tech hand of the currently viewed allegiance (either the icon or all the cards)" alt="" coords="1014,159,1182,184"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1236,174,1183,174,1183,169,1236,169"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a1ee81c1b2dca02f6714995f05afcf271" title="Draws the private view of the player including cards and VP and production levels and acheived tech." alt="" coords="783,157,953,183"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="998,174,953,173,953,168,998,168"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a2b6255608b48c6512f648d1eb1607180" title="Animation for showing the command cards played and the new order." alt="" coords="525,159,735,184"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="767,173,735,174,735,168,767,168"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a7f3410706fc882be780a945e22da75e2" title="Animation of the cards from the discard pile being added back." alt="" coords="543,60,717,86"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="833,151,787,124,734,99,700,89,702,84,736,94,789,119,835,146"/>
+<area shape="rect" id="Node000011" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="17,157,107,183"/>
+<area shape="poly" id="edge19_Node000004_Node000011" title=" " alt="" coords="839,195,793,225,765,238,735,249,651,269,577,281,512,285,450,281,388,272,323,257,166,211,95,186,96,181,167,206,324,251,389,267,450,276,512,279,577,275,650,264,734,244,763,234,790,220,836,190"/>
+<area shape="rect" id="Node000012" href="$class_runner.html#a806f0e16690861d418070380a007e7bd" title="Handles what to draw during the current phase." alt="" coords="562,109,698,135"/>
+<area shape="poly" id="edge12_Node000004_Node000012" title=" " alt="" coords="785,156,697,138,698,133,786,151"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#ad62bb8027061f8fbd5eced9182ff8db1" title="New Year phase where Cards in the discard piles will be added to both draw decks and then the whole d..." alt="" coords="347,60,468,86"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="528,76,469,76,469,70,528,70"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a8bb31608fccb517fabf91990efa54f80" title="Creates the decks of cards." alt="" coords="167,5,290,31"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="348,58,272,34,274,29,350,52"/>
+<area shape="rect" id="Node000010" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="168,107,289,132"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="341,93,281,109,280,103,340,88"/>
+<area shape="poly" id="edge11_Node000007_Node000011" title=" " alt="" coords="332,72,251,77,208,84,168,97,141,110,116,126,78,159,74,155,113,122,138,105,166,92,207,79,250,72,331,67"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="5,5,119,31"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="151,21,119,21,119,16,151,16"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="170,140,107,159,106,154,168,135"/>
+<area shape="poly" id="edge16_Node000012_Node000007" title=" " alt="" coords="553,108,468,89,470,84,554,103"/>
+<area shape="rect" id="Node000013" href="$class_runner.html#a024ca94b6ff3d8213d236d87c0c6abb5" title="Phase where players play action cards to add influence and play investment cards, goes in turn order ..." alt="" coords="338,208,477,234"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="548,139,527,148,512,160,503,172,494,186,479,199,458,210,455,205,476,195,490,182,499,169,508,156,524,144,546,134"/>
+<area shape="rect" id="Node000014" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="Phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="342,159,473,184"/>
+<area shape="poly" id="edge15_Node000012_Node000014" title=" " alt="" coords="554,142,470,161,468,155,553,136"/>
+<area shape="rect" id="Node000015" href="$class_runner.html#a30ca7e5e57561f398bd28810ccb01863" title="Spring season of war where players will commence the war. Action cards with spring will have priority..." alt="" coords="355,109,461,135"/>
+<area shape="poly" id="edge17_Node000012_Node000015" title=" " alt="" coords="547,125,461,125,461,120,547,120"/>
+<area shape="poly" id="edge14_Node000013_Node000011" title=" " alt="" coords="322,211,107,179,108,174,323,206"/>
+<area shape="poly" id="edge18_Node000015_Node000011" title=" " alt="" coords="340,139,290,147,107,169,107,164,290,142,339,134"/>
+<area shape="rect" id="Node000017" href="$class_runner.html#a78833b102ac13e6ff4bfd1da98ce8256" title="Handler for the right joystick (used to select things) thats taken in set times." alt="" coords="1001,208,1195,234"/>
+<area shape="poly" id="edge21_Node000016_Node000017" title=" " alt="" coords="1228,224,1196,224,1196,218,1228,218"/>
+<area shape="rect" id="Node000018" href="$class_runner.html#aa657e90f46ab42e4f3a79b371cf4db0d" title="Main handler for all possible user input." alt="" coords="547,208,713,234"/>
+<area shape="poly" id="edge22_Node000017_Node000018" title=" " alt="" coords="985,224,714,224,714,218,985,218"/>
+<area shape="poly" id="edge23_Node000018_Node000013" title=" " alt="" coords="531,224,478,224,478,218,531,218"/>
+<area shape="poly" id="edge24_Node000018_Node000014" title=" " alt="" coords="553,207,468,188,470,182,554,201"/>
+<area shape="poly" id="edge25_Node000018_Node000015" title=" " alt="" coords="534,204,524,199,508,187,499,174,490,161,476,148,455,138,458,133,479,144,494,157,503,171,512,183,527,195,536,199"/>
+</map>

@@ -1,7 +1,7 @@
 <map id="Runner::mapPlayerResPop" name="Runner::mapPlayerResPop">
 <area shape="rect" id="Node000001" title="Goes through each city and country the player owns and set the RES and POP of the player." alt="" coords="5,31,186,56"/>
-<area shape="rect" id="Node000002" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Get reference to hash map of cities to reduce calls." alt="" coords="245,5,351,31"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Returns a reference to the hashmap of cities." alt="" coords="245,5,351,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,30,229,24,230,29,186,35"/>
-<area shape="rect" id="Node000003" href="$class_map.html#adc8cd4da1c2a901ca059f1c0a5be3f2c" title="Get reference to hash map of countries to reduce calls." alt="" coords="234,55,362,80"/>
+<area shape="rect" id="Node000003" href="$class_map.html#adc8cd4da1c2a901ca059f1c0a5be3f2c" title="Returns a reference to the hashmap of countries." alt="" coords="234,55,362,80"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="186,52,219,55,218,61,186,57"/>
 </map>

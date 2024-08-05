@@ -1,0 +1,14 @@
+<map id="Runner::drawActionWidget" name="Runner::drawActionWidget">
+<area shape="rect" id="Node000001" title="Draws the Action Card hand of the currently viewed allegiance (either the icon or all the cards)" alt="" coords="5,104,183,130"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a77f80cc5a5e88ff613b4e12d0a6470eb" title="Draws the action cards of the current viewed allegiance onto the players screen starting at the given..." alt="" coords="231,53,402,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,101,242,80,243,86,154,106"/>
+<area shape="rect" id="Node000005" href="$class_player.html#ad21151ebd80ff1990e9d530f3188f505" title="Get the number of action cards the player has." alt="" coords="459,104,606,130"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="183,114,443,114,443,120,183,120"/>
+<area shape="rect" id="Node000006" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="244,155,389,180"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="154,128,243,148,242,153,153,133"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a5e3ccc0a56f6a231beae8dab8daa01ff" title="Draws the provided action card with the top&#45;left corner being at the provided X and Y coords." alt="" coords="450,5,614,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="377,50,456,32,457,38,378,55"/>
+<area shape="rect" id="Node000004" href="$class_player.html#a3d15440c59291506f3f0e5c8d6a76a8c" title="Get the Action Card at the specific index." alt="" coords="458,55,607,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="403,64,442,64,442,70,403,69"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="375,77,460,97,459,103,374,82"/>
+</map>

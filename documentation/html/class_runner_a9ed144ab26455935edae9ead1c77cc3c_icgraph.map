@@ -1,5 +1,5 @@
 <map id="Runner::checkTradeRoutes" name="Runner::checkTradeRoutes">
 <area shape="rect" id="Node000001" title="During the production phase it needs to verify all cities controlled by the player that are blockaded..." alt="" coords="185,5,366,31"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="5,5,137,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="Phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="5,5,137,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,21,137,21,137,16,169,16"/>
 </map>

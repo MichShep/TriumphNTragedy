@@ -193,11 +193,9 @@ public:
 
     uint8_t movement; /**< The max amount of cities it can move in one turn*/
 
-    bool moved=false;
+    bool moved=false; /**< Flag for if the Unit has moved in the current year */
 
     bool rebase=false; /**< If this unit can ReBase (move freely to ground force)*/
-
-    bool strategic=true;
 
     year_t disengage=NULL_YEAR;
 

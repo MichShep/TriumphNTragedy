@@ -1,0 +1,7 @@
+<map id="Runner::handleTechMovement" name="Runner::handleTechMovement">
+<area shape="rect" id="Node000001" title="Handler for scrolling on the tech widget and updating the popped tech." alt="" coords="5,31,204,56"/>
+<area shape="rect" id="Node000002" href="$class_player.html#a0dc151820b5f19e55e95b3e29b02e4f4" title="Get the number of achieved tech the player has." alt="" coords="261,5,399,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,30,245,25,246,30,204,35"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#af0d0353424d3bfe4fef0f121a342df14" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="252,55,408,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="204,51,236,55,236,60,204,57"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Runner::drawBattleSelect" name="Runner::drawBattleSelect">
+<area shape="rect" id="Node000001" title="Draws all the currently selected battles onto the cities selected." alt="" coords="5,5,176,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#ac54c38b1a35bcbd37adaab4a76fda25c" title="Draws a 3 pixel wide line between the two points." alt="" coords="224,5,347,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,16,208,16,208,21,176,21"/>
+</map>

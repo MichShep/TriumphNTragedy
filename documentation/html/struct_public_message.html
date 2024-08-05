@@ -105,15 +105,18 @@ Collaboration diagram for PublicMessage:</div>
 <div class="dyncontent">
 <div class="center"><img src="struct_public_message__coll__graph.png" border="0" usemap="#a_public_message_coll__map" alt="Collaboration graph"/></div>
 <map name="a_public_message_coll__map" id="a_public_message_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,125,111"/>
+<area shape="rect" title=" " alt="" coords="5,5,125,291"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0aa4b317af8bd3db38da0fb675ca9f37" id="r_a0aa4b317af8bd3db38da0fb675ca9f37"><td class="memItemLeft" align="right" valign="top"><a id="a0aa4b317af8bd3db38da0fb675ca9f37" name="a0aa4b317af8bd3db38da0fb675ca9f37"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PublicMessage</b> (const Message message, const unsigned int start_tick)</td></tr>
-<tr class="separator:a0aa4b317af8bd3db38da0fb675ca9f37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa48a9adc087991f5ec2944ea86ce84e1" id="r_aa48a9adc087991f5ec2944ea86ce84e1"><td class="memItemLeft" align="right" valign="top"><a id="aa48a9adc087991f5ec2944ea86ce84e1" name="aa48a9adc087991f5ec2944ea86ce84e1"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>PublicMessage</b> (const Message message, const Uint32 start_tick, const Uint32 tpf, const int width, const int height, const unsigned int frames, const int offset=0, const bool flicker=false, const bool beside_action=false)</td></tr>
+<tr class="separator:aa48a9adc087991f5ec2944ea86ce84e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa82c595cc162c9944c7ead5e57a15bda" id="r_aa82c595cc162c9944c7ead5e57a15bda"><td class="memItemLeft" align="right" valign="top"><a id="aa82c595cc162c9944c7ead5e57a15bda" name="aa82c595cc162c9944c7ead5e57a15bda"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>PublicMessage</b> (const Message message, const Uint32 start_tick, const Uint32 tpf, const Uint32 life_time, const int width, const int height, const int offset, const bool beside_action)</td></tr>
+<tr class="separator:aa82c595cc162c9944c7ead5e57a15bda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a629d838f0802778f8208127dbe59ee" id="r_a1a629d838f0802778f8208127dbe59ee"><td class="memItemLeft" align="right" valign="top"><a id="a1a629d838f0802778f8208127dbe59ee" name="a1a629d838f0802778f8208127dbe59ee"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="struct_public_message.html">PublicMessage</a> &amp;lhs)</td></tr>
 <tr class="separator:a1a629d838f0802778f8208127dbe59ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -123,9 +126,33 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a03e329919293fc73896f16a64cda6466" id="r_a03e329919293fc73896f16a64cda6466"><td class="memItemLeft" align="right" valign="top"><a id="a03e329919293fc73896f16a64cda6466" name="a03e329919293fc73896f16a64cda6466"></a>
 Message&#160;</td><td class="memItemRight" valign="bottom"><b>message</b></td></tr>
 <tr class="separator:a03e329919293fc73896f16a64cda6466"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d0c3a9b6e6ca6925f14f945c819bee7" id="r_a3d0c3a9b6e6ca6925f14f945c819bee7"><td class="memItemLeft" align="right" valign="top"><a id="a3d0c3a9b6e6ca6925f14f945c819bee7" name="a3d0c3a9b6e6ca6925f14f945c819bee7"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>start_tick</b></td></tr>
-<tr class="separator:a3d0c3a9b6e6ca6925f14f945c819bee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a985da725d41e231557716124dd305262" id="r_a985da725d41e231557716124dd305262"><td class="memItemLeft" align="right" valign="top"><a id="a985da725d41e231557716124dd305262" name="a985da725d41e231557716124dd305262"></a>
+Uint32&#160;</td><td class="memItemRight" valign="bottom"><b>start_tick</b></td></tr>
+<tr class="separator:a985da725d41e231557716124dd305262"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34562b792e4290a79856fb275ee10160" id="r_a34562b792e4290a79856fb275ee10160"><td class="memItemLeft" align="right" valign="top"><a id="a34562b792e4290a79856fb275ee10160" name="a34562b792e4290a79856fb275ee10160"></a>
+Uint32&#160;</td><td class="memItemRight" valign="bottom"><b>life_time</b> =-1</td></tr>
+<tr class="separator:a34562b792e4290a79856fb275ee10160"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa037fe37895b91941860a0b5cfe493ff" id="r_aa037fe37895b91941860a0b5cfe493ff"><td class="memItemLeft" align="right" valign="top"><a id="aa037fe37895b91941860a0b5cfe493ff" name="aa037fe37895b91941860a0b5cfe493ff"></a>
+Uint32&#160;</td><td class="memItemRight" valign="bottom"><b>tpf</b></td></tr>
+<tr class="separator:aa037fe37895b91941860a0b5cfe493ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a068cc7b0303b51aeec631e284d812207" id="r_a068cc7b0303b51aeec631e284d812207"><td class="memItemLeft" align="right" valign="top"><a id="a068cc7b0303b51aeec631e284d812207" name="a068cc7b0303b51aeec631e284d812207"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>width</b></td></tr>
+<tr class="separator:a068cc7b0303b51aeec631e284d812207"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff8fce8a8a1b9a8d3312a30c7221db56" id="r_aff8fce8a8a1b9a8d3312a30c7221db56"><td class="memItemLeft" align="right" valign="top"><a id="aff8fce8a8a1b9a8d3312a30c7221db56" name="aff8fce8a8a1b9a8d3312a30c7221db56"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>height</b></td></tr>
+<tr class="separator:aff8fce8a8a1b9a8d3312a30c7221db56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47ba88f41e85cbf9d87d942bd54c84e1" id="r_a47ba88f41e85cbf9d87d942bd54c84e1"><td class="memItemLeft" align="right" valign="top"><a id="a47ba88f41e85cbf9d87d942bd54c84e1" name="a47ba88f41e85cbf9d87d942bd54c84e1"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>frames</b></td></tr>
+<tr class="separator:a47ba88f41e85cbf9d87d942bd54c84e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51ea3143a6cc6199958e3c3e58bdfb85" id="r_a51ea3143a6cc6199958e3c3e58bdfb85"><td class="memItemLeft" align="right" valign="top"><a id="a51ea3143a6cc6199958e3c3e58bdfb85" name="a51ea3143a6cc6199958e3c3e58bdfb85"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>offset</b></td></tr>
+<tr class="separator:a51ea3143a6cc6199958e3c3e58bdfb85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17e7a3f6fe3b5379bd9d4ef3af6f94cb" id="r_a17e7a3f6fe3b5379bd9d4ef3af6f94cb"><td class="memItemLeft" align="right" valign="top"><a id="a17e7a3f6fe3b5379bd9d4ef3af6f94cb" name="a17e7a3f6fe3b5379bd9d4ef3af6f94cb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>flicker</b></td></tr>
+<tr class="separator:a17e7a3f6fe3b5379bd9d4ef3af6f94cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acada7fd1b7ddc6f6a6a51de0f936242e" id="r_acada7fd1b7ddc6f6a6a51de0f936242e"><td class="memItemLeft" align="right" valign="top"><a id="acada7fd1b7ddc6f6a6a51de0f936242e" name="acada7fd1b7ddc6f6a6a51de0f936242e"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>beside_action</b></td></tr>
+<tr class="separator:acada7fd1b7ddc6f6a6a51de0f936242e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="_includes_8h_source.html">Includes.h</a></li>

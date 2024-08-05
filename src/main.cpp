@@ -1,4 +1,4 @@
-#include "Graphics.h"
+#include "Runner.h"
 
 #define SDL_MAIN_HANDELED
 

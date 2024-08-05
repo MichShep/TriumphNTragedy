@@ -1,0 +1,8 @@
+<map id="Runner::passedCommand" name="Runner::passedCommand">
+<area shape="rect" id="Node000001" title="Handler for the playing command cards and turn order (all must be passed for it to end and will loop ..." alt="" coords="5,31,179,56"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="54,32,46,22,51,12,66,6,92,4,120,7,134,14,132,18,119,12,92,9,68,11,55,16,52,21,58,29"/>
+<area shape="rect" id="Node000002" href="$class_player.html#aabb69239a3ec5b9d9ac4f21c7d99973f" title="Get the current command value (or the number) for the player&#39;s command card." alt="" coords="227,5,417,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,31,211,28,211,33,180,37"/>
+<area shape="rect" id="Node000003" href="$class_player.html#a90a3451e98e44d31ceee243ce4b8d672" title="Returns the name of the player." alt="" coords="262,55,382,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="179,50,247,57,246,62,179,55"/>
+</map>

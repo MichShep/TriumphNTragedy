@@ -1,0 +1,5 @@
+<map id="Runner::coup" name="Runner::coup">
+<area shape="rect" id="Node000001" title="Handler for couping (removing a rival&#39;s influence)" alt="" coords="5,5,105,31"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a4c0150673e8ac5baeccee79716b01bc2" title="Returns a pointer to the Country with the given name." alt="" coords="153,5,271,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,16,137,16,137,21,105,21"/>
+</map>

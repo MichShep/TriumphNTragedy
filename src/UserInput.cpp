@@ -58,11 +58,11 @@ void Runner::handleUserInput(bool& running, const tick_t& delta){
                 break;
             }
             case SDL_CONTROLLERBUTTONDOWN:{
-                handleButtonDown(players[event.cbutton.which+offset], event, ticks);
+                handleButtonDown(players[event.cbutton.which], event, ticks);
                 break;
             }
             case SDL_CONTROLLERBUTTONUP:{
-                handleButtonUp(players[event.cbutton.which+offset], event, ticks);
+                handleButtonUp(players[event.cbutton.which], event, ticks);
                 break;
             }
             default:
@@ -104,6 +104,37 @@ void Runner::handleUserAnimationInput(bool& running, const tick_t& delta){
         //- Handle every frame actions
         handleCursorMovement(player);
         handleTriggerMovement(player);
+    }
+}
+
+void Runner::handleTitleInput(bool& running, const tick_t& ticks){
+    SDL_Event event;
+    if (SDL_PollEvent(&event)){
+        switch (event.type){
+            case SDL_KEYDOWN:{
+                if(event.key.keysym.scancode == SDL_SCANCODE_ESCAPE){
+                    running = false;
+                }
+                break;
+            }
+            case SDL_CONTROLLERBUTTONUP:{
+                handleButtonUp(players[event.cbutton.which], event, ticks);
+                break;
+            }
+            case SDL_CONTROLLERBUTTONDOWN:{
+                handleButtonDown(players[event.cbutton.which], event, ticks);
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    for (auto& player : players){
+        //- Handle every frame actions
+        if (!player.passed)
+            handleCursorMovement(player);
+        handleHeldButtons(player, ticks);
     }
 }
 
@@ -167,7 +198,13 @@ void Runner::handleHeldButtons(Player& player, const tick_t& ticks) {
 }
 
 void Runner::handleXHeld(Player& player, const tick_t& ticks) {
-    if (season == PRODUCTION && player.getCurrentProduction() >= 0 && current_player == &player){
+    //house_target = {width/2-206, height/2-72/2, 412,72}, // 90
+    //start_target = {width/2-206, house_target.y-90, 412,72},
+    //credits_target = {width/2-206, house_target.y+90, 412,72},
+    if (season == TITLE_SCREEN && player.in_start){
+        player.passed = !player.passed;
+    }
+    else if (season == PRODUCTION && player.getCurrentProduction() >= 0 && current_player == &player){
         applyProduction(player);
         public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
     } 
@@ -184,8 +221,19 @@ void Runner::handleXHeld(Player& player, const tick_t& ticks) {
     else if (season <= WINTER){
         seasonActed();
     }
+    
 
     player.x_held_tick = 0;
+}
+
+void Runner::handleYHeld(Player& player, const tick_t& ticks){
+    //happens any season
+    if (player.selected_unit.second == nullptr && player.closest_map_city != nullptr && map.getCountry(player.closest_map_city->country)->allegiance == (int)player && map.getCountry(player.closest_map_city->country)->influence_level != SATELLITES){
+        map.getCountry(player.closest_map_city->country)->influence--;
+        map.getCountry(player.closest_map_city->country)->resolveDiplomacy();
+
+        player.y_held_tick = 0;
+    }
 }
 
 void Runner::handleProductionSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time) {
@@ -234,19 +282,19 @@ void Runner::handleGovernmentSeason(Player& player, const tick_t& ticks, const t
             playerActed();
         } 
         else if (player.show_action && player.canPeakAction()) {
-            performTech(player, ticks, WEST_CARD_PEAKING, &Runner::peakRivalAction);
+            performIntel(player, ticks, WEST_CARD_PEAKING, &Runner::peakRivalAction);
         }
         else if (player.canPeakUnit()){
-            performTech(player, ticks, WEST_UNIT_PEAKING, &Runner::peakRivalUnit);
+            performIntel(player, ticks, WEST_UNIT_PEAKING, &Runner::peakRivalUnit);
         } 
         else if (canCoup(player)){
-            performTech(player, ticks, WEST_SABOTAGE, &Runner::coupRival);
+            performIntel(player, ticks, WEST_SABOTAGE, &Runner::coupRival);
         } 
         else if (canSabotage(player)){
-            performTech(player, ticks, WEST_SABOTAGE, &Runner::sabotageRival);
+            performIntel(player, ticks, WEST_SABOTAGE, &Runner::sabotageRival);
         } 
         else if (canSpyRing(player)){
-            performTech(player, ticks, WEST_SABOTAGE, &Runner::spyRingRival);
+            performIntel(player, ticks, WEST_SABOTAGE, &Runner::spyRingRival);
         }
         player.a_held_tick = 0;
     }
@@ -276,18 +324,23 @@ void Runner::handleRegularSeason(Player& player, const tick_t& ticks, const tick
         player.a_held_tick = 0;
     }
 
-    if (player.YHeld(ticks, y_wait_time)) {
-        if (player.current_phase == MOVEMENT && player.selected_unit.second != nullptr) {
-            flipConvoy(player, player.selected_unit.first, player.selected_unit.second);
-        }
-        else if (player == current_player) {
+    if (player.YHeld(ticks, y_wait_time) && player.current_phase == MOVEMENT && player.selected_unit.second != nullptr){
+        flipConvoy(player, player.selected_unit.first, player.selected_unit.second);
+
+        player.y_held_tick = 0;
+    }
+
+    if (player.multiHeld(false, true, true, false, ticks, y_wait_time)) {
+        if (player == current_player) {
             declareVoN(player);
         }
+        
         player.y_held_tick = 0;
+        player.a_held_tick = 0;
     }
 }
 
-void Runner::performTech(Player& player, const tick_t& ticks, Message message_type, void (Runner::*espionageAction)(Player&, const tick_t&)) {
+void Runner::performIntel(Player& player, const tick_t& ticks, Message message_type, void (Runner::*espionageAction)(Player&, const tick_t&)) {
     invest_discard.push_back(player.popped_invest_card);
 
     (this->*espionageAction)(player,ticks);
@@ -305,6 +358,10 @@ void Runner::handleButtonUp(Player& player, const SDL_Event& event, const tick_t
         }
         case (SDL_CONTROLLER_BUTTON_A):{
             switch (season){
+                case TITLE_SCREEN:{
+                    handleControllerSwitch(player);
+                    break;
+                }
                 case GOVERNMENT:{
                     selectTechCard(player);
                     break;
@@ -458,6 +515,15 @@ void Runner::handleBattleSelect(Player& player){
         return;
 
     if (player.closest_map_city != nullptr){
+        /*if (!battles.empty()){
+            const auto& target = player.closest_map_city;
+            const auto& res = std::find_if(battles.begin(), battles.end(), [&target](const pair<City*, CityType> p1){ return p1.first == target;});
+            if (res == battles.end()){ //check that if its already selected if it should be deselected
+                battles.erase(res);
+                return; 
+            }   
+        }*/
+
         if (player.closest_map_city == player.selecting_city && (player.popped_option[0] == 0 ||  player.popped_option[0] == 2 || player.popped_option[0] == 4 || player.popped_option[0] == 6)){ //selecting target
             if (!player.unit_available[(int)(player.popped_option[0]/2)]) //check that the popped unit is available
                 return;
@@ -466,6 +532,11 @@ void Runner::handleBattleSelect(Player& player){
             player.selecting_city = nullptr;
         }
         else{
+            player.widget = MAP;
+            if (player.selecting_city == player.closest_map_city){
+                player.selecting_city = nullptr;
+                return;
+            }
             player.selecting_city = player.closest_map_city;
             setDefenders(player);
         }
@@ -483,7 +554,7 @@ void Runner::handleUnitBuilding(Player& player){
             player.spendProduction(UNIT_UP, !(player.selected_unit.second->upgrading = !player.selected_unit.second->upgrading));
 
         else{ //removing cadres
-            if (player.getAllegiance() == player.selected_unit.first->ruler_type){
+            if (player.getAllegiance() == player.selected_unit.first->ruler_allegiance){
                 player.selected_unit.first->removeUnit(player.selected_unit.second);
                 player.remove(player.selected_unit.second);
                 //need to recheck if counts were redone
@@ -570,23 +641,68 @@ void Runner::handleCardPlaying(Player& player){
 
 }
 
+void Runner::handleControllerSwitch(Player& player){
+    const auto& height = player.app->screen.HEIGHT;
+    const auto& cursor_x = player.cursor_x;
+    const auto& cursor_y = player.cursor_y;
+    /*west_target = {22, height-21-176, 176, 176},
+    axis_target = {226, height-21-176, 176, 176},
+    ussr_target = {430, height-21-176, 176, 176};*/
+    cout << controllers[0] << "|" << controllers[1] << "|" << controllers[2] << " to ";
+    if (inBox(22, height-21-176, 176, 176, cursor_x, cursor_y) && player != west_player){
+        auto& controller1 = controllers[WEST];
+        auto& controller2 = controllers[(int)player];
+
+        SDL_GameControllerClose(controller1);
+        SDL_GameControllerClose(controller2);
+
+        controller2 = SDL_GameControllerOpen(WEST);
+        controller1 = SDL_GameControllerOpen((int)player);
+        cout << "swapped 0" << endl;
+    }
+    else if (inBox(226, height-21-176, 176, 176, cursor_x, cursor_y) && player != axis_player){
+        auto& controller1 = controllers[AXIS];
+        auto& controller2 = controllers[(int)player];
+
+        SDL_GameControllerClose(controller1);
+        SDL_GameControllerClose(controller2);
+
+        controller2 = SDL_GameControllerOpen(AXIS);
+        controller1 = SDL_GameControllerOpen((int)player);
+    }
+
+    else if(inBox(430, height-21-176, 176, 176, cursor_x, cursor_y) && player != ussr_player){
+        auto& controller1 = controllers[USSR];
+        auto& controller2 = controllers[(int)player];
+
+        SDL_GameControllerClose(controller1);
+        SDL_GameControllerClose(controller2);
+    
+        controller2 = SDL_GameControllerOpen(USSR);
+        controller1 = SDL_GameControllerOpen((int)player);
+    }
+    cout << controllers[0] << "|" << controllers[1] << "|" << controllers[2] << endl;
+
+}
+
 //&^ Joystick moving
 
 void Runner::handleCursorMovement(Player& player){
     //- Left stick movement for cursor movement
-    int x_move = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_LEFTX);
-    int y_move = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_LEFTY);
+    const auto& allegiance = player.getAllegiance();
+    int x_move = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_LEFTX);
+    int y_move = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_LEFTY);
 
     bool x_moving=pastDeadZone(x_move), y_moving=pastDeadZone(y_move);
 
     if (x_moving || y_moving){
         if (x_moving){
             clampCursorX(player, CURSOR_SPEED * scaleAxis(x_move));
-            player.cursor_x = SDL_clamp(player.cursor_x, -16, powers_app[player.getAllegiance()].screen.WIDTH - 16);
+            player.cursor_x = SDL_clamp(player.cursor_x, -16, powers_app[allegiance].screen.WIDTH - 16);
         }
         if (y_moving){
             clampCursorY(player, CURSOR_SPEED * scaleAxis(y_move));
-            player.cursor_y = SDL_clamp(player.cursor_y, -16, powers_app[player.getAllegiance()].screen.HEIGHT - 16);
+            player.cursor_y = SDL_clamp(player.cursor_y, -16, powers_app[allegiance].screen.HEIGHT - 16);
         }
         player.selected_unit = {nullptr, nullptr};
         player.board_change = true;
@@ -598,9 +714,10 @@ void Runner::handleCursorMovement(Player& player){
 }
 
 void Runner::handleJoystickMovement(Player& player){
+    const auto& allegiance = player.getAllegiance();
     if (player.widget == MAP && player.selecting_city != nullptr){ //if there is a city where there is going to be something built then use the right joy stick to select
-        int x_move = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_RIGHTX);
-        int y_move = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_RIGHTY);
+        int x_move = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTX);
+        int y_move = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTY);
 
         if (pastDeadZone(x_move) || pastDeadZone(y_move)){ //if there is movement then move the line cursor
             //- Need to get the angle 
@@ -669,10 +786,11 @@ void Runner::handleTimedJoystick(Player& player, const tick_t& ticks){
     }
 }
 
-void Runner::handleActionHandMovement(Player& player, const bool& move_x,  const bool& move_y){
+void Runner::handleActionHandMovement(Player& player, const bool move_x,  const bool move_y){
     //- Collect movement of the right joy stick
-    int y_movement = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_RIGHTY);
-    int x_movement = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_RIGHTX);
+    const auto& allegiance = player.getAllegiance();
+    int y_movement = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTY);
+    int x_movement = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTX);
 
     auto changeLook = [&](Country* new_country, const bool left_change, const bool right_change){
         player.selected_country = new_country;
@@ -721,10 +839,11 @@ void Runner::handleActionHandMovement(Player& player, const bool& move_x,  const
     }
 }
 
-void Runner::handleInvestHandMovement(Player& player, const bool& move_x,  const bool& move_y){
+void Runner::handleInvestHandMovement(Player& player, const bool move_x,  const bool move_y){
     //- Collect movement of the right joy stick
-    int y_movement = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_RIGHTY);
-    int x_movement = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_RIGHTX);
+    const auto& allegiance = player.getAllegiance();
+    int y_movement = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTY);
+    int x_movement = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTX);
 
     //- Change selected card
     if (move_y && pastDeadZone(y_movement)){
@@ -769,8 +888,8 @@ void Runner::handleInvestHandMovement(Player& player, const bool& move_x,  const
     }
 }
 
-void Runner::handleTechMovement(Player& player, const bool& move_y){
-    int y_movement = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_RIGHTY);
+void Runner::handleTechMovement(Player& player, const bool move_y){
+    int y_movement = SDL_GameControllerGetAxis(controllers[(int)player], SDL_CONTROLLER_AXIS_RIGHTY);
 
     if (move_y && pastDeadZone(y_movement)){
         if (players[player.tech_view].getTechSize() > 0)
@@ -782,8 +901,9 @@ void Runner::handleTechMovement(Player& player, const bool& move_y){
 //&^ Triggers
 
 void Runner::handleTriggerMovement(Player& player){
-    bool zooming_out = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_TRIGGERLEFT);
-    bool zooming_in = SDL_GameControllerGetAxis(controllers[player.getAllegiance()], SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+    const auto& allegiance = player.getAllegiance();
+    bool zooming_out = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_TRIGGERLEFT);
+    bool zooming_in = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
     
     if (zooming_out && !zooming_in) {
         player.app->screen.zoom_factor = SDL_clamp(player.app->screen.zoom_factor+0.1, 1.00, 3.00);

@@ -1,0 +1,18 @@
+<map id="Player::remove" name="Player::remove">
+<area shape="rect" id="Node000001" title="Removes a unit from the master list and updates the unit count of the player." alt="" coords="544,104,654,130"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#aa657e90f46ab42e4f3a79b371cf4db0d" title="Main handler for all possible user input." alt="" coords="330,55,496,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="533,102,464,84,465,78,534,97"/>
+<area shape="rect" id="Node000007" href="$class_player.html#aa76ad027e5570a67af567e4ccbd75995" title="Setup the player to be able to view the rivals hand for a limited time and remove the card used to pe..." alt="" coords="348,104,479,130"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="529,120,479,120,479,114,529,114"/>
+<area shape="rect" id="Node000008" href="$class_player.html#a0e7975fb90517a7551d7290c1cd77d8f" title="Setup the player to be able to view the selected rival unit for a limited time and remove the card us..." alt="" coords="354,153,472,179"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="534,137,465,155,464,150,533,132"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a024ca94b6ff3d8213d236d87c0c6abb5" title="Phase where players play action cards to add influence and play investment cards, goes in turn order ..." alt="" coords="143,5,282,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="342,53,267,34,268,29,343,48"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="Phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="147,55,278,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="314,70,279,70,279,65,314,65"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a30ca7e5e57561f398bd28810ccb01863" title="Spring season of war where players will commence the war. Action cards with spring will have priority..." alt="" coords="159,104,266,130"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="343,87,267,106,265,101,342,82"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,55,95,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="154,39,96,57,94,51,152,34"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="152,101,94,84,96,78,154,96"/>
+</map>

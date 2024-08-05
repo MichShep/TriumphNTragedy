@@ -2,7 +2,7 @@
 \hypertarget{class_player}{}\label{class_player}\index{Player@{Player}}
 
 
-Represents Great Power and \doxylink{class_player}{Player} Stats.  
+Represents Great Power and the Players graphical status.  
 
 
 
@@ -49,6 +49,13 @@ void {\bfseries upgrade\+Units} ()
 \begin{DoxyCompactList}\small\item\em Iterates through the units and if they were marked as upgraded, increases the combat value and resets the upgrade flag. \end{DoxyCompactList}\item 
 size\+\_\+t \mbox{\hyperlink{class_player_ad7307c9d92777e79e0f04d65a689f269}{get\+Next\+ID}} () const
 \begin{DoxyCompactList}\small\item\em Gets the next empty ID in the unit master list to give to a new unit. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a4142db9f7d51b308899dc4f8bfd2e312}{can\+Increase\+IND}} () const
+\begin{DoxyCompactList}\small\item\em Decider for if the player can increase their Industry (has enough factory selected and haven\textquotesingle{}t done it twice this year and under 35) \end{DoxyCompactList}\item 
+\Hypertarget{class_player_a4eea39157a5a4fe332663098b3e874aa}\label{class_player_a4eea39157a5a4fe332663098b3e874aa} 
+void {\bfseries raise\+IND} ()
+\begin{DoxyCompactList}\small\item\em Raise the industry by one and the count of industry raises. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_a92fa38cfe2b9cb7566629da720db9041}{lower\+IND}} ()
+\begin{DoxyCompactList}\small\item\em Lower the industry of the player by one. \end{DoxyCompactList}\item 
 unordered\+\_\+map$<$ string, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$\+::const\+\_\+iterator \mbox{\hyperlink{class_player_adb173db37bd5459d1f7300875735be4f}{get\+Controlled\+Cities\+Begin}} () const
 \begin{DoxyCompactList}\small\item\em Get the begin iterator of the controlled cities hashmap to iteratre through. \end{DoxyCompactList}\item 
 unordered\+\_\+map$<$ string, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$\+::const\+\_\+iterator \mbox{\hyperlink{class_player_a3d83d26d0bee9a3a16576a2472a4e843}{get\+Controlled\+Cities\+End}} () const
@@ -59,16 +66,61 @@ size\+\_\+t \mbox{\hyperlink{class_player_a6bd69a1c399c5549118f3d1af1e9674a}{get
 \begin{DoxyCompactList}\small\item\em Get the number of cities controlled that are blockaded. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_player_a19f22f42152ec96cb68c9192cb892f5a}{is\+Enemy}} (const City\+Type \&\mbox{\hyperlink{class_player_a4cc23beed82cbe18aa05d14c6eae00a7}{allegiance}}) const
 \begin{DoxyCompactList}\small\item\em See if the player allegiance provided is an enemy of the player (has a DOW) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a70cc2a4b316ca44023be11fc8fc6e0fd}{XHeld}} (const tick\+\_\+t \&ticks, const tick\+\_\+t \&timer) const
+\begin{DoxyCompactList}\small\item\em Decider for if the player has held the X button (only) for the given duration. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a971c261eddf0252cb470066265c71445}{YHeld}} (const tick\+\_\+t \&ticks, const tick\+\_\+t \&timer) const
+\begin{DoxyCompactList}\small\item\em Decider for if the player has held the Y button (only) for the given duration. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a0213b7f95e3337de2f3a503d1a6a2483}{AHeld}} (const tick\+\_\+t \&ticks, const tick\+\_\+t \&timer) const
+\begin{DoxyCompactList}\small\item\em Decider for if the player has held the A button (only) for the given duration. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_ac9968889d734af55f86f646f497dddb2}{BHeld}} (const tick\+\_\+t \&ticks, const tick\+\_\+t \&timer) const
+\begin{DoxyCompactList}\small\item\em Decider for if the player has held the B button (only) for the given duration. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a4f0513d739ef55d6f228c15d017b2f0f}{XPressed}} () const
+\begin{DoxyCompactList}\small\item\em Decider for if the X button is currently pressed (if not pressed the tick held is 0) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a5a39100eac8f26c0570286cbd08b3981}{YPressed}} () const
+\begin{DoxyCompactList}\small\item\em Decider for if the Y button is currently pressed (if not pressed the tick held is 0) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a5b1a45a84b70ce60c8cea1e378760aac}{APressed}} () const
+\begin{DoxyCompactList}\small\item\em Decider for if the A button is currently pressed (if not pressed the tick held is 0) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a937955f09fd3660723eeb327ceb5eaab}{BPressed}} () const
+\begin{DoxyCompactList}\small\item\em Decider for if the B button is currently pressed (if not pressed the tick held is 0) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a03b2fdd379e40e4918f1dfc3346bacc7}{multi\+Held}} (const bool x, const bool y, const bool a, const bool b, const tick\+\_\+t \&ticks, const tick\+\_\+t \&timer) const
+\begin{DoxyCompactList}\small\item\em Decider for if a combination of buttons (and only that combination) is held for the duration given based on the timer given. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_aaaa6b7dc32bc165eb8a9125f088b5033}\label{class_player_aaaa6b7dc32bc165eb8a9125f088b5033} 
+void {\bfseries reset\+Buttons} ()
+\begin{DoxyCompactList}\small\item\em Resets the held ticks of all buttons. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_player_af9bd57d6207bf68686da2939eadc1253}{deal}} (\mbox{\hyperlink{struct_action_card}{Action\+Card}} \texorpdfstring{$\ast$}{*}aC)
 \begin{DoxyCompactList}\small\item\em Gives the player the provided card into the corresponding hand. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_player_aa687cf5b0d3477200079dfa924d646cc}{deal}} (\mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}iC)
 \begin{DoxyCompactList}\small\item\em Gives the player the provided card into the corresponding hand. \end{DoxyCompactList}\item 
-\Hypertarget{class_player_a276872da213288105ce1a72a8d70f923}\label{class_player_a276872da213288105ce1a72a8d70f923} 
-void {\bfseries remove} (const \mbox{\hyperlink{struct_action_card}{Action\+Card}} \texorpdfstring{$\ast$}{*}action\+\_\+card)
-\item 
-\Hypertarget{class_player_ae02a1ed86eb9c96e7b921b6fca1d1ebd}\label{class_player_ae02a1ed86eb9c96e7b921b6fca1d1ebd} 
-void {\bfseries remove} (const \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}invest\+\_\+card)
-\item 
+void \mbox{\hyperlink{class_player_a276872da213288105ce1a72a8d70f923}{remove}} (const \mbox{\hyperlink{struct_action_card}{Action\+Card}} \texorpdfstring{$\ast$}{*}action\+\_\+card)
+\begin{DoxyCompactList}\small\item\em Removes the Action \doxylink{struct_card}{Card} from the players hand. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_ae02a1ed86eb9c96e7b921b6fca1d1ebd}{remove}} (const \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}invest\+\_\+card)
+\begin{DoxyCompactList}\small\item\em Removes the Invest \doxylink{struct_card}{Card} from the players hand. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_ada64ae0a4ced56417da1e7b41c48a666}{has\+Selected}} (const \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}card) const
+\begin{DoxyCompactList}\small\item\em Decider if the Investment \doxylink{struct_card}{Card} provided is a card the player has selected to up IND. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_a295782be2cbe086caf528942d61949c3}{deselect}} (const \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}card)
+\begin{DoxyCompactList}\small\item\em Removes the provided card from the player\textquotesingle{}s selected tech cards (for uping IND) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a08c1156ab767a4e9cbf20273d1857660}{try\+Deselect}} (const \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}card)
+\begin{DoxyCompactList}\small\item\em Combined function of {\ttfamily has\+Selected} and {\ttfamily deselect} to remove the provided card from the vector of selected tech cards if and only if the card is actually selected. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a751c9ec057905da80f3eb9f2d788768c}{has\+Tech}} (const Tech \texorpdfstring{$\ast$}{*}tech) const
+\begin{DoxyCompactList}\small\item\em Decider for if the player has achieved (played) the provided tech. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_aa01022b1470dd7cf08270a9102a24588}{has\+Tech}} (const Tech \&tech) const
+\begin{DoxyCompactList}\small\item\em Decider for if the player has achieved (played) the provided tech. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_ad739b4ffdfcfdc2408d9b88402eff78e}{set\+Command}} (\mbox{\hyperlink{struct_action_card}{Action\+Card}} \texorpdfstring{$\ast$}{*}selected\+\_\+card, const Season \&season)
+\begin{DoxyCompactList}\small\item\em Set the command values of the player based on the season and card played and handles emergency movement changes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_af4e2d0cbd81528a5521680e8dfad1fb2}{set\+Command}} (\mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}selected\+\_\+card)
+\begin{DoxyCompactList}\small\item\em If the player used a investment card as a ploy then the command is 0 and they get no actions. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_a5f1110eed253ace890f7ea8fbe1d988e}\label{class_player_a5f1110eed253ace890f7ea8fbe1d988e} 
+void {\bfseries reset\+Command} ()
+\begin{DoxyCompactList}\small\item\em At the end of seasons, all date pertaining to command is reset. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_abb957103a972984388058fc7e3938b6a}{use\+Command}} ()
+\begin{DoxyCompactList}\small\item\em Decreases the current remaining command value. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_ad2bd16f6298ea6c96a6cfe40d1f3e1fc}{achieve\+Tech}} (const Tech \&tech)
+\begin{DoxyCompactList}\small\item\em Acheive (set as true in {\ttfamily achieved\+\_\+tech}) the tech given and set to secret by default. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_a831088966d789de971e8409545a94842}\label{class_player_a831088966d789de971e8409545a94842} 
+void {\bfseries update\+Popped\+Invest\+Card} ()
+\begin{DoxyCompactList}\small\item\em Update the currently viewed investment card based on what the previous viewed index was (for when cards are spent) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_aa182a67f31580de1fe75a04e6f83a614}{update\+Popped\+Action\+Card}} (const unordered\+\_\+map$<$ string, \mbox{\hyperlink{struct_country}{Country}} \texorpdfstring{$\ast$}{*} $>$ \&map)
+\begin{DoxyCompactList}\small\item\em Update the currently viewed action card based on what the previous viewed index was (for when cards are spent) \end{DoxyCompactList}\item 
 City\+Type \mbox{\hyperlink{class_player_ac1bf32f466ba9dc1f93852fa835bbff2}{get\+Allegiance}} () const
 \begin{DoxyCompactList}\small\item\em Gets which power the player is. \end{DoxyCompactList}\item 
 size\+\_\+t \mbox{\hyperlink{class_player_af9a51c3a3439852ee2723bb4347731c4}{get\+Population}} () const
@@ -77,7 +129,7 @@ size\+\_\+t \mbox{\hyperlink{class_player_ad21151ebd80ff1990e9d530f3188f505}{get
 \begin{DoxyCompactList}\small\item\em Get the number of action cards the player has. \end{DoxyCompactList}\item 
 size\+\_\+t \mbox{\hyperlink{class_player_ab3c69056b6dae04e42ce9e1a70d76882}{get\+Invest\+Size}} () const
 \begin{DoxyCompactList}\small\item\em Get the number of invest cards the player has. \end{DoxyCompactList}\item 
-size\+\_\+t \mbox{\hyperlink{class_player_aa1436af29cb2449b726f44561f6f0c8a}{get\+Tech\+Size}} () const
+int \mbox{\hyperlink{class_player_a0dc151820b5f19e55e95b3e29b02e4f4}{get\+Tech\+Size}} () const
 \begin{DoxyCompactList}\small\item\em Get the number of achieved tech the player has. \end{DoxyCompactList}\item 
 size\+\_\+t \mbox{\hyperlink{class_player_a5a1c78affbbec12b76ee5db75d75b120}{get\+Resource}} () const
 \begin{DoxyCompactList}\small\item\em Get the number of resources owned. \end{DoxyCompactList}\item 
@@ -99,10 +151,25 @@ Dow\+State \mbox{\hyperlink{class_player_a5e6ceb495b77bd9483be5f54e181b44a}{get\
 \begin{DoxyCompactList}\small\item\em Get the AXIS Declaration of War. \end{DoxyCompactList}\item 
 Dow\+State \mbox{\hyperlink{class_player_aa774e32938ff4638e69cdad3cf835eb9}{get\+Usa\+Dow}} () const
 \begin{DoxyCompactList}\small\item\em Get the USA Declaration of War which represents the. \end{DoxyCompactList}\item 
+Dow\+State \mbox{\hyperlink{class_player_ab4f63a8dfa1f7a4fcdaf81486a665d7e}{get\+DoW}} (const City\+Type \&rival) const
+\begin{DoxyCompactList}\small\item\em Get the DoW between the player and the rival provided. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_a88f8089eed31fbc3808a71f0c59177b5}{set\+DoW}} (const City\+Type \&rival, const Dow\+State rival\+\_\+state)
+\begin{DoxyCompactList}\small\item\em Set the DoW between the player and the rival to be the provided state. \end{DoxyCompactList}\item 
 size\+\_\+t \mbox{\hyperlink{class_player_a629938dfbf343719fe1fc26d125b6adc}{get\+Year\+At\+Peace}} () const
 \begin{DoxyCompactList}\small\item\em Get the last year the player was peaceful. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a45bab50ecebdc88778d8792c87ff980a}{used\+Emergency}} () const
+\begin{DoxyCompactList}\small\item\em Gets the flag for wether the player used emergency command in the current year. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_aadda89c7711f9069a6e41cfa26081d0a}\label{class_player_aadda89c7711f9069a6e41cfa26081d0a} 
+void {\bfseries set\+Emergency} ()
+\begin{DoxyCompactList}\small\item\em Set the flag to be true for using emergency status. \end{DoxyCompactList}\item 
 string \mbox{\hyperlink{class_player_a435ba6a4741908df7222884e931b8fe1}{get\+Capital}} () const
 \begin{DoxyCompactList}\small\item\em Get the capital of the player that the traderoutes need to be traced to. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_player_aabb69239a3ec5b9d9ac4f21c7d99973f}{get\+Command\+Number}} () const
+\begin{DoxyCompactList}\small\item\em Get the current command value (or the number) for the player\textquotesingle{}s command card. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_a649ba20b8a863a521a03255a4f8464dc}{set\+Command\+Number}} (const int \&new\+\_\+num)
+\begin{DoxyCompactList}\small\item\em Set the command value of the player to the provided number. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{class_player_a2de94d9f1303858afe52ddea37830ceb}{get\+Command\+Letter}} () const
+\begin{DoxyCompactList}\small\item\em Get the command priority (or the letter) for the player\textquotesingle{}s command card. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_player_af14ff27c078f8842ce85e739f3fee3f9}{set\+Ussr\+Dow}} (const Dow\+State ds)
 \begin{DoxyCompactList}\small\item\em Set the USSR DoW state. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_player_ae9395f3d2b5b10ee3089fade2ac64cf4}{set\+West\+Dow}} (const Dow\+State ds)
@@ -117,19 +184,49 @@ size\+\_\+t \mbox{\hyperlink{class_player_a7aaf551438a45e9405c06599f1b7e5c3}{get
 \begin{DoxyCompactList}\small\item\em Get the Action \doxylink{struct_card}{Card} at the specific index. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_ab0133c5fd6cb026c3c910aaa5888e7a4}{get\+Invest\+Card}} (const size\+\_\+t indx) const
 \begin{DoxyCompactList}\small\item\em Get the Invest \doxylink{struct_card}{Card} at the specific index. \end{DoxyCompactList}\item 
-const \mbox{\hyperlink{struct_technology}{Technology}} \& \mbox{\hyperlink{class_player_a39ae7ebe963dee21412eb13b5c0d1071}{get\+Tech}} (const size\+\_\+t indx) const
+\mbox{\hyperlink{struct_achieved_technology}{Achieved\+Technology}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_aef2ea82ecb9107ec3c9ab7f92de9299e}{get\+Tech}} (const size\+\_\+t indx) const
 \begin{DoxyCompactList}\small\item\em Get the acheived tech at the specific index. \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_player_a66b80d482e8840fc09c74e373c11f579}{get\+Secret\+Count}} () const
+\begin{DoxyCompactList}\small\item\em Get the number of technologies the player has achieved but kept secret since it contributes to the hand limit. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_abf4e56743c7e97f6aa3dff4cbdb38ae9}{set\+Tech\+Secret}} (const Tech \&indx)
+\begin{DoxyCompactList}\small\item\em Set the provided tech to be secret (achieved but rivals cannot see) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_ac55ceeb9941f9b680b83599be9a4be74}{set\+Tech\+Public}} (const Tech \&indx)
+\begin{DoxyCompactList}\small\item\em Set the provided tech to be public (rivals can see) \end{DoxyCompactList}\item 
+\Hypertarget{class_player_ad189247b9eb83eb8b560d366b472a13a}\label{class_player_ad189247b9eb83eb8b560d366b472a13a} 
+void {\bfseries set\+Moving\+Unit} ()
+\begin{DoxyCompactList}\small\item\em Set the \doxylink{class_unit}{Unit} selected for movement to the current selected unit. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_afac7e439aca4569f1123455062205df5}\label{class_player_afac7e439aca4569f1123455062205df5} 
+void {\bfseries reset\+Moving\+Unit} ()
+\begin{DoxyCompactList}\small\item\em Set the \doxylink{class_unit}{Unit} selected for movement to nullptr. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_a5f5f6d8d64db1a550ed04f82bddc082b}\label{class_player_a5f5f6d8d64db1a550ed04f82bddc082b} 
+void {\bfseries make\+Atomic} ()
+\begin{DoxyCompactList}\small\item\em Set the flag for full atomic (all 4 stages of nuclear developement) to true. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a245e09f2ba4bacdffb44e7e0c470570c}{can\+Peak\+Action}} ()
+\begin{DoxyCompactList}\small\item\em Decider for if the player is able to use their selected invest card to peak at rival\textquotesingle{}s action card hand. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_aa76ad027e5570a67af567e4ccbd75995}{peak\+Action}} (const tick\+\_\+t \&tick)
+\begin{DoxyCompactList}\small\item\em Setup the player to be able to view the rivals hand for a limited time and remove the card used to peak. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_ab10b7794228647fae806fff25ca9e6bb}{can\+Peak\+Unit}} ()
+\begin{DoxyCompactList}\small\item\em Decider for if the player can use the current selected invest card to peak at the current selcted rival unit. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_a0e7975fb90517a7551d7290c1cd77d8f}{peak\+Unit}} (const tick\+\_\+t \&tick)
+\begin{DoxyCompactList}\small\item\em Setup the player to be able to view the selected rival unit for a limited time and remove the card used to peak. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_a499c272dfe3d9fe67936546a01695a5d}\label{class_player_a499c272dfe3d9fe67936546a01695a5d} 
+void {\bfseries reset\+Units} ()
+\begin{DoxyCompactList}\small\item\em Reset all of the player\textquotesingle{}s unit to a base state at the beginning of each season. \end{DoxyCompactList}\item 
 size\+\_\+t \mbox{\hyperlink{class_player_aada43d4dfb6f6ead21fe340215e5f150}{calculate\+Production}} ()
-\begin{DoxyCompactList}\small\item\em Get the min production of the player min(pop, res, ind). If not at war then dont look at res. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Get the min production of the player min(pop, res, ind). If not at war then ignore res. \end{DoxyCompactList}\item 
 const int \mbox{\hyperlink{class_player_ab340ea517b24eef4f519ccd5effbc80a}{get\+Current\+Production}} () const
 \begin{DoxyCompactList}\small\item\em Gets the Current production of the player for this production phase. \end{DoxyCompactList}\item 
 const size\+\_\+t \mbox{\hyperlink{class_player_a104dc1b095201ba7795e0e33aadececd}{get\+Max\+Production}} () const
 \begin{DoxyCompactList}\small\item\em Get the max production of the player for this production phase (is calculated in ) \end{DoxyCompactList}\item 
-\Hypertarget{class_player_ae522fb9e71f506c879a2bd894b0138b9}\label{class_player_ae522fb9e71f506c879a2bd894b0138b9} 
-void {\bfseries spend\+Production} (const Production\+Action p\+\_\+act, const bool undo=false)
-\item 
+void \mbox{\hyperlink{class_player_aba42ff0c4589160227a42e35dd83caec}{spend\+Production}} (const Production\+Action \&p\+\_\+act, const bool undo=false)
+\begin{DoxyCompactList}\small\item\em Handler for the counts of different production actions and if the count should be increased or decreased. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_player_aaeb493d0ba358f82e487d8c63a61ef72}{at\+War}} () const
 \begin{DoxyCompactList}\small\item\em Gets if the player is at war with any other player. \end{DoxyCompactList}\item 
+\Hypertarget{class_player_a44f76aee13c68c669e0d4d38f9798050}\label{class_player_a44f76aee13c68c669e0d4d38f9798050} 
+void {\bfseries set\+Wartime} ()
+\begin{DoxyCompactList}\small\item\em Set the wartime flag to true. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_ac42a0a0d63984b73d3c756345e19d200}{at\+War}} (const City\+Type \&rival) const
+\begin{DoxyCompactList}\small\item\em Decides if the player is currently at war with the given rival. \end{DoxyCompactList}\item 
 size\+\_\+t \mbox{\hyperlink{class_player_a3bddd1b9847e5c60c15d48aa06f5155a}{get\+VP}} () const
 \begin{DoxyCompactList}\small\item\em Get the current VP of player. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_player_ae7213d39857e8d67cd66737629dcde22}{give\+Peace\+Dividend}} (const \mbox{\hyperlink{struct_peace_chit}{Peace\+Chit}} chit)
@@ -145,13 +242,39 @@ void {\bfseries print} () const
 \begin{DoxyCompactList}\small\item\em Prints out all stats of the player. \end{DoxyCompactList}\item 
 \Hypertarget{class_player_a4dfd1a5edd0bcb551ca6fb0fe57eb0e1}\label{class_player_a4dfd1a5edd0bcb551ca6fb0fe57eb0e1} 
 void {\bfseries free\+Memory} ()
-\begin{DoxyCompactList}\small\item\em Frees the memort allocated for the player. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Frees the memort allocated for the player. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a4c96fb9f3e7e41e21821cb63096d082b}{operator==}} (const int \&city\+\_\+type) const
+\begin{DoxyCompactList}\small\item\em Equivalency Operator Overload for comparing the player to a City\+Type (allegiance) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a42ae1992326cdf7eb79ad86084e0deb6}{operator!=}} (const int \&city\+\_\+type) const
+\begin{DoxyCompactList}\small\item\em Not-\/\+Equivalency Operator Overload for comparing the player to a City\+Type (allegiance) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_ae2eaf00869a4bdaa1c48550eab05dbca}{operator==}} (const City\+Type \&city\+\_\+type) const
+\begin{DoxyCompactList}\small\item\em Equivalency Operator Overload for comparing the player to a City\+Type (allegiance) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_aae8711d31b2b3a0f29d75325358c431b}{operator!=}} (const City\+Type \&city\+\_\+type) const
+\begin{DoxyCompactList}\small\item\em Non-\/\+Equivalency Operator Overload for comparing the player to a City\+Type (allegiance) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a1bcc5367d0f2b8815df7d3daf380fccd}{operator==}} (const \mbox{\hyperlink{class_player}{Player}} \texorpdfstring{$\ast$}{*}player) const
+\begin{DoxyCompactList}\small\item\em Equivalency Operator Overload for comparing the player object to a \doxylink{class_player}{Player} Pointer. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a30e8c05933be5c4c515a37c7c3419cb1}{operator==}} (const \mbox{\hyperlink{class_player}{Player}} \&player) const
+\begin{DoxyCompactList}\small\item\em Equivalency Operator Overload for comparing {\ttfamily this} to a another \doxylink{class_player}{Player} Object. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_ad55df6a900ad578b111a32715cdbee80}{operator!=}} (const \mbox{\hyperlink{class_player}{Player}} \texorpdfstring{$\ast$}{*}player) const
+\begin{DoxyCompactList}\small\item\em Non-\/\+Equivalency Operator Overload for comparing the player object to a \doxylink{class_player}{Player} Pointer. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_abdc24cc5aaf4e3941076de5d3989c70d}{operator!=}} (const \mbox{\hyperlink{class_player}{Player}} \&player) const
+\begin{DoxyCompactList}\small\item\em Non-\/\+Equivalency Operator Overload for comparing {\ttfamily this} to a another \doxylink{class_player}{Player} Object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_player_afef212d7fa385908df2ca680ecbe5449}{operator int}} () const
+\begin{DoxyCompactList}\small\item\em int Casting Overload by returning the allegiance of the \doxylink{class_player}{Player} object \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_player_a7a7d6e941067ff7251a9666d1d69a9a8}{operator City\+Type}} () const
+\begin{DoxyCompactList}\small\item\em City\+Type Casting Overload by returning the allegiance of the \doxylink{class_player}{Player} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 int \mbox{\hyperlink{class_player_a904f6e355e976b04bde6f40602a63886}{unit\+\_\+counts}} \mbox{[}7\mbox{]}\mbox{[}7\mbox{]} = \{\{0, 0, 0, 0, 0, 0, 0\},\{0, 0, 0, 0, 0, 0, 0\},\{0, 0, 0, 0, 0, 0, 0\},\{0, 0, 0, 0, 0, 0, 0\},\{0, 0, 0, 0, 0, 0, 0\},\{0, 0, 0, 0, 0, 0, 0\},\{0, 0, 0, 0, 0, 0, 0\}\}
 \item 
 bool \mbox{\hyperlink{class_player_ac644f62fe661dd28f210118eee12c6d2}{passed}} = false
+\item 
+Action\+Phase \mbox{\hyperlink{class_player_a874b70d1358f8ab3f3c9d62ae91a5ddf}{current\+\_\+phase}} = OBSERVING
+\item 
+vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_player_a4d1668f86d4180d69021fdb7beb8c5ea}{movement\+\_\+memo}}
+\item 
+pair$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_player_a478d7a59e104be036907df2ab5c54216}{moving\+\_\+unit}} = \{nullptr, nullptr\}
 \item 
 \mbox{\hyperlink{struct_app}{App}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_ab00225c1777a8ecb95db0305055547a9}{app}}
 \item 
@@ -167,29 +290,53 @@ bool \mbox{\hyperlink{class_player_ac644f62fe661dd28f210118eee12c6d2}{passed}} =
 \item 
 \mbox{\hyperlink{class_spritesheet}{Spritesheet}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_a6c4f17de00c93e4c8fd462060339e0be}{controller\+\_\+button\+\_\+sprites}}
 \item 
-int \mbox{\hyperlink{class_player_a99706d1401e1e2fb0f1f16d04713e38f}{action\+\_\+card\+\_\+start}} =0
+Widget \mbox{\hyperlink{class_player_a71ea36c885987efbde74106573cc9e69}{widget}} = MAP
 \item 
-int \mbox{\hyperlink{class_player_ac98ed0a95a38a914ae582e8da315b31b}{invest\+\_\+card\+\_\+start}} =0
-\item 
-int \mbox{\hyperlink{class_player_acd3e748ec3336d2e87e7ddc9d91011f4}{tech\+\_\+card\+\_\+start}} =0
-\item 
-int \mbox{\hyperlink{class_player_ad4e4238156b9645de2781eda3a280271}{zoom}} = 1
-\item 
-int \mbox{\hyperlink{class_player_a5da8d15967ade1a81232f5593e1cd3fd}{bought\+\_\+action}} = 0
-\item 
-int \mbox{\hyperlink{class_player_ad01f44e337a26d57153219ba83bae5ee}{bought\+\_\+invest}} = 0
-\item 
-bool \mbox{\hyperlink{class_player_a3732f81f40331d89643ab0ecce1378ae}{board\+\_\+change}} =true
+tick\+\_\+t \mbox{\hyperlink{class_player_afa3b1dc487325a1cc29ae44997131f7d}{last\+\_\+widget}} = 0
 \item 
 bool \mbox{\hyperlink{class_player_aa8e2cd083de4535d19199590013e7474}{show\+\_\+action}} = false
 \item 
+int \mbox{\hyperlink{class_player_ad3b27d30f7fe915c124e31c9628d9a20}{action\+\_\+view}}
+\item 
+int \mbox{\hyperlink{class_player_a99706d1401e1e2fb0f1f16d04713e38f}{action\+\_\+card\+\_\+start}} =0
+\item 
+int \mbox{\hyperlink{class_player_a5da8d15967ade1a81232f5593e1cd3fd}{bought\+\_\+action}} = 0
+\item 
 bool \mbox{\hyperlink{class_player_af9bd015a2a04ac84ea439f244beddece}{show\+\_\+invest}} = false
 \item 
-bool \mbox{\hyperlink{class_player_a8a755c120b94c82fe69f4ac7677e6c5b}{show\+\_\+west}} = false
+int \mbox{\hyperlink{class_player_a0b2dfddac80b484696766a84fa484fb9}{invest\+\_\+view}}
 \item 
-bool \mbox{\hyperlink{class_player_aec9ccb3985421a0122e8b9491deb7687}{show\+\_\+axis}} = false
+int \mbox{\hyperlink{class_player_ac98ed0a95a38a914ae582e8da315b31b}{invest\+\_\+card\+\_\+start}} =0
 \item 
-bool \mbox{\hyperlink{class_player_a52f1a14c1755a2eb0f4aa83a14921c11}{show\+\_\+ussr}} = false
+int \mbox{\hyperlink{class_player_ad01f44e337a26d57153219ba83bae5ee}{bought\+\_\+invest}} = 0
+\item 
+\Hypertarget{class_player_a07da0af50eeae0d9f167d74ca9f0ad4d}\label{class_player_a07da0af50eeae0d9f167d74ca9f0ad4d} 
+bool {\bfseries show\+\_\+tech} = false
+\item 
+int \mbox{\hyperlink{class_player_a43544579866b2752d40bf04eaa6a4020}{tech\+\_\+view}}
+\item 
+int \mbox{\hyperlink{class_player_acd3e748ec3336d2e87e7ddc9d91011f4}{tech\+\_\+card\+\_\+start}} =0
+\item 
+\Hypertarget{class_player_a6ee4f344d3870e663e5d08489db290f7}\label{class_player_a6ee4f344d3870e663e5d08489db290f7} 
+int {\bfseries start\+\_\+tech} = 0
+\item 
+\Hypertarget{class_player_ab24f041f456486ddcce1be04763480d0}\label{class_player_ab24f041f456486ddcce1be04763480d0} 
+bool {\bfseries show\+\_\+stat} = false
+\item 
+int \mbox{\hyperlink{class_player_a7844c841e69f40d51ae5db9b5728431d}{stat\+\_\+view}}
+\item 
+int \mbox{\hyperlink{class_player_ad4e4238156b9645de2781eda3a280271}{zoom}} = 1
+\item 
+bool \mbox{\hyperlink{class_player_a3732f81f40331d89643ab0ecce1378ae}{board\+\_\+change}} =true
+\item 
+\Hypertarget{class_player_a18d8d3c4f71625d955efeb8e54616faa}\label{class_player_a18d8d3c4f71625d955efeb8e54616faa} 
+bool {\bfseries in\+\_\+start} =false
+\item 
+\Hypertarget{class_player_acfb2c863867eb6228fc37e8ca411c280}\label{class_player_acfb2c863867eb6228fc37e8ca411c280} 
+bool {\bfseries in\+\_\+house} =false
+\item 
+\Hypertarget{class_player_a7a4c4dd2485e08c5a8a96582685eddcb}\label{class_player_a7a4c4dd2485e08c5a8a96582685eddcb} 
+bool {\bfseries in\+\_\+credits} =false
 \item 
 double \mbox{\hyperlink{class_player_a3973c439ed48986ad2b056796ce3b9aa}{cursor\+\_\+x}} = 0
 \item 
@@ -199,8 +346,11 @@ double \mbox{\hyperlink{class_player_a6be7237eee0ef566395fcb0f649631fe}{wheel\+\
 \item 
 double \mbox{\hyperlink{class_player_a0a286d0d55240492dfc85e32c97d6588}{wheel\+\_\+y}} = 0
 \item 
-\Hypertarget{class_player_a2dbdc540c8ea47257fdf3fc62536bbf2}\label{class_player_a2dbdc540c8ea47257fdf3fc62536bbf2} 
-double {\bfseries popped\+\_\+unit} \mbox{[}3\mbox{]} = \{-\/2, -\/2, -\/2\}
+double \mbox{\hyperlink{class_player_a20d3b761ef98f2ffe78275441116a681}{popped\+\_\+option}} \mbox{[}3\mbox{]} = \{-\/2, -\/2, -\/2\}
+\item 
+tick\+\_\+t \mbox{\hyperlink{class_player_a0ae471aa3f8e5a394dcc6f6a445c6c58}{right\+\_\+stick\+\_\+y\+\_\+tick}} = 0
+\item 
+tick\+\_\+t \mbox{\hyperlink{class_player_ac1f70f715b08c2e16e5aa88483b17dac}{right\+\_\+stick\+\_\+x\+\_\+tick}} = 0
 \item 
 City\+Type \mbox{\hyperlink{class_player_a7a5cab43c2ba4678cbc0f8c4431fb2a8}{allegiance\+\_\+viewing}} = NEUTRAL
 \item 
@@ -208,21 +358,15 @@ pair$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}, \mbox{\
 \item 
 \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_a792f2244364c1206a4ad56b01f0132ac}{closest\+\_\+map\+\_\+city}} = nullptr
 \item 
-\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_a1de464fcc732938ac34c417653d3dbd0}{building\+\_\+city}} = nullptr
+\mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_ae473e6befe108f8bfd9dce342ed2bb07}{selecting\+\_\+city}} = nullptr
 \item 
-bool \mbox{\hyperlink{class_player_aaa6bd2892fceb32421be842a7cea32dc}{unit\+\_\+buildable}} \mbox{[}7\mbox{]} = \{false, false, false, false, false, false, false\}
+bool \mbox{\hyperlink{class_player_a2643db10b88e9f1a35c3ddcd58e94235}{unit\+\_\+available}} \mbox{[}7\mbox{]} = \{false, false, false, false, false, false, false\}
 \item 
-Widget \mbox{\hyperlink{class_player_a71ea36c885987efbde74106573cc9e69}{widget}} = MAP
+\Hypertarget{class_player_a1bdceebe5d12422a703469939677e787}\label{class_player_a1bdceebe5d12422a703469939677e787} 
+\mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*} {\bfseries command\+\_\+fake} = nullptr
 \item 
-bool \mbox{\hyperlink{class_player_ade4b42fabd2a2fcb4ca75e27e9fa0bdd}{d\+\_\+up\+\_\+held}} = false
-\item 
-bool \mbox{\hyperlink{class_player_aa4dc6bc1907b2e06394ef3cf27d30dee}{d\+\_\+down\+\_\+held}} = false
-\item 
-bool \mbox{\hyperlink{class_player_a560b41e4c389ecbe3545af0e5daae1fe}{d\+\_\+left\+\_\+held}} = false
-\item 
-bool \mbox{\hyperlink{class_player_a700c2a1e8d79fb05aac0b01c3a2604f6}{d\+\_\+right\+\_\+held}} = false
-\item 
-Uint32 \mbox{\hyperlink{class_player_a361919640c77ad220d75769c792497ae}{last\+\_\+widget}} = 0
+\Hypertarget{class_player_aebd569d8cf7fbbfad3ee2cd4a156443e}\label{class_player_aebd569d8cf7fbbfad3ee2cd4a156443e} 
+\mbox{\hyperlink{struct_action_card}{Action\+Card}} \texorpdfstring{$\ast$}{*} {\bfseries command\+\_\+card} = nullptr
 \item 
 int \mbox{\hyperlink{class_player_aa345ab873810f46fd38162422736dc8a}{popped\+\_\+action\+\_\+card\+\_\+index}} = -\/1
 \item 
@@ -240,13 +384,48 @@ bool \mbox{\hyperlink{class_player_a1f7d39fef9cf98cc0adbea9b34a6900d}{show\+\_\+
 \item 
 int \mbox{\hyperlink{class_player_a6b1de54b18cc583c79f3a34db99a0d8e}{popped\+\_\+invest\+\_\+card\+\_\+index}} = -\/1
 \item 
-Uint32 \mbox{\hyperlink{class_player_af07718186f95a662e7d034eb88fb9bda}{x\+\_\+held\+\_\+tick}} = 0
+\mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_a6bab86e2368fb0eaa8babf10a6120652}{popped\+\_\+invest\+\_\+card}} = nullptr
 \item 
-Uint32 \mbox{\hyperlink{class_player_af9eeec7d4257db59d2f2f5c9b333b02e}{y\+\_\+held\+\_\+tick}} = 0
+vector$<$ \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_player_a800ced8d86251f20fc830390b042ef80}{selected\+\_\+invest\+\_\+cards}}
+\item 
+Tech \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_ac692f397a98d34d57e813fd2b41832d3}{selected\+\_\+tech1}} = nullptr
+\item 
+\mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_a319e9a7f6763d6c7ae2ee95eb97e105b}{selected\+\_\+tech1\+\_\+card}} = nullptr
+\item 
+Tech \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_a7c2821862fbca5935c1e14b85c1826ec}{selected\+\_\+tech2}} = nullptr
+\item 
+\mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_a5f836e6536ca20a89f1e4b1d0c65dea4}{selected\+\_\+tech2\+\_\+card}} = nullptr
+\item 
+bool \mbox{\hyperlink{class_player_a66d4036502f704ddd0eeaefb8df9a73b}{tech\+\_\+select\+\_\+flip}} = true
+\item 
+int \mbox{\hyperlink{class_player_af10f477c8f7f702f48aebd44cf7585bf}{popped\+\_\+tech\+\_\+index}} = -\/1
+\item 
+Tech \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_ac80b978eb9c1820c5f569bbf535f53fa}{popped\+\_\+tech}} = nullptr
+\item 
+tick\+\_\+t \mbox{\hyperlink{class_player_af4f576ee49524c5f194b12df35d388b8}{peak\+\_\+ticks}} \mbox{[}3\mbox{]} = \{0, 0, 0\}
+\item 
+\Hypertarget{class_player_a2fc8707e9f58493ac487adf0f28bc7c3}\label{class_player_a2fc8707e9f58493ac487adf0f28bc7c3} 
+tick\+\_\+t {\bfseries unit\+\_\+peak\+\_\+tick} = 0
+\item 
+pair$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_player_a2880732f31b50bf6f10d850f89d42366}{peaked\+\_\+unit}} = \{nullptr, nullptr\}
+\item 
+bool \mbox{\hyperlink{class_player_ade4b42fabd2a2fcb4ca75e27e9fa0bdd}{d\+\_\+up\+\_\+held}} = false
+\item 
+bool \mbox{\hyperlink{class_player_aa4dc6bc1907b2e06394ef3cf27d30dee}{d\+\_\+down\+\_\+held}} = false
+\item 
+bool \mbox{\hyperlink{class_player_a560b41e4c389ecbe3545af0e5daae1fe}{d\+\_\+left\+\_\+held}} = false
+\item 
+bool \mbox{\hyperlink{class_player_a700c2a1e8d79fb05aac0b01c3a2604f6}{d\+\_\+right\+\_\+held}} = false
+\item 
+tick\+\_\+t \mbox{\hyperlink{class_player_a94d7253d8ed524f359115218593a3125}{x\+\_\+held\+\_\+tick}} = 0
+\item 
+tick\+\_\+t \mbox{\hyperlink{class_player_ab99034bc07832e1e72e6ffc9527ba265}{y\+\_\+held\+\_\+tick}} = 0
+\item 
+tick\+\_\+t \mbox{\hyperlink{class_player_acf9500f7c86a7c96b4caf51c7cb94112}{a\+\_\+held\+\_\+tick}} = 0
+\item 
+tick\+\_\+t \mbox{\hyperlink{class_player_a328d498ce5a9fe4ec1a04fa31d33e7f2}{b\+\_\+held\+\_\+tick}} = 0
 \item 
 bool \mbox{\hyperlink{class_player_aa677b88f14334f14dd8c8f8695e2216d}{y\+\_\+resolved}} = true
-\item 
-Uint32 \mbox{\hyperlink{class_player_a9e93fddf36bc33573f5b6c545e99b795}{right\+\_\+stick\+\_\+tick}} = 0
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -269,6 +448,8 @@ size\+\_\+t \mbox{\hyperlink{class_player_a5c4da754060ca1cfedc8e845433c648c}{res
 \item 
 size\+\_\+t \mbox{\hyperlink{class_player_a279b3b1b930ab7bbb85b74a4ed4860f8}{industry}} =0
 \item 
+bool \mbox{\hyperlink{class_player_a23325f536a1226d6058c6a0500a53bc2}{at\+\_\+war}} =false
+\item 
 size\+\_\+t \mbox{\hyperlink{class_player_a8b18c202e7705aa44a378caae5fe04ef}{card\+\_\+size}}
 \item 
 size\+\_\+t \mbox{\hyperlink{class_player_ae79ef3518b9e35bce72a1fd9f89ab161}{factory\+\_\+cost}} =0
@@ -276,6 +457,8 @@ size\+\_\+t \mbox{\hyperlink{class_player_ae79ef3518b9e35bce72a1fd9f89ab161}{fac
 size\+\_\+t \mbox{\hyperlink{class_player_a715e45a7c6147acaee0cd252bffbcea3}{max\+\_\+production}} =0
 \item 
 int \mbox{\hyperlink{class_player_ac370646da6deebe9d318388952dfbe75}{current\+\_\+production}} =0
+\item 
+int \mbox{\hyperlink{class_player_ae0058be1da72947f50b7672968c25f19}{industry\+\_\+raised}} =0
 \item 
 int \mbox{\hyperlink{class_player_a402e3cafcc7a3dfcc5cf9702b2498e85}{units\+\_\+upgraded}} =0
 \item 
@@ -285,7 +468,11 @@ size\+\_\+t \mbox{\hyperlink{class_player_adbf124d87d310dc6c16a4587cd880899}{tot
 \item 
 vector$<$ \mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_player_a4c76a575e615a3f522618876e2a760a2}{units}}
 \item 
-vector$<$ \mbox{\hyperlink{struct_technology}{Technology}} $>$ \mbox{\hyperlink{class_player_a77a094682e82b1d0c31acc8030d8d765}{achieved\+\_\+tech}}
+\mbox{\hyperlink{struct_achieved_technology}{Achieved\+Technology}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_player_adc5fad014e97d18ed549c463d013520f}{achieved\+\_\+tech}} \mbox{[}25\mbox{]}
+\item 
+int \mbox{\hyperlink{class_player_a1f3d012cd0c010f68c241a78c886351c}{technology\+\_\+count}} = 0
+\item 
+int \mbox{\hyperlink{class_player_ab425dab1e65e63fb85e3bb1cfb403b5e}{secret\+\_\+count}} = 0
 \item 
 unordered\+\_\+map$<$ string, \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_player_aecd4b940d71314a8edb0d99139ba9404}{controlled\+\_\+cities}}
 \item 
@@ -298,6 +485,16 @@ Dow\+State \mbox{\hyperlink{class_player_a52d87c324914ea0cc925b387a4c7e94d}{axis
 Dow\+State \mbox{\hyperlink{class_player_a4a1b98f2d17324ab96a5c5a019a086b5}{usa\+\_\+dow}} =PEACE
 \item 
 string \mbox{\hyperlink{class_player_ada2e68812c4020c31ae1b1c6926bfc36}{capital}} ="{}"{}
+\item 
+Season \mbox{\hyperlink{class_player_a2a4910f5da94f80cc96447e4e14cb894}{command\+\_\+season}}
+\item 
+char \mbox{\hyperlink{class_player_ad373311c61e5d679a7fc85e3cbda276c}{command\+\_\+priority}}
+\item 
+int \mbox{\hyperlink{class_player_a9640157093ec2f822d4395715201df4b}{command\+\_\+value}} =-\/1
+\item 
+int \mbox{\hyperlink{class_player_a7b4148d83c174aa9babf447184af16ef}{emergency\+\_\+command}}
+\item 
+bool \mbox{\hyperlink{class_player_a8a68c21c907eb612f78f2ed109e12d91}{used\+\_\+emergency}} = false
 \item 
 vector$<$ \mbox{\hyperlink{struct_action_card}{Action\+Card}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_player_ad5288c485522612282617117dcbf9177}{action\+\_\+hand}}
 \item 
@@ -316,7 +513,7 @@ size\+\_\+t \mbox{\hyperlink{class_player_aeaaf0bb0c4cf646b09fc3db0e65be45b}{cit
 
 
 \doxysubsection{Detailed Description}
-Represents Great Power and \doxylink{class_player}{Player} Stats. 
+Represents Great Power and the Players graphical status. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \Hypertarget{class_player_afbd7f9b03fdce9fb1888cd9ec94c3549}\label{class_player_afbd7f9b03fdce9fb1888cd9ec94c3549} 
@@ -381,6 +578,32 @@ Constructs a new player.
 
 
 \doxysubsection{Member Function Documentation}
+\Hypertarget{class_player_ad2bd16f6298ea6c96a6cfe40d1f3e1fc}\label{class_player_ad2bd16f6298ea6c96a6cfe40d1f3e1fc} 
+\index{Player@{Player}!achieveTech@{achieveTech}}
+\index{achieveTech@{achieveTech}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{achieveTech()}{achieveTech()}}
+{\footnotesize\ttfamily void Player\+::achieve\+Tech (\begin{DoxyParamCaption}\item[{const Tech \&}]{tech }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Acheive (set as true in {\ttfamily achieved\+\_\+tech}) the tech given and set to secret by default. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tech} & The technology being achieved \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\doxylink{class_player}{Player} has the cards to achieve the tech and hasn\textquotesingle{}t achieved before 
+\end{DoxyPrecond}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=333pt]{class_player_ad2bd16f6298ea6c96a6cfe40d1f3e1fc_cgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_player_a6fb8c6d501a126035bcebdf2dd0b07f2}\label{class_player_a6fb8c6d501a126035bcebdf2dd0b07f2} 
 \index{Player@{Player}!add@{add}}
 \index{add@{add}!Player@{Player}}
@@ -411,10 +634,55 @@ Add a unit to the master list of units and update the unit counts of the player.
 {\em unit} & Pointer to the unit being created \\
 \hline
 \end{DoxyParams}
+\Hypertarget{class_player_a0213b7f95e3337de2f3a503d1a6a2483}\label{class_player_a0213b7f95e3337de2f3a503d1a6a2483} 
+\index{Player@{Player}!AHeld@{AHeld}}
+\index{AHeld@{AHeld}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{AHeld()}{AHeld()}}
+{\footnotesize\ttfamily bool Player\+::\+AHeld (\begin{DoxyParamCaption}\item[{const tick\+\_\+t \&}]{ticks,  }\item[{const tick\+\_\+t \&}]{timer }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the player has held the A button (only) for the given duration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ticks} & The current tick of the program \\
+\hline
+{\em timer} & The duration of how long the button needs to be held \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The A-\/\+Button has been held long enough given the timer 
+
+false The A-\/\+Button hasn\textquotesingle{}t been held long enough given the timer or other buttons are pressed 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_a0213b7f95e3337de2f3a503d1a6a2483_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_a5b1a45a84b70ce60c8cea1e378760aac}\label{class_player_a5b1a45a84b70ce60c8cea1e378760aac} 
+\index{Player@{Player}!APressed@{APressed}}
+\index{APressed@{APressed}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{APressed()}{APressed()}}
+{\footnotesize\ttfamily bool Player\+::\+APressed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the A button is currently pressed (if not pressed the tick held is 0) 
+
+\begin{DoxyReturn}{Returns}
+true A button is currently pressed 
+
+false A button isn\textquotesingle{}t currently pressed 
+\end{DoxyReturn}
 \Hypertarget{class_player_aaeb493d0ba358f82e487d8c63a61ef72}\label{class_player_aaeb493d0ba358f82e487d8c63a61ef72} 
 \index{Player@{Player}!atWar@{atWar}}
 \index{atWar@{atWar}!Player@{Player}}
-\doxysubsubsection{\texorpdfstring{atWar()}{atWar()}}
+\doxysubsubsection{\texorpdfstring{atWar()}{atWar()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily bool Player\+::at\+War (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 
@@ -434,6 +702,63 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{class_player_aaeb493d0ba358f82e487d8c63a61ef72_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{class_player_ac42a0a0d63984b73d3c756345e19d200}\label{class_player_ac42a0a0d63984b73d3c756345e19d200} 
+\index{Player@{Player}!atWar@{atWar}}
+\index{atWar@{atWar}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{atWar()}{atWar()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool Player\+::at\+War (\begin{DoxyParamCaption}\item[{const City\+Type \&}]{rival }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decides if the player is currently at war with the given rival. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rival} & The allegiance of the rival whose DoW is being checked \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The player is at war with the provided rival 
+
+false The player is not at war with the provided rival 
+\end{DoxyReturn}
+\Hypertarget{class_player_ac9968889d734af55f86f646f497dddb2}\label{class_player_ac9968889d734af55f86f646f497dddb2} 
+\index{Player@{Player}!BHeld@{BHeld}}
+\index{BHeld@{BHeld}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{BHeld()}{BHeld()}}
+{\footnotesize\ttfamily bool Player\+::\+BHeld (\begin{DoxyParamCaption}\item[{const tick\+\_\+t \&}]{ticks,  }\item[{const tick\+\_\+t \&}]{timer }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the player has held the B button (only) for the given duration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ticks} & The current tick of the program \\
+\hline
+{\em timer} & The duration of how long the button needs to be held \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The B-\/\+Button has been held long enough given the timer 
+
+false The B-\/\+Button hasn\textquotesingle{}t been held long enough given the timer or other buttons are pressed 
+\end{DoxyReturn}
+\Hypertarget{class_player_a937955f09fd3660723eeb327ceb5eaab}\label{class_player_a937955f09fd3660723eeb327ceb5eaab} 
+\index{Player@{Player}!BPressed@{BPressed}}
+\index{BPressed@{BPressed}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{BPressed()}{BPressed()}}
+{\footnotesize\ttfamily bool Player\+::\+BPressed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the B button is currently pressed (if not pressed the tick held is 0) 
+
+\begin{DoxyReturn}{Returns}
+true B button is currently pressed 
+
+false B button isn\textquotesingle{}t currently pressed 
+\end{DoxyReturn}
 \Hypertarget{class_player_aada43d4dfb6f6ead21fe340215e5f150}\label{class_player_aada43d4dfb6f6ead21fe340215e5f150} 
 \index{Player@{Player}!calculateProduction@{calculateProduction}}
 \index{calculateProduction@{calculateProduction}!Player@{Player}}
@@ -442,12 +767,13 @@ Here is the caller graph for this function\+:
 
 
 
-Get the min production of the player min(pop, res, ind). If not at war then dont look at res. 
+Get the min production of the player min(pop, res, ind). If not at war then ignore res. 
 
 \begin{DoxyReturn}{Returns}
 size\+\_\+t The production of the player for the phase 
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -462,6 +788,54 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{class_player_aada43d4dfb6f6ead21fe340215e5f150_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{class_player_a4142db9f7d51b308899dc4f8bfd2e312}\label{class_player_a4142db9f7d51b308899dc4f8bfd2e312} 
+\index{Player@{Player}!canIncreaseIND@{canIncreaseIND}}
+\index{canIncreaseIND@{canIncreaseIND}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{canIncreaseIND()}{canIncreaseIND()}}
+{\footnotesize\ttfamily bool Player\+::can\+Increase\+IND (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the player can increase their Industry (has enough factory selected and haven\textquotesingle{}t done it twice this year and under 35) 
+
+\begin{DoxyReturn}{Returns}
+true \doxylink{class_player}{Player} can increase their industry once more 
+
+false \doxylink{class_player}{Player} cannot increase their industry once more 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+Assuming the player is in the correct season to do so 
+\end{DoxyPrecond}
+\Hypertarget{class_player_a245e09f2ba4bacdffb44e7e0c470570c}\label{class_player_a245e09f2ba4bacdffb44e7e0c470570c} 
+\index{Player@{Player}!canPeakAction@{canPeakAction}}
+\index{canPeakAction@{canPeakAction}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{canPeakAction()}{canPeakAction()}}
+{\footnotesize\ttfamily bool Player\+::can\+Peak\+Action (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the player is able to use their selected invest card to peak at rival\textquotesingle{}s action card hand. 
+
+\begin{DoxyReturn}{Returns}
+true Is able to view rivals hand 
+
+false Is unable to view a rivals hand 
+\end{DoxyReturn}
+\Hypertarget{class_player_ab10b7794228647fae806fff25ca9e6bb}\label{class_player_ab10b7794228647fae806fff25ca9e6bb} 
+\index{Player@{Player}!canPeakUnit@{canPeakUnit}}
+\index{canPeakUnit@{canPeakUnit}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{canPeakUnit()}{canPeakUnit()}}
+{\footnotesize\ttfamily bool Player\+::can\+Peak\+Unit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the player can use the current selected invest card to peak at the current selcted rival unit. 
+
+\begin{DoxyReturn}{Returns}
+true The player is able to peak at the current unit 
+
+false The player is unable to peak at a rival\textquotesingle{}s unit 
+\end{DoxyReturn}
 \Hypertarget{class_player_af9bd57d6207bf68686da2939eadc1253}\label{class_player_af9bd57d6207bf68686da2939eadc1253} 
 \index{Player@{Player}!deal@{deal}}
 \index{deal@{deal}!Player@{Player}}
@@ -492,6 +866,24 @@ Gives the player the provided card into the corresponding hand.
 {\em iC} & The invest card to add into the action hand \\
 \hline
 \end{DoxyParams}
+\Hypertarget{class_player_a295782be2cbe086caf528942d61949c3}\label{class_player_a295782be2cbe086caf528942d61949c3} 
+\index{Player@{Player}!deselect@{deselect}}
+\index{deselect@{deselect}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{deselect()}{deselect()}}
+{\footnotesize\ttfamily void Player\+::deselect (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}}]{card }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Removes the provided card from the player\textquotesingle{}s selected tech cards (for uping IND) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em card} & The card being deselected \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+{\ttfamily card} is in the player\textquotesingle{}s selected list 
+\end{DoxyPrecond}
 \Hypertarget{class_player_a3d15440c59291506f3f0e5c8d6a76a8c}\label{class_player_a3d15440c59291506f3f0e5c8d6a76a8c} 
 \index{Player@{Player}!getActionCard@{getActionCard}}
 \index{getActionCard@{getActionCard}!Player@{Player}}
@@ -586,6 +978,40 @@ Get the capital of the player that the traderoutes need to be traced to.
 \begin{DoxyReturn}{Returns}
 string Name of the capital 
 \end{DoxyReturn}
+\Hypertarget{class_player_a2de94d9f1303858afe52ddea37830ceb}\label{class_player_a2de94d9f1303858afe52ddea37830ceb} 
+\index{Player@{Player}!getCommandLetter@{getCommandLetter}}
+\index{getCommandLetter@{getCommandLetter}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{getCommandLetter()}{getCommandLetter()}}
+{\footnotesize\ttfamily char Player\+::get\+Command\+Letter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the command priority (or the letter) for the player\textquotesingle{}s command card. 
+
+\begin{DoxyReturn}{Returns}
+char The letter or \textquotesingle{}priority\textquotesingle{} of the command card 
+\end{DoxyReturn}
+\Hypertarget{class_player_aabb69239a3ec5b9d9ac4f21c7d99973f}\label{class_player_aabb69239a3ec5b9d9ac4f21c7d99973f} 
+\index{Player@{Player}!getCommandNumber@{getCommandNumber}}
+\index{getCommandNumber@{getCommandNumber}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{getCommandNumber()}{getCommandNumber()}}
+{\footnotesize\ttfamily int Player\+::get\+Command\+Number (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the current command value (or the number) for the player\textquotesingle{}s command card. 
+
+\begin{DoxyReturn}{Returns}
+int The current amount of command the player has remaining 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_aabb69239a3ec5b9d9ac4f21c7d99973f_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_player_adb173db37bd5459d1f7300875735be4f}\label{class_player_adb173db37bd5459d1f7300875735be4f} 
 \index{Player@{Player}!getControlledCitiesBegin@{getControlledCitiesBegin}}
 \index{getControlledCitiesBegin@{getControlledCitiesBegin}!Player@{Player}}
@@ -638,14 +1064,24 @@ Gets the Current production of the player for this production phase.
 \begin{DoxyReturn}{Returns}
 const size\+\_\+t The current production (or how much they have left to spend) 
 \end{DoxyReturn}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{class_player_ab340ea517b24eef4f519ccd5effbc80a_icgraph}
-\end{center}
-\end{figure}
+\Hypertarget{class_player_ab4f63a8dfa1f7a4fcdaf81486a665d7e}\label{class_player_ab4f63a8dfa1f7a4fcdaf81486a665d7e} 
+\index{Player@{Player}!getDoW@{getDoW}}
+\index{getDoW@{getDoW}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{getDoW()}{getDoW()}}
+{\footnotesize\ttfamily Dow\+State Player\+::get\+DoW (\begin{DoxyParamCaption}\item[{const City\+Type \&}]{rival }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the DoW between the player and the rival provided. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rival} & The allegiance of the rival whose DoW is being checked \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Dow\+State The state of the Declaration of War between the player and the rival 
+\end{DoxyReturn}
 \Hypertarget{class_player_a88511a832a4f1162df4d16c5e2765424}\label{class_player_a88511a832a4f1162df4d16c5e2765424} 
 \index{Player@{Player}!getHandSize@{getHandSize}}
 \index{getHandSize@{getHandSize}!Player@{Player}}
@@ -657,7 +1093,7 @@ Here is the caller graph for this function\+:
 Gets the combined hand size of action and investment cards. 
 
 \begin{DoxyReturn}{Returns}
-size\+\_\+t 
+size\+\_\+t The total hand size of the player 
 \end{DoxyReturn}
 \Hypertarget{class_player_af2d3f30e6f220071833dc808826a29c2}\label{class_player_af2d3f30e6f220071833dc808826a29c2} 
 \index{Player@{Player}!getIndustry@{getIndustry}}
@@ -672,6 +1108,14 @@ Get the current industry (ind) of the player.
 \begin{DoxyReturn}{Returns}
 size\+\_\+t The current industry of player 
 \end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_af2d3f30e6f220071833dc808826a29c2_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_player_ac590445808c99a424967f70b2f835912}\label{class_player_ac590445808c99a424967f70b2f835912} 
 \index{Player@{Player}!getIndustryCost@{getIndustryCost}}
 \index{getIndustryCost@{getIndustryCost}!Player@{Player}}
@@ -793,7 +1237,7 @@ Here is the caller graph for this function\+:
 Gets the next empty ID in the unit master list to give to a new unit. 
 
 \begin{DoxyReturn}{Returns}
-size\+\_\+t 
+size\+\_\+t The next free ID to assign to a \doxylink{class_unit}{Unit} 
 \end{DoxyReturn}
 \Hypertarget{class_player_a6bd69a1c399c5549118f3d1af1e9674a}\label{class_player_a6bd69a1c399c5549118f3d1af1e9674a} 
 \index{Player@{Player}!getNumBlockaded@{getNumBlockaded}}
@@ -852,6 +1296,14 @@ Get how much population the player controls.
 \begin{DoxyReturn}{Returns}
 size\+\_\+t The player\textquotesingle{}s population 
 \end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_af9a51c3a3439852ee2723bb4347731c4_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_player_a5a1c78affbbec12b76ee5db75d75b120}\label{class_player_a5a1c78affbbec12b76ee5db75d75b120} 
 \index{Player@{Player}!getResource@{getResource}}
 \index{getResource@{getResource}!Player@{Player}}
@@ -865,11 +1317,40 @@ Get the number of resources owned.
 \begin{DoxyReturn}{Returns}
 size\+\_\+t Number of resources 
 \end{DoxyReturn}
-\Hypertarget{class_player_a39ae7ebe963dee21412eb13b5c0d1071}\label{class_player_a39ae7ebe963dee21412eb13b5c0d1071} 
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_a5a1c78affbbec12b76ee5db75d75b120_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_a66b80d482e8840fc09c74e373c11f579}\label{class_player_a66b80d482e8840fc09c74e373c11f579} 
+\index{Player@{Player}!getSecretCount@{getSecretCount}}
+\index{getSecretCount@{getSecretCount}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{getSecretCount()}{getSecretCount()}}
+{\footnotesize\ttfamily const int Player\+::get\+Secret\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the number of technologies the player has achieved but kept secret since it contributes to the hand limit. 
+
+\begin{DoxyReturn}{Returns}
+const int 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_a66b80d482e8840fc09c74e373c11f579_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_aef2ea82ecb9107ec3c9ab7f92de9299e}\label{class_player_aef2ea82ecb9107ec3c9ab7f92de9299e} 
 \index{Player@{Player}!getTech@{getTech}}
 \index{getTech@{getTech}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{getTech()}{getTech()}}
-{\footnotesize\ttfamily const \mbox{\hyperlink{struct_technology}{Technology}} \& Player\+::get\+Tech (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{indx }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_achieved_technology}{Achieved\+Technology}} \texorpdfstring{$\ast$}{*} Player\+::get\+Tech (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{indx }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -881,13 +1362,21 @@ Get the acheived tech at the specific index.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-const \doxylink{struct_technology}{Technology}\& The tech at the index 
+Technology\& The tech at the index 
 \end{DoxyReturn}
-\Hypertarget{class_player_aa1436af29cb2449b726f44561f6f0c8a}\label{class_player_aa1436af29cb2449b726f44561f6f0c8a} 
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_aef2ea82ecb9107ec3c9ab7f92de9299e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_a0dc151820b5f19e55e95b3e29b02e4f4}\label{class_player_a0dc151820b5f19e55e95b3e29b02e4f4} 
 \index{Player@{Player}!getTechSize@{getTechSize}}
 \index{getTechSize@{getTechSize}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{getTechSize()}{getTechSize()}}
-{\footnotesize\ttfamily size\+\_\+t Player\+::get\+Tech\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily int Player\+::get\+Tech\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -896,6 +1385,14 @@ Get the number of achieved tech the player has.
 \begin{DoxyReturn}{Returns}
 size\+\_\+t number of achieved tech 
 \end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_a0dc151820b5f19e55e95b3e29b02e4f4_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_player_aa774e32938ff4638e69cdad3cf835eb9}\label{class_player_aa774e32938ff4638e69cdad3cf835eb9} 
 \index{Player@{Player}!getUsaDow@{getUsaDow}}
 \index{getUsaDow@{getUsaDow}!Player@{Player}}
@@ -976,13 +1473,82 @@ Gives the player a peace chit.
 {\em chit} & The chit to give the player \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_player_ae7213d39857e8d67cd66737629dcde22_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{class_player_ada64ae0a4ced56417da1e7b41c48a666}\label{class_player_ada64ae0a4ced56417da1e7b41c48a666} 
+\index{Player@{Player}!hasSelected@{hasSelected}}
+\index{hasSelected@{hasSelected}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{hasSelected()}{hasSelected()}}
+{\footnotesize\ttfamily bool Player\+::has\+Selected (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}}]{card }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider if the Investment \doxylink{struct_card}{Card} provided is a card the player has selected to up IND. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em card} & Pointer to the Investment card being checked \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The card is currently selected for spending 
+
+false The card isn\textquotesingle{}t currently selected for spending 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_ada64ae0a4ced56417da1e7b41c48a666_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_aa01022b1470dd7cf08270a9102a24588}\label{class_player_aa01022b1470dd7cf08270a9102a24588} 
+\index{Player@{Player}!hasTech@{hasTech}}
+\index{hasTech@{hasTech}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{hasTech()}{hasTech()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool Player\+::has\+Tech (\begin{DoxyParamCaption}\item[{const Tech \&}]{tech }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the player has achieved (played) the provided tech. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tech} & The tech that is being checked for achievement \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The player has achieved the tech 
+
+false The player hasn\textquotesingle{}t achieved the tech 
+\end{DoxyReturn}
+\Hypertarget{class_player_a751c9ec057905da80f3eb9f2d788768c}\label{class_player_a751c9ec057905da80f3eb9f2d788768c} 
+\index{Player@{Player}!hasTech@{hasTech}}
+\index{hasTech@{hasTech}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{hasTech()}{hasTech()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool Player\+::has\+Tech (\begin{DoxyParamCaption}\item[{const Tech \texorpdfstring{$\ast$}{*}}]{tech }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the player has achieved (played) the provided tech. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tech} & Pointer to the tech that is being checked for achievement \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The player has achieved the tech 
+
+false The player hasn\textquotesingle{}t achieved the tech 
+\end{DoxyReturn}
 \Hypertarget{class_player_a19f22f42152ec96cb68c9192cb892f5a}\label{class_player_a19f22f42152ec96cb68c9192cb892f5a} 
 \index{Player@{Player}!isEnemy@{isEnemy}}
 \index{isEnemy@{isEnemy}!Player@{Player}}
@@ -999,14 +1565,339 @@ See if the player allegiance provided is an enemy of the player (has a DOW)
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-true Is an enemy 
+true The given allegiance is an enemy 
 
-false Is not an enemy (at peace) 
+false The given allegiance is not an enemy (at peace) 
 \end{DoxyReturn}
+\Hypertarget{class_player_a92fa38cfe2b9cb7566629da720db9041}\label{class_player_a92fa38cfe2b9cb7566629da720db9041} 
+\index{Player@{Player}!lowerIND@{lowerIND}}
+\index{lowerIND@{lowerIND}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{lowerIND()}{lowerIND()}}
+{\footnotesize\ttfamily void Player\+::lower\+IND (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Lower the industry of the player by one. 
+
+\begin{DoxyPostcond}{Postcondition}
+Industry is at least 0 
+\end{DoxyPostcond}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_a92fa38cfe2b9cb7566629da720db9041_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_a03b2fdd379e40e4918f1dfc3346bacc7}\label{class_player_a03b2fdd379e40e4918f1dfc3346bacc7} 
+\index{Player@{Player}!multiHeld@{multiHeld}}
+\index{multiHeld@{multiHeld}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{multiHeld()}{multiHeld()}}
+{\footnotesize\ttfamily bool Player\+::multi\+Held (\begin{DoxyParamCaption}\item[{const bool}]{x,  }\item[{const bool}]{y,  }\item[{const bool}]{a,  }\item[{const bool}]{b,  }\item[{const tick\+\_\+t \&}]{ticks,  }\item[{const tick\+\_\+t \&}]{timer }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if a combination of buttons (and only that combination) is held for the duration given based on the timer given. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Flag that the X-\/button should be pressed \\
+\hline
+{\em y} & Flag that the Y-\/button should be pressed \\
+\hline
+{\em a} & Flag that the A-\/button should be pressed \\
+\hline
+{\em b} & Flag that the B-\/button should be pressed \\
+\hline
+{\em ticks} & The current tick of the program \\
+\hline
+{\em timer} & The duration all buttons should be held \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The button combo has been held past the timer 
+
+false The button combo hasn\textquotesingle{}t been held past the timer or other buttons are pressed 
+\end{DoxyReturn}
+\Hypertarget{class_player_a7a7d6e941067ff7251a9666d1d69a9a8}\label{class_player_a7a7d6e941067ff7251a9666d1d69a9a8} 
+\index{Player@{Player}!operator CityType@{operator CityType}}
+\index{operator CityType@{operator CityType}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{operator CityType()}{operator CityType()}}
+{\footnotesize\ttfamily Player\+::operator City\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+City\+Type Casting Overload by returning the allegiance of the \doxylink{class_player}{Player} object. 
+
+\begin{DoxyReturn}{Returns}
+City\+Type The allegiance of the player 
+\end{DoxyReturn}
+\Hypertarget{class_player_afef212d7fa385908df2ca680ecbe5449}\label{class_player_afef212d7fa385908df2ca680ecbe5449} 
+\index{Player@{Player}!operator int@{operator int}}
+\index{operator int@{operator int}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{operator int()}{operator int()}}
+{\footnotesize\ttfamily Player\+::operator int (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+int Casting Overload by returning the allegiance of the \doxylink{class_player}{Player} object 
+
+\begin{DoxyReturn}{Returns}
+int The allegiance of the player 
+\end{DoxyReturn}
+\Hypertarget{class_player_aae8711d31b2b3a0f29d75325358c431b}\label{class_player_aae8711d31b2b3a0f29d75325358c431b} 
+\index{Player@{Player}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily bool Player\+::operator!= (\begin{DoxyParamCaption}\item[{const City\+Type \&}]{city\+\_\+type }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Non-\/\+Equivalency Operator Overload for comparing the player to a City\+Type (allegiance) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em city\+\_\+type} & The underlying int of the allegiance being compared \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The player does NOT has the same allegiance as the provided int 
+
+false The player have the same allegiance as the provided int 
+\end{DoxyReturn}
+\Hypertarget{class_player_a42ae1992326cdf7eb79ad86084e0deb6}\label{class_player_a42ae1992326cdf7eb79ad86084e0deb6} 
+\index{Player@{Player}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily bool Player\+::operator!= (\begin{DoxyParamCaption}\item[{const int \&}]{city\+\_\+type }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Not-\/\+Equivalency Operator Overload for comparing the player to a City\+Type (allegiance) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em city\+\_\+type} & The underlying int of the allegiance being compared \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The player does NOT has the same allegiance as the provided int 
+
+false The player have the same allegiance as the provided int 
+\end{DoxyReturn}
+\Hypertarget{class_player_abdc24cc5aaf4e3941076de5d3989c70d}\label{class_player_abdc24cc5aaf4e3941076de5d3989c70d} 
+\index{Player@{Player}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily bool Player\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Non-\/\+Equivalency Operator Overload for comparing {\ttfamily this} to a another \doxylink{class_player}{Player} Object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The \doxylink{class_player}{Player} object reference thats seeking non-\/equivalency \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true \textquotesingle{}this\textquotesingle{} is NOT the same object as reference 
+
+false \textquotesingle{}this\textquotesingle{} is the same object as reference 
+\end{DoxyReturn}
+\Hypertarget{class_player_ad55df6a900ad578b111a32715cdbee80}\label{class_player_ad55df6a900ad578b111a32715cdbee80} 
+\index{Player@{Player}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily bool Player\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \texorpdfstring{$\ast$}{*}}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Non-\/\+Equivalency Operator Overload for comparing the player object to a \doxylink{class_player}{Player} Pointer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The Pointer to \doxylink{class_player}{Player} object thats seeking non-\/equivalency \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true \textquotesingle{}this\textquotesingle{} is NOT the same object as the one stored at the pointer 
+
+false \textquotesingle{}this\textquotesingle{} is the same object as the one stored at the pointer 
+\end{DoxyReturn}
+\Hypertarget{class_player_ae2eaf00869a4bdaa1c48550eab05dbca}\label{class_player_ae2eaf00869a4bdaa1c48550eab05dbca} 
+\index{Player@{Player}!operator==@{operator==}}
+\index{operator==@{operator==}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily bool Player\+::operator== (\begin{DoxyParamCaption}\item[{const City\+Type \&}]{city\+\_\+type }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Equivalency Operator Overload for comparing the player to a City\+Type (allegiance) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em city\+\_\+type} & The underlying int of the allegiance being compared \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The player has the same allegiance as the provided int 
+
+false The player does NOT have the same allegiance as the provided int 
+\end{DoxyReturn}
+\Hypertarget{class_player_a4c96fb9f3e7e41e21821cb63096d082b}\label{class_player_a4c96fb9f3e7e41e21821cb63096d082b} 
+\index{Player@{Player}!operator==@{operator==}}
+\index{operator==@{operator==}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily bool Player\+::operator== (\begin{DoxyParamCaption}\item[{const int \&}]{city\+\_\+type }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Equivalency Operator Overload for comparing the player to a City\+Type (allegiance) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em city\+\_\+type} & The underlying int of the allegiance being compared \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The player has the same allegiance as the provided int 
+
+false The player does NOT have the same allegiance as the provided int 
+\end{DoxyReturn}
+\Hypertarget{class_player_a30e8c05933be5c4c515a37c7c3419cb1}\label{class_player_a30e8c05933be5c4c515a37c7c3419cb1} 
+\index{Player@{Player}!operator==@{operator==}}
+\index{operator==@{operator==}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily bool Player\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \&}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Equivalency Operator Overload for comparing {\ttfamily this} to a another \doxylink{class_player}{Player} Object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The \doxylink{class_player}{Player} object reference thats seeking equivalency \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true \textquotesingle{}this\textquotesingle{} is the same object as reference 
+
+false \textquotesingle{}this\textquotesingle{} is NOT the same object as reference 
+\end{DoxyReturn}
+\Hypertarget{class_player_a1bcc5367d0f2b8815df7d3daf380fccd}\label{class_player_a1bcc5367d0f2b8815df7d3daf380fccd} 
+\index{Player@{Player}!operator==@{operator==}}
+\index{operator==@{operator==}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily bool Player\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player}{Player}} \texorpdfstring{$\ast$}{*}}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Equivalency Operator Overload for comparing the player object to a \doxylink{class_player}{Player} Pointer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The Pointer to \doxylink{class_player}{Player} object thats seeking equivalency \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true \textquotesingle{}this\textquotesingle{} is the same object as the one stored at the pointer 
+
+false \textquotesingle{}this\textquotesingle{} is NOT the same object as the one stored at the pointer 
+\end{DoxyReturn}
+\Hypertarget{class_player_aa76ad027e5570a67af567e4ccbd75995}\label{class_player_aa76ad027e5570a67af567e4ccbd75995} 
+\index{Player@{Player}!peakAction@{peakAction}}
+\index{peakAction@{peakAction}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{peakAction()}{peakAction()}}
+{\footnotesize\ttfamily void Player\+::peak\+Action (\begin{DoxyParamCaption}\item[{const tick\+\_\+t \&}]{tick }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Setup the player to be able to view the rivals hand for a limited time and remove the card used to peak. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_player_a245e09f2ba4bacdffb44e7e0c470570c}{can\+Peak\+Action}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em tick} & The tick when the player can begin viewing the rival\textquotesingle{}s hand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+The player is able to use the current invest card to peak at a rival 
+\end{DoxyPrecond}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_aa76ad027e5570a67af567e4ccbd75995_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_a0e7975fb90517a7551d7290c1cd77d8f}\label{class_player_a0e7975fb90517a7551d7290c1cd77d8f} 
+\index{Player@{Player}!peakUnit@{peakUnit}}
+\index{peakUnit@{peakUnit}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{peakUnit()}{peakUnit()}}
+{\footnotesize\ttfamily void Player\+::peak\+Unit (\begin{DoxyParamCaption}\item[{const tick\+\_\+t \&}]{tick }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Setup the player to be able to view the selected rival unit for a limited time and remove the card used to peak. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tick} & The tick when the player can begin viewing the rival\textquotesingle{}s unit \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_a0e7975fb90517a7551d7290c1cd77d8f_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_a276872da213288105ce1a72a8d70f923}\label{class_player_a276872da213288105ce1a72a8d70f923} 
+\index{Player@{Player}!remove@{remove}}
+\index{remove@{remove}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{remove()}{remove()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void Player\+::remove (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_action_card}{Action\+Card}} \texorpdfstring{$\ast$}{*}}]{action\+\_\+card }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Removes the Action \doxylink{struct_card}{Card} from the players hand. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action\+\_\+card} & The card to be removed from the player \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+The {\ttfamily action\+\_\+card} is in the player\textquotesingle{}s hand 
+\end{DoxyPrecond}
+\Hypertarget{class_player_ae02a1ed86eb9c96e7b921b6fca1d1ebd}\label{class_player_ae02a1ed86eb9c96e7b921b6fca1d1ebd} 
+\index{Player@{Player}!remove@{remove}}
+\index{remove@{remove}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{remove()}{remove()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily void Player\+::remove (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}}]{invest\+\_\+card }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Removes the Invest \doxylink{struct_card}{Card} from the players hand. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em invest\+\_\+card} & The card to be removed from the player \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+The {\ttfamily invest\+\_\+card} is in the player\textquotesingle{}s hand 
+\end{DoxyPrecond}
 \Hypertarget{class_player_a06b633b842cbed111f637299a023fb72}\label{class_player_a06b633b842cbed111f637299a023fb72} 
 \index{Player@{Player}!remove@{remove}}
 \index{remove@{remove}!Player@{Player}}
-\doxysubsubsection{\texorpdfstring{remove()}{remove()}}
+\doxysubsubsection{\texorpdfstring{remove()}{remove()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
 {\footnotesize\ttfamily void Player\+::remove (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_unit}{Unit}} \texorpdfstring{$\ast$}{*}}]{unit }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
@@ -1021,6 +1912,14 @@ Removes a unit from the master list and updates the unit count of the player.
 \begin{DoxyPrecond}{Precondition}
 The {\ttfamily unit} is in the masterlist 
 \end{DoxyPrecond}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_a06b633b842cbed111f637299a023fb72_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_player_a058d5df870d2eefc87716042e81d605d}\label{class_player_a058d5df870d2eefc87716042e81d605d} 
 \index{Player@{Player}!setAxisDow@{setAxisDow}}
 \index{setAxisDow@{setAxisDow}!Player@{Player}}
@@ -1033,7 +1932,95 @@ Set the AXIS DoW state.
 
 
 \begin{DoxyParams}{Parameters}
-{\em ds} & The new state of the USSR DoW \\
+{\em ds} & The new state of the AXIS DoW \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_a058d5df870d2eefc87716042e81d605d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_ad739b4ffdfcfdc2408d9b88402eff78e}\label{class_player_ad739b4ffdfcfdc2408d9b88402eff78e} 
+\index{Player@{Player}!setCommand@{setCommand}}
+\index{setCommand@{setCommand}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{setCommand()}{setCommand()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Player\+::set\+Command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_action_card}{Action\+Card}} \texorpdfstring{$\ast$}{*}}]{selected\+\_\+card,  }\item[{const Season \&}]{season }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the command values of the player based on the season and card played and handles emergency movement changes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em selected\+\_\+card} & The \doxylink{struct_card}{Card} the player has put forth to play command \\
+\hline
+{\em season} & The current season of the game \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_ad739b4ffdfcfdc2408d9b88402eff78e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_af4e2d0cbd81528a5521680e8dfad1fb2}\label{class_player_af4e2d0cbd81528a5521680e8dfad1fb2} 
+\index{Player@{Player}!setCommand@{setCommand}}
+\index{setCommand@{setCommand}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{setCommand()}{setCommand()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Player\+::set\+Command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}}]{selected\+\_\+card }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+If the player used a investment card as a ploy then the command is 0 and they get no actions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em selected\+\_\+card} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_player_a649ba20b8a863a521a03255a4f8464dc}\label{class_player_a649ba20b8a863a521a03255a4f8464dc} 
+\index{Player@{Player}!setCommandNumber@{setCommandNumber}}
+\index{setCommandNumber@{setCommandNumber}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{setCommandNumber()}{setCommandNumber()}}
+{\footnotesize\ttfamily void Player\+::set\+Command\+Number (\begin{DoxyParamCaption}\item[{const int \&}]{new\+\_\+num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the command value of the player to the provided number. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+\_\+num} & The new command value for the current year \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_a649ba20b8a863a521a03255a4f8464dc_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_a88f8089eed31fbc3808a71f0c59177b5}\label{class_player_a88f8089eed31fbc3808a71f0c59177b5} 
+\index{Player@{Player}!setDoW@{setDoW}}
+\index{setDoW@{setDoW}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{setDoW()}{setDoW()}}
+{\footnotesize\ttfamily void Player\+::set\+DoW (\begin{DoxyParamCaption}\item[{const City\+Type \&}]{rival,  }\item[{const Dow\+State}]{rival\+\_\+state }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the DoW between the player and the rival to be the provided state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rival} & The rival whose DoW is changing \\
+\hline
+{\em rival\+\_\+state} & The new state of the DoW \\
 \hline
 \end{DoxyParams}
 \Hypertarget{class_player_a0b2310696bccfcfe6913fddd0f18b3e2}\label{class_player_a0b2310696bccfcfe6913fddd0f18b3e2} 
@@ -1066,6 +2053,52 @@ Set the number of resources.
 {\em res} & The new resource count \\
 \hline
 \end{DoxyParams}
+\Hypertarget{class_player_ac55ceeb9941f9b680b83599be9a4be74}\label{class_player_ac55ceeb9941f9b680b83599be9a4be74} 
+\index{Player@{Player}!setTechPublic@{setTechPublic}}
+\index{setTechPublic@{setTechPublic}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{setTechPublic()}{setTechPublic()}}
+{\footnotesize\ttfamily bool Player\+::set\+Tech\+Public (\begin{DoxyParamCaption}\item[{const Tech \&}]{indx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the provided tech to be public (rivals can see) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em indx} & The tech that the player is setting secret \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The tech was secret and is now public 
+
+false The tech wasn\textquotesingle{}t secret and no changes were made 
+\end{DoxyReturn}
+\Hypertarget{class_player_abf4e56743c7e97f6aa3dff4cbdb38ae9}\label{class_player_abf4e56743c7e97f6aa3dff4cbdb38ae9} 
+\index{Player@{Player}!setTechSecret@{setTechSecret}}
+\index{setTechSecret@{setTechSecret}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{setTechSecret()}{setTechSecret()}}
+{\footnotesize\ttfamily void Player\+::set\+Tech\+Secret (\begin{DoxyParamCaption}\item[{const Tech \&}]{indx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the provided tech to be secret (achieved but rivals cannot see) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em indx} & The tech that the player is setting secret \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+The player has already achieved the tech 
+\end{DoxyPrecond}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=333pt]{class_player_abf4e56743c7e97f6aa3dff4cbdb38ae9_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_player_a58ea5f3a89789726fa1211458eab4e79}\label{class_player_a58ea5f3a89789726fa1211458eab4e79} 
 \index{Player@{Player}!setUsaDow@{setUsaDow}}
 \index{setUsaDow@{setUsaDow}!Player@{Player}}
@@ -1078,7 +2111,7 @@ Set the USA DoW state.
 
 
 \begin{DoxyParams}{Parameters}
-{\em ds} & The new state of the USSR DoW \\
+{\em ds} & The new state of the USA DoW \\
 \hline
 \end{DoxyParams}
 \Hypertarget{class_player_af14ff27c078f8842ce85e739f3fee3f9}\label{class_player_af14ff27c078f8842ce85e739f3fee3f9} 
@@ -1096,6 +2129,14 @@ Set the USSR DoW state.
 {\em ds} & The new state of the USSR DoW \\
 \hline
 \end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_af14ff27c078f8842ce85e739f3fee3f9_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_player_ae9395f3d2b5b10ee3089fade2ac64cf4}\label{class_player_ae9395f3d2b5b10ee3089fade2ac64cf4} 
 \index{Player@{Player}!setWestDow@{setWestDow}}
 \index{setWestDow@{setWestDow}!Player@{Player}}
@@ -1108,17 +2149,201 @@ Set the WEST DoW state.
 
 
 \begin{DoxyParams}{Parameters}
-{\em ds} & The new state of the USSR DoW \\
+{\em ds} & The new state of the WEST DoW \\
 \hline
 \end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_ae9395f3d2b5b10ee3089fade2ac64cf4_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_aba42ff0c4589160227a42e35dd83caec}\label{class_player_aba42ff0c4589160227a42e35dd83caec} 
+\index{Player@{Player}!spendProduction@{spendProduction}}
+\index{spendProduction@{spendProduction}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{spendProduction()}{spendProduction()}}
+{\footnotesize\ttfamily void Player\+::spend\+Production (\begin{DoxyParamCaption}\item[{const Production\+Action \&}]{p\+\_\+act,  }\item[{const bool}]{undo = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Handler for the counts of different production actions and if the count should be increased or decreased. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+act} & The production action the player is comiting \\
+\hline
+{\em undo} & Flag for if the player is undoing or adding the action \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_player_a08c1156ab767a4e9cbf20273d1857660}\label{class_player_a08c1156ab767a4e9cbf20273d1857660} 
+\index{Player@{Player}!tryDeselect@{tryDeselect}}
+\index{tryDeselect@{tryDeselect}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{tryDeselect()}{tryDeselect()}}
+{\footnotesize\ttfamily bool Player\+::try\+Deselect (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_investment_card}{Investment\+Card}} \texorpdfstring{$\ast$}{*}}]{card }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Combined function of {\ttfamily has\+Selected} and {\ttfamily deselect} to remove the provided card from the vector of selected tech cards if and only if the card is actually selected. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em card} & The card that would be removed if selected \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The provided card was able to be removed 
+
+false The provided card wasn\textquotesingle{}t selected and not removed 
+\end{DoxyReturn}
+\Hypertarget{class_player_aa182a67f31580de1fe75a04e6f83a614}\label{class_player_aa182a67f31580de1fe75a04e6f83a614} 
+\index{Player@{Player}!updatePoppedActionCard@{updatePoppedActionCard}}
+\index{updatePoppedActionCard@{updatePoppedActionCard}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{updatePoppedActionCard()}{updatePoppedActionCard()}}
+{\footnotesize\ttfamily void Player\+::update\+Popped\+Action\+Card (\begin{DoxyParamCaption}\item[{const unordered\+\_\+map$<$ string, \mbox{\hyperlink{struct_country}{Country}} \texorpdfstring{$\ast$}{*} $>$ \&}]{map }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Update the currently viewed action card based on what the previous viewed index was (for when cards are spent) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Hashmap of all Countries so the countries being viewed can be updated \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_aa182a67f31580de1fe75a04e6f83a614_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_player_aa182a67f31580de1fe75a04e6f83a614_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_player_abb957103a972984388058fc7e3938b6a}\label{class_player_abb957103a972984388058fc7e3938b6a} 
+\index{Player@{Player}!useCommand@{useCommand}}
+\index{useCommand@{useCommand}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{useCommand()}{useCommand()}}
+{\footnotesize\ttfamily void Player\+::use\+Command (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decreases the current remaining command value. 
+
+\begin{DoxyPrecond}{Precondition}
+User can use command and won\textquotesingle{}t go below 0 
+\end{DoxyPrecond}
+\Hypertarget{class_player_a45bab50ecebdc88778d8792c87ff980a}\label{class_player_a45bab50ecebdc88778d8792c87ff980a} 
+\index{Player@{Player}!usedEmergency@{usedEmergency}}
+\index{usedEmergency@{usedEmergency}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{usedEmergency()}{usedEmergency()}}
+{\footnotesize\ttfamily bool Player\+::used\+Emergency (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the flag for wether the player used emergency command in the current year. 
+
+\begin{DoxyReturn}{Returns}
+true 
+
+false 
+\end{DoxyReturn}
+\Hypertarget{class_player_a70cc2a4b316ca44023be11fc8fc6e0fd}\label{class_player_a70cc2a4b316ca44023be11fc8fc6e0fd} 
+\index{Player@{Player}!XHeld@{XHeld}}
+\index{XHeld@{XHeld}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{XHeld()}{XHeld()}}
+{\footnotesize\ttfamily bool Player\+::\+XHeld (\begin{DoxyParamCaption}\item[{const tick\+\_\+t \&}]{ticks,  }\item[{const tick\+\_\+t \&}]{timer }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the player has held the X button (only) for the given duration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ticks} & The current tick of the program \\
+\hline
+{\em timer} & The duration of how long the button needs to be held \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The X-\/\+Button has been held long enough given the timer 
+
+false The X-\/\+Button hasn\textquotesingle{}t been held long enough given the timer or other buttons are pressed 
+\end{DoxyReturn}
+\Hypertarget{class_player_a4f0513d739ef55d6f228c15d017b2f0f}\label{class_player_a4f0513d739ef55d6f228c15d017b2f0f} 
+\index{Player@{Player}!XPressed@{XPressed}}
+\index{XPressed@{XPressed}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{XPressed()}{XPressed()}}
+{\footnotesize\ttfamily bool Player\+::\+XPressed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the X button is currently pressed (if not pressed the tick held is 0) 
+
+\begin{DoxyReturn}{Returns}
+true X button is currently pressed 
+
+false X button isn\textquotesingle{}t currently pressed 
+\end{DoxyReturn}
+\Hypertarget{class_player_a971c261eddf0252cb470066265c71445}\label{class_player_a971c261eddf0252cb470066265c71445} 
+\index{Player@{Player}!YHeld@{YHeld}}
+\index{YHeld@{YHeld}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{YHeld()}{YHeld()}}
+{\footnotesize\ttfamily bool Player\+::\+YHeld (\begin{DoxyParamCaption}\item[{const tick\+\_\+t \&}]{ticks,  }\item[{const tick\+\_\+t \&}]{timer }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the player has held the Y button (only) for the given duration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ticks} & The current tick of the program \\
+\hline
+{\em timer} & The duration of how long the button needs to be held \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true The Y-\/\+Button has been held long enough given the timer 
+
+false The Y-\/\+Button hasn\textquotesingle{}t been held long enough given the timer or other buttons are pressed 
+\end{DoxyReturn}
+\Hypertarget{class_player_a5a39100eac8f26c0570286cbd08b3981}\label{class_player_a5a39100eac8f26c0570286cbd08b3981} 
+\index{Player@{Player}!YPressed@{YPressed}}
+\index{YPressed@{YPressed}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{YPressed()}{YPressed()}}
+{\footnotesize\ttfamily bool Player\+::\+YPressed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Decider for if the Y button is currently pressed (if not pressed the tick held is 0) 
+
+\begin{DoxyReturn}{Returns}
+true Y button is currently pressed 
+
+false Y button isn\textquotesingle{}t currently pressed 
+\end{DoxyReturn}
 
 
 \doxysubsection{Member Data Documentation}
-\Hypertarget{class_player_a77a094682e82b1d0c31acc8030d8d765}\label{class_player_a77a094682e82b1d0c31acc8030d8d765} 
+\Hypertarget{class_player_acf9500f7c86a7c96b4caf51c7cb94112}\label{class_player_acf9500f7c86a7c96b4caf51c7cb94112} 
+\index{Player@{Player}!a\_held\_tick@{a\_held\_tick}}
+\index{a\_held\_tick@{a\_held\_tick}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{a\_held\_tick}{a\_held\_tick}}
+{\footnotesize\ttfamily tick\+\_\+t Player\+::a\+\_\+held\+\_\+tick = 0}
+
+Tick of when the player most recently pressed down on the A-\/\+Button (0 if not held) \Hypertarget{class_player_adc5fad014e97d18ed549c463d013520f}\label{class_player_adc5fad014e97d18ed549c463d013520f} 
 \index{Player@{Player}!achieved\_tech@{achieved\_tech}}
 \index{achieved\_tech@{achieved\_tech}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{achieved\_tech}{achieved\_tech}}
-{\footnotesize\ttfamily vector$<$\mbox{\hyperlink{struct_technology}{Technology}}$>$ Player\+::achieved\+\_\+tech\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_achieved_technology}{Achieved\+Technology}}\texorpdfstring{$\ast$}{*} Player\+::achieved\+\_\+tech\mbox{[}25\mbox{]}\hspace{0.3cm}{\ttfamily [private]}}
 
 List of all technologies that the player has discovered \Hypertarget{class_player_a99706d1401e1e2fb0f1f16d04713e38f}\label{class_player_a99706d1401e1e2fb0f1f16d04713e38f} 
 \index{Player@{Player}!action\_card\_start@{action\_card\_start}}
@@ -1132,7 +2357,13 @@ Which action card to start displaying on the main home screen \Hypertarget{class
 \doxysubsubsection{\texorpdfstring{action\_hand}{action\_hand}}
 {\footnotesize\ttfamily vector$<$\mbox{\hyperlink{struct_action_card}{Action\+Card}}\texorpdfstring{$\ast$}{*}$>$ Player\+::action\+\_\+hand\hspace{0.3cm}{\ttfamily [private]}}
 
-Hand of all action cards (used in command and government) \Hypertarget{class_player_a4cc23beed82cbe18aa05d14c6eae00a7}\label{class_player_a4cc23beed82cbe18aa05d14c6eae00a7} 
+Hand of all action cards (used in command and government) \Hypertarget{class_player_ad3b27d30f7fe915c124e31c9628d9a20}\label{class_player_ad3b27d30f7fe915c124e31c9628d9a20} 
+\index{Player@{Player}!action\_view@{action\_view}}
+\index{action\_view@{action\_view}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{action\_view}{action\_view}}
+{\footnotesize\ttfamily int Player\+::action\+\_\+view}
+
+Indicates which player to view their action hand \Hypertarget{class_player_a4cc23beed82cbe18aa05d14c6eae00a7}\label{class_player_a4cc23beed82cbe18aa05d14c6eae00a7} 
 \index{Player@{Player}!allegiance@{allegiance}}
 \index{allegiance@{allegiance}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{allegiance}{allegiance}}
@@ -1150,7 +2381,13 @@ The allegiance of the unit being view or in focus \Hypertarget{class_player_ab00
 \doxysubsubsection{\texorpdfstring{app}{app}}
 {\footnotesize\ttfamily \mbox{\hyperlink{struct_app}{App}}\texorpdfstring{$\ast$}{*} Player\+::app}
 
-Container for the attributes of the player\textquotesingle{}s window/screen and renderer \Hypertarget{class_player_abe48e13b6b5ecf859b11010e41e62c23}\label{class_player_abe48e13b6b5ecf859b11010e41e62c23} 
+Container for the attributes of the player\textquotesingle{}s window/screen and renderer \Hypertarget{class_player_a23325f536a1226d6058c6a0500a53bc2}\label{class_player_a23325f536a1226d6058c6a0500a53bc2} 
+\index{Player@{Player}!at\_war@{at\_war}}
+\index{at\_war@{at\_war}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{at\_war}{at\_war}}
+{\footnotesize\ttfamily bool Player\+::at\+\_\+war =false\hspace{0.3cm}{\ttfamily [private]}}
+
+Flag set to if the player is currently at war with another rival (not including VoN\textquotesingle{}s on neutral minors) \Hypertarget{class_player_abe48e13b6b5ecf859b11010e41e62c23}\label{class_player_abe48e13b6b5ecf859b11010e41e62c23} 
 \index{Player@{Player}!atomic@{atomic}}
 \index{atomic@{atomic}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{atomic}{atomic}}
@@ -1162,7 +2399,13 @@ If the player has all 4 stages of atomics \Hypertarget{class_player_a52d87c32491
 \doxysubsubsection{\texorpdfstring{axis\_dow}{axis\_dow}}
 {\footnotesize\ttfamily Dow\+State Player\+::axis\+\_\+dow =PEACE\hspace{0.3cm}{\ttfamily [private]}}
 
-Holds the diplomacy state of the DOW with USSR \Hypertarget{class_player_a89e9550272f6f6d157fd38520aee49f5}\label{class_player_a89e9550272f6f6d157fd38520aee49f5} 
+Holds the diplomacy state of the DOW with USSR \Hypertarget{class_player_a328d498ce5a9fe4ec1a04fa31d33e7f2}\label{class_player_a328d498ce5a9fe4ec1a04fa31d33e7f2} 
+\index{Player@{Player}!b\_held\_tick@{b\_held\_tick}}
+\index{b\_held\_tick@{b\_held\_tick}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{b\_held\_tick}{b\_held\_tick}}
+{\footnotesize\ttfamily tick\+\_\+t Player\+::b\+\_\+held\+\_\+tick = 0}
+
+Tick of when the player most recently pressed down on the B-\/\+Button (0 if not held) \Hypertarget{class_player_a89e9550272f6f6d157fd38520aee49f5}\label{class_player_a89e9550272f6f6d157fd38520aee49f5} 
 \index{Player@{Player}!battles\_lost@{battles\_lost}}
 \index{battles\_lost@{battles\_lost}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{battles\_lost}{battles\_lost}}
@@ -1192,13 +2435,7 @@ The current number of action cards the player intends to buy \Hypertarget{class_
 \doxysubsubsection{\texorpdfstring{bought\_invest}{bought\_invest}}
 {\footnotesize\ttfamily int Player\+::bought\+\_\+invest = 0}
 
-The current number of invest cards the player intends to buy \Hypertarget{class_player_a1de464fcc732938ac34c417653d3dbd0}\label{class_player_a1de464fcc732938ac34c417653d3dbd0} 
-\index{Player@{Player}!building\_city@{building\_city}}
-\index{building\_city@{building\_city}!Player@{Player}}
-\doxysubsubsection{\texorpdfstring{building\_city}{building\_city}}
-{\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*} Player\+::building\+\_\+city = nullptr}
-
-Pointer to the city that has been selected to add a unit \Hypertarget{class_player_ada2e68812c4020c31ae1b1c6926bfc36}\label{class_player_ada2e68812c4020c31ae1b1c6926bfc36} 
+The current number of invest cards the player intends to buy \Hypertarget{class_player_ada2e68812c4020c31ae1b1c6926bfc36}\label{class_player_ada2e68812c4020c31ae1b1c6926bfc36} 
 \index{Player@{Player}!capital@{capital}}
 \index{capital@{capital}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{capital}{capital}}
@@ -1228,7 +2465,25 @@ Number of cities the player controls \Hypertarget{class_player_a792f2244364c1206
 \doxysubsubsection{\texorpdfstring{closest\_map\_city}{closest\_map\_city}}
 {\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*} Player\+::closest\+\_\+map\+\_\+city = nullptr}
 
-The city that is closest to the player\textquotesingle{}s cursor (updated when cursor stops moving) \Hypertarget{class_player_aecd4b940d71314a8edb0d99139ba9404}\label{class_player_aecd4b940d71314a8edb0d99139ba9404} 
+The city that is closest to the player\textquotesingle{}s cursor (updated when cursor stops moving) \Hypertarget{class_player_ad373311c61e5d679a7fc85e3cbda276c}\label{class_player_ad373311c61e5d679a7fc85e3cbda276c} 
+\index{Player@{Player}!command\_priority@{command\_priority}}
+\index{command\_priority@{command\_priority}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{command\_priority}{command\_priority}}
+{\footnotesize\ttfamily char Player\+::command\+\_\+priority\hspace{0.3cm}{\ttfamily [private]}}
+
+The \textquotesingle{}priority\textquotesingle{} (letter) of the action card played for the action phase \Hypertarget{class_player_a2a4910f5da94f80cc96447e4e14cb894}\label{class_player_a2a4910f5da94f80cc96447e4e14cb894} 
+\index{Player@{Player}!command\_season@{command\_season}}
+\index{command\_season@{command\_season}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{command\_season}{command\_season}}
+{\footnotesize\ttfamily Season Player\+::command\+\_\+season\hspace{0.3cm}{\ttfamily [private]}}
+
+The season of the action card played for the action phase \Hypertarget{class_player_a9640157093ec2f822d4395715201df4b}\label{class_player_a9640157093ec2f822d4395715201df4b} 
+\index{Player@{Player}!command\_value@{command\_value}}
+\index{command\_value@{command\_value}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{command\_value}{command\_value}}
+{\footnotesize\ttfamily int Player\+::command\+\_\+value =-\/1\hspace{0.3cm}{\ttfamily [private]}}
+
+The \textquotesingle{}value\textquotesingle{} (number) of the action card played and dictates how many units can be moved in the movement phase (will be overwritten if emergency command is used) (is -\/1 if no action card was played) \Hypertarget{class_player_aecd4b940d71314a8edb0d99139ba9404}\label{class_player_aecd4b940d71314a8edb0d99139ba9404} 
 \index{Player@{Player}!controlled\_cities@{controlled\_cities}}
 \index{controlled\_cities@{controlled\_cities}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{controlled\_cities}{controlled\_cities}}
@@ -1240,7 +2495,13 @@ Masterlist of all cites the player controls \Hypertarget{class_player_a6c4f17de0
 \doxysubsubsection{\texorpdfstring{controller\_button\_sprites}{controller\_button\_sprites}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_spritesheet}{Spritesheet}}\texorpdfstring{$\ast$}{*} Player\+::controller\+\_\+button\+\_\+sprites}
 
-The sprite sheet for the units at zoom 3 (the closest) \Hypertarget{class_player_ac370646da6deebe9d318388952dfbe75}\label{class_player_ac370646da6deebe9d318388952dfbe75} 
+The sprite sheet for the units at zoom 3 (the closest) \Hypertarget{class_player_a874b70d1358f8ab3f3c9d62ae91a5ddf}\label{class_player_a874b70d1358f8ab3f3c9d62ae91a5ddf} 
+\index{Player@{Player}!current\_phase@{current\_phase}}
+\index{current\_phase@{current\_phase}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{current\_phase}{current\_phase}}
+{\footnotesize\ttfamily Action\+Phase Player\+::current\+\_\+phase = OBSERVING}
+
+The current phase the player is in for the action phase and dictates what actions they can do \Hypertarget{class_player_ac370646da6deebe9d318388952dfbe75}\label{class_player_ac370646da6deebe9d318388952dfbe75} 
 \index{Player@{Player}!current\_production@{current\_production}}
 \index{current\_production@{current\_production}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{current\_production}{current\_production}}
@@ -1282,7 +2543,13 @@ Flag to indicate if the D-\/\+PAD Right button is being held by the player \Hype
 \doxysubsubsection{\texorpdfstring{d\_up\_held}{d\_up\_held}}
 {\footnotesize\ttfamily bool Player\+::d\+\_\+up\+\_\+held = false}
 
-Flag to indicate if the D-\/\+PAD Up button is being held by the player \Hypertarget{class_player_ae79ef3518b9e35bce72a1fd9f89ab161}\label{class_player_ae79ef3518b9e35bce72a1fd9f89ab161} 
+Flag to indicate if the D-\/\+PAD Up button is being held by the player \Hypertarget{class_player_a7b4148d83c174aa9babf447184af16ef}\label{class_player_a7b4148d83c174aa9babf447184af16ef} 
+\index{Player@{Player}!emergency\_command@{emergency\_command}}
+\index{emergency\_command@{emergency\_command}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{emergency\_command}{emergency\_command}}
+{\footnotesize\ttfamily int Player\+::emergency\+\_\+command\hspace{0.3cm}{\ttfamily [private]}}
+
+The number of movements the player can make when they use emergency command \Hypertarget{class_player_ae79ef3518b9e35bce72a1fd9f89ab161}\label{class_player_ae79ef3518b9e35bce72a1fd9f89ab161} 
 \index{Player@{Player}!factory\_cost@{factory\_cost}}
 \index{factory\_cost@{factory\_cost}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{factory\_cost}{factory\_cost}}
@@ -1294,7 +2561,13 @@ The cost to upgrade the industry \Hypertarget{class_player_a279b3b1b930ab7bbb85b
 \doxysubsubsection{\texorpdfstring{industry}{industry}}
 {\footnotesize\ttfamily size\+\_\+t Player\+::industry =0\hspace{0.3cm}{\ttfamily [private]}}
 
-Total number of industry the player has \Hypertarget{class_player_ac98ed0a95a38a914ae582e8da315b31b}\label{class_player_ac98ed0a95a38a914ae582e8da315b31b} 
+Total number of industry the player has \Hypertarget{class_player_ae0058be1da72947f50b7672968c25f19}\label{class_player_ae0058be1da72947f50b7672968c25f19} 
+\index{Player@{Player}!industry\_raised@{industry\_raised}}
+\index{industry\_raised@{industry\_raised}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{industry\_raised}{industry\_raised}}
+{\footnotesize\ttfamily int Player\+::industry\+\_\+raised =0\hspace{0.3cm}{\ttfamily [private]}}
+
+The number of times the player has raised their industry for the government phase \Hypertarget{class_player_ac98ed0a95a38a914ae582e8da315b31b}\label{class_player_ac98ed0a95a38a914ae582e8da315b31b} 
 \index{Player@{Player}!invest\_card\_start@{invest\_card\_start}}
 \index{invest\_card\_start@{invest\_card\_start}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{invest\_card\_start}{invest\_card\_start}}
@@ -1306,11 +2579,17 @@ Which invest card to start displaying on the main home screen \Hypertarget{class
 \doxysubsubsection{\texorpdfstring{invest\_hand}{invest\_hand}}
 {\footnotesize\ttfamily vector$<$\mbox{\hyperlink{struct_investment_card}{Investment\+Card}}\texorpdfstring{$\ast$}{*}$>$ Player\+::invest\+\_\+hand\hspace{0.3cm}{\ttfamily [private]}}
 
-Hand of all investment cards \Hypertarget{class_player_a361919640c77ad220d75769c792497ae}\label{class_player_a361919640c77ad220d75769c792497ae} 
+Hand of all investment cards \Hypertarget{class_player_a0b2dfddac80b484696766a84fa484fb9}\label{class_player_a0b2dfddac80b484696766a84fa484fb9} 
+\index{Player@{Player}!invest\_view@{invest\_view}}
+\index{invest\_view@{invest\_view}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{invest\_view}{invest\_view}}
+{\footnotesize\ttfamily int Player\+::invest\+\_\+view}
+
+Indicates which player to view their invest hand \Hypertarget{class_player_afa3b1dc487325a1cc29ae44997131f7d}\label{class_player_afa3b1dc487325a1cc29ae44997131f7d} 
 \index{Player@{Player}!last\_widget@{last\_widget}}
 \index{last\_widget@{last\_widget}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{last\_widget}{last\_widget}}
-{\footnotesize\ttfamily Uint32 Player\+::last\+\_\+widget = 0}
+{\footnotesize\ttfamily tick\+\_\+t Player\+::last\+\_\+widget = 0}
 
 Time to indicate when the player last changed widgets to pace UI change \Hypertarget{class_player_af664de25e4412cd788e4464bea9c54fe}\label{class_player_af664de25e4412cd788e4464bea9c54fe} 
 \index{Player@{Player}!map\_sprite@{map\_sprite}}
@@ -1330,7 +2609,19 @@ Max production level of the player for the current production phase \Hypertarget
 \doxysubsubsection{\texorpdfstring{message\_animation\_sheets}{message\_animation\_sheets}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_spritesheet}{Spritesheet}}\texorpdfstring{$\ast$}{*} Player\+::message\+\_\+animation\+\_\+sheets}
 
-The spirte of the map for the player\textquotesingle{}s renderer \Hypertarget{class_player_acf0355128a99ee20ad9931b760fb2de1}\label{class_player_acf0355128a99ee20ad9931b760fb2de1} 
+The spirte of the map for the player\textquotesingle{}s renderer \Hypertarget{class_player_a4d1668f86d4180d69021fdb7beb8c5ea}\label{class_player_a4d1668f86d4180d69021fdb7beb8c5ea} 
+\index{Player@{Player}!movement\_memo@{movement\_memo}}
+\index{movement\_memo@{movement\_memo}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{movement\_memo}{movement\_memo}}
+{\footnotesize\ttfamily vector$<$\mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*}$>$ Player\+::movement\+\_\+memo}
+
+Memo of the player made city route for the unit to travel \Hypertarget{class_player_a478d7a59e104be036907df2ab5c54216}\label{class_player_a478d7a59e104be036907df2ab5c54216} 
+\index{Player@{Player}!moving\_unit@{moving\_unit}}
+\index{moving\_unit@{moving\_unit}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{moving\_unit}{moving\_unit}}
+{\footnotesize\ttfamily pair$<$\mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{class_unit}{Unit}}\texorpdfstring{$\ast$}{*}$>$ Player\+::moving\+\_\+unit = \{nullptr, nullptr\}}
+
+The unit chosen by the player to move along the memo \Hypertarget{class_player_acf0355128a99ee20ad9931b760fb2de1}\label{class_player_acf0355128a99ee20ad9931b760fb2de1} 
 \index{Player@{Player}!name@{name}}
 \index{name@{name}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{name}{name}}
@@ -1348,7 +2639,19 @@ Flag for if the player has passed int he current phase and forfits any future tu
 \doxysubsubsection{\texorpdfstring{peace\_dividends}{peace\_dividends}}
 {\footnotesize\ttfamily vector$<$\mbox{\hyperlink{struct_peace_chit}{Peace\+Chit}}$>$ Player\+::peace\+\_\+dividends\hspace{0.3cm}{\ttfamily [private]}}
 
-List of all peace chits earned \Hypertarget{class_player_aefb0542a607178a7004e4871ceecb290}\label{class_player_aefb0542a607178a7004e4871ceecb290} 
+List of all peace chits earned \Hypertarget{class_player_af4f576ee49524c5f194b12df35d388b8}\label{class_player_af4f576ee49524c5f194b12df35d388b8} 
+\index{Player@{Player}!peak\_ticks@{peak\_ticks}}
+\index{peak\_ticks@{peak\_ticks}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{peak\_ticks}{peak\_ticks}}
+{\footnotesize\ttfamily tick\+\_\+t Player\+::peak\+\_\+ticks\mbox{[}3\mbox{]} = \{0, 0, 0\}}
+
+The tick when the player started viewing a rivals hand (the rivals allegiance works as the index for the tick) (0 if not viewing) \Hypertarget{class_player_a2880732f31b50bf6f10d850f89d42366}\label{class_player_a2880732f31b50bf6f10d850f89d42366} 
+\index{Player@{Player}!peaked\_unit@{peaked\_unit}}
+\index{peaked\_unit@{peaked\_unit}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{peaked\_unit}{peaked\_unit}}
+{\footnotesize\ttfamily pair$<$\mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{class_unit}{Unit}}\texorpdfstring{$\ast$}{*}$>$ Player\+::peaked\+\_\+unit = \{nullptr, nullptr\}}
+
+The tick when the player started viewing another rivals unit (0 if not veiwing any) Pair to store which \doxylink{struct_city}{City} has pointer to the \doxylink{class_unit}{Unit} being viewed and which unit is being viewed \Hypertarget{class_player_aefb0542a607178a7004e4871ceecb290}\label{class_player_aefb0542a607178a7004e4871ceecb290} 
 \index{Player@{Player}!popped\_action\_card@{popped\_action\_card}}
 \index{popped\_action\_card@{popped\_action\_card}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{popped\_action\_card}{popped\_action\_card}}
@@ -1360,7 +2663,13 @@ Pointer to the action card the player has currently selected in their action han
 \doxysubsubsection{\texorpdfstring{popped\_action\_card\_index}{popped\_action\_card\_index}}
 {\footnotesize\ttfamily int Player\+::popped\+\_\+action\+\_\+card\+\_\+index = -\/1}
 
-The index into the action hand of the action card the player has currently selected \Hypertarget{class_player_a6b1de54b18cc583c79f3a34db99a0d8e}\label{class_player_a6b1de54b18cc583c79f3a34db99a0d8e} 
+The index into the action hand of the action card the player has currently selected \Hypertarget{class_player_a6bab86e2368fb0eaa8babf10a6120652}\label{class_player_a6bab86e2368fb0eaa8babf10a6120652} 
+\index{Player@{Player}!popped\_invest\_card@{popped\_invest\_card}}
+\index{popped\_invest\_card@{popped\_invest\_card}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{popped\_invest\_card}{popped\_invest\_card}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_investment_card}{Investment\+Card}}\texorpdfstring{$\ast$}{*} Player\+::popped\+\_\+invest\+\_\+card = nullptr}
+
+Pointer to the invest card the player has currently selected in their invest hand (nullptr if none selected) \Hypertarget{class_player_a6b1de54b18cc583c79f3a34db99a0d8e}\label{class_player_a6b1de54b18cc583c79f3a34db99a0d8e} 
 \index{Player@{Player}!popped\_invest\_card\_index@{popped\_invest\_card\_index}}
 \index{popped\_invest\_card\_index@{popped\_invest\_card\_index}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{popped\_invest\_card\_index}{popped\_invest\_card\_index}}
@@ -1372,13 +2681,31 @@ The index into the investment hand of the investment card the player has current
 \doxysubsubsection{\texorpdfstring{popped\_left\_country}{popped\_left\_country}}
 {\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*} Player\+::popped\+\_\+left\+\_\+country = nullptr}
 
-Pointer to the capital of the country on the left hand side of the card (used for drawing) \Hypertarget{class_player_ab69bca9f4598aad611a4e2d9e4ee8abb}\label{class_player_ab69bca9f4598aad611a4e2d9e4ee8abb} 
+Pointer to the capital of the country on the left hand side of the card (used for drawing) \Hypertarget{class_player_a20d3b761ef98f2ffe78275441116a681}\label{class_player_a20d3b761ef98f2ffe78275441116a681} 
+\index{Player@{Player}!popped\_option@{popped\_option}}
+\index{popped\_option@{popped\_option}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{popped\_option}{popped\_option}}
+{\footnotesize\ttfamily double Player\+::popped\+\_\+option\mbox{[}3\mbox{]} = \{-\/2, -\/2, -\/2\}}
+
+The coordinates of the closest selected option from the select wheel; \mbox{[}0\mbox{]} = which option (0...7), \mbox{[}1\mbox{]} = X-\/\+Coord, \mbox{[}2\mbox{]} = Y-\/\+Coord \Hypertarget{class_player_ab69bca9f4598aad611a4e2d9e4ee8abb}\label{class_player_ab69bca9f4598aad611a4e2d9e4ee8abb} 
 \index{Player@{Player}!popped\_right\_country@{popped\_right\_country}}
 \index{popped\_right\_country@{popped\_right\_country}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{popped\_right\_country}{popped\_right\_country}}
 {\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*} Player\+::popped\+\_\+right\+\_\+country = nullptr}
 
-Pointer to the capital of the country on the right hand side of the card (used for drawing) \Hypertarget{class_player_a6c6ccfc31d4bd9da92df6dd5ae7d738e}\label{class_player_a6c6ccfc31d4bd9da92df6dd5ae7d738e} 
+Pointer to the capital of the country on the right hand side of the card (used for drawing) \Hypertarget{class_player_ac80b978eb9c1820c5f569bbf535f53fa}\label{class_player_ac80b978eb9c1820c5f569bbf535f53fa} 
+\index{Player@{Player}!popped\_tech@{popped\_tech}}
+\index{popped\_tech@{popped\_tech}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{popped\_tech}{popped\_tech}}
+{\footnotesize\ttfamily Tech\texorpdfstring{$\ast$}{*} Player\+::popped\+\_\+tech = nullptr}
+
+Pointer to the technology the player has currently selected in their tech widget (nullptr if none selected) \Hypertarget{class_player_af10f477c8f7f702f48aebd44cf7585bf}\label{class_player_af10f477c8f7f702f48aebd44cf7585bf} 
+\index{Player@{Player}!popped\_tech\_index@{popped\_tech\_index}}
+\index{popped\_tech\_index@{popped\_tech\_index}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{popped\_tech\_index}{popped\_tech\_index}}
+{\footnotesize\ttfamily int Player\+::popped\+\_\+tech\+\_\+index = -\/1}
+
+The index of the achieved tech the player has currently selected \Hypertarget{class_player_a6c6ccfc31d4bd9da92df6dd5ae7d738e}\label{class_player_a6c6ccfc31d4bd9da92df6dd5ae7d738e} 
 \index{Player@{Player}!population@{population}}
 \index{population@{population}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{population}{population}}
@@ -1390,49 +2717,91 @@ Total POP of the player \Hypertarget{class_player_a5c4da754060ca1cfedc8e845433c6
 \doxysubsubsection{\texorpdfstring{resources}{resources}}
 {\footnotesize\ttfamily size\+\_\+t Player\+::resources\hspace{0.3cm}{\ttfamily [private]}}
 
-Total number of resources player has \Hypertarget{class_player_a9e93fddf36bc33573f5b6c545e99b795}\label{class_player_a9e93fddf36bc33573f5b6c545e99b795} 
-\index{Player@{Player}!right\_stick\_tick@{right\_stick\_tick}}
-\index{right\_stick\_tick@{right\_stick\_tick}!Player@{Player}}
-\doxysubsubsection{\texorpdfstring{right\_stick\_tick}{right\_stick\_tick}}
-{\footnotesize\ttfamily Uint32 Player\+::right\+\_\+stick\+\_\+tick = 0}
+Total number of resources player has \Hypertarget{class_player_ac1f70f715b08c2e16e5aa88483b17dac}\label{class_player_ac1f70f715b08c2e16e5aa88483b17dac} 
+\index{Player@{Player}!right\_stick\_x\_tick@{right\_stick\_x\_tick}}
+\index{right\_stick\_x\_tick@{right\_stick\_x\_tick}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{right\_stick\_x\_tick}{right\_stick\_x\_tick}}
+{\footnotesize\ttfamily tick\+\_\+t Player\+::right\+\_\+stick\+\_\+x\+\_\+tick = 0}
 
-Tick of when the player most moved the right joystick \Hypertarget{class_player_ab5215fe1d27d1762ca01b7d0cc1b7157}\label{class_player_ab5215fe1d27d1762ca01b7d0cc1b7157} 
+Tick of when the player most moved the right joystick along the x axis \Hypertarget{class_player_a0ae471aa3f8e5a394dcc6f6a445c6c58}\label{class_player_a0ae471aa3f8e5a394dcc6f6a445c6c58} 
+\index{Player@{Player}!right\_stick\_y\_tick@{right\_stick\_y\_tick}}
+\index{right\_stick\_y\_tick@{right\_stick\_y\_tick}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{right\_stick\_y\_tick}{right\_stick\_y\_tick}}
+{\footnotesize\ttfamily tick\+\_\+t Player\+::right\+\_\+stick\+\_\+y\+\_\+tick = 0}
+
+Tick of when the player most moved the right joystick along the y axis \Hypertarget{class_player_ab5215fe1d27d1762ca01b7d0cc1b7157}\label{class_player_ab5215fe1d27d1762ca01b7d0cc1b7157} 
 \index{Player@{Player}!rival\_capitals@{rival\_capitals}}
 \index{rival\_capitals@{rival\_capitals}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{rival\_capitals}{rival\_capitals}}
 {\footnotesize\ttfamily size\+\_\+t Player\+::rival\+\_\+capitals =0\hspace{0.3cm}{\ttfamily [private]}}
 
-Number of enemy capitals the player has captured \Hypertarget{class_player_a6c44be004ed1d86ee6dd1783bd4bafd2}\label{class_player_a6c44be004ed1d86ee6dd1783bd4bafd2} 
+Number of enemy capitals the player has captured \Hypertarget{class_player_ab425dab1e65e63fb85e3bb1cfb403b5e}\label{class_player_ab425dab1e65e63fb85e3bb1cfb403b5e} 
+\index{Player@{Player}!secret\_count@{secret\_count}}
+\index{secret\_count@{secret\_count}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{secret\_count}{secret\_count}}
+{\footnotesize\ttfamily int Player\+::secret\+\_\+count = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+The current number of technologies the player has secret (not known to rivals) (contributes to the card limit) \Hypertarget{class_player_a6c44be004ed1d86ee6dd1783bd4bafd2}\label{class_player_a6c44be004ed1d86ee6dd1783bd4bafd2} 
 \index{Player@{Player}!selected\_country@{selected\_country}}
 \index{selected\_country@{selected\_country}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{selected\_country}{selected\_country}}
 {\footnotesize\ttfamily \mbox{\hyperlink{struct_country}{Country}}\texorpdfstring{$\ast$}{*} Player\+::selected\+\_\+country = nullptr}
 
-Pointer to the country the player has currently selected for card actions (nullptr if none selected) \Hypertarget{class_player_abcb3f7f2dd4f496561dd9a167df1d124}\label{class_player_abcb3f7f2dd4f496561dd9a167df1d124} 
+Pointer to the country the player has currently selected for card actions (nullptr if none selected) \Hypertarget{class_player_a800ced8d86251f20fc830390b042ef80}\label{class_player_a800ced8d86251f20fc830390b042ef80} 
+\index{Player@{Player}!selected\_invest\_cards@{selected\_invest\_cards}}
+\index{selected\_invest\_cards@{selected\_invest\_cards}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{selected\_invest\_cards}{selected\_invest\_cards}}
+{\footnotesize\ttfamily vector$<$\mbox{\hyperlink{struct_investment_card}{Investment\+Card}}\texorpdfstring{$\ast$}{*}$>$ Player\+::selected\+\_\+invest\+\_\+cards}
+
+Vector of pointers to all Invest Cards the player has selected to put toward raising Industry \Hypertarget{class_player_ac692f397a98d34d57e813fd2b41832d3}\label{class_player_ac692f397a98d34d57e813fd2b41832d3} 
+\index{Player@{Player}!selected\_tech1@{selected\_tech1}}
+\index{selected\_tech1@{selected\_tech1}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{selected\_tech1}{selected\_tech1}}
+{\footnotesize\ttfamily Tech\texorpdfstring{$\ast$}{*} Player\+::selected\+\_\+tech1 = nullptr}
+
+The first tech of a card selected to be paired \Hypertarget{class_player_a319e9a7f6763d6c7ae2ee95eb97e105b}\label{class_player_a319e9a7f6763d6c7ae2ee95eb97e105b} 
+\index{Player@{Player}!selected\_tech1\_card@{selected\_tech1\_card}}
+\index{selected\_tech1\_card@{selected\_tech1\_card}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{selected\_tech1\_card}{selected\_tech1\_card}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_investment_card}{Investment\+Card}}\texorpdfstring{$\ast$}{*} Player\+::selected\+\_\+tech1\+\_\+card = nullptr}
+
+The card of the first tech selected to be paired \Hypertarget{class_player_a7c2821862fbca5935c1e14b85c1826ec}\label{class_player_a7c2821862fbca5935c1e14b85c1826ec} 
+\index{Player@{Player}!selected\_tech2@{selected\_tech2}}
+\index{selected\_tech2@{selected\_tech2}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{selected\_tech2}{selected\_tech2}}
+{\footnotesize\ttfamily Tech\texorpdfstring{$\ast$}{*} Player\+::selected\+\_\+tech2 = nullptr}
+
+The second tech of a card selected to be paired \Hypertarget{class_player_a5f836e6536ca20a89f1e4b1d0c65dea4}\label{class_player_a5f836e6536ca20a89f1e4b1d0c65dea4} 
+\index{Player@{Player}!selected\_tech2\_card@{selected\_tech2\_card}}
+\index{selected\_tech2\_card@{selected\_tech2\_card}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{selected\_tech2\_card}{selected\_tech2\_card}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_investment_card}{Investment\+Card}}\texorpdfstring{$\ast$}{*} Player\+::selected\+\_\+tech2\+\_\+card = nullptr}
+
+The card of the second tech selected to be paired \Hypertarget{class_player_abcb3f7f2dd4f496561dd9a167df1d124}\label{class_player_abcb3f7f2dd4f496561dd9a167df1d124} 
 \index{Player@{Player}!selected\_unit@{selected\_unit}}
 \index{selected\_unit@{selected\_unit}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{selected\_unit}{selected\_unit}}
 {\footnotesize\ttfamily pair$<$\mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{class_unit}{Unit}}\texorpdfstring{$\ast$}{*}$>$ Player\+::selected\+\_\+unit = \{nullptr, nullptr\}}
 
-The unit thats under focus and all actions pertaining to \Hypertarget{class_player_aa8e2cd083de4535d19199590013e7474}\label{class_player_aa8e2cd083de4535d19199590013e7474} 
+The unit thats under focus and all actions pertaining to \Hypertarget{class_player_ae473e6befe108f8bfd9dce342ed2bb07}\label{class_player_ae473e6befe108f8bfd9dce342ed2bb07} 
+\index{Player@{Player}!selecting\_city@{selecting\_city}}
+\index{selecting\_city@{selecting\_city}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{selecting\_city}{selecting\_city}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*} Player\+::selecting\+\_\+city = nullptr}
+
+Pointer to the city that has been selected to add a unit \Hypertarget{class_player_aa8e2cd083de4535d19199590013e7474}\label{class_player_aa8e2cd083de4535d19199590013e7474} 
 \index{Player@{Player}!show\_action@{show\_action}}
 \index{show\_action@{show\_action}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{show\_action}{show\_action}}
 {\footnotesize\ttfamily bool Player\+::show\+\_\+action = false}
 
-Falg to track if the action hand should be expanded to show all cards \Hypertarget{class_player_aec9ccb3985421a0122e8b9491deb7687}\label{class_player_aec9ccb3985421a0122e8b9491deb7687} 
-\index{Player@{Player}!show\_axis@{show\_axis}}
-\index{show\_axis@{show\_axis}!Player@{Player}}
-\doxysubsubsection{\texorpdfstring{show\_axis}{show\_axis}}
-{\footnotesize\ttfamily bool Player\+::show\+\_\+axis = false}
-
-Flag to track if the information of the Axis \doxylink{class_player}{Player} should be shown \Hypertarget{class_player_af9bd015a2a04ac84ea439f244beddece}\label{class_player_af9bd015a2a04ac84ea439f244beddece} 
+Flag to track if the action hand should be expanded to show the cards \Hypertarget{class_player_af9bd015a2a04ac84ea439f244beddece}\label{class_player_af9bd015a2a04ac84ea439f244beddece} 
 \index{Player@{Player}!show\_invest@{show\_invest}}
 \index{show\_invest@{show\_invest}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{show\_invest}{show\_invest}}
 {\footnotesize\ttfamily bool Player\+::show\+\_\+invest = false}
 
-Flag to track if the invest hand should be expanded to show all cards \Hypertarget{class_player_a8bd808cd32a70de7215783105722825d}\label{class_player_a8bd808cd32a70de7215783105722825d} 
+Flag to track if the invest hand should be expanded to show the cards \Hypertarget{class_player_a8bd808cd32a70de7215783105722825d}\label{class_player_a8bd808cd32a70de7215783105722825d} 
 \index{Player@{Player}!show\_left\_country@{show\_left\_country}}
 \index{show\_left\_country@{show\_left\_country}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{show\_left\_country}{show\_left\_country}}
@@ -1444,41 +2813,53 @@ Flag to indicate if the capital of the left side country should be drawn \Hypert
 \doxysubsubsection{\texorpdfstring{show\_right\_country}{show\_right\_country}}
 {\footnotesize\ttfamily bool Player\+::show\+\_\+right\+\_\+country = false}
 
-Flag to indicate if the capital of the left side country should be drawn \Hypertarget{class_player_a52f1a14c1755a2eb0f4aa83a14921c11}\label{class_player_a52f1a14c1755a2eb0f4aa83a14921c11} 
-\index{Player@{Player}!show\_ussr@{show\_ussr}}
-\index{show\_ussr@{show\_ussr}!Player@{Player}}
-\doxysubsubsection{\texorpdfstring{show\_ussr}{show\_ussr}}
-{\footnotesize\ttfamily bool Player\+::show\+\_\+ussr = false}
-
-Flag to track if the information of the USSR \doxylink{class_player}{Player} should be shown \Hypertarget{class_player_a8a755c120b94c82fe69f4ac7677e6c5b}\label{class_player_a8a755c120b94c82fe69f4ac7677e6c5b} 
-\index{Player@{Player}!show\_west@{show\_west}}
-\index{show\_west@{show\_west}!Player@{Player}}
-\doxysubsubsection{\texorpdfstring{show\_west}{show\_west}}
-{\footnotesize\ttfamily bool Player\+::show\+\_\+west = false}
-
-Flag to track if the information of the West \doxylink{class_player}{Player} should be shown \Hypertarget{class_player_a791eb3f3d22c6b54201421205b3ab6c7}\label{class_player_a791eb3f3d22c6b54201421205b3ab6c7} 
+Flag to indicate if the capital of the left side country should be drawn \Hypertarget{class_player_a791eb3f3d22c6b54201421205b3ab6c7}\label{class_player_a791eb3f3d22c6b54201421205b3ab6c7} 
 \index{Player@{Player}!sprite\_sheet@{sprite\_sheet}}
 \index{sprite\_sheet@{sprite\_sheet}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{sprite\_sheet}{sprite\_sheet}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_spritesheet}{Spritesheet}}\texorpdfstring{$\ast$}{*} Player\+::sprite\+\_\+sheet}
 
-The general spritesheet for the player\textquotesingle{}s renderer \Hypertarget{class_player_acd3e748ec3336d2e87e7ddc9d91011f4}\label{class_player_acd3e748ec3336d2e87e7ddc9d91011f4} 
+The general spritesheet for the player\textquotesingle{}s renderer \Hypertarget{class_player_a7844c841e69f40d51ae5db9b5728431d}\label{class_player_a7844c841e69f40d51ae5db9b5728431d} 
+\index{Player@{Player}!stat\_view@{stat\_view}}
+\index{stat\_view@{stat\_view}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{stat\_view}{stat\_view}}
+{\footnotesize\ttfamily int Player\+::stat\+\_\+view}
+
+Indicates which player to view their stats \Hypertarget{class_player_acd3e748ec3336d2e87e7ddc9d91011f4}\label{class_player_acd3e748ec3336d2e87e7ddc9d91011f4} 
 \index{Player@{Player}!tech\_card\_start@{tech\_card\_start}}
 \index{tech\_card\_start@{tech\_card\_start}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{tech\_card\_start}{tech\_card\_start}}
 {\footnotesize\ttfamily int Player\+::tech\+\_\+card\+\_\+start =0}
 
-Which discovered tech card to start displaying on the main home screen \Hypertarget{class_player_adbf124d87d310dc6c16a4587cd880899}\label{class_player_adbf124d87d310dc6c16a4587cd880899} 
+Which discovered tech card to start displaying on the main home screen \Hypertarget{class_player_a66d4036502f704ddd0eeaefb8df9a73b}\label{class_player_a66d4036502f704ddd0eeaefb8df9a73b} 
+\index{Player@{Player}!tech\_select\_flip@{tech\_select\_flip}}
+\index{tech\_select\_flip@{tech\_select\_flip}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{tech\_select\_flip}{tech\_select\_flip}}
+{\footnotesize\ttfamily bool Player\+::tech\+\_\+select\+\_\+flip = true}
+
+Works as a two-\/state dictator for which tech should be replaces when a new one is selected \Hypertarget{class_player_a43544579866b2752d40bf04eaa6a4020}\label{class_player_a43544579866b2752d40bf04eaa6a4020} 
+\index{Player@{Player}!tech\_view@{tech\_view}}
+\index{tech\_view@{tech\_view}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{tech\_view}{tech\_view}}
+{\footnotesize\ttfamily int Player\+::tech\+\_\+view}
+
+Indicates which player to view their achieved tech \Hypertarget{class_player_a1f3d012cd0c010f68c241a78c886351c}\label{class_player_a1f3d012cd0c010f68c241a78c886351c} 
+\index{Player@{Player}!technology\_count@{technology\_count}}
+\index{technology\_count@{technology\_count}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{technology\_count}{technology\_count}}
+{\footnotesize\ttfamily int Player\+::technology\+\_\+count = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+The current number of technologies the player has discovered \Hypertarget{class_player_adbf124d87d310dc6c16a4587cd880899}\label{class_player_adbf124d87d310dc6c16a4587cd880899} 
 \index{Player@{Player}!total\_units@{total\_units}}
 \index{total\_units@{total\_units}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{total\_units}{total\_units}}
 {\footnotesize\ttfamily size\+\_\+t Player\+::total\+\_\+units =0\hspace{0.3cm}{\ttfamily [private]}}
 
-Current number of units the player has on the board (number in play) \Hypertarget{class_player_aaa6bd2892fceb32421be842a7cea32dc}\label{class_player_aaa6bd2892fceb32421be842a7cea32dc} 
-\index{Player@{Player}!unit\_buildable@{unit\_buildable}}
-\index{unit\_buildable@{unit\_buildable}!Player@{Player}}
-\doxysubsubsection{\texorpdfstring{unit\_buildable}{unit\_buildable}}
-{\footnotesize\ttfamily bool Player\+::unit\+\_\+buildable\mbox{[}7\mbox{]} = \{false, false, false, false, false, false, false\}}
+Current number of units the player has on the board (number in play) \Hypertarget{class_player_a2643db10b88e9f1a35c3ddcd58e94235}\label{class_player_a2643db10b88e9f1a35c3ddcd58e94235} 
+\index{Player@{Player}!unit\_available@{unit\_available}}
+\index{unit\_available@{unit\_available}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{unit\_available}{unit\_available}}
+{\footnotesize\ttfamily bool Player\+::unit\+\_\+available\mbox{[}7\mbox{]} = \{false, false, false, false, false, false, false\}}
 
 Array that corresponds to the units to hold flags if the unit is buildable in the current {\ttfamily building\+\_\+city} \Hypertarget{class_player_a904f6e355e976b04bde6f40602a63886}\label{class_player_a904f6e355e976b04bde6f40602a63886} 
 \index{Player@{Player}!unit\_counts@{unit\_counts}}
@@ -1522,7 +2903,13 @@ Count for the number of units upgraded in the current production phase \Hypertar
 \doxysubsubsection{\texorpdfstring{usa\_dow}{usa\_dow}}
 {\footnotesize\ttfamily Dow\+State Player\+::usa\+\_\+dow =PEACE\hspace{0.3cm}{\ttfamily [private]}}
 
-Holds the diplomacy state of the DOW with USA (only for the WEST really) \Hypertarget{class_player_a4d14c6705c69855c5ce47c337bae8fd2}\label{class_player_a4d14c6705c69855c5ce47c337bae8fd2} 
+Holds the diplomacy state of the DOW with USA (only for the WEST really) \Hypertarget{class_player_a8a68c21c907eb612f78f2ed109e12d91}\label{class_player_a8a68c21c907eb612f78f2ed109e12d91} 
+\index{Player@{Player}!used\_emergency@{used\_emergency}}
+\index{used\_emergency@{used\_emergency}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{used\_emergency}{used\_emergency}}
+{\footnotesize\ttfamily bool Player\+::used\+\_\+emergency = false\hspace{0.3cm}{\ttfamily [private]}}
+
+Flag used to indicate if the player used emergency command for the current action season \Hypertarget{class_player_a4d14c6705c69855c5ce47c337bae8fd2}\label{class_player_a4d14c6705c69855c5ce47c337bae8fd2} 
 \index{Player@{Player}!ussr\_dow@{ussr\_dow}}
 \index{ussr\_dow@{ussr\_dow}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{ussr\_dow}{ussr\_dow}}
@@ -1558,17 +2945,17 @@ The y-\/coord of a unit circle for the selection wheel \Hypertarget{class_player
 \doxysubsubsection{\texorpdfstring{widget}{widget}}
 {\footnotesize\ttfamily Widget Player\+::widget = MAP}
 
-Holds which current widget the player is on \Hypertarget{class_player_af07718186f95a662e7d034eb88fb9bda}\label{class_player_af07718186f95a662e7d034eb88fb9bda} 
+Holds which current widget the player is on \Hypertarget{class_player_a94d7253d8ed524f359115218593a3125}\label{class_player_a94d7253d8ed524f359115218593a3125} 
 \index{Player@{Player}!x\_held\_tick@{x\_held\_tick}}
 \index{x\_held\_tick@{x\_held\_tick}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{x\_held\_tick}{x\_held\_tick}}
-{\footnotesize\ttfamily Uint32 Player\+::x\+\_\+held\+\_\+tick = 0}
+{\footnotesize\ttfamily tick\+\_\+t Player\+::x\+\_\+held\+\_\+tick = 0}
 
-Tick of when the player most recently pressed down on the X-\/\+Button (0 if not held) \Hypertarget{class_player_af9eeec7d4257db59d2f2f5c9b333b02e}\label{class_player_af9eeec7d4257db59d2f2f5c9b333b02e} 
+Tick of when the player most recently pressed down on the X-\/\+Button (0 if not held) \Hypertarget{class_player_ab99034bc07832e1e72e6ffc9527ba265}\label{class_player_ab99034bc07832e1e72e6ffc9527ba265} 
 \index{Player@{Player}!y\_held\_tick@{y\_held\_tick}}
 \index{y\_held\_tick@{y\_held\_tick}!Player@{Player}}
 \doxysubsubsection{\texorpdfstring{y\_held\_tick}{y\_held\_tick}}
-{\footnotesize\ttfamily Uint32 Player\+::y\+\_\+held\+\_\+tick = 0}
+{\footnotesize\ttfamily tick\+\_\+t Player\+::y\+\_\+held\+\_\+tick = 0}
 
 Tick of when the player most recently pressed down on the Y-\/\+Button (0 if not held) \Hypertarget{class_player_aa677b88f14334f14dd8c8f8695e2216d}\label{class_player_aa677b88f14334f14dd8c8f8695e2216d} 
 \index{Player@{Player}!y\_resolved@{y\_resolved}}

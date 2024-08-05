@@ -1,11 +1,12 @@
 <map id="Runner::canBuild" name="Runner::canBuild">
-<area shape="rect" id="Node000001" title="Decider for if a new unit of the given type is able to be built in the city provided." alt="" coords="5,55,127,80"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#a1339ccfbb7f33637f68ab258df440b6e" title="A decider for if the city provided is supplied and can have steps built. All the cities on the route ..." alt="" coords="175,55,302,80"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,65,159,65,159,70,127,70"/>
-<area shape="rect" id="Node000003" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="350,5,483,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="287,51,352,33,354,38,288,57"/>
-<area shape="rect" id="Node000004" href="$class_map.html#a01a979e1788d8f3df965a298b7ec2c78" title="Works as the [] overload for out of scope." alt="" coords="369,55,465,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="303,65,353,65,353,70,303,70"/>
-<area shape="rect" id="Node000005" href="$class_map.html#aec078176c2dc99ab8f77753942fdb081" title="Get the total number of cities." alt="" coords="355,104,479,130"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="288,78,354,97,352,102,287,84"/>
+<area shape="rect" id="Node000001" title="Decider for if a new unit of the given type is able to be built in the city provided." alt="" coords="5,31,127,56"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="350,5,483,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,36,334,21,335,27,127,42"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a1339ccfbb7f33637f68ab258df440b6e" title="A decider for if the city provided is supplied and can have steps built. All the cities on the route ..." alt="" coords="175,56,302,82"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="128,50,160,55,159,60,127,55"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="286,53,354,33,356,38,287,58"/>
+<area shape="rect" id="Node000004" href="$class_map.html#a70c8b9a0545e47dbd8a0e781d1f56db1" title="Works as the [] overload for out of scope." alt="" coords="369,55,465,80"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="303,66,353,65,353,71,303,71"/>
+<area shape="rect" id="Node000005" href="$class_map.html#aec078176c2dc99ab8f77753942fdb081" title="Get the total number of cities in the game." alt="" coords="355,104,479,130"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="290,80,352,97,351,102,288,85"/>
 </map>

@@ -1,0 +1,7 @@
+<map id="Runner::handleYHeld" name="Runner::handleYHeld">
+<area shape="rect" id="Node000001" title="Handler for all actions which have the Y Button (only) held." alt="" coords="5,31,151,56"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a4c0150673e8ac5baeccee79716b01bc2" title="Returns a pointer to the Country with the given name." alt="" coords="229,5,348,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,32,213,24,214,30,151,37"/>
+<area shape="rect" id="Node000003" href="$struct_country.html#a6a1ee4db727200c3c7c299634a5557a6" title="Change the influence level and the effects after cards have been resolved." alt="" coords="199,55,378,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,49,184,53,183,58,150,54"/>
+</map>

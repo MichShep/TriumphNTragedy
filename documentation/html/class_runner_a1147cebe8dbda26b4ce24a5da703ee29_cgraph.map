@@ -1,0 +1,7 @@
+<map id="Runner::handleBattleSelect" name="Runner::handleBattleSelect">
+<area shape="rect" id="Node000001" title="Handler for user input on adding/removing battles for the combat phase." alt="" coords="5,31,186,56"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#ae8ad08e77c964adc26e92db8f80702e6" title="Handler for adding new battles during the Combat Select Phase." alt="" coords="245,5,372,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,30,230,25,230,30,186,35"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a5f78e3ffc376f81ca93d2fd5e187ef16" title="Set which Rivals/Minors are able to be attacked in the currently selected city." alt="" coords="234,55,383,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="186,51,219,55,218,60,186,56"/>
+</map>

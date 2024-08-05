@@ -8,10 +8,8 @@
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="215,114,247,114,247,120,215,120"/>
 <area shape="rect" id="Node000006" href="$class_runner.html#af0d0353424d3bfe4fef0f121a342df14" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="264,153,420,179"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="175,128,264,147,263,152,173,133"/>
-<area shape="rect" id="Node000008" href="$class_runner.html#abda44286231761376689099fcdb9789f" title="Takes a joy axis movement and scales it to be from [0.0, 1.0] bases on a min movement of &#45;32000 and m..." alt="" coords="278,203,406,228"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="137,128,194,158,264,189,279,195,278,200,262,194,192,162,134,133"/>
-<area shape="rect" id="Node000005" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Get reference to hash map of cities to reduce calls." alt="" coords="469,104,575,130"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#abda44286231761376689099fcdb9789f" title="Takes a joy axis movement and scales it to be from [0.0, 1.0] bases on a min movement of &#45;32000 and m..." alt="" coords="278,203,406,228"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="137,128,194,158,264,189,279,195,278,200,262,194,192,162,134,133"/>
+<area shape="rect" id="Node000005" href="$class_map.html#a63e2c7855bc61a903d6db26c6927a606" title="Returns a reference to the hashmap of cities." alt="" coords="469,104,575,130"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="422,114,454,114,454,120,422,120"/>
-<area shape="rect" id="Node000007" href="$class_runner.html#abdfbb9ff4d3924b378cd13c3a2a58c28" title="Checks what type of movement is allowed and if the player is allowed to move there." alt="" coords="471,153,574,179"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="421,164,455,164,455,169,421,169"/>
 </map>

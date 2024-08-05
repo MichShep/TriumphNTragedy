@@ -7,7 +7,6 @@ void City::removeUnit(Unit* unit){
     for(vector <Unit* >::iterator it(occupants[(size_t)unit->allegiance].begin()); it != occupants[(size_t)unit->allegiance].end(); ++it){
         if (*it == unit){
             it = occupants[(size_t)unit->allegiance].erase(it);
-            country_counts[unit->nationality]--;
             num_occupants--;
             return;
         }
@@ -22,7 +21,7 @@ void City::addUnit(Unit* unit){
     num_occupants++;
 }
 
-void Map::initLists(const size_t size){
+void Map::initLists(const size_t& size){
     //- Resize adjacency list
     adjacency.resize(size);
     border_limit.resize(size);
@@ -45,7 +44,7 @@ void Map::initLists(const size_t size){
 
 //&^ City Getters
 
-City* Map::getCity(const string name) const{
+City* Map::getCity(const string& name) const{
     try{
         return cities.at(name);
     }
@@ -59,9 +58,9 @@ City* Map::getCity(const size_t id) const{
     return city_masterlist[id];
 }
 
-size_t Map::findCity(const string name) const{
+const size_t& Map::findCity(const string& name) const{
     if (atoi(name.c_str()) != 0)
-        return atoi(name.c_str());
+        return city_masterlist[atoi(name.c_str())]->getID();
 
     try{
         return cities.at(name)->getID();
@@ -73,7 +72,7 @@ size_t Map::findCity(const string name) const{
 
 }
 
-City* Map::getClosestCity(const int x, const int y, const double zoom_x, const double zoom_y) const{
+City* Map::getClosestCity(const int& x, const int& y, const double& zoom_x, const double& zoom_y) const{
     City* closest;
     size_t dist = INFI;
     const int limit = 1000*zoom_x;
@@ -92,7 +91,7 @@ City* Map::getClosestCity(const int x, const int y, const double zoom_x, const d
 //&^ City Dev tools
 
 void City::print() const{
-    printf("\tCity #%zu: %s is %d with %d pop, %d muster, %d resources of type %d\n", ID, name.c_str(), (int)city_type, (int)power_type, (int) population, (int)muster, (int)resource);
+    printf("\tCity #%zu: %s is %d with %d pop, %d muster, %d resources of type %d\n", ID, name.c_str(), (int)start_allegiance, (int)power_type, (int) population, (int)muster, (int)resource);
 }
 
 void City::printOccupants() const{

@@ -2,8 +2,6 @@
 <area shape="rect" id="Node000001" title="Handler for the right joystick (used to select things) thats taken every frame." alt="" coords="5,31,225,56"/>
 <area shape="rect" id="Node000002" href="$class_runner.html#af0d0353424d3bfe4fef0f121a342df14" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="273,5,429,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,29,257,26,257,31,225,34"/>
-<area shape="rect" id="Node000004" href="$class_runner.html#abda44286231761376689099fcdb9789f" title="Takes a joy axis movement and scales it to be from [0.0, 1.0] bases on a min movement of &#45;32000 and m..." alt="" coords="287,55,415,80"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="225,52,271,57,271,62,225,57"/>
-<area shape="rect" id="Node000003" href="$class_runner.html#abdfbb9ff4d3924b378cd13c3a2a58c28" title="Checks what type of movement is allowed and if the player is allowed to move there." alt="" coords="477,5,580,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="430,16,461,16,461,21,430,21"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#abda44286231761376689099fcdb9789f" title="Takes a joy axis movement and scales it to be from [0.0, 1.0] bases on a min movement of &#45;32000 and m..." alt="" coords="287,55,415,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,52,271,57,271,62,225,57"/>
 </map>

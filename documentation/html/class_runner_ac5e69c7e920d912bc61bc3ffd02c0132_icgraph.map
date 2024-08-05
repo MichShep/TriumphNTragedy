@@ -1,0 +1,5 @@
+<map id="Runner::drawTitle" name="Runner::drawTitle">
+<area shape="rect" id="Node000001" title="Draws all buttons and titles for the title screen." alt="" coords="168,5,292,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a7e0d381c389b5efed301fa00a9ab7b90" title="The runner and handler for the title screen." alt="" coords="5,5,120,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,21,120,21,120,16,152,16"/>
+</map>

@@ -1,26 +1,20 @@
 <map id="Runner::drawBuild" name="Runner::drawBuild">
-<area shape="rect" id="Node000001" title="Draws the unit building UI and the select line and selected unit." alt="" coords="5,31,134,56"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#a68d578b3e729c8c1e49a20241e7efbef" title="Draws a city onto the players renderer and if opted the resources as well." alt="" coords="182,31,305,56"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,41,166,41,166,46,134,46"/>
-<area shape="rect" id="Node000005" href="$class_runner.html#a18f5343138ec0a0f147b01f11944fd13" title="Draws the unit onto the player&#39;s screen." alt="" coords="789,17,913,43"/>
-<area shape="poly" id="edge14_Node000001_Node000005" title=" " alt="" coords="118,27,181,15,347,4,511,4,659,11,774,20,774,25,659,16,511,10,347,10,182,21,119,32"/>
-<area shape="rect" id="Node000010" href="$class_runner.html#ac54c38b1a35bcbd37adaab4a76fda25c" title="Draws a 3 pixel wide line between the two points." alt="" coords="182,80,305,106"/>
-<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="118,54,181,72,180,78,117,59"/>
-<area shape="rect" id="Node000003" href="$class_runner.html#aff97cea260ba3a5f87e17e4a740934d7" title="Draws 5 units under the city, rotating to the next 5 every 5 seconds." alt="" coords="353,93,507,119"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="285,54,376,85,374,90,283,59"/>
-<area shape="rect" id="Node000009" href="$class_runner.html#a1d192f0cb68477269f44ec310b335bf1" title="Get the index of the sprite needed for the city." alt="" coords="357,31,504,56"/>
-<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="305,41,341,41,341,46,305,46"/>
-<area shape="rect" id="Node000004" href="$class_runner.html#a26505fc8d4d45386393f2e3ecae92210" title="If the city has full displayed enable, every unit at the city will be displayed in rows of 5 (no rota..." alt="" coords="555,119,731,144"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="508,113,540,116,540,122,508,118"/>
-<area shape="poly" id="edge8_Node000003_Node000005" title=" " alt="" coords="505,90,774,41,775,46,506,95"/>
-<area shape="rect" id="Node000006" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="779,93,923,119"/>
-<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="508,103,763,103,763,109,508,109"/>
-<area shape="rect" id="Node000007" href="$class_runner.html#aa42441a87161bb486218ef29fd6bebfe" title="Used for button presses where a given mouse clip position will see if its in the rectangle provided." alt="" coords="799,156,903,182"/>
-<area shape="poly" id="edge10_Node000003_Node000007" title=" " alt="" coords="458,117,503,137,556,154,615,164,676,169,783,170,783,175,676,174,615,169,555,159,501,142,456,122"/>
-<area shape="rect" id="Node000008" href="$struct_city.html#ad92576a7777d79bff78d720b0ef46dc5" title="If there currently a battle going on (more than one allegiance of troops)" alt="" coords="797,205,905,231"/>
-<area shape="poly" id="edge11_Node000003_Node000008" title=" " alt="" coords="450,117,497,148,556,177,614,193,674,204,782,214,781,219,673,209,613,198,554,182,494,153,447,122"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="670,116,808,47,811,52,673,120"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="730,118,763,114,763,119,731,123"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="719,142,784,154,783,159,718,147"/>
-<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="672,142,780,192,794,197,792,202,778,196,670,147"/>
+<area shape="rect" id="Node000001" title="Draws the unit building UI and the select line and selected unit." alt="" coords="5,155,134,180"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a68d578b3e729c8c1e49a20241e7efbef" title="Draws a city onto the players renderer and if opted the resources as well." alt="" coords="182,104,305,130"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,151,182,132,183,137,117,157"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a693825012a69e80c92d2b0c6967f650f" title="Draws the unit onto the player&#39;s screen." alt="" coords="566,153,689,179"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="134,165,550,164,550,169,134,170"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#ac54c38b1a35bcbd37adaab4a76fda25c" title="Draws a 3 pixel wide line between the two points." alt="" coords="182,205,305,231"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="117,178,183,198,182,203,115,184"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#aff97cea260ba3a5f87e17e4a740934d7" title="Draws 5 units under the city, rotating to the next 5 every 5 seconds." alt="" coords="353,55,507,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="294,101,363,82,365,87,296,106"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a1d192f0cb68477269f44ec310b335bf1" title="Get the index of the sprite needed for the city." alt="" coords="357,104,504,130"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="305,114,341,114,341,120,305,120"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="487,78,509,89,524,102,534,115,542,128,557,140,564,144,562,149,554,144,539,131,529,118,520,106,506,94,484,83"/>
+<area shape="rect" id="Node000005" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="555,5,700,31"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="484,51,558,33,559,38,485,57"/>
+<area shape="rect" id="Node000006" href="$struct_city.html#ac725c4e61f5ba09c104812c263a0bc4d" title="Get a combined vector of every unit in the city." alt="" coords="560,55,695,80"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="508,65,545,65,545,70,508,70"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a7b57549ac8ea87baf0e5eb79eba3f5a4" title="Used for button presses where a given mouse clip position will see if its in the rectangle provided." alt="" coords="575,104,680,130"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="485,78,561,98,560,103,484,84"/>
 </map>

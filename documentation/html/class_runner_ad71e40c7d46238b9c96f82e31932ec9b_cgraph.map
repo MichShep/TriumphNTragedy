@@ -1,0 +1,7 @@
+<map id="Runner::coupRival" name="Runner::coupRival">
+<area shape="rect" id="Node000001" title="Handler for Player couping against a rival." alt="" coords="5,5,135,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#af3bd881e72650819c3b44790a2864fd7" title="Handler for couping (removing a rival&#39;s influence)" alt="" coords="183,5,282,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,16,167,16,167,21,135,21"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a4c0150673e8ac5baeccee79716b01bc2" title="Returns a pointer to the Country with the given name." alt="" coords="330,5,448,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="282,16,314,16,314,21,282,21"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Runner::compareCards" name="Runner::compareCards">
+<area shape="rect" id="Node000001" title="Comparator for two Action Cards to see which has priority for command." alt="" coords="207,5,363,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a8f8e2fbbf15127abe0b84d461d876077" title="Sort the turn order of the players based on their played command cards (season&#45;&gt;command priority&#45;&gt;com..." alt="" coords="5,5,159,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,21,159,21,159,16,191,16"/>
+</map>

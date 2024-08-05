@@ -1,5 +1,9 @@
 <map id="Runner::drawPeaceDividends" name="Runner::drawPeaceDividends">
-<area shape="rect" id="Node000001" title="Animation of the cities who were peacful receiving a peace chit." alt="" coords="218,5,412,31"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#a38409a814f07a34df8461ae4d33b2af1" title="All players who have been peacful (not DoW&#39;s or VoN in the past year) will recieve a random chit of 0..." alt="" coords="5,5,170,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,21,170,21,170,16,202,16"/>
+<area shape="rect" id="Node000001" title="Animation of the cities who were peacful receiving a peace chit." alt="" coords="524,5,719,31"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a38409a814f07a34df8461ae4d33b2af1" title="All players who have been peacful (not DoW&#39;s or VoN in the past year) will recieve a random chit of 0..." alt="" coords="312,5,476,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="509,21,477,21,477,16,509,16"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,5,264,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="296,21,264,21,264,16,296,16"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,5,95,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="127,21,95,21,95,16,127,16"/>
 </map>

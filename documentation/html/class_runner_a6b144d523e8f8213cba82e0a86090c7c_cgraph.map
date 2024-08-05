@@ -1,0 +1,11 @@
+<map id="Runner::handleActionHandMovement" name="Runner::handleActionHandMovement">
+<area shape="rect" id="Node000001" title="Handler for scrolling on the Action Hand widget and updating the popped action card and selected coun..." alt="" coords="5,73,183,113"/>
+<area shape="rect" id="Node000002" href="$class_player.html#ad21151ebd80ff1990e9d530f3188f505" title="Get the number of action cards the player has." alt="" coords="235,5,383,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,69,230,40,248,34,250,39,232,45,150,74"/>
+<area shape="rect" id="Node000003" href="$class_map.html#ab5897443f49bbbc5d964b9e574af40d6" title="Returns a pointer to the City that acts as the capital for the given country." alt="" coords="252,55,366,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,80,237,73,237,79,183,85"/>
+<area shape="rect" id="Node000004" href="$class_map.html#a4c0150673e8ac5baeccee79716b01bc2" title="Returns a pointer to the Country with the given name." alt="" coords="250,104,368,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="183,100,235,106,234,111,183,105"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#af0d0353424d3bfe4fef0f121a342df14" title="Checks if the joy stick movement is within the accepted range of movement (fights stick drift)" alt="" coords="231,153,387,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="152,111,232,140,250,146,248,151,230,145,150,116"/>
+</map>

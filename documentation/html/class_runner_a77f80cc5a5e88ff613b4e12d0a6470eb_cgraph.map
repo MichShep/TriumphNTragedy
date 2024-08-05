@@ -1,0 +1,9 @@
+<map id="Runner::drawActionCards" name="Runner::drawActionCards">
+<area shape="rect" id="Node000001" title="Draws the action cards of the current viewed allegiance onto the players screen starting at the given..." alt="" coords="5,55,177,80"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a5e3ccc0a56f6a231beae8dab8daa01ff" title="Draws the provided action card with the top&#45;left corner being at the provided X and Y coords." alt="" coords="225,5,389,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,51,232,32,233,38,151,57"/>
+<area shape="rect" id="Node000003" href="$class_player.html#a3d15440c59291506f3f0e5c8d6a76a8c" title="Get the Action Card at the specific index." alt="" coords="232,55,382,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,65,217,65,217,70,177,70"/>
+<area shape="rect" id="Node000004" href="$class_player.html#ad21151ebd80ff1990e9d530f3188f505" title="Get the number of action cards the player has." alt="" coords="233,104,381,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="151,78,233,97,232,103,150,84"/>
+</map>

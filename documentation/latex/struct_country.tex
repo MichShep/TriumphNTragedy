@@ -2,6 +2,15 @@
 \hypertarget{struct_country}{}\label{struct_country}\index{Country@{Country}}
 
 
+Countries represent a collection of cities that have their own influence, capital cities, and if voilated as a neutral will become armed.  
+
+
+
+
+{\ttfamily \#include $<$Map.\+h$>$}
+
+
+
 Collaboration diagram for Country\+:
 \nopagebreak
 \begin{figure}[H]
@@ -24,9 +33,8 @@ void {\bfseries resolve\+Cards} ()
 \begin{DoxyCompactList}\small\item\em At the end of the government phase resolve the cards added and change the number of influence and who the top influencer is. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{struct_country_a6a1ee4db727200c3c7c299634a5557a6}{resolve\+Diplomacy}} ()
 \begin{DoxyCompactList}\small\item\em Change the influence level and the effects after cards have been resolved. \end{DoxyCompactList}\item 
-\Hypertarget{struct_country_a4958d531f4eb78fcc3ce6525760e01ae}\label{struct_country_a4958d531f4eb78fcc3ce6525760e01ae} 
-void {\bfseries set\+Cities} ()
-\begin{DoxyCompactList}\small\item\em Go through all cities in the country and update them to the new influencer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_country_a06da7b5f8ed206c44900fa367683d020}{set\+Test}} (const City\+Type \&ruler, const int \&level)
+\begin{DoxyCompactList}\small\item\em Set the ruler of a country and the influnce level (only used for testing) \end{DoxyCompactList}\item 
 string \mbox{\hyperlink{struct_country_af86e64cecec9c266dbf284329ab072f3}{get\+Name}} () const
 \begin{DoxyCompactList}\small\item\em Get the name of the country. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
@@ -38,23 +46,26 @@ string \mbox{\hyperlink{struct_country_a4b51ef0ea54d74f9debaf596e4276f05}{name}}
 \item 
 \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105}{capital}} = nullptr
 \item 
+vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{struct_country_acee45b9a81b107276eb4c6f2bd162d34}{cities}}
+\item 
 City\+Type \mbox{\hyperlink{struct_country_a3b0a2f93ff8dcf094286822060a2e7c1}{allegiance}} =NEUTRAL
 \item 
 Influence\+Type \mbox{\hyperlink{struct_country_a43888bdcc402526f590dc8671a761fa8}{influence\+\_\+level}} =UNALIGNED
+\item 
+City\+Type \mbox{\hyperlink{struct_country_aeb271b84b56d95af5ccbf344eb41775b}{invader}}
+\item 
+bool \mbox{\hyperlink{struct_country_aa070dfaf3f72b20659f4ce6d9a70d636}{armed\+\_\+minor}} = false
 \item 
 int \mbox{\hyperlink{struct_country_ac2a4867b4fe307847ecac957016c92ec}{influence}} =0
 \item 
 int \mbox{\hyperlink{struct_country_ad66f5ded040e3002ff9de573c714cbdf}{added\+\_\+influence}} =0
 \item 
-bool \mbox{\hyperlink{struct_country_aa070dfaf3f72b20659f4ce6d9a70d636}{armed\+\_\+minor}} = false
-\item 
-City\+Type \mbox{\hyperlink{struct_country_aeb271b84b56d95af5ccbf344eb41775b}{invader}}
-\item 
 City\+Type \mbox{\hyperlink{struct_country_a03b399412a79a9bcfddd634c4061dc65}{top\+\_\+card}} =NEUTRAL
-\item 
-vector$<$ \mbox{\hyperlink{struct_city}{City}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{struct_country_acee45b9a81b107276eb4c6f2bd162d34}{cities}}
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Countries represent a collection of cities that have their own influence, capital cities, and if voilated as a neutral will become armed. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \Hypertarget{struct_country_ab3d7e3baad77bca1854262e65ae1eb67}\label{struct_country_ab3d7e3baad77bca1854262e65ae1eb67} 
@@ -167,6 +178,31 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{struct_country_a6a1ee4db727200c3c7c299634a5557a6_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{struct_country_a06da7b5f8ed206c44900fa367683d020}\label{struct_country_a06da7b5f8ed206c44900fa367683d020} 
+\index{Country@{Country}!setTest@{setTest}}
+\index{setTest@{setTest}!Country@{Country}}
+\doxysubsubsection{\texorpdfstring{setTest()}{setTest()}}
+{\footnotesize\ttfamily void Country\+::set\+Test (\begin{DoxyParamCaption}\item[{const City\+Type \&}]{ruler,  }\item[{const int \&}]{level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the ruler of a country and the influnce level (only used for testing) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ruler} & The allegiance of the new owner of the country \\
+\hline
+{\em level} & The level of influence the new ruler has \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{struct_country_a06da7b5f8ed206c44900fa367683d020_cgraph}
+\end{center}
+\end{figure}
 
 
 \doxysubsection{Member Data Documentation}
@@ -188,13 +224,13 @@ The allegiance (West, Axis, USSR) of the country \Hypertarget{struct_country_aa0
 \doxysubsubsection{\texorpdfstring{armed\_minor}{armed\_minor}}
 {\footnotesize\ttfamily bool Country\+::armed\+\_\+minor = false}
 
-If the country is an armed minor and in battle \Hypertarget{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105}\label{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105} 
+If the country has had neutrality violated and is now an armed minor \Hypertarget{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105}\label{struct_country_a8e8b2744b5fe3662cc4b34d74ae6e105} 
 \index{Country@{Country}!capital@{capital}}
 \index{capital@{capital}!Country@{Country}}
 \doxysubsubsection{\texorpdfstring{capital}{capital}}
 {\footnotesize\ttfamily \mbox{\hyperlink{struct_city}{City}}\texorpdfstring{$\ast$}{*} Country\+::capital = nullptr}
 
-The capital city of the country wher influenced is placed \Hypertarget{struct_country_acee45b9a81b107276eb4c6f2bd162d34}\label{struct_country_acee45b9a81b107276eb4c6f2bd162d34} 
+The capital city of the country where influenced is placed and if captured will gain ownership of whole country \Hypertarget{struct_country_acee45b9a81b107276eb4c6f2bd162d34}\label{struct_country_acee45b9a81b107276eb4c6f2bd162d34} 
 \index{Country@{Country}!cities@{cities}}
 \index{cities@{cities}!Country@{Country}}
 \doxysubsubsection{\texorpdfstring{cities}{cities}}
@@ -212,13 +248,13 @@ The ID of the country \Hypertarget{struct_country_ac2a4867b4fe307847ecac957016c9
 \doxysubsubsection{\texorpdfstring{influence}{influence}}
 {\footnotesize\ttfamily int Country\+::influence =0}
 
-The current number of influence the country has (0,1,2,3+) \Hypertarget{struct_country_a43888bdcc402526f590dc8671a761fa8}\label{struct_country_a43888bdcc402526f590dc8671a761fa8} 
+The current number of influence \textquotesingle{}tokens\textquotesingle{} the country has (0,1,2,3+) \Hypertarget{struct_country_a43888bdcc402526f590dc8671a761fa8}\label{struct_country_a43888bdcc402526f590dc8671a761fa8} 
 \index{Country@{Country}!influence\_level@{influence\_level}}
 \index{influence\_level@{influence\_level}!Country@{Country}}
 \doxysubsubsection{\texorpdfstring{influence\_level}{influence\_level}}
 {\footnotesize\ttfamily Influence\+Type Country\+::influence\+\_\+level =UNALIGNED}
 
-The current influence level of the country that decides what benefits the influencer gets and any changes in invatsion from rivals \Hypertarget{struct_country_aeb271b84b56d95af5ccbf344eb41775b}\label{struct_country_aeb271b84b56d95af5ccbf344eb41775b} 
+The current influence level of the country that decides what benefits the influencer gets and any changes in invasion from rivals \Hypertarget{struct_country_aeb271b84b56d95af5ccbf344eb41775b}\label{struct_country_aeb271b84b56d95af5ccbf344eb41775b} 
 \index{Country@{Country}!invader@{invader}}
 \index{invader@{invader}!Country@{Country}}
 \doxysubsubsection{\texorpdfstring{invader}{invader}}

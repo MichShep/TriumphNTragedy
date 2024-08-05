@@ -1,8 +1,64 @@
 #include "Runner.h"
 
 //& Sequence of Play
+bool Runner::runTitle(){
+    season = TITLE_SCREEN;
+
+    bool fade=true;
+    tick_t a = SDL_GetTicks();
+    tick_t b = SDL_GetTicks();
+
+    tick_t start;
+    
+    int alpha = 255;
+    double delta = 0;
+    while (alpha >= 0){
+        a = SDL_GetTicks();
+        delta = a - b;
+
+        //ensures framerate of 60fps
+        if (delta > 1000/60.0){
+            b = a;  
+
+            handleTitleInput(fade, b);
+
+            drawTitle(*west_player, b, alpha);
+            drawTitle(*axis_player, b, alpha);
+            drawTitle(*ussr_player, b, alpha);
+
+            if (fade){
+                if (!(fade = fade && !(west_player->passed + axis_player->passed + ussr_player->passed == (controllers[0]!=NULL)+(controllers[1]!=NULL)+(controllers[2]!=NULL))
+))                  start = b;  
+            }
+            else
+                alpha = alpha - ((b-start)/5000);
+        }
+    }
+    fade = true; //just reuse for running
+    start = b;
+    while (fade){    //animate poem start
+        a = SDL_GetTicks();
+        delta = a - b;
+
+        if (delta > 1000/60.0){
+            b = a;
+
+            animatePoem(*west_player, b);
+            animatePoem(*axis_player, b);
+            animatePoem(*ussr_player, b);
+
+            fade = !pastWait(start, b, 15000);
+        }
+    }
+
+    west_player->passed = false; axis_player->passed = false; ussr_player->passed = false;
+
+    return true;
+}
 
 bool Runner::run(){
+    //runTitle();
+
     reshuffle(false);
 
     //& Draw the initial Board
@@ -15,7 +71,7 @@ bool Runner::run(){
     while ((winner=newYear()) == WATER && year <= end_year){ //run the game unitl a winner is found
         //production(); //- Production Phase
         
-        //government(); //- Government Phase  
+        government(); //- Government Phase  
 
         checkHands(); //- Check Hand Size
 
@@ -266,7 +322,7 @@ bool Runner::declareVoN(Player& declarer){
         return false;
 
     //* Closest city must be a NEUTRAL capital
-    if (!city->capital || city->ruler_type != NEUTRAL){
+    if (!city->capital || city->ruler_allegiance != NEUTRAL || city->ruler_allegiance == declarer){
         return false;
     }
 
@@ -347,23 +403,34 @@ bool Runner::flipConvoy(Player& player,  City* city, Unit* unit){
 void Runner::moveUnit(Player& player){
     MovementMessage res;
     auto& unit = player.moving_unit.second;
+    bool disengaging = false;
 
-    switch (unit->class_type){
-        case CLASS_A:
-            res = canAirMove(player, unit);
-            break;
-        case CLASS_G:
-            res = (unit->convoy)? canSeaMove(player, unit) : canLandMove(player, unit);
-            break;
-        case CLASS_S:
-            res = canSeaMove(player, unit);
-            break;
-        case CLASS_N:
-            res = canSeaMove(player, unit);
-            break;
+    if (player.moving_unit.first == nullptr)
+        return;
 
-        default:
-            exit(1);
+    if (player.moving_unit.first->isConflict()){ //disengage
+        res = canDisengage(player, unit);
+        disengaging = true;
+    }
+    
+    else {
+        switch (unit->class_type){
+            case CLASS_A:
+                res = canAirMove(player, unit);
+                break;
+            case CLASS_G:
+                res = (unit->convoy)? canSeaMove(player, unit) : canLandMove(player, unit);
+                break;
+            case CLASS_S:
+                res = canSeaMove(player, unit);
+                break;
+            case CLASS_N:
+                res = canSeaMove(player, unit);
+                break;
+
+            default:
+                exit(1);
+        }
     }
 
     //TODO add private message feature
@@ -379,16 +446,32 @@ void Runner::moveUnit(Player& player){
         cout << "need a von to enter " << player.movement_memo.back()->name << endl; 
     }
 
-    else if (res == NO_EFFECT){ //No effect means it can move simply
+    else{ //No effect means it can move simply
         auto& memo =  player.movement_memo;
+        const auto& last_city = memo.back();
+
         memo.back()->addUnit(unit);
         player.moving_unit.first->removeUnit(unit);
 
         unit->moved = true;
+        if (res==LANDFALL){
+            unit->convoy = false;
+        }
 
         //if engaged must stop all movement and increase limit
-        if (unit->class_type == CLASS_G && memo.back()->hasOther(player.getAllegiance())){
-            map.increaseBorderLimit(memo[memo.size()-2], memo[memo.size()-1], player.getAllegiance());
+        if (unit->class_type == CLASS_G && last_city->hasOther(player.getAllegiance())){
+            map.increaseBorderLimit(memo[memo.size()-2], last_city, player.getAllegiance());
+            if (res == LANDFALL){
+                unit->landing = true;
+            }
+        }
+
+        if (unit->class_type == CLASS_G && !last_city->hasOther(player) && last_city->ruler_allegiance != player){ //empty move into unfriendly makes it automatically theres
+            last_city->ruler_allegiance = player; //must be ground units or its a raid
+        }
+
+        if (disengaging){
+            map.increaseBorderLimit(memo[0], memo[1], player.getAllegiance());
         }
 
         memo.clear();
@@ -396,7 +479,7 @@ void Runner::moveUnit(Player& player){
         player.resetMovingUnit();
     }
 
-    else if (res == LANDFALL){ //When a unit made landfall on a coast it needs to lose all movement
+    /*else if (res == LANDFALL){ //When a unit made landfall on a coast it needs to lose all movement
         auto& memo =  player.movement_memo;
         memo.back()->addUnit(unit);
         player.moving_unit.first->removeUnit(unit);
@@ -412,7 +495,7 @@ void Runner::moveUnit(Player& player){
         memo.clear();
         player.useCommand();
         player.resetMovingUnit();
-    }
+    }*/
 }
 
 //&^ Spring Season

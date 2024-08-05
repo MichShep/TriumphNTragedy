@@ -23,10 +23,10 @@ Collaboration diagram for Action\+Card\+:
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{struct_action_card_a359c65e431b98be9b1e2cb76b4217a7f}{Action\+Card}} (const Action\+Type \mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}}, const string \mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}}, const string \mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}}, const Season \mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}}, const char \mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}}, const size\+\_\+t \mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}}, const size\+\_\+t \mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\+\_\+offset\+\_\+left}}, const size\+\_\+t \mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\+\_\+offset\+\_\+right}})
+\mbox{\hyperlink{struct_action_card_a359c65e431b98be9b1e2cb76b4217a7f}{Action\+Card}} (const Action\+Type \mbox{\hyperlink{struct_action_card_a8d8740b52a05f7848191caee80e9e8cd}{type}}, const string \mbox{\hyperlink{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}{countryA}}, const string \mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{countryB}}, const Season \mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}}, const char letter, const size\+\_\+t number, const size\+\_\+t \mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\+\_\+offset\+\_\+left}}, const size\+\_\+t \mbox{\hyperlink{struct_action_card_a5791794f2f913ce918f6e19ec21923bb}{sprite\+\_\+offset\+\_\+right}})
 \begin{DoxyCompactList}\small\item\em Construct a new Action \doxylink{struct_card}{Card}. \end{DoxyCompactList}\item 
-\Hypertarget{struct_action_card_a766268424a098dbda79d2c0a379db7f0}\label{struct_action_card_a766268424a098dbda79d2c0a379db7f0} 
-bool {\bfseries operator==} (\mbox{\hyperlink{struct_action_card}{Action\+Card}} \texorpdfstring{$\ast$}{*}card)
+\Hypertarget{struct_action_card_a200f567a96c09644693ac528bf107463}\label{struct_action_card_a200f567a96c09644693ac528bf107463} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{struct_action_card}{Action\+Card}} \texorpdfstring{$\ast$}{*}card) const
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -39,9 +39,9 @@ string \mbox{\hyperlink{struct_action_card_a0f56874e5b912a3f9b0157b7710aab34}{co
 \item 
 Season \mbox{\hyperlink{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}{season}}
 \item 
-char \mbox{\hyperlink{struct_action_card_a8351629c1a47e5366c90d8f315062a27}{letter}}
+char \mbox{\hyperlink{struct_action_card_a5858a61548cb0b58931bb516f72a521f}{command\+\_\+priority}}
 \item 
-int \mbox{\hyperlink{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}{number}}
+int \mbox{\hyperlink{struct_action_card_acc8bb97e1c2a23d8acc507db37206cf9}{command\+\_\+value}}
 \item 
 size\+\_\+t \mbox{\hyperlink{struct_action_card_a51a73dcf9e79b1f8ec02e10db5eac61c}{sprite\+\_\+offset\+\_\+left}}
 \item 
@@ -82,7 +82,19 @@ Construct a new Action \doxylink{struct_card}{Card}.
 
 
 \doxysubsection{Member Data Documentation}
-\Hypertarget{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}\label{struct_action_card_aaf330a7276d50de0ba758fef269cee0c} 
+\Hypertarget{struct_action_card_a5858a61548cb0b58931bb516f72a521f}\label{struct_action_card_a5858a61548cb0b58931bb516f72a521f} 
+\index{ActionCard@{ActionCard}!command\_priority@{command\_priority}}
+\index{command\_priority@{command\_priority}!ActionCard@{ActionCard}}
+\doxysubsubsection{\texorpdfstring{command\_priority}{command\_priority}}
+{\footnotesize\ttfamily char Action\+Card\+::command\+\_\+priority}
+
+The command letter for priority (Z \Hypertarget{struct_action_card_acc8bb97e1c2a23d8acc507db37206cf9}\label{struct_action_card_acc8bb97e1c2a23d8acc507db37206cf9} 
+\index{ActionCard@{ActionCard}!command\_value@{command\_value}}
+\index{command\_value@{command\_value}!ActionCard@{ActionCard}}
+\doxysubsubsection{\texorpdfstring{command\_value}{command\_value}}
+{\footnotesize\ttfamily int Action\+Card\+::command\+\_\+value}
+
+The number representing how many actions the player can do in a season \Hypertarget{struct_action_card_aaf330a7276d50de0ba758fef269cee0c}\label{struct_action_card_aaf330a7276d50de0ba758fef269cee0c} 
 \index{ActionCard@{ActionCard}!countryA@{countryA}}
 \index{countryA@{countryA}!ActionCard@{ActionCard}}
 \doxysubsubsection{\texorpdfstring{countryA}{countryA}}
@@ -94,19 +106,7 @@ The left country that could be influenced or the name of the wild card \Hypertar
 \doxysubsubsection{\texorpdfstring{countryB}{countryB}}
 {\footnotesize\ttfamily string Action\+Card\+::countryB}
 
-The second country that could be influenced (blank for wild) \Hypertarget{struct_action_card_a8351629c1a47e5366c90d8f315062a27}\label{struct_action_card_a8351629c1a47e5366c90d8f315062a27} 
-\index{ActionCard@{ActionCard}!letter@{letter}}
-\index{letter@{letter}!ActionCard@{ActionCard}}
-\doxysubsubsection{\texorpdfstring{letter}{letter}}
-{\footnotesize\ttfamily char Action\+Card\+::letter}
-
-The command letter for priority (Z\texorpdfstring{$>$}{>}A) \Hypertarget{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554}\label{struct_action_card_a3b5dfbf862d2f4603425f0d0d725e554} 
-\index{ActionCard@{ActionCard}!number@{number}}
-\index{number@{number}!ActionCard@{ActionCard}}
-\doxysubsubsection{\texorpdfstring{number}{number}}
-{\footnotesize\ttfamily int Action\+Card\+::number}
-
-The number command for priority (9\texorpdfstring{$>$}{>}0) \Hypertarget{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}\label{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e} 
+The second country that could be influenced (blank for wild) \Hypertarget{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e}\label{struct_action_card_a5cfc43e8b07fe2bce960ac2a1d19d64e} 
 \index{ActionCard@{ActionCard}!season@{season}}
 \index{season@{season}!ActionCard@{ActionCard}}
 \doxysubsubsection{\texorpdfstring{season}{season}}

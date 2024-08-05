@@ -2,12 +2,12 @@
 <area shape="rect" id="Node000001" title="During the production phase it needs to verify all cities controlled by the player that are blockaded..." alt="" coords="5,104,187,130"/>
 <area shape="rect" id="Node000002" href="$class_runner.html#a907d7cff65d53572390c9d7c71be3d15" title="Takes the memo of the Dijkstra&#39;s knock&#45;off II for finding trade routes and highlighting the route it ..." alt="" coords="235,5,432,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,101,169,71,234,40,252,33,254,38,236,45,171,75,119,106"/>
-<area shape="rect" id="Node000003" href="$class_map.html#a5c633ad5ef3b388b1d13f43023a22909" title="Works as the [] overload for out of scope but gives the ID of the found city." alt="" coords="284,55,383,80"/>
+<area shape="rect" id="Node000003" href="$class_map.html#ab8cf42768a9e830a5ff50c67dcf9d321" title="Works as the [] overload for out of scope but gives the ID of the found city." alt="" coords="284,55,383,80"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,101,268,78,269,83,162,106"/>
 <area shape="rect" id="Node000004" href="$class_map.html#a31afbd5f99cc78254121b203564f557c" title="Get the adjacency matrix of cities to reduce calls." alt="" coords="267,104,400,130"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="187,114,251,114,251,120,187,120"/>
-<area shape="rect" id="Node000005" href="$class_map.html#a01a979e1788d8f3df965a298b7ec2c78" title="Works as the [] overload for out of scope." alt="" coords="285,153,382,179"/>
+<area shape="rect" id="Node000005" href="$class_map.html#a70c8b9a0545e47dbd8a0e781d1f56db1" title="Works as the [] overload for out of scope." alt="" coords="285,153,382,179"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="162,128,270,151,269,156,161,133"/>
-<area shape="rect" id="Node000006" href="$class_map.html#aec078176c2dc99ab8f77753942fdb081" title="Get the total number of cities." alt="" coords="271,203,396,228"/>
+<area shape="rect" id="Node000006" href="$class_map.html#aec078176c2dc99ab8f77753942fdb081" title="Get the total number of cities in the game." alt="" coords="271,203,396,228"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="119,128,171,158,236,189,257,196,255,201,234,194,169,163,117,133"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="Runner::drawLine" name="Runner::drawLine">
+<area shape="rect" id="Node000001" title="Draws a 3&#45;pixel wide line between two cities." alt="" coords="5,5,129,31"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a1a29e6e93c94d676447319535a1a9ab8" title="Returns the border between the two provided cities (Mirrored on both sides to the arguments flipped g..." alt="" coords="177,5,287,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,16,161,16,161,21,129,21"/>
+</map>

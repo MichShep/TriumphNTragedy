@@ -1,0 +1,7 @@
+<map id="Runner::drawTitle" name="Runner::drawTitle">
+<area shape="rect" id="Node000001" title="Draws all buttons and titles for the title screen." alt="" coords="5,31,130,56"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a0293328b045476f6ab1ea47025d1b8dc" title="Clears the screen so the screen can &#39;update&#39;." alt="" coords="178,5,321,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,32,162,28,162,33,130,37"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a7b57549ac8ea87baf0e5eb79eba3f5a4" title="Used for button presses where a given mouse clip position will see if its in the rectangle provided." alt="" coords="197,55,302,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="130,49,182,56,181,61,130,54"/>
+</map>

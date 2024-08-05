@@ -1,16 +1,23 @@
 <map id="Runner::applyProduction" name="Runner::applyProduction">
-<area shape="rect" id="Node000001" title="Once a player has passed, their choices in the production phase (card bought, cadres made,..." alt="" coords="943,31,1107,56"/>
-<area shape="rect" id="Node000002" href="$class_runner.html#a8935f71c3eca6bab9a22d138bba92d0b" title="Handler for inputs that rely on buttons being held for a set time." alt="" coords="714,5,895,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="927,35,895,31,896,26,928,30"/>
-<area shape="rect" id="Node000003" href="$class_runner.html#a0d55a7821772b8c96d7186250aba9160" title="Main handler for all possible user input." alt="" coords="499,31,666,56"/>
-<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="927,46,666,46,666,41,927,41"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="698,33,666,37,666,31,698,28"/>
-<area shape="rect" id="Node000004" href="$class_runner.html#a024ca94b6ff3d8213d236d87c0c6abb5" title="New Year phase where players play action cards to add influence and play investment cards,..." alt="" coords="312,5,451,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="484,34,451,30,452,24,484,28"/>
-<area shape="rect" id="Node000007" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="316,55,447,80"/>
-<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="484,58,448,62,448,57,484,53"/>
-<area shape="rect" id="Node000005" href="$class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,5,264,31"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="296,21,264,21,264,16,296,16"/>
-<area shape="rect" id="Node000006" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,5,95,31"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="127,21,95,21,95,16,127,16"/>
+<area shape="rect" id="Node000001" title="Once a player has passed, their choices in the production phase (card bought, cadres made,..." alt="" coords="967,92,1131,118"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#aa657e90f46ab42e4f3a79b371cf4db0d" title="Main handler for all possible user input." alt="" coords="330,67,496,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="952,104,497,85,497,80,952,98"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a2d906b6780835f7a9bf3a0940ab023ae" title="Handler for all actions which have the X Button (only) held." alt="" coords="774,117,919,143"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="952,120,920,124,919,118,951,114"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a024ca94b6ff3d8213d236d87c0c6abb5" title="Phase where players play action cards to add influence and play investment cards, goes in turn order ..." alt="" coords="143,5,282,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="353,64,256,34,258,29,355,59"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="Phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="147,55,278,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="314,76,278,74,279,69,314,71"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#a30ca7e5e57561f398bd28810ccb01863" title="Spring season of war where players will commence the war. Action cards with spring will have priority..." alt="" coords="159,104,266,130"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="326,98,266,110,265,104,325,93"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,55,95,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="154,39,96,57,94,51,152,34"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="152,101,94,84,96,78,154,96"/>
+<area shape="rect" id="Node000008" href="$class_runner.html#a4acb0f36907d88cdf8dc60905d9262c8" title="Handler for inputs that rely on buttons being held for a set time." alt="" coords="544,117,726,143"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="758,133,726,133,726,128,758,128"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="560,116,472,96,473,90,561,111"/>
+<area shape="rect" id="Node000009" href="$class_runner.html#ae39b0bf39d8bfcb9549b9140f7b6beb6" title="Handler for when at the title screen and user input is limited." alt="" coords="332,141,495,167"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="529,144,496,148,495,143,528,139"/>
+<area shape="rect" id="Node000010" href="$class_runner.html#a7e0d381c389b5efed301fa00a9ab7b90" title="The runner and handler for the title screen." alt="" coords="155,153,270,179"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="316,163,270,165,270,160,316,157"/>
 </map>

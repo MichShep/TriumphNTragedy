@@ -1,0 +1,11 @@
+<map id="Runner::drawTechWidget" name="Runner::drawTechWidget">
+<area shape="rect" id="Node000001" title="Draws the Achieved Tech hand of the currently viewed allegiance (either the icon or all the cards)" alt="" coords="5,55,174,80"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a054e040d2e62be76bd5f58cf60cdf4b6" title="Draws the tech of the current viewed allegiance onto the players screen starting at the given x and y..." alt="" coords="222,55,403,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,65,206,65,206,70,174,70"/>
+<area shape="rect" id="Node000003" href="$class_player.html#a66b80d482e8840fc09c74e373c11f579" title="Get the number of technologies the player has achieved but kept secret since it contributes to the ha..." alt="" coords="451,5,608,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="372,51,455,32,456,38,373,57"/>
+<area shape="rect" id="Node000004" href="$class_player.html#aef2ea82ecb9107ec3c9ab7f92de9299e" title="Get the acheived tech at the specific index." alt="" coords="474,55,586,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="403,65,458,65,458,70,403,70"/>
+<area shape="rect" id="Node000005" href="$class_player.html#a0dc151820b5f19e55e95b3e29b02e4f4" title="Get the number of achieved tech the player has." alt="" coords="461,104,599,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="373,78,456,97,455,103,372,84"/>
+</map>

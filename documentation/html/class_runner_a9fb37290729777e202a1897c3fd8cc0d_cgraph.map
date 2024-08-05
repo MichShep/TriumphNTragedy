@@ -1,0 +1,7 @@
+<map id="Runner::canDisengage" name="Runner::canDisengage">
+<area shape="rect" id="Node000001" title="Decider for if the player is able to disengage from the current battle (cannot re&#45;engage the same tur..." alt="" coords="5,31,160,56"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a1a29e6e93c94d676447319535a1a9ab8" title="Returns the border between the two provided cities (Mirrored on both sides to the arguments flipped g..." alt="" coords="222,5,332,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,31,206,25,206,30,160,36"/>
+<area shape="rect" id="Node000003" href="$class_map.html#a6ea47f5a5ff2c3436d5d3c3f7e7f2f88" title="Get the current border limit of the player for a border that joins each city (used to limit how many ..." alt="" coords="208,55,346,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,50,193,54,192,60,160,56"/>
+</map>

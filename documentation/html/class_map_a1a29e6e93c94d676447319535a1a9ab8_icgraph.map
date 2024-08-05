@@ -1,0 +1,11 @@
+<map id="Map::getBorder" name="Map::getBorder">
+<area shape="rect" id="Node000001" title="Returns the border between the two provided cities (Mirrored on both sides to the arguments flipped g..." alt="" coords="208,80,318,106"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a9fb37290729777e202a1897c3fd8cc0d" title="Decider for if the player is able to disengage from the current battle (cannot re&#45;engage the same tur..." alt="" coords="5,5,160,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,75,159,45,129,34,131,29,161,40,225,70"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#aed1bdcea5ddb10e24b37986e49e86b00" title="Decider for if the unit is able to move through the current movement memo with land movement (cannot ..." alt="" coords="6,55,159,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,86,158,81,159,76,192,80"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#ab2baf8d4305c5f076929e5b8a1a0fba8" title="Decider for if the unit is able to move through the current movement memo with sea movement (can ente..." alt="" coords="9,104,156,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="193,105,157,110,156,104,192,100"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a70f665a4510f75eba8c777ff424f4117" title="Draws a 3&#45;pixel wide line between two cities." alt="" coords="21,153,144,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="224,116,161,145,131,155,129,150,159,140,222,111"/>
+</map>

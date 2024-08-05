@@ -38,11 +38,18 @@ using std::pow;
 #include <algorithm>
 using std::shuffle;
 using std::find;
+using std::swap;
 
 #include <utility>
 using std::pair;
 
-#include "../include/SDL2/SDL.h"
+#include <filesystem>
+
+#include "../include/SDL2/SDL.h" 
+
+#include "../include/SDL2_tff/SDL_ttf.h"
+
+#include "../include/SDL2_tff/SDL_FontCache.h"
 
 #include "../include/SDL2_image/SDL_image.h"
 
@@ -50,9 +57,11 @@ using std::pair;
 
 typedef Uint32 tick_t;
 
+typedef Uint32 minute_t;
+
 typedef Uint32 year_t;
 
-typedef SDL_Rect TargetArea;
+typedef SDL_Rect Target;
 
 #define END_YEAR 1945;
 
@@ -73,15 +82,23 @@ constexpr int CURSOR_SPEED = 5;
 //held tick, tick, wait_time
 #define pastWait(h, t, w)(h? (t - h > w) : (false))
 
+//border
 #define isLand(b)(COAST_MOUNTAIN <= b && b <= LAND_STRAIT)
 
+//border
 #define isNaval(b)((NA < b && b <= COAST_PLAINS) || b == LAND_STRAIT)
 
+//border
 #define isAir(b)(b != NA)
 
+//border
 #define isCoastal(b)((WATER_STRAIT <= b && b <= COAST_PLAINS) || b == LAND_STRAIT)
 
+//border
 #define isStrait(b)(b == WATER_STRAIT || b == LAND_STRAIT || b == DEEP_STRAIT)
+
+//mover_type ruler_type
+#define isFriendly(mt, rt)(mt == rt || rt == WATER)
 
 /**
  * @enum The Type of City Allegiance
@@ -203,8 +220,10 @@ enum UnitCountry {
  * @brief Acts as a timestamp of the game and which phase the game is in (Seasons are more than just summer ect but also reshuffle and turn order)
  * 
  */
-enum Season {
-    SPRING, /**< Spring Season of War Actions */
+enum Season{
+    TITLE_SCREEN=-10,
+
+    SPRING=0, /**< Spring Season of War Actions */
     SUMMER, /**< Summer Season of War Actions */
     FALL,   /**< Fall Season of War Actions */
     WINTER,  /**< Winter Season of War Actions (only USSR can act)*/
@@ -299,11 +318,11 @@ enum ProductionError{
 };
 
 enum MovementMessage{
-    EMPTY_MEMO = -12,
+    EMPTY_MEMO = -0x10,
     EMERGENCY_ENGAGE,
     BORDER_LIMIT,
     TIRED,
-    TOO_FARR,
+    TOO_FAR,
     ENGAGE_NOT_LAST,
     NOT_CONNECTED,
     WILL_BE_NEUT,
@@ -311,11 +330,13 @@ enum MovementMessage{
     PAST_COAST,
     AIR_OVER_WATER,
     CONVOY_ENGAGE_AT_SEA,
+    DISENGAGE_ENGAGE,
     // ^ Error 
     // v Effects
-    NO_EFFECT = 0,
-    DOWED,
+    NO_EFFECT = 0x0,
+    DOWED = 0x10,
     VONED,
+    ENGAGING=0x20,
     LANDFALL,
     INVASION
 };
@@ -361,6 +382,7 @@ enum Tech{
     FACT_BLANK, /**< Blank tile for one sided cards */
     SECRET_OUTLINE, /**< Outline to show the player their tech is in the archive */
     SECRET_FULL, /**< Full hidden sprite to show other players there are vaulted tech */
+    SELECTED_TECH
 };
 
 enum MovementType{
@@ -374,6 +396,7 @@ enum ActionPhase{
     COMBAT_SELECT,
     COMBAT_ATTACKER,
     COMBAT_DEFENDER,
+    COMBAT,
     OBSERVING
 };
 
@@ -403,6 +426,8 @@ enum Message{
     WEST_SABOTAGE = 18,
     AXIS_SABOTAGE,
     USSR_SABOTAGE
+
+
 };
 
 //enum State {ADVANCE_YEAR, VICTORY_CHECK, RESHUFFLE, PEACE_DIVIDENDS, TURN_ORDER, NEW_YEAR_RES, PRODUCTION, GOVERNMENT, HAND_CHECK};
@@ -589,6 +614,17 @@ struct PublicMessage{
     }
 };
 
+struct PublicRecord{
+    minute_t time;
+
+    string short_message;
+
+    string long_message;
+
+    PublicRecord(const minute_t& time, const string& short_message, const string& long_message): time(time), short_message(short_message), long_message(long_message){
+    }
+};
+
 class Spritesheet{
 private:
     SDL_Rect clip;
@@ -673,6 +709,7 @@ public:
 struct App{
     SDL_Window* window;
     SDL_Renderer* renderer;
+    FC_Font* font1;
 
     Graphics::Screen screen;
 };

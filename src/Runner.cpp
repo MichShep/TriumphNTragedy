@@ -470,7 +470,7 @@ bool Runner::mapPlayer(Player& player){
     //- Go through each city thats owned by the city
     for (auto& city : temp_map){
         //- If it belongs to the player
-        if (city.second->ruler_type == allegiance && !city.second->blockcade){ 
+        if (city.second->ruler_allegiance == allegiance && !city.second->blockcade){ 
             //- Add to temp variables
             temp_resources += city.second->resource;
             temp_population += city.second->population;
@@ -502,7 +502,7 @@ void Runner::mapPlayerResPop(Player& player){
     //- Go through each city thats owned by the city
     for (auto& city : temp_map){
         //- If it belongs to the player
-        if (city.second->ruler_type == allegiance && !city.second->blockcade){ 
+        if (city.second->ruler_allegiance == allegiance && !city.second->blockcade){ 
             //- Add to player
             temp_resources += city.second->resource;
             //if (city.second->resource>0) cout << city.first << " adds " << city.second->resource <<"R" << endl;
@@ -593,7 +593,12 @@ bool Runner::addBattle(const Player& player, const CityType& defender){
         return true;
     }
     else if (index != battles.end()){ //if in then remove
-        battles.erase(index);
+        if (defender != (*index).second){
+            (*index).second = defender;
+        }
+        else{
+            battles.erase(index);
+        }
     }
 
     return false;
@@ -617,19 +622,6 @@ City* Runner::getClosestCity(const Player& player, const int x, const int y) con
     }
 
     return closest;
-}
-
-bool Runner::canDisengage(Unit* unit, const string start, const string end){
-    //- Check if you the two are connected (0 means they aren't)
-    auto city = map.getCity(end);
-    return map.checkConnection(start, end) &&
-
-    //- Check if end is friendly or open sea
-    (unit->allegiance == city->ruler_type || (city->city_type == WATER && !city->hasRival((unit->allegiance)))) && 
-
-    //- Cant go into map with friendly units if in combat
-    !city->isConflict()
-    ;     
 }
 
 bool Runner::checkTradeRoutes(Player& player, const string& main_capital){
@@ -666,11 +658,11 @@ bool Runner::checkTradeRoutes(Player& player, const string& main_capital){
             continue;
 
         //- Can only pass through straits if the ruler isn't an enemy
-        if ((memo[city_index][PREVIOUS_BORDER] == LAND_STRAIT || memo[city_index][PREVIOUS_BORDER] == WATER_STRAIT) && !player.isEnemy(map.getCity(city_index)->ruler_type)){
+        if ((memo[city_index][PREVIOUS_BORDER] == LAND_STRAIT || memo[city_index][PREVIOUS_BORDER] == WATER_STRAIT) && !player.isEnemy(map.getCity(city_index)->ruler_allegiance)){
         }
 
         //- Check a non-strait if the ruler is a rival (not the current player ruler)
-        else if (map.getCity(city_index)->ruler_type != player.getAllegiance() && map.getCity(city_index)->ruler_type != NEUTRAL && map.getCity(city_index)->ruler_type != WATER)
+        else if (map.getCity(city_index)->ruler_allegiance != player.getAllegiance() && map.getCity(city_index)->ruler_allegiance != NEUTRAL && map.getCity(city_index)->ruler_allegiance != WATER)
             continue;
 
         //- Set to visited
@@ -678,7 +670,7 @@ bool Runner::checkTradeRoutes(Player& player, const string& main_capital){
         //printf("Now at %s\n", map.getCity(city_index)->name.c_str());
 
         //- If the city visited is one blockaded it means we can visit and can decreae the count
-        if (map.getCity(city_index)->blockcade && map.getCity(city_index)->ruler_type == player.getAllegiance()){
+        if (map.getCity(city_index)->blockcade && map.getCity(city_index)->ruler_allegiance == player.getAllegiance()){
             //printf("%s was found and connected!\n", map.getCity(city_index)->name.c_str());
             map.getCity(city_index)->blockcade = false;
             freed_cities.push_back(map.getCity(city_index));
@@ -697,12 +689,12 @@ bool Runner::checkTradeRoutes(Player& player, const string& main_capital){
 
             //- Check if there it is an enemy controlled city (in cases of straits it can only go through rivals, not enemies)
             if (border == LAND_STRAIT || border == WATER_STRAIT){ //if a strait then it can't iff its an ENEMY (not rival)
-                if (player.isEnemy(map.getCity(city_index)->ruler_type)){ //if an enemy with the strait ruler
+                if (player.isEnemy(map.getCity(city_index)->ruler_allegiance)){ //if an enemy with the strait ruler
                     continue;
                 }
             }
             else{
-                if (map.getCity(connect_indx)->ruler_type != player.getAllegiance() && map.getCity(connect_indx)->ruler_type != NEUTRAL && map.getCity(connect_indx)->ruler_type != WATER){ //if its a regular spot then it can;t pass through rival OR enemy
+                if (map.getCity(connect_indx)->ruler_allegiance != player.getAllegiance() && map.getCity(connect_indx)->ruler_allegiance != NEUTRAL && map.getCity(connect_indx)->ruler_allegiance != WATER){ //if its a regular spot then it can;t pass through rival OR enemy
                     continue;
                 }
             }
@@ -795,14 +787,14 @@ ProductionError Runner::canBuild(const Player& player,  City* city, const UnitTy
     const CityType allegiance = player.getAllegiance();
     //? 7.231 Building Fortresses Fortress Cadres/steps can be built anywhere in undisputed Friendly Territory, even where Unsupplied
     if (unit == FORTRESS){
-        if (city->ruler_type != allegiance){ 
+        if (city->ruler_allegiance != allegiance){ 
             //cout << "enemy fort" << endl;
             return ENEMY_FORTRESS;
         }
     }
     else{
         //? 2.3 Home Territory Land Areas within the national boundaries of a Great or Major Power (colorcoded) are termed its Home Territory. Except for Fortresses (3.241) all new units (Cadres) must be built within Home Territory.
-        if (city->power_type > MAJOR || city->city_type != allegiance || city->ruler_type != allegiance){ 
+        if (city->power_type > MAJOR || city->start_allegiance != allegiance || city->ruler_allegiance != allegiance){ 
             //cout << "outside home" << endl;
             return OUTSIDE_HOME;
         }
@@ -868,7 +860,7 @@ bool Runner::setBuildable(Player& player){
 
 ProductionError Runner::canUpgrade(const Player& player, City* city, const UnitCountry nationality, const Unit* unit){
     //? 7.23 Building Unit Steps Units cannot be built if they are at Sea
-    if (city->city_type == WATER || player.getAllegiance() != unit->allegiance){
+    if (city->start_allegiance == WATER || player.getAllegiance() != unit->allegiance){
         return AT_SEA;
     }
 
@@ -919,7 +911,7 @@ bool Runner::isSupllied(const Player& player, City* city, const CityType allegia
         city_index = index_to_go.front();
         index_to_go.pop();
 
-        const CityType city_ruler_type = map.getCity(city_index)->ruler_type;
+        const CityType city_ruler_type = map.getCity(city_index)->ruler_allegiance;
 
         //- See if has been visited since time it was added to the queue
         if (memo[city_index][VISITED])
@@ -930,7 +922,7 @@ bool Runner::isSupllied(const Player& player, City* city, const CityType allegia
         }
 
         //- Check that for non straits it can only go through friendly areas (not neutral or enemy) or water
-        else if (map.getCity(city_index)->ruler_type != allegiance && city_ruler_type != WATER)
+        else if (map.getCity(city_index)->ruler_allegiance != allegiance && city_ruler_type != WATER)
             continue;
 
         //- If the city is friendly controlled (if is then is a strait) then visit
@@ -950,12 +942,12 @@ bool Runner::isSupllied(const Player& player, City* city, const CityType allegia
 
             //- Check if there it is an enemy controlled city (in cases of straits it can only go through rivals, not enemies)
             if (memo[connect_indx][STRAIT]){ //if a strait then it can't iff its an ENEMY (not rival)
-                if (player.isEnemy(map.getCity(connect_indx)->ruler_type)){ //if an enemy with the strait ruler
+                if (player.isEnemy(map.getCity(connect_indx)->ruler_allegiance)){ //if an enemy with the strait ruler
                     continue;
                 }
             }
             else{
-                if (map.getCity(connect_indx)->ruler_type != player.getAllegiance() && map.getCity(connect_indx)->ruler_type != WATER){ //if its a regular spot then it can't pass through rival OR enemy
+                if (map.getCity(connect_indx)->ruler_allegiance != player.getAllegiance() && map.getCity(connect_indx)->ruler_allegiance != WATER){ //if its a regular spot then it can't pass through rival OR enemy
                     continue;
                 }
             }
@@ -1091,7 +1083,7 @@ MovementMessage Runner::canLandMove(const Player& player, const Unit* unit) cons
         const City* start = memo[i];
         const City* end   = memo[i+1];
 
-        const CityType& ruler_type = end->ruler_type;
+        const CityType& ruler_type = end->ruler_allegiance;
 
         // Check if they are connected
         if (!isLand(map.getAdjacency()[start->ID][end->ID])){
@@ -1120,7 +1112,11 @@ MovementMessage Runner::canLandMove(const Player& player, const Unit* unit) cons
 
     // Check if the unit has movement left to make all moves
     if (memo.size()-1 > unit->movement*((strategic)?2:1)){
-        return TOO_FARR;
+        return TOO_FAR;
+    }
+
+    if (m_m == NO_EFFECT && last_city->hasOther(allegiance)){
+        m_m = ENGAGING;
     }
 
     return m_m;
@@ -1159,7 +1155,7 @@ MovementMessage Runner::canSeaMove(const Player& player, const Unit* unit) const
     auto checkEngagement = [&](const City* start_c, const City* end_c){
         // If the end has enemies it would be an engagement
         if (end_c->hasOther(allegiance)){
-            if (unit->convoy && end_c->city_type == WATER)
+            if (unit->convoy && end_c->start_allegiance == WATER)
                 return CONVOY_ENGAGE_AT_SEA;
             // If going into a city with enemy units it MUST stop movement
             if (end_c != last_city)
@@ -1187,7 +1183,7 @@ MovementMessage Runner::canSeaMove(const Player& player, const Unit* unit) const
         const City* start = memo[i];
         const City* end   = memo[i+1];
 
-        const CityType& ruler_type = end->ruler_type;
+        const CityType& ruler_type = end->ruler_allegiance;
 
         // Check if they are connected
         if (!isNaval(map.getAdjacency()[start->ID][end->ID])){
@@ -1197,7 +1193,7 @@ MovementMessage Runner::canSeaMove(const Player& player, const Unit* unit) const
         deep += end->deep;
 
         // If entering a coast they must stop and check if it warrants an attack
-        if (map.getAdjacency()[start->ID][end->ID] == COAST && end->city_type != WATER){
+        if (map.getAdjacency()[start->ID][end->ID] == COAST && end->start_allegiance != WATER){
             if (end != last_city)
                 return PAST_COAST;
             
@@ -1225,6 +1221,10 @@ MovementMessage Runner::canSeaMove(const Player& player, const Unit* unit) const
     // Check if the unit has movement left to make all moves
     if (memo.size()-1+deep > (unit->convoy? CONVOY_MOVEMENT: (unit->movement))*((strategic)?2:1)){
         return TIRED;
+    }
+
+    if (m_m == NO_EFFECT && last_city->hasOther(allegiance)){
+        m_m = ENGAGING;
     }
 
     return m_m;
@@ -1262,22 +1262,23 @@ MovementMessage Runner::canAirMove(const Player& player, const Unit* unit) const
         }
 
         // Check if VoN is needed to enter
-        if (end->ruler_type == NEUTRAL && !map.getCountry(end->country)->armed_minor){
+        if (end->ruler_allegiance == NEUTRAL && !map.getCountry(end->country)->armed_minor){
             return VONED;
         }
 
         // Check if DoW is needed to enter
-        if (end->ruler_type != NEUTRAL && end->ruler_type != allegiance && !player.isEnemy(end->ruler_type))
+        if (end->ruler_allegiance != NEUTRAL && end->ruler_allegiance != allegiance && !player.isEnemy(end->ruler_allegiance))
             return DOWED;
 
-        if (end->ruler_type != allegiance && end->ruler_type != WATER){
+        //check if in friendly territory
+        if (end->ruler_allegiance != allegiance && end->ruler_allegiance != WATER){
             strategic = false;
         }
 
     }
     // Check if the unit has movement left to make all moves (if in friendly can double movement)
     if (memo.size()-1 > unit->movement*((strategic)?2:1)){
-        return TOO_FARR;
+        return TOO_FAR;
     }
 
     // Can move through enemies but check the last one if its engaging with emergency restrictions
@@ -1289,20 +1290,97 @@ MovementMessage Runner::canAirMove(const Player& player, const Unit* unit) const
         }
     }
 
-    else if (last_city->ruler_type == NEUTRAL && !last_city->isFighting(allegiance) && emergencied){ //stopping in a neutral city would reqquire a VoN
+    else if (last_city->ruler_allegiance == NEUTRAL && !last_city->isFighting(allegiance) && emergencied){ //stopping in a neutral city would reqquire a VoN
         return EMERGENCY_ENGAGE;
     }
 
-    if (!unit->moved && memo[0]->city_type == WATER && last_city->city_type == WATER){ //if its there first move and they're in the water must make it to land
+    if (!unit->moved && memo[0]->start_allegiance == WATER && last_city->start_allegiance == WATER){ //if its there first move and they're in the water must make it to land
         return AIR_OVER_WATER;
     }
 
-    return NO_EFFECT;
+    return last_city->hasOther(allegiance)? ENGAGING : NO_EFFECT;
 }
 
-bool Runner::canDisengage(const Player& player, const Unit* unit) const{
-    
-    return false;
+MovementMessage Runner::canDisengage(const Player& player, const Unit* unit) const{
+    if (player.getCommandNumber() <= 0){
+        return NO_COMMAND;
+    }
+
+    if (unit->moved){
+        return TIRED;
+    }
+
+    auto checkLand = [&](const BorderType& b){return isLand(b);};
+    auto checkNaval = [&](const BorderType& b){return isNaval(b);};
+    auto checkAir = [&](const BorderType& b){return isAir(b);};
+
+    std::function<bool(const BorderType&)> borderCheck;
+    switch (unit->class_type){
+        case CLASS_A:
+            borderCheck = checkAir;
+            break;
+        case CLASS_G:
+            borderCheck = unit->convoy ? std::function<bool(const BorderType&)>(checkNaval) : std::function<bool(const BorderType&)>(checkLand);
+            break;
+        case CLASS_S:
+            borderCheck = checkNaval;
+            break;
+        case CLASS_N:
+            borderCheck = checkNaval;
+            break;
+
+        default:
+            exit(1);
+    }
+
+
+    const auto& memo = player.movement_memo;
+
+    if (memo.size() <= 1)
+        return EMPTY_MEMO;
+
+    const City* last_city = memo.back();
+
+    const auto& allegiance = player.getAllegiance();
+
+    const bool landStop = unit->convoy || unit->class_type == CLASS_N || unit->class_type == CLASS_S;
+
+    if (last_city->isConflict()) //last city can't be an engage for any unit type
+        return DISENGAGE_ENGAGE;
+
+    if (BORDER_LIMITS[map.getBorder(memo[0], memo[1])] <= map.getBorderLimit(memo[0], memo[1], player.getAllegiance())){ //todo check if border limits apply for disengage
+        return BORDER_LIMIT;
+    }
+
+    //auto landMove
+    for (int i = 0; i < memo.size()-1; i++){
+        const City* start = memo[i];
+        const City* end   = memo[i+1];
+
+        const CityType& ruler_type = end->ruler_allegiance;
+
+        if (!borderCheck(map.getBorder(start, end))){
+            return NOT_CONNECTED;
+        }
+
+        if (unit->class_type != CLASS_S && unit->class_type != CLASS_A && (!isFriendly(allegiance, ruler_type) || end->isConflict())){ //can only go through friendly areas (including open seas) (unless a sub or air)
+            return DISENGAGE_ENGAGE;
+        }
+
+        //for NS Units make sure if landfall they stop immediatly
+        if (landStop && map.getBorder(start, end) == COAST && end->start_allegiance != WATER && last_city != end){
+            return PAST_COAST;
+        }
+    }
+
+    if (memo.size()-1 > unit->movement){
+        return TOO_FAR;
+    }
+
+    if (landStop && last_city->start_allegiance != WATER)
+        return LANDFALL;
+
+    return NO_EFFECT;
 }
 
 //& Dev tools

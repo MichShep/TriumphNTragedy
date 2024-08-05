@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "AchievedTechnology", "struct_achieved_technology.html", null ],
     [ "App", "struct_app.html", null ],
     [ "Card", "struct_card.html", [
       [ "ActionCard", "struct_action_card.html", null ],
@@ -13,9 +14,9 @@ var hierarchy =
     [ "PeaceChit", "struct_peace_chit.html", null ],
     [ "Player", "class_player.html", null ],
     [ "PublicMessage", "struct_public_message.html", null ],
+    [ "PublicRecord", "struct_public_record.html", null ],
     [ "Runner", "class_runner.html", null ],
     [ "Graphics::Screen", "struct_graphics_1_1_screen.html", null ],
     [ "Spritesheet", "class_spritesheet.html", null ],
-    [ "Technology", "struct_technology.html", null ],
     [ "Unit", "class_unit.html", null ]
 ];

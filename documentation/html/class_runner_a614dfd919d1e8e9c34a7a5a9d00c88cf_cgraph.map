@@ -1,5 +1,5 @@
 <map id="Runner::drawInfluence" name="Runner::drawInfluence">
 <area shape="rect" id="Node000001" title="Draws the influence tokens onto the map." alt="" coords="5,5,158,31"/>
-<area shape="rect" id="Node000002" href="$class_map.html#adc8cd4da1c2a901ca059f1c0a5be3f2c" title="Get reference to hash map of countries to reduce calls." alt="" coords="206,5,334,31"/>
+<area shape="rect" id="Node000002" href="$class_map.html#adc8cd4da1c2a901ca059f1c0a5be3f2c" title="Returns a reference to the hashmap of countries." alt="" coords="206,5,334,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,16,190,16,190,21,158,21"/>
 </map>

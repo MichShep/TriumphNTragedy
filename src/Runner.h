@@ -32,11 +32,11 @@ class Runner{
 private:
     int num_players; /**< Number of player in game (3 but hopefully can make a 1)*/
 
-    Player* west_player;
+    Player* west_player; /**< Pointer to the Player Obj that represents the West player */
 
-    Player* axis_player;
+    Player* axis_player; /**< Pointer to the Player Obj that represents the Axis player */
 
-    Player* ussr_player;
+    Player* ussr_player; /**< Pointer to the Player Obj that represents the USSR player */
 
     Player players[3]; /**Holds each playe object with allegiance as index 0: West 1: Axis 2: USSR*/ 
 
@@ -60,9 +60,9 @@ private:
 
     vector<PeaceChit> peace_dividends_bag; /**< Holds all the unpulled peace dividends*/
 
-    vector<pair<City*, CityType>> battles;
+    vector<pair<City*, CityType>> battles; /**< Vector of the current battles the acting player is going to enact and which rival it'll be against */
 
-    pair<City*, CityType> current_battle;
+    pair<City*, CityType> current_battle; /**< The current battle where battle actions are directed to */
 
     int action_bought = 0; /**< Number of actions card that have been purchaced by players for the production round*/
 
@@ -73,9 +73,9 @@ private:
     Player* current_player; /**< The player's who current turn it is*/
 
     Player* turn_order[3]; /**< Array with the first player at 0 and the last player in the loop at 2*/
-    Player* temp_order[3];
+    Player* temp_order[3]; /**< Temporary order of players used for animating and will become the new turn order */
 
-    int current_index = 0;
+    int current_index = 0; /**< Index into the turn order array of the current player */
 
     const unsigned int seed = 872706816; /**< The set (or time set seed) for all randomness*/
     
@@ -96,7 +96,7 @@ public:
             ShutdownApplication();
             exit(1);
         }
-        
+
         //- Set random seed
         srand(seed);
         
@@ -112,16 +112,16 @@ public:
         
 
         if (!default_mode){
-            //setXY("/Users/michshep/Desktop/TriumphNTragedy/src/starter4.map");
+            //setXY("./src/starter4.map");
             setResXY();
             exit(EXIT_SUCCESS);
         }
 
         //- Create Map
-        initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter5.map");
+        initMap("./src/starter5.map");
 
         //- Create Cards
-        initCards("/Users/michshep/Desktop/TriumphNTragedy/src/invest.card", "/Users/michshep/Desktop/TriumphNTragedy/src/action.card");
+        initCards("./src/invest.card", "./src/action.card");
 
         start_player = &players[1]; //AXIS start
         
@@ -144,16 +144,16 @@ public:
                                {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, 
                                {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}};
         shuffle(peace_dividends_bag.begin(), peace_dividends_bag.end(), g);
-
-        string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/SpriteSheet0.png";
+        
+        string path = "./sprites/SpriteSheet0.png";
 
         sprite_map = Spritesheet(path.c_str(), app.renderer);
 
-        const string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png";
-        const string path3 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/UnitSpritesZ1.png";
-        const string path4 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/UnitSpritesZ3.png";
-        const string path6 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/ControllerButtons.png";
-        const string path7 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/MessageAnimations.png";
+        const string path2 = "./sprites/MapSprite4.png";
+        const string path3 = "./sprites/UnitSpritesZ1.png";
+        const string path4 = "./sprites/UnitSpritesZ3.png";
+        const string path6 = "./sprites/ControllerButtons.png";
+        const string path7 = "./sprites/MessageAnimations.png";
         map_sprite = Spritesheet(path2.c_str(), app.renderer);
 
         powers_sprite_map[0] = Spritesheet(path.c_str(), powers_app[0].renderer);
@@ -234,6 +234,8 @@ public:
         mapPlayerResPop(players[WEST]);
         mapPlayerResPop(players[AXIS]);
         mapPlayerResPop(players[USSR]);
+
+        InitFonts();
     }
 
     size_t test(){
@@ -302,6 +304,8 @@ public:
 
         buildUnit(players[WEST], map["Paris"], FORTRESS);
         buildUnit(players[WEST], map["Paris"], TANK);
+        buildUnit(players[WEST], map["Paris"], INFANTRY);
+        buildUnit(players[WEST], map["Paris"], FLEET);
 
         buildUnit(players[WEST], map["Marseille"], INFANTRY);
 
@@ -353,6 +357,18 @@ public:
         deal(axis_player, 4, 'I');
         deal(ussr_player, 4, 'I');
 
+        map.getCountry("Greece")->setTest(WEST, 1);
+        map.getCountry("Rumania")->setTest(WEST, 2);
+        map.getCountry("Spain")->setTest(WEST, 3);
+
+        map.getCountry("Poland")->setTest(USSR, 1);
+        map.getCountry("Baltic_States")->setTest(USSR, 2);
+        map.getCountry("Finland")->setTest(USSR, 3);
+
+        map.getCountry("Sweden")->setTest(AXIS, 1);
+        map.getCountry("Norway")->setTest(AXIS, 2);
+        map.getCountry("Turkey")->setTest(AXIS, 3);
+
         return 0;
 
     }
@@ -382,6 +398,14 @@ public:
      * @return false The game is still going on 
      */
     bool run();
+
+    /**
+     * @brief The runner and handler for the title screen
+     * 
+     * @return true Able to run succesfully
+     * @return false Encountered an error
+     */
+    bool runTitle();
 
     //& New Year
     /**
@@ -471,16 +495,47 @@ public:
      */
     void resolveDiplomacy();
 
+    /**
+     * @brief Handler for increasing the player's industry and removing the cards used for doing so
+     * @see canIncreaseIND
+     * 
+     * @param player The player who is attempting to raise their industry
+     * @return true Player was able to raise their industry and cards were removed
+     * @return false Player was unable to raise their industry
+     */
     bool increaseIndustry(Player& player);
 
+    /**
+     * @brief Decider for if the player can combine the two selected techs to achieve a new technology (also handles year cards)
+     * 
+     * @param player The player attempting to pair the techs
+     * @param tech1 The first tech selected
+     * @param tech2 The second tech selected
+     * @return true Player is able to pair the two techs
+     * @return false Player is unable to pair the two techs (already achieved or not the same)
+     */
     bool canPair(const Player& player, const Tech* tech1, const Tech* tech2) const;
 
+    /**
+     * @brief Decider for if the player is able to coup on the current country selected 
+     * 
+     * @param player Player who is attempting to coup
+     * @return true Player is able to coup at the current country with the correct selected card
+     * @return false Player is unable to coup at the current country
+     */
     bool canCoup(Player& player){
         return player.selected_tech1 != nullptr && *player.selected_tech1 == COUP 
             && player.closest_map_city != nullptr && map.getCapital(player.closest_map_city->country) == player.closest_map_city
             && player != (int)map.getCountry(player.closest_map_city->country)->allegiance  &&   map.getCountry(player.closest_map_city->country)->influence > 0;
     }
 
+    /**
+     * @brief Handler for couping (removing a rival's influence) 
+     * @see canCoup
+     * 
+     * @param player 
+     * @pre The Player is able to coup at the current selected country
+     */
     void coup(Player& player){
         if (--map.getCountry(player.closest_map_city->country)->influence == 0)
             map.getCountry(player.closest_map_city->country)->allegiance = NEUTRAL;
@@ -488,22 +543,50 @@ public:
         player.updatePoppedInvestCard();
     }
 
+    /**
+     * @brief Decider for if the play can sabotage (lower a rival's IND) the current selected rival
+     * 
+     * @param player Player who is attempting to sabotage
+     * @return true Player would be able to sabotage the selected rival
+     * @return false Player would be unable to sabotage a rival
+     */
     inline bool canSabotage(Player& player){
         return player.selected_tech1 != nullptr && *player.selected_tech1 == SABOTAGE &&
                player != player.stat_view && players[player.stat_view].getIndustry() > 0;
     }
 
+    /**
+     * @brief Handler for sabotaging (lower a rival's IND) a rival and removing the card responsible
+     * @see canSabotage 
+     * 
+     * @param player Player who is sabotaging a rival
+     * @pre Player is able to sabotage the current selected rival
+     */
     void sabotage(Player& player){
         players[player.stat_view].lowerIND();
         player.remove(player.popped_invest_card);
         player.updatePoppedInvestCard();
     }
 
+    /**
+     * @brief Decider for if the player can use a Spy Ring (take a random card from a Rival)
+     * 
+     * @param player Player attempting to use a Spy Ring
+     * @return true Player is able to use Spy Ring against the selcted Rival
+     * @return false Player is unable to use Spy Ring against a Rival
+     */
     inline bool canSpyRing(Player& player){
         return player.selected_tech1 != nullptr && *player.selected_tech1 == SPY_RING &&
                player != player.stat_view && players[player.stat_view].getActionSize()+players[player.stat_view].getInvestSize() > 0;
     }
 
+    /**
+     * @brief Handler for using Spy Ring (take a random card from a rival)and removing the card responsible
+     * @see canSpyRing
+     * 
+     * @param player Player who is playing the Spy Ring card
+     * @pre Player is able to use Spy Ring
+     */
     void spyRing(Player& player){
         //Random as either an industry card or action card
         auto& target = players[player.stat_view];
@@ -522,24 +605,42 @@ public:
         player.updatePoppedInvestCard();
     }
 
+    /**
+     * @brief TODO check players hand size
+     * 
+     */
     void checkHands();
 
     //& Seasons of War
 
+    /**
+     * @brief Sort the turn order of the players based on their played command cards (season->command priority->command value->random)
+     * 
+     */
     void sortCommand();
 
     /**
-     * @brief 
+     * @brief Comparator for two Action Cards to see which has priority for command
      * 
-     * @param lhs 
-     * @param rhs 
+     * @param lhs The left action card
+     * @param rhs The right action card
      * @return true LHS has a higher priority
      * @return false RHS has a higher priority
      */
     bool compareCards(const ActionCard* lhs, const ActionCard* rhs);
 
+    /**
+     * @brief Handler for adding the current selected city to the player's movement memo (or removing)
+     * 
+     * @param player Player who is currently in their movement phase
+     */
     void addMovement(Player& player);
 
+    /**
+     * @brief Set which Rivals/Minors are able to be attacked in the currently selected city
+     * 
+     * @param attacker Player who is currently selecting battles to enact
+     */
     void setDefenders(Player& attacker){
         auto& memo = attacker.unit_available;
         const auto& target_city = attacker.selecting_city;
@@ -554,9 +655,20 @@ public:
         memo[NEUTRAL] = target_city->occupants[NEUTRAL].size() && NEUTRAL!=allegiance; 
     }
 
+    /**
+     * @brief Handler for user input on adding/removing battles for the combat phase
+     * 
+     * @param player The player who is attempting to change battles
+     */
     void handleBattleSelect(Player& player);
 
-    void setLandBattleable(Player& attacker, Player& player);
+    /**
+     * @brief Set which units are able to be attacked in a land battle
+     * 
+     * @param attacker Player who is currently attacking and choosing the target
+     * @param defender Player whose units are under attack and being checked 
+     */
+    void setLandBattleable(Player& attacker, Player& defender);
 
     //- Spring
     /**
@@ -697,45 +809,72 @@ public:
     bool flipConvoy(Player& player, City* city, Unit* unit);
 
     //& Movement 
-    
-    bool checkRoute(Player& player);
-
     void moveUnit(Player& player);
 
     /**
-     * @brief Checks if the player can disengage from the current battle
+     * @brief Decider for if the unit is able to move through the current movement memo with land movement (cannot go enter oceans and limited to straits and land borders and abide by border restrictions if engaging)
+     * @see MovementMessage
      * 
-     * @param unit Unit disengaging
-     * @param start The city with the battle being fled from
-     * @param end The potential city to flee to
-     * @return true Able to disengage
-     * @return false Unable to disengage
+     * @param player Player whose memo will be checked for validity
+     * @param unit The unit who will be moving along the memo
+     * @return MovementMessage Result of the player's memo, negative if an error, and positive if valid
+     * @pre `player` is in movement phase
      */
-    bool canDisengage(Unit* unit, const string start, const string end);
-
-    /**
-     * @brief When the unit is leaving a battle it can move to one adjacent friendly city
-     * 
-     * @param unit The unit disengaging
-     * @param start The city with the conflict
-     * @param end The city to disengage to
-     * @return true Is able to move to end
-     * @return false is unable (border limits or out of range or not friendly)
-     */
-    bool disengage(Unit* unit, const string start, const string end);
-
     MovementMessage canLandMove(const Player& player, const Unit* unit) const;
 
+    /**
+     * @brief Decider for if the unit is able to move through the current movement memo with sea movement (can enter oceans and limited to onlt one 'land move' to an adjacent coastal city and doesn't abide by border restrictions)
+     * @see MovementMessage
+     * 
+     * @param player Player whose memo will be checked for validity
+     * @param unit The unit who will be moving along the memo
+     * @return MovementMessage Result of the player's memo, negative if an error, and positive if valid
+     * @pre `player` is in movement phase
+     */
     MovementMessage canSeaMove(const Player& player, const Unit* unit) const;
 
+    /**
+     * @brief Decider for if the unit is able to move through the current movement memo (no restrictions on border types) (if starting in an ocean it must end it in a land city and doesn't abide by border restrictions)
+     * @see MovementMessage
+     * 
+     * @param player Player whose memo will be checked for validity
+     * @param unit The unit who will be moving along the memo
+     * @return MovementMessage Result of the player's memo, negative if an error, and positive if valid
+     * @pre `player` is in movement phase
+     */
     MovementMessage canAirMove(const Player& player, const Unit* unit) const;
 
-    bool canDisengage(const Player& player, const Unit* unit) const;
+    /**
+     * @brief Decider for if the player is able to disengage from the current battle (cannot re-engage the same turn)
+     * @see MovementMessage
+     * 
+     * @param player Player whose memo will be checked for validity
+     * @param unit The unit who will be moving along the memo
+     * @return MovementMessage Result of the player's memo, negative if an error, and positive if valid
+     * @pre `player` is in movement phase
+     * @pre Unit is in conflict and needs to disengage
+     */
+    MovementMessage canDisengage(const Player& player, const Unit* unit) const;
 
     //& Combat
 
+    /**
+     * @brief Decider and Handler for when a Player delcares a DoW on another Player and updates the DoW status
+     * 
+     * @param declarer Player who is declaring a DoW and will lose a VP (Set as DECLARED)
+     * @param victim Player who is being declared on and a DoW and will have IND cost decreased (Set as VICTIM)
+     * @return true `declarer` was able to declare the DoW (was at peace before)
+     * @return false `declarer` was ubable to declare the DoW (wasn't at peace with the rival)
+     */
     bool declareDoW(Player& declarer, Player& victim);
 
+    /**
+     * @brief Decider and Handler for when a Player delcares a VoB on a Neutral unarmed Minor and handles World Reaction (rivals draw cards based on the minor's capital POP)
+     * 
+     * @param aggresor The Player attempting to commit a VoN
+     * @return true `aggresor` was able to declare the VoN and rivals gained cards
+     * @return false `aggresor` was unable to declare the VoN
+     */
     bool declareVoN(Player& aggresor);
 
     /**
@@ -796,20 +935,62 @@ public:
      */
     void handleCardPlaying(Player& player);
 
+    /**
+     * @brief Handler for player achieving the selected tech and removing the cards used if able
+     * 
+     * @param player Player attempting to achieve a new tech
+     * @return true Player was able to achieve the tech and discarded the investment cards
+     * @return false Player was ubable to achieve a tech
+     */
     bool achieveTechnology(Player&player);
 
     //&^ Card Actions
 
+    /**
+     * @brief Handler for player selecting/deselecting investment cards to spend on raising IND
+     * 
+     * @param player Player who is attempting to change card selection
+     */
     void selectTechCard(Player& player);
 
+    /**
+     * @brief Handler for Player peaking a rival's hand
+     * 
+     * @param player Player who is peaking at a rival's hand
+     * @param ticks The tick the player is starting to view the rivals hand
+     */
     void peakRivalAction(Player& player, const tick_t& ticks);
 
+    /**
+     * @brief Handler for Player peaking a rival's unit
+     * 
+     * @param player Player who is peaking at a rival's unit
+     * @param ticks The tick the player is starting to view the rival's unit
+     */
     void peakRivalUnit(Player& player, const tick_t& ticks);
 
+    /**
+     * @brief Handler for Player couping against a rival
+     * 
+     * @param player Player who is peaking at a rival's hand
+     * @param ticks Unused but needed for lambda function
+     */
     void coupRival(Player& player, const tick_t& ticks);
 
+    /**
+     * @brief Handler for Player sabotaging a rival
+     * 
+     * @param player Player who is peaking at a rival's hand
+     * @param ticks Unused but needed for lambda function
+     */
     void sabotageRival(Player& player, const tick_t& ticks);
 
+    /**
+     * @brief Handler for Player using Spy Ring against a rival
+     * 
+     * @param player Player who is Spy Ring-ing
+     * @param ticks Unused but needed for lambda function
+     */
     void spyRingRival(Player& player, const tick_t& ticks);
 
     //& Runner Getters and Setters
@@ -896,7 +1077,7 @@ private:
 
 private:  //!!! Graphics things
     //& Sprite Maps
-    Spritesheet sprite_map; /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in 32 by 32 pixels*/
+    Spritesheet sprite_map; /**< A png that holds every sprite in the game and can be indexed into and a clip pulls the sprites from*/
 
     Spritesheet map_sprite; /**< A png of the game map */
 
@@ -910,7 +1091,9 @@ private:  //!!! Graphics things
 
     Spritesheet powers_controller_button_sprite[3]; /**< An array of the spritesheets initaliazed to the powers renderer that has the button input animations*/
 
-    Spritesheet powers_message_animations[3];  /**< An array of the spritesheets initaliazed to the powers renderer that has the public messages animations*/
+    Spritesheet powers_message_animations[3];  /**< An array of the spritesheets initaliazed to the powers renderer that has the public messages animations*/    
+
+    tick_t clock; /**< The tick the current frame is starting on and all logic checks in the frame should use */
 
     //& Controller Things
     SDL_GameController *west_controller=nullptr; /**< The controller of the West player */
@@ -920,20 +1103,23 @@ private:  //!!! Graphics things
     SDL_GameController *ussr_controller=nullptr;  /**< The controller of the USSR player */
 
     SDL_GameController* controllers[3]= {nullptr, nullptr, nullptr}; /**< Array of the controllers so that the controller.which can be used to index the controller obj*/
-
+    
     bool map_changed=true; /**< Boolean that is true when an update has happened on the main screen and the main screen needs to be re-rendered */
 
     tick_t last_tick; /**< Used by animations to see how long has elapsed since started */
-    int phase = 0;
+    
+    int phase = 0; /**<  Used for animations on which phase of animating they should be on*/
 
     vector<PublicMessage> public_messages; /**< Vector of all current public messages that are being animated */
+
+    vector<PublicRecord> log; /**< Vector of all logs on player messages, season starts, ect. */
 
     //& Init Functions
     /**
      * @brief Initalizes SDL2 and the window
      * 
      * @return true Initalized succesfully
-     * @return false Failexcd to initalize
+     * @return false Failed to initalize
      */
     bool InitSDL();
 
@@ -941,9 +1127,17 @@ private:  //!!! Graphics things
      * @brief Initalizes the 'app', the struct that hlds the renderer and the window
      * 
      * @return true Initalized succesfully
-     * @return false Failexcd to initalize
+     * @return false Failed to initalize
      */
     bool InitApplication();
+
+    /**
+     * @brief Initalizes the fonts for each player used to display text on screen
+     * 
+     * @return true Initalized succesfully
+     * @return false Failed to initalize
+     */
+    bool InitFonts();
 
     /**
      * @brief Deletes the windows and frees memory specifically used by SDL
@@ -957,10 +1151,20 @@ private:  //!!! Graphics things
      */
     void ClearScreen(SDL_Renderer* renderer);
 
+    /**
+     * @brief Draws all buttons and titles for the title screen
+     * 
+     * @param player The player whose screen will be rendered on to
+     * @param ticks The current tick of the program used for animating
+     * @param alpha The alpha level of each sprite used for fading out
+     */
+    void drawTitle(Player& player, const tick_t& ticks, const uint8_t& alpha=255);
+
     //& Map Displaying
     /**
-     * @brief Draw's the map to the main rendered with different options to control what is shown
+     * @brief Draws the map to the main rendered with different options to control what is shown
      * 
+     * @param player The player whose screen will be rendered on to
      * @param cities Draws all cities if true
      * @param influence Draws the influence markers on each applicable city if true
      * @param resources Draw the resources of each city if true
@@ -978,16 +1182,45 @@ private:  //!!! Graphics things
      */
     void drawPlayerBoard(Player& player, const tick_t& ticks=0, const bool render=true);
 
+    /**
+     * @brief Draws the Investment Card hand of the currently viewed allegiance (either the icon or all the cards)
+     * 
+     * @param drawing_player The player whose screen will have the widget drawn onto
+     * @param target_player  The player whose actual invest hands will be drawn (will hide cards if `drawing_player` != `target_player`)
+     */
     void drawInvestWidget(Player& drawing_player, Player& target_player);
 
+    /**
+     * @brief Draws the Action Card hand of the currently viewed allegiance (either the icon or all the cards)
+     * 
+     * @param drawing_player The player whose screen will have the widget drawn onto
+     * @param target_player  The player whose actual action hands will be drawn (will hide cards if `drawing_player` != `target_player`)
+     */
     void drawActionWidget(Player& drawing_player, Player& target_player);
 
+    /**
+     * @brief Draws the Achieved Tech hand of the currently viewed allegiance (either the icon or all the cards)
+     * 
+     * @param drawing_player The player whose screen will have the widget drawn onto
+     * @param target_player  The player whose actual tech will be drawn (will hide if `drawing_player` != `target_player` and secret)
+     */
     void drawTechWidget(Player& drawing_player, Player& target_player);
 
+    /**
+     * @brief Draws the Player Stats hand of the currently viewed allegiance (either the icon or the POP, RES, IND, DOW, ect)
+     * 
+     * @param drawing_player The player whose screen will have the widget drawn onto
+     * @param target_player  The player whose stats will be drawn
+     */
     void drawStatWidget(Player& drawing_player, Player& target_player);
 
-    void drawSeasonSpecific(Player& drawing_player);
-
+    /**
+     * @brief Draws any season specific sprites onto the screen
+     * 
+     * @param drawing_player The player whose screen will be drawn onto
+     * @param ticks Current tick of the frame to act as a clock
+     */
+    void drawSeasonSpecific(Player& drawing_player, const tick_t& ticks);
 
     /**
      * @brief Get the index of the sprite needed for the city
@@ -1018,10 +1251,15 @@ private:  //!!! Graphics things
     /**
      * @brief Draws the unit building UI and the select line and selected unit
      * 
-     * @param player The players who selectedna city to build a unit
+     * @param player The player whose screen will have the unit drawn
      */
     void drawBuild(Player& player);
 
+    /**
+     * @brief Draws all the currently selected battles onto the cities selected
+     * 
+     * @param player Th
+     */
     void drawBattleSelect(Player& player);
 
     /**
@@ -1036,7 +1274,7 @@ private:  //!!! Graphics things
      * 
      * @pre x and y have already been scaled 
      */
-    void drawUnit(const Player& player, const Unit* unit, const int x, const int y, const int zoom, const bool secret=false);
+    void drawUnit(const Player& player, const Unit* unit, const int x, const int y, const int zoom, const bool secret=false) const;
 
     /**
      * @brief Draws a dummy unit onto the screen (not tied to a specific unit objecy)
@@ -1075,24 +1313,63 @@ private:  //!!! Graphics things
      */
     void drawInfluence(const Player& player);
 
+    /**
+     * @brief Draws the provided action card with the top-left corner being at the provided X and Y coords
+     * 
+     * @param draw_player The player whose screen will have the card rendered on to
+     * @param card Pointer to the card that will be drawn
+     * @param start_x The top-left X-Coord to start drawing the card
+     * @param start_y  The top-left Y-Coord to start drawing the card
+     * @param scaled_size  The scaled size each segment (three: left country, command, right country) should be
+     * @param alpha The alpha (opacity) to render each segment
+     */
     void drawActionCard(const Player* draw_player, const ActionCard* card, const int start_x, const int start_y, const int scaled_size, const uint8_t alpha=255);
 
+    /**
+     * @brief Draws the provided investment card with the top-left corner being at the provided X and Y coords
+     * 
+     * @param draw_player The player whose screen will have the card rendered on to
+     * @param card Pointer to the card that will be drawn
+     * @param start_x The top-left X-Coord to start drawing the card
+     * @param start_y  The top-left Y-Coord to start drawing the card
+     * @param scaled_size  The scaled size each segment (three: left tech, IND, right tech) should be
+     * @param alpha The alpha (opacity) to render each segment
+     */
     void drawInvestCard(const Player* draw_player, const InvestmentCard* card, const int start_x, const int start_y, const int scaled_size, const uint8_t alpha=255);
 
-    void drawActionCards(const Player* draw_player, const Player* target_player, int start_x, int start_y, int count, int scale=1);
-
     /**
-     * @brief Draws the players invest cards onto their screen starting at the given x and y and decends
+     * @brief Draws the action cards of the current viewed allegiance onto the players screen starting at the given x and y and decends
      * 
-     * @param player The player's action cards to draw
+     * @param draw_player The player whose screen will have the cards rendered on to
+     * @param target_player The player whose action cards will be drawn (will be hidden if not the `draw_player` or not  peaking)
      * @param start_x The top right x-coord corner of where cards should be drawn
      * @param start_y The top right y-coord corner of where cards should be drawn
      * @param count  The amount of cards to be drawn (max amount drawn will be XX)
      * @param scale The scale of the cards to draw
      */
-    void drawInvestCards(const Player* player, int start_x, int start_y, int count, int scale=1);
+    void drawActionCards(const Player* draw_player, const Player* target_player, const int& start_x, const int& start_y, const int& count, const int scale=1);
 
-    void drawAchievedTech(Player* player, const Player* target_player, int start_x, int start_y);
+    /**
+     * @brief Draws the invesetment cards of the current viewed allegiance onto the players screen starting at the given x and y and decends
+     * 
+     * @param draw_player The player whose screen will have the card rendered on to
+     * @param start_x The top right x-coord corner of where cards should be drawn
+     * @param start_y The top right y-coord corner of where cards should be drawn
+     * @param count  The amount of cards to be drawn (max amount drawn will be XX)
+     * @param scale The scale of the cards to draw
+     */
+    void drawInvestCards(const Player* player, const int& start_x, const int& start_y, const int& count, const int scale=1);
+
+    /**
+     * @brief Draws the tech of the current viewed allegiance onto the players screen starting at the given x and y and decends
+
+     * 
+     * @param draw_player The player whose screen will have the card rendered on to
+     * @param target_player The player whose tech will be drawn (will be hidden if secret and not the `draw_player`)
+     * @param start_x 
+     * @param start_y 
+     */
+    void drawAchievedTech(Player* player, const Player* target_player, const int& start_x, const int& start_y);
 
     /**
      * @brief Draw the current actions the player can take on the buttons that would initiate those actions
@@ -1129,7 +1406,7 @@ private:  //!!! Graphics things
      * @param g The green value of the color (0, 255)
      * @param b The blue value of the color (0, 255) 
      */
-    void drawNumber(SDL_Renderer* renderer, int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255) const;
+    void drawNumber(SDL_Renderer* renderer, int num, const int x, const int y, const float scale, const uint8_t r=255, const uint8_t g=255, const uint8_t b=255, const uint8_t a=255) const;
 
     /**
      * @brief Draws a 3 pixel wide line between the two points
@@ -1173,13 +1450,25 @@ private:  //!!! Graphics things
     }
 
     /**
-     * @brief Handles what to draw during the production phase
+     * @brief Handles what to draw during the current phase
      * 
      */
     void drawPhase(const tick_t& ticks);
 
     //& Animations
 
+    /**
+     * @brief Animation for showing the command cards played and the new order
+     * 
+     * @param running Flag for if the current loop should continue
+     * @param ticks The current tick to be used as a clock
+     * @param west_start The starting turn order postion of the West player
+     * @param axis_start The starting turn order postion of the Axis player
+     * @param ussr_start The starting turn order postion of the USSR player
+     * @param west_end The end turn order postion of the West player
+     * @param axis_end The end turn order postion of the Axis player
+     * @param ussr_end The end turn order postion of the USSR player
+     */
     void animateCommandOrder(bool& running, const tick_t& ticks, const int west_start,  const int axis_start,  const int ussr_start, const int west_end,  const int axis_end,  const int ussr_end);
 
     /**
@@ -1232,6 +1521,14 @@ private:  //!!! Graphics things
     void drawPeaceDividends(const bool west, const bool axis, const bool ussr);
 
     /**
+     * @brief 
+     * 
+     * @param player 
+     * @param ticks 
+     */
+    void animatePoem(Player& player, const tick_t ticks);
+
+    /**
      * @brief Used for button presses where a given mouse clip position will see if its in the rectangle provided
      * 
      * @param x The top left x-coord of the rectangle
@@ -1260,25 +1557,90 @@ private:  //!!! Graphics things
      */
     void handleUserInput(bool& running, const tick_t& ticks);
 
+    /**
+     * @brief Handler for all actions which have the X Button (only) held
+     * 
+     * @param player Player whose X-Button Actinos are checked
+     * @param ticks The current tick to use as a clock
+     */
     void handleXHeld(Player& player, const tick_t& ticks);
 
+    /**
+     * @brief Handler for all actions which have the Y Button (only) held
+     * 
+     * @param player Player whose Y-Button Actinos are checked
+     * @param ticks The current tick to use as a clock
+     */
+    void handleYHeld(Player& player, const tick_t& ticks);
+
+    /**
+     * @brief Handler for all actions that occur during the Production Phase with the Y-Button
+     * 
+     * @param player The Player acting with the Y-Button in Production
+     * @param ticks The current tick to use as a clock
+     * @param y_wait_time The wait-time the Y-Button needs to be held for actions
+     * @pre Current season is Production
+     */
     void handleProductionSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time);
 
+    /**
+     * @brief Handler for all actions that occur during the Government Phase with the A-Button
+     * 
+     * @param player The Player acting with the A-Button in Production
+     * @param ticks The current tick to use as a clock
+     * @param y_wait_time The wait-time the A-Button needs to be held for actions
+     * @pre Current season is Government
+     */
     void handleGovernmentSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time, const tick_t& a_wait_time);
 
+    /**
+     * @brief Handler for all actions that occur during the Command Phase with the Y-Button
+     * 
+     * @param player The Player acting with the Y-Button in the Command Phase
+     * @param ticks The current tick to use as a clock
+     * @param y_wait_time The wait-time the Y-Button needs to be held for actions
+     * @pre Current season is Command
+     */
     void handleCommandSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time);
 
+    /**
+     * @brief Handler for all actions that occur during the Action Seasons with the Y-Button and A-Button
+     * 
+     * @param player The Player acting with the Y-Button or A-Button
+     * @param ticks The current tick to use as a clock
+     * @param y_wait_time The wait-time the Y-Button needs to be held for actions
+     * @param y_wait_time The wait-time the A-Button needs to be held for actions
+     * @pre Current season is in a Action Season
+     */
     void handleRegularSeason(Player& player, const tick_t& ticks, const tick_t& a_wait_time, const tick_t& y_wait_time);
 
-    void performTech(Player& player, const tick_t& ticks, Message message_type, void (Runner::*espionageAction)(Player&, const tick_t&));
+    /**
+     * @brief Handler for preforming Intel related actions
+     * 
+     * @param player Player who is comitting an intel action
+     * @param ticks The current tick to use as a clock
+     * @param message_type The type of public message to display
+     * @param espionageAction Function Pointer to the actual action the player is commiting
+     */
+    void performIntel(Player& player, const tick_t& ticks, Message message_type, void (Runner::*espionageAction)(Player&, const tick_t&));
 
+    /**
+     * @brief Handler for 'pinning' (showing all troops) the selected city
+     * 
+     * @param player Player who is pinning a city
+     */
     void pinCity(Player& player){
-        if (player.closest_map_city != nullptr){
+        if (player.closest_map_city != nullptr && season != TITLE_SCREEN){
                 player.closest_map_city->full_display[player.getAllegiance()] = ! player.closest_map_city->full_display[player.getAllegiance()];
                 player.widget = MAP;
         }
     }
 
+    /**
+     * @brief Handler for toggling the view of widgets (showing just the icon or showing all the data)
+     * 
+     * @param player Player who is toggling their view
+     */
     void toggleView(Player& player){
         if (player.widget <= STAT_WIDGET){
             switch (player.widget){
@@ -1305,8 +1667,16 @@ private:  //!!! Graphics things
         }
     }
     
+    /**
+     * @brief Handler for adding new battles during the Combat Select Phase
+     * 
+     * @param player Player who is attempting to a new battle
+     * @param defender Allegiance of the defender
+     * @return true Able to add a new battle against the defender
+     * @return false Unable to add a new battle against the defender
+     * @pre Player phase is COMBAT_SELECT
+     */
     bool addBattle(const Player& player, const CityType& defender);
-    
     
     /**
      * @brief Handler for when an animation is happening and user input is limited
@@ -1315,6 +1685,14 @@ private:  //!!! Graphics things
      * @param ticks The current time the frame is being drawn
      */
     void handleUserAnimationInput(bool& running, const tick_t& ticks);
+
+    /**
+     * @brief Handler for when at the title screen and user input is limited
+     * 
+     * @param running Condition if the current loop should continue running
+     * @param ticks The current time the frame is being drawn
+     */
+    void handleTitleInput(bool& running, const tick_t& ticks);
 
     /**
      * @brief Handels the cases where the player pressed down on a button
@@ -1346,11 +1724,31 @@ private:  //!!! Graphics things
      */
     void handleJoystickMovement(Player& player);
 
-    void handleActionHandMovement(Player& player, const bool& x_move,  const bool& y_move);
+    /**
+     * @brief Handler for scrolling on the Action Hand widget and updating the popped action card and selected countries
+     * 
+     * @param player Player whose movement is being checked
+     * @param x_move Flag for if Player is able to move the x-axis again (on cooldwown)
+     * @param y_move Flag for if Player is able to move the y-axis again (on cooldwown)
+     */
+    void handleActionHandMovement(Player& player, const bool x_move,  const bool y_move);
 
-    void handleInvestHandMovement(Player& player, const bool& x_move,  const bool& y_move);
+    /**
+     * @brief Handler for scrolling on the Invesement Hand widget and updating the popped invest card and selected techs
+     * 
+     * @param player Player whose movement is being checked
+     * @param x_move Flag for if Player is able to move the x-axis again (on cooldwown)
+     * @param y_move Flag for if Player is able to move the y-axis again (on cooldwown)
+     */
+    void handleInvestHandMovement(Player& player, const bool x_move,  const bool y_move);
 
-    void handleTechMovement(Player& player, const bool& y_move);
+    /**
+     * @brief Handler for scrolling on the tech widget and updating the popped tech
+     * 
+     * @param player Player whose movement is being checked
+     * @param y_move Flag for if Player is able to move the y-axis (Scroll techs) (on cooldwown)
+     */
+    void handleTechMovement(Player& player, const bool y_move);
 
     /**
      * @brief Handler for the right joystick (used to select things) thats taken in set times
@@ -1384,6 +1782,13 @@ private:  //!!! Graphics things
     void handleHeldButtons(Player& player, const tick_t& ticks);
 
     /**
+     * @brief Handles player swapping controllers but need to make it so it actually works
+     * 
+     * @param player Player who is attempting to switch controllers
+     */
+    void handleControllerSwitch(Player& player);
+
+    /**
      * @brief Handler for moving the cursor and either moving the screen or the cursor
      * 
      * @param player The player whose cursor is moving
@@ -1400,6 +1805,10 @@ private:  //!!! Graphics things
 private:
 
     //& Passing 
+    /**
+     * @brief Handler for when player's act during the government phase and to loop to the next non-passed player until all have passed
+     * 
+     */
     void playerActed(){
         if (west_player->passed && axis_player->passed && ussr_player->passed)
             return;
@@ -1408,18 +1817,28 @@ private:
         current_player = turn_order[current_index];
     }
 
+    /**
+     * @brief Handler for when player's pass during the Action Seasons and which stage of Movement/Combat they move to
+     * 
+     */
     void seasonActed(){
         auto& curr = current_player->current_phase;
         if (curr == MOVEMENT){
             curr = COMBAT_SELECT;
         }
         else if (curr == COMBAT_SELECT){
-            curr = COMBAT;
+            curr = COMBAT_ATTACKER;
+
             if (battles.empty())
                 return;
+
             current_battle = battles.front();
+            current_battle.first->battling = true;
 
             battles.erase(battles.begin());
+        }
+        else if (curr == COMBAT_ATTACKER){
+
         }
         else if (curr == COMBAT){
             current_player->passed = true;
@@ -1432,6 +1851,11 @@ private:
         }
     }
 
+    /**
+     * @brief Handler for the playing command cards and turn order (all must be passed for it to end and will loop until so)
+     * 
+     * @param passed Flag for if the current player did not pass and then need to get confirmation from all other players again
+     */
     void passedCommand(const bool passed){
         if (west_player->passed && axis_player->passed && ussr_player->passed) //if all have already passed then don't move anymore
             return;
@@ -1456,7 +1880,14 @@ private:
 
     //& Dev Tools
 
-    int getDoWOffset(Player& player, const bool second){
+    /**
+     * @brief Get the sprite offset for the player's stat widget DoW
+     * 
+     * @param player Player whose DoW's need an offset
+     * @param second Flag for if the second row DoW needs the offset (false if top row)
+     * @return int The offset for the correseponding sprite
+     */
+    int getDoWOffset(const Player& player, const bool second) const{
         if (second){
             switch (player.getAllegiance()){ //bottom dow
                 case WEST:
@@ -1501,14 +1932,14 @@ private:
      * @param path 
      */
     void setXY(const string& path){
-        string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png";
+        string path2 = "./sprites/MapSprite4.png";
         map_sprite = Spritesheet(path2.c_str(), app.renderer);
         int width, height;
         SDL_GetWindowSize(app.window, &width, &height);
         SDL_Rect tar = {0,0,width,height};
         string line;
         
-        fstream map_file("/Users/michshep/Desktop/TriumphNTragedy/src/starter5.map", std::ios_base::in);
+        fstream map_file("./src/starter5.map", std::ios_base::in);
         fstream out_file("out.txt");
 
         if (!map_file.is_open()){
@@ -1589,13 +2020,13 @@ private:
         InitApplication();
         players[0] = Player("Michael", WEST); 
         players[WEST].app = &powers_app[0];
-        string path = "/Users/michshep/Desktop/TriumphNTragedy/sprites/SpriteSheet0.png";
-        const string path2 = "/Users/michshep/Desktop/TriumphNTragedy/sprites/MapSprite4.png";
+        string path = "./sprites/SpriteSheet0.png";
+        const string path2 = "./sprites/MapSprite4.png";
         powers_sprite_map[0] = Spritesheet(path.c_str(), powers_app[0].renderer);
         players[WEST].sprite_sheet = &powers_sprite_map[0];
         powers_map_sprite[0] = Spritesheet(path2.c_str(), powers_app[0].renderer);
         players[WEST].map_sprite = &powers_map_sprite[0];
-        initMap("/Users/michshep/Desktop/TriumphNTragedy/src/starter5.map");
+        initMap("./src/starter5.map");
 
         vector<std::pair<int, int>> coords;
         int width, height;

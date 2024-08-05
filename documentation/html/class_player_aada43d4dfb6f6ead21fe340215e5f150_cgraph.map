@@ -1,5 +1,5 @@
 <map id="Player::calculateProduction" name="Player::calculateProduction">
-<area shape="rect" id="Node000001" title="Get the min production of the player min(pop, res, ind). If not at war then dont look at res." alt="" coords="5,5,186,31"/>
+<area shape="rect" id="Node000001" title="Get the min production of the player min(pop, res, ind). If not at war then ignore res." alt="" coords="5,5,186,31"/>
 <area shape="rect" id="Node000002" href="$class_player.html#aaeb493d0ba358f82e487d8c63a61ef72" title="Gets if the player is at war with any other player." alt="" coords="234,5,334,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,16,218,16,218,21,186,21"/>
 </map>

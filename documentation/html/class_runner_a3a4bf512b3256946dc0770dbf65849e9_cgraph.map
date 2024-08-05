@@ -1,0 +1,16 @@
+<map id="Runner::drawInvestWidget" name="Runner::drawInvestWidget">
+<area shape="rect" id="Node000001" title="Draws the Investment Card hand of the currently viewed allegiance (either the icon or all the cards)" alt="" coords="5,153,182,179"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a59a33a9934e4dfbdbe5e1b3fcee80198" title="Draws the invesetment cards of the current viewed allegiance onto the players screen starting at the ..." alt="" coords="230,103,400,128"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,150,240,130,242,135,153,155"/>
+<area shape="rect" id="Node000005" href="$class_player.html#ab3c69056b6dae04e42ce9e1a70d76882" title="Get the number of invest cards the player has." alt="" coords="457,153,603,179"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="182,164,441,164,441,169,182,169"/>
+<area shape="rect" id="Node000007" href="$class_player.html#ac1bf32f466ba9dc1f93852fa835bbff2" title="Gets which power the player is." alt="" coords="243,204,387,230"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="153,177,242,197,240,203,152,182"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a6f02ca71b16028b4880e5baa56b721ed" title="Draws the provided investment card with the top&#45;left corner being at the provided X and Y coords." alt="" coords="448,5,611,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,100,385,70,447,40,462,34,464,39,449,45,388,75,338,104"/>
+<area shape="rect" id="Node000004" href="$class_player.html#ab0133c5fd6cb026c3c910aaa5888e7a4" title="Get the Invest Card at the specific index." alt="" coords="456,55,604,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="375,99,453,82,455,87,376,105"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="373,126,458,147,457,152,372,132"/>
+<area shape="rect" id="Node000006" href="$class_player.html#ada64ae0a4ced56417da1e7b41c48a666" title="Decider if the Investment Card provided is a card the player has selected to up IND." alt="" coords="461,104,599,130"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="401,113,445,114,445,119,401,119"/>
+</map>

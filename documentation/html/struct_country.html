@@ -100,31 +100,36 @@ $(document).ready(function(){initNavTree('struct_country.html',''); initResizabl
   <div class="headertitle"><div class="title">Country Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Countries represent a collection of cities that have their own influence, capital cities, and if voilated as a neutral will become armed.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_map_8h_source.html">Map.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for Country:</div>
 <div class="dyncontent">
 <div class="center"><img src="struct_country__coll__graph.png" border="0" usemap="#a_country_coll__map" alt="Collaboration graph"/></div>
 <map name="a_country_coll__map" id="a_country_coll__map">
-<area shape="rect" title=" " alt="" coords="84,921,220,1246"/>
-<area shape="rect" title=" " alt="" coords="21,134,66,199"/>
-<area shape="poly" title=" " alt="" coords="40,199,24,309,10,473,8,566,11,664,20,762,38,857,55,909,78,960,73,962,50,911,33,858,15,763,5,664,3,566,5,472,19,308,35,199"/>
-<area shape="rect" href="struct_city.html" title="Each segment of the map where troops can be stationed." alt="" coords="92,312,212,858"/>
-<area shape="poly" title=" " alt="" coords="54,198,90,335,85,337,49,200"/>
-<area shape="poly" title=" " alt="" coords="154,857,154,904,149,904,149,857"/>
-<area shape="rect" title=" " alt="" coords="106,134,211,199"/>
-<area shape="poly" title=" " alt="" coords="154,199,150,223,149,256,150,288,150,295,145,295,145,288,144,256,145,223,149,198"/>
-<area shape="rect" title=" " alt="" coords="199,5,248,71"/>
-<area shape="poly" title=" " alt="" coords="198,85,192,96,173,135,169,133,187,93,193,82"/>
-<area shape="rect" title=" " alt="" coords="232,223,338,288"/>
-<area shape="poly" title=" " alt="" coords="249,83,253,94,272,162,283,223,278,224,266,164,248,95,244,85"/>
-<area shape="poly" title=" " alt="" coords="287,288,282,385,272,526,254,691,226,858,215,905,210,904,221,857,249,690,267,525,277,384,281,288"/>
+<area shape="rect" title="Countries represent a collection of cities that have their own influence, capital cities,..." alt="" coords="74,841,210,1166"/>
+<area shape="rect" title=" " alt="" coords="14,134,59,199"/>
+<area shape="poly" title=" " alt="" coords="34,199,21,297,10,441,8,523,11,608,19,694,34,777,49,826,69,874,64,876,44,828,29,778,14,695,5,609,3,523,4,441,16,297,29,198"/>
+<area shape="rect" href="struct_city.html" title="Cities represent segments of the map where units will move between, Powers gain resources,..." alt="" coords="88,312,196,778"/>
+<area shape="poly" title=" " alt="" coords="48,198,86,334,81,335,43,199"/>
+<area shape="poly" title=" " alt="" coords="145,778,145,824,139,824,139,778"/>
+<area shape="rect" title=" " alt="" coords="99,134,204,199"/>
+<area shape="poly" title=" " alt="" coords="147,199,143,223,139,295,134,295,138,223,142,198"/>
+<area shape="rect" title=" " alt="" coords="192,5,241,71"/>
+<area shape="poly" title=" " alt="" coords="191,85,185,96,167,135,162,133,180,93,186,82"/>
+<area shape="rect" title=" " alt="" coords="225,223,331,288"/>
+<area shape="poly" title=" " alt="" coords="242,83,246,94,265,162,276,223,271,224,260,164,241,95,237,85"/>
+<area shape="poly" title=" " alt="" coords="278,288,255,494,235,635,210,778,199,817,197,825,192,823,194,816,205,777,230,634,250,494,273,287"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab3d7e3baad77bca1854262e65ae1eb67" id="r_ab3d7e3baad77bca1854262e65ae1eb67"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3d7e3baad77bca1854262e65ae1eb67">Country</a> (const size_t <a class="el" href="#ad7fba8f21310bc034785bb68f40c670e">id</a>, const string <a class="el" href="#a4b51ef0ea54d74f9debaf596e4276f05">name</a>, <a class="el" href="struct_city.html">City</a> *<a class="el" href="#a8e8b2744b5fe3662cc4b34d74ae6e105">capital</a>, const InfluenceType <a class="el" href="#a43888bdcc402526f590dc8671a761fa8">influence_level</a>=UNALIGNED, const int <a class="el" href="#ac2a4867b4fe307847ecac957016c92ec">influence</a>=0)</td></tr>
-<tr class="memdesc:ab3d7e3baad77bca1854262e65ae1eb67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="struct_country.html">Country</a>.  <br /></td></tr>
+<tr class="memdesc:ab3d7e3baad77bca1854262e65ae1eb67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="struct_country.html" title="Countries represent a collection of cities that have their own influence, capital cities,...">Country</a>.  <br /></td></tr>
 <tr class="separator:ab3d7e3baad77bca1854262e65ae1eb67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a322dd44a9991d099df590e5691c493e5" id="r_a322dd44a9991d099df590e5691c493e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a322dd44a9991d099df590e5691c493e5">pushback</a> (<a class="el" href="struct_city.html">City</a> *city)</td></tr>
 <tr class="memdesc:a322dd44a9991d099df590e5691c493e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a city to the vector of cities who makeup the country.  <br /></td></tr>
@@ -139,10 +144,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>resolveCards</b> ()</
 <tr class="memitem:a6a1ee4db727200c3c7c299634a5557a6" id="r_a6a1ee4db727200c3c7c299634a5557a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a1ee4db727200c3c7c299634a5557a6">resolveDiplomacy</a> ()</td></tr>
 <tr class="memdesc:a6a1ee4db727200c3c7c299634a5557a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the influence level and the effects after cards have been resolved.  <br /></td></tr>
 <tr class="separator:a6a1ee4db727200c3c7c299634a5557a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4958d531f4eb78fcc3ce6525760e01ae" id="r_a4958d531f4eb78fcc3ce6525760e01ae"><td class="memItemLeft" align="right" valign="top"><a id="a4958d531f4eb78fcc3ce6525760e01ae" name="a4958d531f4eb78fcc3ce6525760e01ae"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setCities</b> ()</td></tr>
-<tr class="memdesc:a4958d531f4eb78fcc3ce6525760e01ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Go through all cities in the country and update them to the new influencer. <br /></td></tr>
-<tr class="separator:a4958d531f4eb78fcc3ce6525760e01ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06da7b5f8ed206c44900fa367683d020" id="r_a06da7b5f8ed206c44900fa367683d020"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06da7b5f8ed206c44900fa367683d020">setTest</a> (const CityType &amp;ruler, const int &amp;level)</td></tr>
+<tr class="memdesc:a06da7b5f8ed206c44900fa367683d020"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the ruler of a country and the influnce level (only used for testing)  <br /></td></tr>
+<tr class="separator:a06da7b5f8ed206c44900fa367683d020"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af86e64cecec9c266dbf284329ab072f3" id="r_af86e64cecec9c266dbf284329ab072f3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af86e64cecec9c266dbf284329ab072f3">getName</a> () const</td></tr>
 <tr class="memdesc:af86e64cecec9c266dbf284329ab072f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the country.  <br /></td></tr>
 <tr class="separator:af86e64cecec9c266dbf284329ab072f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -155,24 +159,26 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a4b51ef0ea54d74f9debaf596e4276f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e8b2744b5fe3662cc4b34d74ae6e105" id="r_a8e8b2744b5fe3662cc4b34d74ae6e105"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_city.html">City</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e8b2744b5fe3662cc4b34d74ae6e105">capital</a> = nullptr</td></tr>
 <tr class="separator:a8e8b2744b5fe3662cc4b34d74ae6e105"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acee45b9a81b107276eb4c6f2bd162d34" id="r_acee45b9a81b107276eb4c6f2bd162d34"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="struct_city.html">City</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acee45b9a81b107276eb4c6f2bd162d34">cities</a></td></tr>
+<tr class="separator:acee45b9a81b107276eb4c6f2bd162d34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b0a2f93ff8dcf094286822060a2e7c1" id="r_a3b0a2f93ff8dcf094286822060a2e7c1"><td class="memItemLeft" align="right" valign="top">CityType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b0a2f93ff8dcf094286822060a2e7c1">allegiance</a> =NEUTRAL</td></tr>
 <tr class="separator:a3b0a2f93ff8dcf094286822060a2e7c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43888bdcc402526f590dc8671a761fa8" id="r_a43888bdcc402526f590dc8671a761fa8"><td class="memItemLeft" align="right" valign="top">InfluenceType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43888bdcc402526f590dc8671a761fa8">influence_level</a> =UNALIGNED</td></tr>
 <tr class="separator:a43888bdcc402526f590dc8671a761fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb271b84b56d95af5ccbf344eb41775b" id="r_aeb271b84b56d95af5ccbf344eb41775b"><td class="memItemLeft" align="right" valign="top">CityType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb271b84b56d95af5ccbf344eb41775b">invader</a></td></tr>
+<tr class="separator:aeb271b84b56d95af5ccbf344eb41775b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa070dfaf3f72b20659f4ce6d9a70d636" id="r_aa070dfaf3f72b20659f4ce6d9a70d636"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa070dfaf3f72b20659f4ce6d9a70d636">armed_minor</a> = false</td></tr>
+<tr class="separator:aa070dfaf3f72b20659f4ce6d9a70d636"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2a4867b4fe307847ecac957016c92ec" id="r_ac2a4867b4fe307847ecac957016c92ec"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2a4867b4fe307847ecac957016c92ec">influence</a> =0</td></tr>
 <tr class="separator:ac2a4867b4fe307847ecac957016c92ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad66f5ded040e3002ff9de573c714cbdf" id="r_ad66f5ded040e3002ff9de573c714cbdf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad66f5ded040e3002ff9de573c714cbdf">added_influence</a> =0</td></tr>
 <tr class="separator:ad66f5ded040e3002ff9de573c714cbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa070dfaf3f72b20659f4ce6d9a70d636" id="r_aa070dfaf3f72b20659f4ce6d9a70d636"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa070dfaf3f72b20659f4ce6d9a70d636">armed_minor</a> = false</td></tr>
-<tr class="separator:aa070dfaf3f72b20659f4ce6d9a70d636"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb271b84b56d95af5ccbf344eb41775b" id="r_aeb271b84b56d95af5ccbf344eb41775b"><td class="memItemLeft" align="right" valign="top">CityType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb271b84b56d95af5ccbf344eb41775b">invader</a></td></tr>
-<tr class="separator:aeb271b84b56d95af5ccbf344eb41775b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03b399412a79a9bcfddd634c4061dc65" id="r_a03b399412a79a9bcfddd634c4061dc65"><td class="memItemLeft" align="right" valign="top">CityType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03b399412a79a9bcfddd634c4061dc65">top_card</a> =NEUTRAL</td></tr>
 <tr class="separator:a03b399412a79a9bcfddd634c4061dc65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acee45b9a81b107276eb4c6f2bd162d34" id="r_acee45b9a81b107276eb4c6f2bd162d34"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="struct_city.html">City</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acee45b9a81b107276eb4c6f2bd162d34">cities</a></td></tr>
-<tr class="separator:acee45b9a81b107276eb4c6f2bd162d34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Countries represent a collection of cities that have their own influence, capital cities, and if voilated as a neutral will become armed. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab3d7e3baad77bca1854262e65ae1eb67" name="ab3d7e3baad77bca1854262e65ae1eb67"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab3d7e3baad77bca1854262e65ae1eb67">&#9670;&#160;</a></span>Country()</h2>
 
@@ -225,7 +231,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Construct a new <a class="el" href="struct_country.html">Country</a>. </p>
+<p>Construct a new <a class="el" href="struct_country.html" title="Countries represent a collection of cities that have their own influence, capital cities,...">Country</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>Name of the country </td></tr>
@@ -274,23 +280,30 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="struct_country_aa61eebb964ee31d3356fe4b8e4b80f24_icgraph.png" border="0" usemap="#astruct_country_aa61eebb964ee31d3356fe4b8e4b80f24_icgraph" alt=""/></div>
 <map name="astruct_country_aa61eebb964ee31d3356fe4b8e4b80f24_icgraph" id="astruct_country_aa61eebb964ee31d3356fe4b8e4b80f24_icgraph">
-<area shape="rect" title="Resolve the effects of a power playing a card on the country." alt="" coords="1374,31,1498,56"/>
-<area shape="rect" href="class_runner.html#a5ade0e06379cf267f9a0abf65c5ccb82" title="Handler for the player playing an action card to add influence to a country on an action card (assumi..." alt="" coords="1171,31,1326,56"/>
-<area shape="poly" title=" " alt="" coords="1358,46,1326,46,1326,41,1358,41"/>
-<area shape="rect" href="class_runner.html#a9c76c59c5bedfea1d6c182f426b7167e" title="Handler for playing card during the Government phase." alt="" coords="943,31,1123,56"/>
-<area shape="poly" title=" " alt="" coords="1156,46,1124,46,1124,41,1156,41"/>
-<area shape="rect" href="class_runner.html#a8935f71c3eca6bab9a22d138bba92d0b" title="Handler for inputs that rely on buttons being held for a set time." alt="" coords="714,31,895,56"/>
-<area shape="poly" title=" " alt="" coords="927,46,896,46,896,41,927,41"/>
-<area shape="rect" href="class_runner.html#a0d55a7821772b8c96d7186250aba9160" title="Main handler for all possible user input." alt="" coords="499,31,666,56"/>
-<area shape="poly" title=" " alt="" coords="698,46,666,46,666,41,698,41"/>
-<area shape="rect" href="class_runner.html#a024ca94b6ff3d8213d236d87c0c6abb5" title="New Year phase where players play action cards to add influence and play investment cards,..." alt="" coords="312,5,451,31"/>
-<area shape="poly" title=" " alt="" coords="484,34,451,30,452,24,484,28"/>
-<area shape="rect" href="class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="New Year phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="316,55,447,80"/>
-<area shape="poly" title=" " alt="" coords="484,58,448,62,448,57,484,53"/>
-<area shape="rect" href="class_runner.html#a4f34c8edcfdc20e2227eb35465f619f2" title="The first phase of the game loop where vicotry is checked, cards reshuffled, peace chits are distribu..." alt="" coords="143,5,264,31"/>
-<area shape="poly" title=" " alt="" coords="296,21,264,21,264,16,296,16"/>
-<area shape="rect" href="class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,5,95,31"/>
-<area shape="poly" title=" " alt="" coords="127,21,95,21,95,16,127,16"/>
+<area shape="rect" title="Resolve the effects of a power playing a card on the country." alt="" coords="1433,56,1557,82"/>
+<area shape="rect" href="class_runner.html#a5ade0e06379cf267f9a0abf65c5ccb82" title="Handler for the player playing an action card to add influence to a country on an action card (assumi..." alt="" coords="1230,56,1385,82"/>
+<area shape="poly" title=" " alt="" coords="1417,72,1385,72,1385,66,1417,66"/>
+<area shape="rect" href="class_runner.html#a9c76c59c5bedfea1d6c182f426b7167e" title="Handler for playing card during the Government phase." alt="" coords="1002,56,1182,82"/>
+<area shape="poly" title=" " alt="" coords="1215,72,1183,72,1183,66,1215,66"/>
+<area shape="rect" href="class_runner.html#a7d2e10b47d84d533e897460933d4ecae" title="Handler for all actions that occur during the Government Phase with the A&#45;Button." alt="" coords="774,49,954,89"/>
+<area shape="poly" title=" " alt="" coords="987,72,954,72,954,66,987,66"/>
+<area shape="rect" href="class_runner.html#a4acb0f36907d88cdf8dc60905d9262c8" title="Handler for inputs that rely on buttons being held for a set time." alt="" coords="544,56,726,82"/>
+<area shape="poly" title=" " alt="" coords="758,72,726,72,726,66,758,66"/>
+<area shape="rect" href="class_runner.html#ae39b0bf39d8bfcb9549b9140f7b6beb6" title="Handler for when at the title screen and user input is limited." alt="" coords="332,19,495,44"/>
+<area shape="poly" title=" " alt="" coords="539,55,493,48,494,42,540,50"/>
+<area shape="rect" href="class_runner.html#aa657e90f46ab42e4f3a79b371cf4db0d" title="Main handler for all possible user input." alt="" coords="330,80,496,106"/>
+<area shape="poly" title=" " alt="" coords="529,83,497,86,496,81,528,78"/>
+<area shape="rect" href="class_runner.html#a7e0d381c389b5efed301fa00a9ab7b90" title="The runner and handler for the title screen." alt="" coords="155,5,270,31"/>
+<area shape="poly" title=" " alt="" coords="316,28,270,25,270,19,316,22"/>
+<area shape="rect" href="class_runner.html#a024ca94b6ff3d8213d236d87c0c6abb5" title="Phase where players play action cards to add influence and play investment cards, goes in turn order ..." alt="" coords="143,55,282,80"/>
+<area shape="poly" title=" " alt="" coords="314,83,282,79,283,74,315,78"/>
+<area shape="rect" href="class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="Phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="147,104,278,130"/>
+<area shape="poly" title=" " alt="" coords="315,107,279,112,278,106,314,102"/>
+<area shape="rect" href="class_runner.html#a30ca7e5e57561f398bd28810ccb01863" title="Spring season of war where players will commence the war. Action cards with spring will have priority..." alt="" coords="159,153,266,179"/>
+<area shape="poly" title=" " alt="" coords="364,114,283,145,253,155,251,150,281,140,362,109"/>
+<area shape="rect" href="class_runner.html#a5fc406cae4aee55ee32026295464b0e1" title="The main runner of the game loop." alt="" coords="5,104,95,130"/>
+<area shape="poly" title=" " alt="" coords="154,88,96,106,94,101,152,83"/>
+<area shape="poly" title=" " alt="" coords="152,151,94,133,96,128,154,146"/>
 </map>
 </div>
 
@@ -326,15 +339,16 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="struct_country_af86e64cecec9c266dbf284329ab072f3_icgraph.png" border="0" usemap="#astruct_country_af86e64cecec9c266dbf284329ab072f3_icgraph" alt=""/></div>
 <map name="astruct_country_af86e64cecec9c266dbf284329ab072f3_icgraph" id="astruct_country_af86e64cecec9c266dbf284329ab072f3_icgraph">
-<area shape="rect" title="Get the name of the country." alt="" coords="515,31,644,56"/>
-<area shape="rect" href="class_map.html#ad58956e94b551b4c07297995d88951d7" title="Adds a country pointer to the map." alt="" coords="346,31,467,56"/>
-<area shape="poly" title=" " alt="" coords="500,46,467,46,467,41,500,41"/>
-<area shape="rect" href="class_runner.html#aefd29fbf6627aaf0c89c46b2fe55ea22" title="Creates the game map including nations and cities and connections." alt="" coords="185,31,298,56"/>
-<area shape="poly" title=" " alt="" coords="331,46,299,46,299,41,331,41"/>
-<area shape="rect" href="class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="14,5,128,31"/>
-<area shape="poly" title=" " alt="" coords="169,35,128,29,128,24,170,30"/>
-<area shape="rect" href="class_runner.html#a1a3632ffdf69bc9a94506d47ec401d2f" title="Dev tool to Set the resource x and y coords for each city that has a resource." alt="" coords="5,55,137,80"/>
-<area shape="poly" title=" " alt="" coords="169,56,138,61,137,56,169,51"/>
+<area shape="rect" title="Get the name of the country." alt="" coords="677,5,805,31"/>
+<area shape="rect" href="class_map.html#ad58956e94b551b4c07297995d88951d7" title="Adds a country pointer to the map." alt="" coords="507,5,629,31"/>
+<area shape="poly" title=" " alt="" coords="661,21,629,21,629,16,661,16"/>
+<area shape="rect" href="class_runner.html#aefd29fbf6627aaf0c89c46b2fe55ea22" title="Creates the game map including nations and cities and connections." alt="" coords="346,5,459,31"/>
+<area shape="poly" title=" " alt="" coords="492,21,460,21,460,16,492,16"/>
+<area shape="rect" href="class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="5,5,119,31"/>
+<area shape="poly" title=" " alt="" coords="330,21,119,21,119,16,330,16"/>
+<area shape="rect" href="class_runner.html#a1a3632ffdf69bc9a94506d47ec401d2f" title="Dev tool to Set the resource x and y coords for each city that has a resource." alt="" coords="167,31,298,56"/>
+<area shape="poly" title=" " alt="" coords="331,32,299,36,298,31,330,26"/>
+<area shape="poly" title=" " alt="" coords="151,34,119,29,120,24,151,29"/>
 </map>
 </div>
 
@@ -376,13 +390,14 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="struct_country_a322dd44a9991d099df590e5691c493e5_icgraph.png" border="0" usemap="#astruct_country_a322dd44a9991d099df590e5691c493e5_icgraph" alt=""/></div>
 <map name="astruct_country_a322dd44a9991d099df590e5691c493e5_icgraph" id="astruct_country_a322dd44a9991d099df590e5691c493e5_icgraph">
-<area shape="rect" title="Add a city to the vector of cities who makeup the country." alt="" coords="346,31,477,56"/>
-<area shape="rect" href="class_runner.html#aefd29fbf6627aaf0c89c46b2fe55ea22" title="Creates the game map including nations and cities and connections." alt="" coords="185,31,298,56"/>
-<area shape="poly" title=" " alt="" coords="330,46,299,46,299,41,330,41"/>
-<area shape="rect" href="class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="14,5,128,31"/>
-<area shape="poly" title=" " alt="" coords="169,35,128,29,128,24,170,30"/>
-<area shape="rect" href="class_runner.html#a1a3632ffdf69bc9a94506d47ec401d2f" title="Dev tool to Set the resource x and y coords for each city that has a resource." alt="" coords="5,55,137,80"/>
-<area shape="poly" title=" " alt="" coords="169,56,138,61,137,56,169,51"/>
+<area shape="rect" title="Add a city to the vector of cities who makeup the country." alt="" coords="507,5,639,31"/>
+<area shape="rect" href="class_runner.html#aefd29fbf6627aaf0c89c46b2fe55ea22" title="Creates the game map including nations and cities and connections." alt="" coords="346,5,459,31"/>
+<area shape="poly" title=" " alt="" coords="492,21,460,21,460,16,492,16"/>
+<area shape="rect" href="class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="5,5,119,31"/>
+<area shape="poly" title=" " alt="" coords="330,21,119,21,119,16,330,16"/>
+<area shape="rect" href="class_runner.html#a1a3632ffdf69bc9a94506d47ec401d2f" title="Dev tool to Set the resource x and y coords for each city that has a resource." alt="" coords="167,31,298,56"/>
+<area shape="poly" title=" " alt="" coords="331,32,299,36,298,31,330,26"/>
+<area shape="poly" title=" " alt="" coords="151,34,119,29,120,24,151,29"/>
 </map>
 </div>
 
@@ -418,9 +433,68 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="struct_country_a6a1ee4db727200c3c7c299634a5557a6_icgraph.png" border="0" usemap="#astruct_country_a6a1ee4db727200c3c7c299634a5557a6_icgraph" alt=""/></div>
 <map name="astruct_country_a6a1ee4db727200c3c7c299634a5557a6_icgraph" id="astruct_country_a6a1ee4db727200c3c7c299634a5557a6_icgraph">
-<area shape="rect" title="Change the influence level and the effects after cards have been resolved." alt="" coords="206,5,385,31"/>
-<area shape="rect" href="struct_country.html#a48278a0a376bd25cb55d969e1a358692" title="At the end of the government phase resolve the cards added and change the number of influence and who..." alt="" coords="5,5,158,31"/>
-<area shape="poly" title=" " alt="" coords="190,21,158,21,158,16,190,16"/>
+<area shape="rect" title="Change the influence level and the effects after cards have been resolved." alt="" coords="206,55,385,80"/>
+<area shape="rect" href="class_runner.html#ac2e34d1730c2da5ba7b12aa629ed2a2b" title="Handler for all actions which have the Y Button (only) held." alt="" coords="9,5,154,31"/>
+<area shape="poly" title=" " alt="" coords="221,53,140,34,141,29,222,48"/>
+<area shape="rect" href="struct_country.html#a48278a0a376bd25cb55d969e1a358692" title="At the end of the government phase resolve the cards added and change the number of influence and who..." alt="" coords="5,55,158,80"/>
+<area shape="poly" title=" " alt="" coords="190,70,158,70,158,65,190,65"/>
+<area shape="rect" href="struct_country.html#a06da7b5f8ed206c44900fa367683d020" title="Set the ruler of a country and the influnce level (only used for testing)" alt="" coords="22,104,141,130"/>
+<area shape="poly" title=" " alt="" coords="222,87,141,106,140,101,221,82"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a06da7b5f8ed206c44900fa367683d020" name="a06da7b5f8ed206c44900fa367683d020"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06da7b5f8ed206c44900fa367683d020">&#9670;&#160;</a></span>setTest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Country::setTest </td>
+          <td>(</td>
+          <td class="paramtype">const CityType &amp;&#160;</td>
+          <td class="paramname"><em>ruler</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramname"><em>level</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the ruler of a country and the influnce level (only used for testing) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ruler</td><td>The allegiance of the new owner of the country </td></tr>
+    <tr><td class="paramname">level</td><td>The level of influence the new ruler has </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="struct_country_a06da7b5f8ed206c44900fa367683d020_cgraph.png" border="0" usemap="#astruct_country_a06da7b5f8ed206c44900fa367683d020_cgraph" alt=""/></div>
+<map name="astruct_country_a06da7b5f8ed206c44900fa367683d020_cgraph" id="astruct_country_a06da7b5f8ed206c44900fa367683d020_cgraph">
+<area shape="rect" title="Set the ruler of a country and the influnce level (only used for testing)" alt="" coords="5,5,124,31"/>
+<area shape="rect" href="struct_country.html#a6a1ee4db727200c3c7c299634a5557a6" title="Change the influence level and the effects after cards have been resolved." alt="" coords="172,5,351,31"/>
+<area shape="poly" title=" " alt="" coords="124,16,156,16,156,21,124,21"/>
 </map>
 </div>
 
@@ -468,7 +542,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>If the country is an armed minor and in battle </p>
+<p>If the country has had neutrality violated and is now an armed minor </p>
 
 </div>
 </div>
@@ -483,7 +557,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The capital city of the country wher influenced is placed </p>
+<p>The capital city of the country where influenced is placed and if captured will gain ownership of whole country </p>
 
 </div>
 </div>
@@ -528,7 +602,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The current number of influence the country has (0,1,2,3+) </p>
+<p>The current number of influence 'tokens' the country has (0,1,2,3+) </p>
 
 </div>
 </div>
@@ -543,7 +617,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The current influence level of the country that decides what benefits the influencer gets and any changes in invatsion from rivals </p>
+<p>The current influence level of the country that decides what benefits the influencer gets and any changes in invasion from rivals </p>
 
 </div>
 </div>

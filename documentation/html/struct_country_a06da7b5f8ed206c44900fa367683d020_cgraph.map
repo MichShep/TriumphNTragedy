@@ -1,0 +1,5 @@
+<map id="Country::setTest" name="Country::setTest">
+<area shape="rect" id="Node000001" title="Set the ruler of a country and the influnce level (only used for testing)" alt="" coords="5,5,124,31"/>
+<area shape="rect" id="Node000002" href="$struct_country.html#a6a1ee4db727200c3c7c299634a5557a6" title="Change the influence level and the effects after cards have been resolved." alt="" coords="172,5,351,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,16,156,16,156,21,124,21"/>
+</map>

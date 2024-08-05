@@ -1,0 +1,16 @@
+<map id="Map::findCity" name="Map::findCity">
+<area shape="rect" id="Node000001" title="Works as the [] overload for out of scope but gives the ID of the found city." alt="" coords="575,55,675,80"/>
+<area shape="rect" id="Node000002" href="$class_map.html#a209143c4d79f8ffc5dd5938e2493fe64" title="Checks to see if there is a connection between the two named cities." alt="" coords="359,5,514,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="560,53,488,34,489,29,561,48"/>
+<area shape="rect" id="Node000003" href="$class_runner.html#a9ed144ab26455935edae9ead1c77cc3c" title="During the production phase it needs to verify all cities controlled by the player that are blockaded..." alt="" coords="346,55,527,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="560,70,528,70,528,65,560,65"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#aefd29fbf6627aaf0c89c46b2fe55ea22" title="Creates the game map including nations and cities and connections." alt="" coords="380,104,493,130"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="561,87,489,106,488,101,560,82"/>
+<area shape="rect" id="Node000004" href="$class_runner.html#a1d0e5459a22a49dbf34b0d75f6383676" title="Phase where players can spend there production (lowest of pop/res/ind) on buying cards,..." alt="" coords="167,53,298,79"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="331,69,298,69,298,64,331,64"/>
+<area shape="rect" id="Node000006" href="$class_runner.html#ac5262ea57fd50233c6b5b6fe2cc45ce4" title="Construct a new Runner object that intializes the map and players." alt="" coords="5,129,119,155"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="365,124,119,141,119,136,364,119"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a1a3632ffdf69bc9a94506d47ec401d2f" title="Dev tool to Set the resource x and y coords for each city that has a resource." alt="" coords="167,155,298,180"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="368,137,288,157,286,151,367,131"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="151,158,119,153,120,148,151,153"/>
+</map>

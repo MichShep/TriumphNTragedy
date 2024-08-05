@@ -1,0 +1,58 @@
+<map id="Runner::handleGovernmentSeason" name="Runner::handleGovernmentSeason">
+<area shape="rect" id="Node000001" title="Handler for all actions that occur during the Government Phase with the A&#45;Button." alt="" coords="5,321,186,361"/>
+<area shape="rect" id="Node000002" href="$class_runner.html#a70a25e54309c97e88ed0a99581b8788b" title="Decider for if the player is able to coup on the current country selected." alt="" coords="492,203,615,228"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,318,165,275,198,254,233,237,295,220,359,210,421,206,476,207,476,212,421,212,360,215,296,225,235,242,200,258,169,279,119,322"/>
+<area shape="rect" id="Node000005" href="$class_runner.html#a3d484abb50fac12dd9e57b91eeb68db1" title="Decider for if the play can sabotage (lower a rival&#39;s IND) the current selected rival." alt="" coords="250,77,398,103"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="104,319,152,233,189,183,232,136,274,108,277,112,235,140,193,186,157,236,109,321"/>
+<area shape="rect" id="Node000007" href="$class_runner.html#a7985c35c232fd2e9d28ca2aa8280d019" title="Decider for if the player can use a Spy Ring (take a random card from a Rival)" alt="" coords="253,151,395,176"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="109,318,159,257,194,223,232,193,258,180,260,185,235,198,197,227,163,261,113,322"/>
+<area shape="rect" id="Node000010" href="$class_runner.html#ad71e40c7d46238b9c96f82e31932ec9b" title="Handler for Player couping against a rival." alt="" coords="259,5,389,31"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="100,319,116,269,142,202,181,129,205,94,232,63,250,48,270,36,273,40,253,52,236,67,209,98,185,132,147,204,121,271,105,321"/>
+<area shape="rect" id="Node000012" href="$class_runner.html#a9c76c59c5bedfea1d6c182f426b7167e" title="Handler for playing card during the Government phase." alt="" coords="234,252,414,278"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="158,317,267,281,269,286,160,322"/>
+<area shape="rect" id="Node000017" href="$class_runner.html#a7a510675decaddd7c617720fb82d896d" title="Handler for when player&#39;s act during the government phase and to loop to the next non&#45;passed player u..." alt="" coords="483,351,623,376"/>
+<area shape="poly" id="edge25_Node000001_Node000017" title=" " alt="" coords="186,334,295,333,414,338,469,345,469,350,414,343,295,339,186,340"/>
+<area shape="rect" id="Node000018" href="$class_runner.html#a16f31af1966942712c31baa4bf3f9dee" title="Handler for increasing the player&#39;s industry and removing the cards used for doing so." alt="" coords="240,353,408,379"/>
+<area shape="poly" id="edge20_Node000001_Node000018" title=" " alt="" coords="186,348,225,353,225,358,186,353"/>
+<area shape="rect" id="Node000019" href="$class_runner.html#a9ea38406e08a7906ad04cfddf6e54710" title="Handler for Player peaking a rival&#39;s hand." alt="" coords="241,403,407,428"/>
+<area shape="poly" id="edge21_Node000001_Node000019" title=" " alt="" coords="151,359,234,389,256,395,254,400,233,394,149,364"/>
+<area shape="rect" id="Node000020" href="$class_runner.html#aa62e0f28e0ca99a7fd46350f2c00c287" title="Handler for Player peaking a rival&#39;s unit." alt="" coords="247,452,401,478"/>
+<area shape="poly" id="edge22_Node000001_Node000020" title=" " alt="" coords="121,360,172,400,235,438,248,444,246,449,232,443,169,404,118,364"/>
+<area shape="rect" id="Node000021" href="$class_runner.html#af77ea50b18f96cce071af1865c410cd3" title="Handler for preforming Intel related actions." alt="" coords="254,501,394,527"/>
+<area shape="poly" id="edge23_Node000001_Node000021" title=" " alt="" coords="112,360,161,424,196,458,235,488,243,492,241,497,232,492,192,462,157,427,108,363"/>
+<area shape="rect" id="Node000022" href="$class_runner.html#a76534965e431052c6729a262d11be2bd" title="Handler for Player sabotaging a rival." alt="" coords="247,551,401,576"/>
+<area shape="poly" id="edge26_Node000001_Node000022" title=" " alt="" coords="107,360,126,398,153,446,190,496,235,537,242,541,239,546,232,542,186,499,149,449,121,401,103,362"/>
+<area shape="rect" id="Node000025" href="$class_runner.html#a12bbbf591e72d3b3f868d6a50f3c87ac" title="Handler for Player using Spy Ring against a rival." alt="" coords="249,600,399,626"/>
+<area shape="poly" id="edge29_Node000001_Node000025" title=" " alt="" coords="105,361,120,408,146,469,184,533,208,562,235,587,240,590,237,594,232,591,204,565,180,536,142,472,115,410,100,363"/>
+<area shape="rect" id="Node000003" href="$class_map.html#ab5897443f49bbbc5d964b9e574af40d6" title="Returns a pointer to the City that acts as the capital for the given country." alt="" coords="698,203,811,228"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="615,213,682,213,682,218,615,218"/>
+<area shape="rect" id="Node000004" href="$class_map.html#a4c0150673e8ac5baeccee79716b01bc2" title="Returns a pointer to the Country with the given name." alt="" coords="695,80,814,106"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="614,201,643,189,692,154,730,116,734,119,696,158,646,194,616,206"/>
+<area shape="rect" id="Node000006" href="$class_player.html#af2d3f30e6f220071833dc808826a29c2" title="Get the current industry (ind) of the player." alt="" coords="488,55,619,80"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="398,80,472,73,472,78,398,86"/>
+<area shape="rect" id="Node000008" href="$class_player.html#ad21151ebd80ff1990e9d530f3188f505" title="Get the number of action cards the player has." alt="" coords="480,104,627,130"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="390,147,471,131,472,136,391,153"/>
+<area shape="rect" id="Node000009" href="$class_player.html#ab3c69056b6dae04e42ce9e1a70d76882" title="Get the number of invest cards the player has." alt="" coords="480,153,626,179"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="396,162,465,162,465,168,396,167"/>
+<area shape="rect" id="Node000011" href="$class_runner.html#af3bd881e72650819c3b44790a2864fd7" title="Handler for couping (removing a rival&#39;s influence)" alt="" coords="504,5,603,31"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="389,16,488,16,488,21,389,21"/>
+<area shape="poly" id="edge11_Node000011_Node000004" title=" " alt="" coords="604,27,645,40,716,70,713,75,643,45,603,32"/>
+<area shape="rect" id="Node000013" href="$class_runner.html#a2423566d7958b04cc279a35df3f98411" title="Handler for player achieving the selected tech and removing the cards used if able." alt="" coords="462,301,644,327"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="388,276,476,295,475,300,387,281"/>
+<area shape="rect" id="Node000015" href="$class_runner.html#a5ade0e06379cf267f9a0abf65c5ccb82" title="Handler for the player playing an action card to add influence to a country on an action card (assumi..." alt="" coords="476,252,630,278"/>
+<area shape="poly" id="edge16_Node000012_Node000015" title=" " alt="" coords="414,262,461,262,461,268,414,268"/>
+<area shape="poly" id="edge19_Node000012_Node000017" title=" " alt="" coords="374,276,415,295,430,306,440,317,449,327,463,337,474,342,472,347,461,342,446,331,436,320,426,310,413,299,372,281"/>
+<area shape="rect" id="Node000014" href="$class_runner.html#aca787c9bab549635b622e4b5c4c03cb0" title="Decider for if the player can combine the two selected techs to achieve a new technology (also handle..." alt="" coords="697,325,812,351"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="645,322,682,327,681,332,644,328"/>
+<area shape="poly" id="edge15_Node000014_Node000014" title=" " alt="" coords="721,327,714,317,718,307,732,301,755,299,779,301,792,308,789,313,778,306,754,304,733,306,722,311,720,316,725,323"/>
+<area shape="poly" id="edge18_Node000015_Node000003" title=" " alt="" coords="608,249,684,230,685,235,609,254"/>
+<area shape="rect" id="Node000016" href="$struct_country.html#aa61eebb964ee31d3356fe4b8e4b80f24" title="Resolve the effects of a power playing a card on the country." alt="" coords="692,252,817,278"/>
+<area shape="poly" id="edge17_Node000015_Node000016" title=" " alt="" coords="631,262,677,262,677,268,631,268"/>
+<area shape="poly" id="edge24_Node000021_Node000017" title=" " alt="" coords="389,498,413,488,448,465,480,438,530,386,533,390,483,442,451,469,415,493,391,503"/>
+<area shape="rect" id="Node000023" href="$class_runner.html#a71f9b3541bfc999c5c4e1c0717fa67c0" title="Handler for sabotaging (lower a rival&#39;s IND) a rival and removing the card responsible." alt="" coords="491,551,615,576"/>
+<area shape="poly" id="edge27_Node000022_Node000023" title=" " alt="" coords="401,561,475,561,475,566,401,566"/>
+<area shape="rect" id="Node000024" href="$class_player.html#a92fa38cfe2b9cb7566629da720db9041" title="Lower the industry of the player by one." alt="" coords="694,551,815,576"/>
+<area shape="poly" id="edge28_Node000023_Node000024" title=" " alt="" coords="616,561,679,561,679,566,616,566"/>
+<area shape="rect" id="Node000026" href="$class_runner.html#a1d89b2c81f51b01068eacfd0e1d45136" title="Handler for using Spy Ring (take a random card from a rival)and removing the card responsible." alt="" coords="494,600,613,626"/>
+<area shape="poly" id="edge30_Node000025_Node000026" title=" " alt="" coords="399,610,478,610,478,616,399,616"/>
+</map>

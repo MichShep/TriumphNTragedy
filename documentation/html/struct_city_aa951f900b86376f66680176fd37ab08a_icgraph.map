@@ -1,0 +1,5 @@
+<map id="City::isConflict" name="City::isConflict">
+<area shape="rect" id="Node000001" title="If there currently a battle going on (more than one allegiance of troops)" alt="" coords="163,5,271,31"/>
+<area shape="rect" id="Node000002" href="$struct_city.html#a6691bf01a356f0fcb50993bd62c78c78" title="Returns a bool to show if the allegiance provided is fighting another allegiance within the city." alt="" coords="5,5,115,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,21,115,21,115,16,147,16"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="Runner::drawAchievedTech" name="Runner::drawAchievedTech">
+<area shape="rect" id="Node000001" title="Draws the tech of the current viewed allegiance onto the players screen starting at the given x and y..." alt="" coords="5,55,187,80"/>
+<area shape="rect" id="Node000002" href="$class_player.html#a66b80d482e8840fc09c74e373c11f579" title="Get the number of technologies the player has achieved but kept secret since it contributes to the ha..." alt="" coords="235,5,392,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,51,238,32,239,38,157,57"/>
+<area shape="rect" id="Node000003" href="$class_player.html#aef2ea82ecb9107ec3c9ab7f92de9299e" title="Get the acheived tech at the specific index." alt="" coords="257,55,370,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="187,65,242,65,242,70,187,70"/>
+<area shape="rect" id="Node000004" href="$class_player.html#a0dc151820b5f19e55e95b3e29b02e4f4" title="Get the number of achieved tech the player has." alt="" coords="244,104,383,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="157,78,239,97,238,103,155,84"/>
+</map>
