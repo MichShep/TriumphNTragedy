@@ -2,9 +2,8 @@
 
 //& User Input
 
-void Runner::handleUserInput(bool& running, const tick_t& delta){
+void Runner::handleUserInput(bool& running){
     SDL_Event event;
-    const tick_t ticks = SDL_GetTicks();
 
     if (SDL_PollEvent(&event)){
         switch (event.type){
@@ -15,18 +14,18 @@ void Runner::handleUserInput(bool& running, const tick_t& delta){
                     exit(0);
                 }
                 //TODO delete keys for full release
-                else if (event.key.keysym.scancode == SDL_SCANCODE_S){
+                else if (event.key.keysym.scancode == SDL_SCANCODE_R){
                     players[0].passed = true;
                     players[1].passed = true;
                     players[2].passed = true;
                 }
                 else if (event.key.keysym.scancode == SDL_SCANCODE_1){
                     applyProduction(*current_player);
-                    public_messages.push_back(PublicMessage((Message)current_player->getAllegiance(), ticks, 250, 100, 32, 10));
+                    public_messages.push_back(PublicMessage((Message)current_player->getAllegiance(), clock, 250, 100, 32, 10));
                 }
                 else if (event.key.keysym.scancode == SDL_SCANCODE_2){
                     current_player->passed = true;
-                    public_messages.push_back(PublicMessage((Message)current_player->getAllegiance(), ticks, 250, 100, 32, 10));
+                    public_messages.push_back(PublicMessage((Message)current_player->getAllegiance(), clock, 250, 100, 32, 10));
                     playerActed();
                 }
                 else if (event.key.keysym.scancode == SDL_SCANCODE_C){
@@ -55,14 +54,67 @@ void Runner::handleUserInput(bool& running, const tick_t& delta){
                 else if (event.key.keysym.scancode == SDL_SCANCODE_X){
                     passedCommand(true);
                 }
+                else if (event.key.keysym.scancode == SDL_SCANCODE_EQUALS){
+                    west_player->cursor_speed++;
+                }
+                else if (event.key.keysym.scancode == SDL_SCANCODE_MINUS){
+                    west_player->cursor_speed--;
+                }
+                else if (event.key.keysym.scancode == SDL_SCANCODE_F){
+                    west_player->app->updateScreen();
+                    axis_player->app->updateScreen();
+                    ussr_player->app->updateScreen();
+                }
+                else if (event.key.keysym.scancode == SDL_SCANCODE_S){
+                    west_player->resetUnits();
+                    current_battle = {map.getCity("Paris"), AXIS};
+                    current_player = west_player;
+                    west_player->combat_phase = COMBAT_ACTION_SELECT;
+                    axis_player->combat_phase = OBSERVING;
+                    sortFireOrder();
+                    current_battle.first->battling = true;
+                    watching_player = *axis_player;
+                    acting_player = *west_player;
+                    setFireable(*west_player, current_battle.first, AXIS);
+                    season = SPRING;
+                    west_player->widget = COMBAT_WIDGET;
+                    axis_player->widget = COMBAT_WIDGET;
+                }
+                else if (event.key.keysym.scancode == SDL_SCANCODE_9){
+                    buildUnit(*west_player, map.getCity("Paris"), INFANTRY, 2);
+                }
+                else if (event.key.keysym.scancode == SDL_SCANCODE_8){
+                    west_player->achieveTech(JETS);
+                    west_player->setTechPublic(JETS);
+                    west_player->achieveTech(NAVAL_RADAR);
+                     west_player->setTechPublic(NAVAL_RADAR);
+                    west_player->achieveTech(HEAVY_TANKS);
+                     west_player->setTechPublic(HEAVY_TANKS);
+
+                    ussr_player->achieveTech(ROCKET_ARTILLERY);
+                    ussr_player->setTechPublic(ROCKET_ARTILLERY);
+                    ussr_player->achieveTech(NAVAL_RADAR);
+                    ussr_player->setTechPublic(NAVAL_RADAR);
+                    ussr_player->achieveTech(HEAVY_TANKS);
+                    ussr_player->setTechPublic(HEAVY_TANKS);
+
+
+                    //west_player->achieveTech(ROCKET_ARTILLERY);
+                    sortFireOrder();
+                }
+                else if (event.key.keysym.scancode == SDL_SCANCODE_7){
+                    (*fire_order.begin())->acted = true;
+                    fire_order.erase(fire_order.begin());
+                }
+
                 break;
             }
             case SDL_CONTROLLERBUTTONDOWN:{
-                handleButtonDown(players[event.cbutton.which], event, ticks);
+                handleButtonDown(players[event.cbutton.which], event);
                 break;
             }
             case SDL_CONTROLLERBUTTONUP:{
-                handleButtonUp(players[event.cbutton.which], event, ticks);
+                handleButtonUp(players[event.cbutton.which], event);
                 break;
             }
             default:
@@ -74,17 +126,17 @@ void Runner::handleUserInput(bool& running, const tick_t& delta){
         //- Handle every frame actions
         handleCursorMovement(*player);
         handleTriggerMovement(*player);
-        handleWidgetMovement(*player, ticks);
+        handleWidgetMovement(*player);
         handleJoystickMovement(*player);
 
 
         //- Handle periodic actions
-        handleTimedJoystick(*player, ticks);
-        handleHeldButtons(*player, ticks);
+        handleTimedJoystick(*player);
+        handleHeldButtons(*player);
     }
 }
 
-void Runner::handleUserAnimationInput(bool& running, const tick_t& delta){
+void Runner::handleUserAnimationInput(bool& running){
     SDL_Event event;
     if (SDL_PollEvent(&event)){
         switch (event.type){
@@ -107,7 +159,7 @@ void Runner::handleUserAnimationInput(bool& running, const tick_t& delta){
     }
 }
 
-void Runner::handleTitleInput(bool& running, const tick_t& ticks){
+void Runner::handleTitleInput(bool& running){
     SDL_Event event;
     if (SDL_PollEvent(&event)){
         switch (event.type){
@@ -118,11 +170,11 @@ void Runner::handleTitleInput(bool& running, const tick_t& ticks){
                 break;
             }
             case SDL_CONTROLLERBUTTONUP:{
-                handleButtonUp(players[event.cbutton.which], event, ticks);
+                handleButtonUp(players[event.cbutton.which], event);
                 break;
             }
             case SDL_CONTROLLERBUTTONDOWN:{
-                handleButtonDown(players[event.cbutton.which], event, ticks);
+                handleButtonDown(players[event.cbutton.which], event);
                 break;
             }
             default:
@@ -134,13 +186,13 @@ void Runner::handleTitleInput(bool& running, const tick_t& ticks){
         //- Handle every frame actions
         if (!player.passed)
             handleCursorMovement(player);
-        handleHeldButtons(player, ticks);
+        handleHeldButtons(player);
     }
 }
 
 //&^ Buttons
 
-void Runner::handleHeldButtons(Player& player, const tick_t& ticks) {
+void Runner::handleHeldButtons(Player& player) {
     constexpr tick_t a_wait_time = 2000;
     constexpr tick_t dow_wait_time = 3500;
     constexpr tick_t x_wait_time = 3500;
@@ -150,12 +202,12 @@ void Runner::handleHeldButtons(Player& player, const tick_t& ticks) {
 
     // Pass button actions
     if (player.widget == TECH_HAND && player.tech_view == player.getAllegiance() &&
-        player.AHeld(ticks, a_wait_time) && player.setTechPublic(*player.popped_tech)) {
+        player.AHeld(clock, a_wait_time) && player.setTechPublic(*player.popped_tech)) {
         public_messages.push_back(PublicMessage((Message)(WEST_TECH_REVEALED + player.getAllegiance()), SDL_GetTicks(), 150, 197, 32, 14));
         player.a_held_tick = 0;
     }
 
-    if (player.multiHeld(true, true, false, false, ticks, dow_wait_time)) {
+    if (player.multiHeld(true, true, false, false, clock, dow_wait_time)) {
         if (player.widget == STAT_WIDGET) {
             declareDoW(player, players[player.stat_view]);
         }
@@ -163,8 +215,8 @@ void Runner::handleHeldButtons(Player& player, const tick_t& ticks) {
         player.y_held_tick = 0;
     }
 
-    if (player.XHeld(ticks, x_wait_time)) {
-        handleXHeld(player, ticks);
+    if (player.XHeld(clock, x_wait_time)) {
+        handleXHeld(player);
     }
 
     if (player.passed) {
@@ -173,23 +225,23 @@ void Runner::handleHeldButtons(Player& player, const tick_t& ticks) {
 
     switch (season) {
         case PRODUCTION: {
-            handleProductionSeason(player, ticks, y_wait_time_short);
+            handleProductionSeason(player, y_wait_time_short);
             break;
         }
         case GOVERNMENT: {
-            handleGovernmentSeason(player, ticks, y_wait_time_long, a_wait_time);
+            handleGovernmentSeason(player, y_wait_time_long, a_wait_time);
             break;
         }
         case FALL_COMMAND:
         case SUMMER_COMMAND:
         case SPRING_COMMAND: {
-            handleCommandSeason(player, ticks, y_wait_time_very_long);
+            handleCommandSeason(player, y_wait_time_very_long);
             break;
         }
         case FALL:
         case SUMMER:
         case SPRING: {
-            handleRegularSeason(player, ticks, a_wait_time, y_wait_time_long);
+            handleRegularSeason(player, a_wait_time, y_wait_time_long);
             break;
         }
         default:
@@ -197,7 +249,7 @@ void Runner::handleHeldButtons(Player& player, const tick_t& ticks) {
     }
 }
 
-void Runner::handleXHeld(Player& player, const tick_t& ticks) {
+void Runner::handleXHeld(Player& player) {
     //house_target = {width/2-206, height/2-72/2, 412,72}, // 90
     //start_target = {width/2-206, house_target.y-90, 412,72},
     //credits_target = {width/2-206, house_target.y+90, 412,72},
@@ -206,27 +258,27 @@ void Runner::handleXHeld(Player& player, const tick_t& ticks) {
     }
     else if (season == PRODUCTION && player.getCurrentProduction() >= 0 && current_player == &player){
         applyProduction(player);
-        public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
+        public_messages.push_back(PublicMessage((Message)player.getAllegiance(), clock, 250, 100, 32, 10));
     } 
     else if (season == GOVERNMENT && current_player == &player){
         player.passed = true;
-        public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
+        public_messages.push_back(PublicMessage((Message)player.getAllegiance(), clock, 250, 100, 32, 10));
         playerActed();
     } 
     else if (season >= SPRING_COMMAND && current_player == &player){
         player.passed = true;
-        public_messages.push_back(PublicMessage((Message)player.getAllegiance(), ticks, 250, 100, 32, 10));
+        public_messages.push_back(PublicMessage((Message)player.getAllegiance(), clock, 250, 100, 32, 10));
         passedCommand(true);
-    } 
+    }
     else if (season <= WINTER){
-        seasonActed();
+        seasonActed(*current_player);
     }
     
 
     player.x_held_tick = 0;
 }
 
-void Runner::handleYHeld(Player& player, const tick_t& ticks){
+void Runner::handleYHeld(Player& player){
     //happens any season
     if (player.selected_unit.second == nullptr && player.closest_map_city != nullptr && map.getCountry(player.closest_map_city->country)->allegiance == (int)player && map.getCountry(player.closest_map_city->country)->influence_level != SATELLITES){
         map.getCountry(player.closest_map_city->country)->influence--;
@@ -236,14 +288,14 @@ void Runner::handleYHeld(Player& player, const tick_t& ticks){
     }
 }
 
-void Runner::handleProductionSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time) {
+void Runner::handleProductionSeason(Player& player, const tick_t& y_wait_time) {
     auto processReturn = [&](const bool show_hand, const ProductionAction buy_action, int& num_bought) {
         if (num_bought > 0 && show_hand){
             player.spendProduction(buy_action, true);
             num_bought--;
             player.board_change = true;
             player.y_resolved = false;
-            player.y_held_tick = ticks;
+            player.y_held_tick = clock;
         } 
         else{
             player.y_held_tick = 0;
@@ -252,13 +304,13 @@ void Runner::handleProductionSeason(Player& player, const tick_t& ticks, const t
 
     switch (player.widget) {
         case ACTION_HAND:{
-            if (player.YHeld(ticks, y_wait_time)){
+            if (player.YHeld(clock, y_wait_time)){
                 processReturn(player.show_action, BUY_AC, action_bought);
             }
             break;
         }
         case INVEST_HAND:{
-            if (player.YHeld(ticks, y_wait_time)){
+            if (player.YHeld(clock, y_wait_time)){
                 processReturn(player.show_invest, BUY_IC, invest_bought);
             }
             break;
@@ -268,13 +320,13 @@ void Runner::handleProductionSeason(Player& player, const tick_t& ticks, const t
     }
 }
 
-void Runner::handleGovernmentSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time, const tick_t& a_wait_time) {
-    if (player.YHeld(ticks, y_wait_time)) {
+void Runner::handleGovernmentSeason(Player& player, const tick_t& y_wait_time, const tick_t& a_wait_time) {
+    if (player.YHeld(clock, y_wait_time)) {
         handleCardPlaying(player);
         player.y_held_tick = 0;
     }
 
-    if (player.AHeld(ticks, a_wait_time)) {
+    if (player.AHeld(clock, a_wait_time)) {
         if (current_player != &player){
             return;
         }
@@ -282,26 +334,26 @@ void Runner::handleGovernmentSeason(Player& player, const tick_t& ticks, const t
             playerActed();
         } 
         else if (player.show_action && player.canPeakAction()) {
-            performIntel(player, ticks, WEST_CARD_PEAKING, &Runner::peakRivalAction);
+            performIntel(player, WEST_CARD_PEAKING, &Runner::peakRivalAction);
         }
         else if (player.canPeakUnit()){
-            performIntel(player, ticks, WEST_UNIT_PEAKING, &Runner::peakRivalUnit);
+            performIntel(player, WEST_UNIT_PEAKING, &Runner::peakRivalUnit);
         } 
         else if (canCoup(player)){
-            performIntel(player, ticks, WEST_SABOTAGE, &Runner::coupRival);
+            performIntel(player, WEST_SABOTAGE, &Runner::coupRival);
         } 
         else if (canSabotage(player)){
-            performIntel(player, ticks, WEST_SABOTAGE, &Runner::sabotageRival);
+            performIntel(player, WEST_SABOTAGE, &Runner::sabotageRival);
         } 
         else if (canSpyRing(player)){
-            performIntel(player, ticks, WEST_SABOTAGE, &Runner::spyRingRival);
+            performIntel(player, WEST_SABOTAGE, &Runner::spyRingRival);
         }
         player.a_held_tick = 0;
     }
 }
 
-void Runner::handleCommandSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time) {
-    if (player.YHeld(ticks, y_wait_time) && current_player == &player) {
+void Runner::handleCommandSeason(Player& player, const tick_t& y_wait_time) {
+    if (player.YHeld(clock, y_wait_time) && current_player == &player) {
         if (player.widget == ACTION_HAND && player.popped_action_card != nullptr) {
             player.setCommand(player.popped_action_card, (Season)(season - SPRING_COMMAND));
             player.remove(player.popped_action_card);
@@ -318,19 +370,34 @@ void Runner::handleCommandSeason(Player& player, const tick_t& ticks, const tick
     }
 }
 
-void Runner::handleRegularSeason(Player& player, const tick_t& ticks, const tick_t& a_wait_time, const tick_t& y_wait_time) {
-    if (player.current_phase == MOVEMENT && player == current_player && player.AHeld(ticks, a_wait_time)) {
+void Runner::handleRegularSeason(Player& player, const tick_t& a_wait_time, const tick_t& y_wait_time) {
+    if (player.combat_phase == MOVEMENT && player == current_player && player.AHeld(clock, a_wait_time)) {
         moveUnit(player);
         player.a_held_tick = 0;
     }
 
-    if (player.YHeld(ticks, y_wait_time) && player.current_phase == MOVEMENT && player.selected_unit.second != nullptr){
+    else if (player.combat_phase == COMBAT_DEAL_HITS && player.AHeld(clock, a_wait_time)){
+        if (canHitUnit()){
+            hitUnit(current_battle.first, player.popped_hit_unit);
+
+            //reset player views
+            west_player->popped_unit_index = 0;
+            axis_player->popped_unit_index = 0;
+            ussr_player->popped_unit_index = 0;
+        }
+        else{
+            //todo error message
+        }
+        player.a_held_tick = 0;
+    }
+
+    else if (player.YHeld(clock, y_wait_time) && player.combat_phase == MOVEMENT && player.selected_unit.second != nullptr){
         flipConvoy(player, player.selected_unit.first, player.selected_unit.second);
 
         player.y_held_tick = 0;
     }
 
-    if (player.multiHeld(false, true, true, false, ticks, y_wait_time)) {
+    else if (player.multiHeld(false, true, true, false, clock, y_wait_time)) {
         if (player == current_player) {
             declareVoN(player);
         }
@@ -340,17 +407,20 @@ void Runner::handleRegularSeason(Player& player, const tick_t& ticks, const tick
     }
 }
 
-void Runner::performIntel(Player& player, const tick_t& ticks, Message message_type, void (Runner::*espionageAction)(Player&, const tick_t&)) {
+void Runner::handleCombatActions(Player& player, const tick_t& a_wait_time, const tick_t& y_wait_time){
+}
+
+void Runner::performIntel(Player& player, Message message_type, void (Runner::*espionageAction)(Player&)) {
     invest_discard.push_back(player.popped_invest_card);
 
-    (this->*espionageAction)(player,ticks);
+    (this->*espionageAction)(player);
 
-    public_messages.push_back(PublicMessage((Message)(message_type + player.getAllegiance()), ticks, 250U, 25000U, 64, 32, 128 * player.action_view, true));
+    public_messages.push_back(PublicMessage((Message)(message_type + player.getAllegiance()), 250U, 25000U, 64, 32, 128 * player.action_view, true));
 
     playerActed();
 }
 
-void Runner::handleButtonUp(Player& player, const SDL_Event& event, const tick_t& ticks){
+void Runner::handleButtonUp(Player& player, const SDL_Event& event){
     switch (event.cbutton.button){
         case (SDL_CONTROLLER_BUTTON_X):{
             player.x_held_tick = 0;
@@ -370,14 +440,21 @@ void Runner::handleButtonUp(Player& player, const SDL_Event& event, const tick_t
                 case SPRING:
                 case SUMMER:
                 case FALL:{
-                    switch (player.current_phase){
+                    switch (player.combat_phase){
                         case MOVEMENT:{
                             addMovement(player);
                             break;
                         }
-                        case COMBAT_SELECT:{
+                        case COMBAT_BATTLE_SELECT:{
                             handleBattleSelect(player);
                             break;
+                        }
+                        case COMBAT_ACTION_SELECT:{
+                            handleActionSelect(player);
+                            break;
+                        }
+                        case COMBAT_CLASS_SELECT:{
+                            handleTypeSelect(player);
                         }
                         default:
                             break;
@@ -438,7 +515,7 @@ void Runner::handleButtonUp(Player& player, const SDL_Event& event, const tick_t
     }
 }
 
-void Runner::handleButtonDown(Player& player, const SDL_Event& event, const tick_t& ticks){
+void Runner::handleButtonDown(Player& player, const SDL_Event& event){
     //cout << "A button was pressed by player " << player.getAllegiance() << endl;
     switch (event.cbutton.button){
         //-Middle Buttons
@@ -458,43 +535,43 @@ void Runner::handleButtonDown(Player& player, const SDL_Event& event, const tick
 
         case SDL_CONTROLLER_BUTTON_DPAD_LEFT:{
             player.d_left_held = true;
-            player.last_widget = ticks;
+            player.last_widget = clock;
             break;
         }
 
         case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:{
             player.d_right_held = true;
-            player.last_widget = ticks;
+            player.last_widget = clock;
             break;
         }
 
         case SDL_CONTROLLER_BUTTON_DPAD_DOWN:{
             player.d_down_held = true;
-            player.last_widget = ticks;
+            player.last_widget = clock;
             break;
         }
 
         case SDL_CONTROLLER_BUTTON_DPAD_UP:{
             player.d_up_held = true;
-            player.last_widget = ticks;
+            player.last_widget = clock;
             break;
         }
         
         //-Letter buttons
         case SDL_CONTROLLER_BUTTON_X:{ //Δ
-            player.x_held_tick = ticks;
+            player.x_held_tick = clock;
             break;
         }
 
         //Expand city display
         case SDL_CONTROLLER_BUTTON_B:{ //O
-            player.b_held_tick = ticks;
+            player.b_held_tick = clock;
             pinCity(player); 
             break;
         }
         // Upgrading unit Unit
         case SDL_CONTROLLER_BUTTON_A:{ //X
-            player.a_held_tick = ticks; 
+            player.a_held_tick = clock; 
             if (season == PRODUCTION){
                 player.widget = MAP;
                 handleUnitBuilding(player);
@@ -503,7 +580,7 @@ void Runner::handleButtonDown(Player& player, const SDL_Event& event, const tick
         }
     
         case SDL_CONTROLLER_BUTTON_Y:{
-            player.y_held_tick = ticks;
+            player.y_held_tick = clock;
             break;
         }
 
@@ -524,11 +601,11 @@ void Runner::handleBattleSelect(Player& player){
             }   
         }*/
 
-        if (player.closest_map_city == player.selecting_city && (player.popped_option[0] == 0 ||  player.popped_option[0] == 2 || player.popped_option[0] == 4 || player.popped_option[0] == 6)){ //selecting target
-            if (!player.unit_available[(int)(player.popped_option[0]/2)]) //check that the popped unit is available
+        if (player.closest_map_city == player.selecting_city && (player.wheel_selection[0] == 0 ||  player.wheel_selection[0] == 2 || player.wheel_selection[0] == 4 || player.wheel_selection[0] == 6)){ //selecting target
+            if (!player.unit_available[(int)(player.wheel_selection[0]/2)]) //check that the popped unit is available
                 return;
 
-            addBattle(player, (CityType)(int)(player.popped_option[0]/2));
+            addBattle(player, (CityType)(int)(player.wheel_selection[0]/2));
             player.selecting_city = nullptr;
         }
         else{
@@ -540,6 +617,39 @@ void Runner::handleBattleSelect(Player& player){
             player.selecting_city = player.closest_map_city;
             setDefenders(player);
         }
+    }
+}
+
+void Runner::handleActionSelect(Player& player){
+    if (!player.show_combat) //make sure no accidental clicks
+        return;
+        
+    const auto& select = player.wheel_selection[0];
+    if (select==0 || (select == 7 && player.wheel_x != 0) || select == 1){ // if fire is selected
+        player.combat_phase = COMBAT_CLASS_SELECT;
+    }
+
+    else if (select==4 || select == 5 || select == 3){ //if retreat is selcted
+        player.combat_phase = COMBAT_RETREAT_SELECT;
+    }
+}
+
+void Runner::handleTypeSelect(Player& player){
+    if (!player.show_combat) //make sure no accidental clicks
+        return;
+
+    const auto& select = player.wheel_selection[0];
+    const UnitClass u_class = (UnitClass)((int)select/2);
+    if ((int)select%2 == 0 && player.unit_available[u_class]){
+        public_animations.push_back(PublicAnimation((SeasonAnimation)(WEST_DICE+acting_player), -48, -190, 512, 288+acting_player*32, 32, 32, 3, clock, 100));
+        public_animations.back().addPhase(AnimationPhase::RANDOM, 5000);
+        (public_animations.back()).setRandom(6);
+        public_animations.back().setFinishCallback([this]() { decideDice(); });
+
+        players[acting_player].combat_phase = OBSERVING;
+        players[watching_player].combat_phase = OBSERVING;
+
+        target_class = u_class;
     }
 }
 
@@ -569,8 +679,8 @@ void Runner::handleUnitBuilding(Player& player){
     }
     else if (player.closest_map_city != nullptr){
         if (player.closest_map_city == player.selecting_city){ //adding unit
-            if (player.popped_option[0] != 7 && player.unit_available[(int)player.popped_option[0]]){ //cancel
-                buildUnit(player, player.selecting_city, (UnitType)player.popped_option[0]);
+            if (player.wheel_selection[0] != 7 && player.unit_available[(int)player.wheel_selection[0]]){ //cancel
+                buildUnit(player, player.selecting_city, (UnitType)player.wheel_selection[0]);
                 player.spendProduction(CADRE);
             }
             player.selecting_city = nullptr;
@@ -697,11 +807,11 @@ void Runner::handleCursorMovement(Player& player){
 
     if (x_moving || y_moving){
         if (x_moving){
-            clampCursorX(player, CURSOR_SPEED * scaleAxis(x_move));
+            clampCursorX(player, player.cursor_speed * scaleAxis(x_move));
             player.cursor_x = SDL_clamp(player.cursor_x, -16, powers_app[allegiance].screen.WIDTH - 16);
         }
         if (y_moving){
-            clampCursorY(player, CURSOR_SPEED * scaleAxis(y_move));
+            clampCursorY(player, player.cursor_speed * scaleAxis(y_move));
             player.cursor_y = SDL_clamp(player.cursor_y, -16, powers_app[allegiance].screen.HEIGHT - 16);
         }
         player.selected_unit = {nullptr, nullptr};
@@ -713,11 +823,44 @@ void Runner::handleCursorMovement(Player& player){
     }
 }
 
+void Runner::handleUnitSelection(Player& player, const bool move_x, const bool move_y){
+    const auto& allegiance = player.getAllegiance();
+    const int& num_units = current_battle.first->occupants[allegiance].size()-1;
+    const int y_movement = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTY);
+    const int x_movement = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTX);
+    int& curr_unit = player.popped_hit_index;
+
+    auto checkMove = [&](const int& movement, tick_t& held_tick, const bool vertical){
+        curr_unit = loopVal(curr_unit+(movement<0? -1 : 1)*(vertical? 4: 1), 0, num_units);
+    };
+
+    if (move_y && pastDeadZone(y_movement))
+        checkMove(y_movement, player.right_stick_y_tick, true);
+    if (move_x && pastDeadZone(x_movement))
+        checkMove(x_movement, player.right_stick_x_tick, false);
+
+    if (move_x || move_y)
+        player.popped_hit_unit = current_battle.first->occupants[watching_player][curr_unit];
+
+    /*if ((pastDeadZone(x_move) && pastWait(player.right_stick_x_tick, clock, 1000))){ // || 
+        player.right_stick_x_tick = clock;
+        
+        
+
+        curr_unit = loopVal(curr_unit+(x_move<0? -1 : 1), 0, num_units-1);
+    }
+
+    if ((pastDeadZone(y_move) && pastWait(player.right_stick_y_tick, clock, 1000))){
+        player.right_stick_y_tick = clock;
+
+    }*/
+}
+
 void Runner::handleJoystickMovement(Player& player){
     const auto& allegiance = player.getAllegiance();
-    if (player.widget == MAP && player.selecting_city != nullptr){ //if there is a city where there is going to be something built then use the right joy stick to select
-        int x_move = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTX);
-        int y_move = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTY);
+    if ((player.widget == MAP && player.selecting_city != nullptr) || (player.widget == COMBAT_WIDGET && player.combat_phase != OBSERVING)){ //if there is a city where there is going to be something built then use the right joy stick to select
+        const int& x_move = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTX);
+        const int& y_move = SDL_GameControllerGetAxis(controllers[allegiance], SDL_CONTROLLER_AXIS_RIGHTY);
 
         if (pastDeadZone(x_move) || pastDeadZone(y_move)){ //if there is movement then move the line cursor
             //- Need to get the angle 
@@ -728,39 +871,38 @@ void Runner::handleJoystickMovement(Player& player){
             const double angle = atan2(scaleAxis(y_move), scaleAxis(x_move))*57;
             //- Need to find which unit is closest to the cursor (on unit circle) out of the 8 options
             int min_dist = INT32_MAX;
-            for (int i = 0; i < 8; i++){
+            for (int i = 0; i < 8; i++){ //BUG 6 and 7 option overlap since unit circle loops from 360 to 0
                 const int pot = (UNIT_CIRCLE_RADIANS[i][0] - angle)*(UNIT_CIRCLE_RADIANS[i][0] - angle);
                 if (pot < min_dist){
                     min_dist = pot;
-                    player.popped_option[0] = i;
-                    player.popped_option[1] = UNIT_CIRCLE_RADIANS[i][1]; 
-                    player.popped_option[2] = UNIT_CIRCLE_RADIANS[i][2];
+                    player.wheel_selection[0] = i;
+                    player.wheel_selection[1] = UNIT_CIRCLE_RADIANS[i][1]; 
+                    player.wheel_selection[2] = UNIT_CIRCLE_RADIANS[i][2];
                 }
             }
-            //- Snap it to the closest
-
         }
+
         else{
-            player.popped_option[0] = 7;
+            player.wheel_selection[0] = 7;
             player.wheel_x = 0;
             player.wheel_y = 0;
         }
     }
 }
 
-void Runner::handleTimedJoystick(Player& player, const tick_t& ticks){
-    //- Right stick movement is for actions when you need to select one more thing
-    constexpr tick_t y_wait_time = 100;
-    constexpr tick_t x_wait_time = 150;
+void Runner::handleTimedJoystick(Player& player){
+    //- Right stick movement is for actions when you need to select something but don't want the selection whizzing past
+    constexpr tick_t y_joy_wait_time = 100;
+    constexpr tick_t x_joy_wait_time = 150;
 
-    bool move_y = ticks - player.right_stick_y_tick > y_wait_time;
-    bool move_x = ticks - player.right_stick_x_tick > x_wait_time;
+    bool move_y = clock - player.right_stick_y_tick > y_joy_wait_time;
+    bool move_x = clock - player.right_stick_x_tick > x_joy_wait_time;
 
     if (move_y){ //if the delta time is less than 100 ms then skip right joystick movement
-        player.right_stick_y_tick = ticks;
+        player.right_stick_y_tick = clock;
     }
     if (move_x){
-        player.right_stick_x_tick = ticks;
+        player.right_stick_x_tick = clock;
     }
     
     switch (player.widget){
@@ -780,6 +922,12 @@ void Runner::handleTimedJoystick(Player& player, const tick_t& ticks){
             if (player.show_tech){
                 handleTechMovement(player, move_y);
             }
+        }
+        case COMBAT_WIDGET:{
+            if (player.show_combat && player.combat_phase == COMBAT_DEAL_HITS){
+                handleUnitSelection(player, move_x, move_y);
+            }
+            break;
         }
         default:
             break;
@@ -922,15 +1070,15 @@ void Runner::handleTriggerMovement(Player& player){
     }
 }
 
-void Runner::handleWidgetMovement(Player& player, const tick_t& ticks){
+void Runner::handleWidgetMovement(Player& player){
 
     auto scroll = [&](int& widet_view, int& view_index, const int incriment){
         widet_view = loopVal(widet_view+incriment, WEST, USSR);
         view_index = -1;
     };
 
-    if (pastWait(player.last_widget, ticks, 150)){ //only take inputs every 100 ticks
-        player.last_widget = ticks;
+    if (pastWait(player.last_widget, clock, 150)){ //only take inputs every 100 clock
+        player.last_widget = clock;
     
         if ((player.d_left_held && player.d_right_held)){ //holding both down so ignore any changes
             player.d_left_held = false; player.d_right_held=false;
@@ -963,12 +1111,18 @@ void Runner::handleWidgetMovement(Player& player, const tick_t& ticks){
                     int i;
                     scroll(player.stat_view, i, player.d_up_held? -1 : 1);
                     break;
+                case COMBAT_WIDGET:
+                    player.popped_unit_index = SDL_clamp(player.popped_unit_index+(player.d_up_held? -1 : 1), 0, fire_order.size()-1);
+                    break;
                 default:
                     break;
             }
         }
-    }
 
+        if (player.widget == MAP && current_battle.first){
+            player.widget = COMBAT_WIDGET;
+        }
+    }
     //cout <<  player.widget << endl;
 }
 

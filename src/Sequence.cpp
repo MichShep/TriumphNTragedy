@@ -5,49 +5,49 @@ bool Runner::runTitle(){
     season = TITLE_SCREEN;
 
     bool fade=true;
-    tick_t a = SDL_GetTicks();
-    tick_t b = SDL_GetTicks();
+    tick_t current_tick = SDL_GetTicks();
+    clock = SDL_GetTicks();
 
     tick_t start;
     
     int alpha = 255;
     double delta = 0;
     while (alpha >= 0){
-        a = SDL_GetTicks();
-        delta = a - b;
+        current_tick = SDL_GetTicks();
+        delta = current_tick - clock;
 
         //ensures framerate of 60fps
         if (delta > 1000/60.0){
-            b = a;  
+            clock = current_tick;  
 
-            handleTitleInput(fade, b);
+            handleTitleInput(fade);
 
-            drawTitle(*west_player, b, alpha);
-            drawTitle(*axis_player, b, alpha);
-            drawTitle(*ussr_player, b, alpha);
+            drawTitle(*west_player, alpha);
+            drawTitle(*axis_player, alpha);
+            drawTitle(*ussr_player, alpha);
 
             if (fade){
                 if (!(fade = fade && !(west_player->passed + axis_player->passed + ussr_player->passed == (controllers[0]!=NULL)+(controllers[1]!=NULL)+(controllers[2]!=NULL))
-))                  start = b;  
+))                  start = clock;  
             }
             else
-                alpha = alpha - ((b-start)/5000);
+                alpha = alpha - ((clock-start)/5000);
         }
     }
     fade = true; //just reuse for running
-    start = b;
+    start = clock;
     while (fade){    //animate poem start
-        a = SDL_GetTicks();
-        delta = a - b;
+        current_tick = SDL_GetTicks();
+        delta = current_tick - clock;
 
         if (delta > 1000/60.0){
-            b = a;
+            clock = current_tick;
 
-            animatePoem(*west_player, b);
-            animatePoem(*axis_player, b);
-            animatePoem(*ussr_player, b);
+            animatePoem(*west_player);
+            animatePoem(*axis_player);
+            animatePoem(*ussr_player);
 
-            fade = !pastWait(start, b, 15000);
+            fade = !pastWait(start, clock, 15000);
         }
     }
 
@@ -68,10 +68,10 @@ bool Runner::run(){
     
     //& Main game Loop
     CityType winner;
-    while ((winner=newYear()) == WATER && year <= end_year){ //run the game unitl a winner is found
+    while ((winner=newYear()) == WATER && year <= end_year){ //run the game unitl current_tick winner is found
         //production(); //- Production Phase
         
-        government(); //- Government Phase  
+        //government(); //- Government Phase  
 
         checkHands(); //- Check Hand Size
 
@@ -123,8 +123,8 @@ CityType Runner::newYear(){
 void Runner::production(){
     season = PRODUCTION;
     // Used to calculate fps
-    unsigned int a = SDL_GetTicks();
-    unsigned int b = SDL_GetTicks();
+    tick_t current_tick = SDL_GetTicks();
+    clock = SDL_GetTicks();
     double delta = 0;
 
     //- Get the production for all players so they can plan ahead
@@ -133,9 +133,9 @@ void Runner::production(){
     players[USSR].calculateProduction();
 
     //- Initial draw
-    drawPhase(0);
+    drawPhase();
 
-    public_messages.push_back(PublicMessage(PRODUCTION_START, b, 500, 160, 32, 20));
+    public_messages.push_back(PublicMessage(PRODUCTION_START, clock, 500, 160, 32, 20));
     //- Go through each player in turn order
     for (auto& player : turn_order){
         bool running=true;
@@ -146,17 +146,17 @@ void Runner::production(){
         checkTradeRoutes(*player, player->getCapital());
 
         while (running || !public_messages.empty()){
-            a = SDL_GetTicks();
-            delta = a - b;
+            current_tick = SDL_GetTicks();
+            delta = current_tick - clock;
 
             //ensures framerate of 60fps
             if (delta > 1000/60.0){
-                b = a;  
+                clock = current_tick;
                 //- Player input
-                handleUserInput(running, b);
+                handleUserInput(running);
 
                 //- Render
-                drawPhase(b);
+                drawPhase();
 
                 //- Check if player has passed
                 running = !player->passed;
@@ -168,23 +168,31 @@ void Runner::production(){
     }    
 }
 
-void Runner::drawPhase(const tick_t& delta){
+void Runner::drawPhase(){
     //- Check if things have changed and need to be redrawn    
     if (players[WEST].board_change){
         ClearScreen(players[WEST].app->renderer);
-        drawPlayerBoard(players[WEST], delta);
+        drawPlayerBoard(players[WEST], true);
         players[WEST].board_change = false;
     }
     if (players[AXIS].board_change){
         ClearScreen(players[AXIS].app->renderer);
-        drawPlayerBoard(players[AXIS], delta);
+        drawPlayerBoard(players[AXIS], true);
         players[AXIS].board_change = false;
     }
     if (players[USSR].board_change){
         ClearScreen(players[USSR].app->renderer);
-        drawPlayerBoard(players[USSR], delta);
+        drawPlayerBoard(players[USSR], true);
         players[USSR].board_change = false;
     }
+
+    //- Check if any animations need to be cleared
+    for (int i = public_animations.size()-1; i >= 0; i--){
+        if (public_animations[i].updateNext(clock)){
+            public_animations.erase(public_animations.begin()+i);
+        }
+    }
+
 }
 
 //&^^ Government Phase
@@ -197,32 +205,32 @@ void Runner::government(){
     players[USSR].passed = false;
 
 
-    unsigned int a = SDL_GetTicks();
-    unsigned int b = SDL_GetTicks();
+    tick_t current_tick = SDL_GetTicks();
+    clock = SDL_GetTicks();
     double delta = 0;
 
     //- Initial draw
-    drawPhase(0);
+    drawPhase();
 
-    public_messages.push_back(PublicMessage(GOVERNMENT_START, b, 300, 160, 32, 25));
+    public_messages.push_back(PublicMessage(GOVERNMENT_START, clock, 300, 160, 32, 25));
 
     //- Go through each player in turn order but it can loop so it will be an inner loop
     bool running=true;
     current_player = turn_order[0];
 
     while (running || !public_messages.empty()){
-        a = SDL_GetTicks();
-        delta = a - b;
+        current_tick = SDL_GetTicks();
+        delta = current_tick - clock;
 
         //ensures framerate of 60fps
         if (delta > 1000/60.0){
             
-            b = a;  
+            clock = current_tick;  
             //- Player input
-            handleUserInput(running, b);
+            handleUserInput(running);
 
             //- Render
-            drawPhase(b);
+            drawPhase();
 
             //- Check if player has passed
             running = !turn_order[0]->passed || !turn_order[1]->passed ||  !turn_order[2]->passed;
@@ -240,7 +248,7 @@ void Runner::government(){
 }
 
 bool Runner::addDiplomacy(Player& player, Country* country){
-    //- if there is a selected value and it can be influenced (less than a satellite)
+    //- if there is current_tick selected value and it can be influenced (less than current_tick satellite)
     if (country == nullptr || country->influence_level == SATELLITES){
         return false;
     }
@@ -300,7 +308,7 @@ bool Runner::declareDoW(Player& declarer, Player& victim){
     if (declarer == victim)
         return false;
 
-    //* Check that they don't already have a DoW
+    //* Check that they don't already have current_tick DoW
     if (declarer.getDoW(rival_all) != PEACE)
         return false;
 
@@ -321,7 +329,7 @@ bool Runner::declareVoN(Player& declarer){
     if (city == nullptr)
         return false;
 
-    //* Closest city must be a NEUTRAL capital
+    //* Closest city must be current_tick NEUTRAL capital
     if (!city->capital || city->ruler_allegiance != NEUTRAL || city->ruler_allegiance == declarer){
         return false;
     }
@@ -386,7 +394,7 @@ bool Runner::flipConvoy(Player& player,  City* city, Unit* unit){
         const auto& adj = map.getAdjacency()[city->ID];
 
         bool able = false;
-        for (const auto& border : adj) //check if the unit is even around water to turn into a convo
+        for (const auto& border : adj) //check if the unit is even around water to turn into current_tick convo
             able = able || border==COAST;
 
         if (!able)
@@ -439,11 +447,11 @@ void Runner::moveUnit(Player& player){
     }
 
     else if (res == DOWED){ //need to get confirmation that its okay to DoW
-        cout << "need a dow to enter " << player.movement_memo.back()->name << endl; 
+        cout << "need current_tick dow to enter " << player.movement_memo.back()->name << endl; 
     }
 
     else if (res == VONED){ //need to get confirmation that its okay to VoN
-        cout << "need a von to enter " << player.movement_memo.back()->name << endl; 
+        cout << "need current_tick von to enter " << player.movement_memo.back()->name << endl; 
     }
 
     else{ //No effect means it can move simply
@@ -453,7 +461,7 @@ void Runner::moveUnit(Player& player){
         memo.back()->addUnit(unit);
         player.moving_unit.first->removeUnit(unit);
 
-        unit->moved = true;
+        unit->acted = true;
         if (res==LANDFALL){
             unit->convoy = false;
         }
@@ -462,12 +470,12 @@ void Runner::moveUnit(Player& player){
         if (unit->class_type == CLASS_G && last_city->hasOther(player.getAllegiance())){
             map.increaseBorderLimit(memo[memo.size()-2], last_city, player.getAllegiance());
             if (res == LANDFALL){
-                unit->landing = true;
+                unit->landing = year;
             }
         }
 
         if (unit->class_type == CLASS_G && !last_city->hasOther(player) && last_city->ruler_allegiance != player){ //empty move into unfriendly makes it automatically theres
-            last_city->ruler_allegiance = player; //must be ground units or its a raid
+            last_city->ruler_allegiance = player; //must be ground units or its current_tick raid
         }
 
         if (disengaging){
@@ -479,7 +487,7 @@ void Runner::moveUnit(Player& player){
         player.resetMovingUnit();
     }
 
-    /*else if (res == LANDFALL){ //When a unit made landfall on a coast it needs to lose all movement
+    /*else if (res == LANDFALL){ //When current_tick unit made landfall on current_tick coast it needs to lose all movement
         auto& memo =  player.movement_memo;
         memo.back()->addUnit(unit);
         player.moving_unit.first->removeUnit(unit);
@@ -503,11 +511,11 @@ void Runner::moveUnit(Player& player){
 void Runner::spring(){
     season = SPRING;
 
-    tick_t a = SDL_GetTicks();
-    tick_t b = SDL_GetTicks();
+    tick_t current_tick = SDL_GetTicks();
+    clock = SDL_GetTicks();
     double delta = 0;
 
-    drawPhase(0); //- Initial draw
+    drawPhase(); //- Initial draw
 
     bool running=true;
     current_index = 0;
@@ -516,12 +524,12 @@ void Runner::spring(){
     /*season = SPRING_COMMAND;
     //- Command Phase
     while (running || !public_messages.empty()){
-        a = SDL_GetTicks();
-        delta = a - b;
+        current_tick = SDL_GetTicks();
+        delta = current_tick - b;
 
         //ensures framerate of 60fps
         if (delta > 1000/60.0){
-            b = a;
+            b = current_tick;
         
             //- Player input
             handleUserInput(running, b);
@@ -552,11 +560,11 @@ void Runner::spring(){
     last_tick = b;
 
     while (running){
-        a = SDL_GetTicks();
-        delta = a - b;
+        current_tick = SDL_GetTicks();
+        delta = current_tick - b;
 
         if (delta > 1000/60.0){
-            b = a;
+            b = current_tick;
 
             running = !pastWait(last_tick,b, 10000);
 
@@ -580,24 +588,22 @@ void Runner::spring(){
 
     running = true;
     current_player = turn_order[0];
-    current_player->current_phase = MOVEMENT; //TODO change to current player
+    current_player->combat_phase = MOVEMENT;
     while (running){
-        a = SDL_GetTicks();
-        delta = a - b;
+        current_tick = SDL_GetTicks();
+        delta = current_tick - clock;
 
         if (delta > 1000/60.0){
-            b = a;
+            clock = current_tick;
+            fps = (1000.0f / (delta));
 
-            handleUserInput(running, b);
+            handleUserInput(running);
 
-            drawPhase(b);
+            drawPhase();
 
             running = !west_player->passed || !axis_player->passed || !ussr_player->passed;
-
         } 
     }
-
-
 
     //- Player Turns
         //- Movement
@@ -676,14 +682,14 @@ void Runner::reshuffle(const bool animation){
     if (year == 1937)
         return;
 
-    unsigned int a = SDL_GetTicks();
-    unsigned int b = SDL_GetTicks();
+    tick_t current_tick = SDL_GetTicks();
+    clock = SDL_GetTicks();
     double delta = 0;
 
     //- Initial draw
     if (animation){
-        drawPhase(0);
-        public_messages.push_back(PublicMessage(RESHUFFLE_START, b,  150, 150, 32, 27));
+        drawPhase();
+        public_messages.push_back(PublicMessage(RESHUFFLE_START, clock,  150, 150, 32, 27));
     }
 
     //- Actual reshuffle
@@ -700,17 +706,17 @@ void Runner::reshuffle(const bool animation){
         bool running=true;
 
         while (running){
-            a = SDL_GetTicks();
-            delta = a - b;
+            current_tick = SDL_GetTicks();
+            delta = current_tick - clock;
 
             //ensures framerate of 60fps
             if (delta > 1000/60.0){
-                b = a;  
+                clock = current_tick;  
                 //- Player input
-                handleUserAnimationInput(running, b);
+                handleUserAnimationInput(running);
 
                 //- Render
-                animateReshuffle(running, action_discard.size(), invest_discard.size(), b);
+                animateReshuffle(running, action_discard.size(), invest_discard.size());
             }
         }
     }
@@ -758,6 +764,7 @@ void Runner::decideTurnOrder(const bool animation){
     };
 
     switch (result){
+    case 0: //DEV
     case 1:
         setOrder(AXIS, USSR, WEST);
         break;
@@ -782,7 +789,7 @@ void Runner::decideTurnOrder(const bool animation){
     }
 
     if (animation)
-        drawTurnRoll(result);
+        ;//drawTurnRoll(result);
 }
 
 void Runner::peaceDividends(){
@@ -811,14 +818,17 @@ void Runner::peaceDividends(){
         animates3 = true;
     }
 
-    drawPeaceDividends(animates1, animates2, animates3);
+    (void)(animates1);
+    (void)(animates2);
+    (void)(animates3);
+    //drawPeaceDividends(animates1, animates2, animates3);
 }
 
 void Runner::newYearRes(){
     auto usa = map.getCountry("USA");
     if (year >= 1941 && year < 1945){
         usa->influence++;
-        usa->resolveDiplomacy(); //? 8.44 Becomes a satellite immediately
+        usa->resolveDiplomacy(); //? 8.44 Becomes current_tick satellite immediately
         
         if (year != 1941 && usa->influence_level == SATELLITES){ //? 8.54 during 1942 to 1944 USA forces [AF/Fleet/Infantry/Tank] arrive with 1 CV up to 3 CV depending on the year
             const int cv = year-1941;
@@ -878,7 +888,7 @@ bool Runner::canPair(const Player& player, const Tech* tech1, const Tech* tech2)
     if (*tech1 >= Y_1938 && *tech2 >= Y_1938 ){ //cannot pair year with year
         return false;
     }
-    if (*tech2 >= Y_1938){ //is a year card but in the second spot then flip so code doesn't need to be copy and pasted 
+    if (*tech2 >= Y_1938){ //is current_tick year card but in the second spot then flip so code doesn't need to be copy and pasted 
         return canPair(player, tech2, tech1);
     }
 
@@ -890,7 +900,7 @@ bool Runner::canPair(const Player& player, const Tech* tech1, const Tech* tech2)
         return false;
     }
     
-    if (*tech1 >= Y_1938){ // is a year card then make sure tech2 is in the pairable list
+    if (*tech1 >= Y_1938){ // is current_tick year card then make sure tech2 is in the pairable list
         if (*tech1-Y_1938 + 1938 > year) //todo change back after testing
             return false;
         const auto& pairable_techs = YEAR_TECHS[*tech1 - Y_1938];

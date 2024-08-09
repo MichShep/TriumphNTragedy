@@ -50,6 +50,8 @@ struct Dice{
 
     int max; /**< Max value of the die*/
 
+    int last_result; /**< Result of the most recent roll*/
+
     /**
      * @brief Construct a default dice where the only possible value is 0
      * 
@@ -65,8 +67,8 @@ struct Dice{
      * @param max The maximum value the dice can roll
      */
     Dice(int min, int max): min(min), max(max){
-        if (min >= max){
-            printf("Min value is greater than the max!");
+        if (min > max){
+            std::cerr << "Min value is greater than the max!" << endl;
             exit(EXIT_FAILURE);
         }
         stats.resize(max); 
@@ -78,9 +80,9 @@ struct Dice{
      * @return int The value of the die
      */
     int roll(){
-        int result = rand() % (max - min + 1) + min;
-        stats[result-1]++;
-        return result;
+        last_result = rand() % (max - min + 1) + min;
+        stats[last_result-1]++;
+        return last_result;
     }
 
     /**
@@ -193,7 +195,7 @@ public:
 
     uint8_t movement; /**< The max amount of cities it can move in one turn*/
 
-    bool moved=false; /**< Flag for if the Unit has moved in the current year */
+    bool acted=false; /**< Flag for if the Unit has moved in the current year */
 
     bool rebase=false; /**< If this unit can ReBase (move freely to ground force)*/
 

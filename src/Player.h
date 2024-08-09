@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Map.h"
+
+
 /**
  * @brief Represents Great Power and the Players graphical status
  * 
@@ -48,6 +50,8 @@ private:
     vector<Unit*> units; /**< Masterlist of all units the player controls*/
 
     AchievedTechnology* achieved_tech[25]; /**< List of all technologies that the player has discovered*/
+
+    bool first_fires[CONVOY+1]= {false, false, false, false, false, false, false, false};
 
     int technology_count = 0; /**< The current number of technologies the player has discovered */
 
@@ -97,7 +101,7 @@ public:
     bool passed = false; /**< Flag for if the player has passed int he current phase and forfits any future turns in the phase */
 
     //& Action Phase
-    ActionPhase current_phase = OBSERVING; /**< The current phase the player is in for the action phase and dictates what actions they can do*/
+    ActionPhase combat_phase = OBSERVING; /**< The current phase the player is in for the action phase and dictates what actions they can do*/
 
     //&^ Movement
     vector<City*> movement_memo; /**< Memo of the player made city route for the unit to travel */
@@ -146,9 +150,11 @@ public:
     bool show_stat = false;
     int stat_view; /**< Indicates which player to view their stats */
 
+    //&^^ Combat Widget
+    bool show_combat = true;
+    int popped_unit_index = 0;
+
     int zoom = 1; /**< The current zoom level (1,2,3) of the player's screen*/
-
-
     bool board_change=true; /**< Boolen to track wether the player's board/view has changed and needs to be redrawn*/
 
     //&^ Title Screen
@@ -159,16 +165,19 @@ public:
     //& Joystick Movements
 
     //&^ Cursor
+    int cursor_speed = CURSOR_SPEED;
     double cursor_x = 0;  /**< The current x coord of the player's cursor on the screen*/
     double cursor_y = 0;  /**< The current y coord of the player's cursor on the screen*/
 
     //&^ Select Wheel
     double wheel_x = 0; /**< The x-coord of a unit circle for the selection wheel */
     double wheel_y = 0; /**< The y-coord of a unit circle for the selection wheel */
-    double popped_option[3] = {-2, -2, -2}; /**< The coordinates of the closest selected option from the select wheel; [0] = which option (0...7), [1] = X-Coord, [2] = Y-Coord */
+    double wheel_selection[3] = {-2, -2, -2}; /**< The coordinates of the closest selected option from the select wheel; [0] = which option (0...7), [1] = X-Coord, [2] = Y-Coord */
 
-    tick_t right_stick_y_tick = 0; /**< Tick of when the player most moved the right joystick along the y axis */
-    tick_t right_stick_x_tick = 0; /**< Tick of when the player most moved the right joystick along the x axis */
+    tick_t right_stick_y_tick = 1; /**< Tick of when the player most moved the right joystick along the y axis */
+    tick_t right_stick_x_tick = 1; /**< Tick of when the player most moved the right joystick along the x axis */
+    int popped_hit_index = 0;
+    Unit* popped_hit_unit = nullptr;
 
     //& Selected Things
     CityType allegiance_viewing = NEUTRAL;  /**< The allegiance of the unit being view or in focus*/
@@ -339,6 +348,7 @@ public:
         units[unit->id] = nullptr;
         total_units--;
         unit_counts[unit->nationality][unit->unit_type]--;
+        delete unit;
     }
 
     /**
@@ -743,7 +753,7 @@ public:
      * @param tech The technology being achieved
      * @pre Player has the cards to achieve the tech and hasn't achieved before
      */
-    inline void achieveTech(const Tech& tech){
+    void achieveTech(const Tech& tech){
         achieved_tech[tech] = new AchievedTechnology("TODO ADD NAME", tech, false);
         technology_count++;
         setTechSecret(tech);
@@ -981,6 +991,10 @@ public:
         }
     }
 
+    const bool (&getFirstFire() const)[8] {
+        return first_fires;
+    }
+
     /**
      * @brief Get the last year the player was peaceful
      * 
@@ -1152,8 +1166,30 @@ public:
         if (achieved_tech[indx]->secret){
             achieved_tech[indx]->secret = false;
             secret_count--;
+            // Update any flags needed
+            switch (indx){
+                case ATOMIC_FOUR:
+                    atomic = true;
+                    break;
+                case NAVAL_RADAR:
+                    first_fires[FLEET] = true;
+                    break;
+                case ROCKET_ARTILLERY:
+                    first_fires[INFANTRY] = true;
+                    break;
+                case HEAVY_TANKS:
+                    first_fires[TANK] = true;
+                    break;
+                case JETS:
+                    first_fires[AIR] = true;
+                    break;
+
+                default:
+                    break;
+            }
             return true;
         }
+
         return false;
     }
 
@@ -1232,7 +1268,8 @@ public:
      */
     void resetUnits(){
         for (auto& unit : units){
-            unit->moved = false;
+            if (unit)
+                unit->acted = false;
         }
     }
 
@@ -1513,6 +1550,10 @@ public:
      */
     operator int() const{
         return allegiance;
+    }
+
+    operator SDL_Renderer*() const{
+        return app->renderer;
     }
 
     /**

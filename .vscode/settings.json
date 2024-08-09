@@ -72,5 +72,13 @@
         "list": "cpp",
         "execution": "cpp",
         "__memory": "cpp"
-    }
+    },
+    "spellright.language": [
+        "en"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ]
 }

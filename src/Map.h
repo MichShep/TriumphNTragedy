@@ -71,10 +71,6 @@ public:
     size_t num_occupants = 0; /**< Total number of occupants in the city between all  */
 
     //For influence
-    uint8_t influence; /**< The amount of influence on this country*/
-
-    CityType influencer; /**< The power who has the current influence over a starting neutral country (neutral if no influence)*/
-
     CityType aggresor; /**< The Attacker is the Faction provoking Combat in that Player Turn (the Active player). This is not the same as the Aggressor (the Faction trying to wrest control of a Land Area from the Owner)*/
 
     //For supply lines
@@ -114,8 +110,8 @@ public:
     ID(ID), name(name), start_allegiance(city_type), power_type(power_type), population_type(population_type), city_nationality(nationality), population(population), muster(muster), resource(resource), resource_type(resource_type){
         ruler_allegiance = city_type; //set it be ruled by who starts with it
         ruler_nationality = city_nationality;
-        occupier_allegiance = NEUTRAL;
-        influence = 0;
+        occupier_allegiance = city_type;
+    
         WIDTH = 32;
         HEIGHT = 32;
 
@@ -442,6 +438,7 @@ public:
                 allegiance = top_card;
                 for (auto& city : cities){
                     city->ruler_allegiance = allegiance;
+                    city->occupier_allegiance = allegiance;
                 }
                 /* code */
                 break;

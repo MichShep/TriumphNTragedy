@@ -367,7 +367,7 @@ bool Runner::initCards(const string invest_name, const string action_name){
     sprite_offsets["Spy_Ring"] = SPY_RING;
     sprite_offsets["Code_Breaker"] = CODE_BREAKER;
     sprite_offsets["Agent"] = AGENT;
-    sprite_offsets["Jets"] = JETs;
+    sprite_offsets["Jets"] = JETS;
     sprite_offsets["Double_Agent"] = DOUBLE_AGENT;
     sprite_offsets["Mole"] = MOLE;
     sprite_offsets["1944"] = Y_1944;
@@ -528,7 +528,6 @@ void Runner::mapPlayerResPop(Player& player){
     player.setResource(temp_resources);
 }
 
-//! Logic Checks
 //& Unit Actions
 
 Unit* Runner::buildUnit(Player&player, City* city, const UnitType unit, const int cv){
@@ -553,23 +552,23 @@ void Runner::selectTechCard(Player& player){
     }
 }
 
-void Runner::peakRivalAction(Player& player, const tick_t& ticks){
-    player.peakAction(ticks);
+void Runner::peakRivalAction(Player& player){
+    player.peakAction(clock);
 }
 
-void Runner::peakRivalUnit(Player& player, const tick_t& ticks){
-    player.peakUnit(ticks);
+void Runner::peakRivalUnit(Player& player){
+    player.peakUnit(clock);
 }
 
-void Runner::coupRival(Player& player, const tick_t& ticks){
+void Runner::coupRival(Player& player){
     coup(player);
 }
 
-void Runner::sabotageRival(Player& player, const tick_t& ticks){
+void Runner::sabotageRival(Player& player){
     sabotage(player);
 }
 
-void Runner::spyRingRival(Player& player, const tick_t& ticks){
+void Runner::spyRingRival(Player& player){
     spyRing(player);
 }
 
@@ -602,6 +601,15 @@ bool Runner::addBattle(const Player& player, const CityType& defender){
     }
 
     return false;
+}
+
+void Runner::hitUnit(City* city, Unit* unit){
+    if (!(--unit->combat_value)){
+        city->removeUnit(unit);
+        players[unit->allegiance].remove(unit);
+    }
+
+    setNextBattle();
 }
 
 //& Deciders
@@ -989,6 +997,198 @@ void Runner::setLandBattleable(Player& attacker, Player& defender){
     }
 }
 
+void Runner::sortFireOrder(){
+    // Get participating player's units from the city
+    const auto& attacker_units = current_battle.first->occupants[current_player->getAllegiance()];
+    const auto& defender_units = current_battle.first->occupants[current_battle.second];
+
+    // Load First Fire table
+    bool ff_table[4][8] = {
+        {false, false, false, false, false, false, false, false}, {false, false, false, false, false, false, false, false}, {false, false, false, false, false, false, false, false}, {false, false, false, false, false, false, false, false}
+    };
+
+    const CityType& attacker_allegiance = current_player->getAllegiance();
+    const CityType& defender_allegiance = players[current_battle.second].getAllegiance();
+    int index = 0;
+
+    for (const auto& b : current_player->getFirstFire()) {
+        ff_table[attacker_allegiance][index] = b;
+        index++;
+    }
+    index=0;
+    for (const auto& b : players[current_battle.second].getFirstFire()) {
+        ff_table[defender_allegiance][index] = b;
+        index++;
+    }
+
+
+    fire_order.clear(); // Clear the fire_order vector before filling it
+    fire_order.reserve(attacker_units.size() + defender_units.size()); // Reserve memory (may not be full from convoys but is a hard worst case)
+
+    for (auto& unit : attacker_units){ // Add all of the attacker's units
+        if (unit->landing != year && !unit->acted) //if the convoy landed on an enemy shore this year then they don't get to act womp womp
+            fire_order.push_back(unit);
+        else{
+            unit->acted = true; //just to show its 'exhausted' and wont act
+        }
+    }
+    for (auto& unit : defender_units){ // Add all of the defender's units
+        if (!unit->acted)
+            fire_order.push_back(unit);
+    }
+
+    //Lambda function to compare
+    auto compare = [&](const Unit* a, const Unit* b) {
+        if (a->unit_type == b->unit_type){
+            if (a->allegiance != b->allegiance){
+                if (b->allegiance == defender_allegiance){
+                    //cout << a->unit_type << ": " << ff_table[a->allegiance][a->unit_type] << " " << ff_table[b->allegiance][b->unit_type] << endl;
+                    return !ff_table[a->allegiance][a->unit_type] || ff_table[b->allegiance][b->unit_type]; //swap equal lower priority?
+                }
+                else {
+                    //cout << a->unit_type << " : " << ff_table[a->allegiance][a->unit_type] << " " << ff_table[b->allegiance][b->unit_type] << endl;
+                    return ff_table[a->allegiance][a->unit_type] || !ff_table[b->allegiance][b->unit_type];
+                }
+            }
+
+            return a->combat_value > b->combat_value;
+            // A D R
+            // 0 0 D
+            // 0 1 D
+            // 1 0 A
+            // 1 1 D
+        }
+        
+        return a->unit_type < b->unit_type;
+    };
+
+    // Sort fire_order using the comparator
+    sort(fire_order.begin(), fire_order.end(), compare);
+}
+
+void Runner::setFireable(Player& player, const City* city, const CityType& victim){
+    //reset
+    player.unit_available[CLASS_A] = false; player.unit_available[CLASS_G] = false; player.unit_available[CLASS_N]= false; player.unit_available[CLASS_S]= false;
+    //will doble purpose `unit_available` from production phase to get which Unit Class can be fired upon
+    for (const auto& unit : city->occupants[victim]){
+        player.unit_available[unit->class_type] = true;
+
+        // if are all found then go ahead and quit earlt
+        if (player.unit_available[CLASS_A] && player.unit_available[CLASS_G] && player.unit_available[CLASS_N] && player.unit_available[CLASS_S]){
+            return;
+        }
+    }
+}
+
+Unit* Runner::checkHit(const CityType& victim_type, const UnitClass& victim_class) const{
+     //if neutral they only have one unit or if they only have one unit then they don't have to pick which to deal hits
+    if (victim_type == NEUTRAL || current_battle.first->occupants[victim_type].size() == 1){
+        return current_battle.first->occupants[victim_type][0];
+    }
+
+    //if they have more than one unit check if the class needing to be hit has more than one
+    Unit* found = nullptr;
+    for (const auto& unit : current_battle.first->occupants[victim_type]){
+        if (unit->class_type == victim_class){
+            if (!found){
+                found = unit;
+            }
+            else{ //another unit of the same class was found so need user input
+                return nullptr;
+            }
+        }
+    }
+
+    return found; // if still only one was found (didn't return in loop then no need to check)
+}
+
+void Runner::checkHitRoll(){
+    //set current unit to tired
+    fire_order[0]->acted = true;
+
+    if (die.last_result <= FIREPOWER_TABLE[fire_order[0]->unit_type][target_class]){ //if its a hit then go to selection mode
+        //todo display hit message
+        public_animations.push_back(PublicAnimation((SeasonAnimation)(HIT), -115, -210, 1354, 888, 230, 140, 1, clock, 100));
+        public_animations.back().addPhase(AnimationPhase::STILL, 5000);
+        players[watching_player].combat_phase = COMBAT_DEAL_HITS;
+        players[watching_player].popped_hit_unit = current_battle.first->occupants[watching_player][players[watching_player].popped_hit_index];
+    }
+    else{
+        //todo display miss message
+        public_animations.push_back(PublicAnimation((SeasonAnimation)(MISS), -115, -210, 1354+230, 888, 230, 140, 1, clock, 100));
+        public_animations.back().addPhase(AnimationPhase::STILL, 5000);
+
+        setNextBattle();
+    }
+}
+
+bool Runner::canHitUnit(){
+    const auto& hit_unit = players[watching_player].popped_hit_unit;
+    if (hit_unit->class_type == target_class){
+        //go through all occupants and make sure it is or tied for the most cv
+        int max_cv = -1;
+        for (const auto& unit : current_battle.first->occupants[watching_player]){
+            if (unit->class_type == target_class && unit->combat_value > max_cv)
+                max_cv =  unit->combat_value;
+        }
+
+        return max_cv == hit_unit->combat_value;
+    }
+
+    return false;
+}
+
+void Runner::setNextBattle(){
+    target_class = CLASS_NULL;
+    players[acting_player].combat_phase = OBSERVING;
+    players[watching_player].combat_phase = OBSERVING;
+
+    if (!fire_order.empty() && !current_battle.first->occupants[current_player->getAllegiance()].empty() && !current_battle.first->occupants[current_battle.second].empty()){ //if more units to fire set the new acting and watching
+        sortFireOrder();
+
+        if (fire_order[0]->allegiance == current_player->getAllegiance()){ //if the first unit has the allegiance of the current player then they act first
+            acting_player = *current_player;
+            watching_player = players[current_battle.second];
+        }
+        else{
+            acting_player = players[current_battle.second];
+            watching_player = *current_player;
+        }
+
+        players[acting_player].combat_phase = COMBAT_ACTION_SELECT;
+        players[watching_player].combat_phase = OBSERVING;
+
+        setFireable(players[acting_player], current_battle.first, watching_player);
+        
+    }
+    else if (!battles.empty()){
+        current_battle = battles.front();
+
+        battles.erase(battles.begin());
+
+        sortFireOrder();
+
+        if (fire_order[0]->allegiance == current_player->getAllegiance()){ //if the first unit has the allegiance of the current player then they act first
+            acting_player = *current_player;
+            watching_player = players[current_battle.second];
+        }
+        else{
+            acting_player = players[current_battle.second];
+            watching_player = *current_player;
+        }
+
+        players[acting_player].combat_phase = COMBAT_ACTION_SELECT;
+        players[watching_player].combat_phase = OBSERVING;
+
+        setFireable(players[acting_player], current_battle.first, watching_player);
+    }
+    else{
+        current_player->combat_phase = COMBAT_FINISHED;
+        current_battle.first = nullptr;
+        seasonActed(*current_player);
+    }
+}
+
 //&^ Movement
 
 void Runner::addMovement(Player& player){
@@ -1028,7 +1228,7 @@ MovementMessage Runner::canLandMove(const Player& player, const Unit* unit) cons
         return NO_COMMAND;
     }
 
-    if (unit->moved){
+    if (unit->acted){
         return TIRED;
     }
 
@@ -1127,7 +1327,7 @@ MovementMessage Runner::canSeaMove(const Player& player, const Unit* unit) const
         return NO_COMMAND;
     }
 
-    if (unit->moved){
+    if (unit->acted){
         return TIRED;
     }
 
@@ -1235,7 +1435,7 @@ MovementMessage Runner::canAirMove(const Player& player, const Unit* unit) const
         return NO_COMMAND;
     }
 
-    if (unit->moved)
+    if (unit->acted)
         return TIRED;
 
     const auto& memo = player.movement_memo;
@@ -1294,7 +1494,7 @@ MovementMessage Runner::canAirMove(const Player& player, const Unit* unit) const
         return EMERGENCY_ENGAGE;
     }
 
-    if (!unit->moved && memo[0]->start_allegiance == WATER && last_city->start_allegiance == WATER){ //if its there first move and they're in the water must make it to land
+    if (!unit->acted && memo[0]->start_allegiance == WATER && last_city->start_allegiance == WATER){ //if its there first move and they're in the water must make it to land
         return AIR_OVER_WATER;
     }
 
@@ -1306,7 +1506,7 @@ MovementMessage Runner::canDisengage(const Player& player, const Unit* unit) con
         return NO_COMMAND;
     }
 
-    if (unit->moved){
+    if (unit->acted){
         return TIRED;
     }
 

@@ -24,6 +24,140 @@ static int SDLCALL event_filter(void* userdata, SDL_Event* event) {
     return true;
 }
 
+class PublicAnimation{
+public:
+    //Which animation
+    SeasonAnimation which;
+
+    // Position of the sprite in the spritesheet
+    Target sprite_postion;
+
+    uint random;
+
+    int value1;
+
+    //Position of animation
+    int screen_x;
+    int screen_y;
+
+    int scale;
+
+    uint8_t alpha=255;
+
+
+    //Sprite Translations
+    int sprite_off_x=0;
+    int sprite_off_y=0;
+
+    //Duration
+    tick_t start;
+    tick_t tpu=0;
+    tick_t last_upadate=0;
+
+    //Calls when done
+    using Callback = std::function<void()>;
+
+    Callback on_finish;
+
+
+    //Collection of phases
+    vector<pair<AnimationPhase,  tick_t>> phases;
+
+    PublicAnimation(const SeasonAnimation& which, const int& x_side, const int& y_bottom, const int& sprite_x, const int& sprite_y, const int& width, const int& height, const int& scale, const tick_t& start, const tick_t& tpu):which(which), screen_x(x_side), screen_y(y_bottom), scale(scale), start(start), tpu(tpu){
+        sprite_postion = {sprite_x, sprite_y, width, height};
+        last_upadate = start;
+        random = (rand()%start)*1000;
+    }
+
+    void addPhase(const AnimationPhase a_phase, const tick_t duration){
+        phases.push_back({a_phase, duration});
+    }
+
+    void setRandom(const int& num_sprites){
+        value1 = num_sprites;
+    }
+
+    void setFinishCallback(Callback callback) {
+        on_finish = callback;
+    }
+
+    /**
+     * @brief 
+     * 
+     * @param player 
+     * @param clock 
+     * @return true There is no more to the animations
+     * @return false Animation should continue
+     */
+    void animate(const Player& player, const tick_t& clock){
+        Target temp_target = {(screen_x < 0)? player.app->screen.WIDTH/2+screen_x : screen_x, (screen_y < 0)? player.app->screen.HEIGHT+screen_y : screen_y, sprite_postion.w*scale, sprite_postion.h*scale};
+        
+        //translations for effects
+
+        if (clock-last_upadate >= tpu){
+            last_upadate = clock;
+            switch (phases[0].first){
+                case AnimationPhase::STILL:
+                    //do nothing just show the image!
+                    break;
+                case AnimationPhase::SHAKE_X:
+                    //offset the x val by a sin function
+                    temp_target.x += 5*((sin(1/600.0)*clock+random));
+                    break;
+                case AnimationPhase::SHAKE_Y:
+                    temp_target.y += 5*((cos(1/600.0)*clock+random));
+                    break;
+                case AnimationPhase::SHAKE_ALL:
+                    temp_target.x += 5*((sin(1/600.0)*clock+random));
+                    temp_target.y += 5*((cos(1/600.0)*clock+random));
+                    break;
+                case AnimationPhase::FADE_IN:
+                
+                    break;
+                case AnimationPhase::FADE_OUT:
+
+                    break;
+                case AnimationPhase::FLICKER:
+                    alpha = alpha == 255? 0 : 255;
+                    break;
+                case AnimationPhase::RANDOM:
+                    sprite_off_x = (rand()%value1)*sprite_postion.w;
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        player.sprite_sheet->drawArea(&temp_target, sprite_postion.x+sprite_off_x, sprite_postion.y+sprite_off_y, sprite_postion.w, sprite_postion.h, alpha);
+    }
+
+    bool updateNext(const tick_t& clock){
+        if (pastWait(start, clock, phases[0].second)){
+            phases.erase(phases.begin());
+
+            if (!phases.empty()){
+                if (phases[0].first == AnimationPhase::FLICKER)
+                    tpu = 500;
+
+                start = clock;
+                return false;
+            }
+
+            if (on_finish)
+                on_finish(); //call funciton on finish when it will be deleted
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+    inline SeasonAnimation getWhich(){
+        return which;
+    }
+};
+
 /**
  * @brief The main controller of the game and controls sequence of play
  * 
@@ -60,9 +194,18 @@ private:
 
     vector<PeaceChit> peace_dividends_bag; /**< Holds all the unpulled peace dividends*/
 
+    //& Combat and Battle Attributes
     vector<pair<City*, CityType>> battles; /**< Vector of the current battles the acting player is going to enact and which rival it'll be against */
 
     pair<City*, CityType> current_battle; /**< The current battle where battle actions are directed to */
+    
+    CityType acting_player;
+    
+    CityType watching_player;
+
+    UnitClass target_class=CLASS_NULL;
+
+    vector<Unit*> fire_order; /**< Priority Queue for order of units acting in a battle */
 
     int action_bought = 0; /**< Number of actions card that have been purchaced by players for the production round*/
 
@@ -80,8 +223,6 @@ private:
     const unsigned int seed = 872706816; /**< The set (or time set seed) for all randomness*/
     
     std::mt19937 g; /**< The random generator for shuffling*/
-
-    App app; /**< The stuct that holds all window and renderer for SDL2 and shows the main board*/
 
     App powers_app[3]; /**< The app (window, rendered, ect) of each player and their board*/
 
@@ -102,7 +243,7 @@ public:
         
 
         //- Init Dice
-        die = Dice(1, 6);
+        die = Dice(1, 1); //dev change back to 1, 6 for chances of missing
 
         //- Set starting year
         year = START_YEAR;
@@ -147,14 +288,11 @@ public:
         
         string path = "./sprites/SpriteSheet0.png";
 
-        sprite_map = Spritesheet(path.c_str(), app.renderer);
-
         const string path2 = "./sprites/MapSprite4.png";
         const string path3 = "./sprites/UnitSpritesZ1.png";
         const string path4 = "./sprites/UnitSpritesZ3.png";
         const string path6 = "./sprites/ControllerButtons.png";
         const string path7 = "./sprites/MessageAnimations.png";
-        map_sprite = Spritesheet(path2.c_str(), app.renderer);
 
         powers_sprite_map[0] = Spritesheet(path.c_str(), powers_app[0].renderer);
         players[WEST].sprite_sheet = &powers_sprite_map[0];
@@ -279,6 +417,12 @@ public:
         buildUnit(players[AXIS], map["Tripoli"], TANK);
         buildUnit(players[AXIS], map["Tripoli"], TANK);
 
+        for (int i  = 0; i < 2; i++){
+            auto u2 = buildUnit(players[USSR], map["Berlin"], (UnitType)(AIR+i), 1);
+            map["Berlin"]->removeUnit(u2);
+            map["Paris"]->addUnit(u2);
+        }
+
         applyProduction(players[AXIS]);
         players[AXIS].passed = false;
 
@@ -303,9 +447,7 @@ public:
         buildUnit(players[WEST], map["Karachi"], INFANTRY);
 
         buildUnit(players[WEST], map["Paris"], FORTRESS);
-        buildUnit(players[WEST], map["Paris"], TANK);
-        buildUnit(players[WEST], map["Paris"], INFANTRY);
-        buildUnit(players[WEST], map["Paris"], FLEET);
+
 
         buildUnit(players[WEST], map["Marseille"], INFANTRY);
 
@@ -344,11 +486,6 @@ public:
         buildUnit(players[USSR], map["Stalingrad"], TANK);
 
         buildUnit(players[USSR], map["Urals"], AIR);
-
-        auto u2 = buildUnit(players[USSR], map["Moscow"], TANK, 3);
-
-        map["Moscow"]->removeUnit(u2);
-        map["Paris"]->addUnit(u2);
 
         applyProduction(players[USSR]);
         players[USSR].passed = false;
@@ -662,6 +799,10 @@ public:
      */
     void handleBattleSelect(Player& player);
 
+    void handleActionSelect(Player& player);
+
+    void handleTypeSelect(Player& player);
+
     /**
      * @brief Set which units are able to be attacked in a land battle
      * 
@@ -899,8 +1040,19 @@ public:
      */
     bool seaCombat(City* battlefield);
 
-    
-    //-check which cities have battles and have the
+    void sortFireOrder();
+
+    void checkHitRoll();
+
+    bool canHitUnit();
+
+    Unit* checkHit(const CityType& victim_type, const UnitClass& victim_class) const;
+
+    void setFireable(Player& player, const City* city, const CityType& victim);
+
+    void hitUnit(City* city, Unit* unit);
+
+    void setNextBattle();
 
     /**
      * @brief Check which cities have a current battle happening
@@ -959,7 +1111,7 @@ public:
      * @param player Player who is peaking at a rival's hand
      * @param ticks The tick the player is starting to view the rivals hand
      */
-    void peakRivalAction(Player& player, const tick_t& ticks);
+    void peakRivalAction(Player& player);
 
     /**
      * @brief Handler for Player peaking a rival's unit
@@ -967,7 +1119,7 @@ public:
      * @param player Player who is peaking at a rival's unit
      * @param ticks The tick the player is starting to view the rival's unit
      */
-    void peakRivalUnit(Player& player, const tick_t& ticks);
+    void peakRivalUnit(Player& player);
 
     /**
      * @brief Handler for Player couping against a rival
@@ -975,7 +1127,7 @@ public:
      * @param player Player who is peaking at a rival's hand
      * @param ticks Unused but needed for lambda function
      */
-    void coupRival(Player& player, const tick_t& ticks);
+    void coupRival(Player& player);
 
     /**
      * @brief Handler for Player sabotaging a rival
@@ -983,7 +1135,7 @@ public:
      * @param player Player who is peaking at a rival's hand
      * @param ticks Unused but needed for lambda function
      */
-    void sabotageRival(Player& player, const tick_t& ticks);
+    void sabotageRival(Player& player);
 
     /**
      * @brief Handler for Player using Spy Ring against a rival
@@ -991,7 +1143,7 @@ public:
      * @param player Player who is Spy Ring-ing
      * @param ticks Unused but needed for lambda function
      */
-    void spyRingRival(Player& player, const tick_t& ticks);
+    void spyRingRival(Player& player);
 
     //& Runner Getters and Setters
     /**
@@ -1030,8 +1182,6 @@ private:
      */
     void freeMemory(){
         map.freeMemory();
-        sprite_map.freeMemory();
-        map_sprite.freeMemory();
 
         powers_sprite_map[0].freeMemory();
         powers_sprite_map[1].freeMemory();
@@ -1077,10 +1227,6 @@ private:
 
 private:  //!!! Graphics things
     //& Sprite Maps
-    Spritesheet sprite_map; /**< A png that holds every sprite in the game and can be indexed into and a clip pulls the sprites from*/
-
-    Spritesheet map_sprite; /**< A png of the game map */
-
     Spritesheet powers_sprite_map[3];  /**< A png that holds every sprite in the game and can be indexed into and a clip pulled from in for the player's seperate renderer*/
 
     Spritesheet powers_map_sprite[3]; /**< An array of the spritesheets initaliazed to the powers renderer that has the map */
@@ -1094,6 +1240,8 @@ private:  //!!! Graphics things
     Spritesheet powers_message_animations[3];  /**< An array of the spritesheets initaliazed to the powers renderer that has the public messages animations*/    
 
     tick_t clock; /**< The tick the current frame is starting on and all logic checks in the frame should use */
+
+    int fps; //dev
 
     //& Controller Things
     SDL_GameController *west_controller=nullptr; /**< The controller of the West player */
@@ -1149,7 +1297,7 @@ private:  //!!! Graphics things
      * @brief Clears the screen so the screen can 'update'
      * 
      */
-    void ClearScreen(SDL_Renderer* renderer);
+    void ClearScreen(SDL_Renderer* renderer) const;
 
     /**
      * @brief Draws all buttons and titles for the title screen
@@ -1158,7 +1306,7 @@ private:  //!!! Graphics things
      * @param ticks The current tick of the program used for animating
      * @param alpha The alpha level of each sprite used for fading out
      */
-    void drawTitle(Player& player, const tick_t& ticks, const uint8_t& alpha=255);
+    void drawTitle(Player& player, const uint8_t& alpha=255);
 
     //& Map Displaying
     /**
@@ -1172,15 +1320,15 @@ private:  //!!! Graphics things
      * @param render Will render the map onto the renderer if true (used for when nothing will be added ontop of the map)
      * @param fps If a fps is provided it will draw it onto the renderer
      */
-    void drawMap(Player& player, const bool cities, const bool influence, const bool resources, const bool connections, const bool render=true, const int& fps=-1);
+    void drawMap(Player& player, const bool cities, const bool influence, const bool resources, const bool connections, const bool render=true);
 
     /**
      * @brief Draws the private view of the player including cards and VP and production levels and acheived tech
      * 
-     * @param player The player whose card is being drawn
-     * @param renderer The player's renderer
+     * @param player The player whose board (screen) is being drawn
+     * @param render If the board should be rendered after all is drawn
      */
-    void drawPlayerBoard(Player& player, const tick_t& ticks=0, const bool render=true);
+    void drawPlayerBoard(Player& player, const bool render=true);
 
     /**
      * @brief Draws the Investment Card hand of the currently viewed allegiance (either the icon or all the cards)
@@ -1188,7 +1336,7 @@ private:  //!!! Graphics things
      * @param drawing_player The player whose screen will have the widget drawn onto
      * @param target_player  The player whose actual invest hands will be drawn (will hide cards if `drawing_player` != `target_player`)
      */
-    void drawInvestWidget(Player& drawing_player, Player& target_player);
+    void drawInvestWidget(Player& drawing_player, Player& target_player) const;
 
     /**
      * @brief Draws the Action Card hand of the currently viewed allegiance (either the icon or all the cards)
@@ -1196,7 +1344,7 @@ private:  //!!! Graphics things
      * @param drawing_player The player whose screen will have the widget drawn onto
      * @param target_player  The player whose actual action hands will be drawn (will hide cards if `drawing_player` != `target_player`)
      */
-    void drawActionWidget(Player& drawing_player, Player& target_player);
+    void drawActionWidget(Player& drawing_player, Player& target_player) const;
 
     /**
      * @brief Draws the Achieved Tech hand of the currently viewed allegiance (either the icon or all the cards)
@@ -1204,7 +1352,7 @@ private:  //!!! Graphics things
      * @param drawing_player The player whose screen will have the widget drawn onto
      * @param target_player  The player whose actual tech will be drawn (will hide if `drawing_player` != `target_player` and secret)
      */
-    void drawTechWidget(Player& drawing_player, Player& target_player);
+    void drawTechWidget(Player& drawing_player, Player& target_player) const;
 
     /**
      * @brief Draws the Player Stats hand of the currently viewed allegiance (either the icon or the POP, RES, IND, DOW, ect)
@@ -1212,15 +1360,14 @@ private:  //!!! Graphics things
      * @param drawing_player The player whose screen will have the widget drawn onto
      * @param target_player  The player whose stats will be drawn
      */
-    void drawStatWidget(Player& drawing_player, Player& target_player);
+    void drawStatWidget(Player& drawing_player, Player& target_player) const;
 
     /**
      * @brief Draws any season specific sprites onto the screen
      * 
      * @param drawing_player The player whose screen will be drawn onto
-     * @param ticks Current tick of the frame to act as a clock
      */
-    void drawSeasonSpecific(Player& drawing_player, const tick_t& ticks);
+    void drawSeasonSpecific(Player& drawing_player) const;
 
     /**
      * @brief Get the index of the sprite needed for the city
@@ -1228,7 +1375,7 @@ private:  //!!! Graphics things
      * @param city The city being drawn
      * @return int The index of the sprite in the sprite map
      */
-    int getCitySprite(City* city);
+    int getCitySprite(City* city) const;
 
     /**
      * @brief Draws a city onto the players renderer and if opted the resources as well
@@ -1239,6 +1386,8 @@ private:  //!!! Graphics things
      */
     void drawCity(Player& player, City* city, const bool resources=true, const bool units=true);
 
+    void drawCity(Player& player, City* city, const bool resources=true) const;
+
     /**
      * @brief Draw a city marker (not tied to any specific city)
      * 
@@ -1246,21 +1395,31 @@ private:  //!!! Graphics things
      * @param y The y-coord of the city
      * @param population_type The type of city to draw
      */
-    void drawCity(Player& player, const int& x, const int& y, const PopulationType& population_type);
+    void drawCity(Player& player, const int& x, const int& y, const PopulationType& population_type) const;
 
     /**
      * @brief Draws the unit building UI and the select line and selected unit
      * 
      * @param player The player whose screen will have the unit drawn
      */
-    void drawBuild(Player& player);
+    void drawBuild(Player& player) const;
 
     /**
      * @brief Draws all the currently selected battles onto the cities selected
      * 
-     * @param player Th
+     * @param player The player whose screen will have the battle tokens drawn
      */
-    void drawBattleSelect(Player& player);
+    void drawBattleSelect(Player& player) const;
+
+    void drawCombatWidget(Player& player) const;
+
+    void drawCombatRug(Player& player) const;
+
+    void drawCombatActionSelect(Player& player) const;
+
+    void drawCombatTypeSelect(Player& player) const;
+
+    void drawCombatDealHits(Player& player) const;
 
     /**
      * @brief Draws the unit onto the player's screen
@@ -1274,7 +1433,9 @@ private:  //!!! Graphics things
      * 
      * @pre x and y have already been scaled 
      */
-    void drawUnit(const Player& player, const Unit* unit, const int x, const int y, const int zoom, const bool secret=false) const;
+    void drawUnit(const Player& player, const Unit* unit, const int& x, const int& y, const int& zoom, const bool secret=false) const;
+
+    void drawFadeUnit(const Player& player, const Unit* unit, const int& x, const int& y, const int& zoom, const FadeDirection& fade_direct, const uint8_t& fade_r, const uint8_t& fade_g, const uint8_t& fade_b, const uint8_t& start_opacity, const uint8_t& end_opacity, const int& pixels_ignored) const;
 
     /**
      * @brief Draws a dummy unit onto the screen (not tied to a specific unit objecy)
@@ -1288,10 +1449,10 @@ private:  //!!! Graphics things
      * @param invalid If true the unit sprite will be a question mark only showing the nationality (for when not in combat and not the player's allegiance)
      * @param scale The scale of the unit to enlarge when drawn
      */
-    void drawUnit(const Player& player, const UnitType unit_type, const UnitCountry nationality, const int x, const int y, const int zoom, const bool invalid=false, const int scale=1);
+    void drawUnit(const Player& player, const UnitType& unit_type, const UnitCountry& nationality, const int& x, const int& y, const int& zoom, const bool invalid=false, const int& scale=1) const;
 
     /**
-     * @brief Draws 5 units under the city, rotating to the next 5 every 5 seconds
+     * @brief Draws 5 units under the city, rotating to the next 5 every 5 seconds and will select a unit if the player's cursor is over one
      * 
      * @param player The player whose screen will have the units drawn (also affects which units are visible)
      * @param city The city whose occupants will be drawn
@@ -1299,19 +1460,11 @@ private:  //!!! Graphics things
     void drawCityUnits(Player& player, City* city);
 
     /**
-     * @brief If the city has full displayed enable, every unit at the city will be displayed in rows of 5 (no rotation)
-     * 
-     * @param player The player who opted for the city to be fully displayed
-     * @param city The city whose units will all be shown
-     */
-    void drawFullCityUnits(Player& player, City* city);
-
-    /**
      * @brief Draws the influence tokens onto the map
      * 
      * @param player The player whose screen will have the tokens rendered to
      */
-    void drawInfluence(const Player& player);
+    void drawInfluence(const Player& player) const;
 
     /**
      * @brief Draws the provided action card with the top-left corner being at the provided X and Y coords
@@ -1323,7 +1476,7 @@ private:  //!!! Graphics things
      * @param scaled_size  The scaled size each segment (three: left country, command, right country) should be
      * @param alpha The alpha (opacity) to render each segment
      */
-    void drawActionCard(const Player* draw_player, const ActionCard* card, const int start_x, const int start_y, const int scaled_size, const uint8_t alpha=255);
+    void drawActionCard(const Player* draw_player, const ActionCard* card, const int& start_x, const int& start_y, const int& scaled_size, const uint8_t alpha=255) const;
 
     /**
      * @brief Draws the provided investment card with the top-left corner being at the provided X and Y coords
@@ -1335,7 +1488,7 @@ private:  //!!! Graphics things
      * @param scaled_size  The scaled size each segment (three: left tech, IND, right tech) should be
      * @param alpha The alpha (opacity) to render each segment
      */
-    void drawInvestCard(const Player* draw_player, const InvestmentCard* card, const int start_x, const int start_y, const int scaled_size, const uint8_t alpha=255);
+    void drawInvestCard(const Player* draw_player, const InvestmentCard* card, const int& start_x, const int& start_y, const int& scaled_size, const uint8_t alpha=255) const;
 
     /**
      * @brief Draws the action cards of the current viewed allegiance onto the players screen starting at the given x and y and decends
@@ -1347,7 +1500,7 @@ private:  //!!! Graphics things
      * @param count  The amount of cards to be drawn (max amount drawn will be XX)
      * @param scale The scale of the cards to draw
      */
-    void drawActionCards(const Player* draw_player, const Player* target_player, const int& start_x, const int& start_y, const int& count, const int scale=1);
+    void drawActionCards(const Player* draw_player, const Player* target_player, const int& start_x, const int& start_y, const int& count, const int scale=1) const;
 
     /**
      * @brief Draws the invesetment cards of the current viewed allegiance onto the players screen starting at the given x and y and decends
@@ -1358,7 +1511,7 @@ private:  //!!! Graphics things
      * @param count  The amount of cards to be drawn (max amount drawn will be XX)
      * @param scale The scale of the cards to draw
      */
-    void drawInvestCards(const Player* player, const int& start_x, const int& start_y, const int& count, const int scale=1);
+    void drawInvestCards(const Player* player, const int& start_x, const int& start_y, const int& count, const int scale=1) const;
 
     /**
      * @brief Draws the tech of the current viewed allegiance onto the players screen starting at the given x and y and decends
@@ -1369,7 +1522,7 @@ private:  //!!! Graphics things
      * @param start_x 
      * @param start_y 
      */
-    void drawAchievedTech(Player* player, const Player* target_player, const int& start_x, const int& start_y);
+    void drawAchievedTech(Player* player, const Player* target_player, const int& start_x, const int& start_y) const;
 
     /**
      * @brief Draw the current actions the player can take on the buttons that would initiate those actions
@@ -1377,7 +1530,7 @@ private:  //!!! Graphics things
      * @param drawing_player The player whose actions are being drawn
      * @param ticks The current time since SDL was initalized and used to ttime animations  
      */
-    void drawActionButtons(const Player& drawing_player, const tick_t& ticks); 
+    void drawActionButtons(const Player& drawing_player) const; 
 
     /**
      * @brief Draws all the connections between the cities and colors them based on the type of border 
@@ -1385,14 +1538,14 @@ private:  //!!! Graphics things
      * @param The player whose screen will have connections drawn on
      * 
      */
-    void drawConnections(const Player& player);
+    void drawConnections(const Player& player) const;
 
     /**
      * @brief Draw the current turn order of the players and who has passed
      * 
      * @param player The player whose screen will have it drawn
      */
-    void drawTurnOrder(const Player& player);
+    void drawTurnOrder(const Player& player) const;
 
     /**
      * @brief Takes any length number and draws it as a 7-segment at the x,y as the top left. Origional scale is 7*13 for one digit. Default color is black
@@ -1417,7 +1570,7 @@ private:  //!!! Graphics things
      * @param x2 The x-coord of the second point
      * @param y2 The y-coord of the second point
      */
-    void drawLine(const Player& player, const int x1, const int y1, const int x2, const int y2){
+    void drawLine(const Player& player, const int x1, const int y1, const int x2, const int y2) const{
         auto& renderer = player.app->renderer;
         SDL_SetRenderDrawColor(renderer, 255, 193, 7, 255);
         SDL_RenderDrawLine(renderer, x1,    y1,     x2,     y2);
@@ -1432,7 +1585,7 @@ private:  //!!! Graphics things
      * @param city1 The city where the line starts
      * @param city2 The city where the line ends
      */
-    void drawLine(const Player& player, const City* city1, const City* city2, const bool border=true){
+    void drawLine(const Player& player, const City* city1, const City* city2, const bool border=true) const{
         auto& renderer = player.app->renderer;
         const auto& temp = map.getBorder(city1, city2);
         const auto& x1 = player.app->screen.getX(city1->x+city1->WIDTH/2);
@@ -1453,9 +1606,10 @@ private:  //!!! Graphics things
      * @brief Handles what to draw during the current phase
      * 
      */
-    void drawPhase(const tick_t& ticks);
+    void drawPhase();
 
     //& Animations
+    vector<PublicAnimation> public_animations;
 
     /**
      * @brief Animation for showing the command cards played and the new order
@@ -1469,7 +1623,7 @@ private:  //!!! Graphics things
      * @param axis_end The end turn order postion of the Axis player
      * @param ussr_end The end turn order postion of the USSR player
      */
-    void animateCommandOrder(bool& running, const tick_t& ticks, const int west_start,  const int axis_start,  const int ussr_start, const int west_end,  const int axis_end,  const int ussr_end);
+    void animateCommandOrder(bool& running, const int west_start,  const int axis_start,  const int ussr_start, const int west_end,  const int axis_end,  const int ussr_end);
 
     /**
      * @brief Used the current time and the public message origin time to draw the frame the given animation is at
@@ -1478,7 +1632,7 @@ private:  //!!! Graphics things
      * @param message The message that will be drawn on the screen
      * @param ticks The current time of the frame being drawn
      */
-    void animateMessage(Player& player, PublicMessage& message, const tick_t& ticks);
+    void animateMessage(Player& player, PublicMessage& message);
     
     /**
      * @brief Animation of the cards from the discard pile being added back
@@ -1486,7 +1640,7 @@ private:  //!!! Graphics things
      * @param action_size Number of action cards to add back
      * @param invest_size Number of invest cards to add back
      */
-    void animateReshuffle(bool& running, const size_t& action_size, const size_t& invest_size, const tick_t& ticks);
+    void animateReshuffle(bool& running, const size_t& action_size, const size_t& invest_size);
 
     /**
      * @brief Takes the memo of the Dijkstra's knock-off II for finding trade routes and highlighting the route it takes
@@ -1526,7 +1680,7 @@ private:  //!!! Graphics things
      * @param player 
      * @param ticks 
      */
-    void animatePoem(Player& player, const tick_t ticks);
+    void animatePoem(Player& player) const;
 
     /**
      * @brief Used for button presses where a given mouse clip position will see if its in the rectangle provided
@@ -1555,7 +1709,7 @@ private:  //!!! Graphics things
      * 
      * @param running Reference to the check if the game loop should continue running and can be changed if player inputs it so
      */
-    void handleUserInput(bool& running, const tick_t& ticks);
+    void handleUserInput(bool& running);
 
     /**
      * @brief Handler for all actions which have the X Button (only) held
@@ -1563,7 +1717,7 @@ private:  //!!! Graphics things
      * @param player Player whose X-Button Actinos are checked
      * @param ticks The current tick to use as a clock
      */
-    void handleXHeld(Player& player, const tick_t& ticks);
+    void handleXHeld(Player& player);
 
     /**
      * @brief Handler for all actions which have the Y Button (only) held
@@ -1571,7 +1725,7 @@ private:  //!!! Graphics things
      * @param player Player whose Y-Button Actinos are checked
      * @param ticks The current tick to use as a clock
      */
-    void handleYHeld(Player& player, const tick_t& ticks);
+    void handleYHeld(Player& player);
 
     /**
      * @brief Handler for all actions that occur during the Production Phase with the Y-Button
@@ -1581,7 +1735,7 @@ private:  //!!! Graphics things
      * @param y_wait_time The wait-time the Y-Button needs to be held for actions
      * @pre Current season is Production
      */
-    void handleProductionSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time);
+    void handleProductionSeason(Player& player, const tick_t& y_wait_time);
 
     /**
      * @brief Handler for all actions that occur during the Government Phase with the A-Button
@@ -1591,7 +1745,7 @@ private:  //!!! Graphics things
      * @param y_wait_time The wait-time the A-Button needs to be held for actions
      * @pre Current season is Government
      */
-    void handleGovernmentSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time, const tick_t& a_wait_time);
+    void handleGovernmentSeason(Player& player, const tick_t& y_wait_time, const tick_t& a_wait_time);
 
     /**
      * @brief Handler for all actions that occur during the Command Phase with the Y-Button
@@ -1601,19 +1755,28 @@ private:  //!!! Graphics things
      * @param y_wait_time The wait-time the Y-Button needs to be held for actions
      * @pre Current season is Command
      */
-    void handleCommandSeason(Player& player, const tick_t& ticks, const tick_t& y_wait_time);
+    void handleCommandSeason(Player& player, const tick_t& y_wait_time);
 
     /**
      * @brief Handler for all actions that occur during the Action Seasons with the Y-Button and A-Button
      * 
      * @param player The Player acting with the Y-Button or A-Button
      * @param ticks The current tick to use as a clock
+     * @param a_wait_time The wait-time the A-Button needs to be held for actions
      * @param y_wait_time The wait-time the Y-Button needs to be held for actions
-     * @param y_wait_time The wait-time the A-Button needs to be held for actions
-     * @pre Current season is in a Action Season
+     * @pre Current season is in an Action Season
      */
-    void handleRegularSeason(Player& player, const tick_t& ticks, const tick_t& a_wait_time, const tick_t& y_wait_time);
+    void handleRegularSeason(Player& player, const tick_t& a_wait_time, const tick_t& y_wait_time);
 
+    void handleCombatActions(Player& player, const tick_t& a_wait_time, const tick_t& y_wait_time);
+
+    void decideDice(){
+        die.roll();
+
+        public_animations.push_back(PublicAnimation((SeasonAnimation)(WEST_DICE+acting_player), -48, -190, 512+(die.last_result-1)*32, 288+acting_player*32, 32, 32, 3, clock, 300));
+        public_animations.back().addPhase(AnimationPhase::FLICKER, 4000);
+        public_animations.back().setFinishCallback([this]() { checkHitRoll(); });
+    }
     /**
      * @brief Handler for preforming Intel related actions
      * 
@@ -1622,7 +1785,7 @@ private:  //!!! Graphics things
      * @param message_type The type of public message to display
      * @param espionageAction Function Pointer to the actual action the player is commiting
      */
-    void performIntel(Player& player, const tick_t& ticks, Message message_type, void (Runner::*espionageAction)(Player&, const tick_t&));
+    void performIntel(Player& player, Message message_type, void (Runner::*espionageAction)(Player&));
 
     /**
      * @brief Handler for 'pinning' (showing all troops) the selected city
@@ -1642,7 +1805,7 @@ private:  //!!! Graphics things
      * @param player Player who is toggling their view
      */
     void toggleView(Player& player){
-        if (player.widget <= STAT_WIDGET){
+        if (player.widget <= COMBAT_WIDGET){
             switch (player.widget){
                 case ACTION_HAND:
                     player.show_action = !player.show_action;
@@ -1658,6 +1821,9 @@ private:  //!!! Graphics things
                     break;
                 case STAT_WIDGET:
                     player.show_stat = !player.show_stat;
+                    break;
+                case COMBAT_WIDGET:
+                    player.show_combat = !player.show_combat;
                     break;
                 
                 default:
@@ -1684,7 +1850,7 @@ private:  //!!! Graphics things
      * @param running Condition if the current loop should continue running
      * @param ticks The current time the frame is being drawn
      */
-    void handleUserAnimationInput(bool& running, const tick_t& ticks);
+    void handleUserAnimationInput(bool& running);
 
     /**
      * @brief Handler for when at the title screen and user input is limited
@@ -1692,7 +1858,7 @@ private:  //!!! Graphics things
      * @param running Condition if the current loop should continue running
      * @param ticks The current time the frame is being drawn
      */
-    void handleTitleInput(bool& running, const tick_t& ticks);
+    void handleTitleInput(bool& running);
 
     /**
      * @brief Handels the cases where the player pressed down on a button
@@ -1700,7 +1866,7 @@ private:  //!!! Graphics things
      * @param player The player who commenced the event
      * @param event The button down event by the player
      */
-    void handleButtonDown(Player& player, const SDL_Event& event, const tick_t& ticks);
+    void handleButtonDown(Player& player, const SDL_Event& event);
 
     /**
      * @brief Handels the cases where the player lets up on a button (mostly for times events)
@@ -1708,7 +1874,7 @@ private:  //!!! Graphics things
      * @param player The player who commenced the event
      * @param event The button up event by the player
      */
-    void handleButtonUp(Player& player, const SDL_Event& event, const tick_t& ticks);
+    void handleButtonUp(Player& player, const SDL_Event& event);
 
     /**
      * @brief Handels the players controller joystick movement the dictates cursor movement and is called only every frame to make the movement smoother
@@ -1717,6 +1883,7 @@ private:  //!!! Graphics things
      */
     void handleCursorMovement(Player& player);
 
+    void handleUnitSelection(Player& player, const bool move_x, const bool move_y);
     /**
      * @brief Handler for the right joystick (used to select things) thats taken every frame
      * 
@@ -1756,7 +1923,7 @@ private:  //!!! Graphics things
      * @param player The player whose controller is being read
      * @param ticks The current time of the program used to gauge the delta time
      */
-    void handleTimedJoystick(Player& player, const tick_t& ticks);
+    void handleTimedJoystick(Player& player);
 
     /**
      * @brief Handels the players controller trigger (L2, R2) movement that dictates zoom and is called only every frame to make game smoother
@@ -1771,7 +1938,7 @@ private:  //!!! Graphics things
      * @param player The player whose buttons will be reaed
      * @param ticks The current time of the program used to gauge the delta time
      */
-    void handleWidgetMovement(Player& player, const tick_t& ticks);
+    void handleWidgetMovement(Player& player);
 
     /**
      * @brief Handler for inputs that rely on buttons being held for a set time
@@ -1779,7 +1946,7 @@ private:  //!!! Graphics things
      * @param player The player whose buttons will be read
      * @param ticks The current time of the program used to gauge the delta time
      */
-    void handleHeldButtons(Player& player, const tick_t& ticks);
+    void handleHeldButtons(Player& player);
 
     /**
      * @brief Handles player swapping controllers but need to make it so it actually works
@@ -1821,33 +1988,57 @@ private:
      * @brief Handler for when player's pass during the Action Seasons and which stage of Movement/Combat they move to
      * 
      */
-    void seasonActed(){
-        auto& curr = current_player->current_phase;
-        if (curr == MOVEMENT){
-            curr = COMBAT_SELECT;
-        }
-        else if (curr == COMBAT_SELECT){
-            curr = COMBAT_ATTACKER;
+    void seasonActed(Player& player) {
+        auto& curr = player.combat_phase;
 
-            if (battles.empty())
-                return;
+        switch (curr) {
+            case MOVEMENT:
+                curr = COMBAT_BATTLE_SELECT;
+                break;
 
-            current_battle = battles.front();
-            current_battle.first->battling = true;
+            case COMBAT_BATTLE_SELECT:
+                player.resetUnits();
 
-            battles.erase(battles.begin());
-        }
-        else if (curr == COMBAT_ATTACKER){
+                if (battles.empty())
+                    return;
 
-        }
-        else if (curr == COMBAT){
-            current_player->passed = true;
-            curr = OBSERVING;
+                current_battle = battles.front();
+                current_battle.first->battling = true;
 
-            if (++current_index > 3 || turn_order[current_index]->getCommandNumber() == -1)
-                return;
+                sortFireOrder();
 
-            current_player = turn_order[current_index];
+                if (fire_order[0]->allegiance == current_player->getAllegiance()){ //if the first unit has the allegiance of the current player then they act first
+                    acting_player = *current_player;
+                    watching_player = players[current_battle.second];
+                }
+
+                else{
+                    acting_player = players[current_battle.second];
+                    watching_player = *current_player;
+                }
+                players[acting_player].combat_phase = COMBAT_ACTION_SELECT;
+                players[watching_player].combat_phase = OBSERVING;
+
+                setFireable(players[acting_player], current_battle.first, watching_player);
+
+                battles.erase(battles.begin());
+                break;
+
+            case COMBAT_FINISHED:
+                west_player->combat_phase = OBSERVING;
+                axis_player->combat_phase = OBSERVING;
+                ussr_player->combat_phase = OBSERVING;
+
+                current_player->passed = true;
+
+                if (current_index < 2){
+                    current_player = turn_order[++current_index];
+                    current_player->combat_phase = MOVEMENT;
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -1933,10 +2124,8 @@ private:
      */
     void setXY(const string& path){
         string path2 = "./sprites/MapSprite4.png";
-        map_sprite = Spritesheet(path2.c_str(), app.renderer);
         int width, height;
-        SDL_GetWindowSize(app.window, &width, &height);
-        SDL_Rect tar = {0,0,width,height};
+        SDL_GetWindowSize(west_player->app->window, &width, &height);
         string line;
         
         fstream map_file("./src/starter5.map", std::ios_base::in);
@@ -1966,9 +2155,7 @@ private:
             out_file << line << " ";
             cout <<  line << endl;
             while (running){
-                ClearScreen(app.renderer);
-
-                map_sprite.drawSprite(&tar, 0, 0, 1512, 982);
+                ClearScreen(west_player->app->renderer);
 
                 if (SDL_PollEvent(&event)){
                     switch (event.type) {
@@ -1986,7 +2173,7 @@ private:
                         }
                     }
                 }
-                SDL_RenderPresent(app.renderer);
+                SDL_RenderPresent(west_player->app->renderer);
             }
         }
 
@@ -2031,7 +2218,6 @@ private:
         vector<std::pair<int, int>> coords;
         int width, height;
         SDL_GetWindowSize(players[WEST].app->window, &width, &height);
-        SDL_Rect tar = {0,0,width,height};
         SDL_Event event;
         for (int i = 1; i < map.getCities().size(); i++){
             const auto& city = map.getCity(i);
@@ -2041,7 +2227,7 @@ private:
                 while (running){
                     ClearScreen(players[WEST].app->renderer);
 
-                    players[WEST].map_sprite->drawSprite(&tar, 0, 0, 1512, 982);
+                    //players[WEST].map_sprite->drawSprite(&tar, 0, 0, 1512, 982);
                     drawCity(players[WEST], city->x, city->y, city->population_type);
 
                     if (SDL_PollEvent(&event)){
@@ -2112,3 +2298,4 @@ private:
         return (zoom_x*x1 - x2)*(zoom_x*x1 - x2) + (zoom_y*y1 - y2)*(zoom_y*y1 - y2);
     }
 };
+

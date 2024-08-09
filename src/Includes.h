@@ -77,10 +77,11 @@ const int CONVOY_MOVEMENT = 2;
 
 constexpr int CURSOR_SPEED = 5;
 
+//value min max
 #define loopVal(v, i, a) ((v < i)? (a) : ((v>a)? (i) : (v)))
 
-//held tick, tick, wait_time
-#define pastWait(h, t, w)(h? (t - h > w) : (false))
+//held tick, clock tick, wait_time
+#define pastWait(h, t, w)(h? (t - h >= w) : (false))
 
 //border
 #define isLand(b)(COAST_MOUNTAIN <= b && b <= LAND_STRAIT)
@@ -178,10 +179,12 @@ enum BorderType {
  * @brief The type of unit that determines movement limitations and rebasing/retreating
  */
 enum UnitClass {
+    CLASS_NULL = -1,
     CLASS_A, /**< Class Air that doesn't abide by border limtis and can ReBase*/
     CLASS_N, /**< Class Naval that doesn't abide by border limtis and can ReBase*/
     CLASS_G, /**< Class Ground has to abide by border limtis and cannot ReBase*/
     CLASS_S  /**< Class Sub that doesn't abide by border limtis and can escape*/
+
 };
 
 /**
@@ -190,6 +193,7 @@ enum UnitClass {
  * 
  */
 enum UnitType {
+    NULL_UNIT = -1,
     FORTRESS, /**< Fortress has the best firing capability and go first in battle but cannot move. They can be build in any friendly territory*/
     AIR, /**< Air doesn't abide to border limits and do bombing runs on capitals to lower IND, but without ground support they must rebase */
     CARRIER, 
@@ -293,8 +297,9 @@ enum Widget {
     ACTION_HAND, /**< Player's hand of Action Cards */
     INVEST_HAND, /**< Player's hand of Investment Cards */
     TECH_HAND, /**< Player's list of achieved technology */
-    STAT_WIDGET, 
+    STAT_WIDGET, /**< Player's Power Stats and DoW Status */
     MAP, /**< The map with units and cities */
+    COMBAT_WIDGET, /**< When a battle is occuring it'll show the troops and actions */
 
     //Used for Intelligence Cards
     SELECT_RIVAL,
@@ -341,6 +346,12 @@ enum MovementMessage{
     INVASION
 };
 
+enum FadeDirection{
+    FADE_UP,
+    FADE_DOWN,
+    FADE_RIGHT,
+    FADE_LEFT
+};
 /**
  * @enum Technological Achievements 
  * @brief The wartime technological advancements the player can achieve to boost their efforts (also doubles as sprite offset)
@@ -354,7 +365,7 @@ enum Tech{
     HEAVY_TANKS, /**< Tanks have FirstFire */
     HEAVY_BOMBERS, /**< Air Force move 3 */
     PERCISION_BOMBERS, /**< AFs can bomb industry at I1 */
-    JETs, /**< Air Forces have FirstFire */
+    JETS, /**< Air Forces have FirstFire */
     SONAR, /**< Fleets Fire S3 */
     AIRDEFENCE_RADAR, /**< AFs in Friendly Territory Fire 2A3 */
     ATOMIC_ONE, /**< ATOMIC PILE. */
@@ -393,11 +404,13 @@ enum MovementType{
 
 enum ActionPhase{
     MOVEMENT,
-    COMBAT_SELECT,
-    COMBAT_ATTACKER,
-    COMBAT_DEFENDER,
-    COMBAT,
-    OBSERVING
+    OBSERVING,
+    COMBAT_BATTLE_SELECT,
+    COMBAT_ACTION_SELECT,
+    COMBAT_CLASS_SELECT,
+    COMBAT_RETREAT_SELECT,
+    COMBAT_DEAL_HITS,
+    COMBAT_FINISHED
 };
 
 enum Message{
@@ -425,8 +438,30 @@ enum Message{
 
     WEST_SABOTAGE = 18,
     AXIS_SABOTAGE,
-    USSR_SABOTAGE
+    USSR_SABOTAGE,
+};
 
+enum SeasonAnimation{
+    WEST_DICE = 0x00,
+    AXIS_DICE,
+    USSR_DICE,
+
+    MISS = 0x10,
+    HIT
+};
+
+enum class AnimationPhase{
+    STILL = 0x00,
+
+    SHAKE_X = 0x10,
+    SHAKE_Y,
+    SHAKE_ALL,
+
+    FADE_OUT = 0x20,
+    FADE_IN,
+    FLICKER,
+
+    RANDOM = 0x30,
 
 };
 
@@ -438,7 +473,7 @@ const Tech YEAR_TECHS[4][6] = {
     {SONAR, NAVAL_RADAR, HEAVY_TANKS, AIRDEFENCE_RADAR, MOTORIZED_INFANTRY, ATOMIC_ONE}, //1938
     {SONAR, NAVAL_RADAR, HEAVY_BOMBERS, ROCKET_ARTILLERY, PERCISION_BOMBERS, ATOMIC_TWO}, //1940
     {LSTs, HEAVY_TANKS, ROCKET_ARTILLERY, AIRDEFENCE_RADAR, PERCISION_BOMBERS, ATOMIC_THREE}, //1942
-    {LSTs, JETs, HEAVY_BOMBERS, PERCISION_BOMBERS, ATOMIC_THREE, ATOMIC_FOUR}  //1944
+    {LSTs, JETS, HEAVY_BOMBERS, PERCISION_BOMBERS, ATOMIC_THREE, ATOMIC_FOUR}  //1944
 };
 
 const int FIREPOWER_TABLE[8][4] = { // Damage against {A N G S}
@@ -503,17 +538,18 @@ const bool SEVEN_SEGMENT_DISPLAY[10][7] = {
 const int ZOOM_DIMENSIONS[3][2] = {
     {20, 20}, //Zoom 1 (broadest)
     {40, 40}, //Zoom 2 
-    {64, 64}  //Zoom 3 (Closest)
+    {60, 60}  //Zoom 3 (Closest)
 };
 
-//[button][direction]
-const Widget WIDGET_ADJACENCY[5][4] = {
-    //up down               left            right
+//[widget][direction]
+const Widget WIDGET_ADJACENCY[6][4] = {
+    //up  down              left            right
     {MAP, ACTION_HAND,      ACTION_HAND,    STAT_WIDGET}, //ACTION_HAND
     {MAP, INVEST_HAND,      TECH_HAND,      INVEST_HAND}, //INVEST_HAND
     {MAP, TECH_HAND,        MAP,            INVEST_HAND}, //TECH_HAND
     {MAP, MAP,              ACTION_HAND,    MAP}, //STAT_WIDGET
-    {MAP, MAP,              STAT_WIDGET,    TECH_HAND}  //MAP
+    {MAP, MAP,              STAT_WIDGET,    TECH_HAND},  //MAP
+    {MAP, MAP,              STAT_WIDGET,    TECH_HAND} //COMBAT
 };
 
 const int UNIT_SPRITE_OFFSET[7]{ //"BRITISH", "FRANCE", "USA", "GERMAN", "ITALY", "USSR", "NEUTRAL"
@@ -684,19 +720,19 @@ public:
         }
     }
 
-    void drawArea(SDL_Rect* position, const int x, const int y, const int w, const int h){
-        clip = {x, y, w, h};
+    void drawArea(SDL_Rect* position, const int& x, const int& y, const int& w, const int& h) const{
+        Target temp_clip = {x, y, w, h};
 
-        if (SDL_RenderCopy(renderer, spritesheet_image, &clip, position) < 0){ //was an error
+        if (SDL_RenderCopy(renderer, spritesheet_image, &temp_clip, position) < 0){ //was an error
             cout << "Drawing transparent area failed with error: " << SDL_GetError() << endl;
         }
     }
 
-    void drawArea(SDL_Rect* position, const int x, const int y, const int w, const int h,  const Uint8 alpha){
-        clip = {x, y, w, h};
+    void drawArea(SDL_Rect* position, const int& x, const int& y, const int& w, const int& h,  const Uint8 alpha) const{
+        Target temp_clip = {x, y, w, h};
 
         SDL_SetTextureAlphaMod(spritesheet_image, alpha);
-        if (SDL_RenderCopy(renderer, spritesheet_image, &clip, position) < 0){ //was an error
+        if (SDL_RenderCopy(renderer, spritesheet_image, &temp_clip, position) < 0){ //was an error
             cout << "Drawing transparent area failed with error: " << SDL_GetError() << endl;
         }
 
@@ -712,6 +748,10 @@ struct App{
     FC_Font* font1;
 
     Graphics::Screen screen;
+
+    inline void updateScreen(){
+        SDL_GetWindowSize(window, &screen.WIDTH, &screen.HEIGHT);
+    }
 };
 
 constexpr int offset=0;
