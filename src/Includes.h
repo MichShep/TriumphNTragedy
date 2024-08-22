@@ -59,7 +59,7 @@ typedef Uint32 tick_t;
 
 typedef Uint32 minute_t;
 
-typedef Uint32 year_t;
+typedef double year_t;
 
 typedef SDL_Rect Target;
 
@@ -89,6 +89,8 @@ constexpr int CURSOR_SPEED = 5;
 //border
 #define isNaval(b)((NA < b && b <= COAST_PLAINS) || b == LAND_STRAIT)
 
+#define isN(c)(CARRIER <= c && c <= FLEET)
+
 //border
 #define isAir(b)(b != NA)
 
@@ -101,18 +103,25 @@ constexpr int CURSOR_SPEED = 5;
 //mover_type ruler_type
 #define isFriendly(mt, rt)(mt == rt || rt == WATER)
 
+//og ruler, target 
+#define isRival(or, tr)(or != tr && tr <= USSR && tr != NULL_ALLEGIANCE)
+
+//unit class
+#define isANS(uc)(uc != CLASS_G)
+
 /**
  * @enum The Type of City Allegiance
  * @brief Is the cities ruler's allegiance and also doubles as using the player's power (WEST, AXIIS, USSR) as an index
  * 
  */
 enum CityType {
+    NULL_ALLEGIANCE=-1,
     WEST, /**< Enum for the player who controls the West powers (Britian, France, USA) */
     AXIS, /**< Enum for the player who controls the Axis powers (Germany, Italy)*/
     USSR,  /**< Enum for the player who controls the USSR power (USSR)*/
     NEUTRAL,  /**< Enum for the cities who are neutral and not alligned with any powers */
     NEUTRAL_AT_WAR,  /**< Enum for the cities who are neutral but have been violated by a power*/
-    WATER  /**< Enum for the water tiles (or empty cities)r*/
+    WATER  /**< Enum for the water tiles (or empty cities)*/
 };
 
 /**
@@ -225,14 +234,16 @@ enum UnitCountry {
  * 
  */
 enum Season{
-    TITLE_SCREEN=-10,
+    TITLE_SCREEN=-0x10,
 
     SPRING=0, /**< Spring Season of War Actions */
     SUMMER, /**< Summer Season of War Actions */
     FALL,   /**< Fall Season of War Actions */
     WINTER,  /**< Winter Season of War Actions (only USSR can act)*/
 
-    NEW_YEAR, /**< New Year Phase of game loop */
+    INIT_UNITS,
+
+    NEW_YEAR=0x10, /**< New Year Phase of game loop */
     RESHUFFLE,  /**< Card Shuffling Phase of game loop */
     TURN_ORDER, /**< Deciding Turn Order Phase of game loop */
     PEACE_DIVIDENS, /**< Giving Peace Dividends of game loop */
@@ -267,6 +278,20 @@ enum InvestType {
     YEAR
 };
 
+enum WildActionType {
+    NOT_WILD=-1,
+    ISOLATIONISM,
+    INTIMIDATION,
+    GUARANTEE,
+    FOREIGN_AID,
+    TIES_THAT_BIND,
+    FEAR_AND_LOATHING,
+    VERSAILLES,
+    ETHNIC_TIES,
+    BROTHERS_IN_ARMS,
+    BIRDS_OF_A_FEATHER
+};
+
 enum GovernmentAction{
     INFLUENCE,
     ACHIEVE,
@@ -280,6 +305,7 @@ enum ActionType {
 };
 
 enum InfluenceType { 
+    STARTER=-1,
     UNALIGNED,
     ASSOCIATES, 
     PROTECTORATES, 
@@ -323,7 +349,7 @@ enum ProductionError{
 };
 
 enum MovementMessage{
-    EMPTY_MEMO = -0x10,
+    EMPTY_MEMO = -0x20,
     EMERGENCY_ENGAGE,
     BORDER_LIMIT,
     TIRED,
@@ -334,8 +360,16 @@ enum MovementMessage{
     NO_COMMAND,
     PAST_COAST,
     AIR_OVER_WATER,
+    RAID_UNOCCUPIED,
     CONVOY_ENGAGE_AT_SEA,
     DISENGAGE_ENGAGE,
+    DISENGAGE_RETREAT,
+    RETREAT_INTO_ENGAGER,
+    RETREAT_INTO_NEW,
+    RETREAT_TO_DISPUTED,
+    REBASE_DISPUTED,
+    NOT_FRIENDLY,
+    RETREAT_TO_WATER,
     // ^ Error 
     // v Effects
     NO_EFFECT = 0x0,
@@ -343,7 +377,32 @@ enum MovementMessage{
     VONED,
     ENGAGING=0x20,
     LANDFALL,
-    INVASION
+    INVASION,
+    TURN_CONVOY,
+};
+
+const string movementErrorNames[TURN_CONVOY+1]{
+    "EMPTY_MEMO",
+    "EMERGENCY_ENGAGE",
+    "BORDER_LIMIT",
+    "TIRED",
+    "TOO_FAR",
+    "ENGAGE_NOT_LAST",
+    "NOT_CONNECTED",
+    "WILL_BE_NEUT",
+    "NO_COMMAND",
+    "PAST_COAST",
+    "AIR_OVER_WATER",
+    "RAID_UNOCCUPIED",
+    "CONVOY_ENGAGE_AT_SEA",
+    "DISENGAGE_ENGAGE",
+    "DISENGAGE_RETREAT",
+    "RETREAT_INTO_ENGAGER",
+    "RETREAT_INTO_NEW",
+    "RETREAT_TO_DISPUTED",
+    "REBASE_DISPUTED",
+    "NOT_FRIENDLY",
+    "RETREAT_TO_WATER",
 };
 
 enum FadeDirection{
@@ -403,14 +462,23 @@ enum MovementType{
 };
 
 enum ActionPhase{
-    MOVEMENT,
     OBSERVING,
-    COMBAT_BATTLE_SELECT,
-    COMBAT_ACTION_SELECT,
-    COMBAT_CLASS_SELECT,
-    COMBAT_RETREAT_SELECT,
+    MOVEMENT,
+    INTERVENTION_SELECT,
+
+    COMBAT_SELECT_BATTLE,
+    COMBAT_SELECT_BATTLE_GROUP,
+    COMBAT_SELECT_ACTION,
+    COMBAT_SELECT_CLASS,
+    COMBAT_SELECT_RETREAT,
+    COMBAT_SELECT_REBASE,
     COMBAT_DEAL_HITS,
-    COMBAT_FINISHED
+    COMBAT_FINISHED,
+    COMBAT_SELECT_REBASE_OPT,
+
+    //rebasing
+    COMBAT_FINISHED_OPT_REBASE,
+    COMBAT_FINISHED_FORCED_REBASE,
 };
 
 enum Message{
@@ -447,7 +515,8 @@ enum SeasonAnimation{
     USSR_DICE,
 
     MISS = 0x10,
-    HIT
+    HIT,
+    NEXT_BATTLE,
 };
 
 enum class AnimationPhase{

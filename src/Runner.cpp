@@ -321,6 +321,8 @@ bool Runner::initMap(string map_name){
             country->pushback(map[city]);
             map[city]->country = name;
         }
+        country->allegiance = map[capital]->start_allegiance;
+        country->starter_allegiance = country->allegiance;
 
         map.addCountry(country);
     }
@@ -355,6 +357,17 @@ bool Runner::initCards(const string invest_name, const string action_name){
     sprite_offsets["Persia"] = 19;
     sprite_offsets["Portugal"] = 20;
     sprite_offsets["Empty_Action"] = 21;
+
+    sprite_offsets["Isolationism"] = 24;
+    sprite_offsets["Intimidation"] = 25;
+    sprite_offsets["Guarantee"] = 26;
+    sprite_offsets["Foreign_Aid"] = 27;
+    sprite_offsets["Ties_That_Bind"] = 28;
+    sprite_offsets["Fear_And_Loathing"] = 29;
+    sprite_offsets["Versailles"] = 30;
+    sprite_offsets["Ethnic_Ties"] = 31;
+    sprite_offsets["Brothers_In_Arms"] = 32;
+    sprite_offsets["Birds_Of_A_Feather"] = 33;
 
     sprite_offsets["LSTs"] = LSTs;
     sprite_offsets["Motorized_Infantry"] = MOTORIZED_INFANTRY;
@@ -452,7 +465,19 @@ bool Runner::initCards(const string invest_name, const string action_name){
         action_file >> letter;
         action_file >> number;
 
-        action_discard.push_back(new ActionCard((ActionType)type, countryA, countryB, season, letter, number, sprite_offsets[countryA], sprite_offsets[countryB]));
+        if (sprite_offsets.find(countryA) == sprite_offsets.end()){
+            cout << "No instance of " << countryA << " offset" << endl;
+        }
+
+        if (sprite_offsets.find(countryB) == sprite_offsets.end()){
+            cout << "No instance of " << countryB << " offset" << endl;
+        }
+
+        const auto res = new ActionCard((ActionType)type, countryA, countryB, season, letter, number, sprite_offsets[countryA], sprite_offsets[countryB]);
+        action_discard.push_back(res);
+        if (res->type){
+            res->wild_type = (WildActionType)(sprite_offsets[countryA]-24);
+        }
     }
 
     reshuffle(false);
@@ -513,7 +538,7 @@ void Runner::mapPlayerResPop(Player& player){
 
     //- Go through each influenced country 
     for (const auto& country : temp_countries){
-        if (player == country.second->allegiance &&country.second->influence_level <= PROTECTORATES){
+        if (player == country.second->allegiance && country.second->influence_level <= PROTECTORATES && country.second->starter_allegiance != country.second->allegiance){ //to stop double count of starter 
             for (const auto& city : country.second->cities){
                 temp_resources += city->resource;
                 //if (city->resource>0) cout << city->name << " adds " << city->resource <<"R" << endl;
@@ -530,25 +555,32 @@ void Runner::mapPlayerResPop(Player& player){
 
 //& Unit Actions
 
-Unit* Runner::buildUnit(Player&player, City* city, const UnitType unit, const int cv){
+Unit* Runner::buildCadre(Player&player, City* city, const UnitType unit){
     Unit* cadre = new Unit(player.getNextID(), city->ruler_nationality, unit, year); //build new unit
     city->addUnit(cadre); //add the unit to the city it was built in
     player.add(cadre); //add is to the players ML of all of its units
-    cadre->combat_value = cv-1;
+    cadre->combat_value = 0;
 
     return cadre;
 }
 
+Unit* Runner::buildUnit(Player&player, City* city, const UnitType unit, const int cv){
+    Unit* unit_obj = new Unit(player.getNextID(), city->ruler_nationality, unit, year); //build new unit
+    city->addUnit(unit_obj); //add the unit to the city it was built in
+    player.add(unit_obj); //add is to the players ML of all of its units
+    unit_obj->combat_value = cv;
+
+    unit_obj->upgrading = false;
+
+    return unit_obj;
+}
+
 //& Card Actions
 
+//&^ Espionage
 void Runner::selectTechCard(Player& player){
     if (player.widget == INVEST_HAND && player == player.invest_view && player.popped_invest_card != nullptr && player.a_held_tick != 0){
-        if (!player.hasSelected(player.popped_invest_card)){
-            player.selected_invest_cards.push_back(player.popped_invest_card);
-        }
-        else{
-            player.deselect(player.popped_invest_card);
-        }
+        player.popped_invest_card->selected = !player.popped_invest_card->selected;
     }
 }
 
@@ -570,6 +602,335 @@ void Runner::sabotageRival(Player& player){
 
 void Runner::spyRingRival(Player& player){
     spyRing(player);
+}
+
+//&^ Wild Action Cards
+
+bool Runner::canWildAction(Player& player){
+    if (player.popped_action_card == nullptr || player.popped_action_card->wild_type == NOT_WILD || player.closest_map_city == nullptr)
+        return false;
+
+    switch(player.popped_action_card->wild_type) {
+        case ISOLATIONISM:
+            return handleIsolationism(player);
+            break;
+        case INTIMIDATION:
+            return handleIntimidation(player);
+            break;
+        case GUARANTEE:
+            return handleGuarantee(player);
+            break;
+        case FOREIGN_AID:
+            return handleForeignAid(player);
+            break;
+        case TIES_THAT_BIND:
+            return handleTiesThatBind(player);
+            break;
+        case FEAR_AND_LOATHING:
+            return handleFearAndLoathing(player);
+            break;
+        case VERSAILLES:
+            return handleVersailles(player);
+            break;
+        case ETHNIC_TIES:
+            return handleEthnicTies(player);
+            break;
+        case BROTHERS_IN_ARMS:
+            return handleBrothersInArms(player);
+            break;
+        case BIRDS_OF_A_FEATHER:
+            return handleBirdsOfAFeather(player);
+            break;
+        default:
+            exit(1);
+            std::cerr << "Uknown wild type card '" << player.popped_action_card->wild_type << "'" << endl;
+            return false;
+            break;
+    }
+
+}
+
+bool Runner::handleIsolationism(Player& player){
+    const auto& selected_city = player.closest_map_city->name;
+    Country* target_country = nullptr;
+    switch (selected_city[0] + selected_city[1] + selected_city[2]){
+        case 'W'+'a'+'s': //Washington
+        case 'M'+'a'+'d': //Madris
+        case 'A'+'m'+'s': //Amsterdam
+        case 'W'+'a'+'r': //Poland
+        case 'S'+'t'+'o': //Stockholm
+        case 'A'+'n'+'k': //Ankara
+            target_country = map.getCountry(player.closest_map_city->country);
+            break;
+        
+        default:
+            return false;
+            break;
+    }
+
+    if (target_country->influence < 1 || target_country->allegiance == player || target_country->influence_level == SATELLITES || target_country->armed_minor)
+        return false;
+
+    target_country->directAdd(player);
+
+    target_country->resolveDiplomacy();
+
+    return true;
+    //remove rival influence from USA, Spain, Low Countries, Poland, Sweden, Turkey
+}
+
+bool Runner::handleForeignAid(Player& player){
+    if (player.getIndustry() < 1)
+        return false;
+
+    const auto& selected_city = player.closest_map_city;
+
+    if (!(selected_city->occupier_allegiance == NEUTRAL && !selected_city->armed && selected_city->capital))
+        return false;
+
+    Country* selected_country = map.getCountry(selected_city->country);
+
+    if (selected_country->armed_minor)
+        return false;
+
+    selected_country->directAdd(player);
+
+    player.lowerIND();
+
+    return true;
+}
+
+bool Runner::handleGuarantee(Player& player){
+    const auto& selected_city = player.closest_map_city;
+
+    if (!(selected_city->occupier_allegiance == NEUTRAL && selected_city->capital))
+        return false;
+
+    Country* selected_country = map.getCountry(selected_city->country);
+
+    if (selected_country->influence_level == SATELLITES || selected_country->name == "USA" || selected_country->armed_minor)
+        return false;
+
+    //check for the rival territory
+    bool found_rival=false;
+    for (const auto& city : selected_country->cities){
+        const auto& adjacencies = map.getAdjacency()[city->ID];
+        const size_t& id = city->ID;
+
+        for (size_t i = 0; i < adjacencies.size(); i++){
+            if (map.getBorder(id, i) && isRival(player, map.getCity(i)->occupier_allegiance)){
+                found_rival = true;
+            }
+        }
+    }
+
+    if (!found_rival)
+        return false;
+
+    selected_country->directAdd(player);
+
+
+    cout << selected_country->influence << " " << selected_country->influence_level << endl;
+
+    return true;
+}
+
+bool Runner::handleIntimidation(Player& player){
+    const auto& selected_city = player.closest_map_city;
+
+    if (!(selected_city->occupier_allegiance == NEUTRAL && selected_city->capital))
+        return false;
+
+    Country* selected_country = map.getCountry(selected_city->country);
+
+    if (selected_country->name == "USA" || selected_country->armed_minor)
+        return false;
+
+    //check for the rival territory
+    bool found_rival=false;
+    for (const auto& city : selected_country->cities){
+        const auto& adjacencies = map.getAdjacency()[city->ID];
+        const size_t& id = city->ID;
+
+        for (size_t i = 0; i < adjacencies.size(); i++){
+            if (map.getBorder(id, i) && player == map.getCity(i)->occupier_allegiance){
+                found_rival = true;
+            }
+        }
+    }
+
+    if (!found_rival)
+        return false;
+
+    selected_country->directAdd(player);
+    
+    return true;
+}
+
+bool Runner::handleBirdsOfAFeather(Player& player){
+    const string options[3][4] = {{"USA", "Norway", "Denmark", "Sweden"}, //west
+                                {"Portugal", "Spain", "Yugoslavia", "Latin_America"}, //axis
+                                {"Spain", "Dongland", "Dongland", "Dongland"}}; //ussr
+
+    const auto& selected_city = player.closest_map_city;
+
+    if (!(selected_city->occupier_allegiance == NEUTRAL && selected_city->capital))
+        return false;
+
+        //dev michael write that the country should be checked for arm not the city
+
+    Country* selected_country = map.getCountry(selected_city->country);
+    const string& name = selected_country->name;
+
+    if (selected_country->armed_minor) //if armed can't be influenced
+        return false;
+
+    for (const auto& country : options[(int)player]){
+        if (country == name){
+            selected_country->directAdd(player);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Runner::handleTiesThatBind(Player& player){
+    const string options[3][3] = {{"USA", "Low_Countries", "Czechoslovakia"}, //west
+                                {"Austria", "Hungary", "Bulgaria"}, //axis
+                                {"Spain", "Yugoslavia", "Dongland"}}; //ussr
+
+    const auto& selected_city = player.closest_map_city;
+
+    if (!(selected_city->occupier_allegiance == NEUTRAL && selected_city->capital))
+        return false;
+
+        //dev michael write that the country should be checked for arm not the city
+
+    Country* selected_country = map.getCountry(selected_city->country);
+    const string& name = selected_country->name;
+
+    if (selected_country->armed_minor) //if armed can't be influenced
+        return false;
+
+    for (const auto& country : options[(int)player]){
+        if (country == name){
+            selected_country->directAdd(player);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Runner::handleFearAndLoathing(Player& player){
+    const string options[3][7] = {{"Austria", "Hungary", "Bulgaria", "Latin_America", "Turkey", "Persia", "Dongland"}, //west
+                                {"Low_Countries", "Czechoslovakia", "Poland", "Yugoslavia", "Norway", "Rumania", "USA"}, //axis
+                                {"Poland", "Rumania", "Turkey", "Finland", "Sweden", "Baltic_States", "USA"}}; //ussr
+
+    const auto& selected_city = player.closest_map_city;
+
+    if (!(selected_city->occupier_allegiance == NEUTRAL && selected_city->capital))
+        return false;
+
+    Country* selected_country = map.getCountry(selected_city->country);
+    const string& name = selected_country->name;
+
+    if (selected_country->influence < 1 || selected_country->allegiance == player || selected_country->armed_minor) //since its only removing not adding  
+        return false;
+
+    for (const auto& country : options[(int)player]){
+        if (country == name){
+            selected_country->directAdd(player);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Runner::handleVersailles(Player& player){
+    const string options[3][3] = {{"Poland", "Czechoslovakia", "Yugoslavia"}, //west
+                                {"Austria", "Hungary", "Turkey"}, //axis
+                                {"Yugoslavia", "Dongland", "Dongland"}}; //ussr
+
+    const auto& selected_city = player.closest_map_city;
+
+    if (!(selected_city->occupier_allegiance == NEUTRAL && selected_city->capital))
+        return false;
+
+        //dev michael write that the country should be checked for arm not the city
+
+    Country* selected_country = map.getCountry(selected_city->country);
+    const string& name = selected_country->name;
+
+    if (selected_country->armed_minor) //if armed can't be influenced
+        return false;
+
+    for (const auto& country : options[(int)player]){
+        if (country == name){
+            selected_country->directAdd(player);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Runner::handleEthnicTies(Player& player){
+    const string options[3][4] = {{"USA", "Norway", "Low_Countries", "Rumania"}, //west
+                                {"Austria", "Sweden", "Norway", "dongland"}, //axis
+                                {"Yugoslavia", "Poland", "Bulgaria", "dongland"}}; //ussr
+
+    const auto& selected_city = player.closest_map_city;
+
+    if (!(selected_city->occupier_allegiance == NEUTRAL && selected_city->capital))
+        return false;
+
+        //dev michael write that the country should be checked for arm not the city
+
+    Country* selected_country = map.getCountry(selected_city->country);
+    const string& name = selected_country->name;
+
+    if (selected_country->armed_minor)
+        return false;
+
+    for (const auto& country : options[(int)player]){
+        if (country == name){
+            selected_country->directAdd(player);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Runner::handleBrothersInArms(Player& player){
+    const string options[3][3] = {{"USA", "Low_Countries", "Rumania"}, //west
+                                {"Austria", "Hungary", "Bulgaria"}, //axis
+                                {"Spain", "Czechoslovakia", "Dongland"}}; //ussr
+
+    const auto& selected_city = player.closest_map_city;
+
+    if (!(selected_city->occupier_allegiance == NEUTRAL && selected_city->capital))
+        return false;
+
+        //dev michael write that the country should be checked for arm not the city
+
+    Country* selected_country = map.getCountry(selected_city->country);
+    const string& name = selected_country->name;
+
+    if (selected_country->armed_minor)
+        return false;
+
+    for (const auto& country : options[(int)player]){
+        if (country == name){
+            selected_country->directAdd(player);
+            return true;
+        }
+    }
+
+    return false;
 }
 
 //& Battle Actions
@@ -606,10 +967,19 @@ bool Runner::addBattle(const Player& player, const CityType& defender){
 void Runner::hitUnit(City* city, Unit* unit){
     if (!(--unit->combat_value)){
         city->removeUnit(unit);
-        players[unit->allegiance].remove(unit);
+        if (unit->allegiance == NEUTRAL){
+            neutral_units.erase(find(neutral_units.begin(), neutral_units.end(), unit));
+            delete unit;
+        }
+        else
+            players[unit->allegiance].remove(unit);
     }
 
-    setNextBattle();
+    handleUnitActionEnd();
+}
+
+void Runner::finalizeBattleGroup(Player& player){
+    //make sure at least one
 }
 
 //& Deciders
@@ -793,20 +1163,29 @@ bool Runner::checkTradeRoutes(Player& player, const string& main_capital){
 
 ProductionError Runner::canBuild(const Player& player,  City* city, const UnitType unit){
     const CityType allegiance = player.getAllegiance();
+
     //? 7.231 Building Fortresses Fortress Cadres/steps can be built anywhere in undisputed Friendly Territory, even where Unsupplied
-    if (unit == FORTRESS){
-        if (city->ruler_allegiance != allegiance){ 
-            //cout << "enemy fort" << endl;
-            return ENEMY_FORTRESS;
+    if (season != INIT_UNITS){
+        if (unit == FORTRESS){
+            if (city->occupier_allegiance != allegiance){ 
+                //cout << "enemy fort" << endl;
+                return ENEMY_FORTRESS;
+            }
+        }
+        else{
+            //? 2.3 Home Territory Land Areas within the national boundaries of a Great or Major Power (colorcoded) are termed its Home Territory. Except for Fortresses (3.241) all new units (Cadres) must be built within Home Territory.
+            if (city->power_type > MAJOR || city->start_allegiance != allegiance || city->occupier_allegiance != allegiance){ 
+                //cout << "outside home" << endl;
+                return OUTSIDE_HOME;
+            }
         }
     }
     else{
-        //? 2.3 Home Territory Land Areas within the national boundaries of a Great or Major Power (colorcoded) are termed its Home Territory. Except for Fortresses (3.241) all new units (Cadres) must be built within Home Territory.
-        if (city->power_type > MAJOR || city->start_allegiance != allegiance || city->ruler_allegiance != allegiance){ 
-            //cout << "outside home" << endl;
+        if ( city->occupier_allegiance != allegiance){
             return OUTSIDE_HOME;
         }
     }
+
     //? 7.231 Building Fortresses ... Only one Fortress is allowed per Land Area
     if (unit == FORTRESS){
         for (const auto& city_units : city->occupants[allegiance]){
@@ -818,21 +1197,27 @@ ProductionError Runner::canBuild(const Player& player,  City* city, const UnitTy
     }
 
     //*https://boardgamegeek.com/thread/2974529/article/41205622#41205622 (CARRIER, SUB, FLEET must be build on shores)
-    if (unit >= CARRIER && unit <= FLEET){
+    if (isN(unit)){
         const auto& adjacecny = map.getAdjacency()[city->getID()]; //todo optomize
+        bool found_water = false;
         for (const auto& border : adjacecny){
-            if (border > COAST_PLAINS && border != LAND_STRAIT)
-                return NAVAL_INLAND;
+            if (isNaval(border)){
+                found_water = true;
+                break;
+            }
         }
+
+        if (!found_water)
+            return NAVAL_INLAND;
     } 
 
     //? 7.23 Building Unit Steps Units cannot be built if they are Unsupplied (14.1), but see 7.231
-    if (city->year_supplied == year && city->season_supplied == season && !city->supllied){ //if it was already checked this season for supply lines then use result
+    if (season != INIT_UNITS && city->year_supplied == year && city->season_supplied == season && !city->supplied){ //if it was already checked this season for supply lines then use result
         //cout << "unsupplied1" << endl;
         return UNSUPPLIED;
     }
 
-    if ((city->year_supplied != year || city->season_supplied != season) && !isSupllied(player, city, allegiance)){ //if it hasn't been checked this season then need to run check
+    if (season != INIT_UNITS && (city->year_supplied != year || city->season_supplied != season) && !isSupllied(player, city, allegiance)){ //if it hasn't been checked this season then need to run check
         //cout << "unsupplied2" << endl;
         return UNSUPPLIED;
     }
@@ -848,7 +1233,13 @@ ProductionError Runner::canBuild(const Player& player,  City* city, const UnitTy
 }
 
 bool Runner::setBuildable(Player& player){
-    const auto& city = player.selecting_city;
+    const auto& city = player.option_select_city;
+
+    //if in the init unit phase check if the current city can have more (more left && has any)
+    if (season == INIT_UNITS && !(starting_cities.find(city->name) != starting_cities.end() && city->getUpgraded(player) < (*starting_cities.find(city->name)).second)){
+        return false;
+    }
+
     player.unit_available[FORTRESS] = (canBuild(player, city, FORTRESS) == ABLE); //top
 
     player.unit_available[AIR] = (canBuild(player, city, AIR) == ABLE); //top right
@@ -878,7 +1269,7 @@ ProductionError Runner::canUpgrade(const Player& player, City* city, const UnitC
     }
 
     //? 7.23 Building Unit Steps Units cannot be built if they are Unsupplied (14.1), but see 7.231
-    if (city->year_supplied == year && city->season_supplied == season && !city->supllied){ //if it was already checked this season for supply lines then use result
+    if (city->year_supplied == year && city->season_supplied == season && !city->supplied){ //if it was already checked this season for supply lines then use result
         return UNSUPPLIED;
     }
 
@@ -979,7 +1370,7 @@ bool Runner::isSupllied(const Player& player, City* city, const CityType allegia
             const auto& lucky_one = map.getCity(connect_indx);
             lucky_one->year_supplied = year;
             lucky_one->season_supplied = season;
-            lucky_one->supllied = supplied;
+            lucky_one->supplied = supplied;
         }
     }
 
@@ -1008,7 +1399,7 @@ void Runner::sortFireOrder(){
     };
 
     const CityType& attacker_allegiance = current_player->getAllegiance();
-    const CityType& defender_allegiance = players[current_battle.second].getAllegiance();
+    const CityType& defender_allegiance = current_battle.second;
     int index = 0;
 
     for (const auto& b : current_player->getFirstFire()) {
@@ -1016,27 +1407,37 @@ void Runner::sortFireOrder(){
         index++;
     }
     index=0;
-    for (const auto& b : players[current_battle.second].getFirstFire()) {
-        ff_table[defender_allegiance][index] = b;
-        index++;
-    }
 
+    if (defender_allegiance == NEUTRAL){
+        for (auto& b : ff_table[defender_allegiance]) {
+            b = true;
+            index++;
+        }
+    }
+    else{
+        for (const auto& b : players[current_battle.second].getFirstFire()) {
+            ff_table[defender_allegiance][index] = b;
+            index++;
+        }
+    }
 
     fire_order.clear(); // Clear the fire_order vector before filling it
     fire_order.reserve(attacker_units.size() + defender_units.size()); // Reserve memory (may not be full from convoys but is a hard worst case)
 
+    bool sea_battle = current_battle.first->start_allegiance == WATER;
+
     for (auto& unit : attacker_units){ // Add all of the attacker's units
-        if (unit->landing != year && !unit->acted) //if the convoy landed on an enemy shore this year then they don't get to act womp womp
+        if (unit->landing != year && !unit->acted && !(sea_battle && !unit->battle_group)) //if the convoy landed on an enemy shore this year then they don't get to act womp womp
             fire_order.push_back(unit);
         else{
             unit->acted = true; //just to show its 'exhausted' and wont act
         }
     }
     for (auto& unit : defender_units){ // Add all of the defender's units
-        if (!unit->acted)
+        if (!unit->acted && !(sea_battle && !unit->battle_group))
             fire_order.push_back(unit);
     }
-
+    //dev reset neutral units after a round
     //Lambda function to compare
     auto compare = [&](const Unit* a, const Unit* b) {
         if (a->unit_type == b->unit_type){
@@ -1049,6 +1450,56 @@ void Runner::sortFireOrder(){
                     //cout << a->unit_type << " : " << ff_table[a->allegiance][a->unit_type] << " " << ff_table[b->allegiance][b->unit_type] << endl;
                     return ff_table[a->allegiance][a->unit_type] || !ff_table[b->allegiance][b->unit_type];
                 }
+            }
+
+            return a->combat_value > b->combat_value;
+            // A D R
+            // 0 0 D
+            // 0 1 D
+            // 1 0 A
+            // 1 1 D
+        }
+        
+        return a->unit_type < b->unit_type;
+    };
+
+    // Sort fire_order using the comparator
+    sort(fire_order.begin(), fire_order.end(), compare);
+}
+
+void Runner::sortReBaseOrder(const bool att, const bool def){
+    // Get participating player's units from the city
+    const CityType& attacker_allegiance = current_player->getAllegiance();
+    const CityType& defender_allegiance = current_battle.second;
+
+    const auto& attacker_units = current_battle.first->occupants[attacker_allegiance];
+    const auto& defender_units = current_battle.first->occupants[defender_allegiance];
+
+    fire_order.clear(); // Clear the fire_order vector before filling it
+    fire_order.reserve(attacker_units.size() + defender_units.size()); // Reserve memory (may not be full from convoys but is a hard worst case)
+
+    if (att){
+        for (auto& unit : attacker_units){ // Add all of the attacker's units
+            if (isANS(unit->class_type) && !unit->rebase){
+                unit->acted = false;
+                fire_order.push_back(unit);
+            }
+        }
+    }
+    if (def){
+        for (auto& unit : defender_units){ // Add all of the defender's units
+            if (isANS(unit->class_type)&& !unit->rebase){
+                unit->acted = false;
+                fire_order.push_back(unit);
+            }
+        }
+    }
+
+    //Lambda function to compare the priority of units to rebase (attacker goes first imo but could change)
+    auto compare = [&](const Unit* a, const Unit* b) {
+        if (a->unit_type == b->unit_type){
+            if (a->allegiance != b->allegiance){
+                return b->allegiance == attacker_allegiance && a->allegiance != attacker_allegiance;
             }
 
             return a->combat_value > b->combat_value;
@@ -1110,20 +1561,26 @@ void Runner::checkHitRoll(){
         //todo display hit message
         public_animations.push_back(PublicAnimation((SeasonAnimation)(HIT), -115, -210, 1354, 888, 230, 140, 1, clock, 100));
         public_animations.back().addPhase(AnimationPhase::STILL, 5000);
-        players[watching_player].combat_phase = COMBAT_DEAL_HITS;
-        players[watching_player].popped_hit_unit = current_battle.first->occupants[watching_player][players[watching_player].popped_hit_index];
+        
+        if (watching_player != NEUTRAL){
+            players[watching_player].combat_phase = COMBAT_DEAL_HITS;
+            players[watching_player].popped_hit_unit = current_battle.first->occupants[watching_player][players[watching_player].popped_hit_index];
+        }
+        else{ //if its neutral then automatically hit unit
+            hitUnit(current_battle.first, current_battle.first->occupants[NEUTRAL][0]);
+        }
     }
     else{
         //todo display miss message
         public_animations.push_back(PublicAnimation((SeasonAnimation)(MISS), -115, -210, 1354+230, 888, 230, 140, 1, clock, 100));
         public_animations.back().addPhase(AnimationPhase::STILL, 5000);
 
-        setNextBattle();
+        handleUnitActionEnd();
     }
 }
 
 bool Runner::canHitUnit(){
-    const auto& hit_unit = players[watching_player].popped_hit_unit;
+    const auto& hit_unit = watching_player == NEUTRAL? current_battle.first->occupants[NEUTRAL][0]: players[watching_player].popped_hit_unit;
     if (hit_unit->class_type == target_class){
         //go through all occupants and make sure it is or tied for the most cv
         int max_cv = -1;
@@ -1138,88 +1595,405 @@ bool Runner::canHitUnit(){
     return false;
 }
 
-void Runner::setNextBattle(){
+void Runner::handleUnitActionEnd(){
     target_class = CLASS_NULL;
-    players[acting_player].combat_phase = OBSERVING;
-    players[watching_player].combat_phase = OBSERVING;
 
-    if (!fire_order.empty() && !current_battle.first->occupants[current_player->getAllegiance()].empty() && !current_battle.first->occupants[current_battle.second].empty()){ //if more units to fire set the new acting and watching
+    auto check_rebase = [&](){
+        end_phase = true;
+        //? ANS units without ground support MUST rebase
+        bool att = current_battle.first->mustRebase(current_player->getAllegiance());
+        bool def = current_battle.first->mustRebase(current_battle.second);
+        if (att || def){
+            sortReBaseOrder(att, def);
+
+            if (fire_order.empty())
+                return false;
+
+            acting_player = fire_order[0]->allegiance;
+            watching_player = acting_player == current_player->getAllegiance()? current_battle.second : *current_player;
+            
+            players[acting_player].combat_phase = COMBAT_FINISHED_FORCED_REBASE;
+            
+            if (watching_player != NEUTRAL)
+                players[watching_player].combat_phase = OBSERVING;
+
+            players[acting_player].moving_units.push_back(fire_order[0]);
+            players[acting_player].movement_memo.push_back(current_battle.first);
+
+            return true;
+        }
+
+        //? 12.22 Active ANS units may always ReBase (13.12) if desired.
+        if (current_battle.first->hasANS(current_player->getAllegiance())){
+            current_player->combat_phase = COMBAT_SELECT_REBASE_OPT;
+
+            sortReBaseOrder(true, false);
+
+            if (fire_order.empty())
+                return false;
+
+            players[acting_player].moving_units.push_back(fire_order[0]);
+            players[acting_player].movement_memo.push_back(current_battle.first);
+            return true;
+        }
+
+        return false;
+    };
+
+    if (end_phase){
+        if (check_rebase()){
+            return;
+        }
+    }
+
+    if (!end_phase && !fire_order.empty() && !current_battle.first->occupants[current_player->getAllegiance()].empty() && !current_battle.first->occupants[current_battle.second].empty()){ //if more units to fire set the new acting and watching
         sortFireOrder();
 
-        if (fire_order[0]->allegiance == current_player->getAllegiance()){ //if the first unit has the allegiance of the current player then they act first
-            acting_player = *current_player;
-            watching_player = players[current_battle.second];
-        }
-        else{
-            acting_player = players[current_battle.second];
-            watching_player = *current_player;
+        if (fire_order.empty()){
+            handleUnitActionEnd();
+            return;
         }
 
-        players[acting_player].combat_phase = COMBAT_ACTION_SELECT;
-        players[watching_player].combat_phase = OBSERVING;
+        acting_player = fire_order[0]->allegiance;
+        watching_player = acting_player == current_player->getAllegiance()? current_battle.second : *current_player;
+
+        players[acting_player].combat_phase = COMBAT_SELECT_ACTION;
+        
+        if (current_battle.second != NEUTRAL)
+            players[watching_player].combat_phase = OBSERVING;
 
         setFireable(players[acting_player], current_battle.first, watching_player);
-        
     }
     else if (!battles.empty()){
-        current_battle = battles.front();
-
-        battles.erase(battles.begin());
-
-        sortFireOrder();
-
-        if (fire_order[0]->allegiance == current_player->getAllegiance()){ //if the first unit has the allegiance of the current player then they act first
-            acting_player = *current_player;
-            watching_player = players[current_battle.second];
-        }
-        else{
-            acting_player = players[current_battle.second];
-            watching_player = *current_player;
+        if (check_rebase()){
+            return;
         }
 
-        players[acting_player].combat_phase = COMBAT_ACTION_SELECT;
-        players[watching_player].combat_phase = OBSERVING;
+        end_phase = false;
+        current_battle.first = nullptr;        
 
-        setFireable(players[acting_player], current_battle.first, watching_player);
+        PublicAnimation p_a = PublicAnimation(NEXT_BATTLE, -50, 982/2, 1254, 928, 100, 100, 2, clock, 1000);
+        p_a.addPhase(AnimationPhase::FLICKER, 5000);
+        p_a.setFinishCallback([this]() { setNextBattle(); });
+        public_animations.push_back(p_a);
+
     }
     else{
+        if (check_rebase()){
+            return;
+        }
+
+        end_phase = false;
         current_player->combat_phase = COMBAT_FINISHED;
         current_battle.first = nullptr;
         seasonActed(*current_player);
     }
 }
 
-//&^ Movement
+void Runner::setNextBattle(){
+    current_battle = battles.front();
 
-void Runner::addMovement(Player& player){
+    battles.erase(battles.begin());
+
+    sortFireOrder();
+
+    acting_player = fire_order[0]->allegiance;
+    if (acting_player == NEUTRAL)
+        setNeutralBattle();
+    else{
+        acting_player = fire_order[0]->allegiance;
+        watching_player = acting_player == current_player->getAllegiance()? current_battle.second : *current_player;
+    }
+
+    players[acting_player].combat_phase = COMBAT_SELECT_ACTION;
+    
+    if (watching_player != NEUTRAL)
+        players[watching_player].combat_phase = OBSERVING;
+
+    setFireable(players[acting_player], current_battle.first, watching_player);
+}
+
+void Runner::retreatUnit(Player& player){
+    auto& unit = player.moving_units[0];
+    const MovementMessage res = canRetreat(player, unit);
+
+    if (res < 0 ){ //negative means there was an error
+        cout << "error moving: " << movementErrorNames[res+abs(EMPTY_MEMO)] << endl;
+    }
+
+    else{ //only accepted is TURN_TO_CONVOY or NO_EFFECT
+        auto& memo =  player.movement_memo;
+
+        memo[1]->addUnit(unit); 
+        memo[0]->removeUnit(unit);
+
+        unit->acted = true;
+
+        if (unit->class_type == CLASS_G){
+            map.increaseBorderLimit(memo[0], memo[1], player.getAllegiance());
+        }
+
+        if (res == TURN_CONVOY)
+            unit->convoy = true;
+
+        player.resetMovingUnit();
+        player.movement_memo.clear();
+        
+        handleUnitActionEnd();
+    }
+}
+
+void Runner::reBaseUnit(Player& player){
+    auto& unit = player.moving_units[0];
+    const MovementMessage res = canReBase(player, unit);
+
+    if (res < 0 ){ //negative means there was an error
+        cout << "error moving: " << res << " " << movementErrorNames[res+abs(EMPTY_MEMO)] << endl;
+    }
+
+    else{
+        auto& memo =  player.movement_memo;
+        const auto& last_city = memo.back();
+
+        last_city->addUnit(unit); 
+        memo[0]->removeUnit(unit); 
+
+        memo.clear();
+        player.resetMovingUnit();
+
+
+        fire_order[0]->acted = true;
+        handleUnitActionEnd();
+    }    
+}
+
+//&^ Movement
+void Runner::moveUnit(Player& player){
+    if (player.moving_units.size() > player.getCommandNumber())
+        return; //moving more units then required
+
+    constexpr bool unit_checked=0;
+    constexpr bool can_move=1;
+    bool unit_checks[2][CONVOY];
+
+    const auto& memo = player.movement_memo;
+    const auto& start_city = player.start_city;
+    const auto& last_city = player.movement_memo.back();
+
+    for (auto& a : unit_checks)
+        for (auto& b : a)
+            b = false;
+
+    bool disengaging = start_city->hasOther(player);
+
+    bool landfall = false;
+    bool turn_convoy = false;
+
+    int num_ground = 0;
+    int border_increases = 0;
+
+    if (player.moving_units.empty() || player.movement_memo.empty())
+        return;
+
+    if (player.start_city->isConflict()){ //set flag if the units are disengaging
+        disengaging = true;
+    } 
+
+    //go through each unit and check for errors and set flags 
+    for (const auto& unit : player.moving_units){
+        num_ground += unit->class_type == CLASS_G;
+
+        if (unit_checks[unit_checked][unit->unit_type] && unit_checks[can_move][unit->unit_type]){ //use this to skip the same check
+            border_increases += (unit->class_type == CLASS_G && (disengaging || last_city->hasOther(player.getAllegiance())));
+            continue;
+        }
+
+        MovementMessage res;
+        if (disengaging){
+            res = canDisengage(player, unit);
+        }
+        else{
+            switch (unit->class_type){
+                case CLASS_A:
+                    res = canAirMove(player, unit);
+                    break;
+                case CLASS_G:
+                    res = (unit->convoy)? canSeaMove(player, unit) : canLandMove(player, unit);
+                    break;
+                case CLASS_S:
+                    res = canSeaMove(player, unit);
+                    break;
+                case CLASS_N:
+                    res = canSeaMove(player, unit);
+                    break;
+
+                default:
+                    exit(1);
+            }
+        }
+
+        if (res < 0 ){ //negative means there was an error
+            cout << "error moving: " << movementErrorNames[res+abs(EMPTY_MEMO)] << endl;
+            return;
+        }
+
+        else if (res == DOWED){ //need to get confirmation that its okay to DoW
+            cout << "need a dow to enter " << player.movement_memo.back()->name << endl; 
+            return;
+        }
+
+        else if (res == VONED){ //need to get confirmation that its okay to VoN
+            cout << "need a von to enter " << player.movement_memo.back()->name << endl; 
+            return;
+        }
+
+        else{
+            if (res == LANDFALL)
+                landfall = true;
+
+            if (res == TURN_CONVOY)
+                turn_convoy = true;
+
+            border_increases += (unit->class_type == CLASS_G && (disengaging || last_city->hasOther(player.getAllegiance())));
+
+            unit_checks[unit_checked][unit->unit_type] = true;
+            unit_checks[can_move][unit->unit_type] = true;
+
+        }
+    }
+
+    if (disengaging){
+        if (BORDER_LIMITS[map.getBorder(memo[0], memo[1])] < map.getBorderLimit(memo[0], memo[1], player) + border_increases){
+            cout << "Disengage Border limit violation" << endl;
+            return;
+        }
+        map.increaseBorderLimit(memo[0], memo[1], player.getAllegiance(), border_increases);
+    }
+    else{
+        if (BORDER_LIMITS[map.getBorder(memo[memo.size()-2], last_city)] < map.getBorderLimit(memo[memo.size()-2], last_city, player) + border_increases){
+            cout << "Engage Border limit violation" << endl;
+            return;
+        }
+
+        map.increaseBorderLimit(memo[memo.size()-2], last_city, player.getAllegiance(), border_increases);
+    }
+
+    int battlegroup = 0;
+    if (num_ground == 0 && last_city->start_allegiance == WATER && last_city->hasOther(player)){
+        battlegroup = player.num_battle_groups++;
+    }
+
+    //if reached here then can move units
+    for (const auto& unit : player.moving_units){
+        last_city->addUnit(unit);
+        start_city->removeUnit(unit);
+        unit->acted = true;
+
+        if (landfall && unit->class_type == CLASS_G){
+            unit->convoy = false;
+            unit->landing = year;
+        }
+
+        if (turn_convoy && unit->class_type == CLASS_G){
+            unit->convoy = true;
+        }
+
+        if (battlegroup){
+            unit->battle_group = battlegroup;
+            unit->landing = year; //will be doubled as the year when the battle group first engaged and will be forced to engage
+        }
+    }
+
+    player.useCommand(player.moving_units.size());
+    player.resetMovingUnit();
+
+    //TODO add private message feature
+}
+
+void Runner::selectRetreat(Player& player){
     if (player.a_held_tick == 0)
         ;
-    //if there is a selected unit that isn't selected and is the players then select it for movement
-    else if (player.selected_unit.second != nullptr && player.movement_memo.size() > 0 &&  player.selected_unit.first == player.movement_memo[0]){
-        player.movement_memo.clear();
-        player.movement_memo.push_back(player.selected_unit.first);
-    }
-    else if (player.selected_unit.second != nullptr && player.moving_unit != player.selected_unit && player == player.selected_unit.second->allegiance){ 
-        player.setMovingUnit(); //make it the unit to be moved
-        player.movement_memo.clear();
-        //reset memo
-        player.movement_memo.push_back(player.selected_unit.first);
 
+    if (player.closest_map_city != nullptr){
+        player.movement_memo[1] = player.closest_map_city;
     }
+}
+
+void Runner::addMovement(Player& player){
+    if (!player.a_held_tick)
+        return;
+    const auto& pot_unit = player.selected_unit.second;
+    auto& pot_city = player.selected_unit.first;
+    auto& memo =  player.movement_memo;
+
+    if (pot_unit){ //handle adding units
+        if (pot_unit->allegiance != player)
+            return;
+
+        if (!player.inMove(pot_unit)){ //if not in the movement memo then check if its in a different city and to move it
+            if (pot_city != player.start_city){ //if the city of the unit isn't the previous group then 
+                player.resetMovingUnit();
+
+                player.start_city = pot_city;
+                player.option_select_city = pot_city;
+                player.moving_units.push_back(pot_unit);
+                memo.push_back(pot_city);
+                pot_unit->moving = true;
+            }
+            else{ //simply add to the units that will be moving
+                player.moving_units.push_back(pot_unit);
+                pot_unit->moving = true;
+            }
+        }
+        else{ //remove it from the group
+            player.moving_units.erase(std::find(player.moving_units.begin(), player.moving_units.end(), pot_unit));
+            pot_unit->moving = false;
+
+            if (player.moving_units.empty())
+                player.resetMovingUnit();
+        }
+
+        return;
+    }
+
+    pot_city = player.closest_map_city;
+
+    if (pot_city){
+        if (pot_city == player.start_city){ //if the city is the start clean memo and restart
+            memo.erase(player.movement_memo.begin()+1, player.movement_memo.end());
+            return;
+        }
+
+        const auto& result = find(memo.begin(), memo.end(), pot_city);
+        if (result != memo.end()){ // if its in the memo then truncate
+            memo.erase(result, memo.end());
+        }
+
+        else if (!memo.empty() && map.getBorder(memo.back(), pot_city)){ //if its not in and the city is connected at all (not specific just if its connected)
+            memo.push_back(pot_city);
+        }
+    }
+}
+
+void Runner::addReBase(Player& player){
+    if (player.a_held_tick == 0)
+        return;
+
     //adding another stop
-    else if (player.moving_unit.second != nullptr && player.closest_map_city != nullptr && player.a_held_tick != 0){
+    if (player.closest_map_city != nullptr){
         const auto& index = std::find(player.movement_memo.begin(), player.movement_memo.end(), player.closest_map_city);
+        auto& memo = player.movement_memo;
 
-        if (index == player.movement_memo.end()){ //if not in then check if its added
-            player.movement_memo.push_back(player.closest_map_city);
+        if (index == memo.begin()){ //if selected the first one then reset 
+            memo.clear();
+            memo.push_back(player.closest_map_city);
+        }
+        else if (index == player.movement_memo.end()){ //if not in then check if its added
+            memo.push_back(player.closest_map_city);
         }
         else{ //if its already in the memo then truncate everything past 
-            player.movement_memo.erase(index, player.movement_memo.end());
+            memo.erase(index,memo.end());
         }
-    }
-    else if (player.selected_unit.first == nullptr){
-        player.movement_memo.clear();
-        player.resetMovingUnit();
     }
 }
 
@@ -1423,6 +2197,12 @@ MovementMessage Runner::canSeaMove(const Player& player, const Unit* unit) const
         return TIRED;
     }
 
+    //? ANS units are prohibited from Raiding unoccupied Enemy Territory, except to do Strategic Bombing (see 12.62)
+    //todo add raid check
+    if (last_city->start_allegiance != WATER && last_city->ruler_allegiance != allegiance && !last_city->hasOther(allegiance) && unit->class_type != CLASS_G){
+        return RAID_UNOCCUPIED;
+    }
+
     if (m_m == NO_EFFECT && last_city->hasOther(allegiance)){
         m_m = ENGAGING;
     }
@@ -1494,6 +2274,12 @@ MovementMessage Runner::canAirMove(const Player& player, const Unit* unit) const
         return EMERGENCY_ENGAGE;
     }
 
+    //? ANS units are prohibited from Raiding unoccupied Enemy Territory, except to do Strategic Bombing (see 12.62)
+    //todo add raid check
+    if (last_city->start_allegiance != WATER && last_city->ruler_allegiance != allegiance && !last_city->hasOther(allegiance)){
+        return RAID_UNOCCUPIED;
+    }
+
     if (!unit->acted && memo[0]->start_allegiance == WATER && last_city->start_allegiance == WATER){ //if its there first move and they're in the water must make it to land
         return AIR_OVER_WATER;
     }
@@ -1545,7 +2331,7 @@ MovementMessage Runner::canDisengage(const Player& player, const Unit* unit) con
 
     const bool landStop = unit->convoy || unit->class_type == CLASS_N || unit->class_type == CLASS_S;
 
-    if (last_city->isConflict()) //last city can't be an engage for any unit type
+    if (last_city->hasOther(player)) //last city can't be an engage for any unit type
         return DISENGAGE_ENGAGE;
 
     if (BORDER_LIMITS[map.getBorder(memo[0], memo[1])] <= map.getBorderLimit(memo[0], memo[1], player.getAllegiance())){ //todo check if border limits apply for disengage
@@ -1582,6 +2368,182 @@ MovementMessage Runner::canDisengage(const Player& player, const Unit* unit) con
 
     return NO_EFFECT;
 }
+
+MovementMessage Runner::canRetreat(const Player& player, const Unit* unit) const{
+    if (player.combat_phase != COMBAT_SELECT_RETREAT)
+        return EMPTY_MEMO;
+
+    const auto& memo = player.movement_memo;
+
+    if (memo.size() <= 1)
+        return EMPTY_MEMO;
+
+    if (memo.size() > 2) //should only be the start and an adjacent
+        return TOO_FAR;
+
+    const auto& start = memo[0];
+    const auto& end = memo[1];
+
+    const auto& border = map.getBorder(start, end);
+    //make sure connected
+    if (!border)
+        return NOT_CONNECTED;
+
+    if (unit->class_type == CLASS_N && !isNaval(border))
+        return PAST_COAST;
+
+    //needs to abide by border limits
+    const auto& border_limit = map.getBorderLimit(start, end, player);
+    if (unit->class_type == CLASS_G && border_limit >= BORDER_LIMITS[border])
+        return BORDER_LIMIT;
+
+    //(a)
+    if (!isFriendly(unit->allegiance, end->ruler_allegiance)){
+        return NOT_FRIENDLY;
+    }
+
+    //(b)
+    if (end->battling == year)
+        return DISENGAGE_RETREAT;
+
+    //(c)
+    if (player != current_player && border_limit){ //if there is a border limit from the attacker it means they engaged from there
+        return RETREAT_INTO_ENGAGER;
+    }
+
+    //(d)
+    else if (player == current_player && end->ID != unit->engage_id && unit->last_engage == year){ // like (c) but if the border limit doesn't exist then it means they didn't engaged from there
+        return RETREAT_INTO_NEW;
+    }
+
+    //(e)
+    if (unit->class_type == CLASS_G && !unit->convoy && end->start_allegiance == WATER){
+        return (end->hasOther(player))? RETREAT_TO_WATER : TURN_CONVOY;
+    }
+
+    return end->hasOther(player)? RETREAT_TO_DISPUTED : NO_EFFECT;
+
+    /*Units cannot Retreat into:
+    (a) Enemy, Rival, or Neutral areas (Open
+    Seas OK),
+    (b) Areas that contained Battles (other
+    than Raids) that Player Turn [Raids do
+    not block Retreats],
+    (c) [Defenders only] Areas from which
+    the Enemy Engaged them that Player
+    Turn,
+    (d) [Attackers only] Any area other than
+    the one from which they Engaged into
+    the Battle, if they Engaged that Turn,
+    (e) [Ground units only] Sea Areas, unless
+    they are Friendly-occupied. */
+}
+
+MovementMessage Runner::canReBase(const Player& player, const Unit* unit) const{
+    auto checkNaval = [&](const BorderType& b){return isNaval(b);};
+    auto checkAir = [&](const BorderType& b){return isAir(b);};
+
+    std::function<bool(const BorderType&)> borderCheck;
+    switch (unit->class_type){
+        case CLASS_A:
+            borderCheck = checkAir;
+            break;
+        case CLASS_S:
+            borderCheck = checkNaval;
+            break;
+        case CLASS_N:
+            borderCheck = checkNaval;
+            break;
+
+        default:
+            exit(1);
+    }
+
+
+    const auto& memo = player.movement_memo;
+
+    if (memo.size() <= 1)
+        return EMPTY_MEMO;
+
+    const City* last_city = memo.back();
+
+    const auto& allegiance = player.getAllegiance();
+
+    const bool landStop = unit->convoy || unit->class_type == CLASS_N || unit->class_type == CLASS_S;
+
+    if (last_city->isConflict()) //last city can't be an engage for any unit type
+        return REBASE_DISPUTED;
+
+    //auto landMove
+    for (int i = 0; i < memo.size()-1; i++){
+        const City* start = memo[i];
+        const City* end   = memo[i+1];
+
+        const CityType& ruler_type = end->occupier_allegiance;
+
+        if (!borderCheck(map.getBorder(start, end))){
+            return NOT_CONNECTED;
+        }
+
+        if (unit->class_type != CLASS_S && unit->class_type != CLASS_A && (!isFriendly(allegiance, ruler_type) || end->isConflict())){ //can only go through friendly areas (including open seas) (unless a sub or air)
+            return DISENGAGE_ENGAGE;
+        }
+
+        //for NS Units make sure if landfall they stop immediatly
+        if (landStop && map.getBorder(start, end) == COAST && end->start_allegiance != WATER && last_city != end){
+            return PAST_COAST;
+        }
+    }
+
+    if (memo.size()-1 > unit->movement){
+        return TOO_FAR;
+    }
+
+    return ((last_city->occupier_allegiance == player || (last_city->start_allegiance == WATER && !last_city->hasOther(allegiance))) && !last_city->isConflict())? NO_EFFECT : NOT_FRIENDLY;
+}
+
+//& Diplomacy
+
+void Runner::updateCityRulers(){
+    for (const auto& city_pair : map.getCities()){
+
+        auto& city = city_pair.second;
+
+        if (city->num_occupiers && city->occupants[city->ruler_allegiance].empty()){ //if there are occupiers then the one there the longest becomes the main occupier
+            int min_priority = 999;
+            CityType new_ruler=NULL_ALLEGIANCE;
+
+            //get the longest occupier
+            city->occupier_priority[NEUTRAL]=0;
+            for (int i = 0; i < 4; i++){
+                if (city->occupier_priority[i] != 0 && city->occupier_priority[i] < min_priority){ //the != 0 signafies not an occupier (ruler or not there)
+                    new_ruler = (CityType)(i);
+                    min_priority = city->occupier_priority[i];
+                }
+            }
+
+            if (city->start_allegiance != WATER && city->capital){ //if the city is a capital then they rule all of the cities in the country
+                map.getCountry(city->country)->conqueredCapital(new_ruler);
+                for (auto& unit : city->occupants[NEUTRAL]){
+                    neutral_units.erase(find(neutral_units.begin(), neutral_units.end(), unit));
+                }
+                city->occupants[NEUTRAL].clear();
+            }
+            else{
+                city->occupier_allegiance = new_ruler;
+            }
+
+        }    
+        else{ //if no occupiers then revert to capital's ruler
+            const CityType& capital_allegiance = (city->start_allegiance != WATER)? map.getCountry(city->country)->allegiance : WATER;
+            city->ruler_allegiance = capital_allegiance;
+            city->occupier_allegiance = capital_allegiance;
+        }
+
+    }
+
+}
+
 
 //& Dev tools
 

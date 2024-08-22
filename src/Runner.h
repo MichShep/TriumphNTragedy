@@ -176,9 +176,9 @@ private:
 
     Map map; /**< Map of the game and nations/waters*/
 
-    size_t year; /**< Current year the player is in (goes from 1936 to 1945)*/
+    year_t year; /**< Current year the player is in (goes from 1936 to 1945)*/
 
-    size_t end_year; /**< Year the game will end (usually 1945)*/
+    year_t end_year; /**< Year the game will end (usually 1945)*/
 
     Season season=NEW_YEAR; /**< The current season being playes */
 
@@ -194,11 +194,17 @@ private:
 
     vector<PeaceChit> peace_dividends_bag; /**< Holds all the unpulled peace dividends*/
 
+    unordered_map<string, int> starting_cities; /**< Key:Name of city  Value:Number of units possible*/
+
     //& Combat and Battle Attributes
+    vector<Unit*> neutral_units;
+
     vector<pair<City*, CityType>> battles; /**< Vector of the current battles the acting player is going to enact and which rival it'll be against */
 
     pair<City*, CityType> current_battle; /**< The current battle where battle actions are directed to */
     
+    bool end_phase=false;
+
     CityType acting_player;
     
     CityType watching_player;
@@ -367,138 +373,168 @@ public:
         players[1].calculateProduction();
         players[2].calculateProduction();
 
-        test();
-
         mapPlayerResPop(players[WEST]);
         mapPlayerResPop(players[AXIS]);
         mapPlayerResPop(players[USSR]);
 
         InitFonts();
+
+        //initalize the cities that need to be initalized
+        starting_cities["Berlin"] = 6;
+        starting_cities["Ruhr"] = 4;
+        starting_cities["Munich"] = 2;
+        starting_cities["Könisberg"] = 2;
+        starting_cities["Rome"] = 4;
+        starting_cities["Milan"] = 2;
+        starting_cities["Tripoli"] = 2;
+        axis_player->num_start_units = 6+4+2+2+4+2+2;
+
+        starting_cities["London"] = 3;
+        starting_cities["Delhi"] = 2;
+        starting_cities["Glasgow"] = 1;
+        starting_cities["Bombay"] = 1;
+        starting_cities["Suez"] = 1;
+        starting_cities["Milan"] = 2;
+        starting_cities["Tripoli"] = 2;
+        west_player->num_start_units = 3+2+1+1+1+2+2;
+        buildUnit(*west_player, map["London"], FLEET, 4);
+        buildUnit(*west_player, map["Gibraltar"], FORTRESS);
+        buildUnit(*west_player, map["Karachi"], INFANTRY);
+
+        starting_cities["Paris"] = 2;
+        starting_cities["Marseille"] = 1;
+        starting_cities["Algiers"] = 1;
+        west_player->num_start_units = 12;
+        buildUnit(*west_player, map["Lorraine"], FORTRESS, 3);
+
+        ussr_player->num_start_units = 3+2+2;
+        //1 in each ussr city
+        for (const auto& city : map.getCountry("USSR")->cities){
+            starting_cities[city->name] = 1;
+            ussr_player->num_start_units++;
+        }
+        starting_cities["Moscow"] = 3;
+        starting_cities["Leningrad"] = 2;
+        starting_cities["Baku,"] = 2;
+
+        test();
+
+        //6 4 3 2 1
     }
 
     size_t test(){
         //- Axis Setup
-        buildUnit(players[AXIS], map["Berlin"], AIR);
-        buildUnit(players[AXIS], map["Berlin"], INFANTRY);
-        buildUnit(players[AXIS], map["Berlin"], INFANTRY);
-        buildUnit(players[AXIS], map["Berlin"], FORTRESS);
-        buildUnit(players[AXIS], map["Berlin"], TANK);
-        buildUnit(players[AXIS], map["Berlin"], TANK);
+        buildCadre(players[AXIS], map["Berlin"], AIR);
+        buildCadre(players[AXIS], map["Berlin"], INFANTRY);
+        buildCadre(players[AXIS], map["Berlin"], INFANTRY);
+        buildCadre(players[AXIS], map["Berlin"], FORTRESS);
+        buildCadre(players[AXIS], map["Berlin"], TANK);
+        buildCadre(players[AXIS], map["Berlin"], TANK);
 
-        buildUnit(players[AXIS], map["Ruhr"], FLEET);
-        buildUnit(players[AXIS], map["Ruhr"], INFANTRY);
-        buildUnit(players[AXIS], map["Ruhr"], FORTRESS);
-        buildUnit(players[AXIS], map["Ruhr"], AIR);
+        buildCadre(players[AXIS], map["Ruhr"], FLEET);
+        buildCadre(players[AXIS], map["Ruhr"], INFANTRY);
+        buildCadre(players[AXIS], map["Ruhr"], FORTRESS);
+        buildCadre(players[AXIS], map["Ruhr"], AIR);
 
-        buildUnit(players[AXIS], map["Munich"], INFANTRY);
-        buildUnit(players[AXIS], map["Munich"], TANK);
-
-        auto u = buildUnit(players[AXIS], map["Munich"], CARRIER, 3);
-
-        map["Munich"]->removeUnit(u);
-        map["Paris"]->addUnit(u);
+        buildCadre(players[AXIS], map["Munich"], INFANTRY);
+        buildCadre(players[AXIS], map["Munich"], TANK);
 
         //for testing air movement
         //auto temp = new Unit(3, GERMANY_U, AIR, year);
         //axis_player->add(temp);
         //map["North_Sea"]->addUnit(temp);
 
-        buildUnit(players[AXIS], map["Könisberg"], TANK);
-        buildUnit(players[AXIS], map["Könisberg"], AIR);
+        buildCadre(players[AXIS], map["Könisberg"], TANK);
+        buildCadre(players[AXIS], map["Könisberg"], AIR);
 
-        buildUnit(players[AXIS], map["Rome"], FORTRESS);
-        buildUnit(players[AXIS], map["Rome"], TANK);
-        buildUnit(players[AXIS], map["Rome"], FLEET);
-        buildUnit(players[AXIS], map["Rome"], FLEET);
+        buildCadre(players[AXIS], map["Rome"], FORTRESS);
+        buildCadre(players[AXIS], map["Rome"], TANK);
+        buildCadre(players[AXIS], map["Rome"], FLEET);
+        buildCadre(players[AXIS], map["Rome"], FLEET);
 
-        buildUnit(players[AXIS], map["Milan"], FLEET);
-        buildUnit(players[AXIS], map["Milan"], INFANTRY);
+        buildCadre(players[AXIS], map["Milan"], FLEET);
+        buildCadre(players[AXIS], map["Milan"], INFANTRY);
 
-        buildUnit(players[AXIS], map["Tripoli"], TANK);
-        buildUnit(players[AXIS], map["Tripoli"], TANK);
+        buildCadre(players[AXIS], map["Tripoli"], TANK);
+        buildCadre(players[AXIS], map["Tripoli"], TANK);
 
         for (int i  = 0; i < 2; i++){
-            auto u2 = buildUnit(players[USSR], map["Berlin"], (UnitType)(AIR+i), 1);
+            auto u2 = buildCadre(players[USSR], map["Berlin"], (UnitType)(FLEET));
             map["Berlin"]->removeUnit(u2);
-            map["Paris"]->addUnit(u2);
+            map["English_Channel"]->addUnit(u2);
         }
+
+        auto u3 = buildCadre(players[USSR], map["Berlin"], (UnitType)(CARRIER));
+        map["Berlin"]->removeUnit(u3);
+        map["English_Channel"]->addUnit(u3);
+
 
         applyProduction(players[AXIS]);
         players[AXIS].passed = false;
 
         //- West Setup
 
-        buildUnit(players[WEST], map["London"], TANK);
-        buildUnit(players[WEST], map["London"], INFANTRY);
-        buildUnit(players[WEST], map["London"], FORTRESS);
-        buildUnit(players[WEST], map["London"], FLEET, 4);
+        buildCadre(players[WEST], map["London"], TANK);
+        buildCadre(players[WEST], map["London"], INFANTRY);
+        buildCadre(players[WEST], map["London"], FORTRESS);
 
-        buildUnit(players[WEST], map["Delhi"], FORTRESS);
-        buildUnit(players[WEST], map["Delhi"], TANK);
+        buildCadre(players[WEST], map["Delhi"], FORTRESS);
+        buildCadre(players[WEST], map["Delhi"], TANK);
 
-        buildUnit(players[WEST], map["Glasgow"], INFANTRY);
+        buildCadre(players[WEST], map["Glasgow"], AIR);
 
-        buildUnit(players[WEST], map["Bombay"], FLEET);
+        buildCadre(players[WEST], map["Bombay"], FLEET);
 
-        buildUnit(players[WEST], map["Suez"], CARRIER);
+        buildCadre(players[WEST], map["Suez"], CARRIER);
 
-        buildUnit(players[WEST], map["Gibraltar"], FORTRESS);
+        buildCadre(players[WEST], map["Gibraltar"], FORTRESS);
 
-        buildUnit(players[WEST], map["Karachi"], INFANTRY);
+        buildCadre(players[WEST], map["Karachi"], INFANTRY);
 
-        buildUnit(players[WEST], map["Paris"], FORTRESS);
+        buildCadre(players[WEST], map["Paris"], TANK);
 
+        buildCadre(players[WEST], map["Gascony"], INFANTRY);
 
-        buildUnit(players[WEST], map["Marseille"], INFANTRY);
+        buildCadre(players[WEST], map["Marseille"], AIR);
 
-        buildUnit(players[WEST], map["Algiers"], FLEET);
-
-        buildUnit(players[WEST], map["Lorraine"], FORTRESS, 3);
-
-
-        //todo us troops
-        buildUnit(players[WEST], map["Washington"], FLEET, 3);
-        buildUnit(players[WEST], map["New_York"], TANK, 3);
-        buildUnit(players[WEST], map["New_York"], AIR, 3);
-        buildUnit(players[WEST], map["Washington"], CARRIER, 3);
-
+        buildCadre(players[WEST], map["Algiers"], FLEET);
 
         applyProduction(players[WEST]);
         players[WEST].passed = false;
 
         //- USSR Setup
-        buildUnit(players[USSR], map["Moscow"], FORTRESS);
-        buildUnit(players[USSR], map["Moscow"], INFANTRY);
-        buildUnit(players[USSR], map["Moscow"], AIR);
+        buildCadre(players[USSR], map["Moscow"], FORTRESS);
+        buildCadre(players[USSR], map["Moscow"], INFANTRY);
+        buildCadre(players[USSR], map["Moscow"], AIR);
 
-        buildUnit(players[USSR], map["Leningrad"], FLEET);
-        buildUnit(players[USSR], map["Leningrad"], FLEET);
+        buildCadre(players[USSR], map["Leningrad"], FLEET);
+        buildCadre(players[USSR], map["Leningrad"], FLEET);
 
-        buildUnit(players[USSR], map["Baku"], FORTRESS);
-        buildUnit(players[USSR], map["Baku"], INFANTRY);
+        buildCadre(players[USSR], map["Baku"], FORTRESS);
+        buildCadre(players[USSR], map["Baku"], INFANTRY);
 
-        buildUnit(players[USSR], map["Kiev"], INFANTRY);
+        buildCadre(players[USSR], map["Kiev"], INFANTRY);
 
-        buildUnit(players[USSR], map["Odessa"], INFANTRY);
+        buildCadre(players[USSR], map["Odessa"], INFANTRY);
 
-        buildUnit(players[USSR], map["Kharkov"], TANK);
+        buildCadre(players[USSR], map["Kharkov"], TANK);
 
-        buildUnit(players[USSR], map["Stalingrad"], TANK);
+        buildCadre(players[USSR], map["Stalingrad"], TANK);
 
-        buildUnit(players[USSR], map["Urals"], AIR);
+        buildCadre(players[USSR], map["Urals"], AIR);
 
         applyProduction(players[USSR]);
         players[USSR].passed = false;
 
-        deal(west_player, 4, 'I');
-        deal(axis_player, 4, 'I');
-        deal(ussr_player, 4, 'I');
+        deal(west_player, 20, 'A');
+        deal(west_player, 20, 'I');
+        deal(axis_player, 6, 'I');
 
         map.getCountry("Greece")->setTest(WEST, 1);
         map.getCountry("Rumania")->setTest(WEST, 2);
-        map.getCountry("Spain")->setTest(WEST, 3);
 
         map.getCountry("Poland")->setTest(USSR, 1);
+        map.getCountry("Bulgaria")->setTest(USSR, 1);
         map.getCountry("Baltic_States")->setTest(USSR, 2);
         map.getCountry("Finland")->setTest(USSR, 3);
 
@@ -543,6 +579,8 @@ public:
      * @return false Encountered an error
      */
     bool runTitle();
+
+    bool initUnits();
 
     //& New Year
     /**
@@ -674,8 +712,9 @@ public:
      * @pre The Player is able to coup at the current selected country
      */
     void coup(Player& player){
-        if (--map.getCountry(player.closest_map_city->country)->influence == 0)
-            map.getCountry(player.closest_map_city->country)->allegiance = NEUTRAL;
+        map.getCountry(player.closest_map_city->country)->resetDiplomacy();
+        
+        player.popped_invest_card->selected = false;
         player.remove(player.popped_invest_card);
         player.updatePoppedInvestCard();
     }
@@ -742,6 +781,28 @@ public:
         player.updatePoppedInvestCard();
     }
 
+    bool canWildAction(Player& player);
+
+    bool handleIsolationism(Player& player);
+
+    bool handleForeignAid(Player& player);
+
+    bool handleGuarantee(Player& player);
+
+    bool handleIntimidation(Player& player);
+
+    bool handleBirdsOfAFeather(Player& player);
+
+    bool handleTiesThatBind(Player& player);
+
+    bool handleFearAndLoathing(Player& player);
+
+    bool handleVersailles(Player& player);
+
+    bool handleEthnicTies(Player& player);
+
+    bool handleBrothersInArms(Player& player);
+
     /**
      * @brief TODO check players hand size
      * 
@@ -773,15 +834,23 @@ public:
      */
     void addMovement(Player& player);
 
+    void selectRetreat(Player& player);
+
+    void addReBase(Player& player);
+
     /**
      * @brief Set which Rivals/Minors are able to be attacked in the currently selected city
      * 
      * @param attacker Player who is currently selecting battles to enact
      */
-    void setDefenders(Player& attacker){
+    bool setDefenders(Player& attacker){
         auto& memo = attacker.unit_available;
-        const auto& target_city = attacker.selecting_city;
+        const auto& target_city = attacker.option_select_city;
         const CityType& allegiance = attacker;
+
+        if (target_city->occupants[allegiance].empty()){
+            return false;
+        }
 
         memo[WEST] = target_city->occupants[WEST].size() && WEST!=allegiance; 
 
@@ -790,6 +859,8 @@ public:
         memo[USSR] = target_city->occupants[USSR].size() && USSR!=allegiance; 
 
         memo[NEUTRAL] = target_city->occupants[NEUTRAL].size() && NEUTRAL!=allegiance; 
+
+        return  memo[WEST] || memo[AXIS] || memo[USSR] || memo[NEUTRAL];
     }
 
     /**
@@ -802,6 +873,10 @@ public:
     void handleActionSelect(Player& player);
 
     void handleTypeSelect(Player& player);
+
+    void handleOptReBase(Player& player);
+
+    void handleBattleGroupSelect(Player& player);
 
     /**
      * @brief Set which units are able to be attacked in a land battle
@@ -927,6 +1002,8 @@ public:
      * 
      * @pre The unit follows all restrictions and can be built in the porvided city
      */
+    Unit* buildCadre(Player&player, City* city, const UnitType unit);
+
     Unit* buildUnit(Player&player, City* city, const UnitType unit, const int cv=1);
 
     /**
@@ -952,6 +1029,9 @@ public:
     //& Movement 
     void moveUnit(Player& player);
 
+    void retreatUnit(Player& player);
+
+    void reBaseUnit(Player& player);
     /**
      * @brief Decider for if the unit is able to move through the current movement memo with land movement (cannot go enter oceans and limited to straits and land borders and abide by border restrictions if engaging)
      * @see MovementMessage
@@ -997,8 +1077,11 @@ public:
      */
     MovementMessage canDisengage(const Player& player, const Unit* unit) const;
 
-    //& Combat
+    MovementMessage canRetreat(const Player& player, const Unit* unit) const;
 
+    MovementMessage canReBase(const Player& player, const Unit* unit) const;
+
+    //& Combat
     /**
      * @brief Decider and Handler for when a Player delcares a DoW on another Player and updates the DoW status
      * 
@@ -1018,29 +1101,11 @@ public:
      */
     bool declareVoN(Player& aggresor);
 
-    /**
-     * @brief Executes the current players combat rounds
-     * 
-     */
-    void combatRound();
-
-    /**
-     * @brief Executes a land battle at the given city for one combat round
-     * 
-     * @param battlefield The city with the battle taken place
-     */
-    void landCombat(City* battlefield);
-
-    /**
-     * @brief Executes a sea battle at the given 'city' until concluded
-     * 
-     * @param battlefield The 'city' with the battle taken place
-     * @return true if the combat round needs to repeat
-     * @return false if the battle fininshed
-     */
-    bool seaCombat(City* battlefield);
+    bool declareIntervention(Player& aggresor);
 
     void sortFireOrder();
+
+    void sortReBaseOrder(const bool att, const bool def);
 
     void checkHitRoll();
 
@@ -1052,8 +1117,45 @@ public:
 
     void hitUnit(City* city, Unit* unit);
 
+    void finalizeBattleGroup(Player& player);
+
+    void handleUnitActionEnd();
+
     void setNextBattle();
 
+    void setNeutralBattle(){
+        watching_player = *current_player;
+        //? 15.42 Either Rival of the Violator can roll dice for an Armed Minor in Battle Resolution, but Neutral Fortresses must always target Ground units first.
+
+        if (current_battle.first->hasType(watching_player, CLASS_G)){ //if it has ground then attack ground
+            target_class = CLASS_G;
+        }
+        else{ //no ground then choose air then navy then choose random one next
+            UnitClass check_order[3] = {CLASS_A, CLASS_N, CLASS_S};
+            shuffle(&check_order[0], &check_order[2], g);
+
+            for (const auto& u_class : check_order){
+                if (current_battle.first->hasType(watching_player, u_class)){
+                    target_class = u_class;
+                    break;
+                }
+            }
+        }
+
+        //once the class target has been set put in the hit
+        public_animations.push_back(PublicAnimation((SeasonAnimation)(WEST_DICE+acting_player), -48, -190, 512, 288+acting_player*32, 32, 32, 3, clock, 100));
+        public_animations.back().addPhase(AnimationPhase::RANDOM, 5000);
+        (public_animations.back()).setRandom(6);
+        public_animations.back().setFinishCallback([this]() { decideDice(); });
+
+        players[watching_player].combat_phase = OBSERVING;
+    }
+
+    void resetNeutralUnits(){
+        for (auto& unit : neutral_units){
+            unit->acted = false;
+        }
+    }
     /**
      * @brief Check which cities have a current battle happening
      * 
@@ -1062,14 +1164,11 @@ public:
      */
     vector<City*> getBattles(const CityType allegiance); 
 
-    /**
-     * @brief Get the number of players
-     * 
-     * @return size_t The number of playes in the game (2 or 3)
-     */
-    size_t getNumPlayers() const{
-        return num_players;
-    }
+    //& Diplomacy
+
+    void handleBattleResolution(City* battlefield);
+
+    void updateCityRulers();
 
     //& Card 
 
@@ -1417,9 +1516,13 @@ private:  //!!! Graphics things
 
     void drawCombatActionSelect(Player& player) const;
 
+    void drawCombatOptReBaseSelect(Player& player) const;
+
     void drawCombatTypeSelect(Player& player) const;
 
     void drawCombatDealHits(Player& player) const;
+
+    void drawCombatBattleGroupSelect(Player& player) const;
 
     /**
      * @brief Draws the unit onto the player's screen
@@ -1512,6 +1615,10 @@ private:  //!!! Graphics things
      * @param scale The scale of the cards to draw
      */
     void drawInvestCards(const Player* player, const int& start_x, const int& start_y, const int& count, const int scale=1) const;
+
+    void drawActionDeck(const Player& player) const;
+
+    void drawInvestDeck(const Player& player) const;
 
     /**
      * @brief Draws the tech of the current viewed allegiance onto the players screen starting at the given x and y and decends
@@ -1735,7 +1842,7 @@ private:  //!!! Graphics things
      * @param y_wait_time The wait-time the Y-Button needs to be held for actions
      * @pre Current season is Production
      */
-    void handleProductionSeason(Player& player, const tick_t& y_wait_time);
+    void handleProductionSeason(Player& player);
 
     /**
      * @brief Handler for all actions that occur during the Government Phase with the A-Button
@@ -1745,7 +1852,7 @@ private:  //!!! Graphics things
      * @param y_wait_time The wait-time the A-Button needs to be held for actions
      * @pre Current season is Government
      */
-    void handleGovernmentSeason(Player& player, const tick_t& y_wait_time, const tick_t& a_wait_time);
+    void handleGovernmentSeason(Player& player);
 
     /**
      * @brief Handler for all actions that occur during the Command Phase with the Y-Button
@@ -1755,7 +1862,7 @@ private:  //!!! Graphics things
      * @param y_wait_time The wait-time the Y-Button needs to be held for actions
      * @pre Current season is Command
      */
-    void handleCommandSeason(Player& player, const tick_t& y_wait_time);
+    void handleCommandSeason(Player& player);
 
     /**
      * @brief Handler for all actions that occur during the Action Seasons with the Y-Button and A-Button
@@ -1766,9 +1873,9 @@ private:  //!!! Graphics things
      * @param y_wait_time The wait-time the Y-Button needs to be held for actions
      * @pre Current season is in an Action Season
      */
-    void handleRegularSeason(Player& player, const tick_t& a_wait_time, const tick_t& y_wait_time);
+    void handleRegularSeason(Player& player);
 
-    void handleCombatActions(Player& player, const tick_t& a_wait_time, const tick_t& y_wait_time);
+    void handleCombatActions(Player& player);
 
     void decideDice(){
         die.roll();
@@ -1883,6 +1990,12 @@ private:  //!!! Graphics things
      */
     void handleCursorMovement(Player& player);
 
+    void selectCity(Player& player){
+        if (player.b_held_tick && player.closest_map_city){
+            player.selected_city = player.closest_map_city;
+        }
+    }
+
     void handleUnitSelection(Player& player, const bool move_x, const bool move_y);
     /**
      * @brief Handler for the right joystick (used to select things) thats taken every frame
@@ -1984,6 +2097,10 @@ private:
         current_player = turn_order[current_index];
     }
 
+    void initPass(Player& player){
+        player.passed = true;
+    }
+
     /**
      * @brief Handler for when player's pass during the Action Seasons and which stage of Movement/Combat they move to
      * 
@@ -1992,50 +2109,97 @@ private:
         auto& curr = player.combat_phase;
 
         switch (curr) {
-            case MOVEMENT:
-                curr = COMBAT_BATTLE_SELECT;
+            case MOVEMENT:{
+                //check if they intervened a country and
+                if (!player.intervened_countries.empty()){
+                    curr = INTERVENTION_SELECT;
+                    player.curr_intervention = *player.intervened_countries.begin();
+                    player.intervened_countries.erase(player.intervened_countries.begin());
+                    return;
+                }
+                //check change of ownership
+                updateCityRulers();
+                curr = COMBAT_SELECT_BATTLE;
+                //reset units who have moved
+                current_player->resetMoves();
                 break;
-
-            case COMBAT_BATTLE_SELECT:
+            }
+            case INTERVENTION_SELECT:{
+                if (!player.intervened_countries.empty()){
+                    curr = INTERVENTION_SELECT;
+                    player.curr_intervention = *player.intervened_countries.begin();
+                    player.intervened_countries.erase(player.intervened_countries.begin());
+                }
+                else{
+                    updateCityRulers();
+                    curr = COMBAT_SELECT_BATTLE;
+                }
+                break;
+            }
+            case COMBAT_SELECT_BATTLE:{
                 player.resetUnits();
 
-                if (battles.empty())
+                if (battles.empty()){
+                    player.combat_phase = COMBAT_FINISHED;
+                    seasonActed(player);
                     return;
+                }
 
                 current_battle = battles.front();
-                current_battle.first->battling = true;
+                current_battle.first->battling = year;
 
-                sortFireOrder();
+                if (current_battle.first->start_allegiance == WATER && !current_player->done_bg && !players[current_battle.second].done_bg){
+                    watching_player = current_battle.second;
+                    acting_player = current_player->getAllegiance();  
+                    //todo deciding battle groups
+                    players[acting_player].combat_phase = COMBAT_SELECT_BATTLE_GROUP;
 
-                if (fire_order[0]->allegiance == current_player->getAllegiance()){ //if the first unit has the allegiance of the current player then they act first
-                    acting_player = *current_player;
-                    watching_player = players[current_battle.second];
+                    players[watching_player].combat_phase = COMBAT_SELECT_BATTLE_GROUP;
+                    return;
                 }
 
+                sortFireOrder();      
+
+                acting_player = fire_order[0]->allegiance;
+
+                if (acting_player == NEUTRAL){ //if the acting player is neutral then they will automatically send out a hit
+                    setNeutralBattle();
+
+                }
                 else{
-                    acting_player = players[current_battle.second];
-                    watching_player = *current_player;
-                }
-                players[acting_player].combat_phase = COMBAT_ACTION_SELECT;
-                players[watching_player].combat_phase = OBSERVING;
+                    acting_player = fire_order[0]->allegiance;
+                    watching_player = acting_player == current_player->getAllegiance()? current_battle.second : *current_player;
 
-                setFireable(players[acting_player], current_battle.first, watching_player);
+                    players[acting_player].combat_phase = COMBAT_SELECT_ACTION;
+                    players[watching_player].combat_phase = OBSERVING;
+
+                    setFireable(players[acting_player], current_battle.first, watching_player);
+                }
 
                 battles.erase(battles.begin());
-                break;
 
-            case COMBAT_FINISHED:
+                break;
+            }
+            
+            case COMBAT_SELECT_BATTLE_GROUP:{
+                
+                break;
+            
+            }
+            case COMBAT_FINISHED:{
                 west_player->combat_phase = OBSERVING;
                 axis_player->combat_phase = OBSERVING;
                 ussr_player->combat_phase = OBSERVING;
 
                 current_player->passed = true;
+                resetNeutralUnits();
 
                 if (current_index < 2){
                     current_player = turn_order[++current_index];
                     current_player->combat_phase = MOVEMENT;
                 }
                 break;
+            }
 
             default:
                 break;

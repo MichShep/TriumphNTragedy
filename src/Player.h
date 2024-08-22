@@ -18,14 +18,14 @@ private:
 
     bool atomic=false; /**< If the player has all 4 stages of atomics*/
 
-    size_t year_at_peace; /**< Is the last year the player was at peace (used for peace chits)*/
+    year_t year_at_peace=NULL_YEAR; /**< Is the last year the player was at peace (used for peace chits)*/
 
     //&Great Power attributes
-    CityType allegiance; /**< Which power the player is controlling (West, Axis, USSR)*/
+    CityType allegiance=WATER; /**< Which power the player is controlling (West, Axis, USSR)*/
 
-    size_t population; /**< Total POP of the player*/
+    size_t population=0; /**< Total POP of the player*/
 
-    size_t resources; /**< Total number of resources player has*/
+    size_t resources=0; /**< Total number of resources player has*/
 
     size_t industry=0; /**< Total number of industry the player has*/
 
@@ -72,11 +72,11 @@ private:
     //&Command
     Season command_season; /**< The season of the action card played for the action phase */
 
-    char command_priority; /**< The 'priority' (letter) of the action card played for the action phase*/
+    char command_priority='\0'; /**< The 'priority' (letter) of the action card played for the action phase*/
 
     int command_value=-1; /**< The 'value' (number) of the action card played and dictates how many units can be moved in the movement phase (will be overwritten if emergency command is used) (is -1 if no action card was played)*/
 
-    int emergency_command; /**< The number of movements the player can make when they use emergency command */
+    int emergency_command=0; /**< The number of movements the player can make when they use emergency command */
 
     bool used_emergency = false; /**< Flag used to indicate if the player used emergency command for the current action season */
 
@@ -92,9 +92,10 @@ private:
 
     size_t battles_lost[3]; /**<A llies:0 Axis:1 USSR:2 where each index specifies against who*/
 
-    size_t cards_spent; /**< Number of cards the player has spent this game*/
+    size_t cards_spent=0; /**< Number of cards the player has spent this game*/
 
-    size_t cities_controlled; /**< Number of cities the player controls*/
+    size_t cities_controlled=0; /**< Number of cities the player controls*/
+
 public:
     int unit_counts[7][7] = {{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}}; /**< An array of the count of how many units on the board this player has made*/
     
@@ -105,22 +106,23 @@ public:
 
     //&^ Movement
     vector<City*> movement_memo; /**< Memo of the player made city route for the unit to travel */
-    pair<City*, Unit*> moving_unit = {nullptr, nullptr}; /**< The unit chosen by the player to move along the memo */
+    City* start_city = nullptr;
+    vector<Unit*> moving_units; /**< The unit chosen by the player to move along the memo */
 
     //& Graphic Tools
     App* app; /**< Container for the attributes of the player's window/screen and renderer*/
 
-    Spritesheet* sprite_sheet; /**< The general spritesheet for the player's renderer */
+    Spritesheet* sprite_sheet=nullptr; /**< The general spritesheet for the player's renderer */
 
-    Spritesheet* map_sprite; /**< The spirte of the map for the player's renderer */
+    Spritesheet* map_sprite=nullptr; /**< The spirte of the map for the player's renderer */
 
-    Spritesheet* message_animation_sheets; /**< The spirte of the map for the player's renderer */
+    Spritesheet* message_animation_sheets=nullptr; /**< The spirte of the map for the player's renderer */
 
-    Spritesheet* units_sprite_z1; /**< The sprite sheet for units at zoom 1 (the broadest) */
+    Spritesheet* units_sprite_z1=nullptr; /**< The sprite sheet for units at zoom 1 (the broadest) */
 
-    Spritesheet* units_sprite_z3; /**< The sprite sheet for the units at zoom 3 (the closest) */
+    Spritesheet* units_sprite_z3=nullptr; /**< The sprite sheet for the units at zoom 3 (the closest) */
 
-    Spritesheet* controller_button_sprites; /**< The sprite sheet for the units at zoom 3 (the closest) */
+    Spritesheet* controller_button_sprites=nullptr; /**< The sprite sheet for the units at zoom 3 (the closest) */
 
     //& Graphic Status
 
@@ -153,6 +155,7 @@ public:
     //&^^ Combat Widget
     bool show_combat = true;
     int popped_unit_index = 0;
+    size_t num_battle_groups = 0;
 
     int zoom = 1; /**< The current zoom level (1,2,3) of the player's screen*/
     bool board_change=true; /**< Boolen to track wether the player's board/view has changed and needs to be redrawn*/
@@ -182,12 +185,20 @@ public:
     //& Selected Things
     CityType allegiance_viewing = NEUTRAL;  /**< The allegiance of the unit being view or in focus*/
     pair<City*, Unit*> selected_unit = {nullptr, nullptr}; /**< The unit thats under focus and all actions pertaining to*/
-
+    size_t num_start_units=0;
+    size_t curr_unit_init=0;
 
     //&^ City Selecting Status
     City* closest_map_city = nullptr; /**< The city that is closest to the player's cursor (updated when cursor stops moving) */
-    City* selecting_city = nullptr; /**< Pointer to the city that has been selected to add a unit */
+    City* selected_city = nullptr;
+    City* option_select_city = nullptr; /**< Pointer to the city that has been selected to add a unit */
     bool unit_available[7]= {false, false, false, false, false, false, false}; /**< Array that corresponds to the units to hold flags if the unit is buildable in the current `building_city`*/
+
+    //&^^ Intervention Selection
+    vector<Country*> intervened_countries;
+    Country* curr_intervention=nullptr;
+
+    bool done_bg = false;
 
     //&^ Card Select
     InvestmentCard* command_fake = nullptr;
@@ -233,8 +244,10 @@ public:
     tick_t a_held_tick = 0; /**< Tick of when the player most recently pressed down on the A-Button (0 if not held) */
     tick_t b_held_tick = 0; /**< Tick of when the player most recently pressed down on the B-Button (0 if not held) */
 
-    bool y_resolved = true; /**< Flag for if the Y-Button animation has been resolved */
+    tick_t rt_shoulder_held_tick = 0;
+    tick_t lf_shoulder_held_tick = 0;
 
+    bool y_resolved = true; /**< Flag for if the Y-Button animation has been resolved */
     /**
      * @brief Construct a blank default Player object
      * 
@@ -743,8 +756,8 @@ public:
      * 
      * @pre User can use command and won't go below 0
      */
-    void useCommand(){
-        command_value--;
+    void useCommand(const int val=1){
+        command_value -= val;
     }
 
     /**
@@ -1197,8 +1210,8 @@ public:
      * @brief Set the Unit selected for movement to the current selected unit
      * 
      */
-    void setMovingUnit(){
-        moving_unit = selected_unit;
+    void addMovingUnit(){
+        moving_units.push_back(selected_unit.second);
     }
 
     /**
@@ -1206,7 +1219,23 @@ public:
      * 
      */
     void resetMovingUnit(){
-        moving_unit = {nullptr, nullptr};
+        start_city = nullptr;
+
+        option_select_city = nullptr;
+
+        for (auto& unit : moving_units)
+            unit->moving = false;
+
+        movement_memo.clear();
+        moving_units.clear();
+    }
+
+    bool inMove(const Unit* unit){
+        if (unit->allegiance != allegiance)
+            return false;
+
+        return std::find(moving_units.begin(), moving_units.end(), unit) != moving_units.end();
+        
     }
 
     /**
@@ -1268,12 +1297,21 @@ public:
      */
     void resetUnits(){
         for (auto& unit : units){
-            if (unit)
+            if (unit){
                 unit->acted = false;
+                unit->rebase = false;
+                unit->moving = false;
+                unit->battle_group = false;
+            }
         }
     }
-
-    
+    void resetMoves(){
+        for (auto& unit : units){
+            if (unit){
+                unit->acted = false;
+            }
+        }
+    }
 
     //& Production
     /**

@@ -30,7 +30,7 @@ public:
 
     string country=""; /**< Which larger country it belongs too*/
 
-    CityType start_allegiance; /**< What type of power it starts as (West, Axis, Ussr)*/
+    CityType start_allegiance; /**< The default ruling power of the city at the starts (West, Axis, USSR, Neutrl)*/
 
     CityType ruler_allegiance; /**< The current ruler of the city (origionally set to the city_type until conquered)*/
 
@@ -62,23 +62,22 @@ public:
 
     bool deep=false; /**<  Flag to show if this city is a deep ocean and will require an extra movement to move INTO*/
 
-    bool battling = false; /**< Flag for if the city has a battle occuring and that all units should be displayed*/
-
-    bool voilation_of_neutrality[3] = {false, false, false}; /**< Array of flags to show who has violated the city (if neutral) and cannot Intervene*/
+    year_t battling = NULL_YEAR; /**< Flag for if the city has a battle occuring and that all units should be displayed*/
 
     vector<Unit*> occupants[4]; /**< Hold the current units and sperates them by their power 0:West, 1:Axis 2:USSR: 3:Neutral */
 
-    size_t num_occupants = 0; /**< Total number of occupants in the city between all  */
+    int occupier_priority[4] = {0, 0, 0, 0};
 
-    //For influence
-    CityType aggresor; /**< The Attacker is the Faction provoking Combat in that Player Turn (the Active player). This is not the same as the Aggressor (the Faction trying to wrest control of a Land Area from the Owner)*/
+    int num_occupiers;
+
+    size_t num_occupants = 0; /**< Total number of occupants in the city between all  */
 
     //For supply lines
     size_t year_supplied=0; /**< The last year checked that this city was supplied */
 
     Season season_supplied; /**< The last season checked that this city was supplied */
 
-    bool supllied=false; /**< If the city can be connected to a main capital or sub capital and is supplied */
+    bool supplied=false; /**< If the city can be connected to a main capital or sub capital and is supplied */
 
     /**
      * @brief Free the memory of the city by deleting the units
@@ -111,7 +110,7 @@ public:
         ruler_allegiance = city_type; //set it be ruled by who starts with it
         ruler_nationality = city_nationality;
         occupier_allegiance = city_type;
-    
+        
         WIDTH = 32;
         HEIGHT = 32;
 
@@ -203,8 +202,38 @@ public:
      * @return false The allegiance is not currently in combat (could also mean not even in city)
      * @see isConflict for how a conflict is decided
      */
-    bool isFighting(const CityType allegiance) const{
-        return isConflict() && occupants[allegiance].size();
+    bool isFighting(const CityType& allegiance) const{
+        return isConflict() && !occupants[allegiance].empty();
+    }
+
+    bool hasANS(const CityType& allegiance) const{
+        for (const auto& unit : occupants[allegiance]){
+            if (isANS(unit->class_type)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool hasType(const CityType& allegiance, const UnitClass& type) const{
+        for (const auto& unit : occupants[allegiance]){
+            if (unit->class_type == type){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+
+    bool mustRebase(const CityType& allegiance) const{
+        bool has_ground = false;
+        bool has_ans= false;
+        for (const auto& unit : occupants[allegiance]){
+            has_ans = has_ans || isANS(unit->class_type);
+            has_ground = has_ground || unit->class_type == CLASS_G;
+        }
+
+        return allegiance != occupier_allegiance && !has_ground && has_ans;
     }
     
     /**
@@ -213,7 +242,7 @@ public:
      * @param allegiance The rivals of the allegiance being checked
      * @return size_t the number of rivals of the provided allegiance
      */
-    size_t numRivals(const CityType allegiance) const{
+    size_t numRivals(const CityType& allegiance) const{
         switch (allegiance){
         case WEST:
             return occupants[(size_t)USSR].size()!=0 + occupants[(size_t)AXIS].size()!=0 + occupants[(size_t)NEUTRAL].size()!=0;
@@ -226,19 +255,23 @@ public:
         }
     }
 
-    /**
-     * @brief Removes a unit from this city
-     * 
-     * @param unit Pointer to the unit to remove
-     */
+    size_t getUpgraded(const CityType& allegiance) const{
+        size_t count = 0;
+        for (const auto& unit: occupants[allegiance]){
+            count += unit->upgrading;
+        }
+
+        return count;
+    }
+
+    
     void removeUnit(Unit* unit);
 
-    /**
-     * @brief Adds a unit to this city
-     * 
-     * @param unit Pointer to the  unit to add
-     */
     void addUnit(Unit* unit);
+
+    void checkRemoved(const CityType& allegiance);
+
+    void updatePriority(const CityType& removed);
 
     /**
      * @brief Get the name of the city
@@ -316,7 +349,9 @@ public:
 
     vector<City*> cities; /**< Vector of cities who are in the country */
 
-    CityType allegiance=NEUTRAL; /**< The allegiance (West, Axis, USSR) of the country*/
+    CityType starter_allegiance=NULL_ALLEGIANCE;
+
+    CityType allegiance=NULL_ALLEGIANCE; /**< The allegiance (West, Axis, USSR) of the country*/
 
     InfluenceType influence_level=UNALIGNED; /**< The current influence level of the country that decides what benefits the influencer gets and any changes in invasion from rivals */
 
@@ -324,7 +359,15 @@ public:
 
     bool armed_minor = false; /**< If the country has had neutrality violated and is now an armed minor*/
 
-    //& Records for diplomacy play
+    //&^ Violations of Neutrality
+    bool voilation_of_neutrality[3] = {false, false, false}; /**< Array of flags to show who has violated the city (if neutral) and cannot Intervene*/
+    CityType first_violator_allegiance=NULL_ALLEGIANCE;
+
+    //&^ Interventions
+    bool intervened = false;
+    CityType intervenie=NULL_ALLEGIANCE;
+
+    //&^ Records for diplomacy play
     int influence=0; /**< The current number of influence 'tokens' the country has (0,1,2,3+) */
 
     int added_influence=0; /**< The number of influence added by the `top_card` power in a government phase */
@@ -381,8 +424,10 @@ public:
      * 
      */
     void resolveCards(){
-        if (added_influence == 0 && top_card == NEUTRAL) //no cards currently on
+        if (added_influence == 0 && top_card == NEUTRAL){ //no cards currently on but could still have influence tokens changed from wild cards
+            resolveDiplomacy();
             return;
+        }
 
         if (allegiance == NEUTRAL && added_influence > 0){
             allegiance = top_card;
@@ -419,6 +464,8 @@ public:
         // now that the influence level has been set change the influence level
         influence_level = (InfluenceType)std::min(influence, 3);
 
+        top_card = (top_card==NEUTRAL? allegiance : top_card);//for when no card was added but wild influence cards were played
+
         switch (influence_level){
             case UNALIGNED:{
                 allegiance = NEUTRAL;
@@ -435,7 +482,7 @@ public:
                 break;
             }
             case SATELLITES:{
-                allegiance = top_card;
+                allegiance = top_card; 
                 for (auto& city : cities){
                     city->ruler_allegiance = allegiance;
                     city->occupier_allegiance = allegiance;
@@ -450,6 +497,27 @@ public:
         top_card=NEUTRAL;
     }
 
+    void directAdd(const CityType& adder){
+        if (influence == 0){
+            allegiance = adder;
+            influence = 1;
+            influence_level = ASSOCIATES;
+        }
+        else{
+            //if a rival is adding an influencerker then take one away
+            influence = influence + (adder == allegiance? 1 : -1);
+        }
+
+        if (!influence)
+            resetDiplomacy();
+    }
+
+    void resetDiplomacy(){
+        allegiance = NEUTRAL;
+        influence = 0;
+        influence_level = UNALIGNED;
+    }
+
     /**
      * @brief Set the ruler of a country and the influnce level (only used for testing)
      * 
@@ -461,6 +529,19 @@ public:
         influence = level;
 
         resolveDiplomacy();
+    }
+
+    void conqueredCapital(const CityType& ruler){
+        allegiance = ruler;
+        influence_level = SATELLITES;
+
+        for (auto& city : cities){
+            city->ruler_allegiance = ruler; //set all of its cities to the new ruler
+            if (!city->hasOther(ruler)){ 
+                city->occupier_allegiance = ruler;
+            }
+
+        }
     }
 
     /**
@@ -686,6 +767,10 @@ public:
         return adjacency[lhs->getID()][rhs->getID()];
     }
 
+    const BorderType& getBorder(const size_t& lhs, const size_t& rhs) const{
+        return adjacency[lhs][rhs];
+    }
+
     /**
      * @brief Get the current border limit of the player for a border that joins each city (used to limit how many units can engage and retreat from a border)
      * 
@@ -707,9 +792,9 @@ public:
      * 
      * @pre There is a border (not NA=0) between the two cities
      */
-    void increaseBorderLimit(const City* lhs, const City* rhs, const CityType& mover) {
-        border_limit[lhs->getID()][rhs->getID()][mover]++;
-        border_limit[rhs->getID()][lhs->getID()][mover]++;
+    void increaseBorderLimit(const City* lhs, const City* rhs, const CityType& mover, const int& amount=1) {
+        border_limit[lhs->getID()][rhs->getID()][mover] += amount;
+        border_limit[rhs->getID()][lhs->getID()][mover] += amount;
     }
 
     /**

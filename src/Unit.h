@@ -106,6 +106,8 @@ struct ActionCard : public Card{
 public:
     ActionType type; /**< The type of Action Card (DIPLOMACY for specific countries or a WILD)*/
 
+    WildActionType wild_type=NOT_WILD;
+
     string countryA; /**< The left country that could be influenced or the name of the wild card*/
     string countryB; /**< The second country that could be influenced (blank for wild)*/
 
@@ -151,6 +153,8 @@ public:
     //for science cards
     size_t year; /**< The year of the YEAR card it applies too*/
 
+    bool selected=false;
+
     /**
      * @brief Construct a new Investment Card object
      * 
@@ -191,15 +195,23 @@ public:
 
     uint8_t combat_value; /**< Functions as how many forces are in the one unit and how many it fires in battle*/
 
-    int8_t max_combat_value; /**< Limits the max amount of forces can be in the unit*/
+    uint8_t max_combat_value; /**< Limits the max amount of forces can be in the unit*/
 
     uint8_t movement; /**< The max amount of cities it can move in one turn*/
 
     bool acted=false; /**< Flag for if the Unit has moved in the current year */
 
-    bool rebase=false; /**< If this unit can ReBase (move freely to ground force)*/
+    bool rebase=false; /**< If this unit has opted out to make the free ReBase at the end of a battle*/
 
-    year_t disengage=NULL_YEAR;
+    bool moving=false;
+
+    uint8_t battle_group=0;
+
+    bool bombing=false;
+
+    size_t engage_id=0;
+
+    year_t last_engage=NULL_YEAR;
 
     year_t landing=NULL_YEAR; /**< The year the unit landed from water this turn (therefore it can't attack)*/
 
@@ -266,9 +278,7 @@ public:
 
                 max_combat_value = MAX_CV_TABLE[nationality];
 
-                rebase = true;
-
-                landing = false;
+                ;
 
                 break;
             }
@@ -278,9 +288,9 @@ public:
                 movement = 3;
 
                 max_combat_value = MAX_CV_TABLE[nationality];
-                rebase = true;
+                
+                ;
 
-                landing = true;
                 break;
             }
             case (SUB):{
@@ -290,9 +300,8 @@ public:
                 
                 max_combat_value = MAX_CV_TABLE[nationality];
 
-                rebase = true;
+                ;
 
-                landing = true;
                 break;
             }
             case (FLEET):{
@@ -302,9 +311,7 @@ public:
 
                 max_combat_value = MAX_CV_TABLE[nationality];
 
-                rebase = true;
-
-                landing = true;
+                ;
 
                 break;
             }
@@ -317,8 +324,6 @@ public:
 
                 rebase = false;
 
-                landing = false;
-
                 break;
             }
             case (INFANTRY):{
@@ -330,8 +335,6 @@ public:
 
                 rebase = false;
 
-                landing = false;
-
                 break;
             }
             case (CONVOY):{
@@ -342,8 +345,6 @@ public:
                 max_combat_value = MAX_CV_TABLE[nationality];
 
                 rebase = false;
-
-                landing = true;
 
                 break;
             }
@@ -411,7 +412,7 @@ public:
 
                 max_combat_value = MAX_CV_TABLE[nationality];
 
-                rebase = true;
+                ;
 
                 landing = false;
 
@@ -424,7 +425,7 @@ public:
 
                 max_combat_value = MAX_CV_TABLE[nationality];
 
-                rebase = true;
+                ;
 
                 landing = true;
                 break;
@@ -436,7 +437,7 @@ public:
                 
                 max_combat_value = MAX_CV_TABLE[nationality];
 
-                rebase = true;
+                ;
 
                 landing = true;
                 break;
@@ -448,7 +449,7 @@ public:
 
                 max_combat_value = MAX_CV_TABLE[nationality];
 
-                rebase = true;
+                ;
 
                 landing = true;
 

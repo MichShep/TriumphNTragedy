@@ -6,19 +6,54 @@
 void City::removeUnit(Unit* unit){
     for(vector <Unit* >::iterator it(occupants[(size_t)unit->allegiance].begin()); it != occupants[(size_t)unit->allegiance].end(); ++it){
         if (*it == unit){
-            it = occupants[(size_t)unit->allegiance].erase(it);
+            occupants[(size_t)unit->allegiance].erase(it);
             num_occupants--;
+
+            if (unit->allegiance != occupier_allegiance && occupants[unit->allegiance].empty()){ //if a potential occupier then just remove the total number of occupiers and update priortity
+                updatePriority(unit->allegiance);
+                num_occupiers--;
+            }
+
             return;
         }
     }
 
-    printf("Unit isn't in %s!", name.c_str());
+    std::cerr << "Unit " << unit->id << " isn't in City:"<< name << "!" << endl;
     exit(1);
+
 }
 
 void City::addUnit(Unit* unit){
     occupants[(size_t)unit->allegiance].push_back(unit);
     num_occupants++;
+
+    //update occupier priority
+    if (occupier_priority[unit->allegiance] == 0 && unit->allegiance != occupier_allegiance){ //if 0 then means they haven't move in yet
+        occupier_priority[unit->allegiance] = ++num_occupiers;
+    }
+}
+
+void City::checkRemoved(const CityType& allegiance){
+    if (occupants[allegiance].empty()){ //if empty then lower the priority of all those greater
+        const auto& curr_priority = occupier_priority[allegiance];
+        for (auto& pri : occupier_priority){
+            if (pri >= curr_priority)
+                pri--;
+        }
+    }
+}
+
+void City::updatePriority(const CityType& removed){
+    int removed_priority = occupier_priority[removed];
+
+    //get the longest occupier
+    for (int i = 0; i < 4; i++){
+        if (occupier_priority[i] != 0 && occupier_priority[i] >= removed_priority){ //the != 0 signafies not an occupier (ruler or not there)
+            occupier_priority[i]--;
+        }
+    }
+
+    return;
 }
 
 void Map::initLists(const size_t& size){

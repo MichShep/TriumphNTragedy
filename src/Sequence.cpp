@@ -27,8 +27,7 @@ bool Runner::runTitle(){
             drawTitle(*ussr_player, alpha);
 
             if (fade){
-                if (!(fade = fade && !(west_player->passed + axis_player->passed + ussr_player->passed == (controllers[0]!=NULL)+(controllers[1]!=NULL)+(controllers[2]!=NULL))
-))                  start = clock;  
+                if (!(fade = fade && !(west_player->passed + axis_player->passed + ussr_player->passed == (controllers[0]!=NULL)+(controllers[1]!=NULL)+(controllers[2]!=NULL))))                  start = clock;  
             }
             else
                 alpha = alpha - ((clock-start)/5000);
@@ -59,12 +58,13 @@ bool Runner::runTitle(){
 bool Runner::run(){
     //runTitle();
 
-    reshuffle(false);
-
-    //& Draw the initial Board
     drawPlayerBoard(players[WEST]);
     drawPlayerBoard(players[AXIS]);
     drawPlayerBoard(players[USSR]);
+
+    //initUnits();
+
+    reshuffle(false);
     
     //& Main game Loop
     CityType winner;
@@ -91,6 +91,49 @@ bool Runner::run(){
     printf("Memory was deleted\n");
 
     return EXIT_SUCCESS;
+}
+
+//&^ Initalizing Game
+
+bool Runner::initUnits(){
+    bool running = true;
+    double delta = 0;
+
+    tick_t current_tick = SDL_GetTicks();
+    clock = SDL_GetTicks();
+
+    season = INIT_UNITS;
+
+    turn_order[0] = axis_player;
+    turn_order[1] = west_player;
+    turn_order[2] = ussr_player;
+
+    while (running){
+        current_tick = SDL_GetTicks();
+        delta = current_tick - clock;
+
+        if (delta > 1000/60.0){
+            clock = current_tick;
+            fps = (1000.0f / (delta));
+
+            handleUserInput(running);
+
+            drawPhase();
+
+            running = !west_player->passed || !axis_player->passed || !ussr_player->passed;
+        } 
+    }
+
+
+    applyProduction(*west_player);
+    applyProduction(*axis_player);
+    applyProduction(*ussr_player);
+
+    west_player->passed = false;
+    axis_player->passed = false;
+    ussr_player->passed = false;
+
+    return true;
 }
 
 //&^ New Year
@@ -148,6 +191,7 @@ void Runner::production(){
         while (running || !public_messages.empty()){
             current_tick = SDL_GetTicks();
             delta = current_tick - clock;
+            fps = (1000.0f / (delta));
 
             //ensures framerate of 60fps
             if (delta > 1000/60.0){
@@ -164,7 +208,7 @@ void Runner::production(){
         }
         //- Set production things to null
         player->selected_unit = {nullptr, nullptr};
-        player->selecting_city = nullptr;
+        player->option_select_city = nullptr;
     }    
 }
 
@@ -308,7 +352,7 @@ bool Runner::declareDoW(Player& declarer, Player& victim){
     if (declarer == victim)
         return false;
 
-    //* Check that they don't already have current_tick DoW
+    //* Check that they don't already have a DoW
     if (declarer.getDoW(rival_all) != PEACE)
         return false;
 
@@ -329,25 +373,28 @@ bool Runner::declareVoN(Player& declarer){
     if (city == nullptr)
         return false;
 
-    //* Closest city must be current_tick NEUTRAL capital
+    //* Closest city must be a NEUTRAL capital
     if (!city->capital || city->ruler_allegiance != NEUTRAL || city->ruler_allegiance == declarer){
         return false;
     }
 
+    Country* country = map.getCountry(city->country);
+
     //* Check if its been VoNed already
-    if (city->voilation_of_neutrality[0] || city->voilation_of_neutrality[1] || city->voilation_of_neutrality[2]){
+    if (country->voilation_of_neutrality[0] || country->voilation_of_neutrality[1] || country->voilation_of_neutrality[2]){
         return false;
     }
 
     // Set VoN
-    city->voilation_of_neutrality[allegiance] = true;
+    country->voilation_of_neutrality[allegiance] = true;
+    country->first_violator_allegiance = declarer;
 
     //Put out forts
-    Country* country = map.getCountry(city->country);
-
     for (auto& c : country->cities){
         if (c->muster > 0){
-            c->addUnit(new Unit(0, NEUTRAL_U, FORTRESS, c->muster, year));
+            Unit* new_unit = new Unit(0, NEUTRAL_U, FORTRESS, c->muster, year);
+            c->addUnit(new_unit);
+            neutral_units.push_back(new_unit);
         }
     }
 
@@ -362,6 +409,50 @@ bool Runner::declareVoN(Player& declarer){
         }
     }
 
+    return true;
+}
+
+bool Runner::declareIntervention(Player& declarer){
+    const auto& allegiance = declarer.getAllegiance();
+
+    const auto& city = declarer.closest_map_city;
+
+    if (city == nullptr)
+        return false;
+
+    // Closest city must be a NEUTRAL capital
+    if (!city->capital || city->ruler_allegiance != NEUTRAL || city->start_allegiance == WATER){
+        return false;
+    }
+
+    // Check for a ground unit in (any?) city
+    Country* country = map.getCountry(city->country);
+
+    // Check if its been VoNed already AND if the player hasn't violated it yet
+    if ((country->first_violator_allegiance != NULL_ALLEGIANCE) && country->voilation_of_neutrality[allegiance]){
+        return false;
+    }
+
+    // Check if the first (real) violator is an enemy
+    if (!declarer.isEnemy(country->first_violator_allegiance)){
+        return false;
+    }
+
+    bool has_ground = false;
+    for (const auto& c : country->cities){
+        for (const auto& unit : c->occupants[allegiance]){
+            has_ground = has_ground || unit->class_type == CLASS_G;
+        }
+    }
+
+    if (!has_ground){
+        return false;
+    }
+
+    //If survived all checks then set player to change all units
+    country->intervened = true;
+    country->intervenie = allegiance;
+    declarer.intervened_countries.push_back(country);
     return true;
 }
 
@@ -408,108 +499,11 @@ bool Runner::flipConvoy(Player& player,  City* city, Unit* unit){
     return false;
 }
 
-void Runner::moveUnit(Player& player){
-    MovementMessage res;
-    auto& unit = player.moving_unit.second;
-    bool disengaging = false;
-
-    if (player.moving_unit.first == nullptr)
-        return;
-
-    if (player.moving_unit.first->isConflict()){ //disengage
-        res = canDisengage(player, unit);
-        disengaging = true;
-    }
-    
-    else {
-        switch (unit->class_type){
-            case CLASS_A:
-                res = canAirMove(player, unit);
-                break;
-            case CLASS_G:
-                res = (unit->convoy)? canSeaMove(player, unit) : canLandMove(player, unit);
-                break;
-            case CLASS_S:
-                res = canSeaMove(player, unit);
-                break;
-            case CLASS_N:
-                res = canSeaMove(player, unit);
-                break;
-
-            default:
-                exit(1);
-        }
-    }
-
-    //TODO add private message feature
-    if (res < 0 ){ //negative means there was an error
-        cout << "error moving: " << res << endl;
-    }
-
-    else if (res == DOWED){ //need to get confirmation that its okay to DoW
-        cout << "need current_tick dow to enter " << player.movement_memo.back()->name << endl; 
-    }
-
-    else if (res == VONED){ //need to get confirmation that its okay to VoN
-        cout << "need current_tick von to enter " << player.movement_memo.back()->name << endl; 
-    }
-
-    else{ //No effect means it can move simply
-        auto& memo =  player.movement_memo;
-        const auto& last_city = memo.back();
-
-        memo.back()->addUnit(unit);
-        player.moving_unit.first->removeUnit(unit);
-
-        unit->acted = true;
-        if (res==LANDFALL){
-            unit->convoy = false;
-        }
-
-        //if engaged must stop all movement and increase limit
-        if (unit->class_type == CLASS_G && last_city->hasOther(player.getAllegiance())){
-            map.increaseBorderLimit(memo[memo.size()-2], last_city, player.getAllegiance());
-            if (res == LANDFALL){
-                unit->landing = year;
-            }
-        }
-
-        if (unit->class_type == CLASS_G && !last_city->hasOther(player) && last_city->ruler_allegiance != player){ //empty move into unfriendly makes it automatically theres
-            last_city->ruler_allegiance = player; //must be ground units or its current_tick raid
-        }
-
-        if (disengaging){
-            map.increaseBorderLimit(memo[0], memo[1], player.getAllegiance());
-        }
-
-        memo.clear();
-        player.useCommand();
-        player.resetMovingUnit();
-    }
-
-    /*else if (res == LANDFALL){ //When current_tick unit made landfall on current_tick coast it needs to lose all movement
-        auto& memo =  player.movement_memo;
-        memo.back()->addUnit(unit);
-        player.moving_unit.first->removeUnit(unit);
-
-        unit->moved = true;
-        unit->convoy = false;
-
-        if (unit->class_type == CLASS_G && memo.back()->hasOther(player.getAllegiance())){
-            map.increaseBorderLimit(memo[memo.size()-2], memo[memo.size()-1], player.getAllegiance());
-            unit->landing = true;
-        }
-
-        memo.clear();
-        player.useCommand();
-        player.resetMovingUnit();
-    }*/
-}
-
 //&^ Spring Season
 
 void Runner::spring(){
     season = SPRING;
+    year = (int)year + ((double)season)/10;
 
     tick_t current_tick = SDL_GetTicks();
     clock = SDL_GetTicks();
@@ -586,6 +580,9 @@ void Runner::spring(){
     turn_order[1]->setCommandNumber(2);
     turn_order[2]->setCommandNumber(-1);
 
+    ussr_player->passed = true;
+    axis_player->passed = true;
+
     running = true;
     current_player = turn_order[0];
     current_player->combat_phase = MOVEMENT;
@@ -605,6 +602,8 @@ void Runner::spring(){
         } 
     }
 
+    updateCityRulers();
+
     //- Player Turns
         //- Movement
 
@@ -620,6 +619,12 @@ void Runner::spring(){
     west_player->resetUnits();
     axis_player->resetUnits();
     ussr_player->resetUnits();
+
+    map.resetBorderLimits();
+
+    west_player->passed = false;
+    axis_player->passed = false;
+    ussr_player->passed = false;
 }
 
 //- Summer Season
@@ -871,6 +876,7 @@ bool Runner::increaseIndustry(Player& player){
 
     for (auto& card : player.selected_invest_cards){
         player.remove(card);
+        card->selected = false;
         invest_discard.push_back(card);
     }
     player.selected_invest_cards.clear();

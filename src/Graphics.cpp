@@ -188,18 +188,18 @@ void Runner::drawPlayerBoard(Player& player, const bool render){
     drawStatWidget(player, players[player.stat_view]);
 
     //- Draw movement trail
-    if (player.combat_phase == MOVEMENT && player.movement_memo.size() > 1){
+    if (((player.combat_phase == MOVEMENT || player.combat_phase == COMBAT_SELECT_REBASE || player.combat_phase == COMBAT_FINISHED_FORCED_REBASE) && player.movement_memo.size() > 1) || (player.combat_phase == COMBAT_SELECT_RETREAT && player.movement_memo[1] != nullptr)){
         for (int i = 1; i < player.movement_memo.size(); i++){
             drawLine(player, player.movement_memo[i-1], player.movement_memo[i], false);
         }
     }
 
     //- Draw the build UI
-    if (season == PRODUCTION)
+    if (season == PRODUCTION || season == INIT_UNITS)
         drawBuild(player);
 
     //- Draw the selection wheel for battle
-    else if (player.combat_phase == COMBAT_BATTLE_SELECT)
+    else if (player.combat_phase == COMBAT_SELECT_BATTLE)
         drawBattleSelect(player);
 
     //- Draw the combat widget
@@ -215,10 +215,26 @@ void Runner::drawPlayerBoard(Player& player, const bool render){
         if (player.show_right_country) drawCity(player, player.popped_right_country->x, player.popped_right_country->y, player.popped_right_country->population_type);
     }
 
+    //- Draw the selected cities
+    if (player.option_select_city){
+        const auto& city = player.option_select_city;
+        SDL_Rect target;
+        auto& sprite_sheet = player.sprite_sheet;
+        target = {player.app->screen.getX(city->x), player.app->screen.getY(city->y), city->HEIGHT*player.zoom, city->WIDTH*player.zoom};
+        
+        //- Draw the Population type (capital, subcapital, ...)
+        sprite_sheet->drawSprite(&target, 8, getCitySprite(city)+21);
+    }
+
     drawSeasonSpecific(player);
 
     //- Draw the current actions avialable
     drawActionButtons(player);
+
+    if (player.lf_shoulder_held_tick){
+        drawActionDeck(player);
+        drawInvestDeck(player);
+    }
 
     //- Update Public Messages
     for (auto& message : public_messages){
@@ -248,9 +264,7 @@ void Runner::drawPlayerBoard(Player& player, const bool render){
 }
 
 void Runner::drawMap(Player& player, const bool cities, const bool influence, const bool resources, const bool connections, const bool clear){
-    int width, height;
-    SDL_GetWindowSize(player.app->window, &width, &height);
-    SDL_Rect tar = {0, 0, width, height};
+    SDL_Rect tar = {0, 0, player.app->screen.WIDTH, player.app->screen.HEIGHT};
     player.map_sprite->drawSprite(&tar, 0, 0, (int)(1512/player.app->screen.zoom_factor), (int)(982/player.app->screen.zoom_factor), 0, player.app->screen.zoom_x, player.app->screen.zoom_y);
 
     if (connections)
@@ -263,15 +277,20 @@ void Runner::drawMap(Player& player, const bool cities, const bool influence, co
 
         //draw all current battles
         int i = 0;
-        Target target = {0, 0, 23*player.zoom, 23*player.zoom};
+        Target target = {0, 0, 36*player.zoom, 36*player.zoom};
         for (auto& city : battles){
-            target.x = player.app->screen.getX(city.first->x);
-            target.y = player.app->screen.getY(city.first->y);
-            player.sprite_sheet->drawSprite(&target, 0, 21+city.second, 23, 23);
+            target.x = player.app->screen.getX(city.first->x-2);
+            target.y = player.app->screen.getY(city.first->y-2);
+            player.sprite_sheet->drawArea(&target, 575+36*city.second, 23, 36, 36);
             drawNumber(player.app->renderer, ++i, target.x, target.y, 3, 0, 0, 0);
         }
 
-        //draw peaked unit if there is one
+        //draw current battle
+        if (current_battle.first){
+            target.x = player.app->screen.getX(current_battle.first->x-2);
+            target.y = player.app->screen.getY(current_battle.first->y-2);
+            player.sprite_sheet->drawArea(&target, 719, 23, 36, 36);
+        }
     }
 
     if (influence){
@@ -284,8 +303,8 @@ void Runner::drawMap(Player& player, const bool cities, const bool influence, co
 
 void Runner::drawBuild(Player& player) const{
     //- If one is selected
-    if (nullptr != player.selecting_city){
-        const auto& city = player.selecting_city;
+    if (nullptr != player.option_select_city){
+        const auto& city = player.option_select_city;
         const int& zoom = player.zoom;
         const int center_x = player.app->screen.getX(city->x+(city->WIDTH/2))-ZOOM_DIMENSIONS[zoom-1][0]/2;
         const int center_y = player.app->screen.getY(city->y+((city->HEIGHT/2)))-ZOOM_DIMENSIONS[zoom-1][0]/2;
@@ -343,13 +362,13 @@ void Runner::drawBuild(Player& player) const{
             //player.units_sprite_z1->drawSprite(&target, 0, 42, 20, 20) ;//(UnitType)player.popped_unit[0], city->nationality, center_x+radius*player.popped_unit[1], center_y+radius*player.popped_unit[2]);
         }
         //-Redraw city for overlap
-        drawCity(player, player.selecting_city, true);
+        drawCity(player, player.option_select_city, true);
     }
 }
 
 void Runner::drawBattleSelect(Player& player) const{
-    if (nullptr != player.selecting_city){
-        const auto& city = player.selecting_city;
+    if (nullptr != player.option_select_city){
+        const auto& city = player.option_select_city;
         const auto& targets = player.unit_available;
         //const auto& sprite_sheet = player.sprite_sheet;
         const int& zoom = player.zoom;
@@ -415,7 +434,7 @@ void Runner::drawActionWidget(Player& drawing_player, Player& target_player) con
         if (drawing_player.getActionSize()+drawing_player.bought_action > 0){
 
             //- calcualte how many cards need to be shown and draw background (max amount will be 15)
-            const int num_card = SDL_clamp(target_player.getActionSize()+ (&target_player == &drawing_player? target_player.bought_action : 0), 0, 15);
+            const int num_card = SDL_clamp(target_player.getActionSize()+ (target_player == drawing_player && target_player.bought_action), 0, 15);
             const int holder_size = num_card*32;
 
             //- Draw the opening icon
@@ -476,7 +495,7 @@ void Runner::drawInvestWidget(Player& drawing_player, Player& target_player) con
     if (drawing_player.show_invest){ //draw all the invest cards
         if (target_player.getInvestSize()+target_player.bought_invest > 0){
             //- calcualte how many cards need to be shown and draw background (max amount will be 15)
-            const int num_card = SDL_clamp(target_player.getInvestSize()+(&target_player == &drawing_player? target_player.bought_invest : 0), 0, 15);
+            const int num_card = SDL_clamp(target_player.getInvestSize()+(target_player == drawing_player && target_player.bought_invest), 0, 15);
             const int holder_size = num_card*32;
             
             //- Draw the opening icon
@@ -718,7 +737,12 @@ void Runner::drawTurnOrder(const Player& player) const{
     auto& sprite_sheet = player.sprite_sheet;
     //- draw the actual turn order
     SDL_Rect turn_order_target = {3, 3, 124, 38};
-    sprite_sheet->drawSprite(&turn_order_target, 3, 0, 124, 38);
+    
+    if (season == INIT_UNITS)
+        sprite_sheet->drawArea(&turn_order_target, 297,156, 124, 38);
+    else 
+        sprite_sheet->drawSprite(&turn_order_target, 3, 0, 124, 38);
+    
     if (turn_order[0] != nullptr){
         if (season >= SPRING_COMMAND){
             turn_order_target = {6, 6, 32, 32};
@@ -900,15 +924,22 @@ void Runner::drawCombatWidget(Player& player) const{
 
         // Draw the current actions of the player
         switch (player.combat_phase){
-            case COMBAT_ACTION_SELECT:
+            case COMBAT_SELECT_ACTION:
                 drawCombatActionSelect(player);
                 break;
-            case COMBAT_CLASS_SELECT:
+            case COMBAT_SELECT_CLASS:
                 drawCombatTypeSelect(player);
                 break;
             case COMBAT_DEAL_HITS:
                 drawCombatDealHits(player);
                 break;
+            case COMBAT_SELECT_REBASE_OPT:
+                drawCombatOptReBaseSelect(player);
+                break;
+            case COMBAT_SELECT_BATTLE_GROUP:
+                drawCombatBattleGroupSelect(player);
+                break;
+            
             
             default:
                 break;
@@ -922,7 +953,86 @@ void Runner::drawCombatWidget(Player& player) const{
             SDL_SetRenderDrawColor(player, 255, 193, 7, 255);
             SDL_RenderDrawRect(player, &target);
         }
+    }    
+}
+
+void Runner::drawCombatBattleGroupSelect(Player& player) const{
+    const auto& width = ZOOM_DIMENSIONS[1][0];
+
+    Target target = {player.app->screen.WIDTH/2-750/2, player.app->screen.HEIGHT-250, 750, 250};
+    
+    int start_x = target.x+15;
+    int start_y = target.y+15;
+    int count = 0;
+
+    const auto& attacker_units = current_battle.first->occupants[current_player->getAllegiance()];
+    const auto& defender_units = current_battle.first->occupants[current_battle.second];
+    
+    for (const auto& unit : attacker_units){
+        if (unit->battle_group){
+            drawUnit(player, unit, start_x, start_y, 1+1, false);
+        }
+        else{
+            drawFadeUnit(player, unit, start_x, start_y, 2, FADE_DOWN, 97, 97, 97, 200, 219, 0);
+        }
+        start_x += width+10;
+        if (++count % 4 == 0){
+            start_y += width+10;
+            start_x = target.x+15;
+        }
     }
+
+    start_x = target.x+545;
+    start_y = target.y+15;
+    count = 0;
+
+    //- Draw all the defender troops on the right
+    for (const auto& unit : defender_units){
+        if (unit->battle_group){
+            drawUnit(player, unit, start_x, start_y, 1+1, false);   
+        }
+        else{
+            drawFadeUnit(player, unit, start_x, start_y, 2, FADE_DOWN, 97, 97, 97, 200, 219, 0);
+        }
+        start_x += width+10;
+
+        if (++count % 4 == 0){
+            start_y += width+10;
+            start_x = target.x+545;
+        }
+    }
+
+    //- Drawing the popped Unit 
+    const int& unit = player.popped_hit_index;
+    Target highlight = {player.app->screen.WIDTH/2-750/2+(player == current_player? 15 : 545) + (unit%4)*50, player.app->screen.HEIGHT-250+15 + (unit/4)*50, 40, 40};
+    SDL_SetRenderDrawColor(player, 255, 193, 7, 255);
+    SDL_RenderDrawRect(player, &highlight);
+}
+
+void Runner::drawCombatOptReBaseSelect(Player& player) const{
+    const auto& sprite_sheet = player.sprite_sheet;
+    Target target = {player.app->screen.WIDTH/2-750/2, player.app->screen.HEIGHT-250, 750, 250};
+    constexpr int radius = 60;
+    constexpr int center_x = 376;
+    constexpr int center_y = 91;
+
+    if (player.wheel_x != 0 && player.wheel_y != 0){
+        drawLine(player, target.x+center_x, target.y+center_y, target.x+center_x+player.wheel_x*radius, target.y+center_y+player.wheel_y*radius); //city middle to the wheel coords
+    }
+
+    const auto& select = player.wheel_selection[0];
+    Target button_target = {target.x + 275, target.y + 31, 203, 43};
+
+    //draw rebase button
+    bool button_selected = (select == 0 || (select == 7 && player.wheel_x != 0) || select == 1);
+    button_target.y += button_selected ? 0 : -5 * cos((1 / 600.0) * clock + 20000);
+    sprite_sheet->drawArea(&button_target, 1894, 942 + (button_selected ? 43 : 0), 203, 43);
+
+    //draw opt out rebase button
+    button_target.y = target.y + 109;
+    button_selected = (select == 4 || select == 5 || select == 3);
+    button_target.y += button_selected ? 0 : +5 * sin((1 / 600.0) * clock + 24000);
+    sprite_sheet->drawArea(&button_target, 2097, 942 + (button_selected ? 43 : 0), 203, 43);
 }
 
 void Runner::drawCombatActionSelect(Player& player) const{
@@ -930,7 +1040,7 @@ void Runner::drawCombatActionSelect(Player& player) const{
     Target target = {player.app->screen.WIDTH/2-750/2, player.app->screen.HEIGHT-250, 750, 250};
 
     //draw selction line
-    constexpr int radius = 45;
+    constexpr int radius = 60;
     const int center_x = 376;
     const int center_y = 91;
     if (player.wheel_x != 0 && player.wheel_y != 0){
@@ -938,24 +1048,43 @@ void Runner::drawCombatActionSelect(Player& player) const{
     }
 
 
-    // draw fire button
     const auto& select = player.wheel_selection[0];
-    Target button_target = {target.x+275, target.y+31, 203, 43};
-    if (select==0 || (select == 7 && player.wheel_x != 0) || select == 1) // if selected
-        sprite_sheet->drawArea(&button_target, 1236+203, 1028, 203, 43);
-    else{ //if not selected
-        button_target.y += 5*cos((1/600.0)*clock+15000);
-        sprite_sheet->drawArea(&button_target, 1236, 1028, 203, 43);
+    Target button_target = {target.x + 275, target.y + 31, 203, 43};
+
+    //draw action button
+    bool button_selected = (select == 0 || (select == 7 && player.wheel_x != 0) || select == 1);
+    button_target.y += button_selected ? 0 : 5 * cos((1 / 600.0) * clock + 15000);
+    sprite_sheet->drawArea(&button_target, 1236 + (button_selected ? 203 : 0), 1028, 203, 43);
+
+    //draw rebase/retreat buttons based on class type
+    if (fire_order[0]->class_type == CLASS_A){
+        button_target.y = target.y + 109;
+        button_selected = (select == 4 || select == 5 || select == 3);
+        button_target.y += button_selected ? 0 : -5 * cos((1 / 600.0) * clock + 20000);
+        sprite_sheet->drawArea(&button_target, 1894, 942 + (button_selected ? 43 : 0), 203, 43);
+    }
+    else if (isANS(fire_order[0]->class_type)){
+        //draw retreat button
+        button_target = {target.x + 220, target.y + 109, 101, 43};
+        button_selected = (select == 5);
+        button_target.y += button_selected ? 0 : -5 * cos((1 / 600.0) * clock + 20000);
+        sprite_sheet->drawArea(&button_target, 1894 + (button_selected ? 101 : 0), 1028, 101, 43);
+
+        //draw rebase button
+        button_target.x += 200;
+        button_target.y = target.y + 109;
+        bool isANSRebaseSelected = (select == 3);
+        button_target.y += isANSRebaseSelected ? 0 : 5 * cos((1 / 600.0) * clock + 243200);
+        sprite_sheet->drawArea(&button_target, 1894 + (isANSRebaseSelected ? 101 : 0), 1071, 101, 43);
+    } 
+    else{
+        //draw retreat button for non-ANS units
+        button_target.y = target.y + 109;
+        button_selected = (select == 4 || select == 5 || select == 3);
+        button_target.y += button_selected ? 0 : -5 * cos((1 / 600.0) * clock + 20000);
+        sprite_sheet->drawArea(&button_target, 1236 + (button_selected ? 203 : 0), 1071, 203, 43);
     }
 
-    //draw retreat button
-    button_target.y = target.y+109;
-    if (select==4 || select == 5 || select == 3) // if selected
-        sprite_sheet->drawArea(&button_target, 1236+203, 1071, 203, 43);
-    else{ //if not selected
-        button_target.y -= 5*cos((1/600.0)*clock+20000);
-        sprite_sheet->drawArea(&button_target, 1236, 1071, 203, 43);
-    }
 }
 
 void Runner::drawCombatTypeSelect(Player& player) const{
@@ -1018,7 +1147,6 @@ void Runner::drawCombatRug(Player& player) const{
     const auto& sprite_sheet = player.sprite_sheet;
 
     Target target = {player.app->screen.WIDTH/2-750/2, player.app->screen.HEIGHT-250, 750, 250};
-
     
     const auto& attacker_ff = current_player->getFirstFire();
     bool defender_ff[8] = {false, false, false, false, false, false, false, false};
@@ -1048,7 +1176,7 @@ void Runner::drawCombatRug(Player& player) const{
     const auto& width = ZOOM_DIMENSIONS[1][0];
 
 
-    bool taking_hits = (players[acting_player].combat_phase == COMBAT_CLASS_SELECT && player == acting_player && player != current_player) || (current_player->getAllegiance() == watching_player && target_class != CLASS_NULL);
+    bool taking_hits = (players[acting_player].combat_phase == COMBAT_SELECT_CLASS && player == acting_player && player != current_player) || (current_player->getAllegiance() == watching_player && target_class != CLASS_NULL);
     
     const UnitClass curr_select = ((int)players[acting_player].wheel_selection[0]%2 == 0) ? (UnitClass)((int)players[acting_player].wheel_selection[0]/2) : CLASS_NULL;
     for (const auto& unit : attacker_units){
@@ -1111,7 +1239,7 @@ void Runner::drawCombatRug(Player& player) const{
     count = 0;
 
     //- Draw all the defender troops on the right
-    taking_hits = (players[acting_player].combat_phase == COMBAT_CLASS_SELECT && player == acting_player && player != current_battle.second) || (players[current_battle.second] == watching_player && target_class != CLASS_NULL);
+    taking_hits = (players[acting_player].combat_phase == COMBAT_SELECT_CLASS && player == acting_player && player != current_battle.second) || (players[current_battle.second] == watching_player && target_class != CLASS_NULL);
     for (const auto& unit : defender_units){
         if (taking_hits && (unit->class_type == target_class || unit->class_type == curr_select)){
             drawFadeUnit(player, unit, start_x, start_y, 2, FADE_DOWN, 255, 0, 0, 200, 0, 0);
@@ -1182,7 +1310,7 @@ void Runner::drawCombatRug(Player& player) const{
 
 
     //- If a unit is selected for battle show this during dice roll
-    if (target_class != CLASS_NULL && players[watching_player].combat_phase != COMBAT_DEAL_HITS){
+    if (target_class != CLASS_NULL && watching_player != NEUTRAL && players[watching_player].combat_phase != COMBAT_DEAL_HITS){
         target = {target.x+750/2-21, target.y+10, 43, 43}; //todo add text to say who they are attacking
         sprite_sheet->drawArea(&target, 1642+43*target_class, 1028, 43, 43);
     }
@@ -1195,6 +1323,8 @@ void Runner::drawUnit(const Player& player, const Unit* unit, const int& x, cons
     SDL_Rect target {x, y, ZOOM_DIMENSIONS[zoom-1][0], ZOOM_DIMENSIONS[zoom-1][1]};
     if (secret)
         player.units_sprite_z1->drawSprite(&target, 0+unit->upgrading+(unit->combat_value == 0), 35+unit->nationality, 20, 20);
+    else if (unit->moving && player == unit->allegiance)
+        player.units_sprite_z1->drawSprite(&target, unit->unit_type+21, 5*unit->nationality+unit->combat_value+unit->upgrading, 20, 20);
     else
         player.units_sprite_z1->drawSprite(&target, unit->unit_type+7*unit->upgrading+14*unit->convoy+
         ((unit->acted)? 28 -7*unit->convoy:0), 5*unit->nationality+unit->combat_value+unit->upgrading, 20, 20);
@@ -1250,7 +1380,7 @@ void Runner::drawUnit(const Player& player, const UnitType& unit_type, const Uni
         player.units_sprite_z1->drawSprite(&target, unit_type, 35+(MAX_CV_TABLE[nationality]==3), 20, 20);
     }
     else{
-        player.units_sprite_z3->drawSprite(&target,unit_type, 44+nationality, 64, 64);
+        player.units_sprite_z1->drawSprite(&target,unit_type, 44+nationality, 20, 20);
     }
 }
 
@@ -1266,10 +1396,16 @@ void Runner::drawCity(Player& player, City* city, const bool resources, const bo
 
     //- Draw the ruler token (only if it doesn't equal origional)
     if (city->occupier_allegiance != city->ruler_allegiance){
-        player.sprite_sheet->drawSprite(&target, 9+city->occupier_allegiance, 12+city->ruler_allegiance, 32, 32);
+        //player.sprite_sheet->drawSprite(&target, 9+city->occupier_allegiance, 12+city->ruler_allegiance, 32, 32);
+        player.sprite_sheet->drawArea(&target, 32*city->ruler_allegiance+384, 32*city->occupier_allegiance+288, 32, 32, city->capital? 255 : 190);
     }
-    else if (city->ruler_allegiance != city->start_allegiance){
-        player.sprite_sheet->drawSprite(&target, 9, city->ruler_allegiance*4+3, 32, 32);
+
+    if (season == INIT_UNITS){
+        const auto& result = starting_cities.find(city->name);
+        if (result != starting_cities.end() && city->occupier_allegiance == player){
+            target.y -= city->HEIGHT*player.zoom;
+            sprite_sheet->drawSprite(&target, 8+(*result).second, 40+city->getUpgraded(player));
+        }
     }
 
     //-Draw Units
@@ -1295,7 +1431,7 @@ void Runner::drawCityUnits(Player& player, City* city){
     const auto& zoom = (int)player.app->screen.zoom_factor;
     const int width = ZOOM_DIMENSIONS[zoom-1][0];
     const int off = ZOOM_DIMENSIONS[zoom-1][1];
-    const bool not_battling = !city->battling;
+    const bool not_battling = city->battling != year;
 
     SDL_Rect target = {player.app->screen.getX(city->x), player.app->screen.getY(city->y)+33*zoom, 0, width};
 
@@ -1359,10 +1495,9 @@ void Runner::drawCityUnits(Player& player, City* city){
     }
 
     //- Check to update units
-    const tick_t res = SDL_GetTicks();
-    if (pastWait(city->last_skip[allegiance], res, 2500) && num_units > 5){
+    if (pastWait(city->last_skip[allegiance], clock, 2500) && num_units > 5){
         city->skip_troop[allegiance] = ((city->skip_troop[allegiance]+max_width >= (((city->num_occupants / max_width) + 1)) * max_width) || city->num_occupants == city->skip_troop[allegiance]+max_width )? 0 : city->skip_troop[allegiance]+max_width;
-        city->last_skip[allegiance] = res;
+        city->last_skip[allegiance] = clock;
         player.selected_unit = {nullptr, nullptr};
     }
 }
@@ -1406,13 +1541,44 @@ void Runner::drawInfluence(const Player& player) const{
     const auto& countries = map.getCountries();
     for (const auto& country : countries){
         const auto& actual_country = country.second;
+        const auto& cities = actual_country->cities;
         const auto& capital = actual_country->capital;
-        
-        //- Draw influnce level around city
-        target = {player.app->screen.getX(capital->x), player.app->screen.getY(capital->y), 32*zoom, 32*zoom};
-        if (actual_country->influence_level != UNALIGNED){
-            player.sprite_sheet->drawSprite(&target, 9, actual_country->allegiance*4+actual_country->influence_level-1+(actual_country->influence_level == SATELLITES), 32, 32);
+        const auto& spritesheet = player.sprite_sheet;
+
+        //- Draw intervened halo if they are (if it is means it won't have any influence on it)
+        if (actual_country->intervened){
+            target = {player.app->screen.getX(capital->x), player.app->screen.getY(capital->y), capital->HEIGHT*player.zoom, capital->WIDTH*player.zoom};
+            player.sprite_sheet->drawSprite(&target, 12, 12+actual_country->intervenie, 32, 32);
+            continue;
         }
+
+        //- Draw influnce level around city
+
+
+        for (const auto& city : cities){
+            target = {player.app->screen.getX(city->x), player.app->screen.getY(city->y), 32*zoom, 32*zoom};
+            
+            if (city->capital){
+                if (actual_country->influence_level == SATELLITES)
+                    spritesheet->drawArea(&target, 384+32*city->ruler_allegiance, 288+32*city->ruler_allegiance, 32, 32);
+                else if (actual_country->influence){
+                    spritesheet->drawSprite(&target, 9, 4*actual_country->allegiance+SDL_clamp(actual_country->influence, 0, 3)-1, 32, 32);
+                }
+            }
+            else if (city->occupier_allegiance != city->ruler_allegiance){
+                spritesheet->drawArea(&target, 384+32*city->ruler_allegiance, 288+32*city->occupier_allegiance, 32, 32, 180);
+            }
+            else if (city->ruler_allegiance != city->start_allegiance){
+                spritesheet->drawArea(&target, 384+32*city->ruler_allegiance, 288+32*city->ruler_allegiance, 32, 32, 180);
+            }
+        }
+
+        /*if (actual_country->influence_level != UNALIGNED){
+            if (actual_country->influence_level == SATELLITES)
+                spritesheet->drawSprite(&target, 9, actual_country->allegiance*4+3, 32, 32);
+            else
+                spritesheet->drawSprite(&target, 9, actual_country->allegiance*4+SDL_clamp(actual_country->influence-1,0, 3), 32, 32);
+        }*/
 
         //- Draw any added cards
         if (actual_country->added_influence != 0){
@@ -1420,15 +1586,87 @@ void Runner::drawInfluence(const Player& player) const{
             target.h = target.w;
             
             for (int i = 0; i < actual_country->added_influence; i++){
-                player.sprite_sheet->drawSprite(&target, 0, 33+actual_country->top_card, 23, 23);
+                spritesheet->drawSprite(&target, 0, 33+actual_country->top_card, 23, 23);
                 target.y += target.h/2;
             }
-        }
+        } //dev fix enage not last for moving fleet through rival not enemy territory
+
+        /*
+        if (actual_country->influence_level != UNALIGNED){
+                    if (actual_country->influence_level == SATELLITES)
+                        spritesheet->drawSprite(&target, 9, actual_country->allegiance*4+3, 32, 32);
+                    else
+                        spritesheet->drawSprite(&target, 9, actual_country->allegiance*4+SDL_clamp(actual_country->influence-1,0, 3), 32, 32);
+                }
+        */
         
     }
 }
 
 //&^ Extra board things
+
+void Runner::drawActionDeck(const Player& player) const{
+    const auto& spritesheet = player.sprite_sheet;
+    const auto& renderer = player.app->renderer;
+
+    Target target1 = {-30, player.app->screen.getCenterY()-115, 225, 330};
+    const uint8_t alpha = inBox(player.cursor_x, player.cursor_y, &target1)? 160:255;
+
+    spritesheet->drawArea(&target1, 2075, 0, 225, 330, alpha); //draw holder
+
+    int a_size = action_deck.size();
+    if (a_size){ //draw action cards if any
+        Target target2 = {target1.x+56, target1.y+190, 120, 80};
+        spritesheet->drawArea(&target2, 1730, 0, 120, 80, alpha); //draw back of card
+
+        target2 = {target2.x+40, target2.y+20, 40, 40};
+        spritesheet->drawArea(&target2, 1850, 328, 40, 40, alpha); //draw the number of cards
+        drawNumber(renderer, a_size, target2.x+12, target2.y+8, 2, 0, 0, 0, alpha);
+        
+    }
+    
+    a_size = action_discard.size();
+    if (a_size){ //draw action cards if any
+        Target target2 = {target1.x+56, target1.y+59, 120, 80};
+        spritesheet->drawArea(&target2, 1730, 80, 120, 80, alpha); //draw back of card
+        
+        target2 = {target2.x+40, target2.y+20, 40, 40};
+        spritesheet->drawArea(&target2, 1850, 328, 40, 40, alpha); //draw the number of cards
+        drawNumber(renderer, a_size, target2.x+12, target2.y+8, 2, 0, 0, 0, alpha);
+    }
+
+}
+
+void Runner::drawInvestDeck(const Player& player) const{
+    const auto& spritesheet = player.sprite_sheet;
+    const auto& renderer = player.app->renderer;
+
+    Target target1 = {player.app->screen.WIDTH-195, player.app->screen.getCenterY()-115, 225, 330};
+
+    const uint8_t alpha = inBox(player.cursor_x, player.cursor_y, &target1)? 160:255;
+
+    spritesheet->drawArea(&target1, 1850, 0, 225, 330, alpha); //draw holder
+
+    int a_size = invest_deck.size();
+    if (a_size){ //draw action cards if any
+        Target target2 = {target1.x+56, target1.y+190, 120, 80};
+        spritesheet->drawArea(&target2, 1730, 0, 120, 80, alpha); //draw back of card
+
+        target2 = {target2.x+40, target2.y+20, 40, 40};
+        spritesheet->drawArea(&target2, 1850, 328, 40, 40, alpha); //draw the number of cards
+        drawNumber(renderer, a_size, target2.x+12, target2.y+8, 2, 0, 0, 0, alpha);
+    }
+    
+    a_size = invest_discard.size();
+    if (a_size){ //draw action cards if any
+        Target target2 = {target1.x+56, target1.y+59, 120, 80};
+        spritesheet->drawArea(&target2, 1610, 0, 120, 80, alpha); //draw back of card
+
+        target2 = {target2.x+40, target2.y+20, 40, 40};
+        spritesheet->drawArea(&target2, 1850, 328, 40, 40, alpha); //draw the number of cards
+        drawNumber(renderer, a_size, target2.x+12, target2.y+8, 2, 0, 0, 0, alpha);
+    }
+}
 
 void Runner::drawConnections(const Player& player) const{
     const auto& map = getMap();
@@ -1557,39 +1795,47 @@ void Runner::drawActionCard(const Player* draw_player, const ActionCard* card, c
 }
 
 void Runner::drawActionCards(const Player* draw_player, const Player* target_player, const int& start_x, const int& start_y, const int& count, const int scale) const{
-    int scaled_size = 32*scale;
+    const int scaled_size = 32*scale;
     SDL_Rect target = {start_x,start_y,scaled_size,scaled_size};
 
-    auto& sprite_sheet = draw_player->sprite_sheet;
+    const auto& sprite_sheet = draw_player->sprite_sheet;
+    const auto& renderer = draw_player->app->renderer;
 
     size_t i;
-    for (i = draw_player->action_card_start; i < count && i < target_player->getActionSize(); i++){
+    int curr_count = 0;
+    for (i = draw_player->action_card_start; curr_count < count && i < target_player->getActionSize(); i++, curr_count++){
         const auto& card = target_player->getActionCard(i);
 
         drawActionCard(draw_player, card, target.x, target.y, scaled_size);
 
-        //is the popped card then draw select icon to the right of it
-        if (draw_player->popped_action_card_index == i){
-            SDL_Rect target2 = {start_x + 3*scaled_size + 3, target.y, 32,32};
-            sprite_sheet->drawSprite(&target2, draw_player->widget != ACTION_HAND, 0); 
-        }
-
         target.y += scaled_size;
         target.x = start_x;
     }
 
+    //- Draw the select icon if the popped card is within the range
+    const int popped_index = SDL_clamp(draw_player->popped_action_card_index- draw_player->action_card_start, 0, count-1);
+
+    if (draw_player->popped_action_card_index != -1) {
+        SDL_Rect target2 = {start_x + 3 * scaled_size + 3, start_y + popped_index * 32, 32, 32};
+        sprite_sheet->drawSprite(&target2, draw_player->widget != ACTION_HAND, 0);
+    }
+
+
     //- Draw bought cards
-    if (target_player != draw_player)
+    if (target_player != draw_player || !draw_player->bought_action) //only when viewing your own hand can you see unbought cards
         return;
 
     target.w=96;
-    for (size_t j = 0; j < (count-i) && j < draw_player->bought_action; j++){
-        //- draw left
-        sprite_sheet->drawSprite(&target, 15, 15, 96, 32, 0, -32, 0);
+    //draw base
+    sprite_sheet->drawArea(&target, 1408, 480, 96, 32);
 
-        target.y += scaled_size;
-        target.x = start_x;
-    }
+    //cover middle
+    SDL_SetRenderDrawColor(renderer, 79, 107, 146, 255);
+    target = {target.x+32, target.y+1, 32, 30};
+    SDL_RenderFillRect(renderer, &target);
+
+    //draw number bought
+    drawNumber(renderer, draw_player->bought_action, target.x+10, target.y+4, 2, 255, 255, 255, 255);
 }
 
 void Runner::drawInvestCard(const Player* player, const InvestmentCard* card, const int& start_x, const int& start_y, const int& scaled_size, const uint8_t alpha) const{
@@ -1598,10 +1844,6 @@ void Runner::drawInvestCard(const Player* player, const InvestmentCard* card, co
 
     //- draw left
     sprite_sheet->drawArea(&target, 32*card->tech1, 448, 32, 32, alpha);
-
-    if (&card->tech1 == player->selected_tech1 || &card->tech1 == player->selected_tech2){
-        sprite_sheet->drawSprite(&target, 14, SELECTED_TECH);
-    }
 
     target.x += scaled_size;
 
@@ -1612,47 +1854,64 @@ void Runner::drawInvestCard(const Player* player, const InvestmentCard* card, co
     //- draw right
     sprite_sheet->drawArea(&target, 32*card->tech2, 448, 32, 32, alpha);
 
-    if (&card->tech2 == player->selected_tech1 || &card->tech2 == player->selected_tech2){
-        sprite_sheet->drawSprite(&target, 14, SELECTED_TECH);
-    }
+    
 }
 
 void Runner::drawInvestCards(const Player* player, const int& start_x, const int& start_y, const int& count, const int scale) const{
     int scaled_size = 32*scale;
     SDL_Rect target = {start_x,start_y,scaled_size,scaled_size};
-    auto& sprite_sheet = player->sprite_sheet;
+    const auto& sprite_sheet = player->sprite_sheet;
+    const auto& renderer = player->app->renderer;
 
     //- Draw known cards in hands
-    size_t i;
-    for (i = player->invest_card_start; i < count && i < player->getInvestSize(); i++){
+    size_t i, curr_count=0;
+    for (i = player->invest_card_start; curr_count < count && i < player->getInvestSize(); i++, curr_count++){
         const auto& card = player->getInvestCard(i);
 
         drawInvestCard(player, card, target.x, target.y, scaled_size);
 
-        //is the popped card then draw select icon to the right of it
-        if (player->popped_invest_card_index == i){
-            SDL_Rect target2 = {target.x - 35, target.y, 32,32};
-            sprite_sheet->drawSprite(&target2, player->widget != INVEST_HAND, 1);
-        }
-
-        if (player->hasSelected(card)){
+        if (card->selected){
             SDL_Rect target2 = {target.x, target.y, 96,32};
             sprite_sheet->drawArea(&target2, 1088, 448, 96, 32);
+        }
+
+        //highlight the selected tech
+        if (&card->tech1 == player->selected_tech1 || &card->tech1 == player->selected_tech2){
+        sprite_sheet->drawSprite(&target, 14, SELECTED_TECH);
+        }
+
+        if (&card->tech2 == player->selected_tech1 || &card->tech2 == player->selected_tech2){
+            target.x += 64;
+            sprite_sheet->drawSprite(&target, 14, SELECTED_TECH);
         }
 
         target.y += scaled_size;
         target.x = start_x;
     }   
 
-    //- Draw bought cards
-    target.w=96;
-    for (size_t j = 0; j < (count-i) && j < player->bought_invest; j++){
-        //- draw the whole card
-        sprite_sheet->drawSprite(&target, 15, 15, 96, 32, 0, -32, 0);
+    //- Draw the select icon if the popped card is within the range
+    const int popped_index = SDL_clamp(player->popped_invest_card_index- player->invest_card_start, 0, count-1);
 
-        target.y += scaled_size;
-        target.x = start_x;
+    if (player->popped_invest_card_index != -1) {
+        SDL_Rect target2 = {start_x-37, start_y+32*popped_index, 32,32};
+        sprite_sheet->drawSprite(&target2, player->widget != INVEST_HAND, 1);
     }
+
+    //- Draw bought cards
+    if (!player->bought_invest) //only when viewing your own hand can you see unbought cards
+        return;
+
+    target.w=96;
+    //draw base
+    sprite_sheet->drawArea(&target, 1408, 480, 96, 32);
+
+    //cover middle
+    SDL_SetRenderDrawColor(renderer, 79, 107, 146, 255);
+    target = {target.x+32, target.y+1, 32, 30};
+    SDL_RenderFillRect(renderer, &target);
+
+    //draw number bought
+    drawNumber(renderer, player->bought_invest, target.x+10, target.y+4, 2, 255, 255, 255, 255);
 }
 
 void Runner::drawAchievedTech(Player* player, const Player* target_player, const int& start_x, const int& start_y) const{
@@ -1908,7 +2167,6 @@ void Runner::drawMemoResolution(Player& player, const vector<std::array<size_t, 
     SDL_Delay(1600);
 }
 
-//DEV MICHAEL IN THE MORNING REMEMBER TO ADD A CALL BACK FUNCTION TO THE DICE ROLL ANIMATION THAT ADDS A NEW ANIMATION WITH THE ACTUAL DIE RESULT AND THEN THAT ANIMATION WILL HAVE THE HIT CHECK CALLBACK Good luck :)
 
 //& Title Screen
 void Runner::drawTitle(Player& player, const uint8_t& alpha){
